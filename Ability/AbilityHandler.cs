@@ -33,7 +33,7 @@ namespace spritersguildwip.Ability
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if(VoidNight.Dash.JustPressed && cooldowns[0] == 0) //dash key
+            if(spritersguildwip.Dash.JustPressed && cooldowns[0] == 0) //dash key
             {
                 cooldowns[0] = 60;
                 Main.PlaySound(SoundID.Item37);
@@ -45,7 +45,7 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if (VoidNight.Superdash.JustPressed && cooldowns[1] == 0) //superdash key
+            if (spritersguildwip.Superdash.JustPressed && cooldowns[1] == 0) //superdash key
             {
                 cooldowns[1] = 300;
                 Main.PlaySound(SoundID.Item8);
@@ -70,7 +70,7 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if (VoidNight.Smash.JustPressed && cooldowns[2] == 0) //smash key
+            if (spritersguildwip.Smash.JustPressed && cooldowns[2] == 0) //smash key
             {
                 cooldowns[2] = 300;
                 Main.PlaySound(SoundID.Item37);
