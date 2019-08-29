@@ -16,19 +16,19 @@ namespace spritersguildwip.Ability
 {
     class AbilityHandler : ModPlayer
     {
-        public static int[] ability = new int[]
+        public int[] ability = new int[]
         {
              0,0,0,0
         };
 
-        public static int[] cooldowns = new int[]
+        public int[] cooldowns = new int[]
         {
              0,0,0,0
         };
         float storedtime;
         float timer = 0;
-        Vector2 objective = new Vector2(0,0);
-        Vector2 start = new Vector2(0,0);
+        public Vector2 objective = new Vector2(0,0);
+        public Vector2 start = new Vector2(0,0);
         bool landed = false;
 
         public override void ProcessTriggers(TriggersSet triggersSet)

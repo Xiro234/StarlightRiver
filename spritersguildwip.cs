@@ -17,6 +17,5 @@ namespace spritersguildwip
             Superdash = RegisterHotKey("Energy Dash", "Q");
             Smash = RegisterHotKey("Smash", "Z");
         }
-    }
-	}
+    }	
 }
