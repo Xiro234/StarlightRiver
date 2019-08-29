@@ -32,6 +32,8 @@ namespace spritersguildwip.Ability
         public int shadowcd = 0;
         public bool smash = false;
         public bool landed = false;
+        public bool floating = false;
+        public int floattime = 0;
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
@@ -85,6 +87,22 @@ namespace spritersguildwip.Ability
                     storedtime = player.wingTime;
                 }
                 player.wingTime = 0;
+            }
+
+            if(spritersguildwip.Float.JustPressed && stamina >= 1) // float key
+            {
+                floating = true;
+                floattime = stamina * 60;
+                if (player.wingTime > 0)
+                {
+                    storedtime = player.wingTime;
+                }
+                player.wingTime = 0;
+
+                for (int k = 0; k <= 50; k++)
+                {
+                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Gold2"), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 1.2f);
+                }
             }
         }
 
@@ -196,6 +214,52 @@ namespace spritersguildwip.Ability
                 landed = false;
             }
 
+            //----------------------------------------------------------------------
+
+            if (floating) // float action
+            {
+                floattime--;
+                player.maxFallSpeed = 999;
+                player.gravity = 0;
+                player.velocity = Vector2.Normalize(new Vector2
+                    (
+                    Main.screenPosition.X + Main.mouseX - player.position.X,
+                    Main.screenPosition.Y + Main.mouseY - player.position.Y
+                    )) * 5;
+                //player.Hitbox = new Rectangle((int)player.Center.X, (int)player.Center.Y, 16, 16);
+
+                for (int k = 0; k <= 2; k++)
+                {
+                    Dust.NewDust(player.Center - new Vector2(4,4), 8, 8, mod.DustType("Gold"));
+                }
+            }
+            if(floattime == 121 || floattime == 61 || floattime == 181)
+            {
+                stamina--;
+            }
+
+            if (spritersguildwip.Float.JustReleased)
+            {
+                floating = false;
+                player.velocity.X = 0;
+                player.velocity.Y = 0;
+                player.wingTime = storedtime;
+                storedtime = 0;
+
+                for (int k = 0; k <= 30; k++)
+                {
+                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Gold2"), Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default, 1.2f);
+                }
+            }
+
+            if (dashcd == 1)
+            {
+                player.velocity.X = 0;
+                player.velocity.Y = 0;
+                player.wingTime = storedtime;
+                storedtime = 0;
+            }
+
             if (dashcd > 0)
             {
                 dashcd--;
@@ -218,7 +282,7 @@ namespace spritersguildwip.Ability
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            if (shadowcd >= 1 && !(Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && shadowcd <= 3))
+            if ((shadowcd >= 1 && !(Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && shadowcd <= 3)) || floating)
             {
                 foreach (PlayerLayer layer in layers)
                 {

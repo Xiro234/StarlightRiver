@@ -14,15 +14,17 @@ namespace spritersguildwip
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
         public static ModHotKey Smash;
+        public static ModHotKey Float;
         public spritersguildwip()
         {
 
         }
         public override void Load()
         {
-            Dash = RegisterHotKey("Dash", "L:Shift");
-            Superdash = RegisterHotKey("Energy Dash", "Q");
+            Dash = RegisterHotKey("Dash", "LeftShift");
+            Superdash = RegisterHotKey("Void Dash", "Q");
             Smash = RegisterHotKey("Smash", "Z");
+            Float = RegisterHotKey("Float", "F");
 
             if (!Main.dedServ)
             {
