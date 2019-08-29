@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace spritersguildwip.Items
 {
-    public class ChargeWeaponTest : ModItem
+    public class VortexPenisStaff : ModItem
     {
         public override void SetDefaults()
         {
@@ -12,7 +12,7 @@ namespace spritersguildwip.Items
             item.useStyle = 5;
             item.useAnimation = 60;
             item.useTime = 60;
-            item.shootSpeed = 26f;
+            item.shootSpeed = 52f;
             item.knockBack = 2f;
             item.damage = 2;
             item.rare = 1;
@@ -21,12 +21,12 @@ namespace spritersguildwip.Items
             item.noUseGraphic = true;
             item.magic = true;
             item.channel = true;
-            item.shoot = mod.ProjectileType("ChargeWeaponTest");
+            item.shoot = mod.ProjectileType("VortexPenisStaff");
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The ChargeWeaponTest");
-            Tooltip.SetDefault("ChargeWeaponTest moment");
+            DisplayName.SetDefault("VortexPenisStaff");
+            Tooltip.SetDefault("VortexPenisStaff moment");
         }
     }
 }
