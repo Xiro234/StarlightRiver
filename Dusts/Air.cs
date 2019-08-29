@@ -31,6 +31,51 @@ namespace spritersguildwip.Dusts
 		}
     }
 
+    public class Gold : ModDust
+    {
+        public override void OnSpawn(Dust dust)
+        {
+            dust.velocity *= 0.3f;
+            dust.noGravity = true;
+            dust.noLight = false;
+            dust.scale *= 3f;
+            dust.color.R = 255;
+            dust.color.G = 220;
+            dust.color.B = 100;
+        }
+        public override Color? GetAlpha(Dust dust, Color lightColor)
+        {
+            return dust.color;
+        }
+        public override bool Update(Dust dust)
+        {
+            dust.rotation += 0.05f;
+
+            dust.scale *= 0.97f;
+            if (dust.scale < 0.2f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
+
+    public class Gold2 : Gold
+    {
+        public override bool Update(Dust dust)
+        {
+            dust.position += dust.velocity;
+            dust.rotation += 0.05f;
+
+            dust.scale *= 0.92f;
+            if (dust.scale < 0.3f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
+
     public class Void : ModDust
     {
         public override void OnSpawn(Dust dust)
