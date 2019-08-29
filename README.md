@@ -1,2 +1,2 @@
-# spritersguildwip
-Spriters' Guild wip mod
+# Spriters' Guild WIP mod
+shits wack, yo
