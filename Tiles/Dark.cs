@@ -24,7 +24,7 @@ namespace spritersguildwip.Tiles
         {
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            if ((Vector2.Distance(player.position, mp.start) >= mp.objective.Length() || ((player.position - player.oldPosition).Length() < 14) && mp.cooldowns[1] <= 299))
+            if ((Vector2.Distance(player.position, mp.start) >= mp.objective.Length() || ((player.position - player.oldPosition).Length() < 14) && mp.shadowcd <= 3))
             {
                 Main.tile[i, j].inActive(false);
             }

@@ -35,7 +35,7 @@ namespace spritersguildwip.NPCs.Hostile
             Player player = Main.player[npc.target];
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.cooldowns[0] >= 55)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.dashcd > 1)
             {
                 if (shielded)
                 {
@@ -43,7 +43,7 @@ namespace spritersguildwip.NPCs.Hostile
                     npc.velocity += player.velocity * 0.5f;
                 }
 
-                mp.cooldowns[0] = 55;
+                mp.dashcd = 1;
             }
 
             if(shielded)
@@ -59,7 +59,7 @@ namespace spritersguildwip.NPCs.Hostile
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             AbilityHandler mp = target.GetModPlayer<AbilityHandler>();
-            if(mp.cooldowns[0] >= 54)
+            if(mp.dashcd == 1)
             {
                 target.immune = true;
                 target.immuneTime = 5;

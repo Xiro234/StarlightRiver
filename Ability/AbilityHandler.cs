@@ -21,21 +21,24 @@ namespace spritersguildwip.Ability
              0,0,0,0
         };
 
-        public int[] cooldowns = new int[]
-        {
-             0,0,0,0
-        };
+        public int stamina = 3;
+        int staminaticker = 0;
+
+        public int dashcd = 0;
         float storedtime;
         float timer = 0;
         public Vector2 objective = new Vector2(0,0);
         public Vector2 start = new Vector2(0,0);
-        bool landed = false;
+        public int shadowcd = 0;
+        public bool smash = false;
+        public bool landed = false;
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if(spritersguildwip.Dash.JustPressed && cooldowns[0] == 0) //dash key
+            if(spritersguildwip.Dash.JustPressed && dashcd == 0 && stamina >= 1) //dash key
             {
-                cooldowns[0] = 60;
+                stamina -= 1;
+                dashcd = 6;
                 Main.PlaySound(SoundID.Item37);
 
                 if (player.wingTime > 0)
@@ -45,9 +48,10 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if (spritersguildwip.Superdash.JustPressed && cooldowns[1] == 0) //superdash key
+            if (spritersguildwip.Superdash.JustPressed && stamina >= 3) //superdash key
             {
-                cooldowns[1] = 300;
+                stamina -= 3;
+                shadowcd = 4;
                 Main.PlaySound(SoundID.Item8);
 
                 for (int k = 0; k <= 10; k++)
@@ -70,9 +74,10 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if (spritersguildwip.Smash.JustPressed && cooldowns[2] == 0) //smash key
+            if (spritersguildwip.Smash.JustPressed && stamina >= 2) //smash key
             {
-                cooldowns[2] = 300;
+                stamina -= 2;
+                smash = true;
                 Main.PlaySound(SoundID.Item37);
 
                 if (player.wingTime > 0)
@@ -85,7 +90,7 @@ namespace spritersguildwip.Ability
 
         public override void PreUpdate()
         {
-            if (cooldowns[0] >= 55) // dash action
+            if (dashcd > 1) // dash action
             {
                 player.maxFallSpeed = 999;
                 player.velocity.X = ((player.controlLeft) ? -30 : 0) + ((player.controlRight) ? 30 : 0);
@@ -97,7 +102,7 @@ namespace spritersguildwip.Ability
                 }
             }
 
-            if(cooldowns[0] == 54)
+            if(dashcd == 1)
             {
                 player.velocity.X = 0;
                 player.velocity.Y = 0;
@@ -107,11 +112,12 @@ namespace spritersguildwip.Ability
 
             //-------------------------------------------------
 
-            if (cooldowns[1] > 1 && !(Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && cooldowns[1] <= 299)) // superdash action
+            if (shadowcd >= 1 && !(Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && shadowcd <= 3)) // superdash action
             {
                 player.maxFallSpeed = 999;
                 player.velocity = Vector2.Normalize(objective) * 15;
                 player.immune = true;
+                player.immuneTime = 5;
 
                 Main.PlaySound(SoundID.Item24);
 
@@ -120,7 +126,11 @@ namespace spritersguildwip.Ability
                 {
                     timer = 0;
                 }
-
+                if(shadowcd <= 2)
+                {
+                    shadowcd = 2;
+                }
+                    
                     float rot = Vector2.Normalize(player.velocity).ToRotation();
                     float x = player.Center.X + (float)Math.Sin(rot) * ((float)Math.Sin(timer) * 20);
                     float y = player.Center.Y + (float)Math.Cos(rot) * ((float)Math.Sin(timer) * -20);
@@ -138,7 +148,7 @@ namespace spritersguildwip.Ability
                 }
             }
 
-            if (((Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && cooldowns[1] <= 299) && objective != new Vector2(0,0)))
+            if (((Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && shadowcd <= 3) && objective != new Vector2(0,0)))
             {
                 player.velocity.X = 0;
                 player.velocity.Y = 0;
@@ -146,6 +156,7 @@ namespace spritersguildwip.Ability
                 storedtime = 0;
                 player.immune = false;
                 objective = new Vector2(0,0);
+                shadowcd = 0;
 
                 for (int k = 0; k <= 100; k++)
                 {
@@ -158,7 +169,7 @@ namespace spritersguildwip.Ability
             //-----------------------------------------------------------------------
 
             
-            if (cooldowns[2] > 1 && !landed) // smash action
+            if (smash && !landed) // smash action
             {
                 player.maxFallSpeed = 999;
                 player.velocity.X = 0;
@@ -168,39 +179,46 @@ namespace spritersguildwip.Ability
                 {
                     Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Air"));
                 }
-
-                if(cooldowns[2] == 2)
-                {
-                    cooldowns[2] = 3;
-                }
             }
 
-            if (player.position.Y - player.oldPosition.Y == 0 && cooldowns[2] > 1 && !landed)
+            if (player.position.Y - player.oldPosition.Y == 0 && smash && !landed)
             {
                 player.velocity.X = 0;
                 player.velocity.Y = 0;
                 player.wingTime = storedtime;
                 storedtime = 0;
+                smash = false;
                 landed = true;
             }
 
-            if(cooldowns[2] == 0)
+            if(!smash)
             {
                 landed = false;
             }
 
-            for (int k = 0; k <= 3; k++) // tick down cooldowns
+            if (dashcd > 0)
             {
-                if (cooldowns[k] > 0)
-                {
-                    cooldowns[k]--;
-                }
+                dashcd--;
+            }
+
+            if (shadowcd > 0)
+            {
+                shadowcd--;
+            }
+
+            if (staminaticker++ == 300 && stamina < 3)
+            {
+                stamina++;
+            }
+            if(staminaticker > 300 || stamina == 3)
+            {
+                staminaticker = 0;
             }
         }
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            if (cooldowns[1] > 1 && !(Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && cooldowns[1] <= 299))
+            if (shadowcd >= 1 && !(Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && shadowcd <= 3))
             {
                 foreach (PlayerLayer layer in layers)
                 {
