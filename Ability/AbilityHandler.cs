@@ -206,11 +206,11 @@ namespace spritersguildwip.Ability
                 shadowcd--;
             }
 
-            if (staminaticker++ == 300 && stamina < 3)
+            if (staminaticker++ >= 180 && stamina < 3)
             {
                 stamina++;
             }
-            if(staminaticker > 300 || stamina == 3)
+            if(staminaticker > 180 || stamina == 3)
             {
                 staminaticker = 0;
             }
