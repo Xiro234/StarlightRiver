@@ -12,7 +12,6 @@ namespace spritersguildwip.Items
             item.height = 34;
             item.useStyle = 5;
             Item.staff[item.type] = true;
-
             item.useAnimation = 40;
             item.useTime = 40;
             item.shootSpeed = 8f;
@@ -26,6 +25,8 @@ namespace spritersguildwip.Items
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14); //boom
+            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73); //fork
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
             if (Collision.CanHit(position, 0, 0, position + muzzleOffset, 0, 0))
             {

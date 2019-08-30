@@ -26,7 +26,7 @@ namespace spritersguildwip.Projectiles
             Player player = Main.player[projectile.owner];
             if (!player.channel)
             {
-                projectile.timeLeft -= 25;
+                projectile.timeLeft -= 12;
             }
             if (projectile.height <= 26)
             {
@@ -68,18 +68,28 @@ namespace spritersguildwip.Projectiles
         public override void Kill(int timeLeft)
         {
             Player player = Main.player[projectile.owner];
-
+            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14); //boom
+            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 74); //fork boom
             Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), mod.ProjectileType("AOEExplosion"), projectile.damage, projectile.knockBack, player.whoAmI);
-            for (int counter = 0; counter <= 18; counter++)
+            for (int counter = 0; counter <= 21; counter++)
             {
                 int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
                 {
                         269,
-                        6
+                        6,
+                        36
                 });
                 int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 1f, 1f, 100, default(Color), 1.2f);
-                Main.dust[dust].velocity *= 2.5f;
-                Main.dust[dust].scale *= 2f;
+                if (dustType != 36)
+                {
+                    Main.dust[dust].velocity *= 6f;
+                    Main.dust[dust].scale *= 2.2f;
+                }
+                else
+                {
+                    Main.dust[dust].velocity *= 1.4f;
+                    Main.dust[dust].scale *= 1.2f;
+                }
                 Main.dust[dust].scale += Main.rand.NextFloat(0.8f, 0.16f);
                 Main.dust[dust].noGravity = true;
             }
