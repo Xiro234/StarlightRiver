@@ -19,20 +19,19 @@ namespace spritersguildwip
         public override void PostWorldGen()
         {
             //Top-Left Position
-            Vector2 startpoint = new Vector2(Main.spawnTileX, Main.spawnTileY - 120);
+            Vector2 startpoint = new Vector2(Main.spawnTileX, Main.spawnTileY - 30);
 
-            //Tiles
-            const byte a = 0, b = 1, c = 2, d = 3, e = 4, f = 5, g = 6, h = 7;
-            const byte i = 8, j = 9, k = 10, l = 11, m = 12, n = 13;
+            //Slopes in order: normal, half, 
+            const byte a = 33, b = 34, c = 35, d = 36, e = 37, f = 38;
             //Walls
 
             byte[][] altar = new byte[][] //Tiles
             {
-                new byte[] { a+m, a+m, b+m, a+m, a+m },
-                new byte[] { a, b, b, b, a },
-                new byte[] { b, b, b, b, b },
-                new byte[] { a, b, b, b, a },
-                new byte[] { a, a, b, a, a }
+                new byte[] { 0+a, 0, 1, 0, 0+b },
+                new byte[] { 0, 1, 1, 1, 0 },
+                new byte[] { 1, 1, 1, 1, 1 },
+                new byte[] { 0, 1, 1, 1, 0 },
+                new byte[] { 0+c, 0, 1, 0, 0+d }
             };
 
             ushort[][] altarw = new ushort[][] //Walls
@@ -49,11 +48,12 @@ namespace spritersguildwip
             {
                 for (int x = 0; x < altar[0].Length; x++)
                 {
-                    ushort var1;
+                    ushort var1 = TileID.Dirt;
+                    int var3 = 0;
 
-                    int var3;
-                    switch (altar[y][x])
+                    switch (altar[y][x] >> 3)
                     {
+                        //This is your block pallete
                         case 0: var1 = TileID.Dirt; break;
                         case 1: var1 = TileID.Stone; break;
                         case 2: var1 = TileID.Dirt; break;
@@ -62,12 +62,10 @@ namespace spritersguildwip
                         case 5: var1 = TileID.Dirt; break;
                         case 6: var1 = TileID.Dirt; break;
                         case 7: var1 = TileID.Dirt; break;
-
-
                     }
 
-
-                    WorldGen.PlaceTile((int)startpoint.X + x, (int)startpoint.Y + y, var1, false, true, -1, var3);
+                    WorldGen.PlaceTile((int)startpoint.X + x, (int)startpoint.Y + y, var1, false, true);
+                    WorldGen.SlopeTile((int)startpoint.X + x, (int)startpoint.Y + y, altar[y][x] << 5);
                     WorldGen.PlaceWall((int)startpoint.X + x, (int)startpoint.Y + y, altarw[y][x], false);
                 }
             }           
