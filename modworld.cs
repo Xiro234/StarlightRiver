@@ -23,8 +23,7 @@ namespace spritersguildwip
 
             // Slopes in order: full=0, BL, BR, TL, TR, half
             // Example: bottom-left thick slope is 001X_XXXX
-            const byte a = 32, b = 33, c = 34, d = 35, e = 36, f = 37;
-            // Walls
+            const byte a = 32, b = 33, c = 34, d = 35, e = 36;
 
             byte[][] altar = new byte[][] //Tiles
             {
@@ -65,8 +64,15 @@ namespace spritersguildwip
                     }
 
                     WorldGen.PlaceTile((int)startpoint.X + x, (int)startpoint.Y + y, placeType, false, true);
-                    WorldGen.SlopeTile((int)startpoint.X + x, (int)startpoint.Y + y, altar[y][x] >> 5);
                     WorldGen.PlaceWall((int)startpoint.X + x, (int)startpoint.Y + y, altarWalls[y][x], false);
+
+                    if (altar[y][x] >> 5 > 0)
+                    {
+                        if (altar[y][x] >> 5 == 4)
+                            Main.tile[(int)startpoint.X + x, (int)startpoint.Y + y].halfBrick(true);
+                        else
+                            WorldGen.SlopeTile((int)startpoint.X + x, (int)startpoint.Y + y, altar[y][x] >> 5);
+                    }
                 }
             }           
         }
