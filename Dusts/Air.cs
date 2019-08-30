@@ -249,5 +249,23 @@ namespace spritersguildwip.Dusts
             return false;
         }
     }
+
+    public class Void3 : Void
+    {
+        public override bool Update(Dust dust)
+        {
+            dust.position += dust.velocity;
+            dust.rotation += 0.05f;
+
+            dust.scale *= 0.97f;
+
+
+            if (dust.scale < 1.3f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
 }
 

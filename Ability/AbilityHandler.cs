@@ -21,6 +21,7 @@ namespace spritersguildwip.Ability
              0,0,0,0
         };
 
+        public int staminamax = 3;
         public int stamina = 3;
         int staminaticker = 0;
 
@@ -50,7 +51,7 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if (spritersguildwip.Superdash.JustPressed && stamina >= 3) //superdash key
+            if (spritersguildwip.Superdash.JustPressed && stamina >= 3 && ability[1] == 1) //superdash key
             {
                 stamina -= 3;
                 shadowcd = 4;
@@ -89,9 +90,10 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if(spritersguildwip.Float.JustPressed && stamina >= 1 && ability[3] == 1) // float key
+            if(spritersguildwip.Float.JustPressed && stamina >= 2 && ability[3] == 1) // float key
             {
-                floating = true;
+                stamina--;
+                floating = true;              
                 floattime = stamina * 60;
                 if (player.wingTime > 0)
                 {
@@ -232,14 +234,15 @@ namespace spritersguildwip.Ability
                     Dust.NewDust(player.Center - new Vector2(4,4), 8, 8, mod.DustType("Gold"));
                 }
             }
-            if(floattime == 121 || floattime == 61 || floattime == 181)
+            if((floattime % 60 == 0 && floattime != 0) || floattime == 1)
             {
                 stamina--;
             }
 
-            if (spritersguildwip.Float.JustReleased || (floating && stamina < 1))
+            if ((spritersguildwip.Float.JustReleased && ability[3] == 1 && floating) || (floating && stamina < 1))
             {
                 floating = false;
+                floattime = 0;
                 player.velocity.X = 0;
                 player.velocity.Y = 0;
                 player.wingTime = storedtime;
@@ -269,11 +272,11 @@ namespace spritersguildwip.Ability
                 shadowcd--;
             }
 
-            if (staminaticker++ >= 180 && stamina < 3 && !floating)
+            if (staminaticker++ >= 180 && stamina < staminamax && !floating)
             {
                 stamina++;
             }
-            if(staminaticker > 180 || stamina == 3)
+            if(staminaticker > 180 || stamina == staminamax)
             {
                 staminaticker = 0;
             }

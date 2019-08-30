@@ -21,6 +21,8 @@ namespace spritersguildwip.GUI
         UIImage Stam1 = new UIImage(ModContent.GetTexture("spritersguildwip/GUI/Stamina"));
         UIImage Stam2 = new UIImage(ModContent.GetTexture("spritersguildwip/GUI/Stamina"));
         UIImage Stam3 = new UIImage(ModContent.GetTexture("spritersguildwip/GUI/Stamina"));
+        UIImage Stam4 = new UIImage(ModContent.GetTexture("spritersguildwip/GUI/Stamina"));
+        UIImage Stam5 = new UIImage(ModContent.GetTexture("spritersguildwip/GUI/Stamina"));
 
 
         public override void OnInitialize()
@@ -42,6 +44,18 @@ namespace spritersguildwip.GUI
             Stam3.Width.Set(22, 0f);
             Stam3.Height.Set(22, 0f);
             Stam2.Append(Stam3);
+
+            Stam4.Left.Set(0, 0);
+            Stam4.Top.Set(26, 0);
+            Stam4.Width.Set(22, 0f);
+            Stam4.Height.Set(22, 0f);
+            Stam3.Append(Stam4);
+
+            Stam5.Left.Set(0, 0);
+            Stam5.Top.Set(26, 0);
+            Stam5.Width.Set(22, 0f);
+            Stam5.Height.Set(22, 0f);
+            Stam4.Append(Stam5);
         }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -76,6 +90,32 @@ namespace spritersguildwip.GUI
                 Stam3.ImageScale = 0.5f;
             }
 
+            if (mp.stamina >= 4)
+            {
+                Stam4.ImageScale = 1;
+            }
+            else
+            {
+                Stam4.ImageScale = 0.5f;
+            }
+
+            if (mp.stamina >= 5)
+            {
+                Stam5.ImageScale = 1;
+            }
+            else
+            {
+                Stam5.ImageScale = 0.5f;
+            }
+
+            if (mp.staminamax < 4)
+            {
+                Stam4.ImageScale = 0;
+            }
+            if (mp.staminamax < 5)
+            {
+                Stam5.ImageScale = 0;
+            }
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
