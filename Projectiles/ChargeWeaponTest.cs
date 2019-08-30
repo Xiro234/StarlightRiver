@@ -59,7 +59,7 @@ namespace spritersguildwip.Projectiles
             Vector2 playerPosition = player.RotatedRelativePoint(player.Center, true);
             float rotationValue = 1.57079632679f;
 
-            projectile.position = player.RotatedRelativePoint(player.Center, true) - projectile.Size / 2f;
+            projectile.position = player.RotatedRelativePoint(player.MountedCenter, true) - projectile.Size / 2f;
             projectile.rotation = projectile.velocity.ToRotation() + rotationValue;
             projectile.spriteDirection = projectile.direction;
             bool Channel = player.channel && !player.noItems && !player.CCed;
