@@ -15,6 +15,7 @@ namespace spritersguildwip.Items
             item.shootSpeed = 52f;
             item.knockBack = 2f;
             item.damage = 2;
+            item.shoot = mod.ProjectileType("VortexPenisStaff");
             item.rare = 1;
             item.value = Item.sellPrice(0, 25, 0, 0);
             item.noMelee = true;
@@ -26,12 +27,6 @@ namespace spritersguildwip.Items
         {
             DisplayName.SetDefault("VortexPenisStaff");
             Tooltip.SetDefault("VortexPenisStaff moment");
-        }
-
-        public override bool UseItem(Player player)
-        {
-            NPC.NewNPC((int)Main.screenPosition.X + Main.mouseX, (int)Main.screenPosition.Y + Main.mouseY, mod.NPCType("Wind"));
-            return true;
         }
     }
 }
