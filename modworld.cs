@@ -49,7 +49,6 @@ namespace spritersguildwip
                 for (int x = 0; x < altar[0].Length; x++)
                 {
                     ushort var1 = TileID.Dirt;
-                    int var3 = 0;
 
                     switch (altar[y][x] >> 3)
                     {
