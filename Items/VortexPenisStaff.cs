@@ -21,12 +21,17 @@ namespace spritersguildwip.Items
             item.noUseGraphic = true;
             item.magic = true;
             item.channel = true;
-            item.shoot = mod.ProjectileType("VortexPenisStaff");
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("VortexPenisStaff");
             Tooltip.SetDefault("VortexPenisStaff moment");
+        }
+
+        public override bool UseItem(Player player)
+        {
+            NPC.NewNPC((int)Main.screenPosition.X + Main.mouseX, (int)Main.screenPosition.Y + Main.mouseY, mod.NPCType("Wind"));
+            return true;
         }
     }
 }

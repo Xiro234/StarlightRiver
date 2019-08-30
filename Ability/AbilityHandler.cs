@@ -37,7 +37,7 @@ namespace spritersguildwip.Ability
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if(spritersguildwip.Dash.JustPressed && dashcd == 0 && stamina >= 1) //dash key
+            if(spritersguildwip.Dash.JustPressed && dashcd == 0 && stamina >= 1 && ability[0] == 1) //dash key
             {
                 stamina -= 1;
                 dashcd = 6;
@@ -89,7 +89,7 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if(spritersguildwip.Float.JustPressed && stamina >= 1) // float key
+            if(spritersguildwip.Float.JustPressed && stamina >= 1 && ability[3] == 1) // float key
             {
                 floating = true;
                 floattime = stamina * 60;
@@ -226,8 +226,7 @@ namespace spritersguildwip.Ability
                     Main.screenPosition.X + Main.mouseX - player.position.X,
                     Main.screenPosition.Y + Main.mouseY - player.position.Y
                     )) * 5;
-                //player.Hitbox = new Rectangle((int)player.Center.X, (int)player.Center.Y, 16, 16);
-
+                //player.Hitbox = new Rectangle((int)player.Center.X - 8, (int)player.Center.Y - 8, 16, 16);
                 for (int k = 0; k <= 2; k++)
                 {
                     Dust.NewDust(player.Center - new Vector2(4,4), 8, 8, mod.DustType("Gold"));
@@ -238,7 +237,7 @@ namespace spritersguildwip.Ability
                 stamina--;
             }
 
-            if (spritersguildwip.Float.JustReleased)
+            if (spritersguildwip.Float.JustReleased || (floating && stamina < 1))
             {
                 floating = false;
                 player.velocity.X = 0;
@@ -270,7 +269,7 @@ namespace spritersguildwip.Ability
                 shadowcd--;
             }
 
-            if (staminaticker++ >= 180 && stamina < 3)
+            if (staminaticker++ >= 180 && stamina < 3 && !floating)
             {
                 stamina++;
             }

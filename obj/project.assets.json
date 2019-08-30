@@ -8,22 +8,23 @@
     ".NETFramework,Version=v4.5": []
   },
   "packageFolders": {
-    "C:\\Users\\Vincent\\.nuget\\packages\\": {}
+    "C:\\Users\\Alex\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Vincent\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
+      "projectUniqueName": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
       "projectName": "spritersguildwip",
-      "projectPath": "C:\\Users\\Vincent\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
-      "packagesPath": "C:\\Users\\Vincent\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Vincent\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\obj\\",
+      "projectPath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
+      "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Vincent\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -37,6 +38,11 @@
         "net45": {
           "projectReferences": {}
         }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
       }
     },
     "frameworks": {
