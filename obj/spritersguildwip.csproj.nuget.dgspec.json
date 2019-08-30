@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\Spritersguild\\spritersguildwip.csproj": {}
+    "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj": {}
   },
   "projects": {
-    "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\Spritersguild\\spritersguildwip.csproj": {
+    "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\Spritersguild\\spritersguildwip.csproj",
+        "projectUniqueName": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
         "projectName": "spritersguildwip",
-        "projectPath": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\Spritersguild\\spritersguildwip.csproj",
+        "projectPath": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
         "packagesPath": "C:\\Users\\erict_000\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\Spritersguild\\obj\\",
+        "outputPath": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
