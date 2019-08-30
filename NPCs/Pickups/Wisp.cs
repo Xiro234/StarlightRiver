@@ -17,8 +17,8 @@ namespace spritersguildwip.NPCs.Pickups
         }
         public override void SetDefaults()
         {
-            npc.width = 36;
-            npc.height = 36;
+            npc.width = 32;
+            npc.height = 32;
             npc.aiStyle = -1;
             npc.immortal = true;
             npc.lifeMax = 1;
@@ -44,7 +44,7 @@ namespace spritersguildwip.NPCs.Pickups
 
             if (animate >= 1)
             {
-                player.position = new Vector2(npc.Center.X - player.width, npc.Center.Y - player.height - 16);
+                player.position = new Vector2(npc.position.X, npc.position.Y - 16);
                 if (animate > 100 && animate < 290)
                 {
                     if (animate % 10 == 0)
@@ -90,8 +90,8 @@ namespace spritersguildwip.NPCs.Pickups
 
             if (mp.ability[3] == 0)
             {
-                spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(3, 10 + (float)Math.Sin(timer) * 16), Color.White);
-                Dust.NewDust(npc.position + new Vector2(3, 10 + (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Gold2"));
+                spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
+                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Gold2"));
             }
             if (mp.ability[3] == 1 && animate == 0)
             {

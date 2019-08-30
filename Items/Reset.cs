@@ -31,5 +31,22 @@ namespace spritersguildwip.Items
             return true;
         }
     }
+    public class  plus : Reset
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Plus");
+            Tooltip.SetDefault("+1 Max Stamina!");
+        }
+        public override bool UseItem(Player player)
+        {
+            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
+            if (mp.staminamax < 5)
+            {
+                mp.staminamax++;
+            }
+            return true;
+        }
+    }
 }
 
