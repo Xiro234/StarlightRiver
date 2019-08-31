@@ -62,5 +62,19 @@ namespace spritersguildwip.Items
             return true;
         }
     }
+
+    public class Wisper : Reset
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Wisper");
+            Tooltip.SetDefault("Spawns a wisp");
+        }
+        public override bool UseItem(Player player)
+        {
+            NPC.NewNPC((int)Main.screenPosition.X + Main.mouseX, (int)Main.screenPosition.Y + Main.mouseY, mod.NPCType("DesertWisp"));
+            return true;
+        }
+    }
 }
 

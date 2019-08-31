@@ -19,7 +19,7 @@ namespace spritersguildwip.Tiles
 
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.Height = 3;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 18, 16, 16 };
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 18 };
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
@@ -45,8 +45,7 @@ namespace spritersguildwip.Tiles
             Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-
-                spriteBatch.Draw(glow, new Vector2((i + 12) * 16 + 1, (j + 12) * 16 + 1) - Main.screenPosition, color);
+                spriteBatch.Draw(glow, new Vector2((i + 12) * 16 - 1, (j + 12) * 16 - 1) - Main.screenPosition, color);
             }
         }
 
@@ -65,7 +64,7 @@ namespace spritersguildwip.Tiles
     {
 
         public override void PreUpdate()
-        {
+        { 
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
             for (int j = (int)(player.position.Y / 16) - 3; j <= (int)(player.position.Y / 16) + 3; j++)

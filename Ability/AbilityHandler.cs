@@ -274,14 +274,6 @@ namespace spritersguildwip.Ability
                 }
             }
 
-            if (dashcd == 1)
-            {
-                player.velocity.X = 0;
-                player.velocity.Y = 0;
-                player.wingTime = storedtime;
-                storedtime = 0;
-            }
-
             if (dashcd > 0)
             {
                 dashcd--;
