@@ -43,7 +43,7 @@ namespace spritersguildwip.Projectiles
                 });
                 Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f)];
                 dust.velocity = new Vector2(0, 1f);
-                dust.velocity += new Vector2(Main.rand.NextFloat(0.8f, 0.16f), Main.rand.NextFloat(0.8f, 0.16f));
+                dust.velocity += new Vector2(Main.rand.NextFloat(0.8f, 1.6f), Main.rand.NextFloat(0.8f, 1.6f));
                 dust.velocity = dust.velocity / 3f;
                 dust.noGravity = true;
                 dust.scale = 1.2f;
