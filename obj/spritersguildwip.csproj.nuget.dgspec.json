@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj": {}
+    "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj": {}
   },
   "projects": {
-    "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj": {
+    "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
+        "projectUniqueName": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
         "projectName": "spritersguildwip",
-        "projectPath": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
-        "packagesPath": "C:\\Users\\erict_000\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\erict_000\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\obj\\",
+        "projectPath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\spritersguildwip.csproj",
+        "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Alex\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\spritersguildwip\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\erict_000\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
