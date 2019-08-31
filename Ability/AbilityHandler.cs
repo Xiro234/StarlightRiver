@@ -38,20 +38,20 @@ namespace spritersguildwip.Ability
 
         public override TagCompound Save()
         {
-            string staminaSave = stamina.ToString();
+            Array abilitySave = ability.ToArray();
             string staminaMaxSave = staminamax.ToString();
 
             return new TagCompound {
-                {"staminaSave", staminaSave},
+                {"abilitySave", abilitySave},
                 {"staminaMaxSave",staminaMaxSave},
             };
         }
 
         public override void Load(TagCompound tag)
         {
-            var staminaSave = tag.GetString("staminaSave");
+            var abilitySave = tag.GetIntArray("abilitySave");
             var staminaMaxSave = tag.GetString("staminaMaxSave");
-            stamina = int.Parse(staminaSave);
+            ability = abilitySave.ToArray();
             staminamax = int.Parse(staminaMaxSave);
         }
 

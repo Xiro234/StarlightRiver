@@ -48,5 +48,19 @@ namespace spritersguildwip.Items
             return true;
         }
     }
+    public class fill : Reset
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Fill");
+            Tooltip.SetDefault("Fills up your stamina!");
+        }
+        public override bool UseItem(Player player)
+        {
+            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
+            mp.stamina = mp.staminamax;
+            return true;
+        }
+    }
 }
 
