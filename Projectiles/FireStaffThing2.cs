@@ -48,13 +48,17 @@ namespace spritersguildwip.Projectiles
                 }
                 for (int k = 0; k <= 200; k += 1)
                 {
-                    float maxDistance = 10f;
-                    Vector2 distance = projectile.Center - Main.npc[k].Center;
-                    float distanceLength = distance.Length();
+                    float maxDistance = 9f * projectile.ai[1];
+                    NPC npc = Main.npc[k];
 
-                    if ((distanceLength > maxDistance))
+                    Vector2 vectorToNPC = npc.Center - projectile.Center;
+                    float distanceToNPC = vectorToNPC.Length();
+
+                    if (distanceToNPC <= maxDistance)
                     {
-                        Main.npc[k].active = false;
+                        Vector2 Direction = new Vector2(projectile.Center.X - npc.Center.X, projectile.Center.Y - npc.Center.Y);
+                        Direction.Normalize();
+                        npc.velocity = Direction * 4f;
                     }
                 }
             }
