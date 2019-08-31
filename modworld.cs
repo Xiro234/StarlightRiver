@@ -11,11 +11,21 @@ using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace spritersguildwip
 {
     public class LegendWorld : ModWorld
     {
+        public static float rottime = 0;
+        public override void PreUpdate()
+        {
+            rottime += (float)Math.PI / 60;
+            if(rottime >= Math.PI * 2)
+            {
+                rottime = 0;
+            }
+        }
         public override void PostWorldGen()
         {
             // Top-Left Position
