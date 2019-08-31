@@ -4,6 +4,7 @@ using spritersguildwip.Ability;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -23,6 +24,7 @@ namespace spritersguildwip.Tiles
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.addTile(Type);
 
@@ -32,14 +34,12 @@ namespace spritersguildwip.Tiles
             dustType = mod.DustType("Wind");
             disableSmartCursor = true;
         }
-
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
         }
 
         public static Texture2D glow = ModContent.GetTexture("spritersguildwip/Tiles/VitricOreGlow");
-
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
@@ -49,14 +49,52 @@ namespace spritersguildwip.Tiles
             }
         }
 
-        public override void NearbyEffects(int i, int j, bool closer)
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
+            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, mod.ItemType("Glassore"), Main.rand.Next(4,12));
+        }
+    }
 
+    public class VitricOreFloat : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLavaDeath[Type] = false;
+            Main.tileFrameImportant[Type] = true;
+
+            TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.Height = 2;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.addTile(Type);
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("");//Map name
+            AddMapEntry(new Color(0, 0, 0), name);
+            dustType = mod.DustType("Wind");
+            disableSmartCursor = true;
+        }
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
+
+        public static Texture2D glow = ModContent.GetTexture("spritersguildwip/Tiles/VitricOreFloatGlow");
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
+            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            {
+                spriteBatch.Draw(glow, new Vector2((i + 12) * 16 - 1, (j + 12) * 16 - 1) - Main.screenPosition, color);
+            }
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, mod.ItemType("Glassore"), Main.rand.Next(4,12));
+            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, mod.ItemType("Glassore"), Main.rand.Next(2, 6));
         }
     }
 
@@ -71,7 +109,7 @@ namespace spritersguildwip.Tiles
             {
                 for (int i = (int)(player.position.X / 16) - 3; i <= (int)(player.position.X / 16) + 3; i++)
                 {
-                        if (Main.tile[i, j].type == mod.TileType("VitricOre") && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+                        if ((Main.tile[i, j].type == mod.TileType("VitricOre") || Main.tile[i, j].type == mod.TileType("VitricOreFloat")) && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
                     {
                         for (float f = 0; f <= 1; f += 1/30f)
                         {

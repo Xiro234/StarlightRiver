@@ -12,7 +12,7 @@ namespace spritersguildwip.NPCs.Passive
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mysterious Wisp");
+            DisplayName.SetDefault("Desert Wisp");
         }
         public override void SetDefaults()
         {
@@ -34,16 +34,9 @@ namespace spritersguildwip.NPCs.Passive
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
-            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             Vector2 distance = player.Center - npc.Center;
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.dashcd > 1)
-            {
-                npc.active = false;
-                Item.NewItem(npc.Center, Vector2.Zero, mod.ItemType("Reset"));
-            }
-
-            if((distance.Length() <= 180 && mp.dashcd == 0) || Main.dayTime)
+            if((distance.Length() <= 180) || Main.dayTime)
             {
                 fleeing = true;
             }
