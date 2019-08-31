@@ -61,7 +61,11 @@ namespace spritersguildwip.Projectiles
                 projectile.velocity.X *= 0.98f;
             }
             Vector2 vectorToCursor = projectile.Center - player.Center;
-            player.itemRotation = (float)Math.Atan2((double)(vectorToCursor.Y * (float)projectile.direction), (double)(vectorToCursor.X * (float)projectile.direction));
+            if (projectile.Center.X < player.Center.X)
+            {
+                vectorToCursor = -vectorToCursor;
+            }
+            player.itemRotation = vectorToCursor.ToRotation();
             player.itemTime = 20;
             player.itemAnimation = 20;
         }
