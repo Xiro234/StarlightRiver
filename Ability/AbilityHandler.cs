@@ -132,8 +132,9 @@ namespace spritersguildwip.Ability
             if (dashcd > 1) // dash action
             {
                 player.maxFallSpeed = 999;
-                player.velocity.X = ((player.controlLeft) ? -30 : 0) + ((player.controlRight) ? 30 : 0);
-                player.velocity.Y = ((player.controlUp) ? -30 : 0) + ((player.controlDown) ? 30 : 0);
+                float X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
+                float Y = ((player.controlUp) ? -1 : 0) + ((player.controlDown) ? 1 : 0);
+                player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 40;
 
                 for (int k = 0; k <= 10; k++)
                 {
