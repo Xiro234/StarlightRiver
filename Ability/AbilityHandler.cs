@@ -36,6 +36,25 @@ namespace spritersguildwip.Ability
         public bool floating = false;
         public int floattime = 0;
 
+        public override TagCompound Save()
+        {
+            string staminaSave = stamina.ToString();
+            string staminaMaxSave = staminamax.ToString();
+
+            return new TagCompound {
+                {"staminaSave", staminaSave},
+                {"staminaMaxSave",staminaMaxSave},
+            };
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            var staminaSave = tag.GetString("staminaSave");
+            var staminaMaxSave = tag.GetString("staminaMaxSave");
+            stamina = int.Parse(staminaSave);
+            staminamax = int.Parse(staminaMaxSave);
+        }
+
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             if(spritersguildwip.Dash.JustPressed && dashcd == 0 && stamina >= 1 && ability[0] == 1) //dash key
@@ -281,7 +300,6 @@ namespace spritersguildwip.Ability
                 staminaticker = 0;
             }
         }
-
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if ((shadowcd >= 1 && !(Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && shadowcd <= 3)) || floating)
