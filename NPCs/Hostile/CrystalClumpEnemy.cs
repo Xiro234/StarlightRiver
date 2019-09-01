@@ -22,8 +22,8 @@ namespace spritersguildwip.NPCs.Hostile
             npc.height = 86;
 
             npc.damage = 15;
-            npc.defense = 5;
-            npc.lifeMax = 60;
+            npc.defense = 15;
+            npc.lifeMax = 90;
             npc.knockBackResist = 0.2f;
 
             npc.HitSound = SoundID.NPCHit1;
@@ -35,6 +35,25 @@ namespace spritersguildwip.NPCs.Hostile
         int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }
         bool CanSuck => SuckTime > 0;
         Player Target => Main.player[npc.target];
+
+        int sucktime = 0;
+        bool cansuck = true;
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 41); //granite golem
+            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 30); //ice materialize
+            if (npc.life <= 0)
+            {
+                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 5); //ice/pixie
+                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 34); //deadly sphere
+            }
+            else
+            {
+
+                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 50); //ice block mine
+            }
+            base.HitEffect(hitDirection, damage);
+        }
 
         public override void AI()
         {
@@ -53,6 +72,19 @@ namespace spritersguildwip.NPCs.Hostile
              * Since it's negative, it won't suck and won't decrease.
              * While it's cooling down (SuckTime < 0), it will constantly approach being ready to suck (increasing SuckTime).
              */
+
+            for (int k = 0; k <= 200; k += 1)
+            {
+                NPC wisp = Main.npc[k];
+                Vector2 wispDistance = wisp.Center - npc.Center;
+                if (wisp.type == mod.NPCType("DesertWisp") || wisp.type == mod.NPCType("DesertWisp2"))
+                {
+                    if (wispDistance.Length() <= 240 && cansuck)
+                    {
+                        wisp.velocity = Vector2.Normalize(distance) * -7;
+                    }
+                }
+            }
 
             if (SuckTime > 180)
                 SuckTime = -180;
