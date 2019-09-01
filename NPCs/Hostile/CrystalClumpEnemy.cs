@@ -19,7 +19,7 @@ namespace spritersguildwip.NPCs.Hostile
             npc.width = 58;
             npc.height = 86;
             npc.damage = 15;
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[npc.type] = 2;
             npc.defense = 15;
             npc.lifeMax = 90;
             npc.HitSound = SoundID.NPCHit1;
@@ -36,12 +36,13 @@ namespace spritersguildwip.NPCs.Hostile
             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 30); //ice materialize
             if (npc.life <= 0)
             {
-                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 5); //ice
+                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 5); //ice/pixie
+                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 34); //deadly sphere
             }
             else
             {
 
-                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 50); //ice mine
+                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 50); //ice block mine
             }
             base.HitEffect(hitDirection, damage);
         }
