@@ -20,7 +20,7 @@ namespace spritersguildwip.Projectiles
 			projectile.thrown = true;
 			projectile.penetrate = 3;
 			projectile.timeLeft = 250;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 100;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 			projectile.extraUpdates = 1;
 		}

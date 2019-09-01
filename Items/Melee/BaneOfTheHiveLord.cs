@@ -14,7 +14,7 @@ namespace spritersguildwip.Items.Melee
 			item.melee = true;
 			item.width = 22;
 			item.height = 25;
-			item.useTime = 6;
+			item.useTime = 1;
 			item.useAnimation = 6;
 			item.useStyle = 1;
 			item.knockBack = 6;
@@ -22,7 +22,7 @@ namespace spritersguildwip.Items.Melee
 			item.rare = 7;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("arknife");
+            item.shoot = 43;
 			item.shootSpeed = 10f;
 			item.useTurn = true;
 		}
