@@ -41,9 +41,9 @@ namespace spritersguildwip.Items.Debug
         public override bool UseItem(Player player)
         {
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-            if (mp.staminamax < 5)
+            if (mp.permanentstamina < 2)
             {
-                mp.staminamax++;
+                mp.permanentstamina++;
             }
             return true;
         }
