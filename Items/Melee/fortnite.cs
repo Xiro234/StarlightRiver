@@ -29,8 +29,8 @@ namespace spritersguildwip.Items.Melee
 
     public override void SetStaticDefaults()
     {
-      DisplayName.SetDefault("fortnite");
-      Tooltip.SetDefault("fortnite");
+      DisplayName.SetDefault("This shouldn't exist");
+      Tooltip.SetDefault("Great for impersonating retards");
     }
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
