@@ -92,6 +92,7 @@ namespace spritersguildwip.NPCs.Hostile
                     if (wispDistance.Length() <= 240 && CanSuck)
                     {
                         wisp.velocity = (npc.Center - wisp.Center).SafeNormalize(Vector2.Zero) * 7;
+                        wisp.localAI[2] += 5;
                     }
                 }
             }
