@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace spritersguildwip.Items.Melee
 {
-	public class BaneOfTheHiveLord : ModItem
+	public class fortnite : ModItem
 	{
 		public override void SetDefaults()
 		{
@@ -14,16 +14,16 @@ namespace spritersguildwip.Items.Melee
 			item.melee = true;
 			item.width = 22;
 			item.height = 25;
-			item.useTime = 1;
-			item.useAnimation = 1;
+			item.useTime = 6;
+			item.useAnimation = 6;
 			item.useStyle = 1;
 			item.knockBack = 6;
 			item.value = 270000;
 			item.rare = 7;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("Arrow");
-			item.shootSpeed = 1f;
+			item.shoot = mod.ProjectileType("arknife");
+			item.shootSpeed = 10f;
 			item.useTurn = true;
 		}
 
