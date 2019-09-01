@@ -10,7 +10,7 @@ namespace spritersguildwip.Items.Melee
 		public override void SetDefaults()
 		{
 
-			item.damage = 66;
+			item.damage = 500;
 			item.melee = true;
 			item.width = 22;
 			item.height = 25;
@@ -22,8 +22,8 @@ namespace spritersguildwip.Items.Melee
 			item.rare = 7;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-            item.shoot = 43;
-			item.shootSpeed = 10f;
+            item.shoot = 635;
+			item.shootSpeed = 3f;
 			item.useTurn = true;
 		}
 
@@ -32,16 +32,6 @@ namespace spritersguildwip.Items.Melee
       DisplayName.SetDefault("fortnite");
       Tooltip.SetDefault("fortnite");
     }
-
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.ChlorophyteBar, 16);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
