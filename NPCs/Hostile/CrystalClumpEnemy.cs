@@ -178,7 +178,7 @@ namespace spritersguildwip.NPCs.Hostile
                 {
                     if (npc.ai[1] == 0)
                     {
-                        EndMePls(npc);
+                        usefulMethods.EndMePls(npc);
                     }
                     else
                     {
