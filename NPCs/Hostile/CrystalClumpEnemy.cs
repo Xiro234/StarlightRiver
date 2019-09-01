@@ -19,9 +19,9 @@ namespace spritersguildwip.NPCs.Hostile
             npc.width = 58;
             npc.height = 86;
             npc.damage = 15;
-            Main.npcFrameCount[npc.type] = 2;
-            npc.defense = 5;
-            npc.lifeMax = 60;
+            Main.npcFrameCount[npc.type] = 3;
+            npc.defense = 15;
+            npc.lifeMax = 90;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 10f;
@@ -73,6 +73,7 @@ namespace spritersguildwip.NPCs.Hostile
             if (distance.Length() <= 180 && cansuck)
             {
                 npc.velocity = Vector2.Zero;
+                npc.defense = 0;
                 target.velocity = Vector2.Normalize(distance) * -5;
                 if (sucktime % 20 == 0)
                 {
@@ -90,6 +91,11 @@ namespace spritersguildwip.NPCs.Hostile
             else if (sucktime > 0)
             {
                 sucktime--;
+                npc.defense = 15;
+            }
+            else
+            {
+                npc.defense = 15;
             }
 
             if(sucktime >= 180)
