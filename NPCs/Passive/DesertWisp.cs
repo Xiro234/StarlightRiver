@@ -44,7 +44,7 @@ namespace spritersguildwip.NPCs.Passive
                 }
             }
             float range = 180;
-            if (npc.localAI[3] > 0)
+            if (npc.localAI[2] > 0)
             {
                 return;
             }
@@ -100,7 +100,7 @@ namespace spritersguildwip.NPCs.Passive
                 }
             }
             float range = 120;
-            if (npc.localAI[3] > 0)
+            if (npc.localAI[2] > 0)
             {
                 return;
             }

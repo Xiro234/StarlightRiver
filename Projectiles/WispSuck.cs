@@ -40,7 +40,7 @@ namespace spritersguildwip.Projectiles
                 {
                     if (Vector2.Distance(projectile.Center, Main.npc[k].position) <= 40)
                     {
-                        Main.npc[k].localAI[3] += 5;
+                        Main.npc[k].localAI[2] += 5;
                         Main.npc[k].velocity = (Main.npc[k].position - player.Center).SafeNormalize(Vector2.Zero) * -4f;
                     }
                     if (Vector2.Distance(player.Center, Main.npc[k].position) <= 20)
