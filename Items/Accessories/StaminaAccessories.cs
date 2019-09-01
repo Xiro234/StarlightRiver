@@ -20,7 +20,8 @@ namespace spritersguildwip.Items.Accessories
         }
         public override void UpdateEquip(Player player)
         {
-            
+            AccessoryHandler mp = Main.LocalPlayer.GetModPlayer<AccessoryHandler>();
+            mp.accessories[0] = 1;
         }
     }
     public class ViteousTimepiece : ModItem
@@ -39,17 +40,8 @@ namespace spritersguildwip.Items.Accessories
         }
         public override void UpdateEquip(Player player)
         {
-            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-            for (int k = 0; k < mp.justUsedAbility.Length; k++)
-            {
-                if (mp.justUsedAbility[k] != 0)
-                {
-                    if (Main.rand.Next(3) == 0)
-                    {
-                        mp.stamina += 1;
-                    }
-                }
-            }
+            AccessoryHandler mp = Main.LocalPlayer.GetModPlayer<AccessoryHandler>();
+            mp.accessories[1] = 1;
         }
     }
     public class RingofStamina : ModItem
@@ -68,8 +60,8 @@ namespace spritersguildwip.Items.Accessories
         }
         public override void UpdateEquip(Player player)
         {
-            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-            mp.staminaTickerMax -= 60;
+            AccessoryHandler mp = Main.LocalPlayer.GetModPlayer<AccessoryHandler>();
+            mp.accessories[2] = 1;
         }
     }
 }

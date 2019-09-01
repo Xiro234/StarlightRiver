@@ -22,6 +22,7 @@ namespace spritersguildwip.Ability
         };
         public bool infiniteStamina = false;
         public int staminamax = 3;
+        public int permanentstamina = 0;
         public int stamina = 3;
         int staminaticker = 0;
 
@@ -46,7 +47,8 @@ namespace spritersguildwip.Ability
         {
             return new TagCompound {
                 [nameof(ability)] = ability,
-                [nameof(staminamax)] = staminamax
+                [nameof(staminamax)] = staminamax,
+                [nameof(permanentstamina)] = permanentstamina
             };
         }
 
@@ -54,6 +56,7 @@ namespace spritersguildwip.Ability
         {
             ability = tag.GetIntArray(nameof(ability));
             staminamax = tag.GetInt(nameof(staminamax));
+            permanentstamina = tag.GetInt(nameof(permanentstamina));
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
@@ -131,14 +134,19 @@ namespace spritersguildwip.Ability
                 }
             }
         }
-
-        public override void PreUpdate()
+        public override void ResetEffects()
         {
+            staminamax = 3;
+            staminamax += permanentstamina;
+            staminaTickerMax = 180;
             for (int k = 0; k < justUsedAbility.Length; k++)
             {
                 justUsedAbility[k] = 0;
             }
-                if (dashcd > 1) // dash action
+        }
+        public override void PreUpdate()
+        {
+            if (dashcd > 1) // dash action
             {
                 player.maxFallSpeed = 999;
                 float X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
