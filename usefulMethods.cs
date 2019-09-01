@@ -9,7 +9,6 @@ namespace spritersguildwip
         {
             npc.active = false;
             npc.life = 0;
-            npc.checkDead();
             npc.HitEffect();
         }
     }
