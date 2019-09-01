@@ -59,7 +59,7 @@ namespace spritersguildwip.Items
         {
             item.width = 16;
             item.height = 16;
-            item.maxStack = 250;
+            item.maxStack = 999;
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
