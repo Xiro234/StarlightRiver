@@ -84,6 +84,15 @@ namespace spritersguildwip.NPCs.Hostile
             }
             
         }
+        public override void FindFrame(int frameHeight)
+        {
+            int frame = 1;
+            if (cansuck)
+            {
+                frame = 0;
+            }
+            npc.frame.Y = frame * frameHeight;
+        }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             AbilityHandler mp = target.GetModPlayer<AbilityHandler>();
