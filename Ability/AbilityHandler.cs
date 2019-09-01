@@ -49,8 +49,8 @@ namespace spritersguildwip.Ability
 
         public override void Load(TagCompound tag)
         {
-            var abilitySave = tag.GetIntArray("abilitySave");
-            var staminaMaxSave = tag.GetString("staminaMaxSave");
+            int[] abilitySave = tag.GetIntArray("abilitySave");
+            string staminaMaxSave = tag.GetString("staminaMaxSave");
             ability = abilitySave.ToArray();
             staminamax = int.Parse(staminaMaxSave);
         }
