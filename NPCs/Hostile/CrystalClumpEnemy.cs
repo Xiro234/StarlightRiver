@@ -18,16 +18,15 @@ namespace spritersguildwip.NPCs.Hostile
         {
             npc.width = 58;
             npc.height = 86;
-            npc.damage = 50;
+            npc.damage = 15;
             Main.npcFrameCount[npc.type] = 3;
-            npc.defense = 25;
-            npc.lifeMax = 250;
+            npc.defense = 5;
+            npc.lifeMax = 60;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 10f;
             npc.knockBackResist = 0.2f;
             npc.aiStyle = 14;
-            npc.noTileCollide = true;
         }
 
         int sucktime = 0;
@@ -50,10 +49,17 @@ namespace spritersguildwip.NPCs.Hostile
             {
                 npc.velocity = Vector2.Zero;
                 target.velocity = Vector2.Normalize(distance) * -5;
-                float rand2 = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                Vector2 dustPos2 = npc.Center + new Vector2((float)Math.Sin(rand2), (float)Math.Cos(rand2)) * 180;
-                Dust.NewDustPerfect(dustPos2, mod.DustType("Air"), Vector2.Normalize(dustPos2 - npc.Center) * -4, 0, default, 0.6f);
-
+                if (sucktime % 20 == 0)
+                {
+                    for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
+                    {
+                        if (Main.rand.Next(2) == 0)
+                        {
+                            Vector2 dustPos2 = npc.Center + new Vector2((float)Math.Sin(k), (float)Math.Cos(k)) * 180;
+                            Dust.NewDustPerfect(dustPos2, mod.DustType("Air"), Vector2.Normalize(dustPos2 - npc.Center) * -2, 0, default, 0.8f);
+                        }
+                    }
+                }
                 sucktime++;
             }
             else if (sucktime > 0)
