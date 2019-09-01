@@ -34,9 +34,10 @@ namespace spritersguildwip.NPCs.Passive
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             Vector2 distance = player.Center - npc.Center;
 
-            if((distance.Length() <= 180) || Main.dayTime)
+            if((distance.Length() <= 180 && !mp.floating) || Main.dayTime)
             {
                 fleeing = true;
             }
@@ -88,9 +89,10 @@ namespace spritersguildwip.NPCs.Passive
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             Vector2 distance = player.Center - npc.Center;
 
-            if (distance.Length() <= 120)
+            if (distance.Length() <= 120 && !mp.floating)
             {
                 fleeing = true;
             }
