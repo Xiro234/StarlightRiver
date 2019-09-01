@@ -33,6 +33,7 @@ namespace spritersguildwip.Tiles
             AddMapEntry(new Color(0, 0, 0), name);
             dustType = mod.DustType("Wind");
             disableSmartCursor = true;
+            minPick = int.MaxValue;
         }
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -76,6 +77,7 @@ namespace spritersguildwip.Tiles
             AddMapEntry(new Color(0, 0, 0), name);
             dustType = mod.DustType("Wind");
             disableSmartCursor = true;
+            minPick = int.MaxValue;
         }
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
