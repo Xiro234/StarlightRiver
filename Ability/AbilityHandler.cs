@@ -20,7 +20,7 @@ namespace spritersguildwip.Ability
         {
              0,0,0,0
         };
-
+        public bool infiniteStamina = false;
         public int staminamax = 3;
         public int stamina = 3;
         int staminaticker = 0;
@@ -36,6 +36,12 @@ namespace spritersguildwip.Ability
         public bool floating = false;
         public int floattime = 0;
 
+        //accessory stuff
+        public int staminaTickerMax = 180; //how high does stamina ticker have to go for the player to get a stamina point
+        public int[] justUsedAbility = new int[] //used for tracking the usage of abilities
+        {
+             0,0,0,0
+        };
         public override TagCompound Save()
         {
             return new TagCompound {
@@ -54,6 +60,7 @@ namespace spritersguildwip.Ability
         {
             if(spritersguildwip.Dash.JustPressed && dashcd == 0 && stamina >= 1 && ability[0] == 1) //dash key
             {
+                justUsedAbility[0] = 1;
                 stamina -= 1;
                 dashcd = 6;
                 Main.PlaySound(SoundID.Item37);
@@ -67,6 +74,7 @@ namespace spritersguildwip.Ability
 
             if (spritersguildwip.Superdash.JustPressed && stamina >= 3 && ability[1] == 1) //superdash key
             {
+                justUsedAbility[1] = 1;
                 stamina -= 3;
                 shadowcd = 4;
                 Main.PlaySound(SoundID.Item8);
@@ -93,6 +101,7 @@ namespace spritersguildwip.Ability
 
             if (spritersguildwip.Smash.JustPressed && stamina >= 2) //smash key
             {
+              //  justUsedAbility[2] = 1;
                 stamina -= 2;
                 smash = true;
                 Main.PlaySound(SoundID.Item37);
@@ -106,6 +115,7 @@ namespace spritersguildwip.Ability
 
             if(spritersguildwip.Float.JustPressed && stamina >= 2 && ability[3] == 1) // float key
             {
+                justUsedAbility[3] = 1;
                 stamina--;
                 floating = true;              
                 floattime = stamina * 60;
@@ -124,7 +134,11 @@ namespace spritersguildwip.Ability
 
         public override void PreUpdate()
         {
-            if (dashcd > 1) // dash action
+            for (int k = 0; k < justUsedAbility.Length; k++)
+            {
+                justUsedAbility[k] = 0;
+            }
+                if (dashcd > 1) // dash action
             {
                 player.maxFallSpeed = 999;
                 float X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
@@ -282,12 +296,16 @@ namespace spritersguildwip.Ability
             {
                 shadowcd--;
             }
-
-            if (staminaticker++ >= 180 && stamina < staminamax && !floating)
+            if (infiniteStamina)
+            {
+                stamina = staminamax;
+                return;
+            }
+            if (staminaticker++ >= staminaTickerMax && stamina < staminamax && !floating)
             {
                 stamina++;
             }
-            if(staminaticker > 180 || stamina == staminamax)
+            if(staminaticker > staminaTickerMax || stamina == staminamax)
             {
                 staminaticker = 0;
             }
