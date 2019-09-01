@@ -19,7 +19,7 @@ namespace spritersguildwip.NPCs.Hostile
             npc.width = 58;
             npc.height = 86;
             npc.damage = 15;
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[npc.type] = 2;
             npc.defense = 5;
             npc.lifeMax = 60;
             npc.HitSound = SoundID.NPCHit1;
@@ -77,6 +77,15 @@ namespace spritersguildwip.NPCs.Hostile
                 cansuck = true;
             }
             
+        }
+        public override void FindFrame(int frameHeight)
+        {
+            int frame = 1;
+            if (cansuck)
+            {
+                frame = 0;
+            }
+            npc.frame.Y = frame * frameHeight;
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
