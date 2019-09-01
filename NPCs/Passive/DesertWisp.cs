@@ -61,4 +61,56 @@ namespace spritersguildwip.NPCs.Passive
             return (spawnInfo.player.ZoneOverworldHeight && !Main.dayTime && spawnInfo.player.ZoneDesert) ? 1f : 0f;
         }
     }
+
+    class DesertWisp2 : ModNPC
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Greater Desert Wisp");
+        }
+        public override void SetDefaults()
+        {
+            npc.width = 12;
+            npc.height = 12;
+            npc.damage = 0;
+            npc.defense = 0;
+            npc.lifeMax = 1;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
+            npc.immortal = true;
+            npc.value = 0f;
+            npc.knockBackResist = 0f;
+            npc.aiStyle = 65;
+        }
+
+        bool fleeing = false;
+        public override void AI()
+        {
+            npc.TargetClosest(true);
+            Player player = Main.player[npc.target];
+            Vector2 distance = player.Center - npc.Center;
+
+            if (distance.Length() <= 120)
+            {
+                fleeing = true;
+            }
+            else
+            {
+                fleeing = false;
+            }
+            if (fleeing)
+            {
+                npc.velocity += Vector2.Normalize(distance) * -10;
+                Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-10, 10) * 0.1f, Main.rand.Next(-10, 10) * 0.1f));
+            }
+            Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-40, 40) * 0.01f, Main.rand.Next(-40, 40) * 0.01f));
+            if (LegendWorld.rottime == 0)
+            {
+                for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 20)
+                {
+                    Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)), 0, default, 0.6f);
+                }
+            }
+        }
+    }
 }
