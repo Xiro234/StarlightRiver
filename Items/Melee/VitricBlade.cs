@@ -34,7 +34,7 @@ namespace spritersguildwip.Items.Melee
         {
             if (player.ownedProjectileCounts[mod.ProjectileType("VitricShard")] != 0)
             {
-                return false;
+              //  return false;
             }
             return true;
         }
@@ -43,10 +43,11 @@ namespace spritersguildwip.Items.Melee
             int rand = Main.rand.Next(2, 3);
             for (int i = 0; i <= rand; i++)
             {
-                float sX = Main.rand.NextFloat(-4f, 4f) * i;
-                float sY = Main.rand.NextFloat(-4f, 4f) * i;
+                float sX = Main.rand.NextFloat(-8f, 8f) * i + 1;
+                float sY = Main.rand.NextFloat(-8f, 8f) * i + 1;
                 Vector2 velocity = new Vector2(sX, sY);
-                Projectile.NewProjectile(player.Center, velocity, ProjectileID.CrystalShard, damage, knockback, player.whoAmI, 0f, 0f);
+                Projectile projectile = Main.projectile[Projectile.NewProjectile(target.Center, velocity, mod.ProjectileType("VitricShard"), damage, knockback, player.whoAmI, 0f, 0f)];
+                projectile.ai[1] = target.whoAmI;
             }
 
         }
