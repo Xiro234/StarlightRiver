@@ -35,9 +35,6 @@ namespace spritersguildwip.NPCs.Hostile
         int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }
         bool CanSuck => SuckTime > 0;
         Player Target => Main.player[npc.target];
-
-        int sucktime = 0;
-        bool cansuck = true;
         public override void HitEffect(int hitDirection, double damage)
         {
             Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 41); //granite golem
@@ -73,19 +70,6 @@ namespace spritersguildwip.NPCs.Hostile
              * While it's cooling down (SuckTime < 0), it will constantly approach being ready to suck (increasing SuckTime).
              */
 
-            for (int k = 0; k <= 200; k += 1)
-            {
-                NPC wisp = Main.npc[k];
-                Vector2 wispDistance = wisp.Center - npc.Center;
-                if (wisp.type == mod.NPCType("DesertWisp") || wisp.type == mod.NPCType("DesertWisp2"))
-                {
-                    if (wispDistance.Length() <= 240 && cansuck)
-                    {
-                        wisp.velocity = (npc.Center - wisp.Center).SafeNormalize(Vector2.Zero) * 7;
-                    }
-                }
-            }
-
             if (SuckTime > 180)
                 SuckTime = -180;
 
@@ -99,7 +83,19 @@ namespace spritersguildwip.NPCs.Hostile
             {
                 SpawnDust(2);
             }
-
+            for (int k = 0; k <= 200; k += 1)
+            {
+                NPC wisp = Main.npc[k];
+                Vector2 wispDistance = wisp.Center - npc.Center;
+                if (wisp.type == mod.NPCType("DesertWisp") || wisp.type == mod.NPCType("DesertWisp2"))
+                {
+                    if (wispDistance.Length() <= 240 && CanSuck)
+                    {
+                        wisp.velocity = (npc.Center - wisp.Center).SafeNormalize(Vector2.Zero) * 7;
+                        wisp.localAI[2] += 5;
+                    }
+                }
+            }
             if (Vector2.Distance(npc.Center, Target.Center) <= 180)
             {
                 npc.velocity = Vector2.Zero;

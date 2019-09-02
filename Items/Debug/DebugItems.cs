@@ -86,7 +86,7 @@ namespace spritersguildwip.Items.Debug
         }
         public override bool UseItem(Player player)
         {
-            NPC.NewNPC((int)Main.screenPosition.X + Main.mouseX, (int)Main.screenPosition.Y + Main.mouseY, mod.NPCType("DesertWisp"));
+            NPC.NewNPC((int)Main.screenPosition.X + Main.mouseX, (int)Main.screenPosition.Y + Main.mouseY, mod.NPCType("DesertWisp2"));
             return true;
         }
     }
