@@ -8,8 +8,8 @@ namespace spritersguildwip.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Getting hit has a chance to recover stamina\n'Soaked with blood'");
-            DisplayName.SetDefault("Bloody Scarf");
+            Tooltip.SetDefault("Getting hit has a chance to recover stamina");
+            DisplayName.SetDefault("Brooch of Rage");
         }
 
         public override void SetDefaults()
@@ -24,12 +24,12 @@ namespace spritersguildwip.Items.Accessories
             mp.accessories[0] = 1;
         }
     }
-    public class ViteousTimepiece : ModItem
+    public class ResonantVessel : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Using an ability has a chance to recover a point of stamina\n'Filled with that strange sand'");
-            DisplayName.SetDefault("Vitreous Hourglass");
+            Tooltip.SetDefault("Adds 1 max stamina");
+            DisplayName.SetDefault("Resonant Vessel");
         }
 
         public override void SetDefaults()
@@ -48,8 +48,8 @@ namespace spritersguildwip.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Increases stamina regeneration significantly");
-            DisplayName.SetDefault("Ring of Stamina");
+            Tooltip.SetDefault("Increases stamina regeneration");
+            DisplayName.SetDefault("Band of Stamina");
         }
 
         public override void SetDefaults()
