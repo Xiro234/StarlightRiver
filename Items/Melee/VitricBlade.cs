@@ -50,6 +50,20 @@ namespace spritersguildwip.Items.Melee
                 Projectile projectile = Main.projectile[Projectile.NewProjectile(target.Center, velocity, mod.ProjectileType("VitricShard"), damage, knockback, player.whoAmI, 0f, 0f)];
                 projectile.ai[1] = target.whoAmI;
             }
+            if (target.type != 488)
+            {
+                for (int i = 0; i <= 4; i++)
+                {
+                    float sX = 4f;
+                    float sY = 4f;
+                    sX += (float)Main.rand.Next(-60, 61) * 0.2f;
+                    sY += (float)Main.rand.Next(-60, 61) * 0.2f;
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, sX, sY, ProjectileID.CrystalShard, damage, knockback, player.whoAmI, 0f, 0f); //using crystal shards and storms as a placeholder until i just make a custom version
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, -sX, -sY, ProjectileID.CrystalStorm, damage, knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, sX, sY, ProjectileID.CrystalStorm, damage, knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, -sX, -sY, ProjectileID.CrystalShard, damage, knockback, player.whoAmI, 0f, 0f);
+                }
+            }
         }
     }
 }
