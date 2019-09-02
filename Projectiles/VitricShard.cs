@@ -30,6 +30,12 @@ namespace spritersguildwip.Projectiles
             }
             return true;
         }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            projectile.velocity = -projectile.velocity;
+            projectile.velocity.Y += 2f;
+            return base.OnTileCollide(oldVelocity);
+        }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 1;
