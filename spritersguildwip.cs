@@ -9,7 +9,9 @@ namespace spritersguildwip
     public class spritersguildwip : Mod
     {
         public Stamina stamina;
+        public Collection collection;
         public UserInterface customResources;
+        public UserInterface customResources2;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
@@ -29,11 +31,14 @@ namespace spritersguildwip
             if (!Main.dedServ)
             {
                 customResources = new UserInterface();
+                customResources2 = new UserInterface();
                 stamina = new Stamina();
+                collection = new Collection();
 
                 Stamina.visible = true;
 
                 customResources.SetState(stamina);
+                customResources2.SetState(collection);
             }
         }
 
@@ -53,7 +58,19 @@ namespace spritersguildwip
                     }
 
                     return true;
-                }, InterfaceScaleType.UI));             
+                }, InterfaceScaleType.UI));
+
+                layers.Insert(MouseTextIndex + 1, new LegacyGameInterfaceLayer("[PH]MODNAME: Collection",
+                delegate
+                {
+                    if (Collection.visible)
+                    {
+                        customResources2.Update(Main._drawInterfaceGameTime);
+                        collection.Draw(Main.spriteBatch);
+                    }
+
+                 return true;
+                }, InterfaceScaleType.UI));
             }
         }
 
@@ -62,7 +79,9 @@ namespace spritersguildwip
             if (!Main.dedServ)
             {
                 customResources = null;
+                customResources2 = null;
                 stamina = null;
+                collection = null;
             }
         }
 
