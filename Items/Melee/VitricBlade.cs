@@ -18,7 +18,7 @@ namespace spritersguildwip.Items.Melee
             item.useAnimation = 22;
             item.useStyle = 1;
             item.knockBack = 1;
-            item.value = 10000;
+            item.value = 2500;
             item.rare = 2;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -27,9 +27,10 @@ namespace spritersguildwip.Items.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vitric Sword");
-            Tooltip.SetDefault("Hitting an enemy causes the blade to shatter\nShattered parts of the blade home in on enemies and then return to you letting you attack again");
-        }
+            DisplayName.SetDefault("Vitric Blade");
+            Tooltip.SetDefault("Attacks release a shower of damaging crystals. \nRight-clicking will cause the blade to fragment. \nFragmenting the blade creates multiple shards that will return to the blade on impact. \nIt is impossible to attack while the blade is fragmented.");
+        } //still tryna figure out how to get fragmentation working
+
         public override bool CanUseItem(Player player)
         {
             if (player.ownedProjectileCounts[mod.ProjectileType("VitricShard")] != 0)
@@ -47,6 +48,20 @@ namespace spritersguildwip.Items.Melee
                 float sY = Main.rand.NextFloat(-4f, 4f) * i;
                 Vector2 velocity = new Vector2(sX, sY);
                 Projectile.NewProjectile(player.Center, velocity, ProjectileID.CrystalShard, damage, knockback, player.whoAmI, 0f, 0f);
+            }
+            if (target.type != 488)
+            {
+                for (int i = 0; i <= 4; i++)
+                {
+                    float sX = 4f;
+                    float sY = 4f;
+                    sX += (float)Main.rand.Next(-60, 61) * 0.2f;
+                    sY += (float)Main.rand.Next(-60, 61) * 0.2f;
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, sX, sY, ProjectileID.CrystalShard, damage, knockback, player.whoAmI, 0f, 0f); //using crystal shards and storms as a placeholder until i just make a custom version
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, -sX, -sY, ProjectileID.CrystalStorm, damage, knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, sX, sY, ProjectileID.CrystalStorm, damage, knockback, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(target.Center.X, target.Center.Y, -sX, -sY, ProjectileID.CrystalShard, damage, knockback, player.whoAmI, 0f, 0f);
+                }
             }
 
         }
