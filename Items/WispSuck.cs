@@ -22,19 +22,21 @@ namespace spritersguildwip.Items
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 34); //
-            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 50f;
+            Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 35f;
+            position += muzzleOffset;
+
             for (int k = 0; k < item.shootSpeed; k++)
             {
-                position += muzzleOffset;
-                if (k != 0)
+                if (k >= 0)
                 {
                     Projectile projectile = Main.projectile[Projectile.NewProjectile(position, new Vector2(0f, 0f), item.shoot, damage, knockBack, player.whoAmI)];
                     projectile.width = 16 * (k * 2);
                     projectile.height = projectile.width;
-                    if (k <= 1)
+                    if (k < 2)
                     {
                         projectile.ai[1] = 1;
                     }
+                    position += muzzleOffset;
                 }
             }
             return false;
