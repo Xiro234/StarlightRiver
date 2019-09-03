@@ -15,7 +15,7 @@ namespace spritersguildwip.Items.Weapons.Vitric
         bool Broken = false;
         public override void SetDefaults()
         {
-            item.damage = 16;
+            item.damage = 30;
             item.melee = true;
             item.width = 36;
             item.height = 38;
@@ -32,8 +32,8 @@ namespace spritersguildwip.Items.Weapons.Vitric
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vitric Blade");
-            Tooltip.SetDefault("Shatters into enchanted glass shards");
+            DisplayName.SetDefault("Vitreous Blade");
+            Tooltip.SetDefault("Shatters into enchanted glass shards. \nUnable to attack while the blade is shattered.");
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -41,9 +41,9 @@ namespace spritersguildwip.Items.Weapons.Vitric
             if (!Broken)
             {
                 Main.PlaySound(SoundID.Shatter);
-                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center) * -24, mod.ProjectileType("VitricSwordProjectile"), 6, 0, player.whoAmI);
-                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(0.3) * -13, mod.ProjectileType("VitricSwordProjectile"), 6, 0, player.whoAmI);
-                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(-0.25) * -18, mod.ProjectileType("VitricSwordProjectile"), 6, 0, player.whoAmI);
+                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center) * -24, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
+                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(0.3) * -13, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
+                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(-0.25) * -18, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
                 for (int k = 0; k <= 20; k++)
                 {
                     Dust.NewDust(Vector2.Lerp(player.Center, target.Center, 0.4f), 8, 8, mod.DustType("Air"), (Vector2.Normalize(player.Center - target.Center) * -2).X, (Vector2.Normalize(player.Center - target.Center) * -2).Y);
