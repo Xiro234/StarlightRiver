@@ -34,28 +34,21 @@ namespace spritersguildwip.Projectiles
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            player.velocity.X *= 0.97f;
             for (int k = 0; k <= 200; k++)
             {
                 if (Main.npc[k].type == mod.NPCType("DesertWisp") || Main.npc[k].type == mod.NPCType("DesertWisp2"))
                 {
-                    if (projectile.Hitbox.Intersects(Main.npc[k].Hitbox))
+                    if (Vector2.Distance(projectile.Center, Main.npc[k].position) <= 40)
                     {
-                        if (Main.npc[k].localAI[2] <= 5)
-                        {
-                            Main.npc[k].localAI[2] += 1;
-                        }
+                        Main.npc[k].localAI[2] += 5;
                         Main.npc[k].velocity = (Main.npc[k].position - player.Center).SafeNormalize(Vector2.Zero) * -4f;
                     }
-                    if (player.Hitbox.Intersects(Main.npc[k].Hitbox))
+                    if (Vector2.Distance(player.Center, Main.npc[k].position) <= 20)
                     {
-                        if (Main.npc[k].localAI[2] > 0)
+                        if (Main.npc[k].active)
                         {
-                            if (Main.npc[k].active)
-                            {
-                                Helper.Kill(Main.npc[k]);
-                                player.QuickSpawnItem(mod.ItemType("Wisp"));
-                            }
+                            Helper.Kill(Main.npc[k]);
+                            player.QuickSpawnItem(mod.ItemType("Wisp"));
                         }
                     }
                 }

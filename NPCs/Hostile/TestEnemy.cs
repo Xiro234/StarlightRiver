@@ -12,7 +12,7 @@ namespace spritersguildwip.NPCs.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("?????Test Enemy");
+            DisplayName.SetDefault("Test Enemy");
         }
         public override void SetDefaults()
         {

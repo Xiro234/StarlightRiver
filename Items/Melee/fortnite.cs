@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace spritersguildwip.Items.Melee
 {
-	public class VitricBladeProjSpam : ModItem
+	public class fortnite : ModItem
 	{
 		public override void SetDefaults()
 		{
@@ -42,8 +42,8 @@ namespace spritersguildwip.Items.Melee
 
         public override void SetStaticDefaults()
     {
-      DisplayName.SetDefault("dont delete this yet");
-      Tooltip.SetDefault("Attacks release a shower of damaging crystals. \nRight-clicking will cause the blade to fragment. \nFragmenting the blade creates multiple shards that will return to the blade on impact. \nIt is impossible to attack while the blade is fragmented.");
+      DisplayName.SetDefault("Bookban");
+      Tooltip.SetDefault("Great for impersonating retards");
     }
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

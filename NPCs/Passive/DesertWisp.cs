@@ -46,7 +46,6 @@ namespace spritersguildwip.NPCs.Passive
             float range = 180;
             if (npc.localAI[2] > 0)
             {
-                npc.localAI[2] -= 0.9f;
                 return;
             }
             if ((distance.Length() <= range) || Main.dayTime)
@@ -103,7 +102,6 @@ namespace spritersguildwip.NPCs.Passive
             float range = 120;
             if (npc.localAI[2] > 0)
             {
-                npc.localAI[2] -= 0.9f;
                 return;
             }
             if (distance.Length() <= range)

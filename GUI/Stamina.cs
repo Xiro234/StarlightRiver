@@ -15,22 +15,17 @@ namespace spritersguildwip.GUI
     {
         public UIPanel abicon;
         public static bool visible = false;
-        /*
-        public static int stamina = 0;
-        
 
-        Stam Stam1 = new Stam();
-        Stam Stam2 = new Stam();
+        Stam Stam1 = new Stam(ModContent.GetTexture("spritersguildwip/GUI/Stamina2"));
+        Stam Stam2 = new Stam(ModContent.GetTexture("spritersguildwip/GUI/Stamina"));
         public override void OnInitialize()
         {
-            Stam1.Texture = ModContent.GetTexture("spritersguildwip/GUI/Stamina2");
             Stam1.Left.Set(-303, 1);
             Stam1.Top.Set(110, 0);
             Stam1.Width.Set(22, 0f);
             Stam1.Height.Set(0, 0f);
             base.Append(Stam1);
 
-            Stam2.Texture = ModContent.GetTexture("spritersguildwip/GUI/Stamina");
             Stam2.Left.Set(0, 0);
             Stam2.Top.Set(0, 0);
             Stam2.Width.Set(22, 0f);
@@ -42,29 +37,30 @@ namespace spritersguildwip.GUI
         {
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            Stam1.Copies = mp.staminamax;
-            Stam2.Copies = mp.stamina;
+            //Stam1.Copies = mp.staminamax;
+            //Stam2.Copies = mp.stamina;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
             Recalculate();
         }
-        */
+        
     }
 
     class Stam : UIElement
     {
-        //private static Texture2D shadetexture = ModContent.GetTexture("ItemLevelTest/UI/Shade");
-        public int Copies;
         public Texture2D Texture;
+
+        public Stam(Texture2D texture)
+        {
+            Texture = texture;
+        }
+
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             CalculatedStyle dimensions = GetDimensions();
-            for(Copies--; Copies > 0;)
-            {
-                spriteBatch.Draw(Texture, new Rectangle((int)dimensions.X, (int)dimensions.Y + (Copies * (int)dimensions.Height), (int)dimensions.Width, (int)dimensions.Height), Color.White);
-            }
+            spriteBatch.Draw(Texture, new Rectangle((int)dimensions.X, (int)dimensions.Y, (int)dimensions.Width, (int)dimensions.Height), Color.White);           
         }
     }
 }
