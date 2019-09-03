@@ -6,34 +6,23 @@ using Terraria.ModLoader;
 
 namespace spritersguildwip.Dusts
 {
-    public class Fire : ModDust
+    public class Glass : ModDust
     {
         public override void OnSpawn(Dust dust)
         {
-            dust.velocity *= 0.3f;
             dust.noGravity = true;
             dust.noLight = false;
-            dust.scale *= 1.4f;
-            dust.color.R = 255;
-            dust.color.G = 255;
-            dust.color.B = 80;
         }
-        public override Color? GetAlpha(Dust dust, Color lightColor)
-        {
-            return dust.color;
-        }
+
         public override bool Update(Dust dust)
         {
             Player player = Main.LocalPlayer;
-            dust.position += player.velocity;
-            dust.position.Y -= 1;
-            dust.position.X += dust.velocity.X * 0.25f;
-            dust.color.G -= 4;
-
-            dust.scale *= 0.97f;
-
-
-            if (dust.scale < 0.4f)
+            dust.position += dust.velocity;
+            dust.position += Vector2.Normalize(player.Center - dust.position) * 6;
+            dust.velocity *= 0.94f;
+            dust.rotation = (player.Center - dust.position).Length() * 0.1f;
+            dust.scale *= 0.99f;
+            if(dust.scale <= 0.4)
             {
                 dust.active = false;
             }
