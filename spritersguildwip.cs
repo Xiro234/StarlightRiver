@@ -21,6 +21,14 @@ namespace spritersguildwip
         {
 
         }
+        public override void UpdateMusic(ref int music, ref MusicPriority priority)
+        {
+            if (Main.myPlayer == -1 || Main.gameMenu || !Main.LocalPlayer.active)
+            {
+                return;
+            }
+        }
+
         public override void Load()
         {
             Dash = RegisterHotKey("Dash", "LeftShift");
