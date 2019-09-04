@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using spritersguildwip.Ability;
@@ -33,7 +34,7 @@ namespace spritersguildwip.NPCs.Boss
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            music = MusicID.Boss2;
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -41,12 +42,6 @@ namespace spritersguildwip.NPCs.Boss
             npc.lifeMax = (int)(npc.lifeMax * 0.625f * bossLifeScale);
             npc.damage = (int)(npc.damage * 0.6f);
         }
-        /*public override int SpawnNPC(int tileX, int tileY)
-        {
-            npc.localAI[0] = 0; //phase
-            npc.localAI[1] = 0; //phase timer
-            npc.localAI[2] = 0; //crystals active
-        }*/
         public override void AI()
         {           
             switch (npc.localAI[0])
@@ -54,13 +49,13 @@ namespace spritersguildwip.NPCs.Boss
                 case 0:
                     npc.immortal = true;
                     npc.localAI[1]++;
-                    if(npc.localAI[1] <= 50 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
+                    if(npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
                     {
                         float r = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                        float h = Main.rand.NextFloat(3, 8);
+                        float h = Main.rand.NextFloat(16, 22);
                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"),0,(float)Math.Cos(r) * h,(float)Math.Sin(r) * h);
                     }
-                    if (npc.localAI[1] >= 450)
+                    if (npc.localAI[1] >= 960)
                     {
                         npc.localAI[1] = 0;
                         npc.localAI[0] = 1;
@@ -76,7 +71,19 @@ namespace spritersguildwip.NPCs.Boss
                             Helper.Kill(Main.npc[k]);
                         }
                     }
-                    Projectile.NewProjectile(npc.Center, new Vector2(0,0), mod.ProjectileType("Pulse"), (int)npc.localAI[2] * 30, 1);
+                    if (npc.localAI[2] > 0)
+                    {
+                        for (int k = 0; k <= Main.player.Length - 1; k++)
+                        {
+                            if (Vector2.Distance(Main.player[k].Center, npc.Center) <= 1000)
+                            {
+                                Main.player[k].immune = false;
+                                Main.player[k].immuneTime = 0;
+                                Projectile.NewProjectile(Main.player[k].Center, Vector2.Zero, mod.ProjectileType("Pulse"),
+                                (int)(npc.localAI[2] / (Main.ActivePlayersCount + 2) * 200), 1);
+                            }
+                        }
+                    }
                     npc.localAI[2] = 0;
                     npc.localAI[0] = 2;
                     break;
@@ -84,6 +91,10 @@ namespace spritersguildwip.NPCs.Boss
                 case 2:
                     //normal AI
                     npc.immortal = false;
+
+                    npc.TargetClosest(true);
+                    npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 5;
+
                     if(npc.life <= npc.lifeMax / 2)
                     {
                         npc.localAI[1] = 0;
@@ -93,14 +104,15 @@ namespace spritersguildwip.NPCs.Boss
 
                 case 3:
                     npc.immortal = true;
+                    npc.velocity *= 0;
                     npc.localAI[1]++;
-                    if (npc.localAI[1] <= 50 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
+                    if (npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
                     {
                         float r = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                        float h = Main.rand.NextFloat(3, 8);
+                        float h = Main.rand.NextFloat(16, 22);
                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"), 0, (float)Math.Cos(r) * h, (float)Math.Sin(r) * h);
                     }
-                    if (npc.localAI[1] >= 450)
+                    if (npc.localAI[1] >= 600)
                     {
                         npc.localAI[1] = 0;
                         npc.localAI[0] = 4;
@@ -116,7 +128,20 @@ namespace spritersguildwip.NPCs.Boss
                             Helper.Kill(Main.npc[k]);
                         }
                     }
-                    Projectile.NewProjectile(npc.Center, new Vector2(0, 0), mod.ProjectileType("Pulse"), (int)npc.localAI[2] * 40, 1);
+                    if (npc.localAI[2] > 0)
+                    {
+                        for(int k = 0; k <= Main.player.Length - 1; k++)
+                        {
+                            if (Vector2.Distance(Main.player[k].Center, npc.Center) <= 1000)
+                            {
+                                Main.player[k].immune = false;
+                                Main.player[k].immuneTime = 0;
+                                Projectile.NewProjectile(Main.player[k].Center, Vector2.Zero, mod.ProjectileType("Pulse"),
+                                (int)(npc.localAI[2] / (Main.ActivePlayersCount + 2) * 200), 1);
+                            }
+                        }
+
+                    }
                     npc.localAI[2] = 0;
                     npc.localAI[0] = 5;
                     break;
@@ -124,6 +149,10 @@ namespace spritersguildwip.NPCs.Boss
                 case 5:
                     //normal AI 2
                     npc.immortal = false;
+
+                    npc.TargetClosest(true);
+                    npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 5;
+
                     if (npc.life <= npc.lifeMax / 10)
                     {
                         npc.localAI[0] = 6;
@@ -132,11 +161,14 @@ namespace spritersguildwip.NPCs.Boss
 
                 case 6:
                     npc.immortal = true;
-                    float p = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                    Vector2 start = npc.Center + new Vector2((float)Math.Cos(p), (float)Math.Sin(p)) * 500;
-                    if (Main.rand.Next(20) == 0)
+                    npc.velocity *= 0;
+                    npc.localAI[1]++;
+                    if (npc.localAI[1] == 180)
                     {
-                        Projectile.NewProjectile(start, Vector2.Normalize(npc.Center - start) * 2, mod.ProjectileType("HealGem"), 10, 0.2f);
+                        float p = Main.rand.NextFloat(0, (float)Math.PI * 2);
+                        Vector2 start = npc.Center + new Vector2((float)Math.Cos(p), (float)Math.Sin(p)) * 800;
+                        Projectile.NewProjectile(start, Vector2.Normalize(npc.Center - start) * 0.6f, mod.ProjectileType("HealGem"), 10, 0.2f);
+                        npc.localAI[1] = 0;
                     }
                     for (int k = 0; k <= Main.projectile.Length - 1; k++)
                     {
@@ -144,7 +176,7 @@ namespace spritersguildwip.NPCs.Boss
                         {
                             if (Main.projectile[k].localAI[0] == 1)
                             {
-                                npc.life -= 10;
+                                npc.life -= 30;
                             }
                             else
                             {
@@ -158,7 +190,7 @@ namespace spritersguildwip.NPCs.Boss
                         Helper.Kill(npc);
                     }
 
-                    if(npc.life >= npc.lifeMax / 4)
+                    if(npc.life >= npc.lifeMax / 5)
                     {
                         npc.localAI[0] = 5;
                         npc.immortal = false;
@@ -201,11 +233,10 @@ namespace spritersguildwip.NPCs.Boss
                 mp.dashcd = 1;
                 Helper.Kill(npc);
             }
-            npc.localAI[0] *= 0.95f;
-            npc.localAI[1] *= 0.95f;
-            npc.position += new Vector2(npc.localAI[0], npc.localAI[1]);
 
-
+            npc.velocity = new Vector2(npc.ai[0], npc.ai[1]);
+            npc.ai[0] *= 0.95f;
+            npc.ai[1] *= 0.95f;
         }
 
         public static Texture2D glow = ModContent.GetTexture("spritersguildwip/NPCs/Boss/CrystalGlow");
@@ -232,7 +263,8 @@ namespace spritersguildwip.NPCs.Boss
         public override void AI()
         {
             projectile.timeLeft = 2;
-
+            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
+            projectile.velocity *= 1.004f;
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
@@ -240,13 +272,49 @@ namespace spritersguildwip.NPCs.Boss
             {
                 projectile.localAI[0] = 1;
             }
+
+            if (!Main.npc.Any(npc => npc.type == mod.NPCType("VitricBoss") && npc.active))
+            {
+                projectile.timeLeft = 0;
+            }
         }
 
         public static Texture2D glow = ModContent.GetTexture("spritersguildwip/NPCs/Boss/CrystalGlow2");
+        public static Texture2D red = ModContent.GetTexture("spritersguildwip/NPCs/Boss/HealGem2");
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(glow, projectile.position - Main.screenPosition, new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime));
+            if (projectile.localAI[0] == 0)
+            {
+                spriteBatch.Draw(glow, projectile.position - Main.screenPosition + new Vector2(16, 16), null, new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime), projectile.rotation, glow.Size() / 2, projectile.scale, 0, 0);
+            }
+            else
+            {
+                spriteBatch.Draw(red, projectile.position - Main.screenPosition + new Vector2(16,16), null, Lighting.GetColor((int)projectile.position.X / 16, (int)projectile.position.Y / 16), projectile.rotation, glow.Size() / 2, projectile.scale, 0, 0);
+            }
+        }
+    }
+
+    class Pulse : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Their own Recklessness");
+        }
+        public override void SetDefaults()
+        {
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.hostile = true;
+            projectile.timeLeft = 2;
+            projectile.penetrate = -1;
+            projectile.tileCollide = false;
+            projectile.ignoreWater = true;
+        }
+
+        public override void AI()
+        {
+
         }
     }
 }
