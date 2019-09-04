@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items
+namespace spritersguildwip.Items.Vitric
 {
     public class Sandglass : ModItem
     {

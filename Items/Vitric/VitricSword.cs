@@ -8,7 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Weapons.Vitric
+namespace spritersguildwip.Items.Vitric
 {
     class VitricSword : ModItem
     {
