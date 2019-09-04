@@ -271,6 +271,7 @@ namespace spritersguildwip.NPCs.Boss
             if (projectile.Hitbox.Intersects(player.Hitbox) && mp.dashcd > 1)
             {
                 projectile.localAI[0] = 1;
+                projectile.hostile = false;
             }
 
             if (!Main.npc.Any(npc => npc.type == mod.NPCType("VitricBoss") && npc.active))
