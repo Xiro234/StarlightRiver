@@ -10,8 +10,6 @@ namespace spritersguildwip.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 4;
@@ -21,6 +19,11 @@ namespace spritersguildwip.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Explosion");
+        }
+        public override void AI()
+        {
+            projectile.height = (int)projectile.ai[0];
+            projectile.width = (int)projectile.ai[0];
         }
     }
 }

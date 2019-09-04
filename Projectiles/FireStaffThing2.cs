@@ -30,6 +30,8 @@ namespace spritersguildwip.Projectiles
                 projectile.ai[1] -= 1;
                 if (projectile.ai[1] == 0)
                 {
+                    int explosion = Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), mod.ProjectileType("AOEExplosion"), projectile.damage, projectile.knockBack, player.whoAmI);
+                    Main.projectile[explosion].ai[0] = 150;
                     projectile.Kill();
                 }
                 for (int num1 = 0; num1 <= 20; num1++)
