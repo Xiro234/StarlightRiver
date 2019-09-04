@@ -26,7 +26,7 @@ namespace spritersguildwip.Projectiles
             Player player = Main.player[projectile.owner];
             for (int k = 0; k <= 200; k += 1)
             {
-                float maxDistance = 90f;
+                float maxDistance = 50f;
                 NPC npc = Main.npc[k];
 
                 Vector2 vectorToNPC = npc.Center - projectile.Center;
@@ -71,17 +71,17 @@ namespace spritersguildwip.Projectiles
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= 25f)
             {
-                projectile.velocity.Y += 0.12f;
-                projectile.velocity.X *= 0.99f;
+                projectile.velocity.Y += 0.05f;
+                projectile.velocity.X *= 1f;
             }
-            Vector2 vectorToCursor = projectile.Center - player.Center;
-            if (projectile.Center.X < player.Center.X)
-            {
-                vectorToCursor = -vectorToCursor;
-            }
-            player.itemRotation = vectorToCursor.ToRotation();
-            player.itemTime = 20;
-            player.itemAnimation = 20;
+            //Vector2 vectorToCursor = projectile.Center - player.Center;
+            //if (projectile.Center.X < player.Center.X)
+            //{
+            //    vectorToCursor = -vectorToCursor;
+            //}
+            //player.itemRotation = vectorToCursor.ToRotation();
+            //player.itemTime = 20;
+            //player.itemAnimation = 20;
         }
         public override void Kill(int timeLeft)
         {
@@ -89,7 +89,7 @@ namespace spritersguildwip.Projectiles
             Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14); //boom
             Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 74); //fork boom
             int explosion = Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), mod.ProjectileType("AOEExplosion"), projectile.damage, projectile.knockBack, player.whoAmI);
-            Main.projectile[explosion].ai[0] = 120;
+            Main.projectile[explosion].ai[0] = 200;
             for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 20)
             {
                 int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
