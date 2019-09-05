@@ -32,7 +32,7 @@ namespace spritersguildwip
         private void GenerateCrystalCaverns(GenerationProgress progress)
         {
             progress.Message = "Vitrifying Desert";
-            int MaxCrystalCaveDepth = 50;
+            int MaxCrystalCaveDepth = 0;
             Point centre = new Point(WorldGen.UndergroundDesertLocation.X + WorldGen.UndergroundDesertLocation.Width / 2, WorldGen.UndergroundDesertLocation.X + WorldGen.UndergroundDesertLocation.Height);
             int size = Main.maxTilesX / 10; //Width of the cavern; value shown here is half the size. So, functional size is actually Main.maxTilesX / 5.
             float depth = 0; //Depth of the cave
