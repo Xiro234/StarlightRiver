@@ -8,8 +8,8 @@ namespace spritersguildwip.Items
     {
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 20;
+            item.width = 30;
+            item.height = 42;
             item.useStyle = 5;
             item.useAnimation = 8;
             item.useTime = 8;
