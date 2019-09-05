@@ -47,8 +47,8 @@ namespace spritersguildwip.Items.Vitric
         }
         public override void SetDefaults()
         {
-            item.width = 16; //still trying to figure out what difference changing these two values makes
-            item.height = 16;
+            item.width = 32; //still trying to figure out what difference changing these two values makes
+            item.height = 32;
             item.maxStack = 999;
             item.value = 100;
             item.rare = 2;
