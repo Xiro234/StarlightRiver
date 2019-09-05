@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using spritersguildwip.NPCs;
 
 namespace spritersguildwip.Projectiles.WeaponProjectiles
 {
@@ -26,23 +27,28 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
             Player player = Main.player[projectile.owner];
             for (int k = 0; k <= 200; k += 1)
             {
-                float maxDistance = 90f;
+                float maxDistance = 80f;
                 NPC npc = Main.npc[k];
-
                 Vector2 vectorToNPC = npc.Center - projectile.Center;
                 float distanceToNPC = vectorToNPC.Length();
-
-                if (distanceToNPC <= maxDistance)
+                if (npc.active)
                 {
-                    projectile.timeLeft -= 25;
+                    if (distanceToNPC <= maxDistance)
+                    {
+                        for (int counter = 0; counter <= 2; counter++)
+                        {
+                            Dust.NewDust(Vector2.Lerp(projectile.Center, npc.Center, 0.4f), 16, 16, 132, (Vector2.Normalize(projectile.Center - npc.Center) * 8f).X, (Vector2.Normalize(projectile.Center - npc.Center) * 8f).Y);
+                        }
+                        projectile.velocity = (Vector2.Normalize(projectile.Center - npc.Center) * -12f);
+                    }
                 }
             }
-            if (projectile.height <= 26)
+            if (projectile.height <= 18)
             {
                 projectile.width += 1;
                 projectile.height += 1;
             }
-            for (int counter = 0; counter <= 5; counter++)
+            for (int counter = 0; counter <= 3; counter++)
             {
                 int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
                 {
@@ -67,12 +73,15 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
                 }
                 dust.noLight = true;
             }
-
+            if (!player.channel)
+            {
+                projectile.timeLeft -= 6;
+            }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= 25f)
             {
-                projectile.velocity.Y += 0.12f;
-                projectile.velocity.X *= 0.99f;
+                projectile.velocity.Y += 0.08f;
+                projectile.velocity.X *= 0.98f;
             }
             Vector2 vectorToCursor = projectile.Center - player.Center;
             if (projectile.Center.X < player.Center.X)
@@ -125,12 +134,16 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
         {
             DisplayName.SetDefault("VortexPenisStaff moment 2");
         }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.GetGlobalNPC<DebuffHandler>(mod).frozenTime = 40;
+        }
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
             for (int k = 0; k <= 200; k += 1)
             {
-                float maxDistance = 80f;
+                float maxDistance = 140f;
                 NPC npc = Main.npc[k];
                 Vector2 vectorToNPC = npc.Center - projectile.Center;
                 float distanceToNPC = vectorToNPC.Length();
@@ -138,7 +151,11 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
                 {
                     if (distanceToNPC <= maxDistance)
                     {
-                        projectile.Kill();
+                        for (int counter = 0; counter <= 5; counter++)
+                        {
+                            Dust.NewDust(Vector2.Lerp(projectile.Center, npc.Center, 0.4f), 16, 16, 132, (Vector2.Normalize(projectile.Center - npc.Center) * 8f).X, (Vector2.Normalize(projectile.Center - npc.Center) * 8f).Y);
+                        }
+                        projectile.velocity = (Vector2.Normalize(projectile.Center - npc.Center) * -12f);
                     }
                 }
             }
@@ -172,12 +189,15 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
                 }
                 dust.noLight = true;
             }
-
+            if (!player.channel)
+            {
+                projectile.timeLeft -= 8;
+            }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= 25f)
             {
                 projectile.velocity.Y += 0.05f;
-                projectile.velocity.X *= 1f;
+                projectile.velocity.X *= 0.98f;
             }
             Vector2 vectorToCursor = projectile.Center - player.Center;
             if (projectile.Center.X < player.Center.X)

@@ -30,7 +30,7 @@ namespace spritersguildwip.Tiles
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("");//Map name
-            AddMapEntry(new Color(0, 0, 0), name);
+            AddMapEntry(new Color(0, 255, 255), name);
             dustType = mod.DustType("Wind");
             disableSmartCursor = true;
             minPick = int.MaxValue;

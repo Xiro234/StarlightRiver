@@ -5,6 +5,7 @@ using spritersguildwip.Ability;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace spritersguildwip.NPCs.Hostile
 {
@@ -31,7 +32,17 @@ namespace spritersguildwip.NPCs.Hostile
 
             npc.value = 111f;
         }
-
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextFloat() < 0.25f)
+            {
+                Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.OverseerCore>());
+            }
+            if (Main.rand.NextFloat() < 0.50f)
+            {
+                Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.Glassore>(), Main.rand.Next(2, 7));
+            }
+        }
         int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }
         bool CanSuck => SuckTime > 0;
         Player Target => Main.player[npc.target];
@@ -100,15 +111,20 @@ namespace spritersguildwip.NPCs.Hostile
                     }
                 }
             }
-            if (Vector2.Distance(npc.Center, Target.Center) <= 180)
+
+            for (int players = 0; players <= Main.ActivePlayersCount; players += 1)
             {
-                npc.velocity = Vector2.Zero;
-                Target.velocity = (npc.Center - Target.Center).SafeNormalize(Vector2.Zero) * 5;
-                if (SuckTime % 20 == 0)
-                    for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
-                        if (Main.rand.Next(2) == 0)
-                            SpawnDust(3);
-                SuckTime++;
+                Player allPlayers = Main.player[players];
+                if (Vector2.Distance(npc.Center, allPlayers.Center) <= 180)
+                {
+                    npc.velocity = Vector2.Zero;
+                    allPlayers.velocity = (npc.Center - allPlayers.Center).SafeNormalize(Vector2.Zero) * 5;
+                    if (SuckTime % 20 == 0)
+                        for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
+                            if (Main.rand.Next(2) == 0)
+                                SpawnDust(3);
+                    SuckTime++;
+                }
             }
         }
         public override void FindFrame(int frameHeight) => npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
@@ -222,17 +238,19 @@ namespace spritersguildwip.NPCs.Hostile
                     }
                 }
             }
-            if (Vector2.Distance(npc.Center, Target.Center) <= 240)
+            for (int players = 0; players <= Main.ActivePlayersCount; players += 1)
             {
-                HasSucked = true;
-                npc.rotation = 0f;
-                npc.velocity = Vector2.Zero;
-                Target.velocity = (npc.Center - Target.Center).SafeNormalize(Vector2.Zero) * 8;
-                if (SuckTime % 20 == 0)
-                    for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
-                        if (Main.rand.Next(2) == 0)
-                            SpawnDust(4);
-                SuckTime++;
+                Player allPlayers = Main.player[players];
+                if (Vector2.Distance(npc.Center, allPlayers.Center) <= 240)
+                {
+                    npc.velocity = Vector2.Zero;
+                    allPlayers.velocity = (npc.Center - allPlayers.Center).SafeNormalize(Vector2.Zero) * 8;
+                    if (SuckTime % 20 == 0)
+                        for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
+                            if (Main.rand.Next(2) == 0)
+                                SpawnDust(3);
+                    SuckTime++;
+                }
             }
             else if (HasSucked)
             {

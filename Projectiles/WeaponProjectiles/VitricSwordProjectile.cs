@@ -22,6 +22,10 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
         {
             DisplayName.SetDefault("Enchanted Glass");
         }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Main.PlaySound(SoundID.Item27); //fart noise is id 16 lol
+        }
 
         float f = 1;
         public override void AI()
@@ -35,6 +39,7 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
             if((player.Center - projectile.Center).Length() <= 32 && projectile.timeLeft < 110)
             {
                 projectile.timeLeft = 0;
+                Main.PlaySound(SoundID.Item101);
             }
         }
     }
