@@ -19,14 +19,21 @@ namespace spritersguildwip
     {
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
-            
+            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
+            if (ShiniesIndex != -1)
+            {
+                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
+            }
         }
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
         /// </summary>
         /// <param name="centre">The top centre point of the cavern.</param>
-        private static void GenerateCrystalCaverns(Point centre)
+        private void GenerateCrystalCaverns(GenerationProgress progress)
         {
+            progress.Message = "Vitrifying Desert";
+            int MaxCrystalCaveDepth = 50;
+            Point centre = new Point(WorldGen.UndergroundDesertLocation.X + WorldGen.UndergroundDesertLocation.Width / 2, WorldGen.UndergroundDesertLocation.X + WorldGen.UndergroundDesertLocation.Height);
             int size = Main.maxTilesX / 10; //Width of the cavern; value shown here is half the size. So, functional size is actually Main.maxTilesX / 5.
             float depth = 0; //Depth of the cave
             float height = 0; //Height of cave
@@ -45,7 +52,7 @@ namespace spritersguildwip
                     depth -= 0.5f;
                 }
 
-                if (depth > MaxCrystalCaveDepth) //helphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelphelp im stupid
+                if (depth > MaxCrystalCaveDepth) 
                     MaxCrystalCaveDepth = (int)depth;
 
                 for (int j = (-(int)height / 2); j < ((int)depth / 2); ++j)
@@ -57,16 +64,15 @@ namespace spritersguildwip
             for (int i = 0; i < 4; ++i)
             {
                 WorldGen.KillTile(centre.X - 2 + i, centre.Y + (MaxCrystalCaveDepth / 5), true, false, true);
-                WorldGen.PlaceTile(centre.X - 2 + i, centre.Y + (MaxCrystalCaveDepth / 5), TileID.ModdedCrystalPlatform, true, true, -1);
+                WorldGen.PlaceTile(centre.X - 2 + i, centre.Y + (MaxCrystalCaveDepth / 5), TileID.Platforms, true, true, -1);
             }
             GenerateCrystals(centre); //I wonder what this does
         }
 
-        private static void GenerateCrystals(Point tC)
+        private void GenerateCrystals(Point tC)
         {
             float rot = 0f; //Rotation of crystal/placement used later
             int totalReps = 100; //Total repeats
-            debugToPrint[0] = totalReps; //Debug for my (Gabe's) project - remove before compiling
             float shortTau = 6.28f; //Helper variable
             float side = shortTau / 4; //Helper variable
             for (int i = 0; i < totalReps; ++i)
@@ -76,15 +82,15 @@ namespace spritersguildwip
                 if (rot > shortTau) //Caps angle
                     rot = 0;
 
-                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1).RotateBy(rot), tC.ToVector2(), TileID.ModdedCrystalTile)
-                    + (new Vector2(0, -1).RotateBy(rot) * 3); //Position of a wall. Starts off going UP, then goes clockwise.
+                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1).RotatedBy(rot), tC.ToVector2(), WallID.Dirt)
+                    + (new Vector2(0, -1).RotatedBy(rot) * 3); //Position of a wall. Starts off going UP, then goes clockwise.
 
                 if (WorldGen.genRand.Next(Math.Abs((int)randomWallLocation.X - tC.X) + WorldGen.genRand.Next(30)) < Main.maxTilesX / 40) //Biases crystals towards the sides
                     continue;
 
                 float adjRot = Vector2.Normalize(tC.ToVector2() - randomWallLocation).ToRotation() + side; //Rotation direction of the direction of the crystals, starting from the wall.
                 adjRot += WorldGen.genRand.Next((int)(-side * 18), (int)(side * 18)) * 0.01f; //Randomization of angle
-                Vector2 direction = new Vector2(0, -1).RotateBy(adjRot); //Angle velocity of the crystal
+                Vector2 direction = new Vector2(0, -1).RotatedBy(adjRot); //Angle velocity of the crystal
 
                 int wid = WorldGen.genRand.Next(1, 3); //Partial width of the crystal
                 int negWid = -WorldGen.genRand.Next(1, 3); //Partial width of the crystal - formatted in this way to make odd numbered widths possible
@@ -92,14 +98,14 @@ namespace spritersguildwip
                 int reps = (Math.Abs((int)randomWallLocation.X - tC.X) / 6) + (WorldGen.genRand.Next(6, 21));
                 for (int j = 0; j < reps; ++j) //Places crystal, replace PlaceTile with TileRunner or other method of choice
                 {
-                    WorldGen.PlaceTile((int)randomWallLocation.X, (int)randomWallLocation.Y, TileID.ModdedCrystalTile, true, true, -1, 0);
+                    WorldGen.PlaceTile((int)randomWallLocation.X, (int)randomWallLocation.Y, mod.TileType("GlassCrystal"), true, true, -1, 0);
                     randomWallLocation += direction;
 
-                    Vector2 newDir = new Vector2(0, -1).RotateBy(Vector2.Normalize(tC.ToVector2() - randomWallLocation).ToRotation() - (side * 2));
+                    Vector2 newDir = new Vector2(0, -1).RotatedBy(Vector2.Normalize(tC.ToVector2() - randomWallLocation).ToRotation() - (side * 2));
                     Vector2 widthPos = randomWallLocation - (newDir * ((wid + negWid) / 2f));
                     for (float k = negWid; k < wid; k += 0.5f) //Widens the crystal
                     {
-                        WorldGen.PlaceTile((int)widthPos.X, (int)widthPos.Y, TileID.ModdedCrystalTile, true, true, -1, 0);
+                        WorldGen.PlaceTile((int)widthPos.X, (int)widthPos.Y, mod.TileType("GlassCrystal"), true, true, -1, 0);
                         widthPos += newDir / 2;
                     }
                 }
@@ -110,7 +116,7 @@ namespace spritersguildwip
         /// Moves from starting point p to the first solid block it touches according to direction dir. Skips tiles of types included the ignoredTileIDs array.
         /// </summary>
         /// <returns></returns>
-        private static Vector2 GetGroundDirectional(Vector2 dir, Vector2 p, params int[] ignoredTileIDs)
+        private Vector2 GetGroundDirectional(Vector2 dir, Vector2 p, params int[] ignoredTileIDs)
         {
             Vector2 actualPos = p;
             while (!Main.tile[(int)actualPos.X, (int)actualPos.Y].active() || ignoredTileIDs.Any(x => x == Main.tile[(int)actualPos.X, (int)actualPos.Y].type))
