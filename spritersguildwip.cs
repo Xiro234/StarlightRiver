@@ -17,9 +17,11 @@ namespace spritersguildwip
         public static ModHotKey Superdash;
         public static ModHotKey Smash;
         public static ModHotKey Float;
+
+        public static spritersguildwip Instance { get; set; }
         public spritersguildwip()
         {
-
+            Instance = this;
         }
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
