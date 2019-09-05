@@ -15,7 +15,7 @@ using System;
 
 namespace spritersguildwip
 {
-    public class LegendWorld : ModWorld
+    public partial class LegendWorld : ModWorld
     {
         public static float rottime = 0;
         public override void PreUpdate()

@@ -23,10 +23,15 @@ namespace spritersguildwip
         }
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
-            if (Main.myPlayer == -1 || Main.gameMenu || !Main.LocalPlayer.active)
+            if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
             {
-                return;
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
+                    priority = MusicPriority.BiomeMedium;
+                }
             }
+            return;           
         }
 
         public override void Load()
