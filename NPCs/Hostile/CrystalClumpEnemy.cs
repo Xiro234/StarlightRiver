@@ -34,24 +34,13 @@ namespace spritersguildwip.NPCs.Hostile
         }
         public override void NPCLoot()
         {
-            int i = 3;
-            if (Main.rand.NextFloat() < 0.25f/*percent type e.g. 0.25f*/)
+            if (Main.rand.NextFloat() < 0.25f)
             {
-                i = Item.NewItem(npc.getRect(), mod.ItemType("OverseerCore"));
+                Item.NewItem(npc.getRect(), mod.ItemType("OverseerCore"));
             }
-            if (Main.netMode == NetmodeID.MultiplayerClient && i > 0)
+            if (Main.rand.NextFloat() < 0.50f)
             {
-                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i, 1);
-            }
-            int i = 4;
-            if (Main.rand.NextFloat() < 0.50f/*percent type e.g. 0.25f*/)
-            {
-                i = Item.NewItem(npc.getRect(), mod.ItemType("Glassore"), Main.rand.Next(2, 7));
-            }
-            if (Main.netMode == NetmodeID.MultiplayerClient && i > 0)
-            {
-                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, i, Main.rand.Next(2, 7));
-
+                Item.NewItem(npc.getRect(), mod.ItemType("Glassore"), Main.rand.Next(2, 7));
             }
         }
         int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }

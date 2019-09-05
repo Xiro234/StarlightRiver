@@ -40,7 +40,7 @@ namespace spritersguildwip.Items.Vitric
         {
             if (!Broken)
             {
-                Main.PlaySound(SoundID.Shatter);
+                Main.PlaySound(SoundID.Item107);
                 Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center) * -24, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
                 Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(0.3) * -13, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
                 Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(-0.25) * -18, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
