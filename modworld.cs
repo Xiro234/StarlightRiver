@@ -15,7 +15,7 @@ using System;
 
 namespace spritersguildwip
 {
-    public class LegendWorld : ModWorld
+    public partial class LegendWorld : ModWorld
     {
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
