@@ -22,14 +22,14 @@ namespace spritersguildwip
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
             if (ShiniesIndex != -1)
             {
-                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
+                //tasks.Insert(ShiniesIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
             }
         }
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
         /// </summary>
         /// <param name="centre">The top centre point of the cavern.</param>
-        private void GenerateCrystalCaverns(GenerationProgress progress)
+        /*private void GenerateCrystalCaverns(GenerationProgress progress)
         {
             progress.Message = "Vitrifying Desert";
             int MaxCrystalCaveDepth = 0;
@@ -122,7 +122,7 @@ namespace spritersguildwip
             while (!Main.tile[(int)actualPos.X, (int)actualPos.Y].active() || ignoredTileIDs.Any(x => x == Main.tile[(int)actualPos.X, (int)actualPos.Y].type))
                 actualPos += dir;
             return actualPos;
-        }
+        }*/
         public static float rottime = 0;
         public override void PreUpdate()
         {
@@ -143,20 +143,25 @@ namespace spritersguildwip
 
             byte[][] altar = new byte[][] //Tiles
             {
-                new byte[] { 0+a, 000, 001, 000, 0+b },
-                new byte[] { 000, 001, 001, 001, 000 },
-                new byte[] { 001, 001, 001, 001, 001 },
-                new byte[] { 000, 001, 001, 001, 000 },
-                new byte[] { 0+c, 000, 001, 000, 0+d }
+                new byte[] { 1, 3, 3, 3, 3, 0, 0, 0, 3, 3, 3, 3, 1 },
+                new byte[] { 1, 3, 2, 2, 3, 0, 0, 0, 3, 2, 2, 3, 1 },
+                new byte[] { 1, 3, 1, 2, 3, 0, 0, 0, 3, 2, 1, 3, 1 },
+                new byte[] { 1, 3, 1, 2, 3, 0, 0, 0, 3, 2, 1, 3, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
+                new byte[] { 1, 1, 3, 3, 3, 0, 0, 0, 3, 3, 3, 1, 1 },
             };
 
             ushort[][] altarWalls = new ushort[][] //Walls
             {
+                /*new ushort[] { c, c, c, c, c },
                 new ushort[] { c, c, c, c, c },
                 new ushort[] { c, c, c, c, c },
                 new ushort[] { c, c, c, c, c },
-                new ushort[] { c, c, c, c, c },
-                new ushort[] { c, c, c, c, c }
+                new ushort[] { c, c, c, c, c }*/
             };
             
 
@@ -170,18 +175,18 @@ namespace spritersguildwip
                     switch (altar[y][x] & 0b0001_1111)
                     {
                         //This is your block pallete
-                        case 0: placeType = TileID.Dirt; break;
-                        case 1: placeType = TileID.Stone; break;
-                        case 2: placeType = TileID.Dirt; break;
-                        case 3: placeType = TileID.Dirt; break;
-                        case 4: placeType = TileID.Dirt; break;
-                        case 5: placeType = TileID.Dirt; break;
-                        case 6: placeType = TileID.Dirt; break;
-                        case 7: placeType = TileID.Dirt; break;
+                        case 1: placeType = TileID.Ash; break;
+                        case 2: placeType = (ushort)mod.TileType("Void1"); break;
+                        case 3: placeType = (ushort)mod.TileType("Void2"); break;                       
                     }
 
                     WorldGen.PlaceTile((int)startpoint.X + x, (int)startpoint.Y + y, placeType, false, true);
-                    WorldGen.PlaceWall((int)startpoint.X + x, (int)startpoint.Y + y, altarWalls[y][x], false);
+
+                    if((altar[y][x] & 0b0001_1111) == 0)
+                    {
+                        Main.tile[(int)startpoint.X + x, (int)startpoint.Y + y].active(false);
+                    }
+                    //WorldGen.PlaceWall((int)startpoint.X + x, (int)startpoint.Y + y, altarWalls[y][x], false);
 
                     if (altar[y][x] >> 5 > 0)
                     {

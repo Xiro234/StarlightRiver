@@ -10,8 +10,10 @@ namespace spritersguildwip
     {
         public Stamina stamina;
         public Collection collection;
+        public Overlay overlay;
         public UserInterface customResources;
         public UserInterface customResources2;
+        public UserInterface customResources3;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
@@ -32,6 +34,12 @@ namespace spritersguildwip
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
                     priority = MusicPriority.BiomeMedium;
                 }
+
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/VoidPre");
+                    priority = MusicPriority.BiomeHigh;
+                }
             }
             return;           
         }
@@ -47,13 +55,16 @@ namespace spritersguildwip
             {
                 customResources = new UserInterface();
                 customResources2 = new UserInterface();
+                customResources3 = new UserInterface();
                 stamina = new Stamina();
                 collection = new Collection();
+                overlay = new Overlay();
 
                 Stamina.visible = true;
 
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
+                customResources3.SetState(overlay);
             }
         }
 
@@ -84,7 +95,19 @@ namespace spritersguildwip
                         collection.Draw(Main.spriteBatch);
                     }
 
-                 return true;
+                    return true;
+                }, InterfaceScaleType.UI));
+
+                layers.Insert(MouseTextIndex + 2, new LegacyGameInterfaceLayer("[PH]MODNAME: Overlay",
+                delegate
+                {
+                    if (Overlay.visible)
+                    {
+                        customResources3.Update(Main._drawInterfaceGameTime);
+                        overlay.Draw(Main.spriteBatch);
+                    }
+
+                    return true;
                 }, InterfaceScaleType.UI));
             }
         }
@@ -95,8 +118,10 @@ namespace spritersguildwip
             {
                 customResources = null;
                 customResources2 = null;
+                customResources3 = null;
                 stamina = null;
                 collection = null;
+                overlay = null;
             }
         }
 

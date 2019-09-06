@@ -28,7 +28,7 @@ namespace spritersguildwip.Ability
 
         public override void InUse()
         {
-            Player player = Player.player;
+            Player player = Handler.player;
             player.maxFallSpeed = 999;
 
             timer--;

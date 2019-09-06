@@ -47,14 +47,16 @@ namespace spritersguildwip.Ability
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {          
-            if (spritersguildwip.Dash.JustPressed)
+            if (spritersguildwip.Dash.JustPressed && unlock[0] == 1)
             {
                 ability = new Dash();
             }
 
-            ability?.Player = this;
-            ability?.ConsumeStamina();
-            ability?.OnCast();
+            if (ability == null) { return; }
+
+            ability.Handler = this;
+            ability.ConsumeStamina();
+            ability.OnCast();
         }
         public override void ResetEffects()
         {

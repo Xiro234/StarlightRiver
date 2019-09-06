@@ -16,7 +16,7 @@ namespace spritersguildwip.Ability
 {
     class Ability
     {
-        public AbilityHandler Player { get; set; }
+        public AbilityHandler Handler { get; set; }
         public int StaminaCost { get; set; }
         public bool Active { get; set; }
 
@@ -28,7 +28,7 @@ namespace spritersguildwip.Ability
         public void ConsumeStamina()
         {
             {
-                Player.stamina -= StaminaCost;
+                Handler.stamina -= StaminaCost;
             }
         }
 

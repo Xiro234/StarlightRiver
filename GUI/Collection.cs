@@ -162,6 +162,7 @@ namespace spritersguildwip.GUI
             if(Main.expertMode && visible)
             {
                 BootlegDust dus = new BootlegDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(78, 318) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
+                Bootlegdust.Add(dus);
             }
         }
 
@@ -208,7 +209,6 @@ namespace spritersguildwip.GUI
             col = color;
             scl = scale;
             time = timeleft;
-            Collection.Bootlegdust.Add(this);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
