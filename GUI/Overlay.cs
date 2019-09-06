@@ -21,7 +21,7 @@ namespace spritersguildwip.GUI
             Recalculate();
         }
 
-        internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
+        internal static readonly List<VoidDust> Bootlegdust = new List<VoidDust>();
         public override void Update(GameTime gameTime)
         {
             Bootlegdust.ForEach(VoidDust => VoidDust.Update());
@@ -31,40 +31,44 @@ namespace spritersguildwip.GUI
             {
                 for (int k = 0; k <= Main.screenWidth; k++)
                 {
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, 0), new Vector2(0, 4), new Color(0, 0, 0), 8f, 180);
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -4), new Color(0, 0, 0), 8f, 180);
+                    if (k % Main.rand.Next(5,15) == 0 && Main.rand.Next(4) == 0)
+                    {
+                        VoidDust dus = new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, -10), new Vector2(0, 2));
+                        VoidDust dus2 = new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -2));
+                        Bootlegdust.Add(dus);
+                        Bootlegdust.Add(dus2);
+                    }
                 }
                 for (int k = 0; k <= Main.screenHeight; k++)
                 {
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(0, k), new Vector2(4, 0), new Color(0, 0, 0), 8f, 180);
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(Main.screenWidth, k) , new Vector2(-4, 0), new Color(0, 0, 0), 8f, 180);
+                    if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
+                    {
+                        VoidDust dus = new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(-15, k), new Vector2(2, 0));
+                        VoidDust dus2 = new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-2, 0));
+                        Bootlegdust.Add(dus);
+                        Bootlegdust.Add(dus2);
+                    }
                 }
+            }
+            if (!Main.LocalPlayer.GetModPlayer<BiomeHandler>(spritersguildwip.Instance).ZoneVoidPre)
+            {
+                Bootlegdust.Clear();
             }
         }
     }
 
     public class VoidDust : BootlegDust
     {
-        Texture2D tex;
-        Vector2 pos;
-        Vector2 vel;
-        Color col;
-        float scl;
-        new public int time;
-        public VoidDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int timeleft) : base(null, Vector2.Zero, Vector2.Zero, Color.Black, 0, 0)
+        public VoidDust(Texture2D texture, Vector2 position, Vector2 velocity) :
+            base(texture, position, velocity, Color.Black, 8f, 80)
         {
-            tex = texture;
-            pos = position;
-            vel = velocity;
-            col = color;
-            scl = scale;
-            time = timeleft;
         }
 
         public override void Update()
         {
+            col *= 0.98f;
             pos += vel;
-            scl *= 0.94f;
+            scl *= 0.97f;
             time--;
         }
     }

@@ -48,8 +48,9 @@ namespace spritersguildwip.Ability
 
             if(timer <= 0)
             {
-                OnExit();
                 Active = false;
+                OnExit();
+                
             }
         }
 

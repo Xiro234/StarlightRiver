@@ -194,11 +194,11 @@ namespace spritersguildwip.GUI
 
     public class BootlegDust
     {     
-        Texture2D tex;
-        Vector2 pos;
-        Vector2 vel;
-        Color col;
-        float scl;
+        public Texture2D tex;
+        public Vector2 pos;
+        public Vector2 vel;
+        public Color col;
+        public float scl;
         public int time;
 
         public BootlegDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int timeleft)
