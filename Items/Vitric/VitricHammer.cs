@@ -22,7 +22,7 @@ namespace spritersguildwip.Items.Vitric
             item.useAnimation = 35;
             item.hammer = 65;
             item.useStyle = 1;
-            item.knockBack = 0.5f;
+            item.knockBack = 10f;
             item.value = 1000;
             item.rare = 2;
             item.autoReuse = true;

@@ -15,14 +15,14 @@ namespace spritersguildwip.Items.Vitric
         bool Broken = false;
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 25;
             item.melee = true;
             item.width = 36;
             item.height = 38;
             item.useTime = 18;
             item.useAnimation = 18;
             item.useStyle = 1;
-            item.knockBack = 0.5f;
+            item.knockBack = 7.5f;
             item.value = 1000;
             item.rare = 2;
             item.UseSound = SoundID.Item1;
@@ -41,9 +41,9 @@ namespace spritersguildwip.Items.Vitric
             if (!Broken)
             {
                 Main.PlaySound(SoundID.Item107);
-                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center) * -24, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
-                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(0.3) * -13, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
-                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(-0.25) * -18, mod.ProjectileType("VitricSwordProjectile"), 20, 0, player.whoAmI);
+                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center) * -24, mod.ProjectileType("VitricSwordProjectile"), 15, 0, player.whoAmI);
+                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(0.3) * -13, mod.ProjectileType("VitricSwordProjectile"), 15, 0, player.whoAmI);
+                Projectile.NewProjectile(target.Center, Vector2.Normalize(player.Center - target.Center).RotatedBy(-0.25) * -18, mod.ProjectileType("VitricSwordProjectile"), 15, 0, player.whoAmI);
                 for (int k = 0; k <= 20; k++)
                 {
                     Dust.NewDust(Vector2.Lerp(player.Center, target.Center, 0.4f), 8, 8, mod.DustType("Air"), (Vector2.Normalize(player.Center - target.Center) * -2).X, (Vector2.Normalize(player.Center - target.Center) * -2).Y);
