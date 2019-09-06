@@ -31,13 +31,13 @@ namespace spritersguildwip.GUI
             {
                 for (int k = 0; k <= Main.screenWidth; k++)
                 {
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, 0), new Vector2(0, 4), new Color(0, 0, 0), 8f, 180);
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -4), new Color(0, 0, 0), 8f, 180);
+                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, 0), new Vector2(0, 4), 8f, 180);
+                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -4));
                 }
                 for (int k = 0; k <= Main.screenHeight; k++)
                 {
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(0, k), new Vector2(4, 0), new Color(0, 0, 0), 8f, 180);
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(Main.screenWidth, k) , new Vector2(-4, 0), new Color(0, 0, 0), 8f, 180);
+                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(0, k), new Vector2(4, 0));
+                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(Main.screenWidth, k) , new Vector2(-4, 0));
                 }
             }
         }
@@ -45,20 +45,9 @@ namespace spritersguildwip.GUI
 
     public class VoidDust : BootlegDust
     {
-        Texture2D tex;
-        Vector2 pos;
-        Vector2 vel;
-        Color col;
-        float scl;
-        new public int time;
-        public VoidDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int timeleft) : base(null, Vector2.Zero, Vector2.Zero, Color.Black, 0, 0)
+        public VoidDust(Texture2D texture, Vector2 position, Vector2 velocity) : 
+            base(texture, position, velocity, Color.Black, 8f, 180)
         {
-            tex = texture;
-            pos = position;
-            vel = velocity;
-            col = color;
-            scl = scale;
-            time = timeleft;
         }
 
         public override void Update()
