@@ -31,7 +31,7 @@ namespace spritersguildwip.GUI
             {
                 for (int k = 0; k <= Main.screenWidth; k++)
                 {
-                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, 0), new Vector2(0, 4), 8f, 180);
+                    new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, 0), new Vector2(0, 4));
                     new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -4));
                 }
                 for (int k = 0; k <= Main.screenHeight; k++)
