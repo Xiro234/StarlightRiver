@@ -105,7 +105,6 @@ namespace spritersguildwip.Tiles
 
         public override void PreUpdate()
         {
-            Dash dash = player.GetModPlayer<AbilityHandler>().ability as Dash;
 
             for (int j = (int)(player.position.Y / 16) - 3; j <= (int)(player.position.Y / 16) + 3; j++)
             {
@@ -116,7 +115,7 @@ namespace spritersguildwip.Tiles
                         for (float f = 0; f <= 1; f += 1/30f)
                         {
                             Vector2 lerped = Vector2.Lerp(player.position, player.oldPosition, f);
-                            if (Collision.CheckAABBvAABBCollision(lerped, new Vector2(32, 48), new Vector2(i * 16, j * 16), new Vector2(32, 48)) && dash.Active)
+                            if (Collision.CheckAABBvAABBCollision(lerped, new Vector2(32, 48), new Vector2(i * 16, j * 16), new Vector2(32, 48)) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
                             {
                                 f = 2;
                                 WorldGen.KillTile(i, j);                                                                 

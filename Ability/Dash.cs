@@ -45,18 +45,18 @@ namespace spritersguildwip.Ability
                     Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Air"));
                 }
             }
-
             if(timer <= 0)
             {
                 Active = false;
-                OnExit();
-                
+                OnExit();               
             }
         }
 
         public override void OnExit()
         {
-            Main.NewText("Debug");
+            Player player = Handler.player;
+            player.velocity.X = 0;
+            player.velocity.Y = 0;
         }
     }
 }

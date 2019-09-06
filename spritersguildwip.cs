@@ -38,7 +38,7 @@ namespace spritersguildwip
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/VoidPre");
-                    priority = MusicPriority.BiomeHigh;
+                    priority = MusicPriority.BossLow;
                 }
             }
             return;           
@@ -98,7 +98,7 @@ namespace spritersguildwip
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 2, new LegacyGameInterfaceLayer("[PH]MODNAME: Overlay",
+                layers.Insert(0, new LegacyGameInterfaceLayer("[PH]MODNAME: Overlay",
                 delegate
                 {
                     if (Overlay.visible)

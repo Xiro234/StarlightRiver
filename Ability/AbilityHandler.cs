@@ -18,7 +18,7 @@ namespace spritersguildwip.Ability
     {
         public int[] unlock = new int[]
         {
-             0,0,0,0
+             0,0,0,0,0
         };
         public Ability ability { get; set; }
         public bool infiniteStamina = false;
@@ -51,12 +51,31 @@ namespace spritersguildwip.Ability
             {
                 ability = new Dash();
             }
+            if (spritersguildwip.Float.JustPressed && unlock[1] == 1)
+            {
+                ability = new Float();
+            }
+            /*if (spritersguildwip.Pure.JustPressed && unlock[2] == 1)
+            {
+                ability = new Dash();
+            }*/
+            if (spritersguildwip.Smash.JustPressed /*&& unlock[3] == 1*/)
+            {
+                ability = new Smash();
+            }
+            if (spritersguildwip.Superdash.JustPressed && unlock[4] == 1)
+            {
+                //ability = new Shadowdash();
+            }
 
-            if (ability == null) { return; }
+            if (ability == null || ability.Active) { return; }
 
-            ability.Handler = this;
-            ability.ConsumeStamina();
-            ability.OnCast();
+            if (stamina >= ability.StaminaCost)
+            {
+                ability.Handler = this;
+                ability.ConsumeStamina();
+                ability.OnCast();
+            }
         }
         public override void ResetEffects()
         {
@@ -67,11 +86,35 @@ namespace spritersguildwip.Ability
             if (ability != null && ability.Active)
             {
                 ability.InUse();
-            }           
+            }
+            if (ability != null && !ability.Active)
+            {
+                ability = null;
+            }
+
+            if (infiniteStamina)
+            {
+                stamina = (staminamax + permanentstamina);
+                return;
+            }
+            if (staminaticker++ >= staminaTickerMax && stamina < (staminamax + permanentstamina) && !(ability is Float && ability.Active))
+            {
+                stamina++;
+            }
+            if (staminaticker > staminaTickerMax || stamina == (staminamax + permanentstamina))
+            {
+                staminaticker = 0;
+            }
         }
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-
+            if(ability is Float && ability.Active)
+            {
+                foreach(PlayerLayer layer in layers)
+                {
+                    layer.visible = false;
+                }
+            }
         }
     }
 }

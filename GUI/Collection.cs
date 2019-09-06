@@ -118,9 +118,9 @@ namespace spritersguildwip.GUI
             }
 
             if (mp.unlock[0] == 1) { wind.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab1")); } else { wind.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.unlock[3] == 1) { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab2")); } else { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.unlock[2] == 1) { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab3")); } else { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.unlock[1] == 1) { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab4")); } else { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[1] == 1) { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab2")); } else { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab3")); } else { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab4")); } else { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
 
             switch (select)
             {
@@ -136,11 +136,11 @@ namespace spritersguildwip.GUI
                     Line1.SetText("Hold F");
                     Line2.SetText("Shrink and float in the air,");
                     Line3.SetText("using your mouse to steer"); break;
-                case 3: Name.SetText("[PH] smash             x2");
+                case 4: Name.SetText("[PH] smash             x2");
                     Line1.SetText("Press Z");
                     Line2.SetText("Dive downwards, shattering");
                     Line3.SetText("solid rock and steel"); break;
-                case 4: Name.SetText("Zzelera's Cloak        x3");
+                case 5: Name.SetText("Zzelera's Cloak        x3");
                     Line1.SetText("Press Q");
                     Line2.SetText("Become invincible and quickly");
                     Line3.SetText("fly to a targeted location"); break;
@@ -171,9 +171,9 @@ namespace spritersguildwip.GUI
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             if (listeningElement == wind && mp.unlock[0] == 1) { select = 1; }
-            if (listeningElement == wisp && mp.unlock[3] == 1) { select = 2; }
-            if (listeningElement == smash && mp.unlock[2] == 1) { select = 3; }
-            if (listeningElement == shadow && mp.unlock[1] == 1) { select = 4; }
+            if (listeningElement == wisp && mp.unlock[1] == 1) { select = 2; }
+            if (listeningElement == smash && mp.unlock[3] == 1) { select = 3; }
+            if (listeningElement == shadow && mp.unlock[4] == 1) { select = 4; }
         }
     }
 

@@ -23,13 +23,13 @@ namespace spritersguildwip.GUI
             Stam1.Left.Set(-303, 1);
             Stam1.Top.Set(110, 0);
             Stam1.Width.Set(22, 0f);
-            Stam1.Height.Set(0, 0f);
+            Stam1.Height.Set(22, 0f);
             base.Append(Stam1);
 
             Stam2.Left.Set(0, 0);
             Stam2.Top.Set(0, 0);
             Stam2.Width.Set(22, 0f);
-            Stam2.Height.Set(0, 0f);
+            Stam2.Height.Set(22, 0f);
             Stam1.Append(Stam2);
         }
 
@@ -37,8 +37,8 @@ namespace spritersguildwip.GUI
         {
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            //Stam1.Copies = mp.staminamax;
-            //Stam2.Copies = mp.stamina;
+            Stam1.Copies = mp.staminamax + mp.permanentstamina;
+            Stam2.Copies = mp.stamina;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -50,6 +50,7 @@ namespace spritersguildwip.GUI
 
     class Stam : UIElement
     {
+        public int Copies;
         public Texture2D Texture;
 
         public Stam(Texture2D texture)
@@ -60,7 +61,10 @@ namespace spritersguildwip.GUI
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             CalculatedStyle dimensions = GetDimensions();
-            spriteBatch.Draw(Texture, new Rectangle((int)dimensions.X, (int)dimensions.Y, (int)dimensions.Width, (int)dimensions.Height), Color.White);           
+            for (int k = 0; k < Copies; k++)
+            {
+                spriteBatch.Draw(Texture, new Rectangle((int)dimensions.X, (int)dimensions.Y + k * 24, (int)dimensions.Width, (int)dimensions.Height), Color.White);
+            }
         }
     }
 }
