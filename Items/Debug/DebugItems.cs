@@ -26,7 +26,7 @@ namespace spritersguildwip.Items.Debug
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
             for(int k = 0; k <= 3; k++)
             {
-                mp.ability[k] = 0;
+                mp.unlock[k] = 0;
             }
             return true;
         }

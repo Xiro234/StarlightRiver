@@ -24,14 +24,14 @@ namespace spritersguildwip.Tiles
         {
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            if ((Vector2.Distance(player.position, mp.start) >= mp.objective.Length() || ((player.position - player.oldPosition).Length() < 14) && mp.shadowcd <= 3))
-            {
-                Main.tile[i, j].inActive(false);
-            }
-            else
-            {
+            //if ((Vector2.Distance(player.position, mp.start) >= mp.objective.Length() || ((player.position - player.oldPosition).Length() < 14) && mp.shadowcd <= 3))
+            //{
+            //    Main.tile[i, j].inActive(false);
+            //}
+            //else
+            //{
                 Main.tile[i, j].inActive(true);
-            }
+            //}
         }
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {

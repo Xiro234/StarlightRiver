@@ -36,11 +36,11 @@ namespace spritersguildwip.NPCs.Hostile
         {
             if (Main.rand.NextFloat() < 0.25f)
             {
-                Item.NewItem(npc.getRect(), mod.ItemType("OverseerCore"));
+                Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.OverseerCore>());
             }
             if (Main.rand.NextFloat() < 0.50f)
             {
-                Item.NewItem(npc.getRect(), mod.ItemType("Glassore"), Main.rand.Next(2, 7));
+                Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.Glassore>(), Main.rand.Next(2, 7));
             }
         }
         int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }
@@ -111,28 +111,26 @@ namespace spritersguildwip.NPCs.Hostile
                     }
                 }
             }
-            if (Vector2.Distance(npc.Center, Target.Center) <= 180)
+
+            for (int players = 0; players <= Main.ActivePlayersCount; players += 1)
             {
-                npc.velocity = Vector2.Zero;
-                Target.velocity = (npc.Center - Target.Center).SafeNormalize(Vector2.Zero) * 5;
-                if (SuckTime % 20 == 0)
-                    for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
-                        if (Main.rand.Next(2) == 0)
-                            SpawnDust(3);
-                SuckTime++;
+                Player allPlayers = Main.player[players];
+                if (Vector2.Distance(npc.Center, allPlayers.Center) <= 180)
+                {
+                    npc.velocity = Vector2.Zero;
+                    allPlayers.velocity = (npc.Center - allPlayers.Center).SafeNormalize(Vector2.Zero) * 5;
+                    if (SuckTime % 20 == 0)
+                        for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
+                            if (Main.rand.Next(2) == 0)
+                                SpawnDust(3);
+                    SuckTime++;
+                }
             }
         }
         public override void FindFrame(int frameHeight) => npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            AbilityHandler mp = target.GetModPlayer<AbilityHandler>();
-            if(mp.dashcd == 1)
-            {
-                target.immune = true;
-                target.immuneTime = 5;
-            }
-        }
+
     }
+    /*
     class CrystalClumpEnemy2 : ModNPC
     {
         public override void SetStaticDefaults()
@@ -185,17 +183,13 @@ namespace spritersguildwip.NPCs.Hostile
             {
                 Vector2 dustPos = npc.Center + Main.rand.NextVector2CircularEdge(240, 240);
                 Dust.NewDustPerfect(dustPos, mod.DustType("Air"),
-                    (dustPos - npc.Center).SafeNormalize(Vector2.Zero) /* Use SafeNormalize to prevent nasty DB0 errors. */ * -speed,
+                    (dustPos - npc.Center).SafeNormalize(Vector2.Zero) * -speed,
                     0, default, 0.6f);
             }
 
             npc.TargetClosest(true);
 
-            /* Using the sign of SuckTime as a boolean, kindof. 
-             * When the Observer has pulled for more than 180 ticks, it'll set its SuckTime to -180.
-             * Since it's negative, it won't suck and won't decrease.
-             * While it's cooling down (SuckTime < 0), it will constantly approach being ready to suck (increasing SuckTime).
-             */
+
             ShootTime += 1;
             if (ShootTime >= 460)
             {
@@ -233,17 +227,19 @@ namespace spritersguildwip.NPCs.Hostile
                     }
                 }
             }
-            if (Vector2.Distance(npc.Center, Target.Center) <= 240)
+            for (int players = 0; players <= Main.ActivePlayersCount; players += 1)
             {
-                HasSucked = true;
-                npc.rotation = 0f;
-                npc.velocity = Vector2.Zero;
-                Target.velocity = (npc.Center - Target.Center).SafeNormalize(Vector2.Zero) * 8;
-                if (SuckTime % 20 == 0)
-                    for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
-                        if (Main.rand.Next(2) == 0)
-                            SpawnDust(4);
-                SuckTime++;
+                Player allPlayers = Main.player[players];
+                if (Vector2.Distance(npc.Center, allPlayers.Center) <= 240)
+                {
+                    npc.velocity = Vector2.Zero;
+                    allPlayers.velocity = (npc.Center - allPlayers.Center).SafeNormalize(Vector2.Zero) * 8;
+                    if (SuckTime % 20 == 0)
+                        for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
+                            if (Main.rand.Next(2) == 0)
+                                SpawnDust(3);
+                    SuckTime++;
+                }
             }
             else if (HasSucked)
             {
@@ -264,4 +260,5 @@ namespace spritersguildwip.NPCs.Hostile
             }
         }
     }
+        */
 }
