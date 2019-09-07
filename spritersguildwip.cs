@@ -10,16 +10,21 @@ namespace spritersguildwip
     {
         public Stamina stamina;
         public Collection collection;
+        public Overlay overlay;
         public UserInterface customResources;
         public UserInterface customResources2;
+        public UserInterface customResources3;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
         public static ModHotKey Smash;
         public static ModHotKey Float;
+        public static ModHotKey Purify;
+
+        public static spritersguildwip Instance { get; set; }
         public spritersguildwip()
         {
-
+            Instance = this;
         }
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
@@ -29,6 +34,12 @@ namespace spritersguildwip
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
                     priority = MusicPriority.BiomeMedium;
+                }
+
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/VoidPre");
+                    priority = MusicPriority.BossLow;
                 }
             }
             return;           
@@ -40,18 +51,22 @@ namespace spritersguildwip
             Superdash = RegisterHotKey("Void Dash", "Q");
             Smash = RegisterHotKey("Smash", "Z");
             Float = RegisterHotKey("Float", "F");
+            Purify = RegisterHotKey("Purify", "N");
 
             if (!Main.dedServ)
             {
                 customResources = new UserInterface();
                 customResources2 = new UserInterface();
+                customResources3 = new UserInterface();
                 stamina = new Stamina();
                 collection = new Collection();
+                overlay = new Overlay();
 
                 Stamina.visible = true;
 
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
+                customResources3.SetState(overlay);
             }
         }
 
@@ -82,7 +97,19 @@ namespace spritersguildwip
                         collection.Draw(Main.spriteBatch);
                     }
 
-                 return true;
+                    return true;
+                }, InterfaceScaleType.UI));
+
+                layers.Insert(0, new LegacyGameInterfaceLayer("[PH]MODNAME: Overlay",
+                delegate
+                {
+                    if (Overlay.visible)
+                    {
+                        customResources3.Update(Main._drawInterfaceGameTime);
+                        overlay.Draw(Main.spriteBatch);
+                    }
+
+                    return true;
                 }, InterfaceScaleType.UI));
             }
         }
@@ -93,8 +120,10 @@ namespace spritersguildwip
             {
                 customResources = null;
                 customResources2 = null;
+                customResources3 = null;
                 stamina = null;
                 collection = null;
+                overlay = null;
             }
         }
 

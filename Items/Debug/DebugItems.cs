@@ -24,9 +24,37 @@ namespace spritersguildwip.Items.Debug
         public override bool UseItem(Player player)
         {
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-            for(int k = 0; k <= 3; k++)
+            for(int k = 0; k <= 4; k++)
             {
-                mp.ability[k] = 0;
+                mp.unlock[k] = 0;
+            }
+            return true;
+        }
+    }
+
+    public class Unlock : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 64;
+            item.height = 64;
+            item.useStyle = 5;
+            item.useAnimation = 10;
+            item.useTime = 10;
+            item.rare = 1;
+        }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Unlock");
+            Tooltip.SetDefault("Unlockss all movement abilities");
+        }
+
+        public override bool UseItem(Player player)
+        {
+            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
+            for (int k = 0; k <= 4; k++)
+            {
+                mp.unlock[k] = 1;
             }
             return true;
         }

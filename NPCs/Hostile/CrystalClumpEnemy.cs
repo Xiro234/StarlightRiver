@@ -34,10 +34,6 @@ namespace spritersguildwip.NPCs.Hostile
         }
         public override void NPCLoot()
         {
-            if (Main.rand.NextFloat() < 0.25f)
-            {
-                Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.OverseerCore>());
-            }
             if (Main.rand.NextFloat() < 0.50f)
             {
                 Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.Glassore>(), Main.rand.Next(2, 7));
@@ -128,16 +124,9 @@ namespace spritersguildwip.NPCs.Hostile
             }
         }
         public override void FindFrame(int frameHeight) => npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            AbilityHandler mp = target.GetModPlayer<AbilityHandler>();
-            if(mp.dashcd == 1)
-            {
-                target.immune = true;
-                target.immuneTime = 5;
-            }
-        }
+
     }
+    /*
     class CrystalClumpEnemy2 : ModNPC
     {
         public override void SetStaticDefaults()
@@ -190,17 +179,13 @@ namespace spritersguildwip.NPCs.Hostile
             {
                 Vector2 dustPos = npc.Center + Main.rand.NextVector2CircularEdge(240, 240);
                 Dust.NewDustPerfect(dustPos, mod.DustType("Air"),
-                    (dustPos - npc.Center).SafeNormalize(Vector2.Zero) /* Use SafeNormalize to prevent nasty DB0 errors. */ * -speed,
+                    (dustPos - npc.Center).SafeNormalize(Vector2.Zero) * -speed,
                     0, default, 0.6f);
             }
 
             npc.TargetClosest(true);
 
-            /* Using the sign of SuckTime as a boolean, kindof. 
-             * When the Observer has pulled for more than 180 ticks, it'll set its SuckTime to -180.
-             * Since it's negative, it won't suck and won't decrease.
-             * While it's cooling down (SuckTime < 0), it will constantly approach being ready to suck (increasing SuckTime).
-             */
+
             ShootTime += 1;
             if (ShootTime >= 460)
             {
@@ -271,4 +256,5 @@ namespace spritersguildwip.NPCs.Hostile
             }
         }
     }
+        */
 }

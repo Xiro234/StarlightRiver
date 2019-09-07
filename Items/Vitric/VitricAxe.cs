@@ -22,7 +22,7 @@ namespace spritersguildwip.Items.Vitric
             item.useAnimation = 25;
             item.axe = 17;
             item.useStyle = 1;
-            item.knockBack = 0.5f;
+            item.knockBack = 5f;
             item.value = 1000;
             item.rare = 2;
             item.autoReuse = true;
@@ -31,14 +31,14 @@ namespace spritersguildwip.Items.Vitric
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vitreous Axe");
+            DisplayName.SetDefault("Vitric Axe");
             Tooltip.SetDefault("");
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.OverseerCore>());
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricBar>(), 6);
+            recipe.AddIngredient(ItemID.FossilOre, 10);
+            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricGem>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

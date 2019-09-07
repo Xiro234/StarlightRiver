@@ -33,9 +33,8 @@ namespace spritersguildwip.NPCs.Hostile
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
-            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.dashcd > 1)
+            if (npc.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
             {
                 if (shielded)
                 {
@@ -43,7 +42,8 @@ namespace spritersguildwip.NPCs.Hostile
                     npc.velocity += player.velocity * 0.5f;
                 }
 
-                mp.dashcd = 1;
+                player.GetModPlayer<AbilityHandler>().ability.Active = false;
+                player.GetModPlayer<AbilityHandler>().ability.OnExit();
             }
 
             if(shielded)
@@ -58,8 +58,7 @@ namespace spritersguildwip.NPCs.Hostile
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            AbilityHandler mp = target.GetModPlayer<AbilityHandler>();
-            if(mp.dashcd == 1)
+            if(target.GetModPlayer<AbilityHandler>().ability is Dash && target.GetModPlayer<AbilityHandler>().ability.Active)
             {
                 target.immune = true;
                 target.immuneTime = 5;

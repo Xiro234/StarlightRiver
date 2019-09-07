@@ -34,9 +34,9 @@ namespace spritersguildwip.NPCs.Pickups
             Player player = Main.player[npc.target];
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.ability[3] == 0)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.unlock[1] == 0)
             {
-                mp.ability[3] = 1;
+                mp.unlock[1] = 1;
                 animate = 300;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get"));
                 rot = (float)(Math.PI * 2);
@@ -88,12 +88,12 @@ namespace spritersguildwip.NPCs.Pickups
                 timer = 0;
             }
 
-            if (mp.ability[3] == 0)
+            if (mp.unlock[1] == 0)
             {
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
                 Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Gold2"));
             }
-            if (mp.ability[3] == 1 && animate == 0)
+            if (mp.unlock[1] == 1 && animate == 0)
             {
                 spriteBatch.DrawString(Main.fontItemStack, "Hold F: Wisp form", npc.position - Main.screenPosition + new Vector2(-50, -32), Color.White);
             }

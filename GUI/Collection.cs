@@ -19,6 +19,7 @@ namespace spritersguildwip.GUI
 
         public UIImageButton wind = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
         public UIImageButton wisp = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
+        public UIImageButton pure = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
         public UIImageButton smash = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
         public UIImageButton shadow = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
          
@@ -55,28 +56,35 @@ namespace spritersguildwip.GUI
             back.Append(stamina);
 
             wind.Left.Set(0, 0);
-            wind.Top.Set(45, 0);
+            wind.Top.Set(40, 0);
             wind.Width.Set(32, 0);
             wind.Height.Set(32, 0);
             wind.OnClick += new MouseEvent(Select);
             back.Append(wind);
 
-            wisp.Left.Set(22, 0);
-            wisp.Top.Set(85, 0);
+            wisp.Left.Set(15, 0);
+            wisp.Top.Set(75, 0);
             wisp.Width.Set(32, 0);
             wisp.Height.Set(32, 0);
             wisp.OnClick += new MouseEvent(Select);
             back.Append(wisp);
 
-            smash.Left.Set(78, 0);
-            smash.Top.Set(85, 0);
+            pure.Left.Set(50, 0);
+            pure.Top.Set(90, 0);
+            pure.Width.Set(32, 0);
+            pure.Height.Set(32, 0);
+            pure.OnClick += new MouseEvent(Select);
+            back.Append(pure);
+
+            smash.Left.Set(85, 0);
+            smash.Top.Set(75, 0);
             smash.Width.Set(32, 0);
             smash.Height.Set(32, 0);
             smash.OnClick += new MouseEvent(Select);
             back.Append(smash);
 
             shadow.Left.Set(100, 0);
-            shadow.Top.Set(45, 0);
+            shadow.Top.Set(40, 0);
             shadow.Width.Set(32, 0);
             shadow.Height.Set(32, 0);
             shadow.OnClick += new MouseEvent(Select);
@@ -117,10 +125,11 @@ namespace spritersguildwip.GUI
                 select = 0;
             }
 
-            if (mp.ability[0] == 1) { wind.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab1")); } else { wind.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.ability[3] == 1) { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab2")); } else { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.ability[2] == 1) { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab3")); } else { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.ability[1] == 1) { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab4")); } else { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[0] == 1) { wind.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab1")); } else { wind.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[1] == 1) { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab2")); } else { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[2] == 1) { pure.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab3")); } else { pure.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab4")); } else { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab5")); } else { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
 
             switch (select)
             {
@@ -136,11 +145,15 @@ namespace spritersguildwip.GUI
                     Line1.SetText("Hold F");
                     Line2.SetText("Shrink and float in the air,");
                     Line3.SetText("using your mouse to steer"); break;
-                case 3: Name.SetText("[PH] smash             x2");
+                case 3: Name.SetText("Corona of Purity      x4");
+                    Line1.SetText("Press N");
+                    Line2.SetText("Temporarily purify the area");
+                    Line3.SetText("around you, resist the darkness"); break;
+                case 4: Name.SetText("Gaia's Fist             x2");
                     Line1.SetText("Press Z");
                     Line2.SetText("Dive downwards, shattering");
                     Line3.SetText("solid rock and steel"); break;
-                case 4: Name.SetText("Zzelera's Cloak        x3");
+                case 5: Name.SetText("Zzelera's Cloak        x3");
                     Line1.SetText("Press Q");
                     Line2.SetText("Become invincible and quickly");
                     Line3.SetText("fly to a targeted location"); break;
@@ -162,6 +175,7 @@ namespace spritersguildwip.GUI
             if(Main.expertMode && visible)
             {
                 BootlegDust dus = new BootlegDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(78, 318) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
+                Bootlegdust.Add(dus);
             }
         }
 
@@ -169,10 +183,11 @@ namespace spritersguildwip.GUI
         {
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            if (listeningElement == wind && mp.ability[0] == 1) { select = 1; }
-            if (listeningElement == wisp && mp.ability[3] == 1) { select = 2; }
-            if (listeningElement == smash && mp.ability[2] == 1) { select = 3; }
-            if (listeningElement == shadow && mp.ability[1] == 1) { select = 4; }
+            if (listeningElement == wind && mp.unlock[0] == 1) { select = 1; }
+            if (listeningElement == wisp && mp.unlock[1] == 1) { select = 2; }
+            if (listeningElement == pure && mp.unlock[2] == 1) { select = 3; }
+            if (listeningElement == smash && mp.unlock[3] == 1) { select = 4; }
+            if (listeningElement == shadow && mp.unlock[4] == 1) { select = 5; }
         }
     }
 
@@ -193,11 +208,11 @@ namespace spritersguildwip.GUI
 
     public class BootlegDust
     {     
-        Texture2D tex;
-        Vector2 pos;
-        Vector2 vel;
-        Color col;
-        float scl;
+        public Texture2D tex;
+        public Vector2 pos;
+        public Vector2 vel;
+        public Color col;
+        public float scl;
         public int time;
 
         public BootlegDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int timeleft)
@@ -208,7 +223,6 @@ namespace spritersguildwip.GUI
             col = color;
             scl = scale;
             time = timeleft;
-            Collection.Bootlegdust.Add(this);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

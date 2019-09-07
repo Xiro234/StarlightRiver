@@ -33,9 +33,9 @@ namespace spritersguildwip.NPCs.Pickups
             Player player = Main.player[npc.target];
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.ability[1] == 0)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.unlock[4] == 0)
             {
-                mp.ability[1] = 1;
+                mp.unlock[4] = 1;
                 animate = 300;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get"));
             }
@@ -89,12 +89,12 @@ namespace spritersguildwip.NPCs.Pickups
                 timer = 0;
             }
 
-            if (mp.ability[1] == 0)
+            if (mp.unlock[4] == 0)
             {
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
                 Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Void"));
             }
-            if (mp.ability[1] == 1 && animate == 0)
+            if (mp.unlock[4] == 1 && animate == 0)
             {
                 spriteBatch.DrawString(Main.fontItemStack, "Q: Void dash", npc.position - Main.screenPosition + new Vector2(-30, -32), Color.White);
             }
