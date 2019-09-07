@@ -226,11 +226,11 @@ namespace spritersguildwip.NPCs.Boss
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
-            Dash dash = player.GetModPlayer<AbilityHandler>().ability as Dash;
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && dash.Active)
+            if (npc.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
             {
-                dash.Active = false;
+                player.GetModPlayer<AbilityHandler>().ability.Active = false;
+                player.GetModPlayer<AbilityHandler>().ability.OnExit();
                 Helper.Kill(npc);
             }
 
@@ -266,9 +266,8 @@ namespace spritersguildwip.NPCs.Boss
             projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
             projectile.velocity *= 1.004f;
             Player player = Main.LocalPlayer;
-            Dash dash = player.GetModPlayer<AbilityHandler>().ability as Dash;
 
-            if (projectile.Hitbox.Intersects(player.Hitbox) && dash.Active)
+            if (projectile.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
             {
                 projectile.localAI[0] = 1;
                 projectile.hostile = false;

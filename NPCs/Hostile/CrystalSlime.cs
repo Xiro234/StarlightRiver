@@ -43,6 +43,7 @@ namespace spritersguildwip.NPCs.Hostile
                 }
 
                 player.GetModPlayer<AbilityHandler>().ability.Active = false;
+                player.GetModPlayer<AbilityHandler>().ability.OnExit();
             }
 
             if(shielded)

@@ -31,14 +31,14 @@ namespace spritersguildwip.Items.Vitric
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vitreous Pickaxe");
+            DisplayName.SetDefault("Vitric Pickaxe");
             Tooltip.SetDefault("");
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.OverseerCore>());
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricBar>(), 10);
+            recipe.AddIngredient(ItemID.FossilOre, 10);
+            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricGem>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

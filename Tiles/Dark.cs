@@ -15,23 +15,23 @@ namespace spritersguildwip.Tiles
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = false;
             drop = mod.ItemType("voidgoo");
+            dustType = mod.DustType("Darkness");
             AddMapEntry(new Color(0, 0, 0));
-
+            
             animationFrameHeight = 88;
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
-            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            //if ((Vector2.Distance(player.position, mp.start) >= mp.objective.Length() || ((player.position - player.oldPosition).Length() < 14) && mp.shadowcd <= 3))
-            //{
-            //    Main.tile[i, j].inActive(false);
-            //}
-            //else
-            //{
+            if (player.GetModPlayer<AbilityHandler>().ability is Superdash && player.GetModPlayer<AbilityHandler>().ability.Active)
+            {
                 Main.tile[i, j].inActive(true);
-            //}
+            }
+            else
+            {
+                Main.tile[i, j].inActive(false);
+            }
         }
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {

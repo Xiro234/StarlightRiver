@@ -19,6 +19,7 @@ namespace spritersguildwip
         public static ModHotKey Superdash;
         public static ModHotKey Smash;
         public static ModHotKey Float;
+        public static ModHotKey Purify;
 
         public static spritersguildwip Instance { get; set; }
         public spritersguildwip()
@@ -50,6 +51,7 @@ namespace spritersguildwip
             Superdash = RegisterHotKey("Void Dash", "Q");
             Smash = RegisterHotKey("Smash", "Z");
             Float = RegisterHotKey("Float", "F");
+            Purify = RegisterHotKey("Purify", "N");
 
             if (!Main.dedServ)
             {

@@ -55,17 +55,17 @@ namespace spritersguildwip.Ability
             {
                 ability = new Float();
             }
-            /*if (spritersguildwip.Pure.JustPressed && unlock[2] == 1)
+            if (spritersguildwip.Purify.JustPressed && unlock[2] == 1)
             {
-                ability = new Dash();
-            }*/
-            if (spritersguildwip.Smash.JustPressed /*&& unlock[3] == 1*/)
+                ability = new Pure();
+            }
+            if (spritersguildwip.Smash.JustPressed && unlock[3] == 1)
             {
                 ability = new Smash();
             }
             if (spritersguildwip.Superdash.JustPressed && unlock[4] == 1)
             {
-                //ability = new Shadowdash();
+                ability = new Superdash();
             }
 
             if (ability == null || ability.Active) { return; }
@@ -108,7 +108,7 @@ namespace spritersguildwip.Ability
         }
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            if(ability is Float && ability.Active)
+            if((ability is Float || ability is Superdash) && ability.Active)
             {
                 foreach(PlayerLayer layer in layers)
                 {

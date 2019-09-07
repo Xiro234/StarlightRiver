@@ -34,10 +34,6 @@ namespace spritersguildwip.NPCs.Hostile
         }
         public override void NPCLoot()
         {
-            if (Main.rand.NextFloat() < 0.25f)
-            {
-                Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.OverseerCore>());
-            }
             if (Main.rand.NextFloat() < 0.50f)
             {
                 Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.Glassore>(), Main.rand.Next(2, 7));

@@ -35,4 +35,39 @@ namespace spritersguildwip.Dusts
             return false;
         }
     }
+
+    public class Grass : ModDust
+    {
+        public override void OnSpawn(Dust dust)
+        {
+            dust.noGravity = false;
+            dust.noLight = false;
+            dust.color = new Color(28, 216, 94);
+        }
+
+        public override bool Update(Dust dust)
+        {
+            Player player = Main.LocalPlayer;
+            dust.position += dust.velocity;
+            dust.velocity.Y += 0.1f;
+
+            if (player.ZoneSnow) { dust.color = new Color(250, 250, 255); }
+            if (player.ZoneDesert) { dust.color = new Color(241, 228, 131); }
+            if (player.ZoneJungle) { dust.color = new Color(143, 215, 29); }
+            if (player.ZoneGlowshroom) { dust.color = new Color(63, 90, 231); }
+
+            if (player.ZoneCorrupt) { dust.color = new Color(186, 177, 243); }
+            if (player.ZoneCrimson) { dust.color = new Color(208, 80, 80); }
+            if (player.ZoneHoly) { dust.color = new Color(98, 213, 247); }
+
+
+            dust.rotation += 0.1f;
+            dust.scale *= 0.98f;
+            if (dust.scale < 0.2f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
 }
