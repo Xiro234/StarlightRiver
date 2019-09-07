@@ -18,7 +18,7 @@ namespace spritersguildwip.Tiles
             Main.tileLighted[Type] = true;
             Main.tileStone[Type] = true;
             drop = ItemID.StoneBlock;
-            dustType = mod.DustType("Darkness");
+            dustType = mod.DustType("Purify");
             AddMapEntry(new Color(255, 255, 255));
         }
     }    

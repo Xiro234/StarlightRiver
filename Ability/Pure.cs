@@ -34,6 +34,7 @@ namespace spritersguildwip.Ability
                 int proj = Projectile.NewProjectile(player.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 5, mod.ProjectileType("Purifier"),0,0, player.whoAmI);
                 Purifier pur = Main.projectile[proj].modProjectile as Purifier;
                 pur.start = player.Center;
+                LegendWorld.PureTiles.Add(player.Center/16);
 
             }
             Active = false;

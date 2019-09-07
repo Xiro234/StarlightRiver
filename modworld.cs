@@ -12,11 +12,13 @@ using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using spritersguildwip.Projectiles;
 
 namespace spritersguildwip
 {
     public partial class LegendWorld : ModWorld
     {
+        public static List<Vector2> PureTiles = new List<Vector2> { };
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
@@ -198,5 +200,41 @@ namespace spritersguildwip
                 }
             }           
         }
+
+        public override void PostUpdate()
+        {
+            if (!Main.projectile.Any(proj => proj.type == mod.ProjectileType("Purifier")) && PureTiles != null)
+            {
+                PureTiles.Clear();
+            }
+        }
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                [nameof(PureTiles)] = PureTiles,
+            };
+        }
+        public override void Load(TagCompound tag)
+        {
+            PureTiles = (List<Vector2>)tag.GetList<Vector2>(nameof(PureTiles));
+            for (int k = 0; k <= PureTiles.Count - 1;  k++)
+            {
+                for(int i = (int)PureTiles[k].X - 16; i <= (int)PureTiles[k].X + 16; i++)
+                {
+                    for (int j = (int)PureTiles[k].Y - 16; j <= (int)PureTiles[k].Y + 16; j++)
+                    {
+                        Tile target = Main.tile[i, j];
+                        if (target != null)
+                        {
+                            if (target.type == (ushort)mod.TileType("StonePure")) { target.type = TileID.Stone; }
+                            if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); }
+                        }
+                    }
+                }
+            }
+            PureTiles.Clear();
+            PureTiles = new List<Vector2> { };
+        }   
     }
 }

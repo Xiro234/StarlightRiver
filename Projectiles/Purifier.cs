@@ -29,11 +29,16 @@ namespace spritersguildwip.Projectiles
             Tile target = Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16];
             if (Main.rand.Next(5) == 0)
             {
-                Dust.NewDust(projectile.position, 32, 32, mod.DustType("Gold"));
+                Dust.NewDust(projectile.position, 32, 32, mod.DustType("Purify"),0,0,0,default, 2.5f);
             }
 
             if(projectile.timeLeft >= 555)
             {
+                if (Main.rand.Next(5) == 0)
+                {
+                    Dust.NewDust(projectile.Center, 1, 1, mod.DustType("Purify"), 0, 0, 0, default, 3.5f);
+                }
+
                 if (target.type == TileID.Stone) { target.type = (ushort)mod.TileType("StonePure"); }
                 if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); }
 
