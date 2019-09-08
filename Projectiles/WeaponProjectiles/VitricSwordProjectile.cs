@@ -24,7 +24,7 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(SoundID.Item27); //fart noise is id 16 lol
+            Main.PlaySound(SoundID.Item27);
         }
 
         float f = 1;
