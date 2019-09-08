@@ -57,8 +57,7 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
                         132
                 });
                 Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 160, default(Color), 1f)];
-                dust.velocity = new Vector2(0, 1f);
-                dust.velocity += new Vector2(Main.rand.NextFloat(0.8f, 1.6f), Main.rand.NextFloat(0.8f, 1.6f));
+                dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
                 dust.velocity = dust.velocity / 4f;
                 dust.noGravity = true;
                 dust.scale = 0.9f;
@@ -108,10 +107,9 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
                         132
                 });
                 Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 160, default(Color), 1f)];
-                dust.velocity += new Vector2(Main.rand.NextFloat(0.8f, 1.6f), Main.rand.NextFloat(0.8f, 1.6f));
+                dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
                 dust.velocity = dust.velocity / 4f;
                 dust.noGravity = true;
-                dust.scale = 0.9f;
                 dust.scale = 0.2f;
                 dust.fadeIn = 1.1f;
 
@@ -173,8 +171,7 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
                         132
                 });
                 Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 160, default(Color), 1f)];
-                dust.velocity = new Vector2(0, 1f);
-                dust.velocity += new Vector2(Main.rand.NextFloat(0.8f, 1.6f), Main.rand.NextFloat(0.8f, 1.6f));
+                dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
                 dust.velocity = dust.velocity / 4f;
                 dust.noGravity = true;
                 dust.scale = 0.9f;

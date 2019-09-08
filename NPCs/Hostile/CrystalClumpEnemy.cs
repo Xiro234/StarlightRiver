@@ -126,7 +126,6 @@ namespace spritersguildwip.NPCs.Hostile
         public override void FindFrame(int frameHeight) => npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
 
     }
-    /*
     class CrystalClumpEnemy2 : ModNPC
     {
         public override void SetStaticDefaults()
@@ -235,9 +234,10 @@ namespace spritersguildwip.NPCs.Hostile
                             if (Main.rand.Next(2) == 0)
                                 SpawnDust(3);
                     SuckTime++;
+                    return;
                 }
             }
-            else if (HasSucked)
+            if (HasSucked)
             {
                 npc.velocity *= 1.01f;
                 ShootTime += 2;
@@ -246,15 +246,5 @@ namespace spritersguildwip.NPCs.Hostile
             }
         }
         public override void FindFrame(int frameHeight) => npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            AbilityHandler mp = target.GetModPlayer<AbilityHandler>();
-            if (mp.dashcd == 1)
-            {
-                target.immune = true;
-                target.immuneTime = 5;
-            }
-        }
     }
-        */
 }

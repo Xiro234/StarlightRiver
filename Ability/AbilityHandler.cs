@@ -79,7 +79,7 @@ namespace spritersguildwip.Ability
         }
         public override void ResetEffects()
         {
-
+            staminamax = 3;
         }
         public override void PreUpdate()
         {
