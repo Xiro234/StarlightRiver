@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace spritersguildwip.Items
@@ -49,14 +50,10 @@ namespace spritersguildwip.Items
     {
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 20;
+            item.width = 16;
+            item.height = 16;
             item.useStyle = 1;
-            item.useAnimation = 8;
-            item.useTime = 8;
-            item.shootSpeed = 8f;
-            item.rare = 1;
-            item.noMelee = true;
+            item.rare = 3;
             item.autoReuse = false;
             item.noUseGraphic = true;
         }
@@ -64,6 +61,7 @@ namespace spritersguildwip.Items
         {
             DisplayName.SetDefault("Desert Wisp");
             Tooltip.SetDefault("Don't be cruel to it!");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 6));
         }
     }
 }

@@ -1,3 +1,3 @@
-displayName = bruh simulator easy terraria 1.3.5.2 item fram dupelication glitch
+displayName = Stardust River
 author = TSG
 version = 0.1

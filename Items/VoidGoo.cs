@@ -2,7 +2,7 @@ using Terraria.ModLoader;
 
 namespace spritersguildwip.Items
 {
-    public class voidgoo : ModItem
+    public class VoidGoo : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -14,7 +14,7 @@ namespace spritersguildwip.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = false;
-            drop = mod.ItemType("voidgoo");
+            drop = mod.ItemType("VoidGoo");
             dustType = mod.DustType("Darkness");
             AddMapEntry(new Color(0, 0, 0));
             
