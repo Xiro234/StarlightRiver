@@ -13,7 +13,7 @@ namespace spritersguildwip.NPCs.Pickups
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("[PH] Void Dash Ability");
+            DisplayName.SetDefault("Zzelera's Cloak");
         }
         public override void SetDefaults()
         {

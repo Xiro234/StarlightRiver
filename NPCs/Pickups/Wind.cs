@@ -13,7 +13,7 @@ namespace spritersguildwip.NPCs.Pickups
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Forbidden winds");
+            DisplayName.SetDefault("Forbidden Winds");
         }
         public override void SetDefaults()
         {
