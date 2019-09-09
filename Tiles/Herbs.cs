@@ -32,12 +32,13 @@ namespace spritersguildwip.Tiles
         public override void SetDefaults()
         {
             Main.tileCut[Type] = true;
-            Main.tileNoFail[Type] = true;
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.None, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.newTile.RandomStyleRange = 3;
-            TileObjectData.newTile.AnchorValidTiles = new int[]
+            TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
                 mod.TileType<ForestIvy>(),
                 mod.TileType<Planter>()
