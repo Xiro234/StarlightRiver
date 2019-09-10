@@ -35,8 +35,8 @@ namespace spritersguildwip.Items.Debug
     {
         public override void SetDefaults()
         {
-            item.width = 64;
-            item.height = 64;
+            item.width = 512;
+            item.height = 512;
             item.damage = 1000;
             item.useStyle = 1;
             item.useAnimation = 10;
