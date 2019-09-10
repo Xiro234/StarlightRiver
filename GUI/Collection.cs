@@ -48,7 +48,7 @@ namespace spritersguildwip.GUI
             charm.ImageScale = 0;
             back.Append(charm);
 
-            stamina.Left.Set(360, 0);
+            stamina.Left.Set(340, 0);
             stamina.Top.Set(20, 0);
             stamina.Width.Set(22, 0f);
             stamina.Height.Set(22, 0f);
@@ -92,7 +92,7 @@ namespace spritersguildwip.GUI
 
             //-------------------------
 
-            Name.Left.Set(190, 0);
+            Name.Left.Set(170, 0);
             Name.Top.Set(280, 0);
             base.Append(Name);
 
