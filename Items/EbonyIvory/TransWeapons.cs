@@ -49,7 +49,6 @@ namespace spritersguildwip.Items.EbonyIvory
                 item.autoReuse = false;
                 item.useTime = 18;
                 item.useAnimation = 18;
-                item.reuseDelay = 0;
             }
             else
             {
@@ -59,9 +58,8 @@ namespace spritersguildwip.Items.EbonyIvory
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73); //fork
                     transCharge = 0;
                     item.autoReuse = true;
-                    item.useTime = 8;
-                    item.useAnimation = 48;
-                    item.reuseDelay = 2;
+                    item.useTime = 4;
+                    item.useAnimation = 24;
                 }
                 else
                 {
