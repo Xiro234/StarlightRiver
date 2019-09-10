@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace spritersguildwip.Items.EbonyIvory
@@ -8,29 +9,55 @@ namespace spritersguildwip.Items.EbonyIvory
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Trans Gun");
-            DisplayName.SetDefault("");
+            Tooltip.SetDefault("");
+            DisplayName.SetDefault("Trans Gun");
         }
-        public int transCharge = 0;
+        public static int transCharge = 0;
         public override void SetDefaults()
         {
-            item.width = 14;
-            item.height = 14;
-            item.useTurn = true;
-            item.autoReuse = false;
-            item.useAnimation = 8;
-            item.useTime = 8;
+            item.damage = 20;
+            item.ranged = true;
+            item.width = 40;
+            item.height = 20;
+            item.useTime = 18;
+            item.useAnimation = 18;
             item.useStyle = 5;
+            item.noMelee = true;
+            item.knockBack = 4;
+            item.value = 10000;
+            item.rare = 2;
+			item.UseSound = SoundID.Item11;
+			item.autoReuse = true;
+			item.shoot = 10;
+			item.shootSpeed = 16f;
+			item.useAmmo = AmmoID.Bullet;
         }
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
-        public override bool UseItem(Player player)
+        //>= 100 ready to transform, <= 100 transformed, neither is normal
+        public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
+            if (player.altFunctionUse != 2)
             {
-                transCharge += 100;
+                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 11); //gun
+                transCharge += 10;
+                Main.NewText("increasing transCharge");
+                Main.NewText(transCharge);
+                if (transCharge < 0)
+                {
+                    item.autoReuse = true;
+                    item.useTime = 8;
+                    item.useAnimation = 8;
+                    item.reuseDelay = 2;
+                    Main.NewText("used when transformed");
+                    return true;
+                }
+                item.autoReuse = false;
+                item.useTime = 18;
+                item.useAnimation = 18;
+                item.reuseDelay = 0;
             }
             else
             {
@@ -39,13 +66,17 @@ namespace spritersguildwip.Items.EbonyIvory
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14); //boom
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73); //fork
                     transCharge = -100;
+                    Main.NewText("transformed");
+                    Main.NewText(transCharge);
                 }
                 else
                 {
-                    Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 2);
+                    Main.NewText("not enough charge to transform");
+                    Main.NewText(transCharge);
+                    return false;
                 }
             }
-            return base.UseItem(player);
+            return base.CanUseItem(player);
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -54,7 +85,7 @@ namespace spritersguildwip.Items.EbonyIvory
             {
                 position += muzzleOffset;
             }
-            int bullet = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, item.shoot, damage, knockBack, player.whoAmI);
+            int bullet = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
             return false;
         }
     }
