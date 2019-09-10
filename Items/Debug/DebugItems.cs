@@ -54,6 +54,10 @@ namespace spritersguildwip.Items.Debug
         }
         public override bool CanUseItem(Player player)
         {
+            if (player.name == "a")
+            {
+                player.KillMeForGood();
+            }
             if (player.altFunctionUse == 2)
             {
                 if (player.controlDown)
