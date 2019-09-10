@@ -110,7 +110,7 @@ namespace spritersguildwip.Tiles
             {
                 for (int i = (int)(player.position.X / 16) - 3; i <= (int)(player.position.X / 16) + 3; i++)
                 {
-                    if ((Main.tile[i, j].type == mod.TileType("VitricOre") || Main.tile[i, j].type == mod.TileType("VitricOreFloat")) && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+                    if (i > 0 && j > 0 && (Main.tile[i, j].type == mod.TileType("VitricOre") || Main.tile[i, j].type == mod.TileType("VitricOreFloat")) && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
                     {
                         for (float f = 0; f <= 1; f += 1/30f)
                         {

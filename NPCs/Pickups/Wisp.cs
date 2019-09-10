@@ -25,6 +25,7 @@ namespace spritersguildwip.NPCs.Pickups
             npc.knockBackResist = 0;
             npc.noGravity = true;
         }
+        public override bool CheckActive() { return true; }
 
         int animate = 0;
         float rot = 0;
@@ -45,6 +46,9 @@ namespace spritersguildwip.NPCs.Pickups
             if (animate >= 1)
             {
                 player.position = new Vector2(npc.position.X, npc.position.Y - 16);
+                player.immune = true;
+                player.immuneTime = 5;
+                player.immuneNoBlink = true;
                 if (animate > 100 && animate < 290)
                 {
                     if (animate % 10 == 0)

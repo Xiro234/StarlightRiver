@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using spritersguildwip.Ability;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -60,6 +62,56 @@ namespace spritersguildwip.Tiles
                     Dust.NewDust(new Vector2((i * 16) - 1, (j - 1) * 16), 12, 16, mod.DustType("Darkness"));
                 }              
             }
+        }
+    }
+
+    class VoidTorch2 : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLavaDeath[Type] = false;
+            Main.tileFrameImportant[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
+            TileObjectData.newTile.AnchorWall = true;
+            TileObjectData.addTile(Type);
+            AddMapEntry(new Color(45, 50, 30));
+            dustType = mod.DustType("Darkness");
+            disableSmartCursor = true;
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidTorch2Item"));
+        }
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            {
+                for (int k = 0; k <= 6; k++)
+                {
+                    Dust.NewDust(new Vector2((i * 16) + 5, (j - 0.8f) * 16), 18, 14, mod.DustType("Darkness"));
+                }
+            }
+        }
+    }
+
+    class VoidPillarB : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLavaDeath[Type] = false;
+            Main.tileFrameImportant[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.addTile(Type);
+            AddMapEntry(new Color(45, 50, 30));
+            dustType = mod.DustType("Darkness");
+            disableSmartCursor = true;
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarBItem"));
         }
     }
 }

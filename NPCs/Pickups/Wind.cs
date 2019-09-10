@@ -26,6 +26,8 @@ namespace spritersguildwip.NPCs.Pickups
             npc.noGravity = true;
         }
 
+        public override bool CheckActive() { return true; }
+
         int animate = 0;
         public override void AI()
         {
@@ -43,6 +45,9 @@ namespace spritersguildwip.NPCs.Pickups
             if (animate >= 1)
             {
                 player.position = new Vector2(npc.position.X, npc.position.Y - 16);
+                player.immune = true;
+                player.immuneTime = 5;
+                player.immuneNoBlink = true;
                 if (animate > 100 && animate < 290)
                 {
                     float rot = Main.rand.NextFloat(0, (float)Math.PI * 2);
