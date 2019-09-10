@@ -16,8 +16,11 @@ using spritersguildwip.Projectiles;
 
 namespace spritersguildwip
 {
+    
     public partial class LegendWorld : ModWorld
     {
+        public Vector2 PureSpawnPoint;
+
         public static List<Vector2> PureTiles = new List<Vector2> { };
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
@@ -137,44 +140,90 @@ namespace spritersguildwip
         public override void PostWorldGen()
         {
             // Top-Left Position
-            Vector2 startpoint = new Vector2(Main.spawnTileX, Main.spawnTileY - 30);
+            Vector2 PureAltarSP = new Vector2(Main.spawnTileX, Main.spawnTileY - 50);
+            PureSpawnPoint = PureAltarSP + new Vector2(7, 18);
 
             // Slopes in order: full=0, BL, BR, TL, TR, half
             // Example: bottom-left thick slope is 001X_XXXX
             const byte a = 32, b = 33, c = 34, d = 35, e = 36;
 
-            byte[][] altar = new byte[][] //Tiles
+            byte[][] PureAltar = new byte[][] //Tiles
             {
-                new byte[] { 1, 3, 3, 3, 3, 0, 0, 0, 3, 3, 3, 3, 1 },
-                new byte[] { 1, 3, 2, 2, 3, 0, 0, 0, 3, 2, 2, 3, 1 },
-                new byte[] { 1, 3, 1, 2, 3, 0, 0, 0, 3, 2, 1, 3, 1 },
-                new byte[] { 1, 3, 1, 2, 3, 0, 0, 0, 3, 2, 1, 3, 1 },
-                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
-                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
-                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
-                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
-                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1 },
-                new byte[] { 1, 1, 3, 3, 3, 0, 0, 0, 3, 3, 3, 1, 1 },
+                new byte[] { 1, 3, 3, 3, 3, 0, 0, 0, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 3, 2, 2, 3, 0, 0, 0, 3, 2, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 3, 1, 2, 3, 0, 0, 0, 3, 2, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 3, 1, 2, 3, 0, 0, 0, 3, 2, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+                new byte[] { 1, 1, 1, 2, 3, 0, 0, 0, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+                new byte[] { 1, 1, 3, 3, 3, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
+                new byte[] { 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3 },
+                new byte[] { 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3 },
+                new byte[] { 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
             };
 
-            ushort[][] altarWalls = new ushort[][] //Walls
+            byte[][] PureAltarWalls = new byte[][] //Walls
             {
-                /*new ushort[] { c, c, c, c, c },
-                new ushort[] { c, c, c, c, c },
-                new ushort[] { c, c, c, c, c },
-                new ushort[] { c, c, c, c, c },
-                new ushort[] { c, c, c, c, c }*/
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 1, 1, 1, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                new byte[] { 8, 8, 8, 8, 7, 7, 7, 7, 7, 8, 8, 8, 8, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
+                new byte[] { 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 },
             };
-            
 
-            for (int y = 0; y < altar.Length; y++)
+            //---------------------------------------------------------------------------------------------------------
+
+            for (int y = 0; y < PureAltar.Length; y++)
             {
-                for (int x = 0; x < altar[0].Length; x++)
+                for (int x = 0; x < PureAltar[0].Length; x++)
                 {
 
                     ushort placeType = TileID.Dirt;
+                    ushort placeWall = WallID.Dirt;
 
-                    switch (altar[y][x] & 0b0001_1111)
+                    switch (PureAltar[y][x] & 0b0001_1111)
                     {
                         //This is your block pallete
                         case 1: placeType = TileID.Ash; break;
@@ -182,20 +231,45 @@ namespace spritersguildwip
                         case 3: placeType = (ushort)mod.TileType("Void2"); break;                       
                     }
 
-                    WorldGen.PlaceTile((int)startpoint.X + x, (int)startpoint.Y + y, placeType, false, true);
-
-                    if((altar[y][x] & 0b0001_1111) == 0)
+                    if ((PureAltar[y][x] & 0b0001_1111) < 7)
                     {
-                        Main.tile[(int)startpoint.X + x, (int)startpoint.Y + y].active(false);
+                        WorldGen.PlaceTile((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, placeType, false, true);
                     }
-                    //WorldGen.PlaceWall((int)startpoint.X + x, (int)startpoint.Y + y, altarWalls[y][x], false);
 
-                    if (altar[y][x] >> 5 > 0)
+                    if((PureAltar[y][x] & 0b0001_1111) >= 7)//multitiles
                     {
-                        if (altar[y][x] >> 5 == 4)
-                            Main.tile[(int)startpoint.X + x, (int)startpoint.Y + y].halfBrick(true);
+                        if((PureAltar[y][x] & 0b0001_1111) == 7){ WorldGen.Place3x2((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, (ushort)mod.TileType("VoidPillarB")); }
+                    }
+
+                    if((PureAltar[y][x] & 0b0001_1111) == 0)
+                    {
+                        Main.tile[(int)PureAltarSP.X + x, (int)PureAltarSP.Y + y].active(false);
+                    }
+
+                    //---------------------------------------------------------------------------------------------------------
+
+                    switch (PureAltarWalls[y][x] & 0b0001_1111)
+                    {
+                        //This is your wall pallete
+                        case 1: placeWall = WallID.GrayBrick; break;
+                        case 2: placeWall = WallID.ObsidianBrick; break;
+                    }
+
+                    WorldGen.PlaceWall((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, placeWall, false);
+
+                    if ((PureAltarWalls[y][x] & 0b0001_1111) == 0)
+                    {
+                        WorldGen.KillWall((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y);
+                    }
+
+                    //---------------------------------------------------------------------------------------------------------
+
+                    if (PureAltar[y][x] >> 5 > 0)
+                    {
+                        if (PureAltar[y][x] >> 5 == 4)
+                            Main.tile[(int)PureAltarSP.X + x, (int)PureAltarSP.Y + y].halfBrick(true);
                         else
-                            WorldGen.SlopeTile((int)startpoint.X + x, (int)startpoint.Y + y, altar[y][x] >> 5);
+                            WorldGen.SlopeTile((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, PureAltar[y][x] >> 5);
                     }
                 }
             }           
@@ -207,17 +281,25 @@ namespace spritersguildwip
             {
                 PureTiles.Clear();
             }
+            if (!Main.npc.Any(n => n.type == mod.NPCType("Purity") && n.active == true))
+            {
+                NPC.NewNPC((int)PureSpawnPoint.X * 16, (int)PureSpawnPoint.Y * 16, mod.NPCType("Purity"));
+            }
         }
         public override TagCompound Save()
         {
             return new TagCompound
             {
                 [nameof(PureTiles)] = PureTiles,
+                [nameof(PureSpawnPoint)] = PureSpawnPoint
             };
         }
         public override void Load(TagCompound tag)
         {
             PureTiles = (List<Vector2>)tag.GetList<Vector2>(nameof(PureTiles));
+            PureSpawnPoint = tag.Get<Vector2>(nameof(PureSpawnPoint));
+
+
             for (int k = 0; k <= PureTiles.Count - 1;  k++)
             {
                 for(int i = (int)PureTiles[k].X - 16; i <= (int)PureTiles[k].X + 16; i++)
