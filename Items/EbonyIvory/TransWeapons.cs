@@ -26,7 +26,6 @@ namespace spritersguildwip.Items.EbonyIvory
             item.knockBack = 4;
             item.value = 10000;
             item.rare = 2;
-			item.UseSound = SoundID.Item11;
 			item.autoReuse = true;
 			item.shoot = 10;
 			item.shootSpeed = 16f;
@@ -36,23 +35,16 @@ namespace spritersguildwip.Items.EbonyIvory
         {
             return true;
         }
-        //>= 100 ready to transform, <= 100 transformed, neither is normal
+        //>= 100 ready to transform, <= -100 transformed, neither is normal
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse != 2)
             {
-                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 11); //gun
-                transCharge += 10;
-                Main.NewText("increasing transCharge");
-                Main.NewText(transCharge);
-                if (transCharge < 0)
+                transCharge += 1;
+                if (transCharge >= 6)
                 {
-                    item.autoReuse = true;
-                    item.useTime = 8;
-                    item.useAnimation = 8;
-                    item.reuseDelay = 2;
-                    Main.NewText("used when transformed");
-                    return true;
+                    transCharge = 6;
+                    Main.NewText("Whip and NaeNae ready");
                 }
                 item.autoReuse = false;
                 item.useTime = 18;
@@ -61,18 +53,18 @@ namespace spritersguildwip.Items.EbonyIvory
             }
             else
             {
-                if (transCharge >= 100)
+                item.autoReuse = true;
+                item.useTime = 8;
+                item.useAnimation = 48;
+                item.reuseDelay = 2;
+                if (transCharge >= 6)
                 {
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14); //boom
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73); //fork
-                    transCharge = -100;
-                    Main.NewText("transformed");
-                    Main.NewText(transCharge);
+                    transCharge = 0;
                 }
                 else
                 {
-                    Main.NewText("not enough charge to transform");
-                    Main.NewText(transCharge);
                     return false;
                 }
             }
@@ -85,6 +77,7 @@ namespace spritersguildwip.Items.EbonyIvory
             {
                 position += muzzleOffset;
             }
+            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 11); //gun
             int bullet = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
             return false;
         }
