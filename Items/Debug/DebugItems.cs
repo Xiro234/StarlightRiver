@@ -161,5 +161,27 @@ namespace spritersguildwip.Items.Debug
             return true;
         }
     }
+    public class GrassJungleEvil : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Every Villan Is Lemons");
+            DisplayName.SetDefault("Evil");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 14;
+            item.height = 14;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createTile = mod.TileType("GrassJungleEvil");
+        }
+    }
 }
 

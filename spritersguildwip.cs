@@ -41,6 +41,12 @@ namespace spritersguildwip
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/VoidPre");
                     priority = MusicPriority.BossLow;
                 }
+
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleEvil)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleEvil");
+                    priority = MusicPriority.BiomeHigh;
+                }
             }
             return;           
         }
