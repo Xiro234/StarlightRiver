@@ -42,8 +42,11 @@ namespace spritersguildwip.NPCs.Boss
             npc.lifeMax = (int)(npc.lifeMax * 0.625f * bossLifeScale);
             npc.damage = (int)(npc.damage * 0.6f);
         }
+        Vector2 direction = Vector2.Zero;
+        Vector2[] spawns = new Vector2[6];
         public override void AI()
-        {           
+        {
+            Main.NewText(npc.localAI[0] +"/"+ npc.localAI[1] + "/" + npc.localAI[2] + "/" + npc.localAI[3]);
             switch (npc.localAI[0])
             {
                 case 0:
@@ -51,9 +54,8 @@ namespace spritersguildwip.NPCs.Boss
                     npc.localAI[1]++;
                     if(npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
                     {
-                        float r = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                        float h = Main.rand.NextFloat(16, 22);
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"),0,(float)Math.Cos(r) * h,(float)Math.Sin(r) * h);
+                        float r = (float)(Math.PI * 2) / (2 + Main.ActivePlayersCount) * (npc.localAI[1] / 10);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"),0,(float)Math.Cos(r) * 20,(float)Math.Sin(r) * 20);
                     }
                     if (npc.localAI[1] >= 960)
                     {
@@ -85,19 +87,103 @@ namespace spritersguildwip.NPCs.Boss
                         }
                     }
                     npc.localAI[2] = 0;
+                    npc.localAI[3] = 0;
                     npc.localAI[0] = 2;
                     break;
 
                 case 2:
-                    //normal AI
-                    npc.immortal = false;
 
                     npc.TargetClosest(true);
-                    npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 5;
+                    npc.immortal = false;
+
+                    npc.localAI[3]++;
+                    if (npc.localAI[3] == 180)
+                    {
+                        npc.localAI[2] = Main.rand.Next(2);
+                    }
+                    if (npc.localAI[3] > 180)
+                    {
+                        switch (npc.localAI[2])
+                        {
+                            case 0:
+                                if (npc.localAI[3] == 181)
+                                {
+                                    npc.netUpdate = true;
+                                    direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
+                                }
+                                if(npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
+                                {
+                                    Dust.NewDust(npc.Center + (direction.RotatedBy(1.57) * 0.25f * (npc.localAI[3] - 180)), 1, 1, mod.DustType("Air"),direction.X * 15, direction.Y * 15, 0, default, (60-(npc.localAI[3] - 180)) / 30 );
+                                    Dust.NewDust(npc.Center - (direction.RotatedBy(1.57) * 0.25f * (npc.localAI[3] - 180)), 1, 1, mod.DustType("Air"), direction.X * 15, direction.Y * 15, 0, default, (60-(npc.localAI[3] - 180)) / 30);
+                                }
+                                if(npc.localAI[3] >= 261 && npc.localAI[3] <= 320)
+                                {
+                                    npc.velocity += direction * 0.5f;
+                                }
+                                if (npc.localAI[3] >= 321 && npc.localAI[3] <= 330)
+                                {
+                                    npc.velocity = Vector2.Zero;
+                                }
+                                if (npc.localAI[3] >= 331 && npc.localAI[3] <= 350)
+                                {
+                                    npc.velocity += direction * -.38f;
+                                }
+                                if (npc.localAI[3] >= 351 && npc.localAI[3] <= 450)
+                                {
+                                    npc.velocity = direction * -8.34f;
+                                }
+                                if(npc.localAI[3] == 451)
+                                {
+                                    npc.velocity = Vector2.Zero;
+                                    direction = Vector2.Zero;
+                                    npc.localAI[3] = 0;
+                                    npc.localAI[2] = 0;
+                                }
+                                break;
+
+                            case 1:
+                                if (npc.localAI[3] == 181)
+                                {
+                                    npc.netUpdate = true;
+                                    spawns[0] = new Vector2(Main.player[npc.target].Center.X, npc.Center.Y - 500);
+                                    for (int k = 1; k <= 5; k++)
+                                    {
+                                        spawns[k] = new Vector2(npc.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 500);
+                                    }                                    
+                                }
+                                if (npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
+                                {
+                                    foreach(Vector2 spawn in spawns)
+                                    {
+                                        Dust.NewDustPerfect(spawn + new Vector2(Main.rand.Next(-4, 4), Main.rand.Next(-32, 32)), mod.DustType("Air"), new Vector2(0 , 8), 0, default, (60 - (npc.localAI[3] - 180)) / 15);
+                                    }                                  
+                                }
+                                if (npc.localAI[3] == 261)
+                                {
+                                    foreach (Vector2 spawn in spawns)
+                                    {
+                                        Projectile.NewProjectile(spawn, new Vector2(0, Main.rand.Next(6,12)), 2/*mod.ProjectileType("Crystal1")*/, 20, 0f);
+                                    }
+                                    spawns = new Vector2[6];
+                                    npc.localAI[3] = 0;
+                                    npc.localAI[2] = 0;
+                                }
+                                break;
+                            case 2:
+                                npc.localAI[3] = 0;
+                                npc.localAI[2] = 0;
+                                break;
+                        }
+                    }
+                    
+
+                    
 
                     if(npc.life <= npc.lifeMax / 2)
                     {
                         npc.localAI[1] = 0;
+                        npc.localAI[2] = 0;
+                        npc.localAI[3] = 0;
                         npc.localAI[0] = 3;
                     }
                     break;
@@ -108,9 +194,8 @@ namespace spritersguildwip.NPCs.Boss
                     npc.localAI[1]++;
                     if (npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
                     {
-                        float r = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                        float h = Main.rand.NextFloat(16, 22);
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"), 0, (float)Math.Cos(r) * h, (float)Math.Sin(r) * h);
+                        float r = (float)(Math.PI * 2) / (2 + Main.ActivePlayersCount) * (npc.localAI[1] / 10);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"), 0, (float)Math.Cos(r) * 20, (float)Math.Sin(r) * 20);
                     }
                     if (npc.localAI[1] >= 600)
                     {
@@ -243,7 +328,7 @@ namespace spritersguildwip.NPCs.Boss
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(glow, npc.position - Main.screenPosition, new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime));
+            spriteBatch.Draw(glow, npc.position - Main.screenPosition + new Vector2(0, 3), new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime));
         }
     }
 
