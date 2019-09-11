@@ -24,8 +24,8 @@ namespace spritersguildwip.NPCs.Boss
             npc.damage = 30;
             npc.defense = 10;
             npc.knockBackResist = 0f;
-            npc.width = 100;
-            npc.height = 100;
+            npc.width = 150;
+            npc.height = 150;
             npc.value = Item.buyPrice(0, 20, 0, 0);
             npc.npcSlots = 15f;
             npc.boss = true;
@@ -99,13 +99,16 @@ namespace spritersguildwip.NPCs.Boss
                     npc.localAI[3]++;
                     if (npc.localAI[3] == 180)
                     {
-                        npc.localAI[2] = Main.rand.Next(2);
+                        npc.localAI[2] = Main.rand.Next(3);
                     }
                     if (npc.localAI[3] > 180)
                     {
                         switch (npc.localAI[2])
                         {
                             case 0:
+
+                                Dust.NewDust(npc.position + new Vector2(npc.width / 4, npc.height / 4), npc.width / 2, npc.height / 2, mod.DustType("Air"));
+                                
                                 if (npc.localAI[3] == 181)
                                 {
                                     npc.netUpdate = true;
@@ -113,16 +116,26 @@ namespace spritersguildwip.NPCs.Boss
                                 }
                                 if(npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
                                 {
-                                    Dust.NewDust(npc.Center + (direction.RotatedBy(1.57) * 0.25f * (npc.localAI[3] - 180)), 1, 1, mod.DustType("Air"),direction.X * 15, direction.Y * 15, 0, default, (60-(npc.localAI[3] - 180)) / 30 );
-                                    Dust.NewDust(npc.Center - (direction.RotatedBy(1.57) * 0.25f * (npc.localAI[3] - 180)), 1, 1, mod.DustType("Air"), direction.X * 15, direction.Y * 15, 0, default, (60-(npc.localAI[3] - 180)) / 30);
+                                    int r = Main.rand.Next(5, 7);
+                                    Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(direction.X * r, direction.Y * r), 0, default, (60-(npc.localAI[3] - 180)) / 30 );                             
+                                }
+                                if(npc.localAI[3] >= 181 && npc.localAI[3] <= 260)
+                                {
+                                    npc.rotation += 0.1f;
                                 }
                                 if(npc.localAI[3] >= 261 && npc.localAI[3] <= 320)
                                 {
                                     npc.velocity += direction * 0.5f;
+                                    npc.rotation += 0.3f;
+                                    for (int k = 0; k <= 2; k++)
+                                    {
+                                        Dust.NewDust(npc.position + new Vector2(npc.width / 4, npc.height / 4), npc.width / 2, npc.height / 2, mod.DustType("Air"));
+                                    }
                                 }
                                 if (npc.localAI[3] >= 321 && npc.localAI[3] <= 330)
                                 {
                                     npc.velocity = Vector2.Zero;
+                                    npc.rotation = 0;
                                 }
                                 if (npc.localAI[3] >= 331 && npc.localAI[3] <= 350)
                                 {
@@ -145,10 +158,10 @@ namespace spritersguildwip.NPCs.Boss
                                 if (npc.localAI[3] == 181)
                                 {
                                     npc.netUpdate = true;
-                                    spawns[0] = new Vector2(Main.player[npc.target].Center.X, npc.Center.Y - 500);
+                                    spawns[0] = new Vector2(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 750);
                                     for (int k = 1; k <= 5; k++)
                                     {
-                                        spawns[k] = new Vector2(npc.Center.X + Main.rand.Next(-1000, 1000), npc.Center.Y - 500);
+                                        spawns[k] = new Vector2(npc.Center.X + Main.rand.Next(-1000, 1000), Main.player[npc.target].Center.Y - 750);
                                     }                                    
                                 }
                                 if (npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
@@ -170,8 +183,17 @@ namespace spritersguildwip.NPCs.Boss
                                 }
                                 break;
                             case 2:
-                                npc.localAI[3] = 0;
-                                npc.localAI[2] = 0;
+                                float q = 3.14f + (npc.localAI[3] - 180f) / 240f * 6.28f;
+                                if (npc.localAI[3] % 2 == 0)
+                                {
+                                    Projectile.NewProjectile(npc.Center, new Vector2((float)Math.Cos(q) * 7, (float)Math.Sin(q) * 7), 132, 20, 0);
+                                }
+                                
+                                if(npc.localAI[3] >= 420)
+                                {
+                                    npc.localAI[3] = 0;
+                                    npc.localAI[2] = 0;
+                                }
                                 break;
                         }
                     }
