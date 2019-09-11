@@ -57,9 +57,9 @@ namespace spritersguildwip.GUI
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
-                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(600) == 0)
+                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1000) == 0)
                         {
-                            EvilDust dus = new EvilDust(ModContent.GetTexture("spritersguildwip/GUI/Corrupt"), new Vector2(k, Main.screenHeight), new Vector2(0, -4));
+                            EvilDust dus = new EvilDust(ModContent.GetTexture("spritersguildwip/GUI/Corrupt"), new Vector2(k, Main.screenHeight), new Vector2(0, -1.4f));
                             Bootlegdust.Add(dus);
                         }
                     }
@@ -90,17 +90,17 @@ namespace spritersguildwip.GUI
     public class EvilDust : BootlegDust
     {
         public EvilDust(Texture2D texture, Vector2 position, Vector2 velocity) :
-            base(texture, position, velocity, Color.White, 2f, 210)
+            base(texture, position, velocity, Color.White, 2f, 550)
         {
         }
 
         public override void Update()
         {
-            col *= 0.998f;
+            col *= 0.999999978f;
             pos += vel;
-            scl *= 0.99f;
+            scl *= 0.996f;
             time--;
-            pos.X += Main.rand.Next(-1, 2);
+            pos.X += (float)Math.Sin((float)(time / 550f * 12.56f));
         }
     }
 }
