@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -14,7 +14,7 @@ using Terraria.ObjectData;
 using Terraria.ID;
 
 
-namespace spritersguildwip.Tiles
+namespace StarlightRiver.Tiles
 {
     class Oven : ModTile
     {

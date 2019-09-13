@@ -12,7 +12,7 @@ using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using System.Linq;
 
-namespace spritersguildwip.Ability
+namespace StarlightRiver.Ability
 {
     class AbilityHandler : ModPlayer
     {
@@ -47,23 +47,23 @@ namespace spritersguildwip.Ability
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {          
-            if (spritersguildwip.Dash.JustPressed && unlock[0] == 1)
+            if (StarlightRiver.Dash.JustPressed && unlock[0] == 1)
             {
                 ability = new Dash();
             }
-            if (spritersguildwip.Float.JustPressed && unlock[1] == 1)
+            if (StarlightRiver.Float.JustPressed && unlock[1] == 1)
             {
                 ability = new Float();
             }
-            if (spritersguildwip.Purify.JustPressed && unlock[2] == 1)
+            if (StarlightRiver.Purify.JustPressed && unlock[2] == 1)
             {
                 ability = new Pure();
             }
-            if (spritersguildwip.Smash.JustPressed && unlock[3] == 1)
+            if (StarlightRiver.Smash.JustPressed && unlock[3] == 1)
             {
                 ability = new Smash();
             }
-            if (spritersguildwip.Superdash.JustPressed && unlock[4] == 1)
+            if (StarlightRiver.Superdash.JustPressed && unlock[4] == 1)
             {
                 ability = new Superdash();
             }

@@ -3,7 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Dusts
+namespace StarlightRiver.Dusts
 {
 	public class Air : ModDust
 	{

@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Projectiles.WeaponProjectiles
+namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     class VitricSwordProjectile : ModProjectile
     {

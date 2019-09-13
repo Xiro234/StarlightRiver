@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using spritersguildwip.Projectiles;
+using StarlightRiver.Projectiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +9,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Ability
+namespace StarlightRiver.Ability
 {
     class Pure : Ability
     {
-        Mod mod = spritersguildwip.Instance;
+        Mod mod = StarlightRiver.Instance;
         public Pure() : base(4)
         {
 

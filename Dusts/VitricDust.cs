@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Dusts
+namespace StarlightRiver.Dusts
 {
     public class Glass : ModDust
     {

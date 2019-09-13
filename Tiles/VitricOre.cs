@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace spritersguildwip.Tiles
+namespace StarlightRiver.Tiles
 {
     public class VitricOre : ModTile
     {
@@ -40,7 +40,7 @@ namespace spritersguildwip.Tiles
             num = fail ? 1 : 3;
         }
 
-        public static Texture2D glow = ModContent.GetTexture("spritersguildwip/Tiles/VitricOreGlow");
+        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/VitricOreGlow");
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
@@ -84,7 +84,7 @@ namespace spritersguildwip.Tiles
             num = fail ? 1 : 3;
         }
 
-        public static Texture2D glow = ModContent.GetTexture("spritersguildwip/Tiles/VitricOreFloatGlow");
+        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/VitricOreFloatGlow");
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);

@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using spritersguildwip.NPCs;
+using StarlightRiver.NPCs;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace spritersguildwip.Projectiles.WeaponProjectiles
+namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     public class VitricIcicleProjectile : ModProjectile
     {

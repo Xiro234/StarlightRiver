@@ -7,28 +7,28 @@ using Terraria.UI;
 using System;
 using Terraria.ID;
 using System.Linq;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using System.Collections.Generic;
 
-namespace spritersguildwip.GUI
+namespace StarlightRiver.GUI
 {
     public class Collection : UIState
     {
-        public UIImage back = new UIImage(ModContent.GetTexture("spritersguildwip/GUI/back"));
-        public UIImage charm = new UIImage(ModContent.GetTexture("spritersguildwip/GUI/charm"));
+        public UIImage back = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/back"));
+        public UIImage charm = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/charm"));
 
-        public UIImageButton wind = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
-        public UIImageButton wisp = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
-        public UIImageButton pure = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
-        public UIImageButton smash = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
-        public UIImageButton shadow = new UIImageButton(ModContent.GetTexture("spritersguildwip/GUI/blank"));
+        public UIImageButton wind = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
+        public UIImageButton wisp = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
+        public UIImageButton pure = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
+        public UIImageButton smash = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
+        public UIImageButton shadow = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
          
         public UIText Name = new UIText("ERROR", 1.2f);
         public UIText Line1 = new UIText("This is an error!", 0.9f);
         public UIText Line2 = new UIText("This is an error also!", 0.8f);
         public UIText Line3 = new UIText("This is, yet again, an error!", 0.8f);
 
-        public UIImage stamina = new UIImage(ModContent.GetTexture("spritersguildwip/GUI/Stamina"));
+        public UIImage stamina = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/Stamina"));
 
         public static bool visible = false;
         int select = 0;
@@ -125,11 +125,11 @@ namespace spritersguildwip.GUI
                 select = 0;
             }
 
-            if (mp.unlock[0] == 1) { wind.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab1")); } else { wind.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.unlock[1] == 1) { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab2")); } else { wisp.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.unlock[2] == 1) { pure.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab3")); } else { pure.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab4")); } else { smash.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
-            if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/ab5")); } else { shadow.SetImage(ModContent.GetTexture("spritersguildwip/GUI/blank")); }
+            if (mp.unlock[0] == 1) { wind.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab1")); } else { wind.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[1] == 1) { wisp.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab2")); } else { wisp.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[2] == 1) { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab3")); } else { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab4")); } else { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab5")); } else { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
 
             switch (select)
             {
@@ -174,7 +174,7 @@ namespace spritersguildwip.GUI
 
             if(Main.expertMode && visible)
             {
-                BootlegDust dus = new BootlegDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(78, 318) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
+                BootlegDust dus = new BootlegDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(78, 318) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
                 Bootlegdust.Add(dus);
             }
         }

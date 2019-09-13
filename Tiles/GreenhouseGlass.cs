@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 
-namespace spritersguildwip.Tiles
+namespace StarlightRiver.Tiles
 {
 	public class GreenhouseGlass : ModTile
 	{

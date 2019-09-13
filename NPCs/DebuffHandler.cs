@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.NPCs
+namespace StarlightRiver.NPCs
 {
     public class DebuffHandler : GlobalNPC
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.NPCs.Hostile
+namespace StarlightRiver.NPCs.Hostile
 {
     class CrystalSlime : ModNPC
     {
@@ -65,7 +65,7 @@ namespace spritersguildwip.NPCs.Hostile
             }
         }
 
-        public static Texture2D crystal = ModContent.GetTexture("spritersguildwip/NPCs/Hostile/Crystal");
+        public static Texture2D crystal = ModContent.GetTexture("StarlightRiver/NPCs/Hostile/Crystal");
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {

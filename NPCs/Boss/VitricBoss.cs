@@ -2,12 +2,12 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.NPCs.Boss
+namespace StarlightRiver.NPCs.Boss
 {
     class VitricBoss : ModNPC
     {
@@ -346,7 +346,7 @@ namespace spritersguildwip.NPCs.Boss
             npc.ai[1] *= 0.95f;
         }
 
-        public static Texture2D glow = ModContent.GetTexture("spritersguildwip/NPCs/Boss/CrystalGlow");
+        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/NPCs/Boss/CrystalGlow");
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -386,8 +386,8 @@ namespace spritersguildwip.NPCs.Boss
             }
         }
 
-        public static Texture2D glow = ModContent.GetTexture("spritersguildwip/NPCs/Boss/CrystalGlow2");
-        public static Texture2D red = ModContent.GetTexture("spritersguildwip/NPCs/Boss/HealGem2");
+        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/NPCs/Boss/CrystalGlow2");
+        public static Texture2D red = ModContent.GetTexture("StarlightRiver/NPCs/Boss/HealGem2");
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {

@@ -1,12 +1,12 @@
 ﻿using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ModLoader;
-using spritersguildwip.Items.Vitric;
+using StarlightRiver.Items.Vitric;
 
-namespace spritersguildwip.Tiles
+namespace StarlightRiver.Tiles
 {
     class GlassCrystal : ModTile
     {

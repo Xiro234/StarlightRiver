@@ -2,12 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.NPCs.Pickups
+namespace StarlightRiver.NPCs.Pickups
 {
     class Cloak : ModNPC
     {
@@ -80,7 +80,7 @@ namespace spritersguildwip.NPCs.Pickups
 
         }
 
-        public static Texture2D wind = ModContent.GetTexture("spritersguildwip/NPCs/Pickups/Wind1");
+        public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
 
         float timer = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Projectiles
+namespace StarlightRiver.Projectiles
 {
     class Clentam : ModProjectile
     {

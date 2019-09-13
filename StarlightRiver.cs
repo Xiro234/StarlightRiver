@@ -2,11 +2,11 @@ using Terraria;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using Terraria.UI;
-using spritersguildwip.GUI;
+using StarlightRiver.GUI;
 
-namespace spritersguildwip
+namespace StarlightRiver
 {
-    public class spritersguildwip : Mod
+    public class StarlightRiver : Mod
     {
         public Stamina stamina;
         public Collection collection;
@@ -21,8 +21,8 @@ namespace spritersguildwip
         public static ModHotKey Float;
         public static ModHotKey Purify;
 
-        public static spritersguildwip Instance { get; set; }
-        public spritersguildwip()
+        public static StarlightRiver Instance { get; set; }
+        public StarlightRiver()
         {
             Instance = this;
         }

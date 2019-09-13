@@ -1,2 +1,2 @@
-# Spriters' Guild WIP mod
-shits wack, yo
+# Starlight River mod
+https://discord.gg/snWQ3QE

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Dusts
+namespace StarlightRiver.Dusts
     {
     public class Corrupt : ModDust
     {

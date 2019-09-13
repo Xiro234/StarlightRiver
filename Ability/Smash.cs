@@ -8,11 +8,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Ability
+namespace StarlightRiver.Ability
 {
     class Smash : Ability
     {
-        Mod mod = spritersguildwip.Instance;
+        Mod mod = StarlightRiver.Instance;
         public Smash() : base(2) // stamina cost
         {
 

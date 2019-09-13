@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Crafting
+namespace StarlightRiver.Items.Crafting
 {
     public class Oven : ModItem
     {

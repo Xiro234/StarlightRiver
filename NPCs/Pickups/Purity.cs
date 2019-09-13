@@ -2,12 +2,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.NPCs.Pickups
+namespace StarlightRiver.NPCs.Pickups
 {
     class Purity : ModNPC
     {
@@ -80,7 +80,7 @@ namespace spritersguildwip.NPCs.Pickups
             
         }
 
-        public static Texture2D wind = ModContent.GetTexture("spritersguildwip/NPCs/Pickups/Wind1");
+        public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
 
         float timer = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -90,15 +90,15 @@ namespace spritersguildwip.NPCs.Pickups
                 //darkness
                 if (animate >= 400)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("spritersguildwip/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (100 - ((float)animate - 400)) / 100 - 0.1f));
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (100 - ((float)animate - 400)) / 100 - 0.1f));
                 }
                 if (animate >= 30 && animate < 400)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("spritersguildwip/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, 0.9f));
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, 0.9f));
                 }
                 if (animate < 30 && animate > 0)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("spritersguildwip/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (float)animate / 30 - 0.1f));
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (float)animate / 30 - 0.1f));
                 }
 
                 //bird
