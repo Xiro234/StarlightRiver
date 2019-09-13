@@ -87,7 +87,7 @@ namespace spritersguildwip.Tiles
                switch (Main.tile[i,j].frameX / 18)
                 {
                     case 0: break;
-                    case 1: WorldGen.PlaceTile(i, j + 1, mod.TileType("ForestIvy")); break;
+                    case 1: WorldGen.PlaceTile(i, j + 1, mod.TileType("ForestIvy"), true); break;
                 }                 
             }
         }

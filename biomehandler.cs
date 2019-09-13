@@ -90,6 +90,10 @@ namespace spritersguildwip
                 Overlay.visible = false;
             }
         }
+        public override void UpdateBiomeVisuals()
+        {
+            //player.ManageSpecialBiomeVisuals("spritersguildwip:", ZoneJungleEvil);
+        }
     }
 
     public partial class LegendWorld

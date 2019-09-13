@@ -173,14 +173,16 @@ namespace spritersguildwip.Items.Debug
         {
             item.width = 14;
             item.height = 14;
-            item.maxStack = 999;
+            item.maxStack = 1;
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
-            item.useTime = 10;
+            item.useTime = 1;
             item.useStyle = 1;
-            item.consumable = true;
+            item.consumable = false;
             item.createTile = mod.TileType("GrassJungleEvil");
+            item.shoot = mod.ProjectileType("Clentam");
+            item.shootSpeed = 10f;
         }
     }
 }

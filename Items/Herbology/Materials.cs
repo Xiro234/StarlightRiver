@@ -29,7 +29,7 @@ namespace spritersguildwip.Items.Herbology
             recipe.AddIngredient(ItemID.Daybloom, 1);
             recipe.AddIngredient(ItemID.GrassSeeds, 1);
             recipe.AddIngredient(mod.ItemType("Ivy"), 5);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(mod.TileType<Tiles.HerbStation>());
             recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }
@@ -55,7 +55,7 @@ namespace spritersguildwip.Items.Herbology
             recipe.AddIngredient(ItemID.Deathweed, 1);
             recipe.AddIngredient(ItemID.Shiverthorn, 1);
             recipe.AddIngredient(mod.ItemType("Deathstalk"), 5);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(mod.TileType<Tiles.HerbStation>());
             recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }
