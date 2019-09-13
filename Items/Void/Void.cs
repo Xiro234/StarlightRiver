@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Void
+namespace StarlightRiver.Items.Void
 {
     public class Void1Item : ModItem
     {

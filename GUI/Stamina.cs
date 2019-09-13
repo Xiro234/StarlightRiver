@@ -7,17 +7,17 @@ using Terraria.UI;
 using System;
 using Terraria.ID;
 using System.Linq;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 
-namespace spritersguildwip.GUI
+namespace StarlightRiver.GUI
 {
     public class Stamina : UIState
     {
         public UIPanel abicon;
         public static bool visible = false;
 
-        Stam Stam1 = new Stam(ModContent.GetTexture("spritersguildwip/GUI/Stamina2"));
-        Stam Stam2 = new Stam(ModContent.GetTexture("spritersguildwip/GUI/Stamina"));
+        Stam Stam1 = new Stam(ModContent.GetTexture("StarlightRiver/GUI/Stamina2"));
+        Stam Stam2 = new Stam(ModContent.GetTexture("StarlightRiver/GUI/Stamina"));
         public override void OnInitialize()
         {
             Stam1.Left.Set(-303, 1);

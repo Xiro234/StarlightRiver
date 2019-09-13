@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Dusts
+namespace StarlightRiver.Dusts
 {
     public class Stone : ModDust
     {

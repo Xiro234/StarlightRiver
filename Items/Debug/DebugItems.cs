@@ -1,8 +1,8 @@
-﻿using spritersguildwip.Ability;
+﻿using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Debug
+namespace StarlightRiver.Items.Debug
 {
     public class Reset : ModItem
     {

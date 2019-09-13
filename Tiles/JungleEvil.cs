@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 
-namespace spritersguildwip.Tiles
+namespace StarlightRiver.Tiles
 {
     public class GrassJungleEvil : ModTile
     {

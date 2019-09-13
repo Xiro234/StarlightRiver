@@ -12,9 +12,9 @@ using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using spritersguildwip.Projectiles;
+using StarlightRiver.Projectiles;
 
-namespace spritersguildwip
+namespace StarlightRiver
 {
     
     public partial class LegendWorld : ModWorld

@@ -8,7 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Vitric
+namespace StarlightRiver.Items.Vitric
 {
     class VitricHammer : ModItem
     {

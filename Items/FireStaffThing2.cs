@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items
+namespace StarlightRiver.Items
 {
     public class FireStaffThing2 : ModItem
     {

@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 using Terraria.Enums;
 using Terraria.DataStructures;
 
-namespace spritersguildwip.Tiles
+namespace StarlightRiver.Tiles
 {
     /*class HallowThistle : ModTile
     {

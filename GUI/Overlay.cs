@@ -9,7 +9,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace spritersguildwip.GUI
+namespace StarlightRiver.GUI
 {
     public class Overlay : UIState
     {
@@ -36,8 +36,8 @@ namespace spritersguildwip.GUI
                     {
                         if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
                         {
-                            VoidDust dus = new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, -10), new Vector2(0, 2));
-                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -2));
+                            VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, -10), new Vector2(0, 2));
+                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -2));
                             Bootlegdust.Add(dus);
                             Bootlegdust.Add(dus2);
                         }
@@ -46,8 +46,8 @@ namespace spritersguildwip.GUI
                     {
                         if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
                         {
-                            VoidDust dus = new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(-15, k), new Vector2(2, 0));
-                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("spritersguildwip/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-2, 0));
+                            VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(-15, k), new Vector2(2, 0));
+                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-2, 0));
                             Bootlegdust.Add(dus);
                             Bootlegdust.Add(dus2);
                         }
@@ -59,13 +59,13 @@ namespace spritersguildwip.GUI
                     {
                         if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1000) == 0)
                         {
-                            EvilDust dus = new EvilDust(ModContent.GetTexture("spritersguildwip/GUI/Corrupt"), new Vector2(k, Main.screenHeight), new Vector2(0, -1.4f));
+                            EvilDust dus = new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Corrupt"), new Vector2(k, Main.screenHeight), new Vector2(0, -1.4f));
                             Bootlegdust.Add(dus);
                         }
                     }
                 }
             }
-            if (!Main.LocalPlayer.GetModPlayer<BiomeHandler>(spritersguildwip.Instance).ZoneVoidPre && !Main.LocalPlayer.GetModPlayer<BiomeHandler>(spritersguildwip.Instance).ZoneJungleEvil)
+            if (!Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneVoidPre && !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleEvil)
             {
                 Bootlegdust.Clear();
             }

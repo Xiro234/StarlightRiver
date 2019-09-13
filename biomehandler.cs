@@ -12,9 +12,9 @@ using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using spritersguildwip.GUI;
+using StarlightRiver.GUI;
 
-namespace spritersguildwip
+namespace StarlightRiver
 {
     public class BiomeHandler : ModPlayer
     {
@@ -92,7 +92,7 @@ namespace spritersguildwip
         }
         public override void UpdateBiomeVisuals()
         {
-            //player.ManageSpecialBiomeVisuals("spritersguildwip:", ZoneJungleEvil);
+            //player.ManageSpecialBiomeVisuals("StarlightRiver:", ZoneJungleEvil);
         }
     }
 

@@ -1,7 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items
+namespace StarlightRiver.Items
 {
 	public class GreenhouseGlassItem : ModItem
 	{

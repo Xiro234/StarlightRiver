@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using spritersguildwip.NPCs;
+using StarlightRiver.NPCs;
 
-namespace spritersguildwip.Projectiles.WeaponProjectiles
+namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     public class FrostStaffThing : ModProjectile
     {

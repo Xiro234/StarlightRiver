@@ -1,8 +1,8 @@
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Accessories
+namespace StarlightRiver.Items.Accessories
 {
     public class BloodyScarf : ModItem
     {
