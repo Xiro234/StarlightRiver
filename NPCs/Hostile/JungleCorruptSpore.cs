@@ -24,6 +24,7 @@ namespace spritersguildwip.NPCs.Hostile
             npc.HitSound = SoundID.NPCHit8;
             npc.DeathSound = SoundID.NPCDeath12;
             npc.noGravity = true;
+            npc.damage = 55;
             npc.aiStyle = -1;
         }
 
@@ -40,6 +41,10 @@ namespace spritersguildwip.NPCs.Hostile
         public override void AI()
         {
             Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Corrupt"));
+        }
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            Helper.Kill(npc);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

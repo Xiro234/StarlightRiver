@@ -60,6 +60,7 @@ namespace spritersguildwip.Items.Crafting
             item.useStyle = 1;
             item.consumable = true;
             item.createTile = mod.TileType("HerbStation");
+            
         }
         public override void AddRecipes()
         {
