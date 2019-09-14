@@ -65,7 +65,7 @@ namespace StarlightRiver.GUI
                     }
                 }
             }
-            if (!Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneVoidPre && !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleEvil)
+            if (!Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneVoidPre && !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleCorrupt)
             {
                 Bootlegdust.Clear();
             }

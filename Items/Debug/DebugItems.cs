@@ -161,7 +161,7 @@ namespace StarlightRiver.Items.Debug
             return true;
         }
     }
-    public class GrassJungleEvil : ModItem
+    public class GrassJungleCorrupt : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -180,7 +180,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 1;
             item.useStyle = 1;
             item.consumable = false;
-            item.createTile = mod.TileType("GrassJungleEvil");
+            item.createTile = mod.TileType("GrassJungleCorrupt");
             item.shoot = mod.ProjectileType("Clentam");
             item.shootSpeed = 10f;
         }

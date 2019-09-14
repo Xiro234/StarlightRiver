@@ -20,12 +20,12 @@ namespace StarlightRiver
     {
         public bool ZoneGlass = false;
         public bool ZoneVoidPre = false;
-        public bool ZoneJungleEvil = false;
+        public bool ZoneJungleCorrupt = false;
         public override void UpdateBiomes()
         {
             ZoneGlass = (LegendWorld.glassTiles > 50);
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
-            ZoneJungleEvil = (LegendWorld.evilJungleTiles > 50);
+            ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -34,7 +34,7 @@ namespace StarlightRiver
             bool allMatch = true;
             allMatch &= ZoneGlass == modOther.ZoneGlass;
             allMatch &= ZoneVoidPre == modOther.ZoneVoidPre;
-            allMatch &= ZoneJungleEvil == modOther.ZoneJungleEvil;
+            allMatch &= ZoneJungleCorrupt == modOther.ZoneJungleCorrupt;
             return allMatch;
         }
 
@@ -43,7 +43,7 @@ namespace StarlightRiver
             BiomeHandler modOther = other.GetModPlayer<BiomeHandler>(mod);
             modOther.ZoneGlass = ZoneGlass;
             modOther.ZoneVoidPre = ZoneVoidPre;
-            modOther.ZoneJungleEvil = ZoneJungleEvil;
+            modOther.ZoneJungleCorrupt = ZoneJungleCorrupt;
         }
 
         public override void SendCustomBiomes(BinaryWriter writer)
@@ -51,7 +51,7 @@ namespace StarlightRiver
             BitsByte flags = new BitsByte();
             flags[0] = ZoneGlass;
             flags[1] = ZoneVoidPre;
-            flags[2] = ZoneJungleEvil;
+            flags[2] = ZoneJungleCorrupt;
             writer.Write(flags);
         }
 
@@ -60,7 +60,7 @@ namespace StarlightRiver
             BitsByte flags = reader.ReadByte();
             ZoneGlass = flags[0];
             ZoneVoidPre = flags[1];
-            ZoneJungleEvil = flags[2];
+            ZoneJungleCorrupt = flags[2];
         }
 
         public override Texture2D GetMapBackgroundImage()
@@ -80,7 +80,7 @@ namespace StarlightRiver
                 Overlay.visible = true;
                 Overlay.state = 1;
             }
-            else if (ZoneJungleEvil)
+            else if (ZoneJungleCorrupt)
             {
                 Overlay.visible = true;
                 Overlay.state = 2;
@@ -92,7 +92,7 @@ namespace StarlightRiver
         }
         public override void UpdateBiomeVisuals()
         {
-            //player.ManageSpecialBiomeVisuals("StarlightRiver:", ZoneJungleEvil);
+            //player.ManageSpecialBiomeVisuals("StarlightRiver:", ZoneJungleCorrupt);
         }
     }
 
@@ -105,7 +105,7 @@ namespace StarlightRiver
         {
             glassTiles = tileCounts[mod.TileType("SandGlass")] + tileCounts[mod.TileType("GlassCrystal")];
             voidTiles = tileCounts[mod.TileType("Void1")] + tileCounts[mod.TileType("Void2")];
-            evilJungleTiles = tileCounts[mod.TileType("GrassJungleEvil")];
+            evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
         }
     }
 }

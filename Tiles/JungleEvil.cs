@@ -14,7 +14,7 @@ using Terraria.DataStructures;
 
 namespace StarlightRiver.Tiles
 {
-    public class GrassJungleEvil : ModTile
+    public class GrassJungleCorrupt : ModTile
     {
         public override void SetDefaults()
         {
@@ -32,11 +32,11 @@ namespace StarlightRiver.Tiles
         {
             if (Main.tile[i, j + 1].active() == false && Main.tile[i, j].slope() == 0)
             {
-                WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleEvil>(), true);
+                WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
             }
         }
     }
-    public class VineJungleEvil : ModTile
+    public class VineJungleCorrupt : ModTile
     {
         public override void SetDefaults()
         {
@@ -47,8 +47,8 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                mod.TileType<GrassJungleEvil>(),
-                mod.TileType<VineJungleEvil>()
+                mod.TileType<GrassJungleCorrupt>(),
+                mod.TileType<VineJungleCorrupt>()
             };
             TileObjectData.addTile(Type);
         }
@@ -57,7 +57,7 @@ namespace StarlightRiver.Tiles
         {
             if (Main.tile[i, j + 1].active() == false)
             {
-                WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleEvil>(), true);
+                WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
             }
         }
     }

@@ -42,9 +42,9 @@ namespace StarlightRiver
                     priority = MusicPriority.BossLow;
                 }
 
-                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleEvil)
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleEvil");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleCorrupt");
                     priority = MusicPriority.BiomeHigh;
                 }
             }
