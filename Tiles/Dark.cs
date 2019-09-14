@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles
 {
-    class Dark : ModTile
+    class VoidGoo : ModTile
     {
         public override void SetDefaults()
         {
