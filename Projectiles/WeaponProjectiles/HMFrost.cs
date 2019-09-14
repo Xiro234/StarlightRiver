@@ -3,11 +3,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using spritersguildwip.NPCs;
+using StarlightRiver.NPCs;
 
-namespace spritersguildwip.Projectiles.WeaponProjectiles
+namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    public class FrostStaffThing : ModProjectile
+    public class PHFrost : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -117,7 +117,7 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
             }
         }
     }
-    public class FrostStaffThing2 : ModProjectile
+    public class HMFrost : ModProjectile
     {
         public override void SetDefaults()
         {

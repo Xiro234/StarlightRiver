@@ -12,7 +12,7 @@ using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using System.Linq;
 
-namespace spritersguildwip.Ability
+namespace StarlightRiver.Ability
 {
     class Ability
     {

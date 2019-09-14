@@ -1,3 +1,3 @@
-displayName = Stardust River
+displayName = Starlight River
 author = TSG
-version = 0.1
+version = 0.01

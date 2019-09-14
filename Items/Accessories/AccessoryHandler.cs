@@ -11,9 +11,9 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using System.Linq;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 
-namespace spritersguildwip.Items.Accessories
+namespace StarlightRiver.Items.Accessories
 {
     class AccessoryHandler : ModPlayer
     {

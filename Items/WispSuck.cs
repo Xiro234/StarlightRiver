@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items
+namespace StarlightRiver.Items
 {
     public class WispSuck : ModItem
     {

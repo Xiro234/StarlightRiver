@@ -2,12 +2,12 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.NPCs.Boss
+namespace StarlightRiver.NPCs.Boss
 {
     class VitricBoss : ModNPC
     {
@@ -24,8 +24,8 @@ namespace spritersguildwip.NPCs.Boss
             npc.damage = 30;
             npc.defense = 10;
             npc.knockBackResist = 0f;
-            npc.width = 100;
-            npc.height = 100;
+            npc.width = 150;
+            npc.height = 150;
             npc.value = Item.buyPrice(0, 20, 0, 0);
             npc.npcSlots = 15f;
             npc.boss = true;
@@ -42,8 +42,11 @@ namespace spritersguildwip.NPCs.Boss
             npc.lifeMax = (int)(npc.lifeMax * 0.625f * bossLifeScale);
             npc.damage = (int)(npc.damage * 0.6f);
         }
+        Vector2 direction = Vector2.Zero;
+        Vector2[] spawns = new Vector2[6];
         public override void AI()
-        {           
+        {
+            Main.NewText(npc.localAI[0] +"/"+ npc.localAI[1] + "/" + npc.localAI[2] + "/" + npc.localAI[3]);
             switch (npc.localAI[0])
             {
                 case 0:
@@ -51,9 +54,8 @@ namespace spritersguildwip.NPCs.Boss
                     npc.localAI[1]++;
                     if(npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
                     {
-                        float r = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                        float h = Main.rand.NextFloat(16, 22);
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"),0,(float)Math.Cos(r) * h,(float)Math.Sin(r) * h);
+                        float r = (float)(Math.PI * 2) / (2 + Main.ActivePlayersCount) * (npc.localAI[1] / 10);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"),0,(float)Math.Cos(r) * 20,(float)Math.Sin(r) * 20);
                     }
                     if (npc.localAI[1] >= 960)
                     {
@@ -85,19 +87,125 @@ namespace spritersguildwip.NPCs.Boss
                         }
                     }
                     npc.localAI[2] = 0;
+                    npc.localAI[3] = 0;
                     npc.localAI[0] = 2;
                     break;
 
                 case 2:
-                    //normal AI
-                    npc.immortal = false;
 
                     npc.TargetClosest(true);
-                    npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 5;
+                    npc.immortal = false;
+
+                    npc.localAI[3]++;
+                    if (npc.localAI[3] == 180)
+                    {
+                        npc.localAI[2] = Main.rand.Next(3);
+                    }
+                    if (npc.localAI[3] > 180)
+                    {
+                        switch (npc.localAI[2])
+                        {
+                            case 0:
+
+                                Dust.NewDust(npc.position + new Vector2(npc.width / 4, npc.height / 4), npc.width / 2, npc.height / 2, mod.DustType("Air"));
+                                
+                                if (npc.localAI[3] == 181)
+                                {
+                                    npc.netUpdate = true;
+                                    direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
+                                }
+                                if(npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
+                                {
+                                    int r = Main.rand.Next(5, 7);
+                                    Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(direction.X * r, direction.Y * r), 0, default, (60-(npc.localAI[3] - 180)) / 30 );                             
+                                }
+                                if(npc.localAI[3] >= 181 && npc.localAI[3] <= 260)
+                                {
+                                    npc.rotation += 0.1f;
+                                }
+                                if(npc.localAI[3] >= 261 && npc.localAI[3] <= 320)
+                                {
+                                    npc.velocity += direction * 0.5f;
+                                    npc.rotation += 0.3f;
+                                    for (int k = 0; k <= 2; k++)
+                                    {
+                                        Dust.NewDust(npc.position + new Vector2(npc.width / 4, npc.height / 4), npc.width / 2, npc.height / 2, mod.DustType("Air"));
+                                    }
+                                }
+                                if (npc.localAI[3] >= 321 && npc.localAI[3] <= 330)
+                                {
+                                    npc.velocity = Vector2.Zero;
+                                    npc.rotation = 0;
+                                }
+                                if (npc.localAI[3] >= 331 && npc.localAI[3] <= 350)
+                                {
+                                    npc.velocity += direction * -.38f;
+                                }
+                                if (npc.localAI[3] >= 351 && npc.localAI[3] <= 450)
+                                {
+                                    npc.velocity = direction * -8.34f;
+                                }
+                                if(npc.localAI[3] == 451)
+                                {
+                                    npc.velocity = Vector2.Zero;
+                                    direction = Vector2.Zero;
+                                    npc.localAI[3] = 0;
+                                    npc.localAI[2] = 0;
+                                }
+                                break;
+
+                            case 1:
+                                if (npc.localAI[3] == 181)
+                                {
+                                    npc.netUpdate = true;
+                                    spawns[0] = new Vector2(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 750);
+                                    for (int k = 1; k <= 5; k++)
+                                    {
+                                        spawns[k] = new Vector2(npc.Center.X + Main.rand.Next(-1000, 1000), Main.player[npc.target].Center.Y - 750);
+                                    }                                    
+                                }
+                                if (npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
+                                {
+                                    foreach(Vector2 spawn in spawns)
+                                    {
+                                        Dust.NewDustPerfect(spawn + new Vector2(Main.rand.Next(-4, 4), Main.rand.Next(-32, 32)), mod.DustType("Air"), new Vector2(0 , 8), 0, default, (60 - (npc.localAI[3] - 180)) / 15);
+                                    }                                  
+                                }
+                                if (npc.localAI[3] == 261)
+                                {
+                                    foreach (Vector2 spawn in spawns)
+                                    {
+                                        Projectile.NewProjectile(spawn, new Vector2(0, Main.rand.Next(6,12)), 2/*mod.ProjectileType("Crystal1")*/, 20, 0f);
+                                    }
+                                    spawns = new Vector2[6];
+                                    npc.localAI[3] = 0;
+                                    npc.localAI[2] = 0;
+                                }
+                                break;
+                            case 2:
+                                float q = 3.14f + (npc.localAI[3] - 180f) / 240f * 6.28f;
+                                if (npc.localAI[3] % 2 == 0)
+                                {
+                                    Projectile.NewProjectile(npc.Center, new Vector2((float)Math.Cos(q) * 7, (float)Math.Sin(q) * 7), 132, 20, 0);
+                                }
+                                
+                                if(npc.localAI[3] >= 420)
+                                {
+                                    npc.localAI[3] = 0;
+                                    npc.localAI[2] = 0;
+                                }
+                                break;
+                        }
+                    }
+                    
+
+                    
 
                     if(npc.life <= npc.lifeMax / 2)
                     {
                         npc.localAI[1] = 0;
+                        npc.localAI[2] = 0;
+                        npc.localAI[3] = 0;
                         npc.localAI[0] = 3;
                     }
                     break;
@@ -108,9 +216,8 @@ namespace spritersguildwip.NPCs.Boss
                     npc.localAI[1]++;
                     if (npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
                     {
-                        float r = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                        float h = Main.rand.NextFloat(16, 22);
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"), 0, (float)Math.Cos(r) * h, (float)Math.Sin(r) * h);
+                        float r = (float)(Math.PI * 2) / (2 + Main.ActivePlayersCount) * (npc.localAI[1] / 10);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"), 0, (float)Math.Cos(r) * 20, (float)Math.Sin(r) * 20);
                     }
                     if (npc.localAI[1] >= 600)
                     {
@@ -239,11 +346,11 @@ namespace spritersguildwip.NPCs.Boss
             npc.ai[1] *= 0.95f;
         }
 
-        public static Texture2D glow = ModContent.GetTexture("spritersguildwip/NPCs/Boss/CrystalGlow");
+        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/NPCs/Boss/CrystalGlow");
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(glow, npc.position - Main.screenPosition, new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime));
+            spriteBatch.Draw(glow, npc.position - Main.screenPosition + new Vector2(0, 3), new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime));
         }
     }
 
@@ -279,8 +386,8 @@ namespace spritersguildwip.NPCs.Boss
             }
         }
 
-        public static Texture2D glow = ModContent.GetTexture("spritersguildwip/NPCs/Boss/CrystalGlow2");
-        public static Texture2D red = ModContent.GetTexture("spritersguildwip/NPCs/Boss/HealGem2");
+        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/NPCs/Boss/CrystalGlow2");
+        public static Texture2D red = ModContent.GetTexture("StarlightRiver/NPCs/Boss/HealGem2");
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {

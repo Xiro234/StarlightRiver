@@ -1,13 +1,13 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using spritersguildwip.Ability;
+using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 
-namespace spritersguildwip.NPCs.Hostile
+namespace StarlightRiver.NPCs.Hostile
 {
     class CrystalClumpEnemy : ModNPC
     {

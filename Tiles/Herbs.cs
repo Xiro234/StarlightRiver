@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 using Terraria.Enums;
 using Terraria.DataStructures;
 
-namespace spritersguildwip.Tiles
+namespace StarlightRiver.Tiles
 {
     /*class HallowThistle : ModTile
     {
@@ -51,7 +51,7 @@ namespace spritersguildwip.Tiles
         {
             if(Main.tile[i, j + 1].active() == false)
             {
-                WorldGen.PlaceTile(i, j + 1, mod.TileType("ForestIvy"));
+                WorldGen.PlaceTile(i, j + 1, mod.TileType("ForestIvy"), true);
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Herbology
+namespace StarlightRiver.Items.Herbology
 {
     public class Soil : ModItem
     {

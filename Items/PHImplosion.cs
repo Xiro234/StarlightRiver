@@ -2,9 +2,9 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items
+namespace StarlightRiver.Items
 {
-    public class FrostStaffThing : ModItem
+    public class PHImplosion : ModItem
     {
         public override void SetDefaults()
         {
@@ -14,10 +14,10 @@ namespace spritersguildwip.Items
             Item.staff[item.type] = true;
             item.useAnimation = 40;
             item.useTime = 40;
-            item.shootSpeed = 6f;
+            item.shootSpeed = 8f;
             item.knockBack = 2f;
             item.damage = 24;
-            item.shoot = mod.ProjectileType("FrostStaffThing2");
+            item.shoot = mod.ProjectileType("PHImplosion");
             item.rare = 3;
             item.noMelee = true;
             item.magic = true;
@@ -38,8 +38,8 @@ namespace spritersguildwip.Items
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("VortexPenisStaff 2");
-            Tooltip.SetDefault("VortexPenisStaff moment 2");
+            DisplayName.SetDefault("Implosion Staff");
+            Tooltip.SetDefault("Sends out a ball of fire that explodes on mouse release");
         }
     }
 }

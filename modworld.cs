@@ -12,9 +12,9 @@ using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using spritersguildwip.Projectiles;
+using StarlightRiver.Projectiles;
 
-namespace spritersguildwip
+namespace StarlightRiver
 {
     
     public partial class LegendWorld : ModWorld
@@ -28,6 +28,7 @@ namespace spritersguildwip
             if (ShiniesIndex != -1)
             {
                 //tasks.Insert(ShiniesIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
+                tasks.Insert(ShiniesIndex + 2, new PassLegacy("Making the World Impure", EbonyGen));
             }
         }
         /// <summary>
@@ -128,6 +129,21 @@ namespace spritersguildwip
                 actualPos += dir;
             return actualPos;
         }*/
+        private void EbonyGen(GenerationProgress progress)
+        {
+            progress.Message = "Making the World Impure";
+
+            for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * .0015); k++)
+            {
+                int x = WorldGen.genRand.Next(0, Main.maxTilesX);
+                int y = WorldGen.genRand.Next(0, (int)WorldGen.worldSurfaceHigh);
+
+                if (Main.tile[x, y].type == TileID.Dirt)
+                {
+                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(10, 11), 1, mod.TileType("OreEbony"), false, 0f, 0f, false, true);
+                }
+            }
+        }
         public static float rottime = 0;
         public override void PreUpdate()
         {

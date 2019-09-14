@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Herbology
+namespace StarlightRiver.Items.Herbology
 {
     public class Bottle : ModItem
     {

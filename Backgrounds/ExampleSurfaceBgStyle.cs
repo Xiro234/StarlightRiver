@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Backgrounds
+namespace StarlightRiver.Backgrounds
 {
 	public class ExampleSurfaceBgStyle : ModSurfaceBgStyle
 	{

@@ -8,11 +8,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Ability
+namespace StarlightRiver.Ability
 {
     class Float : Ability
     {
-        Mod mod = spritersguildwip.Instance;
+        Mod mod = StarlightRiver.Instance;
         int timer = 0;
         public Float() : base(1)
         {
@@ -53,7 +53,7 @@ namespace spritersguildwip.Ability
                 Handler.stamina--;
             }
 
-            if (spritersguildwip.Float.JustReleased ||  Handler.stamina < 1)
+            if (StarlightRiver.Float.JustReleased ||  Handler.stamina < 1)
             {
                 Active = false;
                 OnExit();

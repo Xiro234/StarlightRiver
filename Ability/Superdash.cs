@@ -8,11 +8,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Ability
+namespace StarlightRiver.Ability
 {
     class Superdash : Ability
     {
-        Mod mod = spritersguildwip.Instance;
+        Mod mod = StarlightRiver.Instance;
         float timer = 0;
         Vector2 objective;
         Vector2 start;

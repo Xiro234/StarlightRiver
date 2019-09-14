@@ -8,11 +8,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Ability
+namespace StarlightRiver.Ability
 {
     class Dash : Ability
     {
-        Mod mod = spritersguildwip.Instance;
+        Mod mod = StarlightRiver.Instance;
         int timer = 0;
         public Dash() : base(1)
         {

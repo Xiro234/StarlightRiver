@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items
+namespace StarlightRiver.Items
 {
     public class VoidGoo : ModItem
     {
@@ -21,7 +21,7 @@ namespace spritersguildwip.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("Dark");
+            item.createTile = mod.TileType("VoidGoo");
         }
     }
 }

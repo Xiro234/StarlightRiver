@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Vitric
+namespace StarlightRiver.Items.Vitric
 {
     public class Sandglass : ModItem
     {
@@ -89,6 +89,29 @@ namespace spritersguildwip.Items.Vitric
             item.useStyle = 1;
             item.consumable = true;
             item.createTile = mod.TileType("GlassCrystal");
+        }
+    }
+
+    public class Bounce : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Dash into this to bounce!");
+            DisplayName.SetDefault("Crystal Bouncer");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 16;
+            item.height = 16;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createTile = mod.TileType("Bounce");
         }
     }
 }

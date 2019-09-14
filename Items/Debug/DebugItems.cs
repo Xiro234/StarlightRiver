@@ -1,8 +1,8 @@
-﻿using spritersguildwip.Ability;
+﻿using StarlightRiver.Ability;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.Debug
+namespace StarlightRiver.Items.Debug
 {
     public class Reset : ModItem
     {
@@ -159,6 +159,30 @@ namespace spritersguildwip.Items.Debug
         {
             NPC.NewNPC((int)Main.screenPosition.X + Main.mouseX, (int)Main.screenPosition.Y + Main.mouseY, mod.NPCType("DesertWisp2"));
             return true;
+        }
+    }
+    public class GrassJungleCorrupt : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("Every Villan Is Lemons");
+            DisplayName.SetDefault("Evil");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 14;
+            item.height = 14;
+            item.maxStack = 1;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 1;
+            item.useStyle = 1;
+            item.consumable = false;
+            item.createTile = mod.TileType("GrassJungleCorrupt");
+            item.shoot = mod.ProjectileType("Clentam");
+            item.shootSpeed = 10f;
         }
     }
 }

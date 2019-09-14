@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Items.EbonyIvory
+namespace StarlightRiver.Items.EbonyIvory
 {
     public class OreEbonyItem : ModItem
     {

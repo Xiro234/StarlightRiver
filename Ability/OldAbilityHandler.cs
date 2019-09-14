@@ -12,7 +12,7 @@ using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using System.Linq;
 
-namespace spritersguildwip.Ability
+namespace StarlightRiver.Ability
 {
     class OldAbilityHandler : ModPlayer
     {
@@ -62,7 +62,7 @@ namespace spritersguildwip.Ability
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (spritersguildwip.Dash.JustPressed && dashcd == 0 && stamina >= 1 && ability[0] == 1) //dash key
+            if (StarlightRiver.Dash.JustPressed && dashcd == 0 && stamina >= 1 && ability[0] == 1) //dash key
             {
                 justUsedAbility[0] = 1;
                 stamina -= 1;
@@ -76,7 +76,7 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if (spritersguildwip.Superdash.JustPressed && stamina >= 3 && ability[1] == 1) //superdash key
+            if (StarlightRiver.Superdash.JustPressed && stamina >= 3 && ability[1] == 1) //superdash key
             {
                 justUsedAbility[1] = 1;
                 stamina -= 3;
@@ -103,7 +103,7 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if (spritersguildwip.Smash.JustPressed && stamina >= 2) //smash key
+            if (StarlightRiver.Smash.JustPressed && stamina >= 2) //smash key
             {
                 //  justUsedAbility[2] = 1;
                 stamina -= 2;
@@ -117,7 +117,7 @@ namespace spritersguildwip.Ability
                 player.wingTime = 0;
             }
 
-            if (spritersguildwip.Float.JustPressed && stamina >= 2 && ability[3] == 1) // float key
+            if (StarlightRiver.Float.JustPressed && stamina >= 2 && ability[3] == 1) // float key
             {
                 justUsedAbility[3] = 1;
                 stamina--;
@@ -281,7 +281,7 @@ namespace spritersguildwip.Ability
                 stamina--;
             }
 
-            if ((spritersguildwip.Float.JustReleased && ability[3] == 1 && floating) || (floating && stamina < 1))
+            if ((StarlightRiver.Float.JustReleased && ability[3] == 1 && floating) || (floating && stamina < 1))
             {
                 floating = false;
                 floattime = 0;

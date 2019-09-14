@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 
-namespace spritersguildwip.Tiles
+namespace StarlightRiver.Tiles
 {
     class Soil : ModTile
     {
@@ -41,7 +41,7 @@ namespace spritersguildwip.Tiles
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            spriteBatch.Draw(ModContent.GetTexture("spritersguildwip/Tiles/Post"), new Vector2((i + 12) * 16, (j+9) * 16) - (Main.screenPosition), Color.White);
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Post"), new Vector2((i + 12) * 16, (j+9) * 16) - (Main.screenPosition), Lighting.GetColor(i, j));
         }
     }
 
@@ -87,7 +87,7 @@ namespace spritersguildwip.Tiles
                switch (Main.tile[i,j].frameX / 18)
                 {
                     case 0: break;
-                    case 1: WorldGen.PlaceTile(i, j + 1, mod.TileType("ForestIvy")); break;
+                    case 1: WorldGen.PlaceTile(i, j + 1, mod.TileType("ForestIvy"), true); break;
                 }                 
             }
         }

@@ -4,9 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace spritersguildwip.Projectiles.WeaponProjectiles
+namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    public class FireStaffThing : ModProjectile
+    public class PHImplosion : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -19,7 +19,7 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("VortexPenisStaff moment 2");
+            DisplayName.SetDefault("PH Implosion");
         }
         public override void AI()
         {
@@ -100,7 +100,7 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
             }
         }
     }
-    public class FireStaffThing2 : ModProjectile
+    public class HMImplosion : ModProjectile
     {
         public override void SetDefaults()
         {
