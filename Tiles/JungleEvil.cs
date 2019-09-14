@@ -16,6 +16,8 @@ namespace StarlightRiver.Tiles
 {
     public class GrassJungleCorrupt : ModTile
     {
+        public int x = 0;
+        public int y = 0;
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -27,15 +29,63 @@ namespace StarlightRiver.Tiles
             TileID.Sets.ChecksForMerge[Type] = true;
             drop = ItemID.MudBlock;
             AddMapEntry(new Color(98, 82, 148));
+            soundType = 0;
+            dustType = 38;
         }
-        public override void RandomUpdate(int i, int j)
+        public override void RandomUpdate(int i, int j)//grappling hook breaks the grass, its running killtile for some reason?
         {
-            if (Main.tile[i, j + 1].active() == false && Main.tile[i, j].slope() == 0)
+            x = Main.rand.Next(-4, 4);
+            y = Main.rand.Next(-4, 4);
+            //Main.NewText("tick");
+
+            if (Main.tile[i + x, j + y].active())//spread
             {
-                WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
+                if (Main.tile[i + x, j + y].type == TileID.JungleGrass)
+                {
+                    //Main.NewText("Tile at: " + i + ", " + j + ". x/y: " + x + ", " + y + ". Placing at: " + (i + x) + ", " + (j + y));
+                    WorldGen.PlaceTile(i + x, j + y, mod.TileType<GrassJungleCorrupt>(), true, true);
+                }
+                else if (Main.tile[i + x, j + y].type == TileID.Mud)
+                {
+                    if (!Main.tileSolid[Main.tile[i + x + 1, j + y].type] || !Main.tileSolid[Main.tile[i + x - 1, j + y].type] || !Main.tileSolid[Main.tile[i + x, j + y + 1].type] || !Main.tileSolid[Main.tile[i + x, j + y - 1].type])
+                    {
+                        WorldGen.PlaceTile(i + x, j + y, mod.TileType<GrassJungleCorrupt>(), true, true);
+                    }
+                }
+                else if (Main.tile[i + x, j + y].type == TileID.Stone)
+                {
+                    WorldGen.PlaceTile(i + x, j + y, TileID.Ebonstone, true, true);
+                }
+                else if (Main.tile[i + x, j + y].type == TileID.Grass)
+                {
+                    WorldGen.PlaceTile(i + x, j + y, TileID.CorruptGrass, true, true);
+                }
+                else if (Main.tile[i + x, j + y].type == TileID.Sand)
+                {
+                    WorldGen.PlaceTile(i + x, j + y, TileID.Ebonsand, true, true);
+                }
+                else if (Main.tile[i + x, j + y].type == TileID.IceBlock)
+                {
+                    WorldGen.PlaceTile(i + x, j + y, TileID.CorruptIce, true, true);
+                }
+            }
+
+            if (!Main.tile[i, j + 1].active() && Main.tile[i, j].slope() == 0)//vines (Maybe add the corruption thorns too?)
+            {
+                if (Main.rand.Next(10) == 0)
+                {
+                    WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
+                }
             }
         }
+
+        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            effectOnly = true;
+            WorldGen.PlaceTile(i, j, TileID.Mud, false, true);
+        }
     }
+
     public class VineJungleCorrupt : ModTile
     {
         public override void SetDefaults()
@@ -51,14 +101,34 @@ namespace StarlightRiver.Tiles
                 mod.TileType<VineJungleCorrupt>()
             };
             TileObjectData.addTile(Type);
+            soundType = 6;
+            dustType = 14;
         }
 
         public override void RandomUpdate(int i, int j)
         {
-            if (Main.tile[i, j + 1].active() == false)
+            if (!Main.tile[i, j + 1].active() && Main.tile[i, j - 9].type != Type)
             {
-                WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
+                if (Main.rand.Next(10) == 0)
+                {
+                        WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
+                }
             }
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            if(!Main.tile[i, j - 1].active())
+            {
+                WorldGen.KillTile(i, j, false, false, false);
+                WorldGen.SquareTileFrame(i, j, true);
+            }
+            else if (Main.tile[i, j - 1].type != mod.TileType<GrassJungleCorrupt>() && Main.tile[i, j - 1].type != mod.TileType<VineJungleCorrupt>())
+            {
+                WorldGen.KillTile(i, j, false, false, false);
+                WorldGen.SquareTileFrame(i, j, true);
+            }
+            return true;
         }
     }
 }
