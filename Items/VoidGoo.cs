@@ -21,7 +21,7 @@ namespace StarlightRiver.Items
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("Dark");
+            item.createTile = mod.TileType("VoidGoo");
         }
     }
 }

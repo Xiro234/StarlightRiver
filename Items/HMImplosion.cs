@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    public class FireStaffThing2 : ModItem
+    public class HMImplosion : ModItem
     {
         public override void SetDefaults()
         {
@@ -17,7 +17,7 @@ namespace StarlightRiver.Items
             item.shootSpeed = 12f;
             item.knockBack = 2f;
             item.damage = 76;
-            item.shoot = mod.ProjectileType("FireStaffThing2");
+            item.shoot = mod.ProjectileType("HMImplosion");
             item.rare = 6;
             item.noMelee = true;
             item.magic = true;
@@ -39,8 +39,8 @@ namespace StarlightRiver.Items
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("VortexPenisStaff 2");
-            Tooltip.SetDefault("VortexPenisStaff moment 2");
+            DisplayName.SetDefault("Advanced Implosion Staff");
+            Tooltip.SetDefault("Sends out a ball of superheated matter that draws enemies in and then explodes on mouse release");
         }
     }
 }

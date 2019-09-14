@@ -7,7 +7,7 @@ using StarlightRiver.NPCs;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    public class FrostStaffThing : ModProjectile
+    public class PHFrost : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -117,7 +117,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             }
         }
     }
-    public class FrostStaffThing2 : ModProjectile
+    public class HMFrost : ModProjectile
     {
         public override void SetDefaults()
         {

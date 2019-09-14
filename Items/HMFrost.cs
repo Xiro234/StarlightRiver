@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    public class FrostStaffThing : ModItem
+    public class HMFrost : ModItem
     {
         public override void SetDefaults()
         {
@@ -17,7 +17,7 @@ namespace StarlightRiver.Items
             item.shootSpeed = 6f;
             item.knockBack = 2f;
             item.damage = 24;
-            item.shoot = mod.ProjectileType("FrostStaffThing2");
+            item.shoot = mod.ProjectileType("HMFrost");
             item.rare = 3;
             item.noMelee = true;
             item.magic = true;
@@ -38,8 +38,8 @@ namespace StarlightRiver.Items
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("VortexPenisStaff 2");
-            Tooltip.SetDefault("VortexPenisStaff moment 2");
+            DisplayName.SetDefault("Advanced Frost Staff");
+            Tooltip.SetDefault("Launches a bolt of frost energy that latches into enemies and explodes");
         }
     }
 }
