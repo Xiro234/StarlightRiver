@@ -14,7 +14,7 @@ namespace StarlightRiver.Items
             Item.staff[item.type] = true;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.shootSpeed = 6f;
+            item.shootSpeed = 10f;
             item.knockBack = 2f;
             item.damage = 18;
             item.shoot = mod.ProjectileType("Diver");
