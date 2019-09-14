@@ -14,7 +14,6 @@ namespace StarlightRiver.Tiles
         {
             Main.tileLavaDeath[Type] = false;
             Main.tileFrameImportant[Type] = true;
-            Main.tileSolid[Type] = true;
 
             drop = mod.ItemType("Bounce");
             dustType = mod.DustType("Air");
@@ -23,8 +22,8 @@ namespace StarlightRiver.Tiles
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -20);
-            if (!Main.npc.Any(npc => npc.position == new Vector2((int)pos.X, (int)pos.Y) && npc.type == mod.NPCType("Bouncer") ))
+            Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -19);
+            if (!Main.npc.Any(npc => npc.Hitbox.Intersects(new Rectangle(i*16, j*16, 8,8)) && npc.type == mod.NPCType("Bouncer") ))
             {
                 NPC.NewNPC((int)pos.X, (int)pos.Y, mod.NPCType("Bouncer"));
             }
@@ -32,7 +31,7 @@ namespace StarlightRiver.Tiles
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/BounceGlow"), new Vector2(i * 16, j * 16) - Main.screenPosition - new Vector2(30,30), color);
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/BounceGlow"), new Vector2((i+ 12) * 16 -1, (j+12) * 16 - 1) - Main.screenPosition, color);
         }
     }
 }
