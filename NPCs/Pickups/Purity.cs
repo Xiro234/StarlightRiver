@@ -80,7 +80,7 @@ namespace StarlightRiver.NPCs.Pickups
             
         }
 
-        public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
+        public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
 
         float timer = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
