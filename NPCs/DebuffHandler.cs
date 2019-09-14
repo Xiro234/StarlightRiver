@@ -14,10 +14,9 @@ namespace spritersguildwip.NPCs
             }
         }
         public int frozenTime = 0;
-        public int onFire2Time = 0;
+        public int crystalCount = 0;
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
-            onFire2Time -= 1;
             if (frozenTime != 0)
             {
                 frozenTime -= 1;
@@ -33,6 +32,25 @@ namespace spritersguildwip.NPCs
                 }
                 npc.velocity *= 0.2f;
             }
+            if (crystalCount != 0)
+            {
+                npc.color.B += 180;
+                npc.color.G += 90;
+                if (npc.color.B >= 255)
+                {
+                    npc.color.B = 255;
+                }
+                if (npc.color.G >= 255)
+                {
+                    npc.color.G = 255;
+                }
+                Main.NewText(crystalCount);
+                crystalCount = 0;
+            }
+        }
+        public override void ResetEffects(NPC npc)
+        {
+            base.ResetEffects(npc);
         }
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {

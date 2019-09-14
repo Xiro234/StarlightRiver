@@ -17,7 +17,7 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
             projectile.friendly = true;
             projectile.penetrate = 2;
             projectile.extraUpdates = 1;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 800;
             projectile.magic = true;
         }
         public override void SetStaticDefaults()
@@ -36,44 +36,39 @@ namespace spritersguildwip.Projectiles.WeaponProjectiles
                 dust.fadeIn = 0.4f;
                 dust.noLight = true;
             }
-        }
-        public override void Kill(int timeLeft)
-        {
-            Player player = Main.player[projectile.owner];
-            int icicle = Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), mod.ProjectileType("VitricCrystalClumpProjectile"), projectile.damage, projectile.knockBack, player.whoAmI);
-            Main.projectile[icicle].rotation += Main.rand.NextFloat(0f, 360f);
-            for (int counter = 0; counter <= 14; counter++)
+            if (projectile.ai[1] != 0)
             {
-                int dustType = mod.DustType("Air");
-                Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 160, default(Color), 1f)];
-                dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
-                dust.velocity = dust.velocity / 4f;
-                dust.noGravity = true;
-                dust.fadeIn = 1.1f;
-
-                dust.noLight = true;
+                int maxCrystals = 6;
+                Point[] array2 = new Point[maxCrystals];
+                projectile.Center = Main.npc[(int)projectile.ai[1]].Center - projectile.velocity * 1.4f;
             }
+            Point[] array = new Point[99];
+            int stacksofDebuff = 1;
+
+            for (int npcCounter = 0; npcCounter < 200; npcCounter++)
+            {
+                for (int projectileCounter = 0; projectileCounter < 1000; projectileCounter++)
+                {
+                    if (projectileCounter != projectile.whoAmI && Main.projectile[projectileCounter].active && Main.projectile[projectileCounter].owner == Main.myPlayer && Main.projectile[projectileCounter].type == projectile.type && Main.projectile[projectileCounter].ai[1] == npcCounter)
+                    {
+                        array[stacksofDebuff++] = new Point(projectileCounter, Main.projectile[projectileCounter].timeLeft);
+                    }
+                }
+            }
+            projectile.damage = stacksofDebuff * 2;
         }
-    }
-    public class VitricCrystalClumpProjectile : ModProjectile
-    {
-        public override void SetDefaults()
+        public override bool? CanHitNPC(NPC target)
         {
-            projectile.width = 24;
-            projectile.height = 28;
-            projectile.friendly = true;
-            projectile.penetrate = 4;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 280;
-            projectile.magic = true;
+            if (projectile.ai[1] != 0)
+            {
+                return false;
+            }
+            return base.CanHitNPC(target);
         }
-        public override void SetStaticDefaults()
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            DisplayName.SetDefault("VortexPenisStaff moment 2");
-        }
-        public override void AI()
-        {
-            projectile.velocity = new Vector2(0f, 0f);
+            projectile.ai[1] = target.whoAmI;
+            base.OnHitNPC(target, damage, knockback, crit);
         }
         public override void Kill(int timeLeft)
         {
