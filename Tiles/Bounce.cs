@@ -23,7 +23,7 @@ namespace StarlightRiver.Tiles
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -19);
-            if (!Main.npc.Any(npc => npc.Hitbox.Intersects(new Rectangle(i*16, j*16, 8,8)) && npc.type == mod.NPCType("Bouncer") ))
+            if (!Main.npc.Any(npc => npc.Hitbox.Intersects(new Rectangle(i*16 + 4, j*16 + 4, 1,1)) && npc.type == mod.NPCType("Bouncer") && npc.active ))
             {
                 NPC.NewNPC((int)pos.X, (int)pos.Y, mod.NPCType("Bouncer"));
             }
