@@ -9,7 +9,7 @@ namespace StarlightRiver.Items
 		{
 			DisplayName.SetDefault("Greenhouse Glass");
 			Tooltip.SetDefault("Speeds up the growth the plant below it"
-				+ "Needs a clear area above it");
+				+ "\nNeeds a clear area above it");
 		}
 		public override void SetDefaults()
 		{
