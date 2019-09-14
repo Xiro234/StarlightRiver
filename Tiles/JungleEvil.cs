@@ -38,7 +38,7 @@ namespace StarlightRiver.Tiles
             y = Main.rand.Next(-4, 4);
             //Main.NewText("tick");
 
-            if (Main.tile[i + x, j + y].active())//spread
+            if (Main.tile[i + x, j + y].active() && Main.hardMode)//spread
             {
                 if (Main.tile[i + x, j + y].type == TileID.JungleGrass)
                 {
@@ -72,9 +72,17 @@ namespace StarlightRiver.Tiles
 
             if (!Main.tile[i, j + 1].active() && Main.tile[i, j].slope() == 0)//vines (Maybe add the corruption thorns too?)
             {
-                if (Main.rand.Next(10) == 0)
+                if (Main.rand.Next(5) == 0)
                 {
                     WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
+                }
+            }
+
+            if (!Main.tile[i, j - 1].active() && Main.tile[i, j].slope() == 0)//grass
+            { 
+                if (Main.rand.Next(5) == 0)
+                {
+                    WorldGen.PlaceTile(i, j - 1, mod.TileType<TallgrassJungleCorrupt>(), true);
                 }
             }
         }
@@ -83,6 +91,14 @@ namespace StarlightRiver.Tiles
         {
             effectOnly = true;
             WorldGen.PlaceTile(i, j, TileID.Mud, false, true);
+        }
+
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (Main.rand.Next(600) == 0 && !Main.tile[i, j + 1].active() && Main.tile[i, j].slope() == 0)
+            {
+                Dust.NewDustPerfect(new Vector2(i, j) * 16, mod.DustType("Corrupt2"), new Vector2(0, 0.6f) );
+            }
         }
     }
 
@@ -109,7 +125,7 @@ namespace StarlightRiver.Tiles
         {
             if (!Main.tile[i, j + 1].active() && Main.tile[i, j - 9].type != Type)
             {
-                if (Main.rand.Next(10) == 0)
+                if (Main.rand.Next(1) == 0)
                 {
                         WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
                 }
@@ -129,6 +145,26 @@ namespace StarlightRiver.Tiles
                 WorldGen.SquareTileFrame(i, j, true);
             }
             return true;
+        }
+    }
+    public class TallgrassJungleCorrupt : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileCut[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.newTile.RandomStyleRange = 3;
+            TileObjectData.newTile.AnchorAlternateTiles = new int[]
+            {
+                mod.TileType<GrassJungleCorrupt>()
+            };
+            TileObjectData.addTile(Type);
+            soundType = 6;
+            dustType = 14;
         }
     }
 }

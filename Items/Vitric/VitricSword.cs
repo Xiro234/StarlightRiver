@@ -49,7 +49,8 @@ namespace StarlightRiver.Items.Vitric
                     Dust.NewDust(Vector2.Lerp(player.Center, target.Center, 0.4f), 8, 8, mod.DustType("Air"), (Vector2.Normalize(player.Center - target.Center) * -2).X, (Vector2.Normalize(player.Center - target.Center) * -2).Y);
 
                     float vel = Main.rand.Next(-300, -100) * 0.1f;
-                    Dust.NewDust(Vector2.Lerp(player.Center, target.Center, 0.4f), 16, 16, mod.DustType("Glass"), (Vector2.Normalize(player.Center - target.Center) * vel).X, (Vector2.Normalize(player.Center - target.Center) * vel).Y);
+                    int dus = Dust.NewDust(Vector2.Lerp(player.Center, target.Center, 0.4f), 16, 16, mod.DustType("Glass"), (Vector2.Normalize(player.Center - target.Center) * vel).X, (Vector2.Normalize(player.Center - target.Center) * vel).Y);
+                    Main.dust[dus].customData = player;
                 }
                 Broken = true;
             }

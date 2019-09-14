@@ -84,13 +84,12 @@ namespace StarlightRiver.Tiles
             num = fail ? 1 : 3;
         }
 
-        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/VitricOreFloatGlow");
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-                spriteBatch.Draw(glow, new Vector2((i + 12) * 16 - 1, (j + 12) * 16 - 1) - Main.screenPosition, color);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/VitricOreFloatGlow"), new Vector2((i + 12) * 16 - 1, (j + 12) * 16 - 1) - Main.screenPosition, color);
             }
         }
 

@@ -35,7 +35,7 @@ namespace StarlightRiver.NPCs.Hostile
             if(npc.localAI[1] == 0)
             {
                 float r = npc.localAI[0] / 60 * 6.28f;
-                if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) >= 80)
+                if (Vector2.Distance(npc.Center, Main.player[npc.target].Center + new Vector2(0, -32)) >= 100)
                 {
                     npc.velocity = Vector2.Normalize(npc.Center - Main.player[npc.target].Center + new Vector2(0, 30)) * -3 + new Vector2((float)Math.Cos(r), (float)Math.Sin(r + 3.14));
                 }

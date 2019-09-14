@@ -13,11 +13,12 @@ namespace StarlightRiver.NPCs.Hostile
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystal Slime");
+            Main.npcFrameCount[npc.type] = 2;
         }
         public override void SetDefaults()
         {
-            npc.width = 30;
-            npc.height = 30;
+            npc.width = 48;
+            npc.height = 32;
             npc.damage = 10;
             npc.defense = 5;
             npc.lifeMax = 25;
@@ -25,7 +26,11 @@ namespace StarlightRiver.NPCs.Hostile
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 10f;
             npc.knockBackResist = 0.2f;
-            npc.aiStyle = 1;          
+            npc.aiStyle = 1;   
+        }
+        public override Color? GetAlpha(Color drawColor)
+        {
+            return Lighting.GetColor((int)npc.position.X / 16, (int)npc.position.Y / 16) * 0.75f;
         }
 
         bool shielded = true;
@@ -40,10 +45,17 @@ namespace StarlightRiver.NPCs.Hostile
                 {
                     shielded = false;
                     npc.velocity += player.velocity * 0.5f;
-                }
+                    player.GetModPlayer<AbilityHandler>().ability.Active = false;
+                    player.velocity *= -0.2f;
+                    player.immune = true;
+                    player.immuneTime = 10;
 
-                player.GetModPlayer<AbilityHandler>().ability.Active = false;
-                player.GetModPlayer<AbilityHandler>().ability.OnExit();
+                    Main.PlaySound(SoundID.Shatter, npc.Center);
+                    for(int k = 0; k <= 20; k++)
+                    {
+                        Dust.NewDust(npc.position, 48, 32, mod.DustType("Glass2"),Main.rand.Next(-3, 2),-3,0,default,1.7f);
+                    }
+                }
             }
 
             if(shielded)
@@ -65,13 +77,13 @@ namespace StarlightRiver.NPCs.Hostile
             }
         }
 
-        public static Texture2D crystal = ModContent.GetTexture("StarlightRiver/NPCs/Hostile/Crystal");
-
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (shielded)
             {
-                spriteBatch.Draw(crystal, npc.position - Main.screenPosition, Color.White);
+                Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Hostile/Crystal"), npc.position - Main.screenPosition + new Vector2(-2, -5), Lighting.GetColor((int)npc.position.X / 16, (int)npc.position.Y / 16));
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Hostile/CrystalGlow"), npc.position - Main.screenPosition + new Vector2(-3, -6), color);
             }
         }
     }
