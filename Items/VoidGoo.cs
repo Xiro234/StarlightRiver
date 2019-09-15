@@ -1,3 +1,6 @@
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
@@ -8,6 +11,8 @@ namespace StarlightRiver.Items
         {
             Tooltip.SetDefault("Can be passed with a shadow dash");
             DisplayName.SetDefault("Void Goo");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
+            ItemID.Sets.ItemNoGravity[item.type] = true;
         }
 
         public override void SetDefaults()
@@ -20,6 +25,7 @@ namespace StarlightRiver.Items
             item.useAnimation = 15;
             item.useTime = 10;
             item.useStyle = 1;
+            item.noUseGraphic = true;
             item.consumable = true;
             item.createTile = mod.TileType("VoidGoo");
         }

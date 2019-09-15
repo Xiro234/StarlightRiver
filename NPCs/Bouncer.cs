@@ -39,6 +39,13 @@ namespace StarlightRiver.NPCs
                 if (player.velocity.Length() != 0)
                 {
                     player.velocity = Vector2.Normalize(player.velocity) * -15f;
+                    player.wingTime = player.wingTimeMax;
+                    player.rocketTime = player.rocketTimeMax;
+                    player.jumpAgainCloud = true;
+                    player.jumpAgainBlizzard = true;
+                    player.jumpAgainSandstorm = true;
+                    player.jumpAgainFart = true;
+                    player.jumpAgainSail = true;
                 }
 
                 Main.PlaySound(SoundID.Shatter, npc.Center);

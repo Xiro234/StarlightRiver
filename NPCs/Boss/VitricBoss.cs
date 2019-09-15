@@ -197,10 +197,7 @@ namespace StarlightRiver.NPCs.Boss
                                 break;
                         }
                     }
-                    
-
-                    
-
+                                       
                     if(npc.life <= npc.lifeMax / 2)
                     {
                         npc.localAI[1] = 0;

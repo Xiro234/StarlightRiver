@@ -13,6 +13,7 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using StarlightRiver.GUI;
+using StarlightRiver.Ability;
 
 namespace StarlightRiver
 {
@@ -79,6 +80,11 @@ namespace StarlightRiver
             {
                 Overlay.visible = true;
                 Overlay.state = 1;
+
+                if(player.GetModPlayer<AbilityHandler>(mod).unlock[2] == 0)
+                {
+                    player.AddBuff(mod.BuffType("DarkSlow"), 5);
+                }
             }
             else if (ZoneJungleCorrupt)
             {

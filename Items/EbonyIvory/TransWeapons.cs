@@ -45,6 +45,7 @@ namespace StarlightRiver.Items.EbonyIvory
                 {
                     transCharge = 6;
                     Main.NewText("Whip and NaeNae ready");
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/WhipAndNaenae"));
                 }
                 item.autoReuse = false;
                 item.useTime = 18;

@@ -97,7 +97,7 @@ namespace StarlightRiver.Ability
                 stamina = (staminamax + permanentstamina);
                 return;
             }
-            if (staminaticker++ >= staminaTickerMax && stamina < (staminamax + permanentstamina) && !(ability is Float && ability.Active))
+            if (staminaticker++ >= staminaTickerMax && stamina < (staminamax + permanentstamina) && !(ability is Float && ability.Active) && staminaTickerMax > 0 )
             {
                 stamina++;
             }

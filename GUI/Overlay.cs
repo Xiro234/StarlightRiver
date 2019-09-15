@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Ability;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,24 +33,50 @@ namespace StarlightRiver.GUI
             {
                 if (state == 1)
                 {
-                    for (int k = 0; k <= Main.screenWidth; k++)
+                    if (Main.LocalPlayer.GetModPlayer<AbilityHandler>(StarlightRiver.Instance).unlock[2] == 1)
                     {
-                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
+                        for (int k = 0; k <= Main.screenWidth; k++)
                         {
-                            VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, -10), new Vector2(0, 2));
-                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -2));
-                            Bootlegdust.Add(dus);
-                            Bootlegdust.Add(dus2);
+                            if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
+                            {
+                                VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, -10), new Vector2(0, 2));
+                                VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -2));
+                                Bootlegdust.Add(dus);
+                                Bootlegdust.Add(dus2);
+                            }
+                        }
+                        for (int k = 0; k <= Main.screenHeight; k++)
+                        {
+                            if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
+                            {
+                                VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(-15, k), new Vector2(2, 0));
+                                VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-2, 0));
+                                Bootlegdust.Add(dus);
+                                Bootlegdust.Add(dus2);
+                            }
                         }
                     }
-                    for (int k = 0; k <= Main.screenHeight; k++)
+                    else
                     {
-                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
+                        for (int k = 0; k <= Main.screenWidth; k++)
                         {
-                            VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(-15, k), new Vector2(2, 0));
-                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-2, 0));
-                            Bootlegdust.Add(dus);
-                            Bootlegdust.Add(dus2);
+                            if (k % Main.rand.Next(3, 13) == 0 && Main.rand.Next(4) == 0)
+                            {
+                                VoidDust2 dus = new VoidDust2(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, -10), new Vector2(0, 2));
+                                VoidDust2 dus2 = new VoidDust2(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -2));
+                                Bootlegdust.Add(dus);
+                                Bootlegdust.Add(dus2);
+                            }
+                        }
+                        for (int k = 0; k <= Main.screenHeight; k++)
+                        {
+                            if (k % Main.rand.Next(3, 13) == 0 && Main.rand.Next(4) == 0)
+                            {
+                                VoidDust2 dus = new VoidDust2(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(-15, k), new Vector2(2, 0));
+                                VoidDust2 dus2 = new VoidDust2(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-2, 0));
+                                Bootlegdust.Add(dus);
+                                Bootlegdust.Add(dus2);
+                            }
                         }
                     }
                 }
@@ -69,6 +96,11 @@ namespace StarlightRiver.GUI
             {
                 Bootlegdust.Clear();
             }
+
+            if(state == 0)
+            {
+                Bootlegdust.Clear();
+            }
         }
     }
 
@@ -85,6 +117,22 @@ namespace StarlightRiver.GUI
             pos += vel;
             scl *= 0.97f;
             time--;
+        }
+    }
+    public class VoidDust2 : BootlegDust
+    {
+        public VoidDust2(Texture2D texture, Vector2 position, Vector2 velocity) :
+            base(texture, position, velocity, Color.Black, 8f, 160)
+        {
+        }
+
+        public override void Update()
+        {
+            col *= 0.99f;
+            pos += vel;
+            scl *= 0.99f;
+            time--;
+
         }
     }
     public class EvilDust : BootlegDust
