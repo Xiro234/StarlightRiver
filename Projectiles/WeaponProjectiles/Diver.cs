@@ -14,10 +14,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.width = 8;
             projectile.height = 8;
             projectile.penetrate = -1;
-            projectile.timeLeft = 180;
+            projectile.timeLeft = 750;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.damage = 5;
+            projectile.extraUpdates = 5;
         }
         public override void SetStaticDefaults()
         {
@@ -29,12 +30,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (Main.tile[(int)projectile.position.X / 16, (int)projectile.position.Y / 16].active() == false)
             {
                 Dust.NewDustPerfect(projectile.position, mod.DustType("Gold"));
-                projectile.velocity.Y += 1;
+                projectile.velocity.Y += 0.02f;
             }
             else
             {
-                Dust.NewDustPerfect(projectile.position, mod.DustType("Gold"), null, 0, new Color(0, 0, 0));
-                projectile.velocity.Y -= 1;
+                Dust.NewDustPerfect(projectile.position, mod.DustType("Gold"));
+                projectile.velocity.Y -= 0.02f;
             }
         }
     }

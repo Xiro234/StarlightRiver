@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
@@ -12,11 +13,12 @@ namespace StarlightRiver.Items
             item.height = 34;
             item.useStyle = 5;
             Item.staff[item.type] = true;
-            item.useAnimation = 10;
-            item.useTime = 10;
-            item.shootSpeed = 10f;
+            item.useAnimation = 40;
+            item.useTime = 40;
+            item.shootSpeed = 3f;
             item.knockBack = 2f;
             item.damage = 18;
+            item.UseSound = SoundID.Item43;
             item.shoot = mod.ProjectileType("Diver");
             item.rare = 2;
             item.noMelee = true;
@@ -25,8 +27,8 @@ namespace StarlightRiver.Items
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Diver Staff");
-            Tooltip.SetDefault("He Swim!");
+            DisplayName.SetDefault("Splitstream");
+            Tooltip.SetDefault("Shoots a projectile that ascends in blocks");
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
