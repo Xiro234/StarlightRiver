@@ -64,16 +64,6 @@ namespace StarlightRiver
             ZoneJungleCorrupt = flags[2];
         }
 
-        public override Texture2D GetMapBackgroundImage()
-        {
-            if (ZoneGlass)
-            {
-                //return mod.GetTexture("ExampleBiomeMapBackground");
-                return null;
-            }
-            return null;
-        }
-
         public override void PreUpdate()
         {
             if (ZoneVoidPre)
