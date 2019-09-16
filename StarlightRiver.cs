@@ -47,6 +47,12 @@ namespace StarlightRiver
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleCorrupt");
                     priority = MusicPriority.BiomeHigh;
                 }
+
+                if(Main.LocalPlayer.ZoneOverworldHeight && LegendWorld.starfall)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
+                    priority = MusicPriority.BiomeHigh;
+                }
             }
             return;           
         }

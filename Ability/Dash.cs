@@ -22,7 +22,8 @@ namespace StarlightRiver.Ability
         public override void OnCast()
         {
             Active = true;
-            Main.PlaySound(SoundID.Item37);
+            Main.PlaySound(SoundID.Item45);
+            Main.PlaySound(SoundID.Item104);
             timer = 5;
         }
 
@@ -38,7 +39,7 @@ namespace StarlightRiver.Ability
 
             if (X != 0 || Y != 0)
             {
-                player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 40;
+                player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 45;
 
                 for (int k = 0; k <= 10; k++)
                 {
@@ -55,8 +56,8 @@ namespace StarlightRiver.Ability
         public override void OnExit()
         {
             Player player = Handler.player;
-            player.velocity.X = 0;
-            player.velocity.Y = 0;
+            player.velocity.X *= 0.15f;
+            player.velocity.Y *= 0.15f;
         }
     }
 }

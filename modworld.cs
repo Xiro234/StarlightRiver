@@ -144,15 +144,7 @@ namespace StarlightRiver
                 }
             }
         }
-        public static float rottime = 0;
-        public override void PreUpdate()
-        {
-            rottime += (float)Math.PI / 60;
-            if(rottime >= Math.PI * 2)
-            {
-                rottime = 0;
-            }
-        }
+
         public override void PostWorldGen()
         {
             // Top-Left Position
@@ -291,6 +283,45 @@ namespace StarlightRiver
             }           
         }
 
+        public static float rottime = 0;
+        public static bool starfall = false;
+        public override void PreUpdate()
+        {
+            rottime += (float)Math.PI / 60;
+            if (rottime >= Math.PI * 2)
+            {
+                rottime = 0;
+            }
+
+            Main.NewText(Main.time);
+            if(Main.time == 12 && !Main.bloodMoon)
+            {
+                starfall = true;
+                Main.NewText("The Starlight River is Passing Through!");
+            }
+
+            if (starfall)
+            {
+                Player player = Main.LocalPlayer;
+                
+                if (Main.time % 2 == 0)
+                {
+                    Projectile.NewProjectile(new Vector2(Main.rand.Next(0, Main.maxTilesX) * 16 + Main.rand.Next(-16, 16), 100), Vector2.Zero, mod.ProjectileType("StarShard"), 500, 0.5f);
+                }
+                if(Main.dayTime)
+                {
+                    starfall = false;
+                    foreach(Projectile proj in Main.projectile)
+                    {
+                        if(proj.type == mod.ProjectileType("StarShard"))
+                        {
+                            proj.timeLeft = 0;
+                        }
+                    }
+                }
+            }
+        }
+
         public override void PostUpdate()
         {
             if (!Main.projectile.Any(proj => proj.type == mod.ProjectileType("Purifier")) && PureTiles != null)
@@ -302,6 +333,7 @@ namespace StarlightRiver
                 NPC.NewNPC((int)PureSpawnPoint.X * 16, (int)PureSpawnPoint.Y * 16, mod.NPCType("Purity"));
             }
         }
+
         public override TagCompound Save()
         {
             return new TagCompound
