@@ -44,6 +44,35 @@ namespace StarlightRiver.Tiles
         }
     }
 
+    class Oven2 : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLavaDeath[Type] = false;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileLighted[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.addTile(Type);
+            AddMapEntry(new Color(113, 113, 113));
+            dustType = DustID.Stone;
+            disableSmartCursor = true;
+            adjTiles = new int[] { mod.TileType<Oven>() };
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Astral Oven");
+        }
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 0.5f;
+            g = 0.3f;
+            b = 0.15f;
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("Oven2"));
+        }
+    }
+
     class HerbStation : ModTile
     {
         public override void SetDefaults()
