@@ -293,8 +293,7 @@ namespace StarlightRiver
                 rottime = 0;
             }
 
-            Main.NewText(Main.time);
-            if(Main.time == 12 && !Main.bloodMoon)
+            if(Main.time == 12 && !Main.bloodMoon && Main.rand.Next(2) == 0)
             {
                 starfall = true;
                 Main.NewText("The Starlight River is Passing Through!");

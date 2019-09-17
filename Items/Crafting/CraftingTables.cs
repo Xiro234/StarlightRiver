@@ -40,12 +40,12 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
-    public class AstralForge : ModItem
+    public class Oven2 : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Forge");
-            Tooltip.SetDefault("Used to harness the power of the stars");
+            DisplayName.SetDefault("Astral Oven");
+            Tooltip.SetDefault("Used to bake advanced items");
         }
 
         public override void SetDefaults()
@@ -58,22 +58,18 @@ namespace StarlightRiver.Items.Crafting
             item.useAnimation = 15;
             item.useTime = 10;
             item.useStyle = 1;
+            item.rare = 2;
             item.consumable = true;
-            item.createTile = mod.TileType("AstralForge");
+            item.createTile = mod.TileType("Oven2");
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<AstralOre>(), 10);
-            recipe.AddIngredient(ItemID.Hellforge, 1);
+            recipe.AddIngredient(mod.ItemType<Oven>());
+            recipe.AddIngredient(mod.ItemType<AluminumBar>(), 15);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
-            recipe.AddRecipe();
-            new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<AstralOre>(), 5);
-            recipe.AddIngredient(mod.ItemType<StardustSoul>(), 1);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(mod.ItemType<AstralBar>());
             recipe.AddRecipe();
         }
     }

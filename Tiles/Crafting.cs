@@ -43,33 +43,6 @@ namespace StarlightRiver.Tiles
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("Oven"));
         }
     }
-    class AstralForge : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLighted[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.addTile(Type);
-            AddMapEntry(new Color(10, 255, 255));
-            dustType = DustID.Vortex;
-            disableSmartCursor = true;
-
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Astral Forge");
-        }
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            r = 0.1f;
-            g = 0.5f;
-            b = 0.5f;
-        }
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("AstralForge"));
-        }
-    }
 
     class Oven2 : ModTile
     {
