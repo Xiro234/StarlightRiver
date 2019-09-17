@@ -37,7 +37,6 @@ namespace StarlightRiver.Projectiles
             {
                 Item.NewItem(projectile.position, mod.ItemType<Items.Crafting.StardustSoul>(), 1);
             }
-            Item.NewItem(projectile.position, mod.ItemType<Items.Crafting.AstralOre>(), Main.rand.Next(5));
         }
         public override void AI()
         {
