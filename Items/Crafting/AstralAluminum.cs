@@ -44,4 +44,20 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
+    public class Starlight : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Fading starlight");
+            Tooltip.SetDefault("A fading fragment of brilliance"); 
+        }
+        public override void SetDefaults()
+        {
+            item.width = 14;
+            item.height = 12;
+            item.maxStack = 999;
+            item.value = 100;
+            item.rare = 1;
+        }
+    }
 }
