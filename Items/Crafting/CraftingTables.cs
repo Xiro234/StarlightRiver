@@ -40,6 +40,43 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
+    public class AstralForge : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Astral Forge");
+            Tooltip.SetDefault("Used to harness the power of the stars");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 16;
+            item.height = 16;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createTile = mod.TileType("AstralForge");
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType<AstralOre>(), 10);
+            recipe.AddIngredient(ItemID.Hellforge, 1);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType<AstralOre>(), 5);
+            recipe.AddIngredient(mod.ItemType<StardustSoul>(), 1);
+            recipe.AddTile(TileID.Furnaces);
+            recipe.SetResult(mod.ItemType<AstralBar>());
+            recipe.AddRecipe();
+        }
+    }
     public class HerbStation : ModItem
     {
         public override void SetStaticDefaults()
