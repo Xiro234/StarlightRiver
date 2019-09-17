@@ -29,6 +29,11 @@ namespace StarlightRiver.Projectiles
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Starlight"), Main.rand.NextFloat(-30, 30), Main.rand.NextFloat(-30, 30), 0, default, 1.8f);               
             }
 
+            if (Main.rand.Next(4) == 0 && Vector2.Distance(projectile.position, Main.LocalPlayer.position) <= 800)
+            {
+                Item.NewItem(projectile.position, mod.ItemType<Items.Crafting.AstralOre>(), Main.rand.Next(10));              
+            }
+
             if (Main.rand.Next(2) == 0 && Vector2.Distance(projectile.position, Main.LocalPlayer.position) <= 800)
             {
                 Item.NewItem(projectile.position, mod.ItemType<Items.Crafting.AluminumOre>(), Main.rand.Next(4));
