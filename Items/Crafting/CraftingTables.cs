@@ -65,12 +65,11 @@ namespace StarlightRiver.Items.Crafting
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<AstralOre>(), 10);
-            recipe.AddIngredient(mod.ItemType<StardustSoul>(), 3);
             recipe.AddIngredient(ItemID.Hellforge, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
+            new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<AstralOre>(), 5);
             recipe.AddIngredient(mod.ItemType<StardustSoul>(), 1);
             recipe.AddTile(TileID.Furnaces);

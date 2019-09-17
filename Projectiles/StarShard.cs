@@ -33,7 +33,8 @@ namespace StarlightRiver.Projectiles
             {
                 Item.NewItem(projectile.position, mod.ItemType<Items.Crafting.AstralOre>(), Main.rand.Next(10));              
             }
-            if (Main.rand.Next(1) == 0 && Vector2.Distance(projectile.position, Main.LocalPlayer.position) <= 800)
+
+            if (Main.rand.Next(2) == 0 && Vector2.Distance(projectile.position, Main.LocalPlayer.position) <= 800)
             {
                 Item.NewItem(projectile.position, mod.ItemType<Items.Crafting.StardustSoul>(), 1);
             }
