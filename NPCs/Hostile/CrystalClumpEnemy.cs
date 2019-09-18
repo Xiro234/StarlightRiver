@@ -63,7 +63,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             void SpawnDust(float speed)
             {
-                Vector2 dustPos = npc.Center + Main.rand.NextVector2CircularEdge(180, 180);
+                Vector2 dustPos = npc.Center + Main.rand.NextVector2CircularEdge(120, 120);
                 Dust.NewDustPerfect(dustPos, mod.DustType("Air"), 
                     (dustPos - npc.Center).SafeNormalize(Vector2.Zero) /* Use SafeNormalize to prevent nasty DB0 errors. */ * -speed, 
                     0, default, 0.6f);
@@ -111,7 +111,7 @@ namespace StarlightRiver.NPCs.Hostile
             for (int players = 0; players <= Main.ActivePlayersCount; players += 1)
             {
                 Player allPlayers = Main.player[players];
-                if (Vector2.Distance(npc.Center, allPlayers.Center) <= 180)
+                if (Vector2.Distance(npc.Center, allPlayers.Center) <= 120)
                 {
                     npc.velocity = Vector2.Zero;
                     allPlayers.velocity = (npc.Center - allPlayers.Center).SafeNormalize(Vector2.Zero) * 5;

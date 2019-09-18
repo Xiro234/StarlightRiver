@@ -43,6 +43,10 @@ namespace StarlightRiver.Projectiles
             projectile.timeLeft = 2;
             projectile.velocity = new Vector2(-2, 8);
             Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Starlight"));
+            if (Main.dayTime)
+            {
+                projectile.active = false;
+            }
         }      
     }
 }

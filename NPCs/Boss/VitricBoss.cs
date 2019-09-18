@@ -42,6 +42,22 @@ namespace StarlightRiver.NPCs.Boss
             npc.lifeMax = (int)(npc.lifeMax * 0.625f * bossLifeScale);
             npc.damage = (int)(npc.damage * 0.6f);
         }
+
+        public override bool CheckDead()
+        {
+            if (!LegendWorld.AnyBossDowned)
+            {
+                LegendWorld.ForceStarfall = true;
+            }
+
+            if (!LegendWorld.GlassBossDowned)
+            {
+                LegendWorld.GlassBossDowned = true;
+                LegendWorld.AnyBossDowned = true;
+            }
+
+            return true;
+        }
         Vector2 direction = Vector2.Zero;
         Vector2[] spawns = new Vector2[6];
         public override void AI()

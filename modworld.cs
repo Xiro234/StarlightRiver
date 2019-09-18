@@ -21,6 +21,11 @@ namespace StarlightRiver
     {
         public Vector2 PureSpawnPoint;
 
+        public static bool ForceStarfall = false; 
+
+        public static bool AnyBossDowned = false;
+        public static bool GlassBossDowned = false;
+
         public static List<Vector2> PureTiles = new List<Vector2> { };
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
@@ -292,10 +297,11 @@ namespace StarlightRiver
             {
                 rottime = 0;
             }
-
-            if(Main.time == 12 && !Main.bloodMoon && Main.rand.Next(2) == 0)
+            if(Main.time == 12 && ((AnyBossDowned && !Main.bloodMoon && Main.rand.Next(11) == 0) || ForceStarfall))
             {
                 starfall = true;
+                Main.bloodMoon = false;
+                ForceStarfall = false;
                 Main.NewText("The Starlight River is Passing Through!");
             }
 
@@ -310,13 +316,6 @@ namespace StarlightRiver
                 if(Main.dayTime)
                 {
                     starfall = false;
-                    foreach(Projectile proj in Main.projectile)
-                    {
-                        if(proj.type == mod.ProjectileType("StarShard"))
-                        {
-                            proj.timeLeft = 0;
-                        }
-                    }
                 }
             }
         }
@@ -333,16 +332,31 @@ namespace StarlightRiver
             }
         }
 
+        public override void Initialize()
+        {
+            AnyBossDowned = false;
+
+            GlassBossDowned = false;
+            ForceStarfall = false;
+
+        }
+
         public override TagCompound Save()
         {
             return new TagCompound
             {
+                [nameof(GlassBossDowned)] = GlassBossDowned,
+                [nameof(ForceStarfall)] = ForceStarfall,
+
                 [nameof(PureTiles)] = PureTiles,
-                [nameof(PureSpawnPoint)] = PureSpawnPoint
+                [nameof(PureSpawnPoint)] = PureSpawnPoint               
             };
         }
         public override void Load(TagCompound tag)
         {
+            GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
+            ForceStarfall = tag.GetBool(nameof(ForceStarfall));
+
             PureTiles = (List<Vector2>)tag.GetList<Vector2>(nameof(PureTiles));
             PureSpawnPoint = tag.Get<Vector2>(nameof(PureSpawnPoint));
 
