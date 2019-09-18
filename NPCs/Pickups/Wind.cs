@@ -66,9 +66,6 @@ namespace StarlightRiver.NPCs.Pickups
             }
             
         }
-
-        public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
-
         float timer = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -82,8 +79,11 @@ namespace StarlightRiver.NPCs.Pickups
 
             if (mp.unlock[0] == 0)
             {
-                spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
-                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Air"));
+                Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 8);
+
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1"), npc.position + new Vector2(0, (float)Math.Sin(timer) * 8) - Main.screenPosition, Color.White);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Bubble"), new Rectangle((int)pos.X - 4, (int)pos.Y - 4, 40 + (int)((Math.Cos(timer * 3) +1) * 4f), 40 + (int)((Math.Sin(timer * 3) + 1) * 4f)), Color.White);
+                Dust.NewDust(new Vector2(npc.position.X - 4, npc.position.Y - 4), 40, 40, mod.DustType("Air"),0,0,0,default,0.5f);
             }
             if(mp.unlock[0] == 1 && animate == 0)
             {

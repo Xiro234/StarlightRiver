@@ -11,7 +11,7 @@ namespace StarlightRiver.Items.Crafting
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Aluminum Chunk");
-            Tooltip.SetDefault("Smelt into bars at an Oven"); //is that too much? yes
+            Tooltip.SetDefault("Smelt into bars at an Oven");
         }
         public override void SetDefaults()
         {
@@ -27,7 +27,7 @@ namespace StarlightRiver.Items.Crafting
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Aluminum Bar");
-            Tooltip.SetDefault("It shimmers with beautiful light"); //is that too much? yes
+            Tooltip.SetDefault("It shimmers with beautiful light"); 
         }
         public override void SetDefaults()
         {

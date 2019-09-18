@@ -83,7 +83,10 @@ namespace StarlightRiver.Ability
                 ability.Handler = this;
                 ability.ConsumeStamina();
                 ability.OnCast();
-                store = player.wingTime;
+                if (player.wingTime > 0)
+                {
+                    store = player.wingTime;
+                }
                 player.wingTime = 0;
             }
         }

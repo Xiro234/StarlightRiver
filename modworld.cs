@@ -23,8 +23,12 @@ namespace StarlightRiver
 
         public static bool ForceStarfall = false; 
 
+        //Boss Flags
         public static bool AnyBossDowned = false;
         public static bool GlassBossDowned = false;
+
+        //Voidsmith
+        public static int[] NPCUpgrades = new int[] { 0,0 };
 
         public static List<Vector2> PureTiles = new List<Vector2> { };
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
@@ -153,7 +157,7 @@ namespace StarlightRiver
         public override void PostWorldGen()
         {
             // Top-Left Position
-            Vector2 PureAltarSP = new Vector2(Main.spawnTileX, Main.spawnTileY - 50);
+            Vector2 PureAltarSP = new Vector2(Main.spawnTileX, Main.maxTilesY - 200);
             PureSpawnPoint = PureAltarSP + new Vector2(7, 18);
 
             // Slopes in order: full=0, BL, BR, TL, TR, half
@@ -330,6 +334,7 @@ namespace StarlightRiver
             {
                 NPC.NewNPC((int)PureSpawnPoint.X * 16, (int)PureSpawnPoint.Y * 16, mod.NPCType("Purity"));
             }
+            Main.NewText(NPCUpgrades.Length);
         }
 
         public override void Initialize()
@@ -339,6 +344,7 @@ namespace StarlightRiver
             GlassBossDowned = false;
             ForceStarfall = false;
 
+            NPCUpgrades = new int[] { 0, 0 };
         }
 
         public override TagCompound Save()
@@ -348,6 +354,8 @@ namespace StarlightRiver
                 [nameof(GlassBossDowned)] = GlassBossDowned,
                 [nameof(ForceStarfall)] = ForceStarfall,
 
+                [nameof(NPCUpgrades)] = NPCUpgrades,
+
                 [nameof(PureTiles)] = PureTiles,
                 [nameof(PureSpawnPoint)] = PureSpawnPoint               
             };
@@ -356,6 +364,8 @@ namespace StarlightRiver
         {
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
             ForceStarfall = tag.GetBool(nameof(ForceStarfall));
+
+            NPCUpgrades = tag.GetIntArray(nameof(NPCUpgrades));           
 
             PureTiles = (List<Vector2>)tag.GetList<Vector2>(nameof(PureTiles));
             PureSpawnPoint = tag.Get<Vector2>(nameof(PureSpawnPoint));
@@ -374,6 +384,14 @@ namespace StarlightRiver
                             if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); }
                         }
                     }
+                }
+            }
+
+            foreach(NPC npc in Main.npc)
+            {
+                if (npc.townNPC)
+                {
+                    npc.life = 250 + NPCUpgrades[0] * 50;
                 }
             }
             PureTiles.Clear();

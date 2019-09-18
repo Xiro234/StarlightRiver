@@ -125,11 +125,11 @@ namespace StarlightRiver.GUI
                 select = 0;
             }
 
-            if (mp.unlock[0] == 1) { wind.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab1")); } else { wind.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-            if (mp.unlock[1] == 1) { wisp.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab2")); } else { wisp.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-            if (mp.unlock[2] == 1) { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab3")); } else { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-            if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab4")); } else { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-            if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/ab5")); } else { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[0] == 1) { wind.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1")); } else { wind.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[1] == 1) { wisp.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1")); } else { wisp.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[2] == 1) { pure.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1")); } else { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1")); } else { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1")); } else { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
 
             switch (select)
             {
