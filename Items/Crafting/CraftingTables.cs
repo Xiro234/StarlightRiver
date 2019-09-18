@@ -45,7 +45,7 @@ namespace StarlightRiver.Items.Crafting
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Oven");
-            Tooltip.SetDefault("Used to bake advanced items");
+            Tooltip.SetDefault("Harness the power of the stars to create advanced items");
         }
 
         public override void SetDefaults()
@@ -66,7 +66,8 @@ namespace StarlightRiver.Items.Crafting
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType<Oven>());
-            recipe.AddIngredient(mod.ItemType<AluminumBar>(), 15);
+            recipe.AddIngredient(mod.ItemType<AluminumOre>(), 10);
+            recipe.AddIngredient(mod.ItemType<StarFragment>(), 3);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
