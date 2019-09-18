@@ -35,7 +35,7 @@ namespace StarlightRiver.Projectiles
             }
             if (Main.rand.Next(1) == 0 && Vector2.Distance(projectile.position, Main.LocalPlayer.position) <= 800)
             {
-                Item.NewItem(projectile.position, mod.ItemType<Items.Crafting.StarFragment>(), 1);
+                Item.NewItem(projectile.position, mod.ItemType<Items.Crafting.Starlight>(), 1);
             }
         }
         public override void AI()
