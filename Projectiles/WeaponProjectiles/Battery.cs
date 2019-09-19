@@ -10,18 +10,15 @@ namespace StarlightRiver.Projectiles.Ammo
     {
         public override void SetDefaults()
         {
-            projectile.damage = 8;
             projectile.width = 8;
             projectile.height = 8;
-            projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 1000;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.extraUpdates = 5;
-            aiType = ProjectileID.Bullet;
+            projectile.extraUpdates = 1;
         }
         public override void SetStaticDefaults()
         {
@@ -31,7 +28,8 @@ namespace StarlightRiver.Projectiles.Ammo
         bool picked = false;
         NPC target = Main.npc[0];
         public override void AI()
-        {                     
+        {
+            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
             if (!picked)
             {
                 for (int k = 0; k < Main.npc.Length; k++)
@@ -45,10 +43,13 @@ namespace StarlightRiver.Projectiles.Ammo
                 projectile.velocity *= 2f;
             }
 
-            Dust.NewDust(projectile.position, 1, 1, mod.DustType<Dusts.Gold>(),0,0,0,default,0.4f);
+            if (Main.rand.Next(2) == 0)
+            {
+                Dust.NewDust(projectile.position, 1, 1, mod.DustType<Dusts.Gold>(), 0, 0, 0, default, 0.4f);
+            }
             if (Vector2.Distance(target.Center, projectile.Center) <= 800)
-                {
-                projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.1f;
+            {
+                projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.14f;
             }
         }
     }

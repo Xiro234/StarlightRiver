@@ -57,11 +57,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 74); //fork boom
             int explosion = Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), mod.ProjectileType("AOEExplosion"), projectile.damage, projectile.knockBack, player.whoAmI);
             Main.projectile[explosion].ai[0] = 80;
-            for (int counter = 0; counter <= 25; counter++)
+            for (int counter = 0; counter <= 18; counter++)
             {
                 Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 15, 0f, 0f, 255, default(Color), 1f)];
-                dust.velocity += new Vector2(Main.rand.NextFloat(-2.6f, 2.6f), Main.rand.NextFloat(-2.6f, 2.6f));
-                dust.scale = 1.8f;
+                dust.velocity += new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
+                dust.scale = 2f;
                 dust.position = projectile.Center;
                 dust.noGravity = true;
                 dust.noLight = true;

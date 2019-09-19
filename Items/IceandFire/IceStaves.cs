@@ -33,8 +33,9 @@ namespace StarlightRiver.Items.IceandFire
                 position += muzzleOffset;
             }
             Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(18));
-            Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, item.shoot, damage, knockBack, player.whoAmI);
-            return false;
+            speedX = perturbedSpeed.X;
+            speedY = perturbedSpeed.Y;
+            return true;
         }
         public override void SetStaticDefaults()
         {
@@ -71,8 +72,9 @@ namespace StarlightRiver.Items.IceandFire
                 position += muzzleOffset;
             }
             Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(18));
-            Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, item.shoot, damage, knockBack, player.whoAmI);
-            return false;
+            speedX = perturbedSpeed.X;
+            speedY = perturbedSpeed.Y;
+            return true;
         }
         public override void SetStaticDefaults()
         {
