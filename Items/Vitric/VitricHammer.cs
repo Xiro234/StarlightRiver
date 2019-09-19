@@ -1,4 +1,4 @@
-﻿/*using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +14,15 @@ namespace StarlightRiver.Items.Vitric
     {
         public override void SetDefaults()
         {
-            item.damage = 10;
+            item.damage = 28;
             item.melee = true;
-            item.width = 60;
-            item.height = 60;
-            item.useTime = 15;
-            item.useAnimation = 35;
-            item.hammer = 65;
+            item.width = 30;
+            item.height = 30;
+            item.useTime = 30;
+            item.useAnimation = 30;
+            item.hammer = 75;
             item.useStyle = 1;
-            item.knockBack = 10f;
+            item.knockBack = 6f;
             item.value = 1000;
             item.rare = 2;
             item.autoReuse = true;
@@ -31,14 +31,14 @@ namespace StarlightRiver.Items.Vitric
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vitreous Hammer");
+            DisplayName.SetDefault("Vitric Hammer");
             Tooltip.SetDefault("");
         }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.OverseerCore>());
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricBar>(), 7);
+            recipe.AddIngredient(ItemID.FossilOre, 8);
+            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricGem>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -46,4 +46,4 @@ namespace StarlightRiver.Items.Vitric
 
     }
 
-}*/
+}

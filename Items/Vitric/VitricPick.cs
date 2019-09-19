@@ -18,8 +18,8 @@ namespace StarlightRiver.Items.Vitric
             item.melee = true;
             item.width = 38;
             item.height = 38;
-            item.useTime = 14;
-            item.useAnimation = 22;
+            item.useTime = 18;
+            item.useAnimation = 18;
             item.pick = 85;
             item.useStyle = 1;
             item.knockBack = 5f;

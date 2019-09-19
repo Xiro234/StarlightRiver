@@ -334,7 +334,6 @@ namespace StarlightRiver
             {
                 NPC.NewNPC((int)PureSpawnPoint.X * 16, (int)PureSpawnPoint.Y * 16, mod.NPCType("Purity"));
             }
-            Main.NewText(NPCUpgrades.Length);
         }
 
         public override void Initialize()

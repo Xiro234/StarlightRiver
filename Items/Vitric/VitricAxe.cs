@@ -14,13 +14,13 @@ namespace StarlightRiver.Items.Vitric
     {
         public override void SetDefaults()
         {
-            item.damage = 10;
+            item.damage = 18;
             item.melee = true;
             item.width = 36;
             item.height = 32;
-            item.useTime = 15;
+            item.useTime = 25;
             item.useAnimation = 25;
-            item.axe = 17;
+            item.axe = 20;
             item.useStyle = 1;
             item.knockBack = 5f;
             item.value = 1000;
