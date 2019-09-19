@@ -10,10 +10,8 @@ namespace StarlightRiver.Projectiles.Ammo
     {
         public override void SetDefaults()
         {
-            projectile.damage = 8;
             projectile.width = 8;
             projectile.height = 8;
-            projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
@@ -21,7 +19,6 @@ namespace StarlightRiver.Projectiles.Ammo
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.extraUpdates = 5;
-            aiType = ProjectileID.Bullet;
         }
         public override void SetStaticDefaults()
         {

@@ -17,7 +17,7 @@ namespace StarlightRiver.Items
             item.useTime = 5;
             item.shootSpeed = 2f;
             item.knockBack = 2f;
-            item.damage = 18;
+            item.damage = 50;
             item.UseSound = SoundID.Item43;
             item.shoot = mod.ProjectileType("Battery");
             item.rare = 2;
