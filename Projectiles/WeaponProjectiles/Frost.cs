@@ -11,8 +11,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
     {
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
+            projectile.width = 20;
+            projectile.height = 20;
             projectile.friendly = true;
             projectile.penetrate = 2;
             projectile.timeLeft = 180;
@@ -25,63 +25,22 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            for (int k = 0; k <= 200; k += 1)
-            {
-                float maxDistance = 80f;
-                NPC npc = Main.npc[k];
-                Vector2 vectorToNPC = npc.Center - projectile.Center;
-                float distanceToNPC = vectorToNPC.Length();
-                if (npc.active)
-                {
-                    if (distanceToNPC <= maxDistance)
-                    {
-                        for (int counter = 0; counter <= 2; counter++)
-                        {
-                            Dust.NewDust(Vector2.Lerp(projectile.Center, npc.Center, 0.4f), 16, 16, 132, (Vector2.Normalize(projectile.Center - npc.Center) * 8f).X, (Vector2.Normalize(projectile.Center - npc.Center) * 8f).Y);
-                        }
-                        projectile.velocity = (Vector2.Normalize(projectile.Center - npc.Center) * -12f);
-                    }
-                }
-            }
-            if (projectile.height <= 18)
-            {
-                projectile.width += 1;
-                projectile.height += 1;
-            }
-            for (int counter = 0; counter <= 3; counter++)
-            {
-                int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
-                {
-                        113,
-                        135,
-                        132
-                });
-                Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 160, default(Color), 1f)];
-                dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
-                dust.velocity = dust.velocity / 4f;
+            for (float counter = -1.2f; counter <= 1.2f; counter += 2.4f)
+            { 
+                Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 15, -projectile.velocity.X, -projectile.velocity.Y, 255, default(Color), 1f)];
+                dust.velocity = dust.velocity.RotatedBy(counter);
+                dust.scale = 1.4f;
+                dust.position = projectile.Center - dust.velocity;
                 dust.noGravity = true;
-                dust.scale = 0.9f;
-                if (dustType == 132)
-                {
-                    dust.position = projectile.Center;
-                }
-                else
-                {
-                    dust.scale = 0.2f;
-                    dust.fadeIn = 1.1f;
-                }
                 dust.noLight = true;
             }
-            if (!player.channel)
-            {
-                projectile.timeLeft -= 6;
-            }
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 25f)
-            {
-                projectile.velocity.Y += 0.08f;
-                projectile.velocity.X *= 0.98f;
-            }
+            Dust dust2 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 15, -projectile.velocity.X, -projectile.velocity.Y, 255, default(Color), 1f)];
+            dust2.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
+            dust2.scale = 0.9f;
+            dust2.position = projectile.Center;
+            dust2.noGravity = true;
+            dust2.noLight = true;
+
             Vector2 vectorToCursor = projectile.Center - player.Center;
             if (projectile.Center.X < player.Center.X)
             {
@@ -100,19 +59,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Main.projectile[explosion].ai[0] = 80;
             for (int counter = 0; counter <= 25; counter++)
             {
-                int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
-                {
-                        113,
-                        135,
-                        132
-                });
-                Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 160, default(Color), 1f)];
-                dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
-                dust.velocity = dust.velocity / 4f;
+                Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 15, 0f, 0f, 255, default(Color), 1f)];
+                dust.velocity += new Vector2(Main.rand.NextFloat(-2.6f, 2.6f), Main.rand.NextFloat(-2.6f, 2.6f));
+                dust.scale = 1.8f;
+                dust.position = projectile.Center;
                 dust.noGravity = true;
-                dust.scale = 0.2f;
-                dust.fadeIn = 1.1f;
-
                 dust.noLight = true;
             }
         }
@@ -172,7 +123,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 });
                 Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 160, default(Color), 1f)];
                 dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
-                dust.velocity = dust.velocity / 4f;
                 dust.noGravity = true;
                 dust.scale = 0.9f;
                 if (dustType == 132)

@@ -42,9 +42,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         6
                 });
                 Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f)];
-                dust.velocity = new Vector2(0, 1f);
-                dust.velocity += new Vector2(Main.rand.NextFloat(0.8f, 1.6f), Main.rand.NextFloat(0.8f, 1.6f));
-                dust.velocity = dust.velocity / 3f;
+                dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
                 dust.noGravity = true;
                 dust.scale = 1.2f;
                 if (dustType == 269)
@@ -179,9 +177,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         6
                     });
                     Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f)];
-                    dust.velocity = new Vector2(0, 2f);
-                    dust.velocity += new Vector2(Main.rand.NextFloat(0.8f, 1.6f), Main.rand.NextFloat(0.8f, 1.6f));
-                    dust.velocity = dust.velocity / 2f;
+                    dust.velocity += new Vector2(Main.rand.NextFloat(-1.6f, 1.6f), Main.rand.NextFloat(-1.6f, 1.6f));
                     dust.noGravity = true;
                     dust.scale = 1.4f;
                     if (dustType == 269)
