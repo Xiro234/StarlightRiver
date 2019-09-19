@@ -48,7 +48,7 @@ namespace StarlightRiver.Projectiles.Ammo
             Dust.NewDust(projectile.position, 1, 1, mod.DustType<Dusts.Starlight>(),0,0,0,default,0.4f);
             if (Vector2.Distance(target.Center, projectile.Center) <= 800)
                 {
-                projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.1f;
+                projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.05f;
             }
         }
     }
