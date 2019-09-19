@@ -13,9 +13,9 @@ namespace StarlightRiver.Items
             item.height = 34;
             item.useStyle = 5;
             Item.staff[item.type] = true;
-            item.useAnimation = 9;
-            item.useTime = 9;
-            item.shootSpeed = 3f;
+            item.useAnimation = 5;
+            item.useTime = 5;
+            item.shootSpeed = 2f;
             item.knockBack = 2f;
             item.damage = 18;
             item.UseSound = SoundID.Item43;
@@ -32,7 +32,7 @@ namespace StarlightRiver.Items
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(30));
+            Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(60));
             speedX = perturbedSpeed.X;
             speedY = perturbedSpeed.Y;
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
