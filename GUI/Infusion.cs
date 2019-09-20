@@ -95,7 +95,7 @@ namespace StarlightRiver.GUI
             if (none.IsMouseHovering) { Name.SetText("Unequip"); Line1.SetText("Unequip an infusion"); }//unequip
 
             //if----(ability hovered----------unlocked----------------) { Name is name of ability-----Description of ability}
-            else if (wind1.IsMouseHovering && mp.upgradeUnlock[0] == 1) { Name.SetText("Comet Dash"); Line1.SetText("Dash farther, deal damage"); }//comet dash
+            else if (wind1.IsMouseHovering && mp.upgradeUnlock[0] == 1) { Name.SetText("Comet Dash"); Line1.SetText("Dash farther"); }//comet dash
             else if (wind2.IsMouseHovering && mp.upgradeUnlock[1] == 1) { Name.SetText("Poop"); Line1.SetText("Poop +1"); }//poop
 
             else { Name.SetText(""); Line1.SetText(""); }
