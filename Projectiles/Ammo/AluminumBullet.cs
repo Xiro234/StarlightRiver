@@ -10,7 +10,6 @@ namespace StarlightRiver.Projectiles.Ammo
     {
         public override void SetDefaults()
         {
-            projectile.damage = 8;
             projectile.width = 8;
             projectile.height = 8;
             projectile.aiStyle = 1;

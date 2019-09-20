@@ -26,7 +26,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
+            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
             int dustType = mod.DustType("Air");
             if (Main.rand.Next(3) == 0)
             {
