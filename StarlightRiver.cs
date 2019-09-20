@@ -11,9 +11,11 @@ namespace StarlightRiver
         public Stamina stamina;
         public Collection collection;
         public Overlay overlay;
+        public Infusion infusion;
         public UserInterface customResources;
         public UserInterface customResources2;
         public UserInterface customResources3;
+        public UserInterface customResources4;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
@@ -70,15 +72,18 @@ namespace StarlightRiver
                 customResources = new UserInterface();
                 customResources2 = new UserInterface();
                 customResources3 = new UserInterface();
+                customResources4 = new UserInterface();
                 stamina = new Stamina();
                 collection = new Collection();
                 overlay = new Overlay();
+                infusion = new Infusion();
 
                 Stamina.visible = true;
 
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
                 customResources3.SetState(overlay);
+                customResources4.SetState(infusion);
             }
         }
 
@@ -123,6 +128,18 @@ namespace StarlightRiver
 
                     return true;
                 }, InterfaceScaleType.UI));
+
+                layers.Insert(MouseTextIndex + 2, new LegacyGameInterfaceLayer("[PH]MODNAME: Infusions",
+                delegate
+                {
+                    if (Infusion.visible)
+                    {
+                        customResources4.Update(Main._drawInterfaceGameTime);
+                        infusion.Draw(Main.spriteBatch);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI));
             }
         }
 
@@ -133,9 +150,11 @@ namespace StarlightRiver
                 customResources = null;
                 customResources2 = null;
                 customResources3 = null;
+                customResources4 = null;
                 stamina = null;
                 collection = null;
                 overlay = null;
+                infusion = null;
             }
         }
 

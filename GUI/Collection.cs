@@ -22,7 +22,10 @@ namespace StarlightRiver.GUI
         public UIImageButton pure = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
         public UIImageButton smash = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
         public UIImageButton shadow = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
-         
+
+        public UIImageButton up1 = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
+        public UIImageButton up2 = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
+
         public UIText Name = new UIText("ERROR", 1.2f);
         public UIText Line1 = new UIText("This is an error!", 0.9f);
         public UIText Line2 = new UIText("This is an error also!", 0.8f);
@@ -92,6 +95,23 @@ namespace StarlightRiver.GUI
 
             //-------------------------
 
+            up1.Left.Set(15, 0);
+            up1.Top.Set(0, 0);
+            up1.Width.Set(32, 0);
+            up1.Height.Set(32, 0);
+            up1.OnClick += new MouseEvent(Upgrade);
+            back.Append(up1);
+
+            up2.Left.Set(85, 0);
+            up2.Top.Set(0, 0);
+            up2.Width.Set(32, 0);
+            up2.Height.Set(32, 0);
+            up2.OnClick += new MouseEvent(Upgrade);
+            back.Append(up2);
+
+            //-------------------------
+
+
             Name.Left.Set(170, 0);
             Name.Top.Set(280, 0);
             base.Append(Name);
@@ -130,6 +150,17 @@ namespace StarlightRiver.GUI
             if (mp.unlock[2] == 1) { pure.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1")); } else { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
             if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1")); } else { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
             if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1")); } else { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+
+
+            switch (mp.upgrade[0])
+            {
+                case 1: up1.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1")); break;
+            }
+
+            switch (mp.upgrade[1])
+            {
+                case 1: up2.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1")); break;
+            }
 
             switch (select)
             {
@@ -189,6 +220,17 @@ namespace StarlightRiver.GUI
             if (listeningElement == smash && mp.unlock[3] == 1) { select = 4; }
             if (listeningElement == shadow && mp.unlock[4] == 1) { select = 5; }
         }
+
+        private void Upgrade(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (!Infusion.visible)
+            {
+                Infusion.visible = true;
+                if (listeningElement == up1) { Infusion.slot = 0; }
+                if (listeningElement == up2) { Infusion.slot = 1; }
+                Main.NewText("DebugOpen");
+            }
+        }
     }
 
     public class CollectionHandler : ModPlayer
@@ -202,6 +244,11 @@ namespace StarlightRiver.GUI
             else
             {
                 Collection.visible = false;
+            }
+
+            if(Infusion.visible && player.controlInv)
+            {
+                Infusion.visible = false;
             }
         }
     }

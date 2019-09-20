@@ -19,6 +19,7 @@ namespace StarlightRiver.Ability
         public AbilityHandler Handler { get; set; }
         public int StaminaCost { get; set; }
         public bool Active { get; set; }
+        protected Player player => Handler.player;
 
         public Ability(int staminaCost)
         {
@@ -38,6 +39,11 @@ namespace StarlightRiver.Ability
         }
 
         public virtual void InUse()
+        {
+
+        }
+
+        public virtual void UseEffects()
         {
 
         }

@@ -20,6 +20,14 @@ namespace StarlightRiver.Ability
         {
              0,0,0,0,0
         };
+        public int[] upgradeUnlock = new int[]
+        {
+             1,0
+        };
+        public int[] upgrade = new int[]
+        {
+            0,0
+        };
         public Ability ability { get; set; }
         public int abSelect = 0;
         public bool infiniteStamina = false;
@@ -36,6 +44,8 @@ namespace StarlightRiver.Ability
         {
             return new TagCompound {
                 [nameof(unlock)] = unlock,
+                [nameof(upgradeUnlock)] = upgradeUnlock,
+                [nameof(upgrade)] = upgrade,
                 [nameof(staminamax)] = staminamax,
                 [nameof(permanentstamina)] = permanentstamina
             };
@@ -44,15 +54,19 @@ namespace StarlightRiver.Ability
         public override void Load(TagCompound tag)
         {
             unlock = tag.GetIntArray(nameof(unlock));
+            upgradeUnlock = tag.GetIntArray(nameof(upgradeUnlock));
+            upgrade = tag.GetIntArray(nameof(upgrade));
             staminamax = tag.GetInt(nameof(staminamax));
             permanentstamina = tag.GetInt(nameof(permanentstamina));
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
-        {          
+        {
             if (StarlightRiver.Dash.JustPressed && unlock[0] == 1)
             {
                 ability = new Dash();
+                if (upgrade[0] == 1 || upgrade[1] == 1) { ability = new DashAstral(); }
+
                 abSelect = 1;
             }
             if (StarlightRiver.Float.JustPressed && unlock[1] == 1)
@@ -99,6 +113,7 @@ namespace StarlightRiver.Ability
             if (ability != null && ability.Active)
             {
                 ability.InUse();
+                ability.UseEffects();
             }
             if (ability != null && !ability.Active)
             {
