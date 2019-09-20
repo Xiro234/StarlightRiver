@@ -35,9 +35,16 @@ namespace StarlightRiver.Projectiles.Ammo
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center, projectile.velocity, mod.ProjectileType("VitricArrowShattered"), 15, 0, projectile.owner);
-            Projectile.NewProjectile(target.Center, projectile.velocity.RotatedBy(0.3), mod.ProjectileType("VitricArrowShattered"), 15, 0, projectile.owner);
-            Projectile.NewProjectile(target.Center, projectile.velocity.RotatedBy(-0.25), mod.ProjectileType("VitricArrowShattered"), 15, 0, projectile.owner);
+            Projectile.NewProjectile(target.Center, projectile.velocity, mod.ProjectileType("VitricArrowShattered"), projectile.damage / 3, 0, projectile.owner);
+            Projectile.NewProjectile(target.Center, projectile.velocity.RotatedBy(Main.rand.NextFloat(0.1f, 0.5f)), mod.ProjectileType("VitricArrowShattered"), projectile.damage / 3, 0, projectile.owner);
+            Projectile.NewProjectile(target.Center, projectile.velocity.RotatedBy(-Main.rand.NextFloat(0.1f, 0.5f)), mod.ProjectileType("VitricArrowShattered"), projectile.damage / 3, 0, projectile.owner);
+
+            for (int k = 0; k <= 10; k++)
+            {
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Air"));
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Glass2"), projectile.velocity.X * Main.rand.NextFloat(0,1), projectile.velocity.Y * Main.rand.NextFloat(0, 1));
+            }
+            Main.PlaySound(SoundID.Item27);
         }
     }
     class VitricArrowShattered : ModProjectile
@@ -49,7 +56,7 @@ namespace StarlightRiver.Projectiles.Ammo
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 2;
-            projectile.timeLeft = 15;
+            projectile.timeLeft = 120;
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
         }
@@ -60,7 +67,8 @@ namespace StarlightRiver.Projectiles.Ammo
         }
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
+            projectile.rotation += 0.3f;
+            projectile.velocity.Y += 0.15f;
         }
     }
 }

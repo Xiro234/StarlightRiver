@@ -25,16 +25,16 @@ namespace StarlightRiver.Items.Ammo
 			item.value = 10;
 			item.rare = 2;
 			item.shoot = mod.ProjectileType<Projectiles.Ammo.VitricArrow>();  
-			item.shootSpeed = 0.01f;                  
+			item.shootSpeed = 1f;                  
 			item.ammo = AmmoID.Arrow;            
 		}
 
 		public override void AddRecipes()
 		{
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<AluminumBar>(), 1);
-            recipe.AddTile(mod.TileType<Tiles.Oven>());
-            recipe.SetResult(this, 25);
+            recipe.AddIngredient(mod.ItemType<Vitric.VitricGem>(), 1);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 50);
             recipe.AddRecipe();
         }
 	}
