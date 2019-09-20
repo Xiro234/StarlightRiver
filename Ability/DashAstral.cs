@@ -33,7 +33,9 @@ namespace StarlightRiver.Ability
         {
             for (int k = 0; k <= 10; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Starlight"));
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Starlight"), -10 * Vector2.Normalize(player.velocity).X, -10 * Vector2.Normalize(player.velocity).Y,0,default,0.75f);
+                Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(-100, 0), mod.DustType("Starlight"), Vector2.Normalize(player.velocity).RotatedBy(1) * (Main.rand.Next(-20, -5) + timer * -3),0,default, 1 - timer*0.1f);
+                Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(-100, 0), mod.DustType("Starlight"), Vector2.Normalize(player.velocity).RotatedBy(-1) * (Main.rand.Next(-20, -5) + timer * -3), 0,default,1 - timer * 0.1f);
             }
         }
     }
