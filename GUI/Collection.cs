@@ -153,13 +153,17 @@ namespace StarlightRiver.GUI
 
 
             switch (mp.upgrade[0])
-            {
-                case 1: up1.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1")); break;
+            { 
+                case 0: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); break;
+                case 1: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); break;
+                case 2: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3")); break;
             }
 
             switch (mp.upgrade[1])
             {
-                case 1: up2.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1")); break;
+                case 0: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); break;
+                case 1: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); break;
+                case 2: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3")); break;
             }
 
             switch (select)
@@ -228,7 +232,6 @@ namespace StarlightRiver.GUI
                 Infusion.visible = true;
                 if (listeningElement == up1) { Infusion.slot = 0; }
                 if (listeningElement == up2) { Infusion.slot = 1; }
-                Main.NewText("DebugOpen");
             }
         }
     }
