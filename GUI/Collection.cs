@@ -229,7 +229,9 @@ namespace StarlightRiver.GUI
         {
             if (!Infusion.visible)
             {
+                Infusion.timer = 0;
                 Infusion.visible = true;
+                
                 if (listeningElement == up1) { Infusion.slot = 0; }
                 if (listeningElement == up2) { Infusion.slot = 1; }
             }
