@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Accessories
 {
-    public class BloodyScarf : ModItem
+    public class BroochOfRage : ModItem
     {
         public override void SetStaticDefaults()
         {
