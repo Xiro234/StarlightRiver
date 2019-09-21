@@ -52,7 +52,7 @@ namespace StarlightRiver
 
                 if(Main.LocalPlayer.ZoneOverworldHeight && LegendWorld.starfall)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starlight");
                     priority = MusicPriority.BiomeHigh;
                 }
             }

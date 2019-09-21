@@ -24,5 +24,14 @@ namespace StarlightRiver.Items
 			item.consumable = true;
 			item.createTile = mod.TileType("GreenhouseGlass");
 		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Glass, 10);
+            recipe.AddIngredient(mod.ItemType<Items.Crafting.AluminumBar>(), 1);
+            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this, 10);
+            recipe.AddRecipe();
+        }
+    }
 }

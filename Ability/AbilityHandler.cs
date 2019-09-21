@@ -62,7 +62,7 @@ namespace StarlightRiver.Ability
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (StarlightRiver.Dash.JustPressed && unlock[0] == 1)
+            if (StarlightRiver.Dash.JustPressed && unlock[0] == 1 && (player.controlUp|| player.controlDown || player.controlLeft || player.controlRight))
             {
                 ability = new Dash();
                 if (upgrade[0] == 1 || upgrade[1] == 1) { ability = new DashAstral(); }
