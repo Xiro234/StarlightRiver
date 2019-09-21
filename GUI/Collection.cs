@@ -95,14 +95,14 @@ namespace StarlightRiver.GUI
 
             //-------------------------
 
-            up1.Left.Set(15, 0);
+            up1.Left.Set(20, 0);
             up1.Top.Set(0, 0);
             up1.Width.Set(32, 0);
             up1.Height.Set(32, 0);
             up1.OnClick += new MouseEvent(Upgrade);
             back.Append(up1);
 
-            up2.Left.Set(85, 0);
+            up2.Left.Set(80, 0);
             up2.Top.Set(0, 0);
             up2.Width.Set(32, 0);
             up2.Height.Set(32, 0);
@@ -154,14 +154,14 @@ namespace StarlightRiver.GUI
 
             switch (mp.upgrade[0])
             { 
-                case 0: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); break;
+                case 0: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank2")); break;
                 case 1: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); break;
                 case 2: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3")); break;
             }
 
             switch (mp.upgrade[1])
             {
-                case 0: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); break;
+                case 0: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank2")); break;
                 case 1: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); break;
                 case 2: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3")); break;
             }

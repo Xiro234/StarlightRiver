@@ -22,7 +22,7 @@ namespace StarlightRiver.Ability
         };
         public int[] upgradeUnlock = new int[]
         {
-             1,1
+             0,0
         };
         public int[] upgrade = new int[]
         {

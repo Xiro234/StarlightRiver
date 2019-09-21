@@ -350,6 +350,7 @@ namespace StarlightRiver
         {
             return new TagCompound
             {
+                [nameof(AnyBossDowned)] = AnyBossDowned,
                 [nameof(GlassBossDowned)] = GlassBossDowned,
                 [nameof(ForceStarfall)] = ForceStarfall,
 
@@ -361,6 +362,7 @@ namespace StarlightRiver
         }
         public override void Load(TagCompound tag)
         {
+            AnyBossDowned = tag.GetBool(nameof(AnyBossDowned));
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
             ForceStarfall = tag.GetBool(nameof(ForceStarfall));
 

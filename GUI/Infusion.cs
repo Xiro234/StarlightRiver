@@ -16,7 +16,7 @@ namespace StarlightRiver.GUI
     {
         public UIImage back = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/back"));
 
-        public UIImageButton none = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
+        public UIImageButton none = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank2"));
 
         public UIImageButton wind1 = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
         public UIImageButton wind2 = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/blank"));
@@ -81,11 +81,11 @@ namespace StarlightRiver.GUI
             //Comet Dash
             if (mp.upgradeUnlock[0] == 1 && mp.upgrade[0] != 1 && mp.upgrade[1] != 1) { wind1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); } //unlocked texture
             else if (mp.upgrade[0] == 1 || mp.upgrade[1] == 1) { wind1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2Bad")); } //in use texture
-            else { wind1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }//locked texture
+            else { wind1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2Lock")); }//locked texture
             //Poop
             if (mp.upgradeUnlock[1] == 1 && mp.upgrade[0] != 2 && mp.upgrade[1] != 2) { wind2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3")); }
             else if (mp.upgrade[0] == 2 || mp.upgrade[1] == 2) { wind2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3Bad")); }
-            else { wind2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            else { wind2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3Lock")); }
 
             //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ namespace StarlightRiver.GUI
 
             //if----(ability hovered----------unlocked----------------) { Name is name of ability-----Description of ability}
             else if (wind1.IsMouseHovering && mp.upgradeUnlock[0] == 1) { Name.SetText("Comet Dash"); Line1.SetText("Dash farther"); }//comet dash
-            else if (wind2.IsMouseHovering && mp.upgradeUnlock[1] == 1) { Name.SetText("Poop"); Line1.SetText("Poop +1"); }//poop
+            else if (wind2.IsMouseHovering && mp.upgradeUnlock[1] == 1) { Name.SetText(""); Line1.SetText(""); }//poop
 
             else { Name.SetText(""); Line1.SetText(""); }
         }
