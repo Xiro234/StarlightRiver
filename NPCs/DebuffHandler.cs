@@ -14,7 +14,6 @@ namespace StarlightRiver.NPCs
             }
         }
         public int frozenTime = 0;
-        public int crystalCount = 0;
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
             if (frozenTime != 0)
@@ -32,21 +31,6 @@ namespace StarlightRiver.NPCs
                 }
                 npc.velocity *= 0.2f;
             }
-            if (crystalCount != 0)
-            {
-                npc.color.B += 180;
-                npc.color.G += 90;
-                if (npc.color.B >= 255)
-                {
-                    npc.color.B = 255;
-                }
-                if (npc.color.G >= 255)
-                {
-                    npc.color.G = 255;
-                }
-                Main.NewText(crystalCount);
-                crystalCount = 0;
-            }
         }
         public override void ResetEffects(NPC npc)
         {
@@ -56,15 +40,10 @@ namespace StarlightRiver.NPCs
         {
             if (frozenTime != 0)
             {
-                for (int counter = 0; counter <= 3; counter++)
-                {
-                    int dustType = 132;
-                    Vector2 dustPos = npc.Center;
-                    Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, dustType, 0f, 0f, 100, default(Color), 1f)];
-                    dust.noGravity = true;
-                    dust.scale = 1.1f;
-                    dust.noLight = true;
-                }
+                Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 15, 0f, 0f, 255, default(Color), 1f)];
+                dust.noGravity = true;
+                dust.scale = 1.1f;
+                dust.noLight = true;
             }
         }
     }
