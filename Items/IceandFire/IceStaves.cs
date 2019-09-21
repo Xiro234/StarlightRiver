@@ -12,6 +12,7 @@ namespace StarlightRiver.Items.IceandFire
             item.height = 34;
             item.useStyle = 5;
             Item.staff[item.type] = true;
+            item.useTurn = true;
             item.useAnimation = 40;
             item.useTime = 40;
             item.shootSpeed = 6f;

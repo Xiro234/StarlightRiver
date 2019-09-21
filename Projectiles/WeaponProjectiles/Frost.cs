@@ -14,9 +14,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.width = 20;
             projectile.height = 20;
             projectile.friendly = true;
-            projectile.penetrate = 2;
+            projectile.penetrate = 1;
             projectile.timeLeft = 180;
             projectile.magic = true;
+            projectile.ignoreWater = false;
         }
         public override void SetStaticDefaults()
         {
@@ -41,14 +42,28 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             dust2.noGravity = true;
             dust2.noLight = true;
 
+            float anglediff = (projectile.velocity.ToRotation() - (Main.MouseWorld - projectile.Center).ToRotation() + 9.42f) % 6.28f - 3.14f;
+            if (Vector2.Distance(Main.MouseWorld, projectile.Center) <= 800 && anglediff <= 2f && anglediff >= -2f)
+            {
+                projectile.velocity += Vector2.Normalize(Main.MouseWorld - projectile.Center) * 0.2f;
+            }
+            projectile.velocity = Vector2.Normalize(projectile.velocity) * 5;
+
+
             Vector2 vectorToCursor = projectile.Center - player.Center;
+            bool projDirection = projectile.Center.X < player.Center.X;
             if (projectile.Center.X < player.Center.X)
             {
                 vectorToCursor = -vectorToCursor;
             }
+            player.direction = ((projDirection) ? -1 : 1);
             player.itemRotation = vectorToCursor.ToRotation();
             player.itemTime = 20;
             player.itemAnimation = 20;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 120, false);
         }
         public override void Kill(int timeLeft)
         {
@@ -147,10 +162,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.velocity.X *= 0.98f;
             }
             Vector2 vectorToCursor = projectile.Center - player.Center;
+            bool projDirection = projectile.Center.X < player.Center.X;
             if (projectile.Center.X < player.Center.X)
             {
                 vectorToCursor = -vectorToCursor;
             }
+            player.direction = ((projDirection) ? -1 : 1);
             player.itemRotation = vectorToCursor.ToRotation();
             player.itemTime = 20;
             player.itemAnimation = 20;

@@ -16,6 +16,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.penetrate = 4;
             projectile.timeLeft = 180;
             projectile.magic = true;
+            projectile.ignoreWater = false;
         }
         public override void SetStaticDefaults()
         {
@@ -59,13 +60,19 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.velocity.X *= 0.98f;
             }
             Vector2 vectorToCursor = projectile.Center - player.Center;
+            bool projDirection = projectile.Center.X < player.Center.X;
             if (projectile.Center.X < player.Center.X)
             {
                 vectorToCursor = -vectorToCursor;
             }
+            player.direction = ((projDirection) ? -1 : 1);
             player.itemRotation = vectorToCursor.ToRotation();
             player.itemTime = 20;
             player.itemAnimation = 20;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 120, false);
         }
         public override void Kill(int timeLeft)
         {
@@ -194,10 +201,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     projectile.velocity.X *= 0.99f;
                 }
                 Vector2 vectorToCursor = projectile.Center - player.Center;
+                bool projDirection = projectile.Center.X < player.Center.X;
                 if (projectile.Center.X < player.Center.X)
                 {
                     vectorToCursor = -vectorToCursor;
                 }
+                player.direction = ((projDirection) ? -1 : 1);
                 player.itemRotation = vectorToCursor.ToRotation();
                 player.itemTime = 20;
                 player.itemAnimation = 20;
