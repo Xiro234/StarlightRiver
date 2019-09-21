@@ -21,16 +21,15 @@ namespace StarlightRiver.Items.Accessories
         {
              0,0,0
         };
-        public override void PostUpdate()
+        public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
+            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
             if (accessories[2] != 0) //ring of stamina
-            {
-                AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
+            {             
                 mp.staminaTickerMax -= 60;
             }
             if (accessories[1] != 0) //hourglass
             {
-                AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
                 mp.staminamax += 1;
             }
         }
