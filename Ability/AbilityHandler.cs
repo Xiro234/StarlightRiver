@@ -107,6 +107,7 @@ namespace StarlightRiver.Ability
         public override void ResetEffects()
         {
             staminamax = 3;
+            staminaTickerMax = 180;
         }
         public override void PreUpdate()
         {
@@ -131,7 +132,6 @@ namespace StarlightRiver.Ability
                 }
                 
             }
-
             if (infiniteStamina)
             {
                 stamina = (staminamax + permanentstamina);
