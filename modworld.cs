@@ -157,7 +157,7 @@ namespace StarlightRiver
         public override void PostWorldGen()
         {
             // Top-Left Position
-            Vector2 PureAltarSP = new Vector2(Main.spawnTileX, Main.maxTilesY - 200);
+            Vector2 PureAltarSP = new Vector2(Main.spawnTileX, Main.maxTilesY - 150);
             PureSpawnPoint = PureAltarSP + new Vector2(7, 18);
 
             // Slopes in order: full=0, BL, BR, TL, TR, half
@@ -255,7 +255,7 @@ namespace StarlightRiver
 
                     if((PureAltar[y][x] & 0b0001_1111) >= 7)//multitiles
                     {
-                        if((PureAltar[y][x] & 0b0001_1111) == 7){ WorldGen.Place3x2((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, (ushort)mod.TileType("VoidPillarB")); }
+                        if((PureAltar[y][x] & 0b0001_1111) == 7){ WorldGen.Place3x2((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, (ushort)mod.TileType<Tiles.VoidPillarB>()); }
                     }
 
                     if((PureAltar[y][x] & 0b0001_1111) == 0)
@@ -268,7 +268,7 @@ namespace StarlightRiver
                     switch (PureAltarWalls[y][x] & 0b0001_1111)
                     {
                         //This is your wall pallete
-                        case 1: placeWall = WallID.GrayBrick; break;
+                        case 1: placeWall = (ushort)mod.WallType<Tiles.VoidWall>(); break;
                         case 2: placeWall = WallID.ObsidianBrick; break;
                     }
 

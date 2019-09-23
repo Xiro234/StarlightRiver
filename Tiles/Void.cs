@@ -73,6 +73,7 @@ namespace StarlightRiver.Tiles
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
             TileObjectData.newTile.AnchorWall = true;
+            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(45, 50, 30));
             dustType = mod.DustType("Darkness");
@@ -112,6 +113,81 @@ namespace StarlightRiver.Tiles
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarBItem"));
+        }
+    }
+    class VoidPillarM : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileFrameImportant[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorAlternateTiles = new int[]
+            {
+                mod.TileType<VoidPillarB>(),
+                mod.TileType<VoidPillarM>()
+            };
+            TileObjectData.addTile(Type);
+            dustType = mod.DustType("Darkness");
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarMItem"));
+        }
+    }
+    class VoidPillarT : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileFrameImportant[Type] = true;
+
+            TileObjectData.newTile.Width = 3;
+            TileObjectData.newTile.Height = 1;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 0);
+
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorAlternateTiles = new int[]
+            {
+                mod.TileType<VoidPillarM>()
+            };
+            TileObjectData.addTile(Type);
+            dustType = mod.DustType("Darkness");
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarTItem"));
+        }
+    }
+    class VoidPillarP : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileFrameImportant[Type] = true;
+
+            TileObjectData.newTile.Width = 3;
+            TileObjectData.newTile.Height = 1;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 0);
+
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorAlternateTiles = new int[]
+            {
+                mod.TileType<VoidPillarM>()
+            };
+            TileObjectData.addTile(Type);
+            dustType = mod.DustType("Darkness");
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarPItem"));
         }
     }
 }

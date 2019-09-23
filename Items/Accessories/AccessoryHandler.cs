@@ -24,6 +24,7 @@ namespace StarlightRiver.Items.Accessories
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
+
             if (accessories[2] != 0) //ring of stamina
             {             
                 mp.staminaTickerMax -= 60;
@@ -31,7 +32,7 @@ namespace StarlightRiver.Items.Accessories
             if (accessories[1] != 0) //hourglass
             {
                 mp.staminamax += 1;
-            }
+            }           
         }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
@@ -40,7 +41,7 @@ namespace StarlightRiver.Items.Accessories
                 AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
                 mp.stamina += 1;
             }
-            return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
+            return true;
         }
         public override void ResetEffects()
         {
