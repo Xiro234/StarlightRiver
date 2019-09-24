@@ -132,7 +132,7 @@ namespace StarlightRiver.GUI
 
             //if----(ability hovered----------unlocked----------------) { Name is name of ability-----Description of ability}
             else if (wind1.IsMouseHovering && mp.upgradeUnlock[0] == 1) { Name.SetText("Comet Dash"); Line1.SetText("Dash farther"); }//comet dash
-            else if (wind2.IsMouseHovering && mp.upgradeUnlock[1] == 1) { Name.SetText(""); Line1.SetText(""); }//poop
+            else if (wind2.IsMouseHovering && mp.upgradeUnlock[1] == 1) { Name.SetText("Flaming Slash"); Line1.SetText("Deal up to 200 damage on dash"); }//poop
 
             else { Name.SetText(""); Line1.SetText(""); }
 

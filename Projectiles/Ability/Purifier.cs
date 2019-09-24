@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Projectiles
+namespace StarlightRiver.Projectiles.Ability
 {
     class Purifier : ModProjectile
     {

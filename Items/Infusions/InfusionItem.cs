@@ -28,4 +28,28 @@ namespace StarlightRiver.Items.Infusions
             return true;
         }
     }
+    public class DashFire : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 64;
+            item.height = 64;
+            item.useStyle = 5;
+            item.useAnimation = 10;
+            item.useTime = 10;
+            item.rare = 3;
+        }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Flaming Slash");
+            Tooltip.SetDefault("Unlocks the flaming slash infusion\nClick an infusion slot to equip");
+        }
+
+        public override bool UseItem(Player player)
+        {
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            mp.upgradeUnlock[1] = 1;
+            return true;
+        }
+    }
 }

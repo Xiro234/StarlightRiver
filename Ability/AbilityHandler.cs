@@ -66,6 +66,8 @@ namespace StarlightRiver.Ability
             {
                 ability = new Dash();
                 if (upgrade[0] == 1 || upgrade[1] == 1) { ability = new DashAstral(); }
+                if (upgrade[0] == 2 || upgrade[1] == 2) { ability = new DashFlame(); }
+                if ((upgrade[0] == 2 || upgrade[1] == 2) && (upgrade[0] == 1 || upgrade[1] == 1)) { ability = new DashCombo(); }
 
                 abSelect = 1;
             }
