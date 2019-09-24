@@ -24,7 +24,9 @@ namespace StarlightRiver.Dusts
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity * 0.1f;
+            dust.color *= 0.982f;
             dust.scale *= 0.982f;
+            dust.velocity *= 0.97f;
             if (dust.scale <= 0.2)
             {
                 dust.active = false;
