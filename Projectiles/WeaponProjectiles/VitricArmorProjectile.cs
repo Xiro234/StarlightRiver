@@ -39,7 +39,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (((float)player.statLife / player.statLifeMax2) > 0.2f * pos)
             {
                 projectile.position += Vector2.Normalize(player.Center - projectile.Center) * 5;
-                projectile.damage = 0;
+                projectile.rotation += 0.4f;
+                projectile.friendly = false;
                 if (Vector2.Distance(player.Center, projectile.Center) <= 16)
                 {
                     projectile.timeLeft = 0;
