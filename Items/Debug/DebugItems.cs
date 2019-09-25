@@ -24,10 +24,20 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-            for(int k = 0; k <= 4; k++)
+            for(int k = 0; k < mp.unlock.Length; k++)
             {
                 mp.unlock[k] = 0;
             }
+            for (int k = 0; k < mp.upgradeUnlock.Length; k++)
+            {
+                mp.upgradeUnlock[k] = 0;
+            }
+            for (int k = 0; k < mp.upgrade.Length; k++)
+            {
+                mp.upgrade[k] = 0;
+            }
+            mp.permanentstamina = 0;
+            mp.HasSecondSlot = false;
             return true;
         }
     }
@@ -95,10 +105,16 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-            for (int k = 0; k <= 4; k++)
+            for (int k = 0; k < mp.unlock.Length; k++)
             {
                 mp.unlock[k] = 1;
             }
+            for (int k = 0; k < mp.upgradeUnlock.Length; k++)
+            {
+                mp.upgradeUnlock[k] = 1;
+            }
+            mp.permanentstamina = 2;
+            mp.HasSecondSlot = true;
             return true;
         }
     }

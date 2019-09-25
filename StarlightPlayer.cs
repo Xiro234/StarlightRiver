@@ -20,8 +20,19 @@ namespace StarlightRiver
     public class StarlightPlayer : ModPlayer
     {
         public bool DarkSlow = false;
+
+        public bool VitricSet = false;
         public override void PreUpdate()
         {
+            Stamina.visible = false;
+            for (int k = 0; k < player.GetModPlayer<AbilityHandler>().unlock.Length; k++)
+            {
+                if (player.GetModPlayer<AbilityHandler>().unlock[k] == 1)
+                {
+                    Stamina.visible = true;
+                }
+            }
+
             if (DarkSlow)
             {
                 player.velocity.X *= 0.9f;
@@ -29,6 +40,13 @@ namespace StarlightRiver
                 player.GetModPlayer<AbilityHandler>(mod).stamina *= 0;
             }
             DarkSlow = false;
-    }       
+
+            //Set Bonuses-----------------------------------------------------------------------------
+            
+            if(VitricSet)
+            {
+
+            }
+        }       
     }
 }

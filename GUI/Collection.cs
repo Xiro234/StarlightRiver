@@ -95,14 +95,14 @@ namespace StarlightRiver.GUI
 
             //-------------------------
 
-            up1.Left.Set(20, 0);
+            up1.Left.Set(25, 0);
             up1.Top.Set(0, 0);
             up1.Width.Set(32, 0);
             up1.Height.Set(32, 0);
             up1.OnClick += new MouseEvent(Upgrade);
             back.Append(up1);
 
-            up2.Left.Set(80, 0);
+            up2.Left.Set(75, 0);
             up2.Top.Set(0, 0);
             up2.Width.Set(32, 0);
             up2.Height.Set(32, 0);
@@ -151,6 +151,7 @@ namespace StarlightRiver.GUI
             if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1")); } else { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
             if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1")); } else { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
 
+            if (!mp.HasSecondSlot) { up2.Remove(); up1.Left.Set(50, 0); } else { back.Append(up2); up1.Left.Set(25, 0); }
 
             switch (mp.upgrade[0])
             { 

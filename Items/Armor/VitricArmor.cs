@@ -7,6 +7,8 @@ using Terraria.ID;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using StarlightRiver.Ability;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Items.Armor
 {
@@ -15,7 +17,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("vitric hat haha");
+            Tooltip.SetDefault("10% increased ranged damage");
         }
 
         public override void SetDefaults()
@@ -23,8 +25,13 @@ namespace StarlightRiver.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = 1;
-            item.defense = 1;
+            item.rare = 2;
+            item.defense = 4;
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+			player.rangedDamage += 0.1f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -34,15 +41,26 @@ namespace StarlightRiver.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "trollface.jpg";
-            player.allDamage -= 0.2f;
-            /* Here are the individual weapon class bonuses.
-			player.meleeDamage -= 0.2f;
-			player.thrownDamage -= 0.2f;
-			player.rangedDamage -= 0.2f;
-			player.magicDamage -= 0.2f;
-			player.minionDamage -= 0.2f;
-			*/
+            player.setBonus = "Gain up to 12 defense at high HP\nRelease glass shards at low HP";
+
+            for (float k = 0.2f; k <= 0.8f; k += 0.2f)
+            {
+                if ((float)player.statLife / player.statLifeMax2 > k)
+                {
+                    player.statDefense += 3;
+
+
+                }
+                if ((float)player.statLife / player.statLifeMax2 < k)
+                {
+                    if (!Main.projectile.Any(projectile => projectile.type == mod.ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>() && projectile.active && projectile.localAI[0] == (int)(k * 5) && projectile.owner == player.whoAmI))
+                    {
+                        int proj = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>(), 15, 0);
+                        Main.projectile[proj].localAI[0] = (int)(k * 5);
+                        Main.projectile[proj].owner = player.whoAmI;
+                    }
+                }
+            }
         }
 
         public override void AddRecipes()
@@ -63,7 +81,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("vitric chest haha");
+            Tooltip.SetDefault("5% increased ranged critical strike chance");
         }
 
         public override void SetDefaults()
@@ -71,26 +89,13 @@ namespace StarlightRiver.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = 1;
-            item.defense = 1;
+            item.rare = 2;
+            item.defense = 6;
         }
 
-        public override bool IsArmorSet(Item head, Item body, Item legs)
+        public override void UpdateEquip(Player player)
         {
-            return head.type == mod.ItemType("VitricHead") && legs.type == mod.ItemType("VitricLegs");
-        }
-
-        public override void UpdateArmorSet(Player player)
-        {
-            player.setBonus = "trollface.jpg";
-            player.allDamage -= 0.2f;
-            /* Here are the individual weapon class bonuses.
-			player.meleeDamage -= 0.2f;
-			player.thrownDamage -= 0.2f;
-			player.rangedDamage -= 0.2f;
-			player.magicDamage -= 0.2f;
-			player.minionDamage -= 0.2f;
-			*/
+            player.rangedCrit += 5;
         }
 
         public override void AddRecipes()
@@ -111,7 +116,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("vitric legs haha");
+            Tooltip.SetDefault("Slightly improved stamina regeneration");
         }
 
         public override void SetDefaults()
@@ -119,26 +124,13 @@ namespace StarlightRiver.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = 1;
-            item.defense = 1;
+            item.rare = 2;
+            item.defense = 5;
         }
 
-        public override bool IsArmorSet(Item head, Item body, Item legs)
+        public override void UpdateEquip(Player player)
         {
-            return head.type == mod.ItemType("VitricHead") && body.type == mod.ItemType("VitricChest");
-        }
-
-        public override void UpdateArmorSet(Player player)
-        {
-            player.setBonus = "trollface.jpg";
-            player.allDamage -= 0.2f;
-            /* Here are the individual weapon class bonuses.
-			player.meleeDamage -= 0.2f;
-			player.thrownDamage -= 0.2f;
-			player.rangedDamage -= 0.2f;
-			player.magicDamage -= 0.2f;
-			player.minionDamage -= 0.2f;
-			*/
+            player.GetModPlayer<AbilityHandler>().staminaTickerMax -= 20;
         }
 
         public override void AddRecipes()

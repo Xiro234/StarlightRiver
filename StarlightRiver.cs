@@ -78,8 +78,6 @@ namespace StarlightRiver
                 overlay = new Overlay();
                 infusion = new Infusion();
 
-                Stamina.visible = true;
-
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
                 customResources3.SetState(overlay);

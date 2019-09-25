@@ -33,7 +33,7 @@ namespace StarlightRiver.Items.Vitric
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vitreous Blade");
-            Tooltip.SetDefault("Shatters into enchanted glass shards \nUnable to attack while the blade is shattered");
+            Tooltip.SetDefault("Shatters into enchanted glass shards \nUnable to be used while shattered");
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

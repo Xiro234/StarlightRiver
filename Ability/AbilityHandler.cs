@@ -31,6 +31,7 @@ namespace StarlightRiver.Ability
         public Ability ability { get; set; }
         public int abSelect = 0;
         public bool infiniteStamina = false;
+        public bool HasSecondSlot = false;
         public int staminamax = 3;
         public int permanentstamina = 0;
         public int stamina = 3;
@@ -42,12 +43,14 @@ namespace StarlightRiver.Ability
         //accessory stuff
         public override TagCompound Save()
         {
-            return new TagCompound {
+            return new TagCompound
+            {
                 [nameof(unlock)] = unlock,
                 [nameof(upgradeUnlock)] = upgradeUnlock,
                 [nameof(upgrade)] = upgrade,
                 [nameof(staminamax)] = staminamax,
-                [nameof(permanentstamina)] = permanentstamina
+                [nameof(permanentstamina)] = permanentstamina,
+                [nameof(HasSecondSlot)] = HasSecondSlot
             };
         }
 
@@ -58,6 +61,7 @@ namespace StarlightRiver.Ability
             upgrade = tag.GetIntArray(nameof(upgrade));
             staminamax = tag.GetInt(nameof(staminamax));
             permanentstamina = tag.GetInt(nameof(permanentstamina));
+            HasSecondSlot = tag.GetBool(nameof(HasSecondSlot));
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)
@@ -146,6 +150,10 @@ namespace StarlightRiver.Ability
             if (staminaticker > staminaTickerMax || stamina == (staminamax + permanentstamina))
             {
                 staminaticker = 0;
+            }
+            if(stamina > (staminamax + permanentstamina))
+            {
+                stamina = staminamax + permanentstamina;
             }
         }
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
