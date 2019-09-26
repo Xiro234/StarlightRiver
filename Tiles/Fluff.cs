@@ -57,7 +57,7 @@ namespace StarlightRiver.Tiles
                 }
             }
         }
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        /*public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -66,7 +66,7 @@ namespace StarlightRiver.Tiles
             deathShader.UseOpacity(1f);
             deathShader.Apply(null);
             return true;
-        }
+        }*/
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
