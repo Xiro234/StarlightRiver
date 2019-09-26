@@ -383,6 +383,7 @@ namespace StarlightRiver
                         {
                             if (target.type == (ushort)mod.TileType("StonePure")) { target.type = TileID.Stone; }
                             if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); }
+                            if (target.type == (ushort)mod.TileType("VoidDoorOff")) { target.type = (ushort)mod.TileType("VoidDoorOn"); }
                         }
                     }
                 }

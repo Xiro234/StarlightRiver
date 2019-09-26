@@ -41,6 +41,7 @@ namespace StarlightRiver.Projectiles.Ability
 
                 if (target.type == TileID.Stone) { target.type = (ushort)mod.TileType("StonePure"); }
                 if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); }
+                if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }
 
             }
 
@@ -53,6 +54,7 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 if (target.type == (ushort)mod.TileType("StonePure")) { target.type = TileID.Stone; }
                 if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); }
+                if (target.type == (ushort)mod.TileType("VoidDoorOff")) { target.type = (ushort)mod.TileType("VoidDoorOn"); }
             }
 
 
