@@ -38,7 +38,7 @@ namespace StarlightRiver.NPCs
 
                 if (player.velocity.Length() != 0)
                 {
-                    player.velocity = Vector2.Normalize(player.velocity) * -15f;
+                    player.velocity = Vector2.Normalize(player.velocity) * -18f;
                     player.wingTime = player.wingTimeMax;
                     player.rocketTime = player.rocketTimeMax;
                     player.jumpAgainCloud = true;
