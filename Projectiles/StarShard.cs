@@ -43,7 +43,7 @@ namespace StarlightRiver.Projectiles
         public override void AI()
         {
             projectile.timeLeft = 2;
-            projectile.velocity = new Vector2(-2, 8);
+            projectile.velocity = new Vector2(-2, 6);
             Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Starlight"));
             if (Main.dayTime)
             {
