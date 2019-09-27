@@ -21,4 +21,38 @@ namespace StarlightRiver.Backgrounds
             textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
         }
 	}
+    public class JungleBloodyBG : ModUgBgStyle
+    {
+        public override bool ChooseBgStyle()
+        {
+            return Main.LocalPlayer.GetModPlayer<BiomeHandler>(mod).ZoneJungleBloody;
+        }
+
+        public override void FillTextureArray(int[] textureSlots)
+        {
+            textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[1] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[2] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[3] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[4] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+        }
+    }
+    public class JungleHolyBG : ModUgBgStyle
+    {
+        public override bool ChooseBgStyle()
+        {
+            return Main.LocalPlayer.GetModPlayer<BiomeHandler>(mod).ZoneJungleHoly;
+        }
+
+        public override void FillTextureArray(int[] textureSlots)
+        {
+            textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[1] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[2] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[3] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[4] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+        }
+    }
 }

@@ -50,7 +50,19 @@ namespace StarlightRiver
                     priority = MusicPriority.BiomeHigh;
                 }
 
-                if(Main.LocalPlayer.ZoneOverworldHeight && LegendWorld.starfall)
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
+                    priority = MusicPriority.BiomeHigh;
+                }
+
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
+                    priority = MusicPriority.BiomeHigh;
+                }
+
+                if (Main.LocalPlayer.ZoneOverworldHeight && LegendWorld.starfall)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starlight");
                     priority = MusicPriority.BiomeHigh;

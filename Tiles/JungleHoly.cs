@@ -28,7 +28,7 @@ namespace StarlightRiver.Tiles
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
             drop = ItemID.MudBlock;
-            AddMapEntry(new Color (164, 69, 52));
+            AddMapEntry(new Color (64, 193, 147));
             soundType = 0;
             dustType = 125;
         }
