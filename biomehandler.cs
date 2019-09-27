@@ -22,11 +22,15 @@ namespace StarlightRiver
         public bool ZoneGlass = false;
         public bool ZoneVoidPre = false;
         public bool ZoneJungleCorrupt = false;
+        public bool ZoneJungleBloody = false;
+        public bool ZoneJungleHoly = false;
         public override void UpdateBiomes()
         {
             ZoneGlass = (LegendWorld.glassTiles > 50);
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
-            ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
+            ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 200);
+            ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 200);
+            ZoneJungleHoly = (LegendWorld.holyJungleTiles > 200);
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -36,6 +40,8 @@ namespace StarlightRiver
             allMatch &= ZoneGlass == modOther.ZoneGlass;
             allMatch &= ZoneVoidPre == modOther.ZoneVoidPre;
             allMatch &= ZoneJungleCorrupt == modOther.ZoneJungleCorrupt;
+            allMatch &= ZoneJungleBloody == modOther.ZoneJungleBloody;
+            allMatch &= ZoneJungleHoly == modOther.ZoneJungleHoly;
             return allMatch;
         }
 
@@ -45,6 +51,8 @@ namespace StarlightRiver
             modOther.ZoneGlass = ZoneGlass;
             modOther.ZoneVoidPre = ZoneVoidPre;
             modOther.ZoneJungleCorrupt = ZoneJungleCorrupt;
+            modOther.ZoneJungleBloody = ZoneJungleBloody;
+            modOther.ZoneJungleHoly = ZoneJungleHoly;
         }
 
         public override void SendCustomBiomes(BinaryWriter writer)
@@ -53,6 +61,8 @@ namespace StarlightRiver
             flags[0] = ZoneGlass;
             flags[1] = ZoneVoidPre;
             flags[2] = ZoneJungleCorrupt;
+            flags[3] = ZoneJungleBloody;
+            flags[4] = ZoneJungleHoly;
             writer.Write(flags);
         }
 
@@ -62,6 +72,8 @@ namespace StarlightRiver
             ZoneGlass = flags[0];
             ZoneVoidPre = flags[1];
             ZoneJungleCorrupt = flags[2];
+            ZoneJungleBloody = flags[3];
+            ZoneJungleHoly = flags[4];
         }
 
         public override void PreUpdate()
@@ -81,6 +93,16 @@ namespace StarlightRiver
                 Overlay.visible = true;
                 Overlay.state = 2;
             }
+            else if (ZoneJungleBloody)
+            {
+                Overlay.visible = true;
+                Overlay.state = 3;
+            }
+            else if (ZoneJungleHoly)
+            {
+                Overlay.visible = true;
+                Overlay.state = 4;
+            }
             else
             {
                 Overlay.visible = false;
@@ -98,11 +120,15 @@ namespace StarlightRiver
         public static int glassTiles;
         public static int voidTiles;
         public static int evilJungleTiles;
+        public static int bloodJungleTiles;
+        public static int holyJungleTiles;
         public override void TileCountsAvailable(int[] tileCounts)
         {
             glassTiles = tileCounts[mod.TileType("SandGlass")] + tileCounts[mod.TileType("GlassCrystal")];
             voidTiles = tileCounts[mod.TileType("Void1")] + tileCounts[mod.TileType("Void2")];
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
+            bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];
+            holyJungleTiles = tileCounts[mod.TileType("GrassJungleHoly")];
         }
     }
 }

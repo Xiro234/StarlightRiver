@@ -80,6 +80,7 @@ namespace StarlightRiver.GUI
                         }
                     }
                 }
+
                 if (state == 2)
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
@@ -91,8 +92,38 @@ namespace StarlightRiver.GUI
                         }
                     }
                 }
+
+                if (state == 3)
+                {
+                    for (int k = 0; k <= Main.screenWidth; k++)
+                    {
+                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1500) == 0)
+                        {
+                            BloodDust dus = new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Blood"), new Vector2(k, 0), new Vector2(0, 2f));
+                            Bootlegdust.Add(dus);
+                        }
+                    }
+                }
+
+                if (state == 4)
+                {
+                    for (int k = 0; k <= Main.screenWidth; k++)
+                    {
+                        if (k % Main.rand.Next(20, 40) == 0 && Main.rand.Next(1000) == 0)
+                        {
+                            HolyDust dus = new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), new Vector2(k, Main.rand.Next(Main.screenHeight)), Vector2.Zero);
+                            Bootlegdust.Add(dus);
+                        }
+                    }
+                }
             }
-            if (!Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneVoidPre && !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleCorrupt)
+            if 
+                (
+                !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneVoidPre &&
+                !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleCorrupt &&
+                !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleBloody &&
+                !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleHoly
+                )
             {
                 Bootlegdust.Clear();
             }
@@ -149,6 +180,50 @@ namespace StarlightRiver.GUI
             scl *= 0.996f;
             time--;
             pos.X += (float)Math.Sin((float)(time / 550f * 12.56f));
+        }
+    }
+    public class BloodDust : BootlegDust
+    {
+        public BloodDust(Texture2D texture, Vector2 position, Vector2 velocity) :
+            base(texture, position, velocity, Color.White, 2.5f, 600)
+        {
+        }
+
+        public override void Update()
+        {
+
+            col *= 0.99999948f;
+            pos += vel;
+            vel += new Vector2(0, 0.07f);
+            scl *= 0.987f;
+
+            time--;
+            pos.X += (float)Math.Sin((float)(time / 550f * 31.4f)) * 0.25f;
+        }
+    }
+    public class HolyDust : BootlegDust
+    {
+        public HolyDust(Texture2D texture, Vector2 position, Vector2 velocity) :
+            base(texture, position, velocity, Color.White * 0.1f, 0.1f, 200)
+        {
+        }
+
+        public override void Update()
+        {
+            if(time >= 100)
+            {
+                col *= 1.05f;
+                scl *= 1.025f;
+            }
+            else
+            {
+                col *= 0.98f;
+                scl *= 0.99f;
+            }
+
+            time--;
+            pos.X += (float)Math.Cos((float)(time / 550f * 31.4f)) * 0.5f;
+            pos.Y += (float)Math.Sin((float)(time / 550f * 31.4f)) * 0.5f;
         }
     }
 }

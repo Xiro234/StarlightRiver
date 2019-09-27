@@ -29,9 +29,10 @@ namespace StarlightRiver
                 for (int multiM = 0; multiM < height; multiM++)
                 {
                     Tile tileAt = Main.tile[multiN + xPos, multiM + yPos];
+                    //WorldGen.PlaceTile(multiN + xPos, multiM + yPos, type, false, true);
+                    tileAt.type = (ushort)type;
                     tileAt.frameX = (short)(multiN * 18);
                     tileAt.frameY = (short)(multiM * 18);
-                    tileAt.type = (ushort)type;
                 }
             }
         }

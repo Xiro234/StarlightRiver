@@ -157,7 +157,7 @@ namespace StarlightRiver
         public override void PostWorldGen()
         {
             // Top-Left Position
-            Vector2 PureAltarSP = new Vector2(Main.spawnTileX, Main.maxTilesY - 150);
+            Vector2 PureAltarSP = new Vector2(Main.spawnTileX, Main.spawnTileY - 50);
             PureSpawnPoint = PureAltarSP + new Vector2(7, 18);
 
             // Slopes in order: full=0, BL, BR, TL, TR, half
@@ -189,8 +189,8 @@ namespace StarlightRiver
                 new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                 new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                 new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                 new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                 new byte[] { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 },
                 new byte[] { 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2, 3, 2, 3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3 },
                 new byte[] { 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 3, 3 },
@@ -232,6 +232,7 @@ namespace StarlightRiver
 
             //---------------------------------------------------------------------------------------------------------
 
+            //first pass, blocks and walls
             for (int y = 0; y < PureAltar.Length; y++)
             {
                 for (int x = 0; x < PureAltar[0].Length; x++)
@@ -245,7 +246,7 @@ namespace StarlightRiver
                         //This is your block pallete
                         case 1: placeType = TileID.Ash; break;
                         case 2: placeType = (ushort)mod.TileType("Void1"); break;
-                        case 3: placeType = (ushort)mod.TileType("Void2"); break;                       
+                        case 3: placeType = (ushort)mod.TileType("Void2"); break;
                     }
 
                     if ((PureAltar[y][x] & 0b0001_1111) < 7)
@@ -253,12 +254,12 @@ namespace StarlightRiver
                         WorldGen.PlaceTile((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, placeType, false, true);
                     }
 
-                    if((PureAltar[y][x] & 0b0001_1111) >= 7)//multitiles
+                    if ((PureAltar[y][x] & 0b0001_1111) >= 7)
                     {
-                        if((PureAltar[y][x] & 0b0001_1111) == 7){ WorldGen.Place3x2((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, (ushort)mod.TileType<Tiles.VoidPillarB>()); }
+                        if ((PureAltar[y][x] & 0b0001_1111) == 7) { Helper.PlaceMultitile(3, 2, (int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, mod.TileType<Tiles.VoidPillarB>()); }
                     }
 
-                    if((PureAltar[y][x] & 0b0001_1111) == 0)
+                    if ((PureAltar[y][x] & 0b0001_1111) == 0)
                     {
                         Main.tile[(int)PureAltarSP.X + x, (int)PureAltarSP.Y + y].active(false);
                     }
@@ -289,7 +290,7 @@ namespace StarlightRiver
                             WorldGen.SlopeTile((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, PureAltar[y][x] >> 5);
                     }
                 }
-            }           
+            }
         }
 
         public static float rottime = 0;
