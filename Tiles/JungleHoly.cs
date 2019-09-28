@@ -23,7 +23,7 @@ namespace StarlightRiver.Tiles
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = false;
+            Main.tileLighted[Type] = true;
             TileID.Sets.Grass[Type] = true;
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
@@ -91,6 +91,13 @@ namespace StarlightRiver.Tiles
         {
             effectOnly = true;
             WorldGen.PlaceTile(i, j, TileID.Mud, false, true);
+        }
+
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 0.064f /1.5f;
+            g = 0.193f / 1.5f;
+            b = 0.147f / 1.5f;
         }
 
         /*public override void NearbyEffects(int i, int j, bool closer)
