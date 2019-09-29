@@ -13,19 +13,19 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles
 {
-    class Fluff : ModTile
+    class GravTile1 : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = false;
             Main.tileSolid[Type] = false;
-            Main.tileSolidTop[Type] = true;
+            Main.tileSolidTop[Type] = false;
             Main.tileBlockLight[Type] = false;
             TileID.Sets.DrawsWalls[Type] = true;
 
             drop = mod.ItemType("Fluff");
             dustType = mod.DustType("Air");
-            AddMapEntry(new Color(115, 182, 158));
+            AddMapEntry(new Color(200, 100, 160));
             animationFrameHeight = 88;
         }
 
@@ -33,20 +33,18 @@ namespace StarlightRiver.Tiles
         {
             foreach (Player player in Main.player)
             {
-                if(player.Hitbox.Intersects(new Rectangle(i * 16, j * 16, 16, 16)))
+                if (player.Hitbox.Intersects(new Rectangle(i * 16, j * 16, 16, 16)))
                 {
-                    if(player.velocity.Y > -player.maxFallSpeed)
+                    if(player.GetModPlayer<StarlightPlayer>(mod).InvertGrav == 0 && player.velocity.Y < 2 && player.velocity.Y > -2)
                     {
-                        player.velocity.Y -= 0.7f;
+                        player.velocity.Y = 0;
                     }
-                    else
-                    {
-                        player.velocity.Y = -player.maxFallSpeed;
-                    }
+                    player.GetModPlayer<StarlightPlayer>(mod).InvertGrav = 6;
+                    //Main.NewText("grav");
                 }
             }
         }
-        public override void AnimateTile(ref int frame, ref int frameCounter)
+        /*public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             if (++frameCounter >= 5)
             {
@@ -56,7 +54,7 @@ namespace StarlightRiver.Tiles
                     frame = 0;
                 }
             }
-        }
+        }*/
         /*public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Main.spriteBatch.End();
