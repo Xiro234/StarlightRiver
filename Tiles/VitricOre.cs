@@ -104,7 +104,6 @@ namespace StarlightRiver.Tiles
 
         public override void PreUpdate()
         {
-
             for (int j = (int)(player.position.Y / 16) - 3; j <= (int)(player.position.Y / 16) + 3; j++)
             {
                 for (int i = (int)(player.position.X / 16) - 3; i <= (int)(player.position.X / 16) + 3; i++)

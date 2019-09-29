@@ -27,6 +27,8 @@ namespace StarlightRiver
         public static bool AnyBossDowned = false;
         public static bool GlassBossDowned = false;
 
+        public static bool SealOpen = false;
+
         //Voidsmith
         public static int[] NPCUpgrades = new int[] { 0,0 };
 
@@ -34,11 +36,19 @@ namespace StarlightRiver
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
+            int SurfaceIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
             if (ShiniesIndex != -1)
             {
                 //tasks.Insert(ShiniesIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
-                tasks.Insert(ShiniesIndex + 2, new PassLegacy("Making the World Impure", EbonyGen));
+                tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Ores", EbonyGen));
+                //tasks.Insert(ShiniesIndex + 3, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
+
+                tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", RuinsGen));
             }
+        }
+        public override void PostWorldGen()
+        {
+            VoidAltarGen();
         }
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
@@ -140,7 +150,7 @@ namespace StarlightRiver
         }*/
         private void EbonyGen(GenerationProgress progress)
         {
-            progress.Message = "Making the World Impure";
+            progress.Message = "Making the World Impure...";
 
             for (int k = 0; k < (int)((double)(Main.maxTilesX * Main.maxTilesY) * .0015); k++)
             {
@@ -154,35 +164,96 @@ namespace StarlightRiver
             }
         }
 
-        public override void PostWorldGen()
+        private void VoidAltarGen()
         {
+            //progress.Message = "Opening the Gates...";
+
             // Top-Left Position
-            Vector2 PureAltarSP = new Vector2(Main.spawnTileX, Main.spawnTileY - 50);
-            PureSpawnPoint = PureAltarSP + new Vector2(7, 18);
+            Vector2 PureAltarSP = new Vector2(Main.spawnTileX - Main.maxTilesX / 3, Main.maxTilesY - 101);
+            PureSpawnPoint = PureAltarSP + new Vector2(202, 57);
 
             Texture2D Courtyard = ModContent.GetTexture("StarlightRiver/Structures/VoidAltar");
-            for(int y = 0; y < Courtyard.Height; y++)
+
+            for(int y = 0; y < Courtyard.Height; y++) // for every row
             {
-                Color[] rawData = new Color[Courtyard.Width];
-                Rectangle row = new Rectangle(0, y, Courtyard.Width, 1);
-                Courtyard.GetData<Color>(0, row, rawData, 0, Courtyard.Width);
+                Color[] rawData = new Color[Courtyard.Width]; //array of colors
+                Rectangle row = new Rectangle(0, y, Courtyard.Width, 1); //one row of the image
+                Courtyard.GetData<Color>(0, row, rawData, 0, Courtyard.Width); //put the color data from the image into the array
 
-                for (int x = 0; x < Courtyard.Width; x++)
+                for (int x = 0; x < Courtyard.Width; x++) //every entry in the row
                 {
+                    Main.tile[(int)PureAltarSP.X + x, (int)PureAltarSP.Y + y].ClearEverything(); //clear the tile out
+                    Main.tile[(int)PureAltarSP.X + x, (int)PureAltarSP.Y + y].liquidType(0); // clear liquids
+
                     ushort placeType = 0;
-                    switch (rawData[x].R)
-                    {                       
-                        case 1: placeType = (ushort)mod.TileType<Tiles.Void1>(); break;
-                    }
-
-                    WorldGen.PlaceTile((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, placeType, false, true);
-
-                    if (placeType == 0)
+                    ushort wallType = 0;
+                    switch (rawData[x].R) //select block
                     {
-                        Main.tile[(int)PureAltarSP.X + x, (int)PureAltarSP.Y + y].active(false);
+                        case 10: placeType = TileID.Ash; break;
+                        case 20: placeType = (ushort)mod.TileType<Tiles.Void1>(); break;
+                        case 30: placeType = (ushort)mod.TileType<Tiles.Void2>(); break;
+                        case 40: placeType = (ushort)mod.TileType<Tiles.VoidDoorOn>(); break;
                     }
+                    switch (rawData[x].B) //select wall
+                    {
+                        case 10: wallType = (ushort)mod.WallType<Tiles.VoidWall>(); break;
+                        case 20: wallType = (ushort)mod.WallType<Tiles.VoidWallPillar>(); break;
+                        case 30: wallType = (ushort)mod.WallType<Tiles.VoidWallPillarS>(); break;
+                    }
+
+                    if (placeType != 0) { WorldGen.PlaceTile((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, placeType, true, true); } //place block
+                    if (wallType != 0) { WorldGen.PlaceWall((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, wallType, true); } //place wall
                 }
             }           
+        }
+
+        private void RuinsGen(GenerationProgress progress)
+        {
+            progress.Message = "Spicing up Forests...";
+            Texture2D Ruins = ModContent.GetTexture("StarlightRiver/Structures/Ruins");
+
+            for (int x = 0; x + 16 < Main.maxTilesX; x += Main.rand.Next(8, 16))
+            {
+                if (Main.rand.Next(6) == 0) //1/7 chance to generate
+                {
+                    for (int y = 0; y < Main.maxTilesY; y++) //find the highest grass block
+                    {
+                        if (Main.tile[x, y].type == TileID.Grass && Math.Abs(x - Main.maxTilesX / 2) >= 120 && Main.tile[x+ 4,y].active() && Main.tile[x + 8, y].active())// valid placement
+                        {
+                            int variant = Main.rand.Next(5);
+
+                            //Generation Block
+                            for (int y2 = 0; y2 < Ruins.Height; y2++) // for every row
+                            {
+                                Color[] rawData = new Color[8]; //array of colors
+                                Rectangle row = new Rectangle(8 * variant, y2, 8, 1); //one row of the image
+                                Ruins.GetData<Color>(0, row, rawData, 0, 8); //put the color data from the image into the array
+
+                                for (int x2 = 0; x2 < 8; x2++) //every entry in the row
+                                {
+                                    Main.tile[x + x2, y + y2].slope(0);
+
+                                    ushort placeType = 0;
+                                    ushort wallType = 0;
+                                    switch (rawData[x2].R) //select block
+                                    {
+                                        case 10: placeType = TileID.GrayBrick; break;
+                                        case 20: placeType = TileID.LeafBlock; break;
+                                    }
+                                    switch (rawData[x2].B) //select wall
+                                    {
+                                        case 10: wallType = WallID.GrayBrick; break;
+                                    }
+
+                                    if (placeType != 0) { WorldGen.PlaceTile(x + x2, y - 15 + y2, placeType, true, true); } //place block
+                                    if (wallType != 0) { WorldGen.PlaceWall(x + x2, y - 15 + y2, wallType, true); } //place wall
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         public static float rottime = 0;
@@ -225,7 +296,7 @@ namespace StarlightRiver
             }
             if (!Main.npc.Any(n => n.type == mod.NPCType("Purity") && n.active == true))
             {
-                NPC.NewNPC((int)PureSpawnPoint.X * 16, (int)PureSpawnPoint.Y * 16, mod.NPCType("Purity"));
+                NPC.NewNPC((int)PureSpawnPoint.X * 16 - 20, (int)PureSpawnPoint.Y * 16 - 20, mod.NPCType("Purity"));
             }
         }
 
@@ -235,6 +306,7 @@ namespace StarlightRiver
 
             GlassBossDowned = false;
             ForceStarfall = false;
+            SealOpen = false;
 
             NPCUpgrades = new int[] { 0, 0 };
         }
@@ -245,6 +317,8 @@ namespace StarlightRiver
             {
                 [nameof(AnyBossDowned)] = AnyBossDowned,
                 [nameof(GlassBossDowned)] = GlassBossDowned,
+                [nameof(SealOpen)] = SealOpen,
+
                 [nameof(ForceStarfall)] = ForceStarfall,
 
                 [nameof(NPCUpgrades)] = NPCUpgrades,
@@ -257,6 +331,8 @@ namespace StarlightRiver
         {
             AnyBossDowned = tag.GetBool(nameof(AnyBossDowned));
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
+            SealOpen = tag.GetBool(nameof(SealOpen));
+
             ForceStarfall = tag.GetBool(nameof(ForceStarfall));
 
             NPCUpgrades = tag.GetIntArray(nameof(NPCUpgrades));           

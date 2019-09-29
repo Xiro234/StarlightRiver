@@ -197,4 +197,46 @@ namespace StarlightRiver.Items.Void
             item.createWall = mod.WallType<Tiles.VoidWall>();
         }
     }
+    public class VoidWallPillarItem : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Eldritch Pillar Wall");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 16;
+            item.height = 16;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createWall = mod.WallType<Tiles.VoidWallPillar>();
+        }
+    }
+    public class VoidWallPillarSItem : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Short Eldritch Pillar Wall");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 16;
+            item.height = 16;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createWall = mod.WallType<Tiles.VoidWallPillarS>();
+        }
+    }
 }

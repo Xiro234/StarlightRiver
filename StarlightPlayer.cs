@@ -35,9 +35,7 @@ namespace StarlightRiver
 
             if (DarkSlow)
             {
-                player.velocity.X *= 0.9f;
-                player.GetModPlayer<AbilityHandler>(mod).staminaTickerMax *= -1;
-                player.GetModPlayer<AbilityHandler>(mod).stamina *= 0;
+                player.velocity.X *= 0.8f;
             }
             DarkSlow = false;
 
