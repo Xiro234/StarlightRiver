@@ -22,6 +22,23 @@ namespace StarlightRiver
         public bool DarkSlow = false;
 
         public bool VitricSet = false;
+		
+		public int InvertGrav = 0;
+		public override void PreUpdateBuffs()
+        {
+
+			if (InvertGrav > 0)
+			{
+                //Main.NewText("Invert: true");
+				player.gravControl = true;
+				player.gravDir = -1f;
+			}
+            else
+            {
+                //Main.NewText("Invert: false");
+            }
+        }
+		
         public override void PreUpdate()
         {
             Stamina.visible = false;
@@ -45,6 +62,24 @@ namespace StarlightRiver
             {
 
             }
-        }       
+        }
+
+		public override void ResetEffects()
+        {	
+			//InvertGrav = false;
+		}
+
+        public override void PostUpdate()
+        {
+            //Main.NewText(player.velocity);
+            if (InvertGrav > 0)
+            {
+                if (InvertGrav == 1 && player.velocity.Y < 5 && player.velocity.Y > -5)
+                {
+                    player.velocity.Y = 0;
+                }
+                    --InvertGrav;
+            }
+        }
     }
 }
