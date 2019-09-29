@@ -21,7 +21,7 @@ namespace StarlightRiver.Items.Vitric
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("SandGlass");
+            item.createTile = mod.TileType("VitricSand");
         }
     }
     public class Sandglass2 : ModItem
@@ -43,7 +43,7 @@ namespace StarlightRiver.Items.Vitric
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("Glass");
+            item.createTile = mod.TileType("VitricGlass");
         }
     }
 
@@ -88,7 +88,29 @@ namespace StarlightRiver.Items.Vitric
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType("GlassCrystal");
+            item.createTile = mod.TileType("VitricGlassCrystal");
+        }
+    }
+    public class VitricBrickItem : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            Tooltip.SetDefault("");
+            DisplayName.SetDefault("Vitric Brick");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 16;
+            item.height = 16;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createTile = mod.TileType("VitricBrick");
         }
     }
 
