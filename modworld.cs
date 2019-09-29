@@ -41,14 +41,13 @@ namespace StarlightRiver
             {
                 //tasks.Insert(ShiniesIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
                 tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Ores", EbonyGen));
-                //tasks.Insert(ShiniesIndex + 3, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
+                tasks.Insert(ShiniesIndex + 3, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
 
                 tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", RuinsGen));
             }
         }
         public override void PostWorldGen()
         {
-            VoidAltarGen();
         }
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
@@ -157,16 +156,16 @@ namespace StarlightRiver
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int y = WorldGen.genRand.Next(0, (int)WorldGen.worldSurfaceHigh);
 
-                if (Main.tile[x, y].type == TileID.Dirt)
+                if (Main.tile[x, y].type == TileID.Dirt  && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 8)
                 {
                     WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(10, 11), 1, mod.TileType("OreEbony"), false, 0f, 0f, false, true);
                 }
             }
         }
 
-        private void VoidAltarGen()
+        private void VoidAltarGen(GenerationProgress progress)
         {
-            //progress.Message = "Opening the Gates...";
+            progress.Message = "Opening the Gates...";
 
             // Top-Left Position
             Vector2 PureAltarSP = new Vector2(Main.spawnTileX - Main.maxTilesX / 3, Main.maxTilesY - 101);
@@ -214,15 +213,15 @@ namespace StarlightRiver
 
             for (int x = 0; x + 16 < Main.maxTilesX; x += Main.rand.Next(8, 16))
             {
-                if (Main.rand.Next(6) == 0) //1/7 chance to generate
+                if (Main.rand.Next(4) == 0) // 1/5 chance to generate
                 {
-                    for (int y = 0; y < Main.maxTilesY; y++) //find the highest grass block
+                    for (int y = 0; y < Main.maxTilesY; y++) // find the highest grass block
                     {
-                        if (Main.tile[x, y].type == TileID.Grass && Math.Abs(x - Main.maxTilesX / 2) >= 120 && Main.tile[x+ 4,y].active() && Main.tile[x + 8, y].active())// valid placement
+                        if (Main.tile[x, y].type == TileID.Grass && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 8 && Main.tile[x+ 4,y].active() && Main.tile[x + 8, y].active())// valid placement
                         {
                             int variant = Main.rand.Next(5);
 
-                            //Generation Block
+                            // Generation Block
                             for (int y2 = 0; y2 < Ruins.Height; y2++) // for every row
                             {
                                 Color[] rawData = new Color[8]; //array of colors
@@ -270,7 +269,7 @@ namespace StarlightRiver
                 starfall = true;
                 Main.bloodMoon = false;
                 ForceStarfall = false;
-                Main.NewText("The Starlight River is Passing Through!");
+                Main.NewText("The Starlight River is Passing Through!",120, 241, 255);
             }
 
             if (starfall)

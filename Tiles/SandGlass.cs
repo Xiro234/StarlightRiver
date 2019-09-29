@@ -21,7 +21,7 @@ namespace StarlightRiver.Tiles
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.rand.Next(200) == 0)
+            if (Main.rand.Next(200) == 0 && Lighting.GetColor(i, j).R >= 10 && Lighting.GetColor(i, j).B >= 10 && Lighting.GetColor(i, j).G >= 10)
             {
                 Dust.NewDustPerfect(new Vector2(i * 16, j * 16), mod.DustType("Air"), Vector2.Zero);
             }
