@@ -124,7 +124,7 @@ namespace StarlightRiver
         public static int holyJungleTiles;
         public override void TileCountsAvailable(int[] tileCounts)
         {
-            glassTiles = tileCounts[mod.TileType("SandGlass")] + tileCounts[mod.TileType("GlassCrystal")];
+            glassTiles = tileCounts[mod.TileType("VitricSand")] + tileCounts[mod.TileType("VitricGlassCrystal")];
             voidTiles = tileCounts[mod.TileType("Void1")] + tileCounts[mod.TileType("Void2")];
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
             bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];
