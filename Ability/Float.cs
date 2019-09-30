@@ -14,6 +14,7 @@ namespace StarlightRiver.Ability
     {
         Mod mod = StarlightRiver.Instance;
         int timer = 0;
+        bool exit = false;
         public Float() : base(1)
         {
 
@@ -34,7 +35,7 @@ namespace StarlightRiver.Ability
 
         public override void InUse()
         {
-            Player player = Handler.player;
+            Player player = Handler.player;           
             timer--;
             player.maxFallSpeed = 999;
             player.gravity = 0;
@@ -48,34 +49,82 @@ namespace StarlightRiver.Ability
 
             Lighting.AddLight(player.Center, new Vector3(0.15f, 0.15f, 0f));
 
-            for (int k = 0; k <= 2; k++)
-            {
-                Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, mod.DustType("Gold"));
-            }
+
         
-            if ((timer % 60 == 0 && timer != 0) || timer == 1)
+            if ((timer % 60 == 0 && timer >= 0) || timer == 1)
             {
                 Handler.stamina--;
             }
 
-            if (StarlightRiver.Float.JustReleased ||  Handler.stamina < 1)
+            if (StarlightRiver.Float.JustReleased)
             {
-                Active = false;
+                exit = true;
+            }
+
+            if (exit || Handler.stamina < 1)
+            {             
                 OnExit();
+            }
+        }
+        public override void UseEffects()
+        {
+            if (timer > -1)
+            {
+                for (int k = 0; k <= 2; k++)
+                {
+                    Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, mod.DustType("Gold"));
+                }
+            }
+            else
+            {
+                for (int k = 0; k <= 2; k++)
+                {
+                    Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, mod.DustType("Void"));
+                }
             }
         }
 
         public override void OnExit()
         {
             Player player = Handler.player;
-            timer = 0;
-            player.velocity.X = 0;
-            player.velocity.Y = 0;
-
-            for (int k = 0; k <= 30; k++)
+            if (testExit())
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Gold2"), Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default, 1.2f);
+                timer = 0;
+                exit = false;
+                player.velocity.X = 0;
+                player.velocity.Y = 0;
+
+                for (int k = 0; k <= 30; k++)
+                {
+                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Gold2"), Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default, 1.2f);
+                }
+                Active = false;
             }
+            else if (timer < 0)
+            {
+                player.statLife--;
+                if (timer % 10 == 0) { Main.PlaySound(SoundID.PlayerHit, player.Center); }
+            }
+        }
+
+        public bool testExit()
+        {
+            for(int x = (int)(player.Center.X / 16) - 1; x <= (int)(player.Center.X / 16) + 1; x++)
+            {
+                for (int y = (int)(player.Center.Y / 16) - 1; y <= (int)(player.Center.Y / 16) + 1; y++)
+                {
+                    int cleartiles = 0;
+                    for (int x2 = 0; x2 <= 1; x2++)
+                    {
+                        for(int y2 = 0; y2 <= 2; y2++)
+                        {
+                            if (Main.tile[x + x2, y + y2].collisionType == 0) { cleartiles++; }
+                        }                       
+                    }
+                    if (cleartiles == 6) { return true; }
+                }
+            }
+            return false;
         }
     }
 }

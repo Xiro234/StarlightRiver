@@ -66,48 +66,51 @@ namespace StarlightRiver.Ability
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            if (StarlightRiver.Dash.JustPressed && unlock[0] == 1 && (player.controlUp|| player.controlDown || player.controlLeft || player.controlRight))
+            if (ability == null || !ability.Active)
             {
-                ability = new Dash();
-                if (upgrade[0] == 1 || upgrade[1] == 1) { ability = new DashAstral(); }
-                if (upgrade[0] == 2 || upgrade[1] == 2) { ability = new DashFlame(); }
-                if ((upgrade[0] == 2 || upgrade[1] == 2) && (upgrade[0] == 1 || upgrade[1] == 1)) { ability = new DashCombo(); }
-
-                abSelect = 1;
-            }
-            if (StarlightRiver.Float.JustPressed && unlock[1] == 1)
-            {
-                ability = new Float();
-                abSelect = 2;
-            }
-            if (StarlightRiver.Purify.JustPressed && unlock[2] == 1)
-            {
-                ability = new Pure();
-                abSelect = 3;
-            }
-            if (StarlightRiver.Smash.JustPressed && unlock[3] == 1)
-            {
-                ability = new Smash();
-                abSelect = 4;
-            }
-            if (StarlightRiver.Superdash.JustPressed && unlock[4] == 1)
-            {
-                ability = new Superdash();
-                abSelect = 5;
-            }
-
-            if (ability == null || ability.Active) { return; }
-
-            if (stamina >= ability.StaminaCost)
-            {
-                ability.Handler = this;
-                ability.ConsumeStamina();
-                ability.OnCast();
-                if (player.wingTime > 0)
+                if (StarlightRiver.Dash.JustPressed && unlock[0] == 1 && (player.controlUp || player.controlDown || player.controlLeft || player.controlRight))
                 {
-                    store = player.wingTime;
+                    ability = new Dash();
+                    if (upgrade[0] == 1 || upgrade[1] == 1) { ability = new DashAstral(); }
+                    if (upgrade[0] == 2 || upgrade[1] == 2) { ability = new DashFlame(); }
+                    if ((upgrade[0] == 2 || upgrade[1] == 2) && (upgrade[0] == 1 || upgrade[1] == 1)) { ability = new DashCombo(); }
+
+                    abSelect = 1;
                 }
-                player.wingTime = 0;
+                if (StarlightRiver.Float.JustPressed && unlock[1] == 1)
+                {
+                    ability = new Float();
+                    abSelect = 2;
+                }
+                if (StarlightRiver.Purify.JustPressed && unlock[2] == 1)
+                {
+                    ability = new Pure();
+                    abSelect = 3;
+                }
+                if (StarlightRiver.Smash.JustPressed && unlock[3] == 1)
+                {
+                    ability = new Smash();
+                    abSelect = 4;
+                }
+                if (StarlightRiver.Superdash.JustPressed && unlock[4] == 1)
+                {
+                    ability = new Superdash();
+                    abSelect = 5;
+                }
+
+                if (ability == null || ability.Active) { return; }
+
+                if (stamina >= ability.StaminaCost)
+                {
+                    ability.Handler = this;
+                    ability.ConsumeStamina();
+                    ability.OnCast();
+                    if (player.wingTime > 0)
+                    {
+                        store = player.wingTime;
+                    }
+                    player.wingTime = 0;
+                }
             }
         }
         public override void ResetEffects()
