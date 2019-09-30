@@ -17,9 +17,18 @@ namespace StarlightRiver.Tiles
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileStone[Type] = true;
-            drop = ItemID.StoneBlock;
+            drop = mod.ItemType<Items.Pure.StonePureItem>();
             dustType = mod.DustType("Purify");
             AddMapEntry(new Color(255, 255, 255));
         }
-    }    
+    }
+    class StonePure2 : StonePure
+    {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            name = "StonePure2";
+            texture = "StarlightRiver/Tiles/StonePure";
+            return true;
+        }
+    }
 }

@@ -113,6 +113,38 @@ namespace StarlightRiver.Dusts
         }
     }
 
+    public class Air4 : ModDust
+    {
+        public override void OnSpawn(Dust dust)
+        {
+            dust.velocity *= 0.3f;
+            dust.noGravity = true;
+            dust.noLight = false;
+            dust.scale *= 0.8f;
+            dust.color.R = 170;
+            dust.color.G = 235;
+            dust.color.B = 255;
+        }
+        public override Color? GetAlpha(Dust dust, Color lightColor)
+        {
+            return dust.color;
+        }
+        public override bool Update(Dust dust)
+        {
+            dust.rotation += 0.05f;
+            dust.color *= 0.99f;
+
+            dust.scale *= 0.98f;
+
+
+            if (dust.scale < 0.4f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
+
     public class Gold : ModDust
     {
         public override void OnSpawn(Dust dust)

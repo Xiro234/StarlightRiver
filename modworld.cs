@@ -168,7 +168,7 @@ namespace StarlightRiver
             progress.Message = "Opening the Gates...";
 
             // Top-Left Position
-            Vector2 PureAltarSP = new Vector2(Main.spawnTileX - Main.maxTilesX / 3, Main.maxTilesY - 101);
+            Vector2 PureAltarSP = new Vector2(Main.spawnTileX - 50, Main.maxTilesY - 101);
             PureSpawnPoint = PureAltarSP + new Vector2(202, 57);
 
             Texture2D Courtyard = ModContent.GetTexture("StarlightRiver/Structures/VoidAltar");
