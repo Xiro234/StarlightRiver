@@ -37,6 +37,7 @@ namespace StarlightRiver.Ability
         {
             Player player = Handler.player;           
             timer--;
+            player.AddBuff(BuffID.Cursed, 2, true);
             player.maxFallSpeed = 999;
             player.gravity = 0;
             player.velocity = Vector2.Normalize(new Vector2
@@ -103,28 +104,26 @@ namespace StarlightRiver.Ability
             else if (timer < 0)
             {
                 player.statLife--;
+                if(player.statLife <= 0)
+                {
+                    player.KillMe(Terraria.DataStructures.PlayerDeathReason.ByCustomReason(player.name + " couldn't maintain their form"), 0, 0);
+                }
                 if (timer % 10 == 0) { Main.PlaySound(SoundID.PlayerHit, player.Center); }
             }
         }
 
         public bool testExit()
         {
-            for(int x = (int)(player.Center.X / 16) - 1; x <= (int)(player.Center.X / 16) + 1; x++)
+            int cleartiles = 0;
+            for (int x2 = (int)(player.position.X / 16); x2 <= (int)(player.position.X / 16) + 1; x2++)
             {
-                for (int y = (int)(player.Center.Y / 16) - 1; y <= (int)(player.Center.Y / 16) + 1; y++)
+                for (int y2 = (int)(player.position.Y / 16) - 2; y2 <= (int)(player.position.Y / 16); y2++)
                 {
-                    int cleartiles = 0;
-                    for (int x2 = 0; x2 <= 1; x2++)
-                    {
-                        for(int y2 = 0; y2 <= 2; y2++)
-                        {
-                            if (Main.tile[x + x2, y + y2].collisionType == 0) { cleartiles++; }
-                        }                       
-                    }
-                    if (cleartiles == 6) { return true; }
+                    if (Main.tile[x2, y2].collisionType == 0) { cleartiles++; }
                 }
             }
-            return false;
+            if (cleartiles == 6) { return true; }
+            else { return false; }            
         }
     }
 }
