@@ -50,6 +50,8 @@ namespace StarlightRiver
         {
         }
         
+        public int MaxCrystalCaveDepth = 0;
+        
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
         /// </summary>
@@ -208,6 +210,18 @@ namespace StarlightRiver
                     widthPos += newDir / 2;
                 }
             }
+        }
+        
+        /// <summary>
+        /// Moves from starting point p to the first solid block it touches according to direction dir. Skips tiles of types included the ignoredTileIDs array.
+        /// </summary>
+        /// <returns></returns>
+        private Vector2 GetGroundDirectional(Vector2 dir, Vector2 p, params int[] ignoredTileIDs)
+        {
+            Vector2 actualPos = p;
+            while (!Main.tile[(int)actualPos.X, (int)actualPos.Y].active() || ignoredTileIDs.Any(x => x == Main.tile[(int)actualPos.X, (int)actualPos.Y].type))
+                actualPos += dir;
+            return actualPos;
         }
         
         private void EbonyGen(GenerationProgress progress)
