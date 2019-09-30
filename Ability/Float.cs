@@ -46,6 +46,8 @@ namespace StarlightRiver.Ability
 
             player.Hitbox = new Rectangle((int)player.Hitbox.X - 7 + 7, (int)player.Hitbox.Y + 21 + 7, 14, 14);
 
+            Lighting.AddLight(player.Center, new Vector3(0.15f, 0.15f, 0f));
+
             for (int k = 0; k <= 2; k++)
             {
                 Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, mod.DustType("Gold"));
