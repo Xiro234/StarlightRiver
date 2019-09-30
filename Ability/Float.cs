@@ -29,6 +29,7 @@ namespace StarlightRiver.Ability
             {
                 Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Gold2"), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 1.2f);
             }
+            
         }
 
         public override void InUse()
@@ -39,10 +40,12 @@ namespace StarlightRiver.Ability
             player.gravity = 0;
             player.velocity = Vector2.Normalize(new Vector2
                 (
-                Main.screenPosition.X + Main.mouseX - player.position.X,
-                Main.screenPosition.Y + Main.mouseY - player.position.Y
-                )) * 5;
-            //player.Hitbox = new Rectangle((int)player.Center.X - 8, (int)player.Center.Y - 8, 16, 16);
+                Main.screenPosition.X + Main.mouseX - player.Hitbox.Center.X,
+                Main.screenPosition.Y + Main.mouseY - player.Hitbox.Center.Y
+                )) * 5 + new Vector2(0.25f, 0.25f);
+
+            player.Hitbox = new Rectangle((int)player.Hitbox.X - 7 + 7, (int)player.Hitbox.Y + 21 + 7, 14, 14);
+
             for (int k = 0; k <= 2; k++)
             {
                 Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, mod.DustType("Gold"));

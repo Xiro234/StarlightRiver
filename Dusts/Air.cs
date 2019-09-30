@@ -329,5 +329,23 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
+    public class Debug : Void
+    {
+        public override bool Update(Dust dust)
+        {
+            dust.position += Main.LocalPlayer.velocity;
+            dust.rotation += 0.05f;
+
+            dust.scale *= 0.95f;
+
+
+            if (dust.scale < 0.5f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
 }
 

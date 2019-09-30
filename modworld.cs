@@ -37,11 +37,13 @@ namespace StarlightRiver
         {
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
             int SurfaceIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
+            int HellIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Underworld"));
+            int DesertIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
             if (ShiniesIndex != -1)
             {
-                //tasks.Insert(ShiniesIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
-                tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Ores", EbonyGen));
-                tasks.Insert(ShiniesIndex + 3, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
+                tasks.Insert(DesertIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
+                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
+                tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
 
                 tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", RuinsGen));
             }
@@ -58,11 +60,13 @@ namespace StarlightRiver
         /// <param name="centre">The top centre point of the cavern.</param>
         private void GenerateCrystalCaverns(GenerationProgress progress)
         {
-            progress.Message = "Vitrifying Desert";
-            Point centre = new Point(Main.maxTilesX / 2, Main.maxTilesY - 600);
-            int size = Main.maxTilesX / 18; //Width of the cavern; value shown here is half the size. So, functional size is actually size * 2.
+            progress.Message = "Vitrifying Desert";            
+            int size = Main.maxTilesX / 20; //Width of the cavern; value shown here is half the size. So, functional size is actually size * 2.
             float depth = 0; //Depth of the cave
             float height = 0; //Height of cave
+
+            Point centre = new Point(WorldGen.UndergroundDesertLocation.X + size, WorldGen.UndergroundDesertLocation.Y + 400);
+
             for (int i = -size; i < size; ++i) //Digs out a cave, mayhaps placeholder
             {
                 int x = i + centre.X;
@@ -89,7 +93,7 @@ namespace StarlightRiver
                     Main.tile[x, y].active(false);
                     if ((j > maxHei - 8 || j < minHei + 8 || i < -size + 8 || i > size - 8) && WorldGen.genRand.Next(4) == 0)
                     {
-                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : mod.TileType<Tiles.SandGlass>(), true, 0, 0, false, true);
+                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : mod.TileType<Tiles.VitricSand>(), true, 0, 0, false, true);
                         continue;
                     }
                     WorldGen.KillWall(x, y, false);
@@ -133,7 +137,7 @@ namespace StarlightRiver
                     int siz = WorldGen.genRand.Next(7, 12);
                     for (int j = 0; j < siz; ++j)
                     {
-                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, mod.TileType("GlassCrystal"), true, true);
+                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, mod.TileType<Tiles.VitricGlass>(), true, true);
                         WorldGen.KillTile((int)plPos.X, (int)plPos.Y, false, true);
                         int wid = WorldGen.genRand.Next(1, 4);
                         for (int k = 0; k < wid; ++k)
@@ -154,10 +158,10 @@ namespace StarlightRiver
                 for (int j = sHei; j < 10 + WorldGen.genRand.Next(12, 19); ++j)
                 {
                     int off = (int)(i / 5f) * ((i >= 0) ? -1 : 1);
-                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)mod.TileType("GlassCrystal"))
+                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)mod.TileType<Tiles.VitricGlass>())
                         continue;
                     WorldGen.KillTile(midPoint.X + i, (midPoint.Y + j) + off, true, false, true);
-                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, mod.TileType("SandGlass"), true, true, -1, 0);
+                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, mod.TileType<Tiles.VitricSand>(), true, true, -1, 0);
                 }
             }
         }
@@ -175,7 +179,7 @@ namespace StarlightRiver
                 if (rot > shortTau) //Caps angle
                     rot = 0;
 
-                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), mod.TileType<Tiles.GlassCrystal>())
+                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), mod.TileType<Tiles.VitricGlass>())
                     + (new Vector2(0, -1).RotatedBy(rot) * 3); //Position of a wall. Starts off going UP, then goes clockwise.
 
                 if (WorldGen.genRand.Next(Math.Abs((int)randomWallLocation.X - tC.X) + WorldGen.genRand.Next(30)) < Main.maxTilesX / 80) //Biases crystals towards the sides
@@ -199,14 +203,14 @@ namespace StarlightRiver
 
             for (int j = 0; j < siz; ++j) //Places crystal, replace PlaceTile with TileRunner or other method of choice
             {
-                WorldGen.PlaceTile((int)position.X, (int)position.Y, mod.TileType("GlassCrystal"), true, true, -1, 0);
+                WorldGen.PlaceTile((int)position.X, (int)position.Y, mod.TileType<Tiles.VitricGlass>(), true, true, -1, 0);
                 position += direction;
 
                 Vector2 newDir = new Vector2(0, -1).RotatedBy(Vector2.Normalize(origin.ToVector2() - position).ToRotation() - (side * 2));
                 Vector2 widthPos = position - (newDir * ((wid + negWid) / 2f));
                 for (float k = negWid; k < wid; k += 0.5f) //Widens the crystal
                 {
-                    WorldGen.PlaceTile((int)widthPos.X, (int)widthPos.Y, mod.TileType("GlassCrystal"), true, true, -1, 0);
+                    WorldGen.PlaceTile((int)widthPos.X, (int)widthPos.Y, mod.TileType<Tiles.VitricGlass>(), true, true, -1, 0);
                     widthPos += newDir / 2;
                 }
             }
