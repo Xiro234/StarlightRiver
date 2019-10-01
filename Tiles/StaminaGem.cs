@@ -43,6 +43,7 @@ namespace StarlightRiver.Tiles
             {
                 Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime * 3);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/StaminaGemGlow"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, color);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/StaminaGemOn"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, Color.White);
             }
         }
     }

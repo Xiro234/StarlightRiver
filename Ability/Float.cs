@@ -69,7 +69,7 @@ namespace StarlightRiver.Ability
         }
         public override void UseEffects()
         {
-            if (Handler.stamina >= 1)
+            if (timer > -1)
             {
                 for (int k = 0; k <= 2; k++)
                 {

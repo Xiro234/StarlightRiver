@@ -29,8 +29,10 @@ namespace StarlightRiver.NPCs
         }
         public override void AI()
         {
+            
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
             if (npc.localAI[0] > 0) { npc.localAI[0]--; }
             else
@@ -38,10 +40,10 @@ namespace StarlightRiver.NPCs
                 Dust.NewDust(npc.position, 16, 16, mod.DustType<Dusts.Stamina>());
             }
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<AbilityHandler>().ability != null && player.GetModPlayer<AbilityHandler>().ability.Active && npc.localAI[0] == 0)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.ability != null && mp.ability.Active && npc.localAI[0] == 0)
             {
-                player.GetModPlayer<AbilityHandler>().stamina++;
-                if (player.GetModPlayer<AbilityHandler>().ability is Float) { (player.GetModPlayer<AbilityHandler>().ability as Float).timer += 59; }
+                mp.stamina++;
+                if (mp.ability is Float) { (mp.ability as Float).timer = 60 * mp.stamina - 1; }
                 npc.localAI[0] = 300;
 
                 Main.PlaySound(SoundID.Shatter, npc.Center);
