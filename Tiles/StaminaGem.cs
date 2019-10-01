@@ -37,11 +37,11 @@ namespace StarlightRiver.Tiles
                 NPC.NewNPC((int)pos.X, (int)pos.Y, mod.NPCType("Stamina"));
             }
         }
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (Main.npc.Any(npc => npc.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && npc.type == mod.NPCType("Stamina") && npc.active && npc.localAI[0] == 0))
             {
-                Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime * 3);
+                Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime * 3f);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/StaminaGemGlow"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, color);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/StaminaGemOn"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, Color.White);
             }
