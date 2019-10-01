@@ -13,7 +13,7 @@ namespace StarlightRiver.Ability
     class Float : Ability
     {
         Mod mod = StarlightRiver.Instance;
-        int timer = 0;
+        public int timer = 0;
         bool exit = false;
         public Float() : base(1)
         {
@@ -69,7 +69,7 @@ namespace StarlightRiver.Ability
         }
         public override void UseEffects()
         {
-            if (timer > -1)
+            if (Handler.stamina >= 1)
             {
                 for (int k = 0; k <= 2; k++)
                 {
@@ -103,7 +103,7 @@ namespace StarlightRiver.Ability
             }
             else if (timer < 0)
             {
-                player.statLife--;
+                player.statLife -= 2;
                 if(player.statLife <= 0)
                 {
                     player.KillMe(Terraria.DataStructures.PlayerDeathReason.ByCustomReason(player.name + " couldn't maintain their form"), 0, 0);
