@@ -39,7 +39,7 @@ namespace StarlightRiver.NPCs
                 Dust.NewDust(npc.position, 16, 16, mod.DustType<Dusts.Stamina>());
             }
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.ability != null && mp.ability.Active && npc.localAI[0] == 0)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.stamina < (mp.staminamax+mp.permanentstamina) && mp.ability != null && mp.ability.Active && npc.localAI[0] == 0)
             {
                 mp.stamina++;
                 if (mp.ability is Float) { (mp.ability as Float).timer = 60 * mp.stamina - 1; }
