@@ -27,6 +27,7 @@ namespace StarlightRiver.Dusts
         }
         public override bool Update(Dust dust)
         {
+            dust.position += dust.velocity;
             dust.rotation += 0.15f;
             dust.velocity *= 0.95f;
             dust.color *= 0.98f;

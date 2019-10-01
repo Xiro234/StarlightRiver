@@ -44,7 +44,13 @@ namespace StarlightRiver.Ability
                 player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 45;
             }
 
-            if(timer <= 0)
+            if(Vector2.Distance(player.position, player.oldPosition) < 5 && timer < 4)
+            {
+                timer = 0;
+                player.velocity *= -0.2f;                
+            }
+
+            if (timer <= 0)
             {
                 Active = false;
                 OnExit();               

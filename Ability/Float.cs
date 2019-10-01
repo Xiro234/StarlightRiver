@@ -52,7 +52,7 @@ namespace StarlightRiver.Ability
 
 
         
-            if ((timer % 60 == 0 && timer >= 0) || timer == 1)
+            if ((timer % 60 == 0 && timer > 0) || timer == 1)
             {
                 Handler.stamina--;
             }

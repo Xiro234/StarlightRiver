@@ -33,23 +33,6 @@ namespace StarlightRiver.Ability
             timer = 5;
         }
 
-        public override void InUse()
-        {
-            player.maxFallSpeed = 999;
-
-            timer--;
-
-            if (X != 0 || Y != 0)
-            {
-                player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 45;
-            }
-
-            if(timer <= 0)
-            {
-                Active = false;
-                OnExit();               
-            }
-        }
         public override void UseEffects()
         {
             for (int k = 0; k <= 15; k++)

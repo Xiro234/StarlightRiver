@@ -47,6 +47,10 @@ namespace StarlightRiver.NPCs
                 npc.localAI[0] = 300;
 
                 Main.PlaySound(SoundID.Shatter, npc.Center);
+                for(float k = 0; k <= 6.28; k+= 0.1f)
+                {
+                    Dust.NewDustPerfect(npc.Center, mod.DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * (Main.rand.Next(50) * 0.1f),0,default,3f);
+                }
             }
 
             if (Main.tile[(int)npc.Center.X / 16, (int)npc.Center.Y / 16].type != mod.TileType("StaminaGem"))
