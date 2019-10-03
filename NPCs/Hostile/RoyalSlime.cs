@@ -27,6 +27,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.value = 500f;
             npc.knockBackResist = 0.2f;
             npc.aiStyle = 1;
+            animationType = NPCID.BlueSlime;
         }
 
         public override Color? GetAlpha(Color drawColor)
@@ -61,6 +62,11 @@ namespace StarlightRiver.NPCs.Hostile
                 npc.localAI[3]--;
             }
 
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.player.ZoneOverworldHeight && Main.dayTime && Math.Abs(spawnInfo.player.position.X - Main.spawnTileX * 16) > (Main.maxTilesX * 16) / 6)  ? 1f : 0f;
         }
     }
 }

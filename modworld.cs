@@ -43,7 +43,7 @@ namespace StarlightRiver
             {
                 tasks.Insert(DesertIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
-                tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
+                //tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
 
                 tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", RuinsGen));
             }
@@ -237,7 +237,7 @@ namespace StarlightRiver
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int y = WorldGen.genRand.Next(0, (int)WorldGen.worldSurfaceHigh);
 
-                if (Main.tile[x, y].type == TileID.Dirt  && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 8)
+                if (Main.tile[x, y].type == TileID.Dirt  && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6)
                 {
                     WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(10, 11), 1, mod.TileType("OreEbony"), false, 0f, 0f, false, true);
                 }
@@ -298,7 +298,7 @@ namespace StarlightRiver
                 {
                     for (int y = 0; y < Main.maxTilesY; y++) // find the highest grass block
                     {
-                        if (Main.tile[x, y].type == TileID.Grass && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 8 && Main.tile[x+ 4,y].active() && Main.tile[x + 8, y].active())// valid placement
+                        if (Main.tile[x, y].type == TileID.Grass && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6 && Main.tile[x+ 4,y].active() && Main.tile[x + 8, y].active())// valid placement
                         {
                             int variant = Main.rand.Next(5);
 

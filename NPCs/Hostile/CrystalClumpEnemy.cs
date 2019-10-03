@@ -93,9 +93,10 @@ namespace StarlightRiver.NPCs.Hostile
             for (int k = 0; k <= 200; k += 1)
             {
                 NPC wisp = Main.npc[k];
-                Vector2 wispDistance = wisp.Center - npc.Center;
+                
                 if (wisp.type == mod.NPCType("DesertWisp") || wisp.type == mod.NPCType("DesertWisp2"))
                 {
+                    Vector2 wispDistance = wisp.Center - npc.Center;
                     if (wispDistance.Length() <= 240 && CanSuck)
                     {
                         wisp.velocity = (npc.Center - wisp.Center).SafeNormalize(Vector2.Zero) * 7;
@@ -208,9 +209,10 @@ namespace StarlightRiver.NPCs.Hostile
             for (int k = 0; k <= 200; k += 1)
             {
                 NPC wisp = Main.npc[k];
-                Vector2 wispDistance = wisp.Center - npc.Center;
+                
                 if (wisp.type == mod.NPCType("DesertWisp") || wisp.type == mod.NPCType("DesertWisp2"))
                 {
+                    Vector2 wispDistance = wisp.Center - npc.Center;
                     if (wispDistance.Length() <= 240 && CanSuck)
                     {
                         wisp.velocity = (npc.Center - wisp.Center).SafeNormalize(Vector2.Zero) * 14;

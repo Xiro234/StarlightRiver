@@ -94,14 +94,23 @@ namespace StarlightRiver.NPCs.Pickups
 
             if (mp.unlock[1] == 0)
             {
-                spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
-                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Gold2"));
+                spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 4), Color.White);
+                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Gold2"),0,0,0,default,0.5f);
             }
             if (mp.unlock[1] == 1 && animate == 0)
             {
                 spriteBatch.DrawString(Main.fontItemStack, "Hold F: Wisp form", npc.position - Main.screenPosition + new Vector2(-50, -32), Color.White);
             }
-
+        }
+        public override void DrawEffects(ref Color drawColor)
+        {
+            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
+            if (mp.unlock[1] == 0)
+            {
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer), (float)Math.Sin(timer)) * 32, mod.DustType<Dusts.Gold>(),null,0,default,0.4f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 3) / 2, (float)Math.Sin(timer + 3)) * 32, mod.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 2), (float)Math.Sin(timer + 2) / 2) * 32, mod.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+            }
         }
     }
 }

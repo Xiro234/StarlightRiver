@@ -356,7 +356,7 @@ namespace StarlightRiver.NPCs.Boss
                                 {
                                     int x = (int)(npc.localAI[3]/30) * 320 - 3200;
                                     int y = Main.rand.Next(-200, 400);
-                                    int proj = Projectile.NewProjectile(npc.position + new Vector2(x, y) , Vector2.Zero, mod.ProjectileType<Aura>(), 0, 0);
+                                    int proj = Projectile.NewProjectile(npc.position + new Vector2(x, y) , Vector2.Zero, mod.ProjectileType<Aura>(), 30, 0);
                                     Main.projectile[proj].localAI[0] = 50 + (240 - (npc.localAI[3] - 180));
                                     Main.projectile[proj].localAI[1] = Main.rand.Next(50, 150);
                                 }
@@ -524,6 +524,7 @@ namespace StarlightRiver.NPCs.Boss
             projectile.width = 100;
             projectile.height = 100;
             projectile.hostile = false;
+            projectile.friendly = false;
             projectile.timeLeft = 2;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -567,7 +568,7 @@ namespace StarlightRiver.NPCs.Boss
 
                 foreach (Player player in Main.player.Where(player => Vector2.Distance(player.Center, projectile.Center) <= projectile.localAI[1]))
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType<Pulse>(), 40, 2);
+                    Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType<Pulse>(), projectile.damage, 2);
                 }
 
                 foreach(Dust dust in Main.dust.Where(dust => dust.type == mod.DustType<Dusts.Air4>()))
