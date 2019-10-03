@@ -49,7 +49,7 @@ namespace StarlightRiver.NPCs.Passive
                 npc.localAI[2] -= 3.5f;
                 return;
             }
-            if ((distance.Length() <= range) || Main.dayTime)
+            if ((distance.Length() <= range && !(Main.player[npc.target].GetModPlayer<AbilityHandler>().ability is Float)) || Main.dayTime)
             {
                 fleeing = true;
             }
@@ -106,7 +106,7 @@ namespace StarlightRiver.NPCs.Passive
                 npc.localAI[2] -= 3.5f;
                 return;
             }
-            if (distance.Length() <= range)
+            if (distance.Length() <= range && !(Main.player[npc.target].GetModPlayer<AbilityHandler>().ability is Float))
             {
                 fleeing = true;
             }
