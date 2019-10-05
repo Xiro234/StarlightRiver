@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 using StarlightRiver.GUI;
 using System;
 using Terraria;

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;

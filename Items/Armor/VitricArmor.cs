@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Items.Armor

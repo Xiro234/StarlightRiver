@@ -2,20 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Ability
+namespace StarlightRiver.Abilities
 {
+    [DataContract]
     class Dash : Ability
     {
         Mod mod = StarlightRiver.Instance;
-        protected int timer = 0;
-        protected float X = 0;
-        protected float Y = 0;
+        [DataMember] protected int timer = 0;
+        [DataMember] protected float X = 0;
+        [DataMember] protected float Y = 0;
 
         public Dash() : base(1)
         {

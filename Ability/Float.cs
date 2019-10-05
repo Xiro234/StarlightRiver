@@ -2,19 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Ability
+namespace StarlightRiver.Abilities
 {
+    [DataContract]
     class Float : Ability
     {
         Mod mod = StarlightRiver.Instance;
-        public int timer = 0;
-        bool exit = false;
+        [DataMember] public int timer = 0;
+        [DataMember] bool exit = false;
         public Float() : base(1)
         {
 

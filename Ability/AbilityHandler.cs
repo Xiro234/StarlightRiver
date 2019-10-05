@@ -11,8 +11,11 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
-namespace StarlightRiver.Ability
+namespace StarlightRiver.Abilities
 {
     class AbilityHandler : ModPlayer
     {
@@ -38,8 +41,34 @@ namespace StarlightRiver.Ability
         public int staminaTickerMax = 180;
 
         public float store;
+        public override void clientClone(ModPlayer clientClone)
+        {
+            AbilityHandler clone = clientClone as AbilityHandler;
+            clone.ability = ability;
+        }
 
-        //accessory stuff
+        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        {
+
+        }
+
+        public override void SendClientChanges(ModPlayer clientPlayer)
+        {
+            AbilityHandler clone = clientPlayer as AbilityHandler;
+            if (clone.ability != ability && ability != null)
+            {
+                var packet = mod.GetPacket();
+                var ser = new DataContractJsonSerializer(typeof(Ability));
+                var ms = new MemoryStream();
+
+                ser.WriteObject(ms, ability);
+                byte[] json = ms.ToArray();
+                ms.Close();
+
+                packet.Write(json);
+                packet.Send();
+            }
+        }
         public override TagCompound Save()
         {
             return new TagCompound

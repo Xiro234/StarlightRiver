@@ -13,7 +13,7 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using StarlightRiver.GUI;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 
 namespace StarlightRiver
 {

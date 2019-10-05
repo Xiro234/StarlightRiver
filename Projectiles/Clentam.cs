@@ -29,6 +29,7 @@ namespace StarlightRiver.Projectiles
             Tile target = Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16];
 
             if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleCorrupt"); }
+            if (target.wall == WallID.Jungle) { target.wall = (ushort)mod.TileType("WallJungleCorrupt"); }
         }
     }
     class Clentam2 : ModProjectile

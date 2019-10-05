@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 using System;
 using Terraria;
 using Terraria.DataStructures;

@@ -11,14 +11,29 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using System.Linq;
+using System.Runtime.Serialization;
 
-namespace StarlightRiver.Ability
+namespace StarlightRiver.Abilities
 {
+    [DataContract]
+
+    [KnownType(typeof(Dash))]
+    [KnownType(typeof(DashAstral))]
+    [KnownType(typeof(DashFlame))]
+    [KnownType(typeof(DashCombo))]
+
+    [KnownType(typeof(Float))]
+
+    [KnownType(typeof(Pure))]
+
+    [KnownType(typeof(Smash))]
+
+    [KnownType(typeof(Superdash))]
     class Ability
     {
-        public AbilityHandler Handler { get; set; }
-        public int StaminaCost { get; set; }
-        public bool Active { get; set; }
+        [DataMember] public AbilityHandler Handler { get; set; }
+        [DataMember] public int StaminaCost { get; set; }
+        [DataMember] public bool Active { get; set; }
         protected Player player => Handler.player;
 
         public Ability(int staminaCost)

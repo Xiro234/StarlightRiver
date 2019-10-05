@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +13,7 @@ namespace StarlightRiver.NPCs.Pickups
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("[PH] Float Ability");
+            DisplayName.SetDefault("Faeflame");
         }
         public override void SetDefaults()
         {

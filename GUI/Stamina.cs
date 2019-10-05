@@ -7,7 +7,7 @@ using Terraria.UI;
 using System;
 using Terraria.ID;
 using System.Linq;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 
 namespace StarlightRiver.GUI
 {

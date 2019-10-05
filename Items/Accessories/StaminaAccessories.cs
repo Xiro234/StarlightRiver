@@ -1,4 +1,4 @@
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ModLoader;
 

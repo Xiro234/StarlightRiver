@@ -7,7 +7,7 @@ using Terraria.UI;
 using System;
 using Terraria.ID;
 using System.Linq;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 using System.Collections.Generic;
 
 namespace StarlightRiver.GUI
@@ -177,7 +177,7 @@ namespace StarlightRiver.GUI
                     Line1.SetText("Press Shift");
                     Line2.SetText("Dash forward A short");
                     Line3.SetText("distance, breaks crystals"); break;
-                case 2: Name.SetText("[PH] wisp               1/s");
+                case 2: Name.SetText("Faeflame                1/s");
                     Line1.SetText("Hold F");
                     Line2.SetText("Shrink and float in the air,");
                     Line3.SetText("using your mouse to steer"); break;

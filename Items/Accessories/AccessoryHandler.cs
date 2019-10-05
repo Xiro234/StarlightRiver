@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using System.Linq;
-using StarlightRiver.Ability;
+using StarlightRiver.Abilities;
 
 namespace StarlightRiver.Items.Accessories
 {

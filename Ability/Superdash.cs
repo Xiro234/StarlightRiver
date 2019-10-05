@@ -2,20 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Ability
+namespace StarlightRiver.Abilities
 {
+    [DataContract]
     class Superdash : Ability
     {
         Mod mod = StarlightRiver.Instance;
-        float timer = 0;
-        Vector2 objective;
-        Vector2 start;
+        [DataMember] float timer = 0;
+        [DataMember] Vector2 objective;
+        [DataMember] Vector2 start;
         public Superdash() : base(3)
         {
 

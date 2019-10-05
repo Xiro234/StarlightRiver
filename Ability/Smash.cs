@@ -2,14 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Ability
+namespace StarlightRiver.Abilities
 {
+    [DataContract]
     class Smash : Ability
     {
         Mod mod = StarlightRiver.Instance;

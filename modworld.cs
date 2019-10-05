@@ -336,6 +336,45 @@ namespace StarlightRiver
             }
         }
 
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // Overgrow Generation
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        public void GenerateOvergrowRoom(int i, int j)
+        {
+            Texture2D Rooms = ModContent.GetTexture("StarlightRiver/Structures/Ruins");
+            int variant = Main.rand.Next(5);
+
+            // Generation Block
+            for (int y = 0; y < 80; y++) // for every row
+            {
+                Color[] rawData = new Color[8]; //array of colors
+                Rectangle row = new Rectangle(80 * variant, y, 80, 1); //one row of the image
+                Rooms.GetData<Color>(0, row, rawData, 0, 80); //put the color data from the image into the array
+
+                for (int x = 0; x < 80; x++) //every entry in the row
+                {
+                    Main.tile[i + x, j + y].ClearEverything();
+                    Main.tile[i + x, j + y].slope(0);
+
+                    ushort placeType = 0;
+                    ushort wallType = 0;
+                    switch (rawData[x].R) //select block
+                    {
+                        case 10: placeType = TileID.GrayBrick; break;
+                        case 20: placeType = TileID.LeafBlock; break;
+                    }
+                    switch (rawData[x].B) //select wall
+                    {
+                        case 10: wallType = WallID.GrayBrick; break;
+                    }
+
+                    if (placeType != 0) { WorldGen.PlaceTile(i + x, j + y, placeType, true, true); } //place block
+                    if (wallType != 0) { WorldGen.PlaceWall(i + x, j + y, wallType, true); } //place wall
+                }
+            }
+        }
+
         public static float rottime = 0;
         public static bool starfall = false;
         public override void PreUpdate()

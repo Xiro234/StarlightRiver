@@ -3,6 +3,10 @@ using Terraria.ModLoader;
 using System.Collections.Generic;
 using Terraria.UI;
 using StarlightRiver.GUI;
+using System.IO;
+using StarlightRiver.Abilities;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace StarlightRiver
 {
@@ -151,6 +155,16 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
             }
+        }
+
+        public override void HandlePacket(BinaryReader reader, int whoAmI)
+        {
+            var target = new Abilities.Ability(0);
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(reader.ReadString()));
+            var ser = new DataContractJsonSerializer(target.GetType());
+            target = ser.ReadObject(ms) as Abilities.Ability;
+
+            Main.player[whoAmI].GetModPlayer<AbilityHandler>().ability = target;
         }
 
         public override void Unload()
