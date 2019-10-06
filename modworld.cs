@@ -137,7 +137,7 @@ namespace StarlightRiver
                     int siz = WorldGen.genRand.Next(7, 12);
                     for (int j = 0; j < siz; ++j)
                     {
-                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, mod.TileType<Tiles.VitricGlass>(), true, true);
+                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, mod.TileType<Tiles.VitricGlassCrystal>(), true, true);
                         WorldGen.KillTile((int)plPos.X, (int)plPos.Y, false, true);
                         int wid = WorldGen.genRand.Next(1, 4);
                         for (int k = 0; k < wid; ++k)
@@ -158,7 +158,7 @@ namespace StarlightRiver
                 for (int j = sHei; j < 10 + WorldGen.genRand.Next(12, 19); ++j)
                 {
                     int off = (int)(i / 5f) * ((i >= 0) ? -1 : 1);
-                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)mod.TileType<Tiles.VitricGlass>())
+                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)mod.TileType<Tiles.VitricSand>())
                         continue;
                     WorldGen.KillTile(midPoint.X + i, (midPoint.Y + j) + off, true, false, true);
                     WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, mod.TileType<Tiles.VitricSand>(), true, true, -1, 0);
@@ -169,7 +169,7 @@ namespace StarlightRiver
         private void GenerateCrystals(Point tC)
         {
             float rot = 0f; //Rotation of crystal/placement used later
-            int totalReps = (int)(120 * (Main.maxTilesX / 4000f)); //Total repeats
+            int totalReps = (int)(100 * (Main.maxTilesX / 4000f)); //Total repeats
             float shortTau = 6.28f; //Helper variable
             float side = shortTau / 4; //Helper variable
             for (int i = 0; i < totalReps; ++i)
@@ -179,7 +179,7 @@ namespace StarlightRiver
                 if (rot > shortTau) //Caps angle
                     rot = 0;
 
-                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), mod.TileType<Tiles.VitricGlass>())
+                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), mod.TileType<Tiles.VitricGlassCrystal >())
                     + (new Vector2(0, -1).RotatedBy(rot) * 3); //Position of a wall. Starts off going UP, then goes clockwise.
 
                 if (WorldGen.genRand.Next(Math.Abs((int)randomWallLocation.X - tC.X) + WorldGen.genRand.Next(30)) < Main.maxTilesX / 80) //Biases crystals towards the sides
