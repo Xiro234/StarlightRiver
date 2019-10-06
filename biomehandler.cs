@@ -28,9 +28,9 @@ namespace StarlightRiver
         {
             ZoneGlass = (LegendWorld.glassTiles > 50);
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
-            ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 200);
-            ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 200);
-            ZoneJungleHoly = (LegendWorld.holyJungleTiles > 200);
+            ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
+            ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);
+            ZoneJungleHoly = (LegendWorld.holyJungleTiles > 50);
         }
 
         public override bool CustomBiomesMatch(Player other)

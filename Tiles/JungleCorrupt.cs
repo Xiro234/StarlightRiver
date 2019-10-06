@@ -27,6 +27,7 @@ namespace StarlightRiver.Tiles
             TileID.Sets.Grass[Type] = true;
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
+            SetModTree(new TreeJungleCorrupt());
             drop = ItemID.MudBlock;
             AddMapEntry(new Color(98, 82, 148));
             soundType = 0;
@@ -72,7 +73,7 @@ namespace StarlightRiver.Tiles
 
             if (!Main.tile[i, j + 1].active() && Main.tile[i, j].slope() == 0 && !Main.tile[i, j].halfBrick())//vines (Maybe add the corruption thorns too?)
             {
-                if (Main.rand.Next(3) == 0)
+                if (Main.rand.Next(1) == 0)
                 {
                     WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
                 }
@@ -98,6 +99,18 @@ namespace StarlightRiver.Tiles
                 }
             }
 
+            int x2 = Main.rand.Next(-1, 1); //thorns 
+            int y2 = Main.rand.Next(-1, 1);
+            if (!Main.tile[i + x2, j + y2].active())
+            {
+                if (Main.rand.Next(6) == 0)
+                {
+                    WorldGen.PlaceTile(i + x2, j + y2, mod.TileType<ThornJungleCorrupt>(), true);
+                }
+            }
+
+
+
 
         }
 
@@ -109,6 +122,7 @@ namespace StarlightRiver.Tiles
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
+
             if (Main.rand.Next(600) == 0 && !Main.tile[i, j + 1].active() && Main.tile[i, j].slope() == 0)
             {
                 Dust.NewDustPerfect(new Vector2(i, j) * 16, mod.DustType("Corrupt2"), new Vector2(0, 0.6f) );
@@ -241,6 +255,17 @@ namespace StarlightRiver.Tiles
             dustType = 14;
             drop = mod.ItemType("WallJungleCorruptItem");
             AddMapEntry(new Color(42, 36, 52));
+        }
+
+        public override void RandomUpdate(int i, int j)
+        {
+            if (!Main.tile[i, j].active())
+            {
+                if (Main.rand.Next(30) == 0)
+                {
+                    WorldGen.PlaceTile(i, j, mod.TileType<SporeJungleCorrupt>(), true);
+                }
+            }
         }
     }
 }

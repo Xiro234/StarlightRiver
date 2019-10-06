@@ -15,7 +15,7 @@ namespace StarlightRiver.Projectiles
             projectile.height = 32;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 400;
             projectile.tileCollide = false;
             projectile.ignoreWater = false;
         }
@@ -26,10 +26,16 @@ namespace StarlightRiver.Projectiles
 
         public override void AI()
         {
-            Tile target = Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16];
+            for (int y = -3; y <= 3; y++)
+            {
+                for (int x = -3; x <= 3; x++)
+                {
+                    Tile target = Main.tile[x + (int)projectile.Center.X / 16, y + (int)projectile.Center.Y / 16];
 
-            if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleCorrupt"); }
-            if (target.wall == WallID.Jungle) { target.wall = (ushort)mod.TileType("WallJungleCorrupt"); }
+                    if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleCorrupt"); }
+                    if (target.wall == WallID.JungleUnsafe) { target.wall = (ushort)mod.WallType<Tiles.WallJungleCorrupt>(); }
+                }
+            }
         }
     }
     class Clentam2 : ModProjectile
@@ -41,7 +47,7 @@ namespace StarlightRiver.Projectiles
             projectile.height = 32;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 400;
             projectile.tileCollide = false;
             projectile.ignoreWater = false;
         }
@@ -52,9 +58,15 @@ namespace StarlightRiver.Projectiles
 
         public override void AI()
         {
-            Tile target = Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16];
+            for (int y = -3; y <= 3; y++)
+            {
+                for (int x = -3; x <= 3; x++)
+                {
+                    Tile target = Main.tile[x + (int)projectile.Center.X / 16,y + (int)projectile.Center.Y / 16];
 
-            if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleBloody"); }
+                    if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleBloody"); }
+                }
+            }
         }
     }
     class Clentam3 : ModProjectile
@@ -66,7 +78,7 @@ namespace StarlightRiver.Projectiles
             projectile.height = 32;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 400;
             projectile.tileCollide = false;
             projectile.ignoreWater = false;
         }
@@ -77,9 +89,15 @@ namespace StarlightRiver.Projectiles
 
         public override void AI()
         {
-            Tile target = Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16];
+            for (int y = -3; y <= 3; y++)
+            {
+                for (int x = -3; x <= 3; x++)
+                {
+                    Tile target = Main.tile[x + (int)projectile.Center.X / 16, y + (int)projectile.Center.Y / 16];
 
-            if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleHoly"); }
+                    if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleHoly"); }
+                }
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using StarlightRiver.GUI;
 using StarlightRiver.Abilities;
+using StarlightRiver.Items.CursedAccessories;
 
 namespace StarlightRiver
 {
@@ -55,13 +56,6 @@ namespace StarlightRiver
                 player.velocity.X *= 0.8f;
             }
             DarkSlow = false;
-
-            //Set Bonuses-----------------------------------------------------------------------------
-            
-            if(VitricSet)
-            {
-
-            }
         }
 
 		public override void ResetEffects()

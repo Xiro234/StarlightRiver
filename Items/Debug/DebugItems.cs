@@ -1,4 +1,5 @@
 ﻿using StarlightRiver.Abilities;
+using StarlightRiver.Gases;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -193,11 +194,11 @@ namespace StarlightRiver.Items.Debug
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
-            item.useTime = 1;
+            item.useTime = 5;
             item.useStyle = 1;
             item.consumable = false;
             item.shoot = mod.ProjectileType("Clentam");
-            item.shootSpeed = 10f;
+            item.shootSpeed = 8f;
         }
     }
     public class GrassJungleCorrupt2 : ModItem
@@ -216,11 +217,11 @@ namespace StarlightRiver.Items.Debug
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
-            item.useTime = 1;
+            item.useTime = 5;
             item.useStyle = 1;
             item.consumable = false;
             item.shoot = mod.ProjectileType("Clentam2");
-            item.shootSpeed = 10f;
+            item.shootSpeed = 8f;
         }
     }
     public class GrassJungleCorrupt3 : ModItem
@@ -239,11 +240,11 @@ namespace StarlightRiver.Items.Debug
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
-            item.useTime = 1;
+            item.useTime = 5;
             item.useStyle = 1;
             item.consumable = false;
             item.shoot = mod.ProjectileType("Clentam3");
-            item.shootSpeed = 10f;
+            item.shootSpeed = 8f;
         }
     }
     public class SealPlacer : ModItem
@@ -286,6 +287,30 @@ namespace StarlightRiver.Items.Debug
             item.useStyle = 1;
             item.consumable = true;
             item.createTile = mod.TileType<Tiles.HellGate>();
+        }
+    }
+
+    public class GasMaker : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 64;
+            item.height = 64;
+            item.useStyle = 5;
+            item.useAnimation = 10;
+            item.useTime = 10;
+            item.rare = 1;
+        }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Fart");
+            Tooltip.SetDefault("Haha poopy haha stinky haha funny");
+        }
+
+        public override bool UseItem(Player player)
+        {
+            ModGas.SpawnGas((int)Main.MouseWorld.X / 16,(int)Main.MouseWorld.Y / 16, mod.DustType<Dusts.Gas>(), 100);
+            return true;
         }
     }
 }
