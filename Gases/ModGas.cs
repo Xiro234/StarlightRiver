@@ -67,8 +67,8 @@ namespace StarlightRiver.Gases
 
         public virtual void Update()
         {
-            Color color = new Color(255, 255, 255) * 0.05f * (Strength / (float)maxStrength);
-            int dus = Dust.NewDust(new Vector2(i, j) * 16, 16, 16, DustType, 0, 0, 0, color, Strength / (maxStrength / 20));
+            Color color = Lighting.GetColor(i,j) * 0.05f * (Strength / (float)maxStrength);
+            int dus = Dust.NewDust(new Vector2(i, j) * 16, 16, 16, DustType, 0, 0, 0, color, Strength / (maxStrength / 20f));
         }
 
         public static void SpawnGas(int i, int j, int type, int strength)

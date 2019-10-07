@@ -27,8 +27,10 @@ namespace StarlightRiver.Items.CursedAccessories
 
             Bootlegdust.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
 
-            BootlegDust dus = new CurseDust(ModContent.GetTexture("StarlightRiver/GUI/Dark"), position + new Vector2(Main.rand.Next(0, frame.Width - 4), Main.rand.Next(0, frame.Height - 4)), new Vector2(0, -0.5f), Color.White, 2, 45);
-            Bootlegdust.Add(dus);
+
+                BootlegDust dus = new CurseDust(ModContent.GetTexture("StarlightRiver/GUI/Dark"), position + new Vector2(Main.rand.Next(0, frame.Width - 4), Main.rand.Next(0, frame.Height - 4)), new Vector2(0, -0.4f), Color.White * 0.1f, 1.5f, 60);
+                Bootlegdust.Add(dus);
+
         }
     }
 
@@ -41,11 +43,18 @@ namespace StarlightRiver.Items.CursedAccessories
 
         public override void Update()
         {
-            col *= 0.94f;
+            if (time > 20 && col.R < 255)
+            {
+                col *= 1.2f;
+            }
+            if (time <= 20)
+            {
+                col *= 0.78f;
+            }
 
-            
+            scl *= 0.97f;
             pos += vel;
-            scl *= 0.94f;
+            
             time--;
         }
     }

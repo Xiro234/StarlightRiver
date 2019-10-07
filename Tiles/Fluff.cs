@@ -62,15 +62,13 @@ namespace StarlightRiver.Tiles
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-            var deathShader = GameShaders.Misc["ExampleMod:DeathAnimation"];
-            deathShader.UseOpacity(1f);
+            var deathShader = GameShaders.Misc["StarlightRiver:Pass1"];
             deathShader.Apply(null);
             return true;
-        }*/
+        }
 
-        /*public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            // As mentioned above, be sure not to forget this step.
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
         }*/

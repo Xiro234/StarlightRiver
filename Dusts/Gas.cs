@@ -10,12 +10,10 @@ namespace StarlightRiver.Dusts
 {
     public class Gas : ModDust
     {
-        int timer;
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
             dust.noLight = true;
-            timer = 30;
         }
 
         public override Color? GetAlpha(Dust dust, Color lightColor)
@@ -38,4 +36,6 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+    public class GasGreen : Gas { }
+
 }
