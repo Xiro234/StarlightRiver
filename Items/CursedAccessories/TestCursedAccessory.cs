@@ -28,8 +28,6 @@ namespace StarlightRiver.Items.CursedAccessories
         }
         public override void UpdateEquip(Player player)
         {
-
         }
-
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
@@ -17,18 +18,6 @@ namespace StarlightRiver.Items.CursedAccessories
             //updates visuals for cursed accessories
             CursedAccessory.Bootlegdust.ForEach(BootlegDust => BootlegDust.Update());
             CursedAccessory.Bootlegdust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
-        }
-
-        public override void PreUpdate()
-        {
-            for(int k = 3; k <= 8+player.extraAccessorySlots; k++)
-            {
-                if(player.armor[k].modItem is CursedAccessory)
-                {
-                    Item item = player.armor[k];
-                }
-            }
-
         }
     }
 }

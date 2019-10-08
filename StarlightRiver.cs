@@ -7,6 +7,9 @@ using System.IO;
 using StarlightRiver.Abilities;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using StarlightRiver.Items.CursedAccessories;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver
 {
@@ -98,6 +101,53 @@ namespace StarlightRiver
                 customResources2.SetState(collection);
                 customResources3.SetState(overlay);
                 customResources4.SetState(infusion);
+            }
+            // Cursed Accessory Control Override
+            On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
+            On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawCurse;
+        }
+        private void NoClickCurse(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
+        {
+            if(inv[slot].modItem is CursedAccessory && context == 10)
+            {
+                return;
+            }
+            orig(inv, context, slot);
+        }
+        private void DrawCurse(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
+        {
+            if (inv[slot].modItem is CursedAccessory && context == 10)
+            {
+                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/CursedBack");
+                Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
+                sb.Draw(back, position, null, backcolor, 0f, default(Vector2), Main.inventoryScale, SpriteEffects.None, 0f);
+
+                //Zoinked from vanilla code
+                Item item = inv[slot];
+                Vector2 vector = back.Size() * Main.inventoryScale;
+                Texture2D texture2D3 = ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/"+inv[slot].modItem.Name);
+                Rectangle rectangle2 = (texture2D3.Frame(1, 1, 0, 0));
+                Color currentColor = color;
+                float scale3 = 1f;
+                ItemSlot.GetItemLight(ref currentColor, ref scale3, item, false);
+                float num8 = 1f;
+                if (rectangle2.Width > 32 || rectangle2.Height > 32)
+                {
+                    num8 = ((rectangle2.Width <= rectangle2.Height) ? (32f / (float)rectangle2.Height) : (32f / (float)rectangle2.Width));
+                }
+                num8 *= Main.inventoryScale;
+                Vector2 position2 = position + vector / 2f - rectangle2.Size() * num8 / 2f;
+                Vector2 origin = rectangle2.Size() * (scale3 / 2f - 0.5f);
+                if (ItemLoader.PreDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3))
+                {
+                    sb.Draw(texture2D3, position2, rectangle2, Color.White, 0f, origin, num8 * scale3, SpriteEffects.None, 0f);
+                }
+                ItemLoader.PostDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3);
+                //End zoink
+            }
+            else
+            {
+                orig(sb, inv, context, slot, position, color);
             }
         }
 
