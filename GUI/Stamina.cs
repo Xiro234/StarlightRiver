@@ -24,12 +24,14 @@ namespace StarlightRiver.GUI
             Stam1.Top.Set(110, 0);
             Stam1.Width.Set(22, 0f);
             Stam1.Height.Set(22, 0f);
+            Stam1.color = Color.White * 0.75f;
             base.Append(Stam1);
 
             Stam2.Left.Set(0, 0);
             Stam2.Top.Set(0, 0);
             Stam2.Width.Set(22, 0f);
             Stam2.Height.Set(22, 0f);
+            Stam2.color = Color.White;
             Stam1.Append(Stam2);
         }
 
@@ -39,6 +41,25 @@ namespace StarlightRiver.GUI
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             Stam1.Copies = mp.staminamax + mp.permanentstamina;
             Stam2.Copies = mp.stamina;
+
+            if (Main.mapStyle != 1)
+            {
+                if (Main.playerInventory)
+                {
+                    Stam1.Left.Set(-220, 1);
+                    Stam1.Top.Set(90, 0);
+                }
+                else
+                {
+                    Stam1.Left.Set(-66, 1);
+                    Stam1.Top.Set(90, 0);
+                }
+            }
+            else
+            {
+                Stam1.Left.Set(-303, 1);
+                Stam1.Top.Set(110, 0);
+            }
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -52,6 +73,7 @@ namespace StarlightRiver.GUI
     {
         public int Copies;
         public Texture2D Texture;
+        public Color color;
 
         public Stam(Texture2D texture)
         {
@@ -62,8 +84,15 @@ namespace StarlightRiver.GUI
         {
             CalculatedStyle dimensions = GetDimensions();
             for (int k = 0; k < Copies; k++)
-            {
-                spriteBatch.Draw(Texture, new Rectangle((int)dimensions.X, (int)dimensions.Y + k * 24, (int)dimensions.Width, (int)dimensions.Height), Color.White);
+            {               
+                if(k == Copies - 1 && color == Color.White)
+                {
+                    spriteBatch.Draw(Texture, new Vector2((int)dimensions.X, (int)dimensions.Y + k * 24) + new Vector2(dimensions.Width / 2, dimensions.Height / 2), null, color, 0f, new Vector2(dimensions.Width / 2, dimensions.Height / 2), 1f + ((float)Math.Sin(LegendWorld.rottime * 2) / 8), SpriteEffects.None, 0f);
+                }
+                else
+                {
+                    spriteBatch.Draw(Texture, new Rectangle((int)dimensions.X, (int)dimensions.Y + k * 24, (int)dimensions.Width, (int)dimensions.Height), color);
+                }
             }
         }
     }

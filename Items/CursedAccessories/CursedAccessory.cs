@@ -42,7 +42,7 @@ namespace StarlightRiver.Items.CursedAccessories
             for (int k = 0; k <= 175; k++)
             {
                 BootlegDust dus = new CurseDust2(ModContent.GetTexture("StarlightRiver/GUI/Dark"), drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0, 0.8f), Color.White * 0.4f, 3.8f, 180);
-                Bootlegdust.Add(dus);
+                Bootlegdust.Add(dus);              
             }
 
             return true;

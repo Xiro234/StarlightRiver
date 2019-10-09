@@ -7,9 +7,16 @@ using System.IO;
 using StarlightRiver.Abilities;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Linq;
 using StarlightRiver.Items.CursedAccessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
+using On.Terraria.GameContent.UI.Elements;
+using System;
+using Terraria.GameContent.UI.Elements;
+using System.Reflection;
+using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 
 namespace StarlightRiver
 {
@@ -104,9 +111,64 @@ namespace StarlightRiver
             }
             // Cursed Accessory Control Override
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
-            On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawCurse;
+            On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
             On.Terraria.UI.ItemSlot.RightClick_ItemArray_int_int += NoSwapCurse;
+            //Character Slot Addons
+            On.Terraria.GameContent.UI.Elements.UICharacterListItem.DrawSelf += DrawSpecialCharacter;
         }
+
+        private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, Terraria.GameContent.UI.Elements.UICharacterListItem self, SpriteBatch spriteBatch)
+        {
+            orig(self, spriteBatch);
+            Vector2 origin = new Vector2(self.GetDimensions().X, self.GetDimensions().Y);
+            Rectangle box = new Rectangle((int)(origin + new Vector2(86, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 80, 25);
+            int playerStamina = 0;
+
+            //horray double reflection, fuck you vanilla
+            Type typ = self.GetType();
+            FieldInfo playerInfo = typ.GetField("_playerPanel", BindingFlags.NonPublic | BindingFlags.Instance);
+            UICharacter character = (UICharacter)playerInfo.GetValue(self);
+
+            Type typ2 = character.GetType();
+            FieldInfo playerInfo2 = typ2.GetField("_player", BindingFlags.NonPublic | BindingFlags.Instance);
+            Player player = (Player)playerInfo2.GetValue(character);
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+
+            playerStamina = mp.staminamax + mp.permanentstamina;
+
+
+            Texture2D wind = mp.unlock[0] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind0");
+            Texture2D wisp = mp.unlock[1] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp0");
+            Texture2D pure = mp.unlock[2] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity0");
+            Texture2D smash = mp.unlock[3] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash0");
+            Texture2D shadow = mp.unlock[4] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0");
+
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/box"), box, Color.White); //Stamina box
+
+            if (mp.unlock.Any(k => k > 0))//Draw stamina if unlocked
+            {
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Stamina"), origin + new Vector2(91, 68), Color.White);
+                Utils.DrawBorderString(spriteBatch, playerStamina + " SP", origin + new Vector2(118, 68), Color.White);
+            }
+            else//Myserious if locked
+            {
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Stamina3"), origin + new Vector2(91, 68), Color.White);
+                Utils.DrawBorderString(spriteBatch,"???", origin + new Vector2(118, 68), Color.White);
+            }
+
+            //Draw ability Icons
+            spriteBatch.Draw(wind, origin + new Vector2(390, 62), Color.White);
+            spriteBatch.Draw(wisp, origin + new Vector2(426, 62), Color.White);
+            spriteBatch.Draw(pure, origin + new Vector2(462, 62), Color.White);
+            spriteBatch.Draw(smash, origin + new Vector2(498, 62), Color.White);
+            spriteBatch.Draw(shadow, origin + new Vector2(534, 62), Color.White);
+
+            if (player.statLifeMax == 500)
+            {
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/GoldBorder"), origin, Color.White);
+            }
+        }
+
         private void NoClickCurse(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
         {
             if(inv[slot].modItem is CursedAccessory && context == 10)
@@ -129,11 +191,11 @@ namespace StarlightRiver
             orig(inv, context, slot);
         }
 
-        private void DrawCurse(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
+        private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
         {
-            if (inv[slot].modItem is CursedAccessory && context == 10)
+            if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is BlessedAccessory) && context == 10)
             {
-                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/CursedBack");
+                Texture2D back = inv[slot].modItem is CursedAccessory ? ModContent.GetTexture("StarlightRiver/GUI/CursedBack") : ModContent.GetTexture("StarlightRiver/GUI/BlessedBack");
                 Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
                 sb.Draw(back, position, null, backcolor, 0f, default(Vector2), Main.inventoryScale, SpriteEffects.None, 0f);
 
