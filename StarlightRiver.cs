@@ -105,6 +105,7 @@ namespace StarlightRiver
             // Cursed Accessory Control Override
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
             On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawCurse;
+            On.Terraria.UI.ItemSlot.RightClick_ItemArray_int_int += NoSwapCurse;
         }
         private void NoClickCurse(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
         {
@@ -114,6 +115,20 @@ namespace StarlightRiver
             }
             orig(inv, context, slot);
         }
+
+        private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
+        {
+            Player player = Main.player[Main.myPlayer];
+            for (int i = 0; i < player.armor.Length; i++)
+            {
+                if (player.armor[i].modItem is CursedAccessory && ItemSlot.ShiftInUse && inv[slot].accessory)
+                {
+                    return;
+                }              
+            }
+            orig(inv, context, slot);
+        }
+
         private void DrawCurse(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
         {
             if (inv[slot].modItem is CursedAccessory && context == 10)
