@@ -26,10 +26,12 @@ namespace StarlightRiver
         public Collection collection;
         public Overlay overlay;
         public Infusion infusion;
+        public Cooking cooking;
         public UserInterface customResources;
         public UserInterface customResources2;
         public UserInterface customResources3;
         public UserInterface customResources4;
+        public UserInterface customResources5;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
@@ -99,15 +101,18 @@ namespace StarlightRiver
                 customResources2 = new UserInterface();
                 customResources3 = new UserInterface();
                 customResources4 = new UserInterface();
+                customResources5 = new UserInterface();
                 stamina = new Stamina();
                 collection = new Collection();
                 overlay = new Overlay();
                 infusion = new Infusion();
+                cooking = new Cooking();
 
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
                 customResources3.SetState(overlay);
                 customResources4.SetState(infusion);
+                customResources5.SetState(cooking);
             }
             // Cursed Accessory Control Override
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
@@ -116,7 +121,6 @@ namespace StarlightRiver
             //Character Slot Addons
             On.Terraria.GameContent.UI.Elements.UICharacterListItem.DrawSelf += DrawSpecialCharacter;
         }
-
         private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, Terraria.GameContent.UI.Elements.UICharacterListItem self, SpriteBatch spriteBatch)
         {
             orig(self, spriteBatch);
@@ -141,7 +145,7 @@ namespace StarlightRiver
             Texture2D wisp = mp.unlock[1] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp0");
             Texture2D pure = mp.unlock[2] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity0");
             Texture2D smash = mp.unlock[3] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash0");
-            Texture2D shadow = mp.unlock[4] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0");
+            Texture2D shadow = mp.unlock[4] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0");            
 
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/box"), box, Color.White); //Stamina box
 
@@ -163,7 +167,7 @@ namespace StarlightRiver
             spriteBatch.Draw(smash, origin + new Vector2(498, 62), Color.White);
             spriteBatch.Draw(shadow, origin + new Vector2(534, 62), Color.White);
 
-            if (player.statLifeMax == 500)
+            if (player.statLifeMax == 500) //gold border
             {
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/GoldBorder"), origin, Color.White);
             }
@@ -281,6 +285,18 @@ namespace StarlightRiver
 
                     return true;
                 }, InterfaceScaleType.UI));
+
+                layers.Insert(MouseTextIndex + 3, new LegacyGameInterfaceLayer("[PH]MODNAME: Cooking",
+                delegate
+                {
+                    if (Cooking.visible)
+                    {
+                        customResources5.Update(Main._drawInterfaceGameTime);
+                        cooking.Draw(Main.spriteBatch);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI));
             }
         }
 
@@ -302,10 +318,12 @@ namespace StarlightRiver
                 customResources2 = null;
                 customResources3 = null;
                 customResources4 = null;
+                customResources5 = null;
                 stamina = null;
                 collection = null;
                 overlay = null;
                 infusion = null;
+                cooking = null;
             }
         }
 

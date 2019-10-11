@@ -90,6 +90,8 @@ namespace StarlightRiver.Abilities
             staminamax = tag.GetInt(nameof(staminamax));
             permanentstamina = tag.GetInt(nameof(permanentstamina));
             HasSecondSlot = tag.GetBool(nameof(HasSecondSlot));
+
+            stamina = staminamax + permanentstamina;
         }
 
         public override void ProcessTriggers(TriggersSet triggersSet)

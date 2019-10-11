@@ -12,7 +12,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.ID;
-
+using StarlightRiver.GUI;
 
 namespace StarlightRiver.Tiles
 {
@@ -92,6 +92,39 @@ namespace StarlightRiver.Tiles
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("HerbStation"));
+        }
+    }
+
+    class CookStation : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLavaDeath[Type] = false;
+            Main.tileFrameImportant[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.addTile(Type);
+            AddMapEntry(new Color(151, 107, 75));
+            dustType = DustID.t_LivingWood;
+            disableSmartCursor = true;
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Prep Station");
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("CookStation"));
+        }
+
+        public override void RightClick(int i, int j)
+        {
+            if (Vector2.Distance(Main.LocalPlayer.Center, new Vector2(i, j) * 16) <= 64 && !Cooking.visible) { Cooking.visible = true; Main.PlaySound(SoundID.MenuOpen); }
+            else { Cooking.visible = false; Main.PlaySound(SoundID.MenuClose); }
+        }
+
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (Vector2.Distance(Main.LocalPlayer.Center, new Vector2(i, j) * 16) > 64 && Cooking.visible) { Cooking.visible = false; }
         }
     }
 }
