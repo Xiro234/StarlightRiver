@@ -17,6 +17,7 @@ using System;
 using Terraria.GameContent.UI.Elements;
 using System.Reflection;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
+//using On.Terraria;
 
 namespace StarlightRiver
 {
@@ -27,11 +28,13 @@ namespace StarlightRiver
         public Overlay overlay;
         public Infusion infusion;
         public Cooking cooking;
+        public LinkHP linkhp;
         public UserInterface customResources;
         public UserInterface customResources2;
         public UserInterface customResources3;
         public UserInterface customResources4;
         public UserInterface customResources5;
+        public UserInterface customResources6;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
@@ -102,17 +105,20 @@ namespace StarlightRiver
                 customResources3 = new UserInterface();
                 customResources4 = new UserInterface();
                 customResources5 = new UserInterface();
+                customResources6 = new UserInterface();
                 stamina = new Stamina();
                 collection = new Collection();
                 overlay = new Overlay();
                 infusion = new Infusion();
                 cooking = new Cooking();
+                linkhp = new LinkHP();
 
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
                 customResources3.SetState(overlay);
                 customResources4.SetState(infusion);
                 customResources5.SetState(cooking);
+                customResources6.SetState(linkhp);
             }
             // Cursed Accessory Control Override
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
@@ -120,7 +126,22 @@ namespace StarlightRiver
             On.Terraria.UI.ItemSlot.RightClick_ItemArray_int_int += NoSwapCurse;
             //Character Slot Addons
             On.Terraria.GameContent.UI.Elements.UICharacterListItem.DrawSelf += DrawSpecialCharacter;
+            //Link mode healthbar
+            On.Terraria.Main.DrawInterface_Resources_Life += LinkModeHealth;
         }
+
+        private void LinkModeHealth(On.Terraria.Main.orig_DrawInterface_Resources_Life orig)
+        {
+            if (LinkMode.Enabled)
+            {
+                return;
+            }
+            else
+            {
+                orig();
+            }
+        }
+
         private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, Terraria.GameContent.UI.Elements.UICharacterListItem self, SpriteBatch spriteBatch)
         {
             orig(self, spriteBatch);
@@ -173,7 +194,7 @@ namespace StarlightRiver
             }
         }
 
-        private void NoClickCurse(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
+        private void NoClickCurse(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
             if(inv[slot].modItem is CursedAccessory && context == 10)
             {
@@ -182,7 +203,7 @@ namespace StarlightRiver
             orig(inv, context, slot);
         }
 
-        private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
+        private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
             Player player = Main.player[Main.myPlayer];
             for (int i = 0; i < player.armor.Length; i++)
@@ -195,7 +216,7 @@ namespace StarlightRiver
             orig(inv, context, slot);
         }
 
-        private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
+        private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Terraria.Item[] inv, int context, int slot, Vector2 position, Color color)
         {
             if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is BlessedAccessory) && context == 10)
             {
@@ -297,6 +318,18 @@ namespace StarlightRiver
 
                     return true;
                 }, InterfaceScaleType.UI));
+
+                layers.Insert(MouseTextIndex + 4, new LegacyGameInterfaceLayer("[PH]MODNAME: LinkHP",
+                delegate
+                {
+                    if (LinkHP.visible)
+                    {
+                        customResources6.Update(Main._drawInterfaceGameTime);
+                        linkhp.Draw(Main.spriteBatch);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI));
             }
         }
 
@@ -319,11 +352,13 @@ namespace StarlightRiver
                 customResources3 = null;
                 customResources4 = null;
                 customResources5 = null;
+                customResources6 = null;
                 stamina = null;
                 collection = null;
                 overlay = null;
                 infusion = null;
                 cooking = null;
+                linkhp = null;
             }
         }
 

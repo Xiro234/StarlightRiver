@@ -40,7 +40,7 @@ namespace StarlightRiver.Food
 
             if (mp.Full) { return false; }
 
-            player.AddBuff(ModContent.BuffType<FoodBuff>(), (seasoning != null) ? 3600 + seasoning.Modifier : 3600);
+            player.AddBuff(ModContent.BuffType<FoodBuff>(), (seasoning != null) ? 18000 + seasoning.Modifier : 18000);
 
             mp.Buffs[0] = mains.Buff; mp.Powers[0] = (int)(mains.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1));  totalfill += mains.Fill;
             if (side1 != null) { mp.Buffs[1] = side1.Buff; mp.Powers[1] = (int)(side1.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)); totalfill += side1.Fill; }
@@ -60,6 +60,7 @@ namespace StarlightRiver.Food
             string title1 = (mains != null) ? mains.IName : "";
             string title2 = (side1 != null) ? side1.IName : "";
             string title3 = (side2 != null) ? side2.IName : "";
+            string duration = "Duration: " + (300 + ((seasoning != null) ? seasoning.Modifier / 60 : 0)) + " Seconds";
 
             foreach (TooltipLine line in tooltips)
             {
@@ -67,8 +68,8 @@ namespace StarlightRiver.Food
                 if (line.mod == "Terraria" && line.Name == "Tooltip0" && mains != null) { line.text = "+ " + (mains.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + mains.ITooltip; line.overrideColor = new Color(255, 220, 140); }
                 if (line.mod == "Terraria" && line.Name == "Tooltip1" && side1 != null) { line.text = "+ " + (side1.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + side1.ITooltip; line.overrideColor = new Color(140, 255, 140); }
                 if (line.mod == "Terraria" && line.Name == "Tooltip2" && side2 != null) { line.text = "+ " + (side2.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + side2.ITooltip; line.overrideColor = new Color(140, 255, 140); }
-                else if (line.mod == "Terraria" && line.Name == "Tooltip2" && seasoning != null) { line.text = seasoning.ITooltip; line.overrideColor = new Color(140, 200, 255); }
-                if (line.mod == "Terraria" && line.Name == "Tooltip3" && side2 != null && seasoning != null) { line.text = seasoning.ITooltip; line.overrideColor = new Color(140, 200, 255); }
+                else if (line.mod == "Terraria" && line.Name == "Tooltip2") { line.text = duration; line.overrideColor = (seasoning != null && seasoning.Modifier > 0) ? new Color(140, 200, 255) : Color.White; }
+                if (line.mod == "Terraria" && line.Name == "Tooltip3" && side2 != null) { line.text = duration; line.overrideColor = (seasoning != null && seasoning.Modifier > 0) ? new Color(140, 200, 255) : Color.White; }
 
                 int totalfill = 0;
                 if (mains != null) { totalfill += mains.Fill; }

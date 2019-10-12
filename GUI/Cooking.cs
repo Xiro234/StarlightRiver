@@ -98,7 +98,7 @@ namespace StarlightRiver.GUI
             string boost1 = (mainSlot.Item != null) ? "+ " + (int)((mainSlot.Item.modItem as MainCourse).Strength * strmod) + (mainSlot.Item.modItem as MainCourse).ITooltip : "";
             string boost2 = (side1Slot.Item != null) ? "+ " + (int)((side1Slot.Item.modItem as SideCourse).Strength * strmod) + (side1Slot.Item.modItem as SideCourse).ITooltip : "";
             string boost3 = (side2Slot.Item != null) ? "+ " + (int)((side2Slot.Item.modItem as SideCourse).Strength * strmod) + (side2Slot.Item.modItem as SideCourse).ITooltip : "";
-            string durboost = 60 + ((seasoningSlot.Item != null) ? (seasoningSlot.Item.modItem as Seasoning).Modifier / 60 : 0) + " Second Duration";
+            string durboost = "Duration: " + (300 + ((seasoningSlot.Item != null) ? (seasoningSlot.Item.modItem as Seasoning).Modifier / 60 : 0)) + " Seconds";
 
             string fill = (mainSlot.Item != null) ? ("Fullness: " + (((mainSlot.Item.modItem as MainCourse).Fill) + 
                 ((side1Slot.Item != null) ? (side1Slot.Item.modItem as SideCourse).Fill : 0) + 

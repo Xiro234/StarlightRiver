@@ -51,6 +51,6 @@ namespace StarlightRiver.Food
         }
     }
 
-    class Greens : SideCourse { public Greens() : base("Greens", " Defense", 6, 1, 1800) { } }
+    class Greens : SideCourse { public Greens() : base("Greens", " Defense", 6, 1, 3600) { } }
 
 }

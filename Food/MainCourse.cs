@@ -51,6 +51,6 @@ namespace StarlightRiver.Food
         }
     }
 
-    class RoastRabbit : MainCourse { public RoastRabbit() : base("Roast Rabbit", "% Damage", 1, 10, 3600) { } }
+    class RoastRabbit : MainCourse { public RoastRabbit() : base("Roast Rabbit", "% Damage", 1, 10, 19800) { } }
 
 }

@@ -51,6 +51,6 @@ namespace StarlightRiver.Food
         }
     }
 
-    class Salt : Seasoning { public Salt() : base("Salt", 3600, 1, 600) { } }
+    class Salt : Seasoning { public Salt() : base("Salt", 7200, 1, 1800) { } }
 
 }

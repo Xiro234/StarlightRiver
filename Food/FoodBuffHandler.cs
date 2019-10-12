@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Food
 {
@@ -34,6 +35,21 @@ namespace StarlightRiver.Food
         {
             Fed = false;
             Full = false;
+        }
+
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                [nameof(Buffs)] = Buffs,
+                [nameof(Powers)] = Powers,
+            };
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            Buffs = tag.GetIntArray(nameof(Buffs));
+            Powers = tag.GetIntArray(nameof(Powers));
         }
     }
 }
