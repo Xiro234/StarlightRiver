@@ -58,7 +58,7 @@ namespace StarlightRiver
         public override void Load(TagCompound tag)
         {
             Enabled = tag.GetBool(nameof(Enabled));
-            WorldHP = Main.LocalPlayer.statLifeMax2 / 2;
+            WorldHP = Main.LocalPlayer.statLife;
         }
     }
     public class LinkPlayer : ModPlayer
