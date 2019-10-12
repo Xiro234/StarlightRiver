@@ -33,7 +33,7 @@ namespace StarlightRiver.GUI
             {
                 if (state == 1)
                 {
-                    if (Main.LocalPlayer.GetModPlayer<AbilityHandler>(StarlightRiver.Instance).unlock[2] == 1)
+                    if (Main.LocalPlayer.GetModPlayer<AbilityHandler>().unlock[2] == 1)
                     {
                         for (int k = 0; k <= Main.screenWidth; k++)
                         {
@@ -119,10 +119,10 @@ namespace StarlightRiver.GUI
             }
             if 
                 (
-                !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneVoidPre &&
-                !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleCorrupt &&
-                !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleBloody &&
-                !Main.LocalPlayer.GetModPlayer<BiomeHandler>(StarlightRiver.Instance).ZoneJungleHoly
+                !Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre &&
+                !Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt &&
+                !Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody &&
+                !Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly
                 )
             {
                 Bootlegdust.Clear();

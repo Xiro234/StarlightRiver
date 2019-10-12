@@ -14,7 +14,7 @@ namespace StarlightRiver.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<StarlightPlayer>(mod).DarkSlow = true;
+			player.GetModPlayer<StarlightPlayer>().DarkSlow = true;
 		}
 	}
 }

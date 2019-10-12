@@ -265,7 +265,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType<Tiles.Seal>();
+            item.createTile = ModContent.TileType<Tiles.Seal>();
         }
     }
     public class FleshPlacer : ModItem
@@ -286,7 +286,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType<Tiles.HellGate>();
+            item.createTile = ModContent.TileType<Tiles.HellGate>();
         }
     }
 
@@ -309,7 +309,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            ModGas.SpawnGas((int)Main.MouseWorld.X / 16,(int)Main.MouseWorld.Y / 16, mod.DustType<Dusts.Gas>(), 100);
+            ModGas.SpawnGas((int)Main.MouseWorld.X / 16,(int)Main.MouseWorld.Y / 16, ModContent.DustType<Dusts.Gas>(), 100);
             return true;
         }
     }

@@ -14,19 +14,21 @@ namespace StarlightRiver.Food
         public string IName;
         public string ITooltip;
         public int Modifier = 0;
+        public float StrengthMod = 0;
         public int Fill = 0;
-        public Seasoning(string name, int modifier, int filling)
+        public Seasoning(string name, int modifier, int strengthmod, int filling)
         {
             Modifier = modifier;
+            StrengthMod = strengthmod;
             Fill = filling;
             IName = name;
-            ITooltip = "+" + Modifier / 60 + " Seconds Duration";
+            ITooltip = "+ " + Modifier / 60 + " Seconds Duration\n" + "+ " + ((StrengthMod -1) * 100) + "% Power";
         }
 
         public override bool CloneNewInstances => true;
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("\n\n");
+            Tooltip.SetDefault("\n\n\n");
         }
         public override void SetDefaults()
         {
@@ -49,6 +51,6 @@ namespace StarlightRiver.Food
         }
     }
 
-    class Salt : Seasoning { public Salt() : base("Salt", 3600, 60) { } }
+    class Salt : Seasoning { public Salt() : base("Salt", 3600, 1, 600) { } }
 
 }

@@ -35,11 +35,11 @@ namespace StarlightRiver.Tiles
             {
                 if (player.Hitbox.Intersects(new Rectangle(i * 16, j * 16, 16, 16)))
                 {
-                    if(player.GetModPlayer<StarlightPlayer>(mod).InvertGrav == 0 && player.velocity.Y < 5 && player.velocity.Y > -5)
+                    if(player.GetModPlayer<StarlightPlayer>().InvertGrav == 0 && player.velocity.Y < 5 && player.velocity.Y > -5)
                     {
                         player.velocity.Y = 0;
                     }
-                    player.GetModPlayer<StarlightPlayer>(mod).InvertGrav = 6;
+                    player.GetModPlayer<StarlightPlayer>().InvertGrav = 6;
                     //Main.NewText("grav");
                 }
             }

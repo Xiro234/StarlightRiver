@@ -17,7 +17,7 @@ namespace StarlightRiver.Tiles
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileStone[Type] = true;
-            drop = mod.ItemType<Items.Pure.StonePureItem>();
+            drop = ModContent.ItemType<Items.Pure.StonePureItem>();
             dustType = mod.DustType("Purify");
             AddMapEntry(new Color(255, 255, 255));
         }

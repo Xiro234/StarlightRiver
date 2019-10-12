@@ -14,7 +14,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     class DashFlame : Dash
     {
-        Mod mod = StarlightRiver.Instance;
+        
 
         public DashFlame() : base()
         {
@@ -27,7 +27,7 @@ namespace StarlightRiver.Abilities
             Main.PlaySound(SoundID.Item45);
             Main.PlaySound(SoundID.Item104);
 
-            Projectile proj = Main.projectile[Projectile.NewProjectile(new Vector2(player.position.X - 21, player.position.Y-12), Vector2.Zero, mod.ProjectileType<Projectiles.Ability.DashFire>(), 10, 1f)];
+            Projectile proj = Main.projectile[Projectile.NewProjectile(new Vector2(player.position.X - 21, player.position.Y-12), Vector2.Zero, ModContent.ProjectileType<Projectiles.Ability.DashFire>(), 10, 1f)];
             proj.owner = player.whoAmI;
 
             X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
@@ -40,7 +40,7 @@ namespace StarlightRiver.Abilities
             for (int k = 0; k <= 15; k++)
             {
                 Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, DustID.Fire);
-                Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(0, 50), mod.DustType<Dusts.FireDust>(), -player.velocity*Main.rand.NextFloat(-2, 5) + new Vector2(Main.rand.Next(-1, 2), Main.rand.Next(-1, 2)),0, default, 2f);
+                Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(0, 50), ModContent.DustType<Dusts.FireDust>(), -player.velocity*Main.rand.NextFloat(-2, 5) + new Vector2(Main.rand.Next(-1, 2), Main.rand.Next(-1, 2)),0, default, 2f);
             }
         }
 

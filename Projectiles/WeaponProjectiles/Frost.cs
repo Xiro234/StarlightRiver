@@ -147,7 +147,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.GetGlobalNPC<DebuffHandler>(mod).frozenTime = 60;
+            target.GetGlobalNPC<DebuffHandler>().frozenTime = 60;
         }
         public override void Kill(int timeLeft)
         {

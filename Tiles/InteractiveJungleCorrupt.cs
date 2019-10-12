@@ -19,7 +19,7 @@ namespace StarlightRiver.Tiles
             Main.tileFrameImportant[Type] = true;
             Main.tileCut[Type] = true;
 
-            dustType = mod.DustType<Dusts.Corrupt>();
+            dustType = ModContent.DustType<Dusts.Corrupt>();
             soundType = SoundID.NPCDeath13.SoundId;
             AddMapEntry(new Color(117, 86, 106));
 
@@ -66,7 +66,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(1) == 0)
                 {
-                    WorldGen.PlaceTile(i + x, j + y, mod.TileType<ThornJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i + x, j + y, ModContent.TileType<ThornJungleCorrupt>(), true);
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Dusts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     class Superdash : Ability
     {
-        Mod mod = StarlightRiver.Instance;
+        
         [DataMember] float timer = 0;
         [DataMember] Vector2 objective;
         [DataMember] Vector2 start;
@@ -32,7 +33,7 @@ namespace StarlightRiver.Abilities
 
             for (int k = 0; k <= 10; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(100, 100), 200, 200, mod.DustType("Void2"), 0, 0, 0, default, 1.2f);
+                Dust.NewDust(player.Center - new Vector2(100, 100), 200, 200, ModContent.DustType<Void2>(), 0, 0, 0, default, 1.2f);
             }
 
             objective = new Vector2
@@ -69,16 +70,16 @@ namespace StarlightRiver.Abilities
                 float x = player.Center.X + (float)Math.Sin(rot) * ((float)Math.Sin(timer) * 20);
                 float y = player.Center.Y + (float)Math.Cos(rot) * ((float)Math.Sin(timer) * -20);
 
-                Dust.NewDustPerfect(new Vector2(x, y), mod.DustType("Void"));
+                Dust.NewDustPerfect(new Vector2(x, y), ModContent.DustType<Dusts.Void>());
 
                 for (int k = 0; k <= 10; k++)
                 {
-                    Dust.NewDust(new Vector2(x, y), 10, 10, mod.DustType("Void"), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 0.5f);
+                    Dust.NewDust(new Vector2(x, y), 10, 10, ModContent.DustType<Dusts.Void>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 0.5f);
                 }
 
                 for (int k = 0; k <= 10; k++)
                 {
-                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Void"), Main.rand.Next(-50, 50), Main.rand.Next(-50, 50), 0, default, 0.4f);
+                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Dusts.Void>(), Main.rand.Next(-50, 50), Main.rand.Next(-50, 50), 0, default, 0.4f);
                 }
             }
 
@@ -100,7 +101,7 @@ namespace StarlightRiver.Abilities
 
             for (int k = 0; k <= 100; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Void"), Main.rand.Next(-70, 70), Main.rand.Next(-70, 70), 0, default, 1.2f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Dusts.Void>(), Main.rand.Next(-70, 70), Main.rand.Next(-70, 70), 0, default, 1.2f);
             }
 
             Main.PlaySound(SoundID.Item38);

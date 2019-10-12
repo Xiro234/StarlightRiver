@@ -16,7 +16,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     class Pure : Ability
     {
-        Mod mod = StarlightRiver.Instance;
+        
         public Pure() : base(4)
         {
 
@@ -34,7 +34,7 @@ namespace StarlightRiver.Abilities
 
             for (float k = 0; k <= (float) Math.PI * 2; k += (float) Math.PI / 40)
             {
-                int proj = Projectile.NewProjectile(player.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 5, mod.ProjectileType("Purifier"),0,0, player.whoAmI);
+                int proj = Projectile.NewProjectile(player.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 5, ModContent.ProjectileType<Purifier>(),0,0, player.whoAmI);
                 Purifier pur = Main.projectile[proj].modProjectile as Purifier;
                 pur.start = player.Center;
                 LegendWorld.PureTiles.Add(player.Center/16);

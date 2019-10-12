@@ -93,7 +93,7 @@ namespace StarlightRiver
                     Main.tile[x, y].active(false);
                     if ((j > maxHei - 8 || j < minHei + 8 || i < -size + 8 || i > size - 8) && WorldGen.genRand.Next(4) == 0)
                     {
-                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : mod.TileType<Tiles.VitricSand>(), true, 0, 0, false, true);
+                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : ModContent.TileType<Tiles.VitricSand>(), true, 0, 0, false, true);
                         continue;
                     }
                     WorldGen.KillWall(x, y, false);
@@ -137,7 +137,7 @@ namespace StarlightRiver
                     int siz = WorldGen.genRand.Next(7, 12);
                     for (int j = 0; j < siz; ++j)
                     {
-                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, mod.TileType<Tiles.VitricGlassCrystal>(), true, true);
+                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, ModContent.TileType<Tiles.VitricGlassCrystal>(), true, true);
                         WorldGen.KillTile((int)plPos.X, (int)plPos.Y, false, true);
                         int wid = WorldGen.genRand.Next(1, 4);
                         for (int k = 0; k < wid; ++k)
@@ -158,10 +158,10 @@ namespace StarlightRiver
                 for (int j = sHei; j < 10 + WorldGen.genRand.Next(12, 19); ++j)
                 {
                     int off = (int)(i / 5f) * ((i >= 0) ? -1 : 1);
-                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)mod.TileType<Tiles.VitricSand>())
+                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)ModContent.TileType<Tiles.VitricSand>())
                         continue;
                     WorldGen.KillTile(midPoint.X + i, (midPoint.Y + j) + off, true, false, true);
-                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, mod.TileType<Tiles.VitricSand>(), true, true, -1, 0);
+                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, ModContent.TileType<Tiles.VitricSand>(), true, true, -1, 0);
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace StarlightRiver
                 if (rot > shortTau) //Caps angle
                     rot = 0;
 
-                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), mod.TileType<Tiles.VitricGlassCrystal >())
+                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), ModContent.TileType<Tiles.VitricGlassCrystal >())
                     + (new Vector2(0, -1).RotatedBy(rot) * 3); //Position of a wall. Starts off going UP, then goes clockwise.
 
                 if (WorldGen.genRand.Next(Math.Abs((int)randomWallLocation.X - tC.X) + WorldGen.genRand.Next(30)) < Main.maxTilesX / 80) //Biases crystals towards the sides
@@ -203,14 +203,14 @@ namespace StarlightRiver
 
             for (int j = 0; j < siz; ++j) //Places crystal, replace PlaceTile with TileRunner or other method of choice
             {
-                WorldGen.PlaceTile((int)position.X, (int)position.Y, mod.TileType<Tiles.VitricGlass>(), true, true, -1, 0);
+                WorldGen.PlaceTile((int)position.X, (int)position.Y, ModContent.TileType<Tiles.VitricGlass>(), true, true, -1, 0);
                 position += direction;
 
                 Vector2 newDir = new Vector2(0, -1).RotatedBy(Vector2.Normalize(origin.ToVector2() - position).ToRotation() - (side * 2));
                 Vector2 widthPos = position - (newDir * ((wid + negWid) / 2f));
                 for (float k = negWid; k < wid; k += 0.5f) //Widens the crystal
                 {
-                    WorldGen.PlaceTile((int)widthPos.X, (int)widthPos.Y, mod.TileType<Tiles.VitricGlass>(), true, true, -1, 0);
+                    WorldGen.PlaceTile((int)widthPos.X, (int)widthPos.Y, ModContent.TileType<Tiles.VitricGlass>(), true, true, -1, 0);
                     widthPos += newDir / 2;
                 }
             }
@@ -270,15 +270,15 @@ namespace StarlightRiver
                     switch (rawData[x].R) //select block
                     {
                         case 10: placeType = TileID.Ash; break;
-                        case 20: placeType = (ushort)mod.TileType<Tiles.Void1>(); break;
-                        case 30: placeType = (ushort)mod.TileType<Tiles.Void2>(); break;
-                        case 40: placeType = (ushort)mod.TileType<Tiles.VoidDoorOn>(); break;
+                        case 20: placeType = (ushort)ModContent.TileType<Tiles.Void1>(); break;
+                        case 30: placeType = (ushort)ModContent.TileType<Tiles.Void2>(); break;
+                        case 40: placeType = (ushort)ModContent.TileType<Tiles.VoidDoorOn>(); break;
                     }
                     switch (rawData[x].B) //select wall
                     {
-                        case 10: wallType = (ushort)mod.WallType<Tiles.VoidWall>(); break;
-                        case 20: wallType = (ushort)mod.WallType<Tiles.VoidWallPillar>(); break;
-                        case 30: wallType = (ushort)mod.WallType<Tiles.VoidWallPillarS>(); break;
+                        case 10: wallType = (ushort)ModContent.WallType<Tiles.VoidWall>(); break;
+                        case 20: wallType = (ushort)ModContent.WallType<Tiles.VoidWallPillar>(); break;
+                        case 30: wallType = (ushort)ModContent.WallType<Tiles.VoidWallPillarS>(); break;
                     }
 
                     if (placeType != 0) { WorldGen.PlaceTile((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, placeType, true, true); } //place block

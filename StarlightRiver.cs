@@ -167,9 +167,9 @@ namespace StarlightRiver
             spriteBatch.Draw(smash, origin + new Vector2(498, 62), Color.White);
             spriteBatch.Draw(shadow, origin + new Vector2(534, 62), Color.White);
 
-            if (player.statLifeMax == 500) //gold border
+            if (player.statLifeMax > 400) //why vanilla dosent do this I dont know
             {
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/GoldBorder"), origin, Color.White);
+                spriteBatch.Draw(Main.heart2Texture, origin + new Vector2(80, 37), Color.White);
             }
         }
 

@@ -27,7 +27,7 @@ namespace StarlightRiver.Items.Pure
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = mod.TileType<Tiles.StonePure2>();
+            item.createTile = ModContent.TileType<Tiles.StonePure2>();
         }
     }
 }

@@ -194,7 +194,7 @@ namespace StarlightRiver.Items.Void
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType<Tiles.VoidWall>();
+            item.createWall = ModContent.WallType<Tiles.VoidWall>();
         }
     }
     public class VoidWallPillarItem : ModItem
@@ -215,7 +215,7 @@ namespace StarlightRiver.Items.Void
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType<Tiles.VoidWallPillar>();
+            item.createWall = ModContent.WallType<Tiles.VoidWallPillar>();
         }
     }
     public class VoidWallPillarSItem : ModItem
@@ -236,7 +236,7 @@ namespace StarlightRiver.Items.Void
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType<Tiles.VoidWallPillarS>();
+            item.createWall = ModContent.WallType<Tiles.VoidWallPillarS>();
         }
     }
 }

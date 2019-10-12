@@ -69,21 +69,21 @@ namespace StarlightRiver.Tiles
 
     internal class VitricGlass : VitricTile
     {
-        public VitricGlass() : base(StarlightRiver.Instance.ItemType<Items.Vitric.Sandglass2>(), 30, 50)
+        public VitricGlass() : base(ModContent.ItemType<Items.Vitric.Sandglass2>(), 30, 50)
         {
 
         }
     }
     internal class VitricGlassCrystal : VitricTile
     {
-        public VitricGlassCrystal() : base(StarlightRiver.Instance.ItemType<Items.Vitric.GlassCrystalItem>(), 30, 50)
+        public VitricGlassCrystal() : base(ModContent.ItemType<Items.Vitric.GlassCrystalItem>(), 30, 50)
         {
 
         }
     }
     internal class VitricBrick : VitricTile
     {
-        public VitricBrick() : base(StarlightRiver.Instance.ItemType<Items.Vitric.VitricBrickItem>(), 60, 65)
+        public VitricBrick() : base(ModContent.ItemType<Items.Vitric.VitricBrickItem>(), 60, 65)
         {
 
         }

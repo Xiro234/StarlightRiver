@@ -124,8 +124,8 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                mod.TileType<VoidPillarB>(),
-                mod.TileType<VoidPillarM>()
+                ModContent.TileType<VoidPillarB>(),
+                ModContent.TileType<VoidPillarM>()
             };
             TileObjectData.addTile(Type);
             dustType = mod.DustType("Darkness");
@@ -153,7 +153,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                mod.TileType<VoidPillarM>()
+                ModContent.TileType<VoidPillarM>()
             };
             TileObjectData.addTile(Type);
             dustType = mod.DustType("Darkness");
@@ -180,7 +180,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                mod.TileType<VoidPillarM>()
+                ModContent.TileType<VoidPillarM>()
             };
             TileObjectData.addTile(Type);
             dustType = mod.DustType("Darkness");

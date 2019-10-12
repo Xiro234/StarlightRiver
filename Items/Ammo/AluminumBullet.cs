@@ -24,7 +24,7 @@ namespace StarlightRiver.Items.Ammo
 			item.knockBack = 0.5f;
 			item.value = 10;
 			item.rare = 2;
-			item.shoot = mod.ProjectileType<Projectiles.Ammo.AluminumBullet>();  
+			item.shoot = ModContent.ProjectileType<Projectiles.Ammo.AluminumBullet>();  
 			item.shootSpeed = 0.01f;                  
 			item.ammo = AmmoID.Bullet;            
 		}
@@ -32,8 +32,8 @@ namespace StarlightRiver.Items.Ammo
 		public override void AddRecipes()
 		{
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<AluminumBar>(), 1);
-            recipe.AddTile(mod.TileType<Tiles.Oven>());
+            recipe.AddIngredient(ModContent.ItemType<AluminumBar>(), 1);
+            recipe.AddTile(ModContent.TileType<Tiles.Oven>());
             recipe.SetResult(this, 25);
             recipe.AddRecipe();
         }

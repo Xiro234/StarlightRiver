@@ -47,12 +47,12 @@ namespace StarlightRiver.NPCs.Hostile
             Player player = Main.player[npc.target];
             if(npc.localAI[3] == 0)
             {
-                Dust.NewDust(npc.position, 32, 26, mod.DustType<Dusts.Gold2>());
+                Dust.NewDust(npc.position, 32, 26, ModContent.DustType<Dusts.Gold2>());
             }
 
             if(Vector2.Distance(player.Center, npc.Center) <= 64 && npc.localAI[3] == 0)
             {
-                for (float k = 0; k <= 6.28; k += 0.1f) { Dust.NewDustPerfect(npc.Center, mod.DustType<Dusts.Gold2>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 4); }
+                for (float k = 0; k <= 6.28; k += 0.1f) { Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Gold2>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 4); }
                 player.velocity += Vector2.Normalize(player.Center - npc.Center) * 8;
                 npc.localAI[3] = 240;
             }

@@ -53,9 +53,9 @@ namespace StarlightRiver.Items.Armor
                 }
                 if ((float)player.statLife / player.statLifeMax2 < k)
                 {
-                    if (!Main.projectile.Any(projectile => projectile.type == mod.ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>() && projectile.active && projectile.localAI[0] == (int)(k * 5) && projectile.owner == player.whoAmI))
+                    if (!Main.projectile.Any(projectile => projectile.type == ModContent.ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>() && projectile.active && projectile.localAI[0] == (int)(k * 5) && projectile.owner == player.whoAmI))
                     {
-                        int proj = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>(), 15, 0);
+                        int proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>(), 15, 0);
                         Main.projectile[proj].localAI[0] = (int)(k * 5);
                         Main.projectile[proj].owner = player.whoAmI;
                     }
@@ -66,8 +66,8 @@ namespace StarlightRiver.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.Sandglass>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.Sandglass>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -101,8 +101,8 @@ namespace StarlightRiver.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.Sandglass>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.Sandglass>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -136,8 +136,8 @@ namespace StarlightRiver.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.Sandglass>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.Sandglass>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();

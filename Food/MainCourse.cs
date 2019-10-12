@@ -14,10 +14,12 @@ namespace StarlightRiver.Food
         public string IName;
         public string ITooltip;
         public int Buff = 0;
+        public float Strength = 0;
         public int Fill = 0;
-        public MainCourse(string name, string tooltip, int buffID, int filling)
+        public MainCourse(string name, string tooltip, int buffID, float strength, int filling)
         {
             Buff = buffID;
+            Strength = strength;
             Fill = filling;
             IName = name;
             ITooltip = tooltip;
@@ -44,11 +46,11 @@ namespace StarlightRiver.Food
             {
                 if (line.mod == "Terraria" && line.Name == "ItemName") { line.text = IName; }
                 if (line.mod == "Terraria" && line.Name == "Tooltip0") { line.text = "Main Course"; line.overrideColor = new Color(255, 220, 140); }
-                if (line.mod == "Terraria" && line.Name == "Tooltip1") { line.text = ITooltip; line.overrideColor = new Color(255, 220, 80); }
+                if (line.mod == "Terraria" && line.Name == "Tooltip1") { line.text = "+ " + Strength + ITooltip; line.overrideColor = new Color(255, 220, 80); }
             }
         }
     }
 
-    class RoastRabbit : MainCourse { public RoastRabbit() : base("Roast Rabbit", "+ 1% Damage", 1, 600) { } }
+    class RoastRabbit : MainCourse { public RoastRabbit() : base("Roast Rabbit", "% Damage", 1, 10, 3600) { } }
 
 }

@@ -40,8 +40,8 @@ namespace StarlightRiver.Items.Crafting
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<AluminumOre>(), 5);
-            recipe.AddTile(mod.TileType<Tiles.Oven>());
+            recipe.AddIngredient(ModContent.ItemType<AluminumOre>(), 5);
+            recipe.AddTile(ModContent.TileType<Tiles.Oven>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Dusts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     class Dash : Ability
     {
-        Mod mod = StarlightRiver.Instance;
+        
         [DataMember] protected int timer = 0;
         [DataMember] protected float X = 0;
         [DataMember] protected float Y = 0;
@@ -62,7 +63,7 @@ namespace StarlightRiver.Abilities
         {
             for (int k = 0; k <= 10; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, mod.DustType("Air"));
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Air>());
             }
         }
 

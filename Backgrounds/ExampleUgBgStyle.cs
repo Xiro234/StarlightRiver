@@ -8,7 +8,7 @@ namespace StarlightRiver.Backgrounds
 	{
 		public override bool ChooseBgStyle()
 		{
-			return Main.LocalPlayer.GetModPlayer<BiomeHandler>(mod).ZoneJungleCorrupt;
+			return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
 		}
 
 		public override void FillTextureArray(int[] textureSlots)
@@ -25,7 +25,7 @@ namespace StarlightRiver.Backgrounds
     {
         public override bool ChooseBgStyle()
         {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>(mod).ZoneJungleBloody;
+            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody;
         }
 
         public override void FillTextureArray(int[] textureSlots)
@@ -42,7 +42,7 @@ namespace StarlightRiver.Backgrounds
     {
         public override bool ChooseBgStyle()
         {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>(mod).ZoneJungleHoly;
+            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly;
         }
 
         public override void FillTextureArray(int[] textureSlots)

@@ -36,7 +36,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             if (Main.rand.NextFloat() < 0.50f)
             {
-                Item.NewItem(npc.getRect(), mod.ItemType<Items.Vitric.Glassore>(), Main.rand.Next(2, 7));
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.Glassore>(), Main.rand.Next(2, 7));
             }
         }
         int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }

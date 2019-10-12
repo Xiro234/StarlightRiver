@@ -65,8 +65,8 @@ namespace StarlightRiver.Items.Crafting
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Oven>());
-            recipe.AddIngredient(mod.ItemType<AluminumBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<Oven>());
+            recipe.AddIngredient(ModContent.ItemType<AluminumBar>(), 15);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
@@ -99,7 +99,7 @@ namespace StarlightRiver.Items.Crafting
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Wood, 20);
-            recipe.AddIngredient(mod.ItemType<Herbology.Ivy>());
+            recipe.AddIngredient(ModContent.ItemType<Herbology.Ivy>());
             recipe.AddIngredient(ItemID.Bottle, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

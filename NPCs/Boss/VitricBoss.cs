@@ -88,7 +88,7 @@ namespace StarlightRiver.NPCs.Boss
                             npc.localAI[2]++;
                             for(int n = 0; n <= Vector2.Distance(Main.npc[k].Center, Main.LocalPlayer.Center); n += 5)
                             {
-                                Dust.NewDustPerfect(Vector2.Lerp(Main.npc[k].Center, Main.LocalPlayer.Center, n/(Vector2.Distance(Main.npc[k].Center, Main.LocalPlayer.Center))), mod.DustType<Dusts.Air>());
+                                Dust.NewDustPerfect(Vector2.Lerp(Main.npc[k].Center, Main.LocalPlayer.Center, n/(Vector2.Distance(Main.npc[k].Center, Main.LocalPlayer.Center))), ModContent.DustType<Dusts.Air>());
                             }
                             Helper.Kill(Main.npc[k]);
                         }
@@ -356,7 +356,7 @@ namespace StarlightRiver.NPCs.Boss
                                 {
                                     int x = (int)(npc.localAI[3]/30) * 320 - 3200;
                                     int y = Main.rand.Next(-200, 400);
-                                    int proj = Projectile.NewProjectile(npc.position + new Vector2(x, y) , Vector2.Zero, mod.ProjectileType<Aura>(), 30, 0);
+                                    int proj = Projectile.NewProjectile(npc.position + new Vector2(x, y) , Vector2.Zero, ModContent.ProjectileType<Aura>(), 30, 0);
                                     Main.projectile[proj].localAI[0] = 50 + (240 - (npc.localAI[3] - 180));
                                     Main.projectile[proj].localAI[1] = Main.rand.Next(50, 150);
                                 }
@@ -444,8 +444,8 @@ namespace StarlightRiver.NPCs.Boss
 
                 for (int k = 0; k <= 20; k++)
                 {
-                    Dust.NewDust(npc.position, 32, 46, mod.DustType<Dusts.Air>());
-                    Dust.NewDust(npc.position, 32, 46, mod.DustType<Dusts.Glass2>());
+                    Dust.NewDust(npc.position, 32, 46, ModContent.DustType<Dusts.Air>());
+                    Dust.NewDust(npc.position, 32, 46, ModContent.DustType<Dusts.Glass2>());
                     Main.PlaySound(SoundID.Shatter, npc.Center);
                 }
                 for (int k = 0; k <= 3; k++)
@@ -492,8 +492,8 @@ namespace StarlightRiver.NPCs.Boss
                 projectile.timeLeft = 0;
                 for (int k = 0; k <= 20; k++)
                 {
-                    Dust.NewDust(projectile.position, 46, 46, mod.DustType<Dusts.Air>());
-                    Dust.NewDust(projectile.position, 46, 46, mod.DustType<Dusts.Glass2>(),0,0,0,default,1.8f);
+                    Dust.NewDust(projectile.position, 46, 46, ModContent.DustType<Dusts.Air>());
+                    Dust.NewDust(projectile.position, 46, 46, ModContent.DustType<Dusts.Glass2>(),0,0,0,default,1.8f);
                     Main.PlaySound(SoundID.Shatter, projectile.Center);
                 }
                 projectile.hostile = false;
@@ -539,23 +539,23 @@ namespace StarlightRiver.NPCs.Boss
             {
                 if (Main.rand.Next(20) == 0)
                 {
-                    Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * projectile.localAI[1], mod.DustType<Dusts.Air4>(), Vector2.Zero);
+                    Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * projectile.localAI[1], ModContent.DustType<Dusts.Air4>(), Vector2.Zero);
                 }
             }
 
             for (int k = 0; k <= projectile.localAI[1] * 1.3f; k += 10)
             {
                 float offset = 0.707f * projectile.localAI[1];
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-offset + k, -offset), mod.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-offset, -offset + k), mod.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(offset - k, offset), mod.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(offset , offset - k), mod.DustType<Dusts.Air4>(), Vector2.Zero); }
+                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-offset + k, -offset), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
+                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-offset, -offset + k), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
+                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(offset - k, offset), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
+                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(offset , offset - k), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
 
                 float p = k * 1.6f;
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-projectile.localAI[1] + p/2,  -p/2), mod.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-projectile.localAI[1] + p/2,   p/2), mod.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(projectile.localAI[1] - p/2,   -p/2), mod.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(projectile.localAI[1] - p/2,    p/2), mod.DustType<Dusts.Air4>(), Vector2.Zero); }
+                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-projectile.localAI[1] + p/2,  -p/2), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
+                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-projectile.localAI[1] + p/2,   p/2), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
+                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(projectile.localAI[1] - p/2,   -p/2), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
+                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(projectile.localAI[1] - p/2,    p/2), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
             }
 
             if (projectile.localAI[0] <= 0)
@@ -563,15 +563,15 @@ namespace StarlightRiver.NPCs.Boss
                 for (float k = 0; k <= 6.28; k += 0.1f)
                 {
                     int slow = Main.rand.Next(26, 30);
-                    Dust.NewDust(projectile.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 20, 1, 1, mod.DustType<Dusts.Air>(), (float)Math.Cos(k) * projectile.localAI[1] / slow, (float)Math.Sin(k) * projectile.localAI[1] / slow);
+                    Dust.NewDust(projectile.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 20, 1, 1, ModContent.DustType<Dusts.Air>(), (float)Math.Cos(k) * projectile.localAI[1] / slow, (float)Math.Sin(k) * projectile.localAI[1] / slow);
                 }
 
                 foreach (Player player in Main.player.Where(player => Vector2.Distance(player.Center, projectile.Center) <= projectile.localAI[1]))
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType<Pulse>(), projectile.damage, 2);
+                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Pulse>(), projectile.damage, 2);
                 }
 
-                foreach(Dust dust in Main.dust.Where(dust => dust.type == mod.DustType<Dusts.Air4>()))
+                foreach(Dust dust in Main.dust.Where(dust => dust.type == ModContent.DustType<Dusts.Air4>()))
                 {
                     dust.active = false;
                 }

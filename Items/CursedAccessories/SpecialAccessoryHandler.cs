@@ -35,7 +35,7 @@ namespace StarlightRiver.Items.CursedAccessories
                 Main.PlaySound(SoundID.Shatter, player.Center);
                 for (int k = 0; k <= 30; k++)
                 {
-                    Dust.NewDustPerfect(player.Center, mod.DustType<Dusts.Gold>(), Vector2.One.RotatedByRandom(6.28) * k / 10, 0, default, 2);
+                    Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.Gold>(), Vector2.One.RotatedByRandom(6.28) * k / 10, 0, default, 2);
                 }
 
                 item.TurnToAir();

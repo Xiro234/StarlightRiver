@@ -23,7 +23,7 @@ namespace StarlightRiver.Items.Vitric
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.Glassore>(), 8); //recipe not final
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.Glassore>(), 8); //recipe not final
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -31,9 +31,9 @@ namespace StarlightRiver.Items.Vitric
             recipe = new ModRecipe(mod);
 
             recipe.AddIngredient(ItemID.FossilOre, 10); //recipe also not final
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricGem>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 4);
             recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(mod.ItemType<Items.Vitric.VitricSword>());
+            recipe.SetResult(ModContent.ItemType<Items.Vitric.VitricSword>());
             recipe.AddRecipe();
         }
     }

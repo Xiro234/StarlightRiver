@@ -37,7 +37,7 @@ namespace StarlightRiver.NPCs
             else 
             {
                 float rot = Main.rand.NextFloat(0, 6.28f);
-                Dust.NewDustPerfect(npc.Center, mod.DustType<Dusts.Stamina>(),new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * 0.4f,0,default,2f);
+                Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Stamina>(),new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * 0.4f,0,default,2f);
             }
 
             if (npc.Hitbox.Intersects(player.Hitbox) && mp.stamina < (mp.staminamax + mp.permanentstamina) && mp.ability == null && npc.localAI[0] == 0)
@@ -48,7 +48,7 @@ namespace StarlightRiver.NPCs
 
                 for(float k = 0; k <= 6.28; k+= 0.1f)
                 {
-                    Dust.NewDustPerfect(npc.Center, mod.DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * (Main.rand.Next(25) * 0.1f),0,default,3f);
+                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * (Main.rand.Next(25) * 0.1f),0,default,3f);
                 }
             }
 

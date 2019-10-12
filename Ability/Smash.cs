@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Dusts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     class Smash : Ability
     {
-        Mod mod = StarlightRiver.Instance;
+        
         public Smash() : base(2) // stamina cost
         {
 
@@ -36,11 +37,11 @@ namespace StarlightRiver.Abilities
 
             for (int k = 0; k <= 5; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, mod.DustType("Stone"),0,0,0,default, 1.4f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Stone>(), 0,0,0,default, 1.4f);
                 Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, DustID.Dirt, Main.rand.Next(-20, 20) * 0.5f, 0, 0, default, 0.8f);
                 if (k % 2 == 0)
                 {
-                    Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, mod.DustType("Grass"), Main.rand.Next(-10, 10) * 0.5f, 0, 0, default, 1.8f);
+                    Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Grass>(), Main.rand.Next(-10, 10) * 0.5f, 0, 0, default, 1.8f);
                 }
             }
 
@@ -63,8 +64,8 @@ namespace StarlightRiver.Abilities
 
             for (float k = 0; k <= 6.28; k += 0.06f)
             {
-                Dust.NewDust(player.Center, 1,1, mod.DustType("Stone"), (float)Math.Cos(k) * 12, (float)Math.Sin(k) * 12, 0, default, 1.8f);
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, mod.DustType("Grass"), (float)Math.Cos(k) * 8, (float)Math.Sin(k) * 8, 0, default, 2f);
+                Dust.NewDust(player.Center, 1,1, ModContent.DustType<Stone>(), (float)Math.Cos(k) * 12, (float)Math.Sin(k) * 12, 0, default, 1.8f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Grass>(), (float)Math.Cos(k) * 8, (float)Math.Sin(k) * 8, 0, default, 2f);
             }
             Main.PlaySound(SoundID.Item70, player.Center);
             Main.PlaySound(SoundID.NPCHit42, player.Center);

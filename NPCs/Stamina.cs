@@ -36,7 +36,7 @@ namespace StarlightRiver.NPCs
             if (npc.localAI[0] > 0) { npc.localAI[0]--; }
             else if (Main.rand.Next(3) == 0)
             {
-                Dust.NewDust(npc.position, 16, 16, mod.DustType<Dusts.Stamina>());
+                Dust.NewDust(npc.position, 16, 16, ModContent.DustType<Dusts.Stamina>());
             }
 
             if (npc.Hitbox.Intersects(player.Hitbox) && mp.stamina < (mp.staminamax+mp.permanentstamina) && mp.ability != null && mp.ability.Active && npc.localAI[0] == 0)
@@ -49,7 +49,7 @@ namespace StarlightRiver.NPCs
                 Main.PlaySound(SoundID.Item112, npc.Center);
                 for (float k = 0; k <= 6.28; k+= 0.1f)
                 {
-                    Dust.NewDustPerfect(npc.Center, mod.DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * (Main.rand.Next(50) * 0.1f),0,default,3f);
+                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * (Main.rand.Next(50) * 0.1f),0,default,3f);
                 }
             }
 

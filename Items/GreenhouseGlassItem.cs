@@ -28,7 +28,7 @@ namespace StarlightRiver.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Glass, 10);
-            recipe.AddIngredient(mod.ItemType<Items.Crafting.AluminumBar>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<Items.Crafting.AluminumBar>(), 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 10);
             recipe.AddRecipe();

@@ -44,13 +44,13 @@ namespace StarlightRiver.Tiles
                 if (Main.tile[i + x, j + y].type == TileID.JungleGrass)
                 {
                     //Main.NewText("Tile at: " + i + ", " + j + ". x/y: " + x + ", " + y + ". Placing at: " + (i + x) + ", " + (j + y));
-                    WorldGen.PlaceTile(i + x, j + y, mod.TileType<GrassJungleCorrupt>(), true, true);
+                    WorldGen.PlaceTile(i + x, j + y, ModContent.TileType<GrassJungleCorrupt>(), true, true);
                 }
                 else if (Main.tile[i + x, j + y].type == TileID.Mud)
                 {
                     if (!Main.tileSolid[Main.tile[i + x + 1, j + y].type] || !Main.tileSolid[Main.tile[i + x - 1, j + y].type] || !Main.tileSolid[Main.tile[i + x, j + y + 1].type] || !Main.tileSolid[Main.tile[i + x, j + y - 1].type])
                     {
-                        WorldGen.PlaceTile(i + x, j + y, mod.TileType<GrassJungleCorrupt>(), true, true);
+                        WorldGen.PlaceTile(i + x, j + y, ModContent.TileType<GrassJungleCorrupt>(), true, true);
                     }
                 }
                 else if (Main.tile[i + x, j + y].type == TileID.Stone)
@@ -75,7 +75,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(1) == 0)
                 {
-                    WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<VineJungleCorrupt>(), true);
                 }
             }
 
@@ -83,7 +83,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(2) == 0)
                 {
-                    WorldGen.PlaceTile(i, j - 1, mod.TileType<TallgrassJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<TallgrassJungleCorrupt>(), true);
                     Main.tile[i, j - 1].frameY = (short)(Main.rand.Next(9) * 18);
                 }
             }
@@ -92,7 +92,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(4) == 0)
                 {
-                    WorldGen.PlaceTile(i, j - 2, mod.TileType<TallgrassJungleCorrupt2>(), true);
+                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<TallgrassJungleCorrupt2>(), true);
                     int rand = Main.rand.Next(6);
                     Main.tile[i, j - 1].frameY = (short)(rand * 36);
                     Main.tile[i, j - 2].frameY = (short)(18 + rand * 36);
@@ -105,7 +105,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(6) == 0)
                 {
-                    WorldGen.PlaceTile(i + x2, j + y2, mod.TileType<ThornJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i + x2, j + y2, ModContent.TileType<ThornJungleCorrupt>(), true);
                 }
             }
 
@@ -132,7 +132,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(120) == 0)
                 {
-                    WorldGen.PlaceTile(i, j - 1, mod.TileType<TallgrassJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<TallgrassJungleCorrupt>(), true);
                     Main.tile[i, j - 1].frameY = (short)(Main.rand.Next(9) * 18);
                 }
             }
@@ -141,7 +141,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(180) == 0)
                 {
-                    WorldGen.PlaceTile(i, j - 2, mod.TileType<TallgrassJungleCorrupt2>(), true);
+                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<TallgrassJungleCorrupt2>(), true);
                     int rand = Main.rand.Next(6);
                     Main.tile[i, j - 1].frameY = (short)(18 + rand * 36);
                     Main.tile[i, j - 2].frameY = (short)(rand * 36);
@@ -161,8 +161,8 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                mod.TileType<GrassJungleCorrupt>(),
-                mod.TileType<VineJungleCorrupt>()
+                ModContent.TileType<GrassJungleCorrupt>(),
+                ModContent.TileType<VineJungleCorrupt>()
             };
             TileObjectData.addTile(Type);
             soundType = 6;
@@ -175,7 +175,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(1) == 0)
                 {
-                    WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<VineJungleCorrupt>(), true);
                 }
             }
         }
@@ -186,7 +186,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(120) == 0)
                 {
-                    WorldGen.PlaceTile(i, j + 1, mod.TileType<VineJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<VineJungleCorrupt>(), true);
                 }
             }
         }
@@ -197,7 +197,7 @@ namespace StarlightRiver.Tiles
                 WorldGen.KillTile(i, j, false, false, false);
                 WorldGen.SquareTileFrame(i, j, true);
             }
-            else if (Main.tile[i, j - 1].type != mod.TileType<GrassJungleCorrupt>() && Main.tile[i, j - 1].type != mod.TileType<VineJungleCorrupt>())
+            else if (Main.tile[i, j - 1].type != ModContent.TileType<GrassJungleCorrupt>() && Main.tile[i, j - 1].type != ModContent.TileType<VineJungleCorrupt>())
             {
                 WorldGen.KillTile(i, j, false, false, false);
                 WorldGen.SquareTileFrame(i, j, true);
@@ -218,7 +218,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.RandomStyleRange = 9;
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                mod.TileType<GrassJungleCorrupt>()
+                ModContent.TileType<GrassJungleCorrupt>()
             };
             TileObjectData.addTile(Type);
             soundType = 6;
@@ -239,7 +239,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.RandomStyleRange = 6;
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                mod.TileType<GrassJungleCorrupt>()
+                ModContent.TileType<GrassJungleCorrupt>()
             };
             TileObjectData.addTile(Type);
             soundType = 6;
@@ -263,7 +263,7 @@ namespace StarlightRiver.Tiles
             {
                 if (Main.rand.Next(30) == 0)
                 {
-                    WorldGen.PlaceTile(i, j, mod.TileType<SporeJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i, j, ModContent.TileType<SporeJungleCorrupt>(), true);
                 }
             }
         }

@@ -35,7 +35,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Player player = Main.player[projectile.owner];
 
             
-            Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType<Dusts.Air>(), 0, 0, 0, default, 0.35f);
+            Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Air>(), 0, 0, 0, default, 0.35f);
             if (((float)player.statLife / player.statLifeMax2) > 0.2f * pos)
             {
                 projectile.position += Vector2.Normalize(player.Center - projectile.Center) * 5;

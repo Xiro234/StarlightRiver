@@ -107,9 +107,9 @@ namespace StarlightRiver.NPCs.Pickups
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
             if (mp.unlock[1] == 0)
             {
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer), (float)Math.Sin(timer)) * 32, mod.DustType<Dusts.Gold>(),null,0,default,0.4f);
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 3) / 2, (float)Math.Sin(timer + 3)) * 32, mod.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 2), (float)Math.Sin(timer + 2) / 2) * 32, mod.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer), (float)Math.Sin(timer)) * 32, ModContent.DustType<Dusts.Gold>(),null,0,default,0.4f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 3) / 2, (float)Math.Sin(timer + 3)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 2), (float)Math.Sin(timer + 2) / 2) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
             }
         }
     }

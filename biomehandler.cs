@@ -35,7 +35,7 @@ namespace StarlightRiver
 
         public override bool CustomBiomesMatch(Player other)
         {
-            BiomeHandler modOther = other.GetModPlayer<BiomeHandler>(mod);
+            BiomeHandler modOther = other.GetModPlayer<BiomeHandler>();
             bool allMatch = true;
             allMatch &= ZoneGlass == modOther.ZoneGlass;
             allMatch &= ZoneVoidPre == modOther.ZoneVoidPre;
@@ -47,7 +47,7 @@ namespace StarlightRiver
 
         public override void CopyCustomBiomesTo(Player other)
         {
-            BiomeHandler modOther = other.GetModPlayer<BiomeHandler>(mod);
+            BiomeHandler modOther = other.GetModPlayer<BiomeHandler>();
             modOther.ZoneGlass = ZoneGlass;
             modOther.ZoneVoidPre = ZoneVoidPre;
             modOther.ZoneJungleCorrupt = ZoneJungleCorrupt;
@@ -83,7 +83,7 @@ namespace StarlightRiver
                 Overlay.visible = true;
                 Overlay.state = 1;
 
-                if(player.GetModPlayer<AbilityHandler>(mod).unlock[2] == 0)
+                if(player.GetModPlayer<AbilityHandler>().unlock[2] == 0)
                 {
                     player.AddBuff(mod.BuffType("DarkSlow"), 5);
                 }

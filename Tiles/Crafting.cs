@@ -56,7 +56,7 @@ namespace StarlightRiver.Tiles
             AddMapEntry(new Color(113, 113, 113));
             dustType = DustID.Stone;
             disableSmartCursor = true;
-            adjTiles = new int[] { mod.TileType<Oven>() };
+            adjTiles = new int[] { ModContent.TileType<Oven>() };
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Oven");

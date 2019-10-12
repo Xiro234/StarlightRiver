@@ -25,7 +25,7 @@ namespace StarlightRiver.Items.JungleCorrupt
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = mod.WallType<Tiles.WallJungleCorrupt>();
+            item.createWall = ModContent.WallType<Tiles.WallJungleCorrupt>();
         }
     }
 }

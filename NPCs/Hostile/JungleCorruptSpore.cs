@@ -33,7 +33,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             Main.PlaySound(SoundID.NPCDeath13, npc.Center);
             Projectile.NewProjectile(npc.position + new Vector2(8, 8), Vector2.Zero, mod.ProjectileType("GasPoison"), 25, 0);
-            ModGas.SpawnGas((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16), mod.DustType<Dusts.GasGreen>(), 80);
+            ModGas.SpawnGas((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16), ModContent.DustType<Dusts.GasGreen>(), 80);
             for (int k = 0; k <= 50; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Corrupt"), Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default, 1.4f);
@@ -51,7 +51,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.player.ZoneRockLayerHeight && !Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>(mod).ZoneJungleCorrupt) ? 1f : 0f;
+            return (spawnInfo.player.ZoneRockLayerHeight && !Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt) ? 1f : 0f;
         }
 
         public int Framecounter = 0;

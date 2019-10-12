@@ -52,12 +52,12 @@ namespace StarlightRiver.NPCs.Hostile
             {
                 if (npc.localAI[2] == 0)
                 {
-                    Projectile.NewProjectile(npc.Center, -Vector2.Normalize(npc.Center - target.Center) * 5, mod.ProjectileType<Projectiles.SandBolt>(), 5, 0.5f);
+                    Projectile.NewProjectile(npc.Center, -Vector2.Normalize(npc.Center - target.Center) * 5, ModContent.ProjectileType<Projectiles.SandBolt>(), 5, 0.5f);
                 }
                 else
                 {
                     //spawn a circle on the player
-                    int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType<Boss.Aura>(), 5, 0);
+                    int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Boss.Aura>(), 5, 0);
                     Projectile circle = Main.projectile[proj];
                     circle.localAI[0] = 120;
                     circle.localAI[1] = 50;
@@ -65,7 +65,7 @@ namespace StarlightRiver.NPCs.Hostile
                     for (int k = 0; k <= Vector2.Distance(npc.Center, target.Center); k += 5)
                     {
                         Vector2 check = Vector2.Lerp(npc.Center, target.Center, (k / Vector2.Distance(npc.Center, target.Center)));
-                        Dust.NewDust(check, 8, 8, mod.DustType<Dusts.Air4>());
+                        Dust.NewDust(check, 8, 8, ModContent.DustType<Dusts.Air4>());
                     }
                 }
             }

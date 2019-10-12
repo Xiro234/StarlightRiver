@@ -7,7 +7,7 @@ namespace StarlightRiver.Backgrounds
 	{
 		public override bool ChooseBgStyle()
 		{
-			return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<BiomeHandler>(mod).ZoneGlass;
+			return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass;
 		}
 
 		// Use this to keep far Backgrounds like the mountains.

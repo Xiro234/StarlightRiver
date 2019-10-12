@@ -22,7 +22,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorValidTiles = new int[]
             {
-				mod.TileType<Trellis>()
+				ModContent.TileType<Trellis>()
             };
         }
     }*/
@@ -40,8 +40,8 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                mod.TileType<ForestIvy>(),
-                mod.TileType<Planter>()
+                ModContent.TileType<ForestIvy>(),
+                ModContent.TileType<Planter>()
             };
             TileObjectData.addTile(Type);
             drop = mod.ItemType("Ivy");
@@ -65,11 +65,11 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.newTile.AnchorValidTiles = new int[]
             {
-                mod.TileType<Soil>()               
+                ModContent.TileType<Soil>()               
             };
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
 {
-                mod.TileType<Deathstalk>()
+                ModContent.TileType<Deathstalk>()
 };
             TileObjectData.addTile(Type);
             drop = mod.ItemType("Deathstalk");

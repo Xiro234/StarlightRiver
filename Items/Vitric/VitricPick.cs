@@ -38,7 +38,7 @@ namespace StarlightRiver.Items.Vitric
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FossilOre, 10);
-            recipe.AddIngredient(mod.ItemType<Items.Vitric.VitricGem>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

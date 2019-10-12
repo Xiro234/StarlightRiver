@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Buffs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,12 +36,20 @@ namespace StarlightRiver.Food
         public override bool CanUseItem(Player player)
         {
             int totalfill = 0;
-            player.AddBuff(mains.Buff, (seasoning != null) ? seasoning.Modifier : 3600); totalfill += mains.Fill;
-            if (side1 != null) { player.AddBuff(side1.Buff, (seasoning != null) ? seasoning.Modifier : 3600); totalfill += side1.Fill; }
-            if (side2 != null) { player.AddBuff(side2.Buff, (seasoning != null) ? seasoning.Modifier : 3600); totalfill += side2.Fill; }
+            FoodBuffHandler mp = player.GetModPlayer<FoodBuffHandler>();
+
+            if (mp.Full) { return false; }
+
+            player.AddBuff(ModContent.BuffType<FoodBuff>(), (seasoning != null) ? 3600 + seasoning.Modifier : 3600);
+
+            mp.Buffs[0] = mains.Buff; mp.Powers[0] = (int)(mains.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1));  totalfill += mains.Fill;
+            if (side1 != null) { mp.Buffs[1] = side1.Buff; mp.Powers[1] = (int)(side1.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)); totalfill += side1.Fill; }
+            if (side2 != null) { mp.Buffs[2] = side2.Buff; mp.Powers[2] = (int)(side2.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)); totalfill += side2.Fill; }
             if (seasoning != null) { totalfill += seasoning.Fill; }
 
-            player.AddBuff(mod.BuffType("Full"), totalfill);
+            player.AddBuff(ModContent.BuffType<Full>(), totalfill);
+
+            item.stack--;
             return true;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -55,9 +64,9 @@ namespace StarlightRiver.Food
             foreach (TooltipLine line in tooltips)
             {
                 if (line.mod == "Terraria" && line.Name == "ItemName" && mains != null) { line.text = prefix + title1 + join1 + title2 + join2 + title3; }
-                if (line.mod == "Terraria" && line.Name == "Tooltip0" && mains != null) { line.text = mains.ITooltip; line.overrideColor = new Color(255, 220, 140); }
-                if (line.mod == "Terraria" && line.Name == "Tooltip1" && side1 != null) { line.text = side1.ITooltip; line.overrideColor = new Color(140, 255, 140); }
-                if (line.mod == "Terraria" && line.Name == "Tooltip2" && side2 != null) { line.text = side2.ITooltip; line.overrideColor = new Color(140, 255, 140); }
+                if (line.mod == "Terraria" && line.Name == "Tooltip0" && mains != null) { line.text = "+ " + (mains.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + mains.ITooltip; line.overrideColor = new Color(255, 220, 140); }
+                if (line.mod == "Terraria" && line.Name == "Tooltip1" && side1 != null) { line.text = "+ " + (side1.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + side1.ITooltip; line.overrideColor = new Color(140, 255, 140); }
+                if (line.mod == "Terraria" && line.Name == "Tooltip2" && side2 != null) { line.text = "+ " + (side2.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + side2.ITooltip; line.overrideColor = new Color(140, 255, 140); }
                 else if (line.mod == "Terraria" && line.Name == "Tooltip2" && seasoning != null) { line.text = seasoning.ITooltip; line.overrideColor = new Color(140, 200, 255); }
                 if (line.mod == "Terraria" && line.Name == "Tooltip3" && side2 != null && seasoning != null) { line.text = seasoning.ITooltip; line.overrideColor = new Color(140, 200, 255); }
 
@@ -67,7 +76,7 @@ namespace StarlightRiver.Food
                 if (side2 != null) {  totalfill += side2.Fill; }
                 if (seasoning != null) { totalfill += seasoning.Fill; }
 
-                if (line.mod == "Terraria" && line.Name == "Tooltip4") { line.text = "Fullness: " + totalfill / 60; line.overrideColor = new Color(255, 163, 153); }
+                if (line.mod == "Terraria" && line.Name == "Tooltip4") { line.text = "Fullness: " + totalfill / 60 + " Seconds"; line.overrideColor = new Color(255, 163, 153); }
             }
         }
     }
