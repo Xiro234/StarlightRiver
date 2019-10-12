@@ -54,7 +54,7 @@ namespace StarlightRiver.Abilities
 
         public override void SendClientChanges(ModPlayer clientPlayer)
         {
-            AbilityHandler clone = clientPlayer as AbilityHandler;
+            /*AbilityHandler clone = clientPlayer as AbilityHandler;
             if (clone.ability != ability && ability != null)
             {
                 var packet = mod.GetPacket();
@@ -67,7 +67,7 @@ namespace StarlightRiver.Abilities
 
                 packet.Write(json);
                 packet.Send();
-            }
+            }*/
         }
         public override TagCompound Save()
         {
