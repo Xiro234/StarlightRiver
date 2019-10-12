@@ -335,12 +335,16 @@ namespace StarlightRiver
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            var target = new Abilities.Ability(0);
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(reader.ReadString()));
-            var ser = new DataContractJsonSerializer(target.GetType());
-            target = ser.ReadObject(ms) as Abilities.Ability;
+           // var target = new Abilities.Ability(0);
+            //var ms = new MemoryStream(Encoding.UTF8.GetBytes(reader.ReadString()));
+           // var ser = new DataContractJsonSerializer(target.GetType());
+            //target = ser.ReadObject(ms) as Abilities.Ability;
 
-            Main.player[whoAmI].GetModPlayer<AbilityHandler>().ability = target;
+            //Main.player[whoAmI].GetModPlayer<AbilityHandler>().ability = target;
+
+            LinkMode.Enabled = reader.ReadBoolean();
+            LinkMode.MaxWorldHP = reader.ReadInt32();
+            LinkMode.WorldHP = reader.ReadInt32();
         }
 
         public override void Unload()

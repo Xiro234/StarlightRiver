@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -45,8 +46,17 @@ namespace StarlightRiver
             {
                 WorldHP = MaxWorldHP;
             }
-            Main.NewText(NetworkText.FromLiteral(WorldHP + "/" + MaxWorldHP));
+
+            if (Main.netMode == 2)
+            {
+                ModPacket packet = mod.GetPacket();
+                packet.Write(Enabled);
+                packet.Write(MaxWorldHP);
+                packet.Write(WorldHP);
+                packet.Send();
+            }
         }
+
 
         public override TagCompound Save()
         {
@@ -86,6 +96,10 @@ namespace StarlightRiver
             {
                 LinkMode.WorldHP -= damage;
                 player.statLife += damage;
+            }
+            if (LinkMode.Enabled && LinkMode.WorldHP <= 0)
+            {
+                player.KillMe(PlayerDeathReason.ByCustomReason("Died with their teammates"), 99999, 0);
             }
             return true;
         }
