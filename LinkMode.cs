@@ -22,7 +22,7 @@ namespace StarlightRiver
     {
         public static bool Enabled = false;
         public static int MaxWorldHP = 1;
-        public static int WorldHP = 1;
+        public static int WorldHP = 100;
 
         public override void PreUpdate()
         {
@@ -33,18 +33,19 @@ namespace StarlightRiver
                 MaxWorldHP += player.statLifeMax2;
             }
 
-            if (Enabled && WorldHP <= 0)
+            if (Enabled && WorldHP < 0)
             {
-                foreach (Player player in Main.player.Where(player => player.active))
-                {
-                    player.KillMe(PlayerDeathReason.ByCustomReason("Died with their teammates"), 99999, 0);
-                }
-                WorldHP = MaxWorldHP / 2;
+               WorldHP = 0;
             }
 
-            if(WorldHP > MaxWorldHP)
+            if(WorldHP > MaxWorldHP && MaxWorldHP != 0)
             {
                 WorldHP = MaxWorldHP;
+            }
+
+            if (Main.player.Any(player => player.active && player.respawnTimer == 5))
+            {
+                WorldHP = MaxWorldHP / 2;
             }
 
             if (Main.netMode == 2)
@@ -68,7 +69,6 @@ namespace StarlightRiver
         public override void Load(TagCompound tag)
         {
             Enabled = tag.GetBool(nameof(Enabled));
-            WorldHP = Main.LocalPlayer.statLife;
         }
     }
     public class LinkPlayer : ModPlayer
@@ -97,23 +97,25 @@ namespace StarlightRiver
                 LinkMode.WorldHP -= damage;
                 player.statLife += damage;
             }
-            if (LinkMode.Enabled && LinkMode.WorldHP <= 0)
-            {
-                player.KillMe(PlayerDeathReason.ByCustomReason("Died with their teammates"), 99999, 0);
-            }
             return true;
         }
 
         int ticker;
-        public override void PreUpdate()
+        public override void PostUpdate()
         {
             if (LinkMode.Enabled)
             {
-                if (ticker++ >= player.lifeRegenCount)
+                if (ticker++ >= player.lifeRegenCount && !player.dead)
                 {
                     if (player.lifeRegen > 0) { LinkMode.WorldHP++; } else if (player.lifeRegen < 0) { LinkMode.WorldHP--; }
                     ticker = 0;
                 }
+
+                if (LinkMode.WorldHP <= 0)
+                {
+                    player.KillMe(PlayerDeathReason.ByCustomReason("Died with their teammates"), 99999, 0);
+                }
+
                 LinkHP.visible = true;
             }
             else
@@ -128,6 +130,10 @@ namespace StarlightRiver
             {
                 LinkMode.WorldHP += healValue / 2;
             }
+        }
+
+        public override void OnRespawn(Player player)
+        {
         }
     }
 }
