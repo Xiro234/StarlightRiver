@@ -37,7 +37,7 @@ namespace StarlightRiver.GUI
             int hp = (!Main.LocalPlayer.dead) ? (int)(LinkMode.WorldHP/ (float)LinkMode.MaxWorldHP * 232) : 0;
             Color color = new Color(232 - hp, hp, 0);
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/LinkLifeFill"), new Rectangle((int)border.GetDimensions().Position().X + 10, (int)border.GetDimensions().Position().Y + 10, hp, 38), color * 0.8f);
-            Utils.DrawBorderString(spriteBatch, "Team HP: " + LinkMode.WorldHP + "/" + LinkMode.MaxWorldHP, border.GetDimensions().Position() + new Vector2(50, 18), Color.White);
+            Utils.DrawBorderString(spriteBatch, "Team HP: " + ((!Main.LocalPlayer.dead)? LinkMode.WorldHP : 0) + "/" + LinkMode.MaxWorldHP, border.GetDimensions().Position() + new Vector2(50, 18), Color.White);
             Recalculate();
         }       
     }

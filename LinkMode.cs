@@ -36,25 +36,19 @@ namespace StarlightRiver
             if (Enabled && WorldHP < 0)
             {
                WorldHP = 0;
+               LinkPlayer.sendpacket();
             }
 
             if(WorldHP > MaxWorldHP && MaxWorldHP != 0)
             {
                 WorldHP = MaxWorldHP;
+                LinkPlayer.sendpacket();
             }
 
-            if (Main.player.Any(player => player.active && player.respawnTimer == 5))
+            if (Main.player.Any(player => player.active && player.respawnTimer == 60))
             {
                 WorldHP = MaxWorldHP / 2;
-            }
-
-            if (Main.netMode == 2)
-            {
-                ModPacket packet = mod.GetPacket();
-                packet.Write(Enabled);
-                packet.Write(MaxWorldHP);
-                packet.Write(WorldHP);
-                packet.Send();
+                LinkPlayer.sendpacket();
             }
         }
 
@@ -69,6 +63,7 @@ namespace StarlightRiver
         public override void Load(TagCompound tag)
         {
             Enabled = tag.GetBool(nameof(Enabled));
+            LinkPlayer.sendpacket();
         }
     }
     public class LinkPlayer : ModPlayer
@@ -78,6 +73,7 @@ namespace StarlightRiver
             if (LinkMode.Enabled)
             {
                 LinkMode.WorldHP += player.statLife;
+                sendpacket();
             }
         }
 
@@ -94,8 +90,19 @@ namespace StarlightRiver
         {
             if (LinkMode.Enabled && LinkMode.WorldHP > 0)
             {
-                LinkMode.WorldHP -= damage;
-                player.statLife += damage;
+                int hitfor = damage - (int)(player.statDefense * ((Main.expertMode) ? 0.75f : 0.5f));
+                if (hitfor >= 1)
+                {
+                    LinkMode.WorldHP -= hitfor;
+                    player.statLife += hitfor;
+                }
+                else
+                {
+                    LinkMode.WorldHP -= 1;
+                    player.statLife += 1;
+                }
+
+                sendpacket();
             }
             return true;
         }
@@ -103,17 +110,19 @@ namespace StarlightRiver
         int ticker;
         public override void PostUpdate()
         {
+
             if (LinkMode.Enabled)
             {
-                if (ticker++ >= player.lifeRegenCount && !player.dead)
+                if (ticker++ >= 60 && (player.lifeRegen / 2) > 0 && !player.dead && LinkMode.WorldHP < LinkMode.MaxWorldHP)
                 {
-                    if (player.lifeRegen > 0) { LinkMode.WorldHP++; } else if (player.lifeRegen < 0) { LinkMode.WorldHP--; }
+                    LinkMode.WorldHP += player.lifeRegen / 2;
+                    sendpacket();
                     ticker = 0;
                 }
 
                 if (LinkMode.WorldHP <= 0)
                 {
-                    player.KillMe(PlayerDeathReason.ByCustomReason("Died with their teammates"), 99999, 0);
+                    player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " died with their teammates..."), 99999, 0);
                 }
 
                 LinkHP.visible = true;
@@ -129,11 +138,25 @@ namespace StarlightRiver
             if ((player.controlUseItem || quickHeal) && LinkMode.Enabled)
             {
                 LinkMode.WorldHP += healValue / 2;
+                sendpacket();
             }
         }
 
         public override void OnRespawn(Player player)
         {
+            sendpacket();
+        }
+
+        public static void sendpacket()
+        {
+            if (Main.netMode == 2)
+            {
+                ModPacket packet = StarlightRiver.Instance.GetPacket();
+                packet.Write(LinkMode.Enabled);
+                packet.Write(LinkMode.MaxWorldHP);
+                packet.Write(LinkMode.WorldHP);
+                packet.Send();
+            }
         }
     }
 }
