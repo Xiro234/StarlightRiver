@@ -23,10 +23,11 @@ namespace StarlightRiver
         public static bool Enabled = false;
         public static int MaxWorldHP = 1;
         public static int WorldHP = 100;
+        int ticker = 0;
 
         public override void PreUpdate()
         {
-            Enabled = true;
+            //Enabled = true;
             MaxWorldHP = 0;
             foreach(Player player in Main.player.Where(player => player.active))
             {
@@ -49,6 +50,18 @@ namespace StarlightRiver
             {
                 WorldHP = MaxWorldHP / 2;
                 LinkPlayer.sendpacket();
+            }
+
+            int heal = 0;
+            foreach(Player player in Main.player.Where(player => player.active && player.lifeRegen/2 > 0))
+            {
+                heal += (int)(player.lifeRegen / 2);
+            }
+            if (ticker++ >= 60 && heal > 0 && WorldHP < MaxWorldHP)
+            {
+                WorldHP += heal;
+                LinkPlayer.sendpacket();
+                ticker = 0;
             }
         }
 
@@ -107,22 +120,21 @@ namespace StarlightRiver
             return true;
         }
 
-        int ticker;
+        int healCD = 60;
         public override void PostUpdate()
         {
-
+            player.statLife = player.statLifeMax2 - 1;
             if (LinkMode.Enabled)
             {
-                if (ticker++ >= 60 && (player.lifeRegen / 2) > 0 && !player.dead && LinkMode.WorldHP < LinkMode.MaxWorldHP)
-                {
-                    LinkMode.WorldHP += player.lifeRegen / 2;
-                    sendpacket();
-                    ticker = 0;
-                }
-
                 if (LinkMode.WorldHP <= 0)
                 {
                     player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " died with their teammates..."), 99999, 0);
+                    sendpacket();
+                }
+
+                if(healCD-- <= 0)
+                {
+                    healCD = 0;
                 }
 
                 LinkHP.visible = true;
@@ -135,10 +147,14 @@ namespace StarlightRiver
 
         public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
         {
-            if ((player.controlUseItem || quickHeal) && LinkMode.Enabled)
+            if ((player.controlUseItem || player.controlQuickHeal) && LinkMode.Enabled && healCD == 0)
             {
-                LinkMode.WorldHP += healValue / 2;
+                LinkMode.WorldHP += healValue;
+                //Main.NewText("Before the Packer", 255, 0, 0);
+                Console.WriteLine("PreHeal");
                 sendpacket();
+                //Main.NewText("After the Packer", 0, 255, 0);
+                Console.WriteLine("PostHeal");
             }
         }
 
@@ -149,6 +165,8 @@ namespace StarlightRiver
 
         public static void sendpacket()
         {
+            //Main.NewText("The Packet", 255, 255, 0);
+            Console.WriteLine("Server Packet Sent!");
             if (Main.netMode == 2)
             {
                 ModPacket packet = StarlightRiver.Instance.GetPacket();

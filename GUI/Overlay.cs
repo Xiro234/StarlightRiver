@@ -226,4 +226,24 @@ namespace StarlightRiver.GUI
             pos.Y += (float)Math.Sin((float)(time / 550f * 31.4f)) * 0.5f;
         }
     }
+    public class VitricDust : BootlegDust
+    {
+        Vector2 Basepos = Vector2.Zero;
+        int Offset = 0;
+        public VitricDust(Texture2D texture, Vector2 basepos, int offset) :
+            base(texture, basepos, new Vector2(0, -1), Color.White * 0.9f, 1.5f, 550)
+        {
+            Basepos = basepos;
+            Offset = offset;
+        }
+
+        public override void Update()
+        {
+            col *= 0.999999972f;
+            pos += vel;
+            pos.X = Basepos.X + Offset + StarlightRiver.Instance.getParallaxOffset(Basepos.X, 0.5f);
+            scl *= 0.996f;
+            time--;
+        }
+    }
 }
