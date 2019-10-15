@@ -53,7 +53,7 @@ namespace StarlightRiver
         }
         
         public int MaxCrystalCaveDepth = 0;
-        public static Vector2 VitricTopLeft = new Vector2(); //Initialized after gen. Also don't know how to network, sorry.
+        public static Vector2 vitricTopLeft = new Vector2(); //Initialized after gen. Also don't know how to network, sorry.
         
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
@@ -176,7 +176,7 @@ namespace StarlightRiver
 
                 if (rot > shortTau) //Caps angle
                     rot = 0;
-                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), mod.TileType<Tiles.GlassCrystal>())
+                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), ModContent.TileType<Tiles.VitricGlassCrystal>())
                     + (new Vector2(0, -1).RotatedBy(rot) * 3); //Position of a wall. Starts off going UP, then goes clockwise.
 
                 int runs = 0;
@@ -196,11 +196,11 @@ namespace StarlightRiver
                     int max = 50;
                     for (int j = -max; j < max; ++j)
                     {
-                        if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.X) > Math.Abs(j) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != mod.TileType<Tiles.GlassCrystal>())
+                        if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.X) > Math.Abs(j) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != ModContent.TileType<Tiles.VitricGlassCrystal>())
                             nearestWallPositionDifference.X = j;
                         for (int k = -max; k < max; ++k)
                         {
-                            if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.Y) > Math.Abs(k) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != mod.TileType<Tiles.GlassCrystal>())
+                            if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.Y) > Math.Abs(k) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != ModContent.TileType<Tiles.VitricGlassCrystal>())
                                 nearestWallPositionDifference.Y = k;
                         }
                         wallPos = placePosition + nearestWallPositionDifference.ToVector2();
@@ -216,7 +216,7 @@ namespace StarlightRiver
                         for (int k = -5; k < 5; ++k)
                         {
                             Main.tile[(int)actualPlacePos.X, (int)actualPlacePos.Y].active(false);
-                            WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, mod.TileType<Tiles.GlassCrystal>());
+                            WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, ModContent.TileType<Tiles.VitricGlassCrystal>());
                             actualPlacePos += (negDir / 4);
                         }
                         placePosition += dir;
@@ -474,6 +474,8 @@ namespace StarlightRiver
         {
             return new TagCompound
             {
+                [nameof(vitricTopLeft)] = vitricTopLeft,
+
                 [nameof(AnyBossDowned)] = AnyBossDowned,
                 [nameof(GlassBossDowned)] = GlassBossDowned,
                 [nameof(SealOpen)] = SealOpen,
@@ -488,6 +490,7 @@ namespace StarlightRiver
         }
         public override void Load(TagCompound tag)
         {
+            vitricTopLeft = tag.Get<Vector2>(nameof(vitricTopLeft));
             AnyBossDowned = tag.GetBool(nameof(AnyBossDowned));
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
             SealOpen = tag.GetBool(nameof(SealOpen));
