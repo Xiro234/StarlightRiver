@@ -148,7 +148,6 @@ namespace StarlightRiver
             if (Main.playerLoaded && player.GetModPlayer<BiomeHandler>().ZoneGlass)
             {
                 Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1500) : Vector2.Zero;
-                Main.NewText(player.position.Y + "/" + basepoint.Y);
                 for (int k = 5; k >= 0; k--)
                 {
                     drawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
@@ -188,7 +187,7 @@ namespace StarlightRiver
                         }
                         else if (i % 5 == 0 && j % 5 == 0 && Main.tile[i, j].wall == 0)
                         {
-                            Lighting.AddLight(new Vector2(i * 16, j * 16), new Vector3(0.3f, 0.35f, 0.4f) * 1.1f);
+                            Lighting.AddLight(new Vector2(i * 16, j * 16), new Vector3(0.3f, 0.35f, 0.4f) * 2.1f);
                         }
                     }
                 }

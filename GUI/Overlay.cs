@@ -231,22 +231,25 @@ namespace StarlightRiver.GUI
         Vector2 Basepos = Vector2.Zero;
         int Offset = 0;
         float Parallax;
+        float Velocity;
         public VitricDust(Texture2D texture, Vector2 basepos, int offset, float scale, float alpha, float parallax) :
             base(texture, basepos, new Vector2(0, -1), Color.White * alpha, scale + Main.rand.NextFloat(0, 2f), 1500)
         {
             Basepos = basepos;
             Offset = offset;
             Parallax = parallax;
+            Velocity = Main.rand.NextFloat(4.2f, 5.6f);
         }
 
         public override void Update()
         {
             col *= 0.9999999995f;
             //pos += vel;
+            float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
             float off = Basepos.X + Offset + (StarlightRiver.Instance.getParallaxOffset(Basepos.X, 0.5f) - Parallax*(Main.LocalPlayer.position.X - Basepos.X));
             pos.X = (off) - Main.screenPosition.X;
-            pos.Y = ((Basepos.Y + 256) - (1500 - time) - Main.screenPosition.Y);
-            scl *= 0.998f;
+            pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
+            scl *= (Parallax > 0.2) ? 0.997f : 0.999f;
             time--;
         }
     }
