@@ -147,7 +147,7 @@ namespace StarlightRiver
 
             if (Main.playerLoaded && player.GetModPlayer<BiomeHandler>().ZoneGlass)
             {
-                Vector2 basepoint = new Vector2(70638, 14590);
+                Vector2 basepoint = new Vector2(70638, 14590); //replace this with the actual basepoint that gabe gets us lol
                 for (int k = 5; k >= 0; k--)
                 {
                     drawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
