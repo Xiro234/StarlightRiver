@@ -10,7 +10,6 @@ namespace StarlightRiver.Backgrounds
         {
             return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass;
         }
-
         public override void FillTextureArray(int[] textureSlots)
         {
             textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/Blank");

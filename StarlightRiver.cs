@@ -133,6 +133,7 @@ namespace StarlightRiver
             On.Terraria.Main.DrawBackgroundBlackFill += drawVitricBackground;
         }
         internal static readonly List<BootlegDust> VitricBackgroundDust = new List<BootlegDust>();
+        internal static readonly List<BootlegDust> VitricForegroundDust = new List<BootlegDust>();
         private void drawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Terraria.Main self)
         {
             orig(self);
@@ -141,53 +142,64 @@ namespace StarlightRiver
             VitricBackgroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricBackgroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
+            VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
+            VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
+
             if (Main.playerLoaded && player.GetModPlayer<BiomeHandler>().ZoneGlass)
             {
-                Vector2 basepoint = new Vector2(70638, 15090);
-                for(int k = 5; k >= 0; k--)
+                Vector2 basepoint = new Vector2(70638, 14590);
+                for (int k = 5; k >= 0; k--)
                 {
                     drawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
-                    if(k == 5)
+                    if (k == 5)
                     {
                         VitricBackgroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch));
                     }
-                }
-
-                for(int k = 0; k <= 739*20; k+= 10)
-                {
-                    if (Main.rand.Next(50) == 0)
+                    if (k == 2)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(0, 100), k);
-                        VitricBackgroundDust.Add(dus);
+                        VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch));
                     }
                 }
 
-                for(int i = -2 + (int)(player.position.X - Main.screenWidth / 2) / 16; i <=  2 + (int)(player.position.X + Main.screenWidth / 2) / 16; i++ )
+                for (int k = (int)(player.position.X - basepoint.X) - Main.screenWidth; k <= (int)(player.position.X - basepoint.X) + Main.screenWidth; k += 30)
+                {
+                    if (Main.rand.Next(500) == 0)
+                    {
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-8000, 700), k, 1.5f, 0.3f, 0.1f);
+                        VitricBackgroundDust.Add(dus);
+                    }
+
+                    if (Main.rand.Next(400) == 0)
+                    {
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-1000, 700), k, 2.25f, 1f, 0.4f);
+                        VitricForegroundDust.Add(dus2);
+                    }
+                }
+
+                for (int i = -2 + (int)(player.position.X - Main.screenWidth / 2) / 16; i <= 2 + (int)(player.position.X + Main.screenWidth / 2) / 16; i++)
                 {
                     for (int j = -2 + (int)(player.position.Y - Main.screenWidth / 2) / 16; j <= 2 + (int)(player.position.Y + Main.screenWidth / 2) / 16; j++)
                     {
-                        if (Main.tile[i, j].active())
+                        if ((Main.tile[i, j].active() && Main.tile[i, j].collisionType == 1) || Main.tile[i, j].wall != 0)
                         {
                             Color color = Color.Black * (1 - Lighting.Brightness(i, j) * 2);
                             Main.spriteBatch.Draw(Main.blackTileTexture, new Vector2(i * 16, j * 16) - Main.screenPosition, color);
                         }
-                        else if ( i % 5 == 0 && j % 5  == 0)
+                        else if (i % 5 == 0 && j % 5 == 0 && Main.tile[i, j].wall == 0)
                         {
                             Lighting.AddLight(new Vector2(i * 16, j * 16), new Vector3(0.3f, 0.35f, 0.4f) * 1.1f);
                         }
                     }
                 }
-
-            }
-            
+            }           
         }
         public void drawLayer(Vector2 basepoint, Texture2D texture, int parallax)
         {
             for (int k = 0; k <= 10; k++)
             {
                 Main.spriteBatch.Draw(texture,
-                    new Vector2(basepoint.X + (k * 739 * 2) + getParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, 15090 - (int)Main.screenPosition.Y),
-                    new Rectangle(0, 0, 739, 256), Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0);
+                    new Vector2(basepoint.X + (k * 739 * 2) + getParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, basepoint.Y - (int)Main.screenPosition.Y),
+                    new Rectangle(0, 0, 1478, 1024), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             }
         }
 
