@@ -53,6 +53,7 @@ namespace StarlightRiver
         }
         
         public int MaxCrystalCaveDepth = 0;
+        public static Vector2 VitricTopLeft = new Vector2(); //Initialized after gen. Also don't know how to network, sorry.
         
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
@@ -60,26 +61,24 @@ namespace StarlightRiver
         /// <param name="centre">The top centre point of the cavern.</param>
         private void GenerateCrystalCaverns(GenerationProgress progress)
         {
-            progress.Message = "Vitrifying Desert";            
-            int size = Main.maxTilesX / 20; //Width of the cavern; value shown here is half the size. So, functional size is actually size * 2.
+            progress.Message = "Vitrifying Desert";
+            int size = (int)(Main.maxTilesX / 26f); //Width of the cavern; value shown here is half the size. So, functional size is actually size * 2.
+            Point centre = new Point(WorldGen.UndergroundDesertLocation.X + size, WorldGen.UndergroundDesertLocation.Y + 400);
             float depth = 0; //Depth of the cave
             float height = 0; //Height of cave
-
-            Point centre = new Point(WorldGen.UndergroundDesertLocation.X + size, WorldGen.UndergroundDesertLocation.Y + 400);
-
             for (int i = -size; i < size; ++i) //Digs out a cave, mayhaps placeholder
             {
                 int x = i + centre.X;
 
-                if (i < -size / 3)
+                if (i < -size / 2.5f)
                 {
-                    height += WorldGen.genRand.Next(10) * 0.1f;
-                    depth += 0.5f;
+                    height += WorldGen.genRand.Next(10, 20) * 0.1f;
+                    depth += 1f;
                 }
-                if (i > size / 3)
+                if (i > size / 2.5f)
                 {
-                    height -= WorldGen.genRand.Next(10) * 0.1f;
-                    depth -= 0.5f;
+                    height -= WorldGen.genRand.Next(10, 20) * 0.1f;
+                    depth -= 1f;
                 }
 
                 if (depth > MaxCrystalCaveDepth) 
@@ -93,7 +92,7 @@ namespace StarlightRiver
                     Main.tile[x, y].active(false);
                     if ((j > maxHei - 8 || j < minHei + 8 || i < -size + 8 || i > size - 8) && WorldGen.genRand.Next(4) == 0)
                     {
-                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : ModContent.TileType<Tiles.VitricSand>(), true, 0, 0, false, true);
+                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : mod.TileType<Tiles.SandGlass>(), true, 0, 0, false, true);
                         continue;
                     }
                     WorldGen.KillWall(x, y, false);
@@ -116,15 +115,14 @@ namespace StarlightRiver
             GenerateSandDunes(new Point((int)sandMid.X, (int)sandMid.Y + 0), (int)(size * 1.15f)); //Generates SAND under the crystals. Wacky!
             GenerateCrystals(centre); //I wonder what this does
             GenerateMiniCrystals(centre, 30, (int)(size * 0.7f));
+
+            vitricTopLeft = centre.ToVector2() - new Vector2(size, MaxCrystalCaveDepth);
         }
 
         ///TODO: Add crystal stairs
-        ///Fix up mini crystals, make thicker
-        ///Fix up entrace, randomize X
 
         private void GenerateMiniCrystals(Point centre, int reps, int width)
         {
-            
             for (int i = 0; i < reps; ++i)
             {
                 if (WorldGen.genRand.Next(3) == 0)
@@ -137,7 +135,7 @@ namespace StarlightRiver
                     int siz = WorldGen.genRand.Next(7, 12);
                     for (int j = 0; j < siz; ++j)
                     {
-                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, ModContent.TileType<Tiles.VitricGlassCrystal>(), true, true);
+                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, mod.TileType("GlassCrystal"), true, true);
                         WorldGen.KillTile((int)plPos.X, (int)plPos.Y, false, true);
                         int wid = WorldGen.genRand.Next(1, 4);
                         for (int k = 0; k < wid; ++k)
@@ -158,10 +156,10 @@ namespace StarlightRiver
                 for (int j = sHei; j < 10 + WorldGen.genRand.Next(12, 19); ++j)
                 {
                     int off = (int)(i / 5f) * ((i >= 0) ? -1 : 1);
-                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)ModContent.TileType<Tiles.VitricSand>())
+                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)mod.TileType("GlassCrystal"))
                         continue;
                     WorldGen.KillTile(midPoint.X + i, (midPoint.Y + j) + off, true, false, true);
-                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, ModContent.TileType<Tiles.VitricSand>(), true, true, -1, 0);
+                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, mod.TileType("SandGlass"), true, true, -1, 0);
                 }
             }
         }
@@ -169,7 +167,7 @@ namespace StarlightRiver
         private void GenerateCrystals(Point tC)
         {
             float rot = 0f; //Rotation of crystal/placement used later
-            int totalReps = (int)(100 * (Main.maxTilesX / 4000f)); //Total repeats
+            int totalReps = (int)(70 * (Main.maxTilesX / 4000f)); //Total repeats
             float shortTau = 6.28f; //Helper variable
             float side = shortTau / 4; //Helper variable
             for (int i = 0; i < totalReps; ++i)
@@ -178,17 +176,59 @@ namespace StarlightRiver
 
                 if (rot > shortTau) //Caps angle
                     rot = 0;
-
-                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), ModContent.TileType<Tiles.VitricGlassCrystal >())
+                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), mod.TileType<Tiles.GlassCrystal>())
                     + (new Vector2(0, -1).RotatedBy(rot) * 3); //Position of a wall. Starts off going UP, then goes clockwise.
 
-                if (WorldGen.genRand.Next(Math.Abs((int)randomWallLocation.X - tC.X) + WorldGen.genRand.Next(30)) < Main.maxTilesX / 80) //Biases crystals towards the sides
-                    continue;
+                int runs = 0;
 
-                PlaceCrystal(tC, randomWallLocation, (Math.Abs((int)randomWallLocation.X - tC.X) / 6) + (WorldGen.genRand.Next(8, 23)));
+                while (true)
+                {
+                    runs++;
+                    if (runs > 20)
+                        break;
+
+                    //Size of the crystal, going into the wall(s)
+                    int dist = WorldGen.genRand.Next(8, 14);
+                    Vector2 placePosition = randomWallLocation - (Vector2.Normalize(randomWallLocation - tC.ToVector2()) * (dist * 2.5f)); //Position used for placement base
+
+                    Point nearestWallPositionDifference = new Point(-20, -20);
+                    Vector2 wallPos = placePosition + nearestWallPositionDifference.ToVector2();
+                    int max = 50;
+                    for (int j = -max; j < max; ++j)
+                    {
+                        if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.X) > Math.Abs(j) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != mod.TileType<Tiles.GlassCrystal>())
+                            nearestWallPositionDifference.X = j;
+                        for (int k = -max; k < max; ++k)
+                        {
+                            if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.Y) > Math.Abs(k) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != mod.TileType<Tiles.GlassCrystal>())
+                                nearestWallPositionDifference.Y = k;
+                        }
+                        wallPos = placePosition + nearestWallPositionDifference.ToVector2();
+                    }
+
+                    Vector2 dir = (Vector2.Normalize(randomWallLocation - wallPos));//.RotatedBy(WorldGen.genRand.Next(-60, 70) * 0.005f);
+                    if (WorldGen.genRand.Next(Math.Abs((int)placePosition.X - tC.X)) < Main.maxTilesX / 80) //Biases crystals towards the sides
+                        continue;
+                    for (int j = 0; j < dist * 3; ++j)
+                    {
+                        Vector2 negDir = Vector2.Normalize(new Vector2(1 / dir.X, 1 / -dir.Y));
+                        Vector2 actualPlacePos = placePosition - (negDir * 2);
+                        for (int k = -5; k < 5; ++k)
+                        {
+                            Main.tile[(int)actualPlacePos.X, (int)actualPlacePos.Y].active(false);
+                            WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, mod.TileType<Tiles.GlassCrystal>());
+                            actualPlacePos += (negDir / 4);
+                        }
+                        placePosition += dir;
+                    }
+                    break;
+                }
+
+                //PlaceCrystal(tC, randomWallLocation, (Math.Abs((int)randomWallLocation.X - tC.X) / 6) + (WorldGen.genRand.Next(8, 23)));
             }
         }
 
+        ///Deprecated!
         /// <summary> Moved to a seperate method in order to test something. Since moving it back is hard, I won't. It's staying.</summary>
         private void PlaceCrystal(Point origin, Vector2 position, int siz = 6)
         {
