@@ -147,7 +147,8 @@ namespace StarlightRiver
 
             if (Main.playerLoaded && player.GetModPlayer<BiomeHandler>().ZoneGlass)
             {
-                Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft : Vector2.Zero; 
+                Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1500) : Vector2.Zero;
+                Main.NewText(player.position.Y + "/" + basepoint.Y);
                 for (int k = 5; k >= 0; k--)
                 {
                     drawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
@@ -161,17 +162,17 @@ namespace StarlightRiver
                     }
                 }
 
-                for (int k = (int)(player.position.X - basepoint.X) - Main.screenWidth; k <= (int)(player.position.X - basepoint.X) + Main.screenWidth; k += 30)
+                for (int k = (int)(player.position.X - basepoint.X) - (int)(Main.screenWidth * 1.5f); k <= (int)(player.position.X - basepoint.X) + (int)(Main.screenWidth * 1.5f); k += 30)
                 {
                     if (Main.rand.Next(500) == 0)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-8000, 700), k, 1.5f, 0.3f, 0.1f);
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 700), k, 1.5f, 0.3f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
                     if (Main.rand.Next(400) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-1000, 700), k, 2.25f, 1f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 700), k, 2.25f, 1f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }
