@@ -92,7 +92,7 @@ namespace StarlightRiver
                     Main.tile[x, y].active(false);
                     if ((j > maxHei - 8 || j < minHei + 8 || i < -size + 8 || i > size - 8) && WorldGen.genRand.Next(4) == 0)
                     {
-                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : mod.TileType<Tiles.SandGlass>(), true, 0, 0, false, true);
+                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : ModContent.TileType<Tiles.VitricSand>(), true, 0, 0, false, true);
                         continue;
                     }
                     WorldGen.KillWall(x, y, false);
