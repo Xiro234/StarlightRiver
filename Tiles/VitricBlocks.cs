@@ -42,7 +42,7 @@ namespace StarlightRiver.Tiles
         public VitricTile(int drop, int chance, int pick)
         {
             Drop = drop;
-            Chance = chance;
+            Chance = chance; //unused?
             Pick = pick;
         }
         public override void SetDefaults()
@@ -73,12 +73,8 @@ namespace StarlightRiver.Tiles
         {
 
         }
-
-        /*public override void SetDefaults()
-        {
-            AddMapEntry(new Color(115, 182, 158));
-        }*/
     }
+
     internal class VitricGlassCrystal : VitricTile
     {
         public VitricGlassCrystal() : base(ModContent.ItemType<Items.Vitric.GlassCrystalItem>(), 30, 50)
@@ -86,11 +82,23 @@ namespace StarlightRiver.Tiles
 
         }
     }
+
     internal class VitricBrick : VitricTile
     {
         public VitricBrick() : base(ModContent.ItemType<Items.Vitric.VitricBrickItem>(), 60, 65)
         {
 
+        }
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = false;
+            Main.tileBlockLight[Type] = false;
+            Main.tileLighted[Type] = true;
+            TileID.Sets.DrawsWalls[Type] = true;
+            drop = ModContent.ItemType<Items.Vitric.VitricBrickItem>();
+            minPick = 65;
+            AddMapEntry(new Color(115, 182, 158));
         }
     }
 
