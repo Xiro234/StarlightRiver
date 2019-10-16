@@ -25,12 +25,13 @@ namespace StarlightRiver.Tiles
             Main.tileLighted[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(113, 113, 113));
+            //AddMapEntry(new Color(113, 113, 113)); this goes after ModTranslation & name.SetDefault, not before.
             dustType = DustID.Stone;
             disableSmartCursor = true;
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Oven");
+            AddMapEntry(new Color(113, 113, 113), name);
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -53,13 +54,13 @@ namespace StarlightRiver.Tiles
             Main.tileLighted[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(113, 113, 113));
             dustType = DustID.Stone;
             disableSmartCursor = true;
             adjTiles = new int[] { ModContent.TileType<Oven>() };
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Astral Oven");
+            AddMapEntry(new Color(125, 125, 125), name);
         }
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -77,16 +78,16 @@ namespace StarlightRiver.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileLavaDeath[Type] = false;
+            Main.tileLavaDeath[Type] = true;
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(151, 107, 75));
             dustType = DustID.t_LivingWood;
             disableSmartCursor = true;
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Herbologist's Bench");
+            AddMapEntry(new Color(151, 107, 75), name);
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -99,16 +100,16 @@ namespace StarlightRiver.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileLavaDeath[Type] = false;
+            Main.tileLavaDeath[Type] = true;
             Main.tileFrameImportant[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(151, 107, 75));
             dustType = DustID.t_LivingWood;
             disableSmartCursor = true;
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Prep Station");
+            AddMapEntry(new Color(151, 107, 75), name);
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

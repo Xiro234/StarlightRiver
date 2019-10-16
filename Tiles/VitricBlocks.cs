@@ -81,6 +81,18 @@ namespace StarlightRiver.Tiles
         {
 
         }
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = false;
+            Main.tileBlockLight[Type] = false;
+            Main.tileLighted[Type] = true;
+            TileID.Sets.DrawsWalls[Type] = true;
+            drop = ModContent.ItemType<Items.Vitric.GlassCrystalItem>();
+            minPick = 50;
+            TileID.Sets.NotReallySolid[Type] = true;
+            AddMapEntry(new Color(100, 170, 170));
+        }
     }
 
     internal class VitricBrick : VitricTile
@@ -98,7 +110,8 @@ namespace StarlightRiver.Tiles
             TileID.Sets.DrawsWalls[Type] = true;
             drop = ModContent.ItemType<Items.Vitric.VitricBrickItem>();
             minPick = 65;
-            AddMapEntry(new Color(115, 182, 158));
+            TileID.Sets.NotReallySolid[Type] = true;
+            AddMapEntry(new Color(169, 229, 167));
         }
     }
 

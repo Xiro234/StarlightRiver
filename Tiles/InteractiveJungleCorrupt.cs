@@ -21,9 +21,11 @@ namespace StarlightRiver.Tiles
 
             dustType = ModContent.DustType<Dusts.Corrupt>();
             soundType = SoundID.NPCDeath13.SoundId;
-            AddMapEntry(new Color(117, 86, 106));
-
             animationFrameHeight = 16;
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Corrupt Spore");
+            AddMapEntry(new Color(117, 86, 106), name);
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
@@ -56,6 +58,10 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             soundType = 6;
             dustType = 14;
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Thorns");
+            AddMapEntry(new Color(50, 30, 120), name);
         }
 
         public override void RandomUpdate(int i, int j)

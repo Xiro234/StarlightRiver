@@ -18,7 +18,10 @@ namespace StarlightRiver.Tiles
             Main.tileLighted[Type] = true;
             Main.tileStone[Type] = true;
             drop = mod.ItemType("OreEbonyItem");
-            AddMapEntry(new Color(80, 80, 90));
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Ebony");
+            AddMapEntry(new Color(80, 80, 90), name);
         }
     }
     class OreIvory : ModTile
@@ -31,7 +34,10 @@ namespace StarlightRiver.Tiles
             Main.tileLighted[Type] = true;
             Main.tileStone[Type] = true;
             drop = mod.ItemType("OreIvoryItem");
-            AddMapEntry(new Color(245, 245, 230));
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Ivory");
+            AddMapEntry(new Color(245, 245, 230), name);
         }
     }
 }

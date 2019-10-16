@@ -21,10 +21,13 @@ namespace StarlightRiver.Tiles
 			//Main.tileLighted[Type] = true;
 			TileID.Sets.DrawsWalls[Type] = true;
 			drop = mod.ItemType("GreenhouseGlassItem");
-			AddMapEntry(new Color(100, 100, 100));
 			dustType = 13;
 			soundType = 13;
-		}
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Greenhouse Glass");
+            AddMapEntry(new Color(156, 172, 177), name);
+        }
 
         /*public override void RightClick(int i, int j)//Debug
 		{

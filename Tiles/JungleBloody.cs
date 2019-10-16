@@ -28,7 +28,7 @@ namespace StarlightRiver.Tiles
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
             drop = ItemID.MudBlock;
-            AddMapEntry(new Color (164, 69, 52));
+            AddMapEntry(new Color (143, 45, 45));
             soundType = 0;
             dustType = 125;
         }
@@ -118,6 +118,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.addTile(Type);
             soundType = 6;
             dustType = 14;
+            AddMapEntry(new Color(122, 38, 38));
         }
 
         public override void RandomUpdate(int i, int j)
@@ -164,6 +165,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.addTile(Type);
             soundType = 6;
             dustType = 14;
+            AddMapEntry(new Color(122, 38, 38));
         }
     }
 }

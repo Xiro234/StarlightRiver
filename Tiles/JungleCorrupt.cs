@@ -167,6 +167,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.addTile(Type);
             soundType = 6;
             dustType = 14;
+            AddMapEntry(new Color(64, 57, 94));
         }
 
         public override void RandomUpdate(int i, int j)
@@ -223,6 +224,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.addTile(Type);
             soundType = 6;
             dustType = 14;
+            AddMapEntry(new Color(64, 57, 94));
         }
     }
 
@@ -244,6 +246,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.addTile(Type);
             soundType = 6;
             dustType = 14;
+            AddMapEntry(new Color(64, 57, 94));
         }
     }
 

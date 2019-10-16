@@ -19,7 +19,7 @@ namespace StarlightRiver.Tiles
             Main.tileStone[Type] = true;
             drop = ModContent.ItemType<Items.Pure.StonePureItem>();
             dustType = mod.DustType("Purify");
-            AddMapEntry(new Color(255, 255, 255));
+            AddMapEntry(new Color(208, 201, 199));
         }
     }
     class StonePure2 : StonePure

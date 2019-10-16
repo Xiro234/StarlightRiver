@@ -23,7 +23,9 @@ namespace StarlightRiver.Tiles
             Main.tileLighted[Type] = true;
             Main.tileMerge[Type][mod.GetTile("Trellis").Type] = true;
             drop = mod.ItemType("Soil");
-            AddMapEntry(new Color(172, 131, 105));
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Rich Soil");
+            AddMapEntry(new Color(56, 33, 33), name);
         }
     }
 
@@ -37,7 +39,10 @@ namespace StarlightRiver.Tiles
             Main.tileLighted[Type] = true;
             Main.tileMerge[Type][mod.GetTile("Soil").Type] = true;
             drop = mod.ItemType("Soil");
-            AddMapEntry(new Color(172, 131, 105));
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Rich Soil");
+            AddMapEntry(new Color(56, 33, 33), name);
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
@@ -64,7 +69,7 @@ namespace StarlightRiver.Tiles
             
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planter");
-            AddMapEntry(new Color(196, 107, 59), name);
+            AddMapEntry(new Color(103, 92, 73), name);
             disableSmartCursor = true;
         }
 
