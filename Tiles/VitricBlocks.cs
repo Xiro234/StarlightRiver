@@ -54,7 +54,7 @@ namespace StarlightRiver.Tiles
             TileID.Sets.DrawsWalls[Type] = true;
             drop = Drop;
             minPick = Pick;
-            AddMapEntry(new Color(172, 131, 105));
+            AddMapEntry(new Color(115, 182, 158));
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
@@ -73,6 +73,11 @@ namespace StarlightRiver.Tiles
         {
 
         }
+
+        /*public override void SetDefaults()
+        {
+            AddMapEntry(new Color(115, 182, 158));
+        }*/
     }
     internal class VitricGlassCrystal : VitricTile
     {

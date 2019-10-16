@@ -8,7 +8,7 @@ namespace StarlightRiver.Projectiles
 {
     class Clentam : ModProjectile
     {
-        public Vector2 start;
+        //public Vector2 start;
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -40,7 +40,7 @@ namespace StarlightRiver.Projectiles
     }
     class Clentam2 : ModProjectile
     {
-        public Vector2 start;
+        //public Vector2 start;
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -71,7 +71,7 @@ namespace StarlightRiver.Projectiles
     }
     class Clentam3 : ModProjectile
     {
-        public Vector2 start;
+        //public Vector2 start;
         public override void SetDefaults()
         {
             projectile.width = 32;

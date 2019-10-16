@@ -66,6 +66,7 @@ namespace StarlightRiver
             Point centre = new Point(WorldGen.UndergroundDesertLocation.X + size, WorldGen.UndergroundDesertLocation.Y + 400);
             float depth = 0; //Depth of the cave
             float height = 0; //Height of cave
+            int minHeight = 0;
             for (int i = -size; i < size; ++i) //Digs out a cave, mayhaps placeholder
             {
                 int x = i + centre.X;

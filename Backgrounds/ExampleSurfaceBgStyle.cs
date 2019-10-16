@@ -39,9 +39,9 @@ namespace StarlightRiver.Backgrounds
 			return mod.GetBackgroundSlot("Backgrounds/Glass4");
 		}
 
-		static int SurfaceFrameCounter = 0;
-		static int SurfaceFrame = 0;
-		public override int ChooseMiddleTexture()
+        //static int SurfaceFrameCounter = 0; //unused
+        //static int SurfaceFrame = 0; //unused
+        public override int ChooseMiddleTexture()
 		{	
 	        return mod.GetBackgroundSlot("Backgrounds/Glass1");			
 		}
