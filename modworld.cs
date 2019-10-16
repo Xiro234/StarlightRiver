@@ -70,23 +70,29 @@ namespace StarlightRiver
             {
                 int x = i + centre.X;
 
-                if (i < -size / 2.5f)
+                if (i < -size / 2.5f) //Dig up
                 {
                     height += WorldGen.genRand.Next(10, 20) * 0.1f;
                     depth += 1f;
                 }
-                if (i > size / 2.5f)
+                if (i > size / 2.5f) //Dig back down
                 {
                     height -= WorldGen.genRand.Next(10, 20) * 0.1f;
                     depth -= 1f;
                 }
 
-                if (depth > MaxCrystalCaveDepth) 
+                if (height > minHeight)
+                    minHeight = (int)height;
+                if (depth > MaxCrystalCaveDepth)
                     MaxCrystalCaveDepth = (int)depth;
 
                 int minHei = -(int)(height / 2.5f);
-                int maxHei = (int)(depth / 2.5f) + 40;
-                for (int j = minHei; j < maxHei; ++j)
+                if (minHei < -56f) //Clamp height
+                    minHei = -56;
+                int maxHei = (int)(depth / 2.5f) + 20;
+                if (maxHei > 74) //Clamp height
+                    maxHei = 74;
+                for (int j = minHei; j < maxHei; ++j) //Place walls
                 {
                     int y = centre.Y + j;
                     Main.tile[x, y].active(false);
@@ -116,7 +122,7 @@ namespace StarlightRiver
             GenerateCrystals(centre); //I wonder what this does
             GenerateMiniCrystals(centre, 30, (int)(size * 0.7f));
 
-            vitricTopLeft = centre.ToVector2() - new Vector2(size, MaxCrystalCaveDepth);
+            vitricTopLeft = centre.ToVector2() - new Vector2(size, 100);
         }
 
         ///TODO: Add crystal stairs
@@ -135,7 +141,7 @@ namespace StarlightRiver
                     int siz = WorldGen.genRand.Next(7, 12);
                     for (int j = 0; j < siz; ++j)
                     {
-                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, mod.TileType("GlassCrystal"), true, true);
+                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, ModContent.TileType<Tiles.VitricGlassCrystal>(), true, true);
                         WorldGen.KillTile((int)plPos.X, (int)plPos.Y, false, true);
                         int wid = WorldGen.genRand.Next(1, 4);
                         for (int k = 0; k < wid; ++k)
