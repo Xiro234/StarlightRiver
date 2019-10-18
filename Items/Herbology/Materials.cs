@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StarlightRiver.Items.Vitric;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +9,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Herbology
 {
-    public class BlendForest : ModItem
+    public class BlendForest : QuickMaterial
     {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("Powdered herbs from the Forest");
-            DisplayName.SetDefault("Forest Blend");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.rare = 2;
-        }
+        public BlendForest() : base("Forest Blend", "Powdered herbs from the Forest", 999, 100, 2) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -34,21 +23,9 @@ namespace StarlightRiver.Items.Herbology
             recipe.AddRecipe();
         }
     }
-    public class BlendEvil : ModItem
+    public class BlendEvil : QuickMaterial
     {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("Powdered herbs from dark places");
-            DisplayName.SetDefault("Twisted Blend");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.rare = 2;
-        }
+        public BlendEvil() : base("Twisted Blend", "Powdered herbs from Dark Places", 999, 100, 3) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

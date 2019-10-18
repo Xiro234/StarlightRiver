@@ -3,27 +3,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-	public class GreenhouseGlassItem : ModItem
+	public class GreenhouseGlassItem : QuickTileItem
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Greenhouse Glass");
-			Tooltip.SetDefault("Speeds up the growth the plant below it"
-				+ "\nNeeds a clear area above it");
-		}
-		public override void SetDefaults()
-		{
-			item.width = 12;
-			item.height = 12;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.createTile = mod.TileType("GreenhouseGlass");
-		}
+        public GreenhouseGlassItem() : base("Greenhouse Glass", "Speeds up the growth the plant below it\nNeeds a clear area above it", ModContent.TileType<Tiles.GreenhouseGlass>(), 1) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

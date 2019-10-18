@@ -18,7 +18,7 @@ namespace StarlightRiver.Tiles
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
-            drop = mod.ItemType("Sandglass");
+            drop = ModContent.ItemType<VitricSandItem>();
             AddMapEntry(new Color(172, 131, 105));
 
             animationFrameHeight = 88;
@@ -69,7 +69,7 @@ namespace StarlightRiver.Tiles
 
     internal class VitricGlass : VitricTile
     {
-        public VitricGlass() : base(ModContent.ItemType<Items.Vitric.Sandglass2>(), 30, 50)
+        public VitricGlass() : base(ModContent.ItemType<VitricGlassItem>(), 30, 50)
         {
 
         }
@@ -77,7 +77,7 @@ namespace StarlightRiver.Tiles
 
     internal class VitricGlassCrystal : VitricTile
     {
-        public VitricGlassCrystal() : base(ModContent.ItemType<Items.Vitric.GlassCrystalItem>(), 30, 50)
+        public VitricGlassCrystal() : base(ModContent.ItemType<VitricGlassCrystalItem>(), 30, 50)
         {
 
         }
@@ -88,7 +88,7 @@ namespace StarlightRiver.Tiles
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
-            drop = ModContent.ItemType<Items.Vitric.GlassCrystalItem>();
+            drop = ModContent.ItemType<VitricGlassCrystalItem>();
             minPick = 50;
             TileID.Sets.NotReallySolid[Type] = true;
             AddMapEntry(new Color(100, 170, 170));
@@ -97,7 +97,7 @@ namespace StarlightRiver.Tiles
 
     internal class VitricBrick : VitricTile
     {
-        public VitricBrick() : base(ModContent.ItemType<Items.Vitric.VitricBrickItem>(), 60, 65)
+        public VitricBrick() : base(ModContent.ItemType<VitricBrickItem>(), 60, 65)
         {
 
         }
@@ -108,7 +108,7 @@ namespace StarlightRiver.Tiles
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
-            drop = ModContent.ItemType<Items.Vitric.VitricBrickItem>();
+            drop = ModContent.ItemType<VitricBrickItem>();
             minPick = 65;
             TileID.Sets.NotReallySolid[Type] = true;
             AddMapEntry(new Color(169, 229, 167));

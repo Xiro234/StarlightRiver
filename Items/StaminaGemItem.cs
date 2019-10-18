@@ -9,47 +9,15 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    class StaminaGemItem : ModItem
+    public class StaminaGemItem : QuickTileItem { public StaminaGemItem() : base("Stamina Gem", "Use any ability on this to gain stamina!\n5 second cooldown", ModContent.TileType<Tiles.StaminaGem>(), 8) { } }
+    public class StaminaOrbItem : QuickTileItem
     {
+        public StaminaOrbItem() : base("Stamina Orb", "Pass through this to gain stamina!\n5 second cooldown", ModContent.TileType<Tiles.StaminaOrb>(), 8) { }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Use any ability on this to gain stamina!\n5 second cooldown");
-            DisplayName.SetDefault("Stamina Gem");
-        }
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("StaminaGem");
-        }
-    }
-    class StaminaOrbItem : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("Pass through this to gain stamina!\n5 second cooldown");
-            DisplayName.SetDefault("Stamina Orb");
+            DisplayName.SetDefault(Itemname);
+            Tooltip.SetDefault(Itemtooltip);
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(3, 6));
-        }
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("StaminaOrb");
         }
     }
 }

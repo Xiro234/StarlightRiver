@@ -14,9 +14,9 @@ namespace StarlightRiver.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
-            drop = mod.ItemType("VoidDoor");
-            dustType = mod.DustType("Darkness");
-            Main.tileMerge[Type][mod.GetTile("VoidDoorOff").Type] = true;
+            drop = ModContent.ItemType<Items.VoidDoorItem>();
+            dustType = ModContent.DustType<Dusts.Void>();
+            Main.tileMerge[Type][ModContent.TileType<VoidDoorOff>()] = true;
             AddMapEntry(new Color(0, 0, 0));
 
             animationFrameHeight = 88;
@@ -42,9 +42,9 @@ namespace StarlightRiver.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = false;
-            drop = mod.ItemType("VoidDoor");
-            dustType = mod.DustType("Darkness");
-            Main.tileMerge[Type][mod.GetTile("VoidDoorOn").Type] = true;
+            drop = ModContent.ItemType<Items.VoidDoorItem>();
+            dustType = ModContent.DustType<Dusts.Void>();
+            Main.tileMerge[Type][ModContent.TileType<VoidDoorOn>()] = true;
         }
     }
 }

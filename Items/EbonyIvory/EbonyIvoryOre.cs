@@ -2,41 +2,6 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.EbonyIvory
 {
-    public class OreEbonyItem : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("Heavy and Impure");
-            DisplayName.SetDefault("Ebony Ore");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 14;
-            item.height = 14;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("OreEbony");
-        }
-    }
-    public class OreIvoryItem : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("Light and Pure");
-            DisplayName.SetDefault("Ivory Ore");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 14;
-            item.height = 14;
-            item.maxStack = 999;
-        }
-    }
+    public class OreEbonyItem : QuickTileItem { public OreEbonyItem() : base("Ebony Ore", "Heavy and Impure", ModContent.TileType<Tiles.OreEbony>(), 1) { } }
+    public class OreIvoryItem : QuickMaterial { public OreIvoryItem() : base("Ivory Ore", "Light and Pure", 999, 1000, 4) { } }
 }

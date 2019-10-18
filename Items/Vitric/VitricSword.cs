@@ -69,6 +69,16 @@ namespace StarlightRiver.Items.Vitric
             return true;
             
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FossilOre, 10);
+            recipe.AddIngredient(ModContent.ItemType<VitricGem>(), 4);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 
     public class LayerHandler : ModPlayer
