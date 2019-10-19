@@ -129,11 +129,13 @@ namespace StarlightRiver.Abilities
                     ability.Handler = this;
                     ability.ConsumeStamina();
                     ability.OnCast();
-                    if (player.wingTime > 0)
+                    
+                    if (!(ability is Pure))
                     {
-                        store = player.wingTime;
+                        store = (player.wingTimeMax > 0) ? player.wingTime : player.rocketTime;
+                        player.wingTime = 0;
+                        player.rocketTime = 0;
                     }
-                    player.wingTime = 0;
                 }
             }
         }
@@ -144,24 +146,30 @@ namespace StarlightRiver.Abilities
         }
         public override void PreUpdate()
         {
+            Main.NewText(store);
             if (ability != null && ability.Active)
             {
                 ability.InUse();
                 ability.UseEffects();
+                player.velocity.Y += 0.01f;
             }
             if (ability != null && !ability.Active)
             {
                 ability = null;
-
-                if (store > 0)
+                if (!(ability is Pure))
                 {
-                    player.wingTime = store;
+                    if (store > 0)
+                    {
+                        if (player.wingTimeMax > 0) { player.wingTime = store; }
+                        else { player.rocketTime = (int)store; }                       
+                    }
+                    else
+                    {
+                        player.wingTime = 0;
+                        player.rocketTime = 0;
+                    }
                     store = 0;
                 }
-                else if (store == 0)
-                {
-                    player.wingTime = 0;
-                }           
             }
 
             if (player.dead && ability != null)
@@ -198,6 +206,5 @@ namespace StarlightRiver.Abilities
                 }
             }
         }
-        //netcode
     }
 }

@@ -26,7 +26,7 @@ namespace StarlightRiver.Gases
             {
                 for (int y = (int)(player.Center.Y / 16) - max; y <= (int)(player.Center.Y / 16) + max; y++)
                 {
-                    ModGas gas = Gas[x, y];
+                    /*ModGas gas = Gas[x, y];
 
                     if (gas != null && gas.Strength >= 1)
                     {
@@ -41,7 +41,7 @@ namespace StarlightRiver.Gases
                         gas.Strength -= 3;
                     }
                     else if (gas != null) { Gas[gas.i, gas.j] = null; }
-                    if (gas != null) { gas.Update(); }
+                    if (gas != null) { gas.Update(); }*/
                 }
             }
                 //timer = 0;
