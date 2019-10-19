@@ -96,13 +96,14 @@ namespace StarlightRiver.Tiles
                 }                 
             }
         }
-        public override void RightClick(int i, int j)
+        public override bool NewRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
             if (player.HeldItem.type == mod.ItemType("IvySeeds") && Main.tile[i, j].frameX == 0)
             {
                 Main.tile[i, j].frameX = 18;               
             }
+            return true;
         }
 
     }

@@ -117,10 +117,11 @@ namespace StarlightRiver.Tiles
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.CookStationItem>());
         }
 
-        public override void RightClick(int i, int j)
+        public override bool NewRightClick(int i, int j)
         {
             if (Vector2.Distance(Main.LocalPlayer.Center, new Vector2(i, j) * 16) <= 64 && !Cooking.visible) { Cooking.visible = true; Main.PlaySound(SoundID.MenuOpen); }
             else { Cooking.visible = false; Main.PlaySound(SoundID.MenuClose); }
+            return true;
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
