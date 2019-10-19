@@ -129,6 +129,7 @@ namespace StarlightRiver.Abilities
                     ability.Handler = this;
                     ability.ConsumeStamina();
                     ability.OnCast();
+                    player.fallStart = (int)(player.position.Y / 16);
                     
                     if (!(ability is Pure))
                     {
@@ -146,7 +147,7 @@ namespace StarlightRiver.Abilities
         }
         public override void PreUpdate()
         {
-            Main.NewText(store);
+            Main.NewText(player.fallStart);
             if (ability != null && ability.Active)
             {
                 ability.InUse();
