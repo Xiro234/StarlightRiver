@@ -128,11 +128,11 @@ namespace StarlightRiver.Abilities
                 {
                     ability.Handler = this;
                     ability.ConsumeStamina();
-                    ability.OnCast();
-                    player.fallStart = (int)(player.position.Y / 16);
+                    ability.OnCast();                  
                     
                     if (!(ability is Pure))
                     {
+                        player.fallStart = (int)(player.position.Y / 16);
                         store = (player.wingTimeMax > 0) ? player.wingTime : player.rocketTime;
                         player.wingTime = 0;
                         player.rocketTime = 0;
@@ -147,7 +147,6 @@ namespace StarlightRiver.Abilities
         }
         public override void PreUpdate()
         {
-            Main.NewText(player.fallStart);
             if (ability != null && ability.Active)
             {
                 ability.InUse();
@@ -155,8 +154,7 @@ namespace StarlightRiver.Abilities
                 player.velocity.Y += 0.01f;
             }
             if (ability != null && !ability.Active)
-            {
-                ability = null;
+            {              
                 if (!(ability is Pure))
                 {
                     if (store > 0)
@@ -171,6 +169,7 @@ namespace StarlightRiver.Abilities
                     }
                     store = 0;
                 }
+                ability = null;
             }
 
             if (player.dead && ability != null)
