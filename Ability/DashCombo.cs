@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 namespace StarlightRiver.Abilities
 {
     [DataContract]
-    class DashCombo : Dash
+    class DashCombo : DashAstral
     {
         
 
@@ -44,6 +44,7 @@ namespace StarlightRiver.Abilities
 
                 Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(-100, 0), ModContent.DustType<FireDust2>(), Vector2.Normalize(player.velocity).RotatedBy(1) * (Main.rand.Next(-20, -5) + timer * -3), 0, default, 2 - timer * 0.2f);
                 Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(-100, 0), ModContent.DustType<FireDust2>(), Vector2.Normalize(player.velocity).RotatedBy(-1) * (Main.rand.Next(-20, -5) + timer * -3), 0, default, 2 - timer * 0.2f);
+                Dust.NewDustPerfect(player.Center + player.velocity * Main.rand.NextFloat(0, 2), ModContent.DustType<Stamina>(), player.velocity.RotatedBy((Main.rand.Next(2) == 0) ? 2.8f : 3.48f) * Main.rand.NextFloat(0, 0.25f), 0, default, 1.95f);
             }
         }
 

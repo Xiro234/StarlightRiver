@@ -8,27 +8,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Crafting
 {
-    public class Oven : ModItem
+    public class OvenItem : QuickTileItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Oven");
-            Tooltip.SetDefault("Used to bake items");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("Oven");
-        }
+        public OvenItem() : base("Oven", "Used to bake items", ModContent.TileType<Tiles.Oven>(), 0) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -40,32 +22,13 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
-    public class Oven2 : ModItem
+    public class OvenAstralItem : QuickTileItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Astral Oven");
-            Tooltip.SetDefault("Used to bake advanced items");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.rare = 2;
-            item.consumable = true;
-            item.createTile = mod.TileType("Oven2");
-        }
+        public OvenAstralItem() : base("Astral Oven", "Used to bake advanced items", ModContent.TileType<Tiles.OvenAstral>(), 0) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Oven>());
+            recipe.AddIngredient(ModContent.ItemType<OvenItem>());
             recipe.AddIngredient(ModContent.ItemType<AluminumBar>(), 15);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddTile(TileID.WorkBenches);
@@ -73,28 +36,9 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
-    public class HerbStation : ModItem
+    public class HerbStationItem : QuickTileItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Herbologist's Bench");
-            Tooltip.SetDefault("Used to refine herbs");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("HerbStation");
-            
-        }
+        public HerbStationItem() : base("Herbologist's Bench", "Used to refine herbs", ModContent.TileType<Tiles.HerbStation>(), 0) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -106,29 +50,9 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
-
-    public class CookStation : ModItem
+    public class CookStationItem : QuickTileItem
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Prep Station");
-            Tooltip.SetDefault("Right click to prepare meals");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("CookStation");
-
-        }
+        public CookStationItem() : base("Prep Station", "Right click to prepare meals", ModContent.TileType<Tiles.CookStation>(), 0) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -139,5 +63,4 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
-
 }

@@ -33,7 +33,7 @@ namespace StarlightRiver.Abilities
 
             X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
             Y = ((player.controlUp) ? -1 : 0) + ((player.controlDown) ? 1 : 0);
-            timer = 5;
+            timer = 7;
         }
 
         public override void InUse()
@@ -44,7 +44,7 @@ namespace StarlightRiver.Abilities
 
             if (X != 0 || Y != 0)
             {
-                player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 45;
+                player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 28;
             }
 
             if(Vector2.Distance(player.position, player.oldPosition) < 5 && timer < 4)
@@ -63,7 +63,7 @@ namespace StarlightRiver.Abilities
         {
             for (int k = 0; k <= 10; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Air>());
+                Dust.NewDustPerfect(player.Center + player.velocity * Main.rand.NextFloat(0, 2), ModContent.DustType<Air>(), player.velocity.RotatedBy((Main.rand.Next(2) == 0) ? 2.8f : 3.48f) * Main.rand.NextFloat(0, 0.05f), 0, default, 0.95f);
             }
         }
 

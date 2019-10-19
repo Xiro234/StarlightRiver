@@ -6,37 +6,10 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Crafting
 {
-    public class AluminumOre : ModItem
+    public class AluminumOre : QuickMaterial { public AluminumOre() : base("Astral Aluminum Chunk", "Smelt into bars at an Oven", 999, 500, 2) { } }
+    public class AluminumBar : QuickMaterial
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Astral Aluminum Chunk");
-            Tooltip.SetDefault("Smelt into bars at an Oven");
-        }
-        public override void SetDefaults()
-        {
-            item.width = 14;
-            item.height = 12;
-            item.maxStack = 999;
-            item.value = 100;
-            item.rare = 1;
-        }
-    }
-    public class AluminumBar : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Astral Aluminum Bar");
-            Tooltip.SetDefault("It shimmers with beautiful light"); 
-        }
-        public override void SetDefaults()
-        {
-            item.width = 30;
-            item.height = 24;
-            item.maxStack = 999;
-            item.value = 100;
-            item.rare = 1;
-        }
+        public AluminumBar() : base("Astral Aluminum Bar", "'Shimmering with Beautiful Light'", 999, 2000, 3) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -46,6 +19,7 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
+
     public class Starlight : ModItem
     {
         public override void SetStaticDefaults()

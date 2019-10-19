@@ -41,11 +41,11 @@ namespace StarlightRiver.Tiles
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("Oven"));
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.OvenItem>());
         }
     }
 
-    class Oven2 : ModTile
+    class OvenAstral : ModTile
     {
         public override void SetDefaults()
         {
@@ -70,7 +70,7 @@ namespace StarlightRiver.Tiles
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("Oven2"));
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.OvenAstralItem>());
         }
     }
 
@@ -92,7 +92,7 @@ namespace StarlightRiver.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("HerbStation"));
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.HerbStationItem>());
         }
     }
 
@@ -114,7 +114,7 @@ namespace StarlightRiver.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("CookStation"));
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.CookStationItem>());
         }
 
         public override void RightClick(int i, int j)

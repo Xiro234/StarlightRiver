@@ -44,7 +44,9 @@ namespace StarlightRiver.Food
 
             mp.Buffs[0] = mains.Buff; mp.Powers[0] = (int)(mains.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1));  totalfill += mains.Fill;
             if (side1 != null) { mp.Buffs[1] = side1.Buff; mp.Powers[1] = (int)(side1.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)); totalfill += side1.Fill; }
+            else { mp.Buffs[1] = 0; mp.Powers[1] = 0; }
             if (side2 != null) { mp.Buffs[2] = side2.Buff; mp.Powers[2] = (int)(side2.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)); totalfill += side2.Fill; }
+            else { mp.Buffs[2] = 0; mp.Powers[2] = 0; }
             if (seasoning != null) { totalfill += seasoning.Fill; }
 
             player.AddBuff(ModContent.BuffType<Full>(), totalfill);

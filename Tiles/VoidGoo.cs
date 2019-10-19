@@ -16,8 +16,8 @@ namespace StarlightRiver.Tiles
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = false;
-            drop = mod.ItemType("VoidGoo");
-            dustType = mod.DustType("Darkness");
+            drop = ModContent.ItemType<Items.VoidGooItem>();
+            dustType = ModContent.DustType<Dusts.Void>();
             AddMapEntry(new Color(0, 0, 0));
             
             animationFrameHeight = 88;

@@ -2,119 +2,12 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Vitric
 {
-    public class Sandglass : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("");
-            DisplayName.SetDefault("Glassy Sand");
-        }
+    public class VitricSandItem : QuickTileItem { public VitricSandItem() : base("Glassy Sand", "", ModContent.TileType<Tiles.VitricSand>(), 0) { } }
+    public class VitricGlassItem : QuickTileItem { public VitricGlassItem() : base("Fuseglass", "", ModContent.TileType<Tiles.VitricGlass>(), 0) { } }
+    public class VitricGlassCrystalItem : QuickTileItem { public VitricGlassCrystalItem() : base("Crystaline Glass", "", ModContent.TileType<Tiles.VitricGlassCrystal>(), 0) { } }
+    public class VitricBrickItem : QuickTileItem { public VitricBrickItem() : base("Vitric Brick", "", ModContent.TileType<Tiles.VitricBrick>(), 0) { } }
 
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("VitricSand");
-        }
-    }
-    public class Sandglass2 : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("");
-            DisplayName.SetDefault("Fuseglass");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("VitricGlass");
-        }
-    }
-
-    public class Glassore : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("");
-            DisplayName.SetDefault("Vitric Ore");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-        }
-    }
-
-    public class GlassCrystalItem : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("");
-            DisplayName.SetDefault("Crystaline Glass");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("VitricGlassCrystal");
-        }
-    }
-    public class VitricBrickItem : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("");
-            DisplayName.SetDefault("Vitric Brick");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = mod.TileType("VitricBrick");
-        }
-    }
-
-    public class Bounce : ModItem
+    public class Bounce : ModItem //TODO Migrate to itneractable tiles
     {
         public override void SetStaticDefaults()
         {

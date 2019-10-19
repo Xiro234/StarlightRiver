@@ -122,9 +122,10 @@ namespace StarlightRiver
         int healCD = 60;
         public override void PostUpdate()
         {
-            player.statLife = player.statLifeMax2 - 1;
+            
             if (LinkMode.Enabled)
             {
+                player.statLife = player.statLifeMax2 - 1;
                 if (LinkMode.WorldHP <= 0)
                 {
                     player.KillMe(PlayerDeathReason.ByCustomReason(player.name + " died with their teammates..."), 99999, 0);

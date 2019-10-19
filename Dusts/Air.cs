@@ -13,7 +13,7 @@ namespace StarlightRiver.Dusts
 			dust.noGravity = true;
 			dust.noLight = false;
 			dust.scale *= 1.4f;
-            dust.color.R = 170;
+            dust.color.R = 160;
             dust.color.G = 235;
             dust.color.B = 255;
         }
@@ -26,9 +26,10 @@ namespace StarlightRiver.Dusts
             dust.position.Y += dust.velocity.Y * 2;
             dust.velocity.Y += 0.01f;
 			dust.position.X += dust.velocity.X * 2;
-            dust.rotation += 0.05f;
+            dust.rotation += 0.06f;
 
-                dust.scale *= 0.97f;
+            dust.scale *= 0.97f;
+            dust.color *= 0.995f;
 
                                      
 			if (dust.scale < 0.4f)

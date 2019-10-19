@@ -8,26 +8,5 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Pure
 {
-    public class StonePureItem : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("It shines brilliantly");
-            DisplayName.SetDefault("Purestone");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.StonePure2>();
-        }
-    }
+    public class StonePureItem : QuickTileItem { public StonePureItem() : base("Purestone", "It shines brilliantly", ModContent.TileType<Tiles.StonePure2>(), 0) { } }
 }

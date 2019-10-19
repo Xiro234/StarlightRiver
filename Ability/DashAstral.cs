@@ -22,16 +22,30 @@ namespace StarlightRiver.Abilities
 
         }
 
-        public override void OnCast()
+        public override void InUse()
         {
-            Active = true;
-            Main.PlaySound(SoundID.Item45);
-            Main.PlaySound(SoundID.Item104);
+            player.maxFallSpeed = 999;
 
-            X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
-            Y = ((player.controlUp) ? -1 : 0) + ((player.controlDown) ? 1 : 0);
-            timer = 7;
+            timer--;
+
+            if (X != 0 || Y != 0)
+            {
+                player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 44;
+            }
+
+            if (Vector2.Distance(player.position, player.oldPosition) < 5 && timer < 4)
+            {
+                timer = 0;
+                player.velocity *= -0.2f;
+            }
+
+            if (timer <= 0)
+            {
+                Active = false;
+                OnExit();
+            }
         }
+
         public override void UseEffects()
         {
             if (player.velocity.Length() > 6)

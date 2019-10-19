@@ -67,7 +67,7 @@ namespace StarlightRiver.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.Sandglass>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricSandItem>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -102,7 +102,7 @@ namespace StarlightRiver.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.Sandglass>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricSandItem>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -137,7 +137,7 @@ namespace StarlightRiver.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.Sandglass>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricSandItem>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();

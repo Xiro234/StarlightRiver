@@ -8,22 +8,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Herbology
 {
-    public class Ivy : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("A common, yet versatile herb");
-            DisplayName.SetDefault("Forest Ivy");
-        }
+    public class Ivy : QuickMaterial { public Ivy() : base("Forest Ivy", "A common, yet versatile herb", 999, 100, 1) { } }
+    public class IvySeeds : QuickMaterial { public IvySeeds() : base("Forest Ivy Seeds", "Can grow in hanging planters", 99, 0, 1) { } }
 
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.rare = 2;
-        }
-    }
     public class Deathstalk : ModItem
     {
         public override void SetStaticDefaults()
@@ -45,22 +32,6 @@ namespace StarlightRiver.Items.Herbology
             item.useStyle = 1;
             item.consumable = true;
             item.createTile = mod.TileType("Deathstalk");
-        }
-    }
-    public class IvySeeds : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("Can grow in hanging planters");
-            DisplayName.SetDefault("Forest Ivy Seeds");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.maxStack = 999;
-            item.rare = 1;
         }
     }
 }
