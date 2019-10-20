@@ -2,8 +2,8 @@
   "profiles": {
     "Terraria": {
       "commandName": "Executable",
-      "executablePath": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\Terraria\\Terraria.exe",
-      "workingDirectory": "D:\\Program Files (x86)\\Steam\\steamapps\\common\\Terraria"
+      "executablePath": "D:\\Vortex\\SteamLibrary\\steamapps\\common\\Terraria\\Terraria.exe",
+      "workingDirectory": "D:\\Vortex\\SteamLibrary\\steamapps\\common\\Terraria"
     },
     "TerrariaServer": {
       "commandName": "Executable",
