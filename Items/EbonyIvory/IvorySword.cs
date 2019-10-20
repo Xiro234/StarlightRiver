@@ -30,7 +30,7 @@ namespace StarlightRiver.Items.EbonyIvory
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 aim = Vector2.Normalize(Main.MouseWorld - player.Center);
-            int proj = Projectile.NewProjectile(player.Center + aim * 5, aim * 0.1f, type, damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(player.Center + aim * 18, aim * 0.1f, type, damage, knockBack, player.whoAmI);
             Main.projectile[proj].localAI[1] = combostate;
 
             if (combostate < 2) { Main.PlaySound(SoundID.Item65, player.Center); }

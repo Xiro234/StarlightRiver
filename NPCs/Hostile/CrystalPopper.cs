@@ -13,18 +13,18 @@ namespace StarlightRiver.NPCs.Hostile
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandbat");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 6;
         }
         public override void SetDefaults()
         {
-            npc.width = 32;
+            npc.width = 50;
+            npc.height = 42;
             npc.knockBackResist = 0f;
-            npc.height = 32;
             npc.lifeMax = 80;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.damage = 10;
-            npc.aiStyle = -1;
+            npc.aiStyle = -1;           
         }
 
         public override bool CheckDead()
@@ -77,28 +77,38 @@ namespace StarlightRiver.NPCs.Hostile
 
             if(npc.ai[0] == 2)
             {
-
+                npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 2.5f;
+                npc.spriteDirection = (Main.player[npc.target].Center.X - npc.Center.X < 0) ? -1 : 1;
             }
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 1f : 0f;
+            return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 0.75f : 0f;
         }
+        /*public override int SpawnNPC(int tileX, int tileY)
+        {
+            return NPC.NewNPC(tileX, tileY + 1, ModContent.NPCType<CrystalPopper>());
+        }*/
 
         public int Framecounter = 0;
         public int Gameframecounter = 0;
         public override void FindFrame(int frameHeight)
         {
-            if (Gameframecounter++ == 6)
+            if (Gameframecounter++ == 4)
             {
                 Framecounter++;
                 Gameframecounter = 0;
             }
-            npc.frame.Y = 36 * Framecounter;
-            if (Framecounter >= 3)
+            npc.frame.Y = 42 * Framecounter;
+            if (Framecounter >= 5)
             {
                 Framecounter = 0;
+            }
+            switch(npc.ai[0])
+            {
+                case 0: npc.frame.Y = npc.height * 5; break;
+                case 1: npc.frame.Y = npc.height * 0; break;
             }
         }
     }

@@ -25,7 +25,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.damage = 15;
             npc.defense = 15;
             npc.lifeMax = 90;
-            npc.knockBackResist = 0.2f;
+            npc.knockBackResist = 0.6f;
 
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -61,7 +61,8 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void AI()
         {
-            void SpawnDust(float speed)
+            npc.velocity *= 0.94f;
+            void SpawnDust(float speed)           
             {
                 Vector2 dustPos = npc.Center + Main.rand.NextVector2CircularEdge(120, 120);
                 Dust.NewDustPerfect(dustPos, mod.DustType("Air"), 
@@ -124,6 +125,12 @@ namespace StarlightRiver.NPCs.Hostile
                 }
             }
         }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 0.4f : 0f;
+        }
+
         public override void FindFrame(int frameHeight) => npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
 
     }

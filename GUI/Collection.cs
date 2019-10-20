@@ -210,7 +210,7 @@ namespace StarlightRiver.GUI
 
             if(Main.expertMode && visible)
             {
-                BootlegDust dus = new BootlegDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(78, 318) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
+                BootlegDust dus = new ExpertDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(78, 318) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
                 Bootlegdust.Add(dus);
             }
         }
@@ -284,6 +284,17 @@ namespace StarlightRiver.GUI
         }
 
         public virtual void Update()
+        {
+        }
+    }
+
+    public class ExpertDust : BootlegDust
+    {
+        public ExpertDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int timeleft) : base(texture, position, velocity, color, scale, timeleft)
+        {
+
+        }
+        public override void Update()
         {
             pos += vel;
             col.G -= 4;

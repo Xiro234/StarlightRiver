@@ -98,20 +98,6 @@ namespace StarlightRiver.Tiles
                     Main.tile[i, j - 2].frameY = (short)(18 + rand * 36);
                 }
             }
-
-            int x2 = Main.rand.Next(-1, 1); //thorns 
-            int y2 = Main.rand.Next(-1, 1);
-            if (!Main.tile[i + x2, j + y2].active())
-            {
-                if (Main.rand.Next(6) == 0)
-                {
-                    WorldGen.PlaceTile(i + x2, j + y2, ModContent.TileType<ThornJungleCorrupt>(), true);
-                }
-            }
-
-
-
-
         }
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
@@ -262,6 +248,16 @@ namespace StarlightRiver.Tiles
 
         public override void RandomUpdate(int i, int j)
         {
+            for(int x = i - 4; x <= i+4; x++)
+            {
+                for (int y = j - 4; y <= j + 4; y++)
+                {
+                    if (Main.tile[x, y].active())
+                    {
+                        return;
+                    }
+                }
+            }
             if (!Main.tile[i, j].active())
             {
                 if (Main.rand.Next(30) == 0)

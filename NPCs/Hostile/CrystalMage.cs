@@ -72,5 +72,10 @@ namespace StarlightRiver.NPCs.Hostile
 
             npc.localAI[2] = 0;
         }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 0.4f : 0f;
+        }
     }
 }

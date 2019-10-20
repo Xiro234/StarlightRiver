@@ -11,8 +11,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void SetDefaults()
         {
             projectile.friendly = true;
-            projectile.width = 68;
-            projectile.height = 64;
+            projectile.width = 200;
+            projectile.height = 189;
             projectile.penetrate = -1;
             projectile.timeLeft = 14;
             projectile.tileCollide = false;
@@ -39,7 +39,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.damage = 0;
             }
 
-            if(projectile.timeLeft <= 12)
+            if(projectile.timeLeft <= 8)
             {
                 projectile.localAI[0] = 1;
             }

@@ -41,7 +41,7 @@ namespace StarlightRiver
             int DesertIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
             if (ShiniesIndex != -1)
             {
-                tasks.Insert(DesertIndex + 1, new PassLegacy("Vitrifying Desert", GenerateCrystalCaverns));
+                tasks.Insert(DesertIndex + 1, new PassLegacy("Starlight River Vitric Desert", GenerateCrystalCaverns));
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
                 //tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
 
@@ -61,7 +61,7 @@ namespace StarlightRiver
         /// <param name="centre">The top centre point of the cavern.</param>
         private void GenerateCrystalCaverns(GenerationProgress progress)
         {
-            progress.Message = "Vitrifying Desert";
+            progress.Message = "Vitrifying Desert...";
             int size = (int)(Main.maxTilesX / 26f); //Width of the cavern; value shown here is half the size. So, functional size is actually size * 2.
             Point centre = new Point(WorldGen.UndergroundDesertLocation.X + size, WorldGen.UndergroundDesertLocation.Y + 400);
             float depth = 0; //Depth of the cave
@@ -163,10 +163,10 @@ namespace StarlightRiver
                 for (int j = sHei; j < 10 + WorldGen.genRand.Next(12, 19); ++j)
                 {
                     int off = (int)(i / 5f) * ((i >= 0) ? -1 : 1);
-                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)mod.TileType("GlassCrystal"))
+                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)ModContent.TileType<Tiles.VitricSand>())
                         continue;
                     WorldGen.KillTile(midPoint.X + i, (midPoint.Y + j) + off, true, false, true);
-                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, mod.TileType("SandGlass"), true, true, -1, 0);
+                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, ModContent.TileType<Tiles.VitricSand>(), true, true, -1, 0);
                 }
             }
         }
@@ -286,7 +286,7 @@ namespace StarlightRiver
 
                 if (Main.tile[x, y].type == TileID.Dirt  && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6)
                 {
-                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(10, 11), 1, mod.TileType("OreEbony"), false, 0f, 0f, false, true);
+                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(10, 11), 1, ModContent.TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
                 }
             }
         }

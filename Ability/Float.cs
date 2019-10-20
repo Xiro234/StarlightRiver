@@ -38,9 +38,9 @@ namespace StarlightRiver.Abilities
 
         public override void InUse()
         {
-            Player player = Handler.player;           
+            Player player = Handler.player;          
             timer--;
-            player.AddBuff(BuffID.Cursed, 2, true);
+            player.noItems = true;
             player.maxFallSpeed = 999;
             player.gravity = 0;
             player.velocity = Vector2.Normalize(new Vector2

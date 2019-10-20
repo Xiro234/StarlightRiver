@@ -178,14 +178,14 @@ namespace StarlightRiver
 
                 for (int i = -2 + (int)(player.position.X - Main.screenWidth / 2) / 16; i <= 2 + (int)(player.position.X + Main.screenWidth / 2) / 16; i++)
                 {
-                    for (int j = -2 + (int)(player.position.Y - Main.screenWidth / 2) / 16; j <= 2 + (int)(player.position.Y + Main.screenWidth / 2) / 16; j++)
+                    for (int j = -2 + (int)(player.position.Y - Main.screenHeight) / 16; j <= 2 + (int)(player.position.Y + Main.screenHeight) / 16; j++)
                     {
-                        if ((Main.tile[i, j].active() && Main.tile[i, j].collisionType == 1) || Main.tile[i, j].wall != 0)
+                        if (Lighting.Brightness(i,j) == 0 || ((Main.tile[i, j].active() && Main.tile[i, j].collisionType == 1) || Main.tile[i, j].wall != 0))
                         {
                             Color color = Color.Black * (1 - Lighting.Brightness(i, j) * 2);
                             Main.spriteBatch.Draw(Main.blackTileTexture, new Vector2(i * 16, j * 16) - Main.screenPosition, color);
                         }
-                        else if (i % 5 == 0 && j % 5 == 0 && Main.tile[i, j].wall == 0)
+                        else if (i % 4 == 0 && j % 4 == 0 && Main.tile[i,j].wall == 0)
                         {
                             Lighting.AddLight(new Vector2(i * 16, j * 16), new Vector3(0.3f, 0.35f, 0.4f) * 2.1f);
                         }
@@ -193,6 +193,7 @@ namespace StarlightRiver
                 }
             }           
         }
+
         public void drawLayer(Vector2 basepoint, Texture2D texture, int parallax)
         {
             for (int k = 0; k <= 10; k++)

@@ -25,7 +25,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 10f;
-            npc.knockBackResist = 0.2f;
+            npc.knockBackResist = 0.6f;
             npc.aiStyle = 1;   
         }
         public override Color? GetAlpha(Color drawColor)
@@ -46,7 +46,7 @@ namespace StarlightRiver.NPCs.Hostile
                     shielded = false;
                     npc.velocity += player.velocity * 0.5f;
                     player.GetModPlayer<AbilityHandler>().ability.Active = false;
-                    player.velocity *= -0.2f;
+                    player.velocity *= (player.velocity.X == 0) ? -0.4f : -0.2f;
                     player.immune = true;
                     player.immuneTime = 10;
 
@@ -75,6 +75,11 @@ namespace StarlightRiver.NPCs.Hostile
                 target.immune = true;
                 target.immuneTime = 5;
             }
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 1f : 0f;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

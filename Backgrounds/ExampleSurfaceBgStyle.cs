@@ -3,11 +3,11 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Backgrounds
 {
-	public class ExampleSurfaceBgStyle : ModSurfaceBgStyle
+	public class JungleCorruptBgStyle : ModSurfaceBgStyle
 	{
 		public override bool ChooseBgStyle()
 		{
-			return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass;
+			return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
 		}
 
 		// Use this to keep far Backgrounds like the mountains.
@@ -36,19 +36,19 @@ namespace StarlightRiver.Backgrounds
 
 		public override int ChooseFarTexture()
 		{
-			return mod.GetBackgroundSlot("Backgrounds/Glass4");
+			return mod.GetBackgroundSlot("Backgrounds/CorruptJungleSurface1");
 		}
 
         //static int SurfaceFrameCounter = 0; //unused
         //static int SurfaceFrame = 0; //unused
         public override int ChooseMiddleTexture()
 		{	
-	        return mod.GetBackgroundSlot("Backgrounds/Glass1");			
+	        return mod.GetBackgroundSlot("Backgrounds/CorruptJungleSurface3");			
 		}
 
 		public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
 		{
-			return mod.GetBackgroundSlot("Backgrounds/Glass0");
+			return mod.GetBackgroundSlot("Backgrounds/CorruptJungleSurface2");
 		}
 	}
 }

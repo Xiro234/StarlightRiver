@@ -16,7 +16,7 @@ namespace StarlightRiver.Projectiles.Ammo
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 270;
+            projectile.timeLeft = 450;
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
             projectile.extraUpdates = 3;
