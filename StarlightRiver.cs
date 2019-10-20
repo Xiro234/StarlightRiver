@@ -451,7 +451,12 @@ namespace StarlightRiver
                 BlessedAccessory.Bootlegdust2.Clear();
                 Collection.Bootlegdust.Clear();
                 Overlay.Bootlegdust.Clear();
-
+                Instance = null;
+                Dash = null;
+                Superdash = null;
+                Float = null;
+                Smash = null;
+                Purify = null;
             }
         }
 
