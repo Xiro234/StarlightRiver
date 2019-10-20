@@ -444,6 +444,19 @@ namespace StarlightRiver
                 infusion = null;
                 cooking = null;
                 linkhp = null;
+                VitricBackgroundDust.Clear();
+                VitricForegroundDust.Clear();
+                CursedAccessory.Bootlegdust.Clear();
+                BlessedAccessory.Bootlegdust.Clear();
+                BlessedAccessory.Bootlegdust2.Clear();
+                Collection.Bootlegdust.Clear();
+                Overlay.Bootlegdust.Clear();
+                Instance = null;
+                Dash = null;
+                Superdash = null;
+                Float = null;
+                Smash = null;
+                Purify = null;
             }
         }
 
