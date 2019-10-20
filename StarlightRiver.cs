@@ -147,7 +147,7 @@ namespace StarlightRiver
 
             if (Main.playerLoaded && player.GetModPlayer<BiomeHandler>().ZoneGlass)
             {
-                Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1500) : Vector2.Zero;
+                Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1000) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)
                 {
                     drawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
@@ -165,13 +165,13 @@ namespace StarlightRiver
                 {
                     if (Main.rand.Next(500) == 0)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 700), k, 1.5f, 0.3f, 0.1f);
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 1000), k, 1.5f, 0.3f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
                     if (Main.rand.Next(400) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 700), k, 2.25f, 1f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 1000), k, 2.25f, 1f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }
@@ -196,11 +196,11 @@ namespace StarlightRiver
 
         public void drawLayer(Vector2 basepoint, Texture2D texture, int parallax)
         {
-            for (int k = 0; k <= 10; k++)
+            for (int k = 0; k <= 5; k++)
             {
                 Main.spriteBatch.Draw(texture,
-                    new Vector2(basepoint.X + (k * 739 * 2) + getParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, basepoint.Y - (int)Main.screenPosition.Y),
-                    new Rectangle(0, 0, 1478, 1024), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                    new Vector2(basepoint.X + (k * 739 * 4) + getParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, basepoint.Y - (int)Main.screenPosition.Y),
+                    new Rectangle(0, 0, 2956, 1528), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             }
         }
 

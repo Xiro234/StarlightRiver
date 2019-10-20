@@ -120,5 +120,9 @@ namespace StarlightRiver.NPCs.Passive
                 Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-10, 10) * 0.1f, Main.rand.Next(-10, 10) * 0.1f));
             }
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 3f : 0f;
+        }
     }
 }

@@ -19,12 +19,15 @@ namespace StarlightRiver.NPCs.Hostile
         {
             npc.width = 50;
             npc.height = 42;
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.8f;
             npc.lifeMax = 80;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.damage = 10;
-            npc.aiStyle = -1;           
+            npc.aiStyle = -1;
+
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath4;
         }
 
         public override bool CheckDead()
@@ -70,14 +73,17 @@ namespace StarlightRiver.NPCs.Hostile
                     npc.ai[0] = 2;
                     for (int k = -1; k <= 1; k++)
                     {
-                        Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center - npc.Center).RotatedBy(k * 0.5f) * 2, 2, 10, 0);
+                        Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center - npc.Center).RotatedBy(k * 0.5f) * 6, ModContent.ProjectileType<Projectiles.GlassSpike>(), 10, 0);
                     }
+                    npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * -5.5f;
                 }
             }
 
             if(npc.ai[0] == 2)
             {
-                npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 2.5f;
+                npc.velocity += Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 0.08f;
+                if (npc.velocity.Length() > 5.5f && ((npc.velocity - npc.oldVelocity).ToRotation() == (Main.player[npc.target].Center - npc.Center).ToRotation()))
+                { npc.velocity = Vector2.Normalize(npc.velocity) * 5.5f; }
                 npc.spriteDirection = (Main.player[npc.target].Center.X - npc.Center.X < 0) ? -1 : 1;
             }
         }
@@ -90,6 +96,12 @@ namespace StarlightRiver.NPCs.Hostile
         {
             return NPC.NewNPC(tileX, tileY + 1, ModContent.NPCType<CrystalPopper>());
         }*/
+
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextFloat() < 0.50f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(1, 3)); }
+            if (Main.rand.NextFloat() < 0.80f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricSandItem>(), Main.rand.Next(10, 12)); }
+        }
 
         public int Framecounter = 0;
         public int Gameframecounter = 0;

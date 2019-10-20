@@ -22,7 +22,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.damage = 10;
             npc.defense = 5;
             npc.lifeMax = 25;
-            npc.HitSound = SoundID.NPCHit1;
+            npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 10f;
             npc.knockBackResist = 0.6f;
@@ -61,10 +61,12 @@ namespace StarlightRiver.NPCs.Hostile
             if(shielded)
             {
                 npc.immortal = true;
+                npc.HitSound = SoundID.NPCHit42;
             }
             else
             {
                 npc.immortal = false;
+                npc.HitSound = SoundID.NPCHit1;
             }
         }
 
@@ -79,7 +81,13 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 1f : 0f;
+            return (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 1f : 0f;
+        }
+
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextFloat() < 0.50f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(4, 5)); }
+            Item.NewItem(npc.getRect(), ItemID.Gel, Main.rand.Next(5, 6)); 
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

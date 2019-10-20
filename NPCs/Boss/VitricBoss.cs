@@ -195,7 +195,7 @@ namespace StarlightRiver.NPCs.Boss
                                 {
                                     foreach (Vector2 spawn in spawns)
                                     {
-                                        Projectile.NewProjectile(spawn, new Vector2(0, Main.rand.Next(6,12)), 2/*mod.ProjectileType("Crystal1")*/, 20, 0f);
+                                        Projectile.NewProjectile(spawn, new Vector2(0, Main.rand.Next(6,12)), ModContent.ProjectileType<Projectiles.GlassSpike>(), 20, 0f);
                                     }
                                     spawns = new Vector2[6];
                                     npc.localAI[3] = 0;
