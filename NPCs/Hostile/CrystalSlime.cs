@@ -38,14 +38,15 @@ namespace StarlightRiver.NPCs.Hostile
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
+            if (AbilityHelper.CheckDash(player, npc.Hitbox))
             {
                 if (shielded)
                 {
                     shielded = false;
                     npc.velocity += player.velocity * 0.5f;
-                    player.GetModPlayer<AbilityHandler>().ability.Active = false;
+                    mp.dash.Active = false;
                     player.velocity *= (player.velocity.X == 0) ? -0.4f : -0.2f;
                     player.immune = true;
                     player.immuneTime = 10;
@@ -72,7 +73,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
-            if(target.GetModPlayer<AbilityHandler>().ability is Dash && target.GetModPlayer<AbilityHandler>().ability.Active)
+            if (AbilityHelper.CheckDash(target, npc.Hitbox))
             {
                 target.immune = true;
                 target.immuneTime = 5;

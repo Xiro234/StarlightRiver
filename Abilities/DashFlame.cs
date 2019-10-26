@@ -16,7 +16,7 @@ namespace StarlightRiver.Abilities
     {
         
 
-        public DashFlame() : base()
+        public DashFlame(Player player) : base(player)
         {
 
         }
@@ -32,7 +32,7 @@ namespace StarlightRiver.Abilities
 
             X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
             Y = ((player.controlUp) ? -1 : 0) + ((player.controlDown) ? 1 : 0);
-            timer = 7;
+            Timer = 7;
         }
 
         public override void UseEffects()

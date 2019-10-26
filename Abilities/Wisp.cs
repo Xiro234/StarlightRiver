@@ -13,21 +13,18 @@ using Terraria.ModLoader;
 namespace StarlightRiver.Abilities
 {
     [DataContract]
-    class Float : Ability
-    {
-        
-        [DataMember] public int timer = 0;
+    class Wisp : Ability
+    {        
         [DataMember] bool exit = false;
-        public Float() : base(1)
+        public Wisp(Player player) : base(1, player)
         {
 
         }
 
         public override void OnCast()
         {
-            Player player = Handler.player;
             Active = true;
-            timer = Handler.stamina * 60;
+            Timer = player.GetModPlayer<AbilityHandler>().StatStamina * 60;
 
             for (int k = 0; k <= 50; k++)
             {
@@ -37,9 +34,8 @@ namespace StarlightRiver.Abilities
         }
 
         public override void InUse()
-        {
-            Player player = Handler.player;          
-            timer--;
+        {        
+            Timer--;
             player.noItems = true;
             player.maxFallSpeed = 999;
             player.gravity = 0;
@@ -55,24 +51,24 @@ namespace StarlightRiver.Abilities
 
 
         
-            if ((timer % 60 == 0 && timer > 0) || timer == 1)
+            if ((Timer % 60 == 0 && Timer > 0) || Timer == 1)
             {
-                Handler.stamina--;
+                player.GetModPlayer<AbilityHandler>().StatStamina--;
             }
 
-            if (StarlightRiver.Float.JustReleased)
+            if (StarlightRiver.Wisp.JustReleased)
             {
                 exit = true;
             }
 
-            if (exit || Handler.stamina < 1)
+            if (exit || player.GetModPlayer<AbilityHandler>().StatStamina < 1)
             {             
                 OnExit();
             }
         }
         public override void UseEffects()
         {
-            if (timer > -1)
+            if (Timer > -1)
             {
                 for (int k = 0; k <= 2; k++)
                 {
@@ -90,10 +86,9 @@ namespace StarlightRiver.Abilities
 
         public override void OnExit()
         {
-            Player player = Handler.player;
-            if (testExit())
+            if (TestExit())
             {
-                timer = 0;
+                Timer = 0;
                 exit = false;
                 player.velocity.X = 0;
                 player.velocity.Y = 0;
@@ -104,18 +99,18 @@ namespace StarlightRiver.Abilities
                 }
                 Active = false;
             }
-            else if (timer < 0)
+            else if (Timer < 0)
             {
                 player.statLife -= 2;
                 if(player.statLife <= 0)
                 {
                     player.KillMe(Terraria.DataStructures.PlayerDeathReason.ByCustomReason(player.name + " couldn't maintain their form"), 0, 0);
                 }
-                if (timer % 10 == 0) { Main.PlaySound(SoundID.PlayerHit, player.Center); }
+                if (Timer % 10 == 0) { Main.PlaySound(SoundID.PlayerHit, player.Center); }
             }
         }
 
-        public bool testExit()
+        public bool TestExit()
         {
             int cleartiles = 0;
             for (int x2 = (int)(player.position.X / 16); x2 <= (int)(player.position.X / 16) + 1; x2++)

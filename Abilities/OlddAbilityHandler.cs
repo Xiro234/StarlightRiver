@@ -1,4 +1,4 @@
-﻿using Terraria.Audio;
+﻿/*using Terraria.Audio;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,11 +34,15 @@ namespace StarlightRiver.Abilities
         public Ability ability { get; set; }
         public bool infiniteStamina = false;
         public bool HasSecondSlot = false;
-        public int staminamax = 3;
+        public int staminamax = 0;
         public int permanentstamina = 0;
-        public int stamina = 3;
+        public int stamina = 1;
         int staminaticker = 0;
-        public int staminaTickerMax = 180;
+        public int staminaTickerMax = 210;
+
+        public int cooldownDash = 0;
+        public int cooldownPure = 0;
+        public int cooldownShadow = 0;
 
         public float store;
         public override void clientClone(ModPlayer clientClone)
@@ -54,20 +58,7 @@ namespace StarlightRiver.Abilities
 
         public override void SendClientChanges(ModPlayer clientPlayer)
         {
-            /*AbilityHandler clone = clientPlayer as AbilityHandler;
-            if (clone.ability != ability && ability != null)
-            {
-                var packet = mod.GetPacket();
-                var ser = new DataContractJsonSerializer(typeof(Ability));
-                var ms = new MemoryStream();
 
-                ser.WriteObject(ms, ability);
-                byte[] json = ms.ToArray();
-                ms.Close();
-
-                packet.Write(json);
-                packet.Send();
-            }*/
         }
         public override TagCompound Save()
         {
@@ -105,9 +96,9 @@ namespace StarlightRiver.Abilities
                     if (upgrade[0] == 2 || upgrade[1] == 2) { ability = new DashFlame(); }
                     if ((upgrade[0] == 2 || upgrade[1] == 2) && (upgrade[0] == 1 || upgrade[1] == 1)) { ability = new DashCombo(); }
                 }
-                if (StarlightRiver.Float.JustPressed && unlock[1] == 1)
+                if (StarlightRiver.Wisp.JustPressed && unlock[1] == 1)
                 {
-                    ability = new Float();
+                    ability = new Wisp();
                 }
                 if (StarlightRiver.Purify.JustPressed && unlock[2] == 1)
                 {
@@ -142,8 +133,8 @@ namespace StarlightRiver.Abilities
         }
         public override void ResetEffects()
         {
-            staminamax = 3;
-            staminaTickerMax = 180;
+            staminamax = 1;
+            staminaTickerMax = 210;
         }
         public override void PreUpdate()
         {
@@ -178,12 +169,13 @@ namespace StarlightRiver.Abilities
                 ability = null;
             }
 
+            //Stamina
             if (infiniteStamina)
             {
                 stamina = (staminamax + permanentstamina);
                 return;
             }
-            if (staminaticker++ >= staminaTickerMax && stamina < (staminamax + permanentstamina) && !(ability is Float && ability.Active) && staminaTickerMax > 0 )
+            if (staminaticker++ >= staminaTickerMax && stamina < (staminamax + permanentstamina) && !(ability is Wisp && ability.Active) && staminaTickerMax > 0 )
             {
                 stamina++;
             }
@@ -195,10 +187,14 @@ namespace StarlightRiver.Abilities
             {
                 stamina = staminamax + permanentstamina;
             }
+
+            //Cooldowns
+
+
         }
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            if((ability is Float || ability is Superdash) && ability.Active)
+            if((ability is Wisp || ability is Superdash) && ability.Active)
             {
                 foreach(PlayerLayer layer in layers)
                 {
@@ -207,4 +203,4 @@ namespace StarlightRiver.Abilities
             }
         }
     }
-}
+}*/

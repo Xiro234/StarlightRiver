@@ -26,7 +26,8 @@ namespace StarlightRiver.Tiles
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Player player = Main.LocalPlayer;
-            if (player.GetModPlayer<AbilityHandler>().ability is Superdash && player.GetModPlayer<AbilityHandler>().ability.Active)
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            if (mp.sdash.Active)
             {
                 Main.tile[i, j].inActive(true);
             }

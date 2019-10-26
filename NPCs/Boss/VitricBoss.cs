@@ -434,12 +434,13 @@ namespace StarlightRiver.NPCs.Boss
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
+            if (AbilityHelper.CheckDash(player, npc.Hitbox))
             {
                 player.velocity *= -1.25f;
-                player.GetModPlayer<AbilityHandler>().ability.Active = false;
-                player.GetModPlayer<AbilityHandler>().ability.OnExit();
+                mp.dash.Active = false;
+                mp.dash.OnExit();
                 Helper.Kill(npc);
 
                 for (int k = 0; k <= 20; k++)
@@ -485,9 +486,10 @@ namespace StarlightRiver.NPCs.Boss
             projectile.timeLeft = 2;
             projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
             projectile.velocity *= 1.004f;
-            Player player = Main.LocalPlayer;
+            Player player = Main.LocalPlayer; //TODO change to nearest pplayer
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (projectile.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
+            if (AbilityHelper.CheckDash(player, projectile.Hitbox))
             {
                 projectile.timeLeft = 0;
                 for (int k = 0; k <= 20; k++)

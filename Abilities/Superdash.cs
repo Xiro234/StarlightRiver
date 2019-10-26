@@ -19,14 +19,13 @@ namespace StarlightRiver.Abilities
         [DataMember] float timer = 0;
         [DataMember] Vector2 objective;
         [DataMember] Vector2 start;
-        public Superdash() : base(3)
+        public Superdash(Player player) : base(3, player)
         {
 
         }
 
         public override void OnCast()
         {
-            Player player = Handler.player;
             Active = true;
             timer = 4;
             Main.PlaySound(SoundID.Item8);
@@ -46,7 +45,6 @@ namespace StarlightRiver.Abilities
 
         public override void InUse()
         {
-            Player player = Handler.player;
             if (timer >= 1 && !(Vector2.Distance(player.position, start) >= objective.Length() || ((player.position - player.oldPosition).Length() < 14) && timer <= 3)) // superdash action
             {
                 player.maxFallSpeed = 999;
@@ -92,7 +90,6 @@ namespace StarlightRiver.Abilities
 
         public override void OnExit()
         {
-            Player player = Handler.player;
             player.velocity.X = 0;
             player.velocity.Y = 0;
             player.immune = false;

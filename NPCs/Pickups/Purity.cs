@@ -35,14 +35,15 @@ namespace StarlightRiver.NPCs.Pickups
             Player player = Main.player[npc.target];
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.unlock[2] == 0 && animate == 0)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.pure.Locked && animate == 0)
             {               
                 animate = 500;
             }
 
             if (animate == 100)
             {
-                mp.unlock[2] = 1;
+                mp.pure.Locked = false;
+                mp.StatStaminaMaxPerm += 1;
                 for (float k = 3.48f; k >= -0.4f; k -= 0.1f)
                 {
                     Dust.NewDustPerfect(player.Center + new Vector2((float)Math.Cos(k) * 32, (float)Math.Sin(k) * 16 - 55), mod.DustType("Purify2"), new Vector2(0, -2), 0, default, 3f);
@@ -128,12 +129,12 @@ namespace StarlightRiver.NPCs.Pickups
                 timer = 0;
             }
 
-            if (mp.unlock[2] == 0 && animate == 0)
+            if (mp.pure.Locked && animate == 0)
             {
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
                 Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Purify"));
             }
-            if (mp.unlock[2] == 1 && animate == 0)
+            if (!mp.pure.Locked && animate == 0)
             {
                 spriteBatch.DrawString(Main.fontItemStack, "N: Purify Area", npc.position - Main.screenPosition + new Vector2(-38, -32), Color.White);
             }

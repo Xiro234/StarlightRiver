@@ -130,7 +130,7 @@ namespace StarlightRiver.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<AbilityHandler>().staminaTickerMax -= 20;
+            player.GetModPlayer<AbilityHandler>().StatStaminaRegenMax -= 20;
         }
 
         public override void AddRecipes()

@@ -31,7 +31,7 @@ namespace StarlightRiver.Tiles
             AddMapEntry(new Color(50, 50, 50));
         }
 
-        public override void NearbyEffects(int i, int j, bool closer)
+        /*public override void NearbyEffects(int i, int j, bool closer)
         {
             if (Main.tile[i,j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
@@ -54,7 +54,7 @@ namespace StarlightRiver.Tiles
                     Main.tileSolid[Type] = true;
                 }
             }
-        }
+        }*/
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)

@@ -17,7 +17,7 @@ namespace StarlightRiver.Abilities
     class Pure : Ability
     {
         
-        public Pure() : base(4)
+        public Pure(Player player) : base(4, player)
         {
 
         }
@@ -30,8 +30,6 @@ namespace StarlightRiver.Abilities
 
         public override void InUse()
         {
-            Player player = Handler.player;
-
             for (float k = 0; k <= (float) Math.PI * 2; k += (float) Math.PI / 40)
             {
                 int proj = Projectile.NewProjectile(player.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 5, ModContent.ProjectileType<Purifier>(),0,0, player.whoAmI);

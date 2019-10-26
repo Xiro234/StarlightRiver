@@ -40,7 +40,7 @@ namespace StarlightRiver
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
         public static ModHotKey Smash;
-        public static ModHotKey Float;
+        public static ModHotKey Wisp;
         public static ModHotKey Purify;
 
         public static StarlightRiver Instance { get; set; }
@@ -96,7 +96,7 @@ namespace StarlightRiver
             Dash = RegisterHotKey("Dash", "LeftShift");
             Superdash = RegisterHotKey("Void Dash", "Q");
             Smash = RegisterHotKey("Smash", "Z");
-            Float = RegisterHotKey("Float", "F");
+            Wisp = RegisterHotKey("Float", "F");
             Purify = RegisterHotKey("Purify", "N");
 
             if (!Main.dedServ)
@@ -121,6 +121,10 @@ namespace StarlightRiver
                 customResources5.SetState(cooking);
                 customResources6.SetState(linkhp);
             }
+
+            //Achievements
+
+
             // Cursed Accessory Control Override
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
             On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
@@ -130,11 +134,11 @@ namespace StarlightRiver
             //Link mode healthbar
             On.Terraria.Main.DrawInterface_Resources_Life += LinkModeHealth;
             //Vitrick background
-            On.Terraria.Main.DrawBackgroundBlackFill += drawVitricBackground;
+            On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
         }
         internal static readonly List<BootlegDust> VitricBackgroundDust = new List<BootlegDust>();
         internal static readonly List<BootlegDust> VitricForegroundDust = new List<BootlegDust>();
-        private void drawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Terraria.Main self)
+        private void DrawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Terraria.Main self)
         {
             orig(self);
             Player player = Main.LocalPlayer;
@@ -150,7 +154,7 @@ namespace StarlightRiver
                 Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1000) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)
                 {
-                    drawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
+                    DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
                     if (k == 5)
                     {
                         VitricBackgroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch));
@@ -194,17 +198,17 @@ namespace StarlightRiver
             }           
         }
 
-        public void drawLayer(Vector2 basepoint, Texture2D texture, int parallax)
+        public void DrawLayer(Vector2 basepoint, Texture2D texture, int parallax)
         {
             for (int k = 0; k <= 5; k++)
             {
                 Main.spriteBatch.Draw(texture,
-                    new Vector2(basepoint.X + (k * 739 * 4) + getParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, basepoint.Y - (int)Main.screenPosition.Y),
+                    new Vector2(basepoint.X + (k * 739 * 4) + GetParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, basepoint.Y - (int)Main.screenPosition.Y),
                     new Rectangle(0, 0, 2956, 1528), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             }
         }
 
-        public int getParallaxOffset(float startpoint, float factor)
+        public int GetParallaxOffset(float startpoint, float factor)
         {
             return (int)((Main.LocalPlayer.position.X - startpoint) * factor);
         }
@@ -238,18 +242,21 @@ namespace StarlightRiver
             Player player = (Player)playerInfo2.GetValue(character);
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            playerStamina = mp.staminamax + mp.permanentstamina;
+            if (mp == null) { return; }
+
+            playerStamina = mp.StatStaminaMax;
 
 
-            Texture2D wind = mp.unlock[0] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind0");
-            Texture2D wisp = mp.unlock[1] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp0");
-            Texture2D pure = mp.unlock[2] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity0");
-            Texture2D smash = mp.unlock[3] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash0");
-            Texture2D shadow = mp.unlock[4] == 1 ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0");            
+            Texture2D wind = !mp.dash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind0");
+            Texture2D wisp = !mp.wisp.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp0");
+            Texture2D pure = !mp.pure.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity0");
+            Texture2D smash = !mp.smash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash0");
+            Texture2D shadow = !mp.sdash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0");            
 
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/box"), box, Color.White); //Stamina box
 
-            if (mp.unlock.Any(k => k > 0))//Draw stamina if unlocked
+            mp.SetList();//update ability list
+            if (mp.Abilities.Any(a => !a.Locked))//Draw stamina if any unlocked
             {
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Stamina"), origin + new Vector2(91, 68), Color.White);
                 Utils.DrawBorderString(spriteBatch, playerStamina + " SP", origin + new Vector2(118, 68), Color.White);
@@ -301,7 +308,7 @@ namespace StarlightRiver
             {
                 Texture2D back = inv[slot].modItem is CursedAccessory ? ModContent.GetTexture("StarlightRiver/GUI/CursedBack") : ModContent.GetTexture("StarlightRiver/GUI/BlessedBack");
                 Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
-                sb.Draw(back, position, null, backcolor, 0f, default(Vector2), Main.inventoryScale, SpriteEffects.None, 0f);
+                sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
 
                 //Zoinked from vanilla code
                 Item item = inv[slot];
@@ -454,7 +461,7 @@ namespace StarlightRiver
                 Instance = null;
                 Dash = null;
                 Superdash = null;
-                Float = null;
+                Wisp = null;
                 Smash = null;
                 Purify = null;
             }

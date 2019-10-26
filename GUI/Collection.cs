@@ -145,15 +145,15 @@ namespace StarlightRiver.GUI
                 select = 0;
             }
 
-            if (mp.unlock[0] == 1) { wind.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1")); } else { wind.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-            if (mp.unlock[1] == 1) { wisp.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1")); } else { wisp.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-            if (mp.unlock[2] == 1) { pure.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1")); } else { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-            if (mp.unlock[3] == 1) { smash.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1")); } else { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-            if (mp.unlock[4] == 1) { shadow.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1")); } else { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (!mp.dash.Locked) { wind.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1")); } else { wind.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (!mp.wisp.Locked) { wisp.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1")); } else { wisp.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (!mp.pure.Locked) { pure.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1")); } else { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (!mp.smash.Locked) { smash.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1")); } else { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
+            if (!mp.sdash.Locked) { shadow.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1")); } else { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
 
-            if (!mp.HasSecondSlot) { up2.Remove(); up1.Left.Set(50, 0); } else { back.Append(up2); up1.Left.Set(25, 0); }
+            //if (!mp.HasSecondSlot) { up2.Remove(); up1.Left.Set(50, 0); } else { back.Append(up2); up1.Left.Set(25, 0); }
 
-            switch (mp.upgrade[0])
+            /*switch (mp.upgrade[0])
             { 
                 case 0: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank2")); break;
                 case 1: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); break;
@@ -165,7 +165,7 @@ namespace StarlightRiver.GUI
                 case 0: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank2")); break;
                 case 1: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); break;
                 case 2: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3")); break;
-            }
+            }*/
 
             switch (select)
             {
@@ -219,11 +219,11 @@ namespace StarlightRiver.GUI
         {
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            if (listeningElement == wind && mp.unlock[0] == 1) { select = 1; }
-            if (listeningElement == wisp && mp.unlock[1] == 1) { select = 2; }
-            if (listeningElement == pure && mp.unlock[2] == 1) { select = 3; }
-            if (listeningElement == smash && mp.unlock[3] == 1) { select = 4; }
-            if (listeningElement == shadow && mp.unlock[4] == 1) { select = 5; }
+            if (listeningElement == wind && !mp.dash.Locked) { select = 1; }
+            if (listeningElement == wisp && !mp.wisp.Locked) { select = 2; }
+            if (listeningElement == pure && !mp.pure.Locked) { select = 3; }
+            if (listeningElement == smash && !mp.smash.Locked) { select = 4; }
+            if (listeningElement == shadow && !mp.sdash.Locked) { select = 5; }
         }
 
         private void Upgrade(UIMouseEvent evt, UIElement listeningElement)

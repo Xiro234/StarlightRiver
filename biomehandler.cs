@@ -83,7 +83,7 @@ namespace StarlightRiver
                 Overlay.visible = true;
                 Overlay.state = 1;
 
-                if(player.GetModPlayer<AbilityHandler>().unlock[2] == 0)
+                if(player.GetModPlayer<AbilityHandler>().pure.Locked)
                 {
                     player.AddBuff(mod.BuffType("DarkSlow"), 5);
                 }

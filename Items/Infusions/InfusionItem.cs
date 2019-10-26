@@ -24,7 +24,7 @@ namespace StarlightRiver.Items.Infusions
         public override bool UseItem(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            mp.HasSecondSlot = true;
+            //mp.HasSecondSlot = true;
             return true;
         }
     }
@@ -48,7 +48,7 @@ namespace StarlightRiver.Items.Infusions
         public override bool UseItem(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            mp.upgradeUnlock[0] = 1;
+            //mp.upgradeUnlock[0] = 1;
             return true;
         }
     }
@@ -72,7 +72,7 @@ namespace StarlightRiver.Items.Infusions
         public override bool UseItem(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            mp.upgradeUnlock[1] = 1;
+            //mp.upgradeUnlock[1] = 1;
             return true;
         }
     }

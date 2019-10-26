@@ -35,9 +35,10 @@ namespace StarlightRiver.NPCs.Pickups
             Player player = Main.player[npc.target];
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.unlock[0] == 0)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.dash.Locked)
             {
-                mp.unlock[0] = 1;
+                mp.dash.Locked = false;
+                mp.StatStaminaMaxPerm += 1;
                 animate = 300;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get"));
             }
@@ -77,7 +78,7 @@ namespace StarlightRiver.NPCs.Pickups
                 timer = 0;
             }
 
-            if (mp.unlock[0] == 0)
+            if (mp.dash.Locked)
             {
                 Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 8);
 
@@ -85,7 +86,7 @@ namespace StarlightRiver.NPCs.Pickups
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Bubble"), new Rectangle((int)pos.X - 4, (int)pos.Y - 4, 40 + (int)((Math.Cos(timer * 3) +1) * 4f), 40 + (int)((Math.Sin(timer * 3) + 1) * 4f)), Color.White);
                 Dust.NewDust(new Vector2(npc.position.X - 4, npc.position.Y - 4), 40, 40, mod.DustType("Air"),0,0,0,default,0.5f);
             }
-            if(mp.unlock[0] == 1 && animate == 0)
+            if(!mp.dash.Locked && animate == 0)
             {
                 spriteBatch.DrawString(Main.fontItemStack, "Left Shift + A/W/S/D: Dash", npc.position - Main.screenPosition + new Vector2(-90, -32), Color.White);
             }

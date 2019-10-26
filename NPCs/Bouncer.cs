@@ -31,10 +31,11 @@ namespace StarlightRiver.NPCs
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
+            if (AbilityHelper.CheckDash(player, npc.Hitbox))
             {
-                player.GetModPlayer<AbilityHandler>().ability.Active = false;
+                mp.dash.Active = false;
 
                 if (player.velocity.Length() != 0)
                 {

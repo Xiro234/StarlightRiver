@@ -114,7 +114,7 @@ namespace StarlightRiver.GUI
         {
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            //Comet Dash
+            /*//Comet Dash
             if (mp.upgradeUnlock[0] == 1 && mp.upgrade[0] != 1 && mp.upgrade[1] != 1) { wind1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); } //unlocked texture
             else if (mp.upgrade[0] == 1 || mp.upgrade[1] == 1) { wind1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2Bad")); } //in use texture
             else { wind1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2Lock")); }//locked texture
@@ -183,7 +183,7 @@ namespace StarlightRiver.GUI
                 wind2.Left.Set((int)(Math.Sin(angle(2)) * scale2) - 16, 0.5f); wind2.Top.Set((int)(Math.Cos(angle(2)) * -scale2) - 16, 0.5f);
                 wisp1.Left.Set((int)(Math.Sin(angle(3)) * scale2) - 16, 0.5f); wisp1.Top.Set((int)(Math.Cos(angle(3)) * -scale2) - 16, 0.5f);
                 wisp2.Left.Set((int)(Math.Sin(angle(4)) * scale2) - 16, 0.5f); wisp2.Top.Set((int)(Math.Cos(angle(4)) * -scale2) - 16, 0.5f);
-            }
+            }*/
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -213,11 +213,13 @@ namespace StarlightRiver.GUI
              */
 
             // (the UI element clicked ------If upgrade is unlocked------not already picked in either slot-------) {Set the upgrade slot selected}
-            if (listeningElement == wind1 && mp.upgradeUnlock[0] == 1 && mp.upgrade[0] != 1 && mp.upgrade[1] != 1) { mp.upgrade[slot] = 1; visible = false; } //Comet Dash
-            if (listeningElement == wind2 && mp.upgradeUnlock[1] == 1 && mp.upgrade[0] != 2 && mp.upgrade[1] != 2) { mp.upgrade[slot] = 2; visible = false; } //Poop
+
+            //if (listeningElement == wind1 && mp.upgradeUnlock[0] == 1 && mp.upgrade[0] != 1 && mp.upgrade[1] != 1) { mp.upgrade[slot] = 1; visible = false; } //Comet Dash
+            //if (listeningElement == wind2 && mp.upgradeUnlock[1] == 1 && mp.upgrade[0] != 2 && mp.upgrade[1] != 2) { mp.upgrade[slot] = 2; visible = false; } //Poop
 
             //Special case, unequip button
-            if (listeningElement == none) { mp.upgrade[slot] = 0; visible = false; } //Unequip
+
+            //if (listeningElement == none) { mp.upgrade[slot] = 0; visible = false; } //Unequip
             
         }
     }

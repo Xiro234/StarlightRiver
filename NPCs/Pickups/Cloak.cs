@@ -34,9 +34,10 @@ namespace StarlightRiver.NPCs.Pickups
             Player player = Main.player[npc.target];
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.unlock[4] == 0)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.sdash.Locked)
             {
-                mp.unlock[4] = 1;
+                mp.sdash.Locked = false;
+                mp.StatStaminaMaxPerm += 1;
                 animate = 300;
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get"));
             }
@@ -93,12 +94,12 @@ namespace StarlightRiver.NPCs.Pickups
                 timer = 0;
             }
 
-            if (mp.unlock[4] == 0)
+            if (mp.sdash.Locked)
             {
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
                 Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Void"));
             }
-            if (mp.unlock[4] == 1 && animate == 0)
+            if (!mp.sdash.Locked && animate == 0)
             {
                 spriteBatch.DrawString(Main.fontItemStack, "Q: Void dash", npc.position - Main.screenPosition + new Vector2(-30, -32), Color.White);
             }

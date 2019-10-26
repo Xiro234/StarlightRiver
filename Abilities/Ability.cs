@@ -12,6 +12,7 @@ using Terraria.ModLoader.IO;
 using Terraria.GameInput;
 using System.Linq;
 using System.Runtime.Serialization;
+using StarlightRiver.Abilities;
 
 namespace StarlightRiver.Abilities
 {
@@ -22,7 +23,7 @@ namespace StarlightRiver.Abilities
     [KnownType(typeof(DashFlame))]
     [KnownType(typeof(DashCombo))]
 
-    [KnownType(typeof(Float))]
+    [KnownType(typeof(Wisp))]
 
     [KnownType(typeof(Pure))]
 
@@ -31,20 +32,26 @@ namespace StarlightRiver.Abilities
     [KnownType(typeof(Superdash))]
     class Ability
     {
-        [DataMember] public AbilityHandler Handler { get; set; }
         [DataMember] public int StaminaCost { get; set; }
         [DataMember] public bool Active { get; set; }
-        protected Player player => Handler.player;
+        public int Timer { get; set; }
+        public int Cooldown { get; set; }
+        public bool Locked = true;
+        public Player player;
 
-        public Ability(int staminaCost)
+        public Ability(int staminaCost, Player Player)
         {
             StaminaCost = staminaCost;
+            player = Player;
         }
 
-        public void ConsumeStamina()
+        public void StartAbility(AbilityHandler handler)
         {
+            //if the player: has enough stamina  && unlocked && not on CD     && Has no other abilities active
+            if(handler.StatStamina >= StaminaCost && !Locked && Cooldown == 0 && !handler.Abilities.Any(a => a.Active))
             {
-                Handler.stamina -= StaminaCost;
+                handler.StatStamina -= StaminaCost; //Consume the stamina
+                OnCast(); //Do what the ability should do when it starts
             }
         }
 
@@ -59,6 +66,11 @@ namespace StarlightRiver.Abilities
         }
 
         public virtual void UseEffects()
+        {
+
+        }
+
+        public virtual void OffCooldownEffects()
         {
 
         }

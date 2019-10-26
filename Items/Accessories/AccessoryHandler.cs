@@ -27,11 +27,11 @@ namespace StarlightRiver.Items.Accessories
 
             if (accessories[2] != 0) //ring of stamina
             {             
-                mp.staminaTickerMax -= 60;
+                mp.StatStaminaRegenMax -= 60;
             }
             if (accessories[1] != 0) //hourglass
             {
-                mp.staminamax += 1;
+                mp.StatStaminaMaxTemp += 1;
             }           
         }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
@@ -39,7 +39,7 @@ namespace StarlightRiver.Items.Accessories
             if (accessories[0] != 0) //bloody scarf
             {
                 AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-                mp.stamina += 1;
+                mp.StatStamina += 1;
             }
             return true;
         }

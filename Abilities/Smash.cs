@@ -16,7 +16,7 @@ namespace StarlightRiver.Abilities
     class Smash : Ability
     {
         
-        public Smash() : base(2) // stamina cost
+        public Smash(Player player) : base(2, player) // stamina cost
         {
 
         }
@@ -30,7 +30,6 @@ namespace StarlightRiver.Abilities
         int timer;
         public override void InUse()
         {
-            Player player = Handler.player;
             player.maxFallSpeed = 999;
             player.velocity.X = 0;
             player.velocity.Y = 35;
@@ -60,8 +59,6 @@ namespace StarlightRiver.Abilities
 
         public override void OnExit()
         {
-            Player player = Handler.player;
-
             for (float k = 0; k <= 6.28; k += 0.06f)
             {
                 Dust.NewDust(player.Center, 1,1, ModContent.DustType<Stone>(), (float)Math.Cos(k) * 12, (float)Math.Sin(k) * 12, 0, default, 1.8f);

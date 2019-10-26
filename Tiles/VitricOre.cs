@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -50,6 +51,17 @@ namespace StarlightRiver.Tiles
             }
         }
 
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            foreach (Player player in Main.player.Where(player => Vector2.Distance(new Vector2(i, j) * 16, player.Center) <= 48))
+            {
+                if (AbilityHelper.CheckDash(player, new Rectangle(i * 16, j * 16, 32, 48)))
+                {
+                    WorldGen.KillTile(i, j);
+                }
+            }
+        }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, mod.ItemType("Glassore"), Main.rand.Next(4,12));
@@ -93,35 +105,20 @@ namespace StarlightRiver.Tiles
             }
         }
 
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            foreach (Player player in Main.player.Where(player => Vector2.Distance(new Vector2(i, j) * 16, player.Center) <= 48))
+            {
+                if (AbilityHelper.CheckDash(player, new Rectangle(i * 16, j * 16, 32, 32)))
+                {
+                    WorldGen.KillTile(i, j);
+                }
+            }
+        }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, mod.ItemType("Glassore"), Main.rand.Next(2, 6));
-        }
-    }
-
-    public class OreCollide : ModPlayer
-    {
-
-        public override void PreUpdate()
-        {
-            for (int j = (int)(player.position.Y / 16) - 3; j <= (int)(player.position.Y / 16) + 3; j++)
-            {
-                for (int i = (int)(player.position.X / 16) - 3; i <= (int)(player.position.X / 16) + 3; i++)
-                {
-                    if (i > 0 && j > 0 && (Main.tile[i, j].type == mod.TileType("VitricOre") || Main.tile[i, j].type == mod.TileType("VitricOreFloat")) && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
-                    {
-                        for (float f = 0; f <= 1; f += 1/30f)
-                        {
-                            Vector2 lerped = Vector2.Lerp(player.position, player.oldPosition, f);
-                            if (Collision.CheckAABBvAABBCollision(lerped, new Vector2(32, 48), new Vector2(i * 16, j * 16), new Vector2(32, 48)) && player.GetModPlayer<AbilityHandler>().ability is Dash && player.GetModPlayer<AbilityHandler>().ability.Active)
-                            {
-                                f = 2;
-                                WorldGen.KillTile(i, j);                                                                 
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }

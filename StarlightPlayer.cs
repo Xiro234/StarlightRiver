@@ -43,13 +43,15 @@ namespace StarlightRiver
         public override void PreUpdate()
         {
             Stamina.visible = false;
-            for (int k = 0; k < player.GetModPlayer<AbilityHandler>().unlock.Length; k++)
-            {
-                if (player.GetModPlayer<AbilityHandler>().unlock[k] == 1)
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+
+                if (mp.Abilities.Any(a => !a.Locked))
                 {
                     Stamina.visible = true;
                 }
-            }
+
+            foreach (Ability ab in mp.Abilities) { Main.NewText(ab.Locked); }
+            
 
             if (DarkSlow)
             {

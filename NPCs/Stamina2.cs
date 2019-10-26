@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
@@ -40,9 +41,9 @@ namespace StarlightRiver.NPCs
                 Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Stamina>(),new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * 0.4f,0,default,2f);
             }
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.stamina < (mp.staminamax + mp.permanentstamina) && mp.ability == null && npc.localAI[0] == 0)
+            if (npc.Hitbox.Intersects(player.Hitbox) && mp.StatStamina < mp.StatStaminaMax && !mp.Abilities.Any(a => a.Active) && npc.localAI[0] == 0)
             {
-                mp.stamina++;
+                mp.StatStamina++;
                 npc.localAI[0] = 300;
                 Main.PlaySound(SoundID.Item112, npc.Center);
 

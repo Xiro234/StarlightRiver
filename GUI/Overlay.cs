@@ -33,7 +33,7 @@ namespace StarlightRiver.GUI
             {
                 if (state == 1)
                 {
-                    if (Main.LocalPlayer.GetModPlayer<AbilityHandler>().unlock[2] == 1)
+                    if (!Main.LocalPlayer.GetModPlayer<AbilityHandler>().pure.Locked)
                     {
                         for (int k = 0; k <= Main.screenWidth; k++)
                         {
@@ -246,7 +246,7 @@ namespace StarlightRiver.GUI
             col *= 0.9999999995f;
             //pos += vel;
             float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
-            float off = Basepos.X + Offset + (StarlightRiver.Instance.getParallaxOffset(Basepos.X, 0.5f) - Parallax*(Main.LocalPlayer.position.X - Basepos.X));
+            float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax*(Main.LocalPlayer.position.X - Basepos.X));
             pos.X = (off) - Main.screenPosition.X;
             pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
             scl *= (Parallax > 0.2) ? 0.997f : 0.999f;

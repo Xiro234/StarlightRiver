@@ -17,7 +17,7 @@ namespace StarlightRiver.Abilities
     {
         
 
-        public DashCombo() : base()
+        public DashCombo(Player player) : base(player)
         {
 
         }
@@ -33,7 +33,7 @@ namespace StarlightRiver.Abilities
 
             X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
             Y = ((player.controlUp) ? -1 : 0) + ((player.controlDown) ? 1 : 0);
-            timer = 7;
+            Timer = 7;
         }
 
         public override void UseEffects()
@@ -42,8 +42,8 @@ namespace StarlightRiver.Abilities
             {
                 Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(0, 70), ModContent.DustType<Dusts.FireDust>(), -player.velocity * Main.rand.NextFloat(-2, 5) + new Vector2(Main.rand.Next(-1, 2), Main.rand.Next(-1, 2)), 0, default, 3f);
 
-                Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(-100, 0), ModContent.DustType<FireDust2>(), Vector2.Normalize(player.velocity).RotatedBy(1) * (Main.rand.Next(-20, -5) + timer * -3), 0, default, 2 - timer * 0.2f);
-                Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(-100, 0), ModContent.DustType<FireDust2>(), Vector2.Normalize(player.velocity).RotatedBy(-1) * (Main.rand.Next(-20, -5) + timer * -3), 0, default, 2 - timer * 0.2f);
+                Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(-100, 0), ModContent.DustType<FireDust2>(), Vector2.Normalize(player.velocity).RotatedBy(1) * (Main.rand.Next(-20, -5) + Timer * -3), 0, default, 2 - Timer * 0.2f);
+                Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * Main.rand.Next(-100, 0), ModContent.DustType<FireDust2>(), Vector2.Normalize(player.velocity).RotatedBy(-1) * (Main.rand.Next(-20, -5) + Timer * -3), 0, default, 2 - Timer * 0.2f);
                 Dust.NewDustPerfect(player.Center + player.velocity * Main.rand.NextFloat(0, 2), ModContent.DustType<Stamina>(), player.velocity.RotatedBy((Main.rand.Next(2) == 0) ? 2.8f : 3.48f) * Main.rand.NextFloat(0, 0.25f), 0, default, 1.95f);
             }
         }

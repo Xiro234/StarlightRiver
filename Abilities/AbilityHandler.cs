@@ -1,0 +1,158 @@
+﻿using StarlightRiver.Abilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
+using Terraria.GameInput;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+
+namespace StarlightRiver.Abilities
+{
+    class AbilityHandler : ModPlayer
+    {
+        //All players store 1 instance of each ability. This instance is changed to the infusion variant if an infusion is equipped.
+        public Dash dash = new Dash(Main.LocalPlayer);
+        public Wisp wisp = new Wisp(Main.LocalPlayer);
+        public Pure pure = new Pure(Main.LocalPlayer);
+        public Smash smash = new Smash(Main.LocalPlayer);
+        public Superdash sdash = new Superdash(Main.LocalPlayer);
+
+        //A list of all ability instances is kept to easily check things globally across the player's abilities.
+        public List<Ability> Abilities = new List<Ability>();
+
+        //The players stamina stats.
+        public int StatStaminaMax = 0;
+        public int StatStaminaMaxTemp = 0;
+        public int StatStaminaMaxPerm = 1;
+        public int StatStamina = 1;
+        public int StatStaminaRegenMax = 210;
+        public int StatStaminaRegen = 0;
+
+        //Holds the player's wing or rocket boot timer, since they must be disabled to move upwards correctly.
+        public float StoredAccessoryTime = 0;
+
+        public override TagCompound Save()
+        {
+            //saves the instances of the ability classes to the player, as these are what hold the data.
+            return new TagCompound
+            {
+                [nameof(dash)] = dash.Locked,
+                [nameof(wisp)] = wisp.Locked,
+                [nameof(pure)] = pure.Locked,
+                [nameof(smash)] = smash.Locked,
+                [nameof(sdash)] = sdash.Locked,
+                [nameof(StatStaminaMaxPerm)] = StatStaminaMaxPerm
+            };
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            //loads the ability instances and puts them into the list. Also ensures that no null values exist for abilities.
+
+            //dash
+            dash = new Dash(player);
+            dash.Locked = tag.GetBool(nameof(dash));
+            Abilities.Add(dash);
+            //wisp
+            wisp = new Wisp(player);
+            wisp.Locked = tag.GetBool(nameof(wisp));
+            Abilities.Add(wisp);
+            //pure
+            pure = new Pure(player);
+            pure.Locked = tag.GetBool(nameof(pure));
+            Abilities.Add(pure);
+            //smash
+            smash = new Smash(player);
+            smash.Locked = tag.GetBool(nameof(smash));
+            Abilities.Add(smash);
+            //wisp
+            sdash = new Superdash(player);
+            sdash.Locked = tag.GetBool(nameof(sdash));
+            Abilities.Add(sdash);
+
+
+            //loads the player's maximum stamina.
+            StatStaminaMaxPerm = tag.GetInt(nameof(StatStaminaMaxPerm));
+        }
+
+        //Updates the Ability list with the latest info
+        public void SetList()
+        {
+            Abilities.Clear();
+            Abilities.Add(dash);
+            Abilities.Add(wisp);
+            Abilities.Add(pure);
+            Abilities.Add(smash);
+            Abilities.Add(sdash);
+        }
+
+        public override void ResetEffects()
+        {
+            //Resets the player's stamina to prevent issues with gaining infinite stamina or stamina regeneration.
+            StatStaminaMax = StatStaminaMaxTemp + StatStaminaMaxPerm;
+            StatStaminaMaxTemp = 0;
+            StatStaminaRegenMax = 210;
+            SetList(); //Update the list to ensure all interactions work correctly
+        }
+
+        public override void ProcessTriggers(TriggersSet triggersSet)
+        {
+            //Activates one of the player's abilities on the appropriate keystroke.
+            if (StarlightRiver.Dash.JustPressed) { dash.StartAbility(this); }
+            if (StarlightRiver.Wisp.JustPressed) { wisp.StartAbility(this); }
+            if (StarlightRiver.Purify.JustPressed) { pure.StartAbility(this); }
+            if (StarlightRiver.Smash.JustPressed) { smash.StartAbility(this); }
+            if (StarlightRiver.Superdash.JustPressed) { sdash.StartAbility(this); }
+        }
+
+        public override void PreUpdate()
+        {
+            //Executes the ability's use code while it's active.
+            foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
+
+            //Decrements internal cooldowns of abilities.
+            foreach (Ability ability in Abilities.Where(ability => ability.Cooldown > 0)) { ability.Cooldown--; }
+
+            //Ability cooldown Effects
+            foreach (Ability ability in Abilities.Where(ability => ability.Cooldown == 1)) { ability.OffCooldownEffects(); }
+
+            //Physics fuckery due to redcode being retarded
+            if (Abilities.Any(ability => ability.Active))
+            {
+                player.velocity.Y += 0.01f; //Required to ensure that the game never thinks we hit the ground when using an ability. Thanks redcode!
+
+                // We need to store the player's wing or rocket boot time and set the effective time to zero while an ability is active to move upwards correctly. Thanks redcode!
+                if (StoredAccessoryTime == 0) { StoredAccessoryTime = ((player.wingTime > 0) ? player.wingTime : player.rocketTime); }
+                player.wingTime = 0;
+                player.rocketTime = 0;
+            }
+
+            //This restores the player's wings or rocket boots after the ability is over.
+            else if (StoredAccessoryTime > 0)
+            {
+                //Makes the determination between which of the two flight accessories the player has.
+                if (player.wingTimeMax > 0) { player.wingTime = StoredAccessoryTime; }
+                else if (player.rocketTimeMax > 0) { player.rocketTime = (int)StoredAccessoryTime; }
+            }
+
+            //Dont exceed max stamina or regenerate stamina when full.
+            if(StatStamina >= StatStaminaMax)
+            {
+                StatStamina = StatStaminaMax;
+                StatStaminaRegen = StatStaminaRegenMax;
+            }
+
+            //The player's stamina regeneration.
+            if (StatStaminaRegen-- <= 0 && StatStamina < StatStaminaMax)
+            {
+                StatStamina++;
+                StatStaminaRegen = StatStaminaRegenMax;
+            }
+
+        }
+
+    }
+}

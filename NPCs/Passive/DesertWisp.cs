@@ -34,7 +34,9 @@ namespace StarlightRiver.NPCs.Passive
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             Vector2 distance = player.Center - npc.Center;
+
             Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-20, 20) * 0.01f, Main.rand.Next(-20, 20) * 0.01f));
             if (LegendWorld.rottime == 0)
             {
@@ -49,7 +51,7 @@ namespace StarlightRiver.NPCs.Passive
                 npc.localAI[2] -= 3.5f;
                 return;
             }
-            if ((distance.Length() <= range && !(Main.player[npc.target].GetModPlayer<AbilityHandler>().ability is Float)) || Main.dayTime)
+            if ((distance.Length() <= range && !(mp.wisp.Active)) || Main.dayTime)
             {
                 fleeing = true;
             }
@@ -91,7 +93,9 @@ namespace StarlightRiver.NPCs.Passive
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             Vector2 distance = player.Center - npc.Center;
+
             Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-40, 40) * 0.01f, Main.rand.Next(-40, 40) * 0.01f));
             if (LegendWorld.rottime == 0)
             {
@@ -106,7 +110,7 @@ namespace StarlightRiver.NPCs.Passive
                 npc.localAI[2] -= 3.5f;
                 return;
             }
-            if (distance.Length() <= range && !(Main.player[npc.target].GetModPlayer<AbilityHandler>().ability is Float))
+            if (distance.Length() <= range && !(mp.wisp.Active))
             {
                 fleeing = true;
             }
