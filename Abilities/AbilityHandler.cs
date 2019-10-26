@@ -146,10 +146,21 @@ namespace StarlightRiver.Abilities
             }
 
             //The player's stamina regeneration.
-            if (StatStaminaRegen-- <= 0 && StatStamina < StatStaminaMax)
+            if (StatStaminaRegen <= 0 && StatStamina < StatStaminaMax)
             {
                 StatStamina++;
                 StatStaminaRegen = StatStaminaRegenMax;
+            }
+
+            //Regenerate only when abilities are not active.
+            if (!Abilities.Any(a => a.Active)) { StatStaminaRegen--; }
+
+            //If the player is dead, drain their stamina and disable all of their abilities.
+            if (player.dead)
+            {
+                StatStamina = 0;
+                StatStaminaRegen = StatStaminaRegenMax;
+                foreach (Ability ability in Abilities) { ability.Active = false; }
             }
 
         }

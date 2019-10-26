@@ -16,15 +16,24 @@ namespace StarlightRiver.Abilities
     class Wisp : Ability
     {        
         [DataMember] bool exit = false;
-        public Wisp(Player player) : base(1, player)
+        public Wisp(Player player) : base(0, player)
         {
 
         }
 
         public override void OnCast()
         {
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+
             Active = true;
-            Timer = player.GetModPlayer<AbilityHandler>().StatStamina * 60;
+            Timer = mp.StatStamina * 60 + (int)((1 - mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax) * 60) - 1; //allows the use of fractional stamina
+
+            //Sets the player's stamina if full to prevent spamming the ability to abuse it and to draw the UI correctly.
+            if (mp.StatStamina == mp.StatStaminaMax)
+            {
+                mp.StatStamina--;
+                mp.StatStaminaRegen = 1;
+            }
 
             for (int k = 0; k <= 50; k++)
             {
@@ -34,7 +43,9 @@ namespace StarlightRiver.Abilities
         }
 
         public override void InUse()
-        {        
+        {
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+
             Timer--;
             player.noItems = true;
             player.maxFallSpeed = 999;
@@ -50,10 +61,14 @@ namespace StarlightRiver.Abilities
             Lighting.AddLight(player.Center, new Vector3(0.15f, 0.15f, 0f));
 
 
-        
-            if ((Timer % 60 == 0 && Timer > 0) || Timer == 1)
+
+            if (Timer % 60 == 0 && Timer > 0)
             {
-                player.GetModPlayer<AbilityHandler>().StatStamina--;
+                mp.StatStamina--;
+            }
+            else
+            {
+                mp.StatStaminaRegen = (int)((1 - (Timer + 60) % 60 / 60f) * mp.StatStaminaRegenMax);
             }
 
             if (StarlightRiver.Wisp.JustReleased)
@@ -61,7 +76,7 @@ namespace StarlightRiver.Abilities
                 exit = true;
             }
 
-            if (exit || player.GetModPlayer<AbilityHandler>().StatStamina < 1)
+            if (exit || (mp.StatStamina < 1 && mp.StatStaminaRegen == mp.StatStaminaRegenMax))
             {             
                 OnExit();
             }
