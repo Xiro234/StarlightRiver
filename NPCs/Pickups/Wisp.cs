@@ -62,6 +62,7 @@ namespace StarlightRiver.NPCs.Pickups
                 if (animate == 1)
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
+                    Achievements.Achievements.QuickGive("Faerie Blaze", player);
                 }
 
                 for (int k = 0; k <= 6000; k++)

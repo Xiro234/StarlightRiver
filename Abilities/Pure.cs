@@ -26,6 +26,7 @@ namespace StarlightRiver.Abilities
         {
             Active = true;
             Main.PlaySound(SoundID.Item37);
+            Cooldown = 600;
         }
 
         public override void InUse()

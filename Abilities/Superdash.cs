@@ -27,7 +27,8 @@ namespace StarlightRiver.Abilities
         public override void OnCast()
         {
             Active = true;
-            timer = 4;
+            timer = 4;          
+
             Main.PlaySound(SoundID.Item8);
 
             for (int k = 0; k <= 10; k++)
@@ -88,6 +89,16 @@ namespace StarlightRiver.Abilities
             }
         }
 
+        public override void OffCooldownEffects()
+        {
+            for(float k = 0; k <= 6.28f; k += 0.05f)
+            {
+                Dust dus = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.Void4>(), Vector2.One.RotatedBy(k));
+                dus.customData = player;
+            }
+            Main.PlaySound(SoundID.Item105);
+        }
+
         public override void OnExit()
         {
             player.velocity.X = 0;
@@ -95,6 +106,8 @@ namespace StarlightRiver.Abilities
             player.immune = false;
             objective = new Vector2(0, 0);
             timer = 0;
+
+            Cooldown = 120; //Cooldown placed after since duration is variable
 
             for (int k = 0; k <= 100; k++)
             {

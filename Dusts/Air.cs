@@ -331,20 +331,21 @@ namespace StarlightRiver.Dusts
         }
     }
 
-    public class Debug : Void
+    public class Void4 : Void
     {
         public override bool Update(Dust dust)
         {
-            dust.position += Main.LocalPlayer.velocity;
-            dust.rotation += 0.05f;
+            if(dust.customData is Player)
+            {
+                dust.position += (dust.customData as Player).velocity + dust.velocity;
+                dust.rotation += 0.05f;
+            }
 
             dust.scale *= 0.95f;
 
+            if (dust.scale < 0.1f) { dust.active = false; }
+            if (dust.scale < 0.5f) { dust.velocity *= -1.1f; }
 
-            if (dust.scale < 0.5f)
-            {
-                dust.active = false;
-            }
             return false;
         }
     }

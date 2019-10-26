@@ -58,6 +58,7 @@ namespace StarlightRiver.NPCs.Pickups
                 if(animate == 1)
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
+                    Achievements.Achievements.QuickGive("Stormcaller", player);
                 }
             }
 

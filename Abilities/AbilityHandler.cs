@@ -125,17 +125,21 @@ namespace StarlightRiver.Abilities
                 player.velocity.Y += 0.01f; //Required to ensure that the game never thinks we hit the ground when using an ability. Thanks redcode!
 
                 // We need to store the player's wing or rocket boot time and set the effective time to zero while an ability is active to move upwards correctly. Thanks redcode!
-                if (StoredAccessoryTime == 0) { StoredAccessoryTime = ((player.wingTime > 0) ? player.wingTime : player.rocketTime); }
+                if (StoredAccessoryTime == 0) { StoredAccessoryTime = ((player.wingTimeMax > 0) ? player.wingTime : player.rocketTime + 1); }
                 player.wingTime = 0;
                 player.rocketTime = 0;
+                player.rocketRelease = true;
             }
 
             //This restores the player's wings or rocket boots after the ability is over.
             else if (StoredAccessoryTime > 0)
             {
+                player.velocity.Y += 0.01f; //We need to do this the frame after also.
+
                 //Makes the determination between which of the two flight accessories the player has.
                 if (player.wingTimeMax > 0) { player.wingTime = StoredAccessoryTime; }
-                else if (player.rocketTimeMax > 0) { player.rocketTime = (int)StoredAccessoryTime; }
+                else { player.rocketTime = (int)StoredAccessoryTime - 1; }
+                StoredAccessoryTime = 0;
             }
 
             //Dont exceed max stamina or regenerate stamina when full.

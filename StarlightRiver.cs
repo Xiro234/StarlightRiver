@@ -93,6 +93,9 @@ namespace StarlightRiver
 
         public override void Load()
         {
+            //Calls to add achievements.
+            Achievements.Achievements.CallAchievements(this);
+
             Dash = RegisterHotKey("Dash", "LeftShift");
             Superdash = RegisterHotKey("Void Dash", "Q");
             Smash = RegisterHotKey("Smash", "Z");
@@ -121,9 +124,6 @@ namespace StarlightRiver
                 customResources5.SetState(cooking);
                 customResources6.SetState(linkhp);
             }
-
-            //Achievements
-
 
             // Cursed Accessory Control Override
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
