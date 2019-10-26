@@ -45,13 +45,10 @@ namespace StarlightRiver
             Stamina.visible = false;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-                if (mp.Abilities.Any(a => !a.Locked))
-                {
-                    Stamina.visible = true;
-                }
-
-            foreach (Ability ab in mp.Abilities) { Main.NewText(ab.Locked); }
-            
+            if (mp.Abilities.Any(a => !a.Locked))
+            {
+                Stamina.visible = true;
+            }           
 
             if (DarkSlow)
             {

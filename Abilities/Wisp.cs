@@ -62,14 +62,12 @@ namespace StarlightRiver.Abilities
 
 
 
-            if (Timer % 60 == 0 && Timer > 0)
-            {
-                mp.StatStamina--;
-            }
-            else
+            if (Timer % 60 == 0 && Timer > 0) { mp.StatStamina--; }
+            else if (Timer > 0)
             {
                 mp.StatStaminaRegen = (int)((1 - (Timer + 60) % 60 / 60f) * mp.StatStaminaRegenMax);
             }
+            else { mp.StatStaminaRegen = mp.StatStaminaRegenMax; }
 
             if (StarlightRiver.Wisp.JustReleased)
             {
