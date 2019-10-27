@@ -498,6 +498,7 @@ namespace StarlightRiver
         public override void Load(TagCompound tag)
         {
             vitricTopLeft = tag.Get<Vector2>(nameof(vitricTopLeft));
+
             AnyBossDowned = tag.GetBool(nameof(AnyBossDowned));
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
             SealOpen = tag.GetBool(nameof(SealOpen));

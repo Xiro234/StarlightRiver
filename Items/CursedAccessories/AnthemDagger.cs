@@ -8,16 +8,16 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
-    class TestCursedAccessory : CursedAccessory
+    class AnthemDagger : CursedAccessory
     {
-        public TestCursedAccessory() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/TestCursedAccessoryGlow"))
+        public AnthemDagger() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow"))
         {
 
         }
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Cursed!");
-            DisplayName.SetDefault("ExampleCursedAccessory");
+            Tooltip.SetDefault("Consume mana to absorb damage\n90% Reduced defense");
+            DisplayName.SetDefault("Anthem Dagger");
         }
 
         public override void SetDefaults()
@@ -28,6 +28,9 @@ namespace StarlightRiver.Items.CursedAccessories
         }
         public override void UpdateEquip(Player player)
         {
+            player.statDefense /= 10;
+            player.manaFlower = false;
+            player.GetModPlayer<StarlightPlayer>().AnthemDagger = true;
         }
     }
 }

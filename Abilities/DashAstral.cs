@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 namespace StarlightRiver.Abilities
 {
     [DataContract]
-    class DashAstral : Dash
+    public class DashAstral : Dash
     {
         
 

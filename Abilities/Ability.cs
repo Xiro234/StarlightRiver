@@ -30,7 +30,7 @@ namespace StarlightRiver.Abilities
     [KnownType(typeof(Smash))]
 
     [KnownType(typeof(Superdash))]
-    class Ability
+    public class Ability
     {
         [DataMember] public int StaminaCost { get; set; }
         [DataMember] public bool Active { get; set; }

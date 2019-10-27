@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 namespace StarlightRiver.Abilities
 {
     [DataContract]
-    class Wisp : Ability
+    public class Wisp : Ability
     {        
         [DataMember] bool exit = false;
         public Wisp(Player player) : base(0, player)

@@ -42,7 +42,7 @@ namespace StarlightRiver.NPCs.Hostile
         }
         public override void AI()
         {
-            Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Corrupt"));
+            Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Corrupt"),0,0,0, default, 0.6f);
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

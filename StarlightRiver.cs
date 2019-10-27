@@ -138,7 +138,7 @@ namespace StarlightRiver
         }
         internal static readonly List<BootlegDust> VitricBackgroundDust = new List<BootlegDust>();
         internal static readonly List<BootlegDust> VitricForegroundDust = new List<BootlegDust>();
-        private void DrawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Terraria.Main self)
+        private void DrawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Main self)
         {
             orig(self);
             Player player = Main.LocalPlayer;

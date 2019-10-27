@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 namespace StarlightRiver.Abilities
 {
     [DataContract]
-    class Superdash : Ability
+    public class Superdash : Ability
     {
         
         [DataMember] float timer = 0;

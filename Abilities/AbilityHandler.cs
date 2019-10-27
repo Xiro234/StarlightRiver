@@ -11,7 +11,7 @@ using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Abilities
 {
-    class AbilityHandler : ModPlayer
+    public partial class AbilityHandler : ModPlayer
     {
         //All players store 1 instance of each ability. This instance is changed to the infusion variant if an infusion is equipped.
         public Dash dash = new Dash(Main.LocalPlayer);
@@ -36,22 +36,28 @@ namespace StarlightRiver.Abilities
 
         public override TagCompound Save()
         {
-            //saves the instances of the ability classes to the player, as these are what hold the data.
             return new TagCompound
             {
+                //ability unlock data
                 [nameof(dash)] = dash.Locked,
                 [nameof(wisp)] = wisp.Locked,
                 [nameof(pure)] = pure.Locked,
                 [nameof(smash)] = smash.Locked,
                 [nameof(sdash)] = sdash.Locked,
-                [nameof(StatStaminaMaxPerm)] = StatStaminaMaxPerm
+
+                //permanent stamina amount
+                [nameof(StatStaminaMaxPerm)] = StatStaminaMaxPerm,
+
+                //infusion data
+                [nameof(slot1)] = slot1,
+                [nameof(slot2)] = slot2,
+
+                [nameof(HasSecondSlot)] = HasSecondSlot
             };
         }
 
         public override void Load(TagCompound tag)
         {
-            //loads the ability instances and puts them into the list. Also ensures that no null values exist for abilities.
-
             //dash
             dash = new Dash(player);
             dash.Locked = tag.GetBool(nameof(dash));
@@ -68,7 +74,7 @@ namespace StarlightRiver.Abilities
             smash = new Smash(player);
             smash.Locked = tag.GetBool(nameof(smash));
             Abilities.Add(smash);
-            //wisp
+            //shadow dash
             sdash = new Superdash(player);
             sdash.Locked = tag.GetBool(nameof(sdash));
             Abilities.Add(sdash);
@@ -76,6 +82,11 @@ namespace StarlightRiver.Abilities
 
             //loads the player's maximum stamina.
             StatStaminaMaxPerm = tag.GetInt(nameof(StatStaminaMaxPerm));
+
+            //loads infusion data.
+            slot1 = tag.Get<Item>(nameof(slot1)); if (slot1.Name == "") { slot1 = null; }
+            slot2 = tag.Get<Item>(nameof(slot2)); if (slot2.Name == "") { slot2 = null; }
+            HasSecondSlot = tag.GetBool(nameof(HasSecondSlot));
         }
 
         //Updates the Ability list with the latest info
@@ -95,6 +106,7 @@ namespace StarlightRiver.Abilities
             StatStaminaMax = StatStaminaMaxTemp + StatStaminaMaxPerm;
             StatStaminaMaxTemp = 0;
             StatStaminaRegenMax = 210;
+
             SetList(); //Update the list to ensure all interactions work correctly
         }
 
@@ -110,6 +122,7 @@ namespace StarlightRiver.Abilities
 
         public override void PreUpdate()
         {
+            Main.LocalPlayer.anglerQuestsFinished = 200;
             //Executes the ability's use code while it's active.
             foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
 

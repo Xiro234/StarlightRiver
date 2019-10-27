@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 namespace StarlightRiver.Abilities
 {
     [DataContract]
-    class DashFlame : Dash
+    public class DashFlame : Dash
     {
         
 
@@ -33,6 +33,7 @@ namespace StarlightRiver.Abilities
             X = ((player.controlLeft) ? -1 : 0) + ((player.controlRight) ? 1 : 0);
             Y = ((player.controlUp) ? -1 : 0) + ((player.controlDown) ? 1 : 0);
             Timer = 7;
+            Cooldown = 90;
         }
 
         public override void UseEffects()

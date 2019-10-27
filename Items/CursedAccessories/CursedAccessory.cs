@@ -29,7 +29,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
             Bootlegdust.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
 
-            BootlegDust dus = new CurseDust(ModContent.GetTexture("StarlightRiver/GUI/Dark"), position + new Vector2(Main.rand.Next(0, frame.Width - 4), Main.rand.Next(0, frame.Height - 4)), new Vector2(0, -0.4f), Color.White * 0.1f, 1.5f, 60);
+            BootlegDust dus = new CurseDust(ModContent.GetTexture("StarlightRiver/GUI/Dark"), (position) + frame.Size() / 4 - Vector2.One + (Vector2.One * Main.rand.Next(12)).RotatedBy(Main.rand.NextFloat(0, 6.28f)), new Vector2(0, -0.4f), Color.White * 0.1f, 1.5f, 60);
             Bootlegdust.Add(dus);
 
             drawpos = position - new Vector2((frame.Width / 2), (frame.Width / 2));

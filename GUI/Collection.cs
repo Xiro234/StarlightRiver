@@ -39,7 +39,7 @@ namespace StarlightRiver.GUI
         public override void OnInitialize()
         {
             back.Left.Set(20, 0);
-            back.Top.Set(260, 0);
+            back.Top.Set(230, 0);
             back.Width.Set(132, 0f);
             back.Height.Set(132, 0f);
             base.Append(back);
@@ -95,23 +95,6 @@ namespace StarlightRiver.GUI
 
             //-------------------------
 
-            up1.Left.Set(25, 0);
-            up1.Top.Set(0, 0);
-            up1.Width.Set(32, 0);
-            up1.Height.Set(32, 0);
-            up1.OnClick += new MouseEvent(Upgrade);
-            back.Append(up1);
-
-            up2.Left.Set(75, 0);
-            up2.Top.Set(0, 0);
-            up2.Width.Set(32, 0);
-            up2.Height.Set(32, 0);
-            up2.OnClick += new MouseEvent(Upgrade);
-            back.Append(up2);
-
-            //-------------------------
-
-
             Name.Left.Set(170, 0);
             Name.Top.Set(280, 0);
             base.Append(Name);
@@ -150,22 +133,6 @@ namespace StarlightRiver.GUI
             if (!mp.pure.Locked) { pure.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1")); } else { pure.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
             if (!mp.smash.Locked) { smash.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1")); } else { smash.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
             if (!mp.sdash.Locked) { shadow.SetImage(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1")); } else { shadow.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank")); }
-
-            //if (!mp.HasSecondSlot) { up2.Remove(); up1.Left.Set(50, 0); } else { back.Append(up2); up1.Left.Set(25, 0); }
-
-            /*switch (mp.upgrade[0])
-            { 
-                case 0: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank2")); break;
-                case 1: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); break;
-                case 2: up1.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3")); break;
-            }
-
-            switch (mp.upgrade[1])
-            {
-                case 0: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/blank2")); break;
-                case 1: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind2")); break;
-                case 2: up2.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Wind3")); break;
-            }*/
 
             switch (select)
             {
@@ -210,7 +177,7 @@ namespace StarlightRiver.GUI
 
             if(Main.expertMode && visible)
             {
-                BootlegDust dus = new ExpertDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(78, 318) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
+                BootlegDust dus = new ExpertDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(78, 288) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
                 Bootlegdust.Add(dus);
             }
         }
@@ -224,38 +191,6 @@ namespace StarlightRiver.GUI
             if (listeningElement == pure && !mp.pure.Locked) { select = 3; }
             if (listeningElement == smash && !mp.smash.Locked) { select = 4; }
             if (listeningElement == shadow && !mp.sdash.Locked) { select = 5; }
-        }
-
-        private void Upgrade(UIMouseEvent evt, UIElement listeningElement)
-        {
-            if (!Infusion.visible)
-            {
-                Infusion.timer = 0;
-                Infusion.visible = true;
-                
-                if (listeningElement == up1) { Infusion.slot = 0; }
-                if (listeningElement == up2) { Infusion.slot = 1; }
-            }
-        }
-    }
-
-    public class CollectionHandler : ModPlayer
-    {
-        public override void PreUpdate()
-        {
-            if (Main.playerInventory)
-            {
-                Collection.visible = true;
-            }
-            else
-            {
-                Collection.visible = false;
-            }
-
-            if(Infusion.visible && player.controlInv)
-            {
-                Infusion.visible = false;
-            }
         }
     }
 
