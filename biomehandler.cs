@@ -108,11 +108,6 @@ namespace StarlightRiver
                 Overlay.visible = false;
             }
         }
-
-        public override void UpdateBiomeVisuals()
-        {
-            //player.ManageSpecialBiomeVisuals("StarlightRiver:", ZoneJungleCorrupt);
-        }
     }
 
     public partial class LegendWorld
