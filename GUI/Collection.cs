@@ -52,7 +52,7 @@ namespace StarlightRiver.GUI
             back.Append(charm);
 
             stamina.Left.Set(340, 0);
-            stamina.Top.Set(20, 0);
+            stamina.Top.Set(50, 0);
             stamina.Width.Set(22, 0f);
             stamina.Height.Set(22, 0f);
             stamina.ImageScale = 0;

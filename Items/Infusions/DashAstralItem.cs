@@ -21,16 +21,10 @@ namespace StarlightRiver.Items.Infusions
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             if (!(mp.dash is DashAstral) && !(mp.dash is DashCombo))
             {
-                if (mp.dash is DashFlame)
-                {
-                    mp.dash = new DashCombo(player);
-                    mp.dash.Locked = false;
-                }
-                else
-                {
-                    mp.dash = new DashAstral(player);
-                    mp.dash.Locked = false;
-                }
+                if (mp.dash is DashFlame) { mp.dash = new DashCombo(player); }
+                else { mp.dash = new DashAstral(player); }
+                mp.dash.Locked = false;
+                mp.dash.Cooldown = 90;
             }
         }
 
@@ -42,8 +36,10 @@ namespace StarlightRiver.Items.Infusions
 
         public override void Unequip(Player player)
         {
-            player.GetModPlayer<AbilityHandler>().dash = new Dash(player);
-            player.GetModPlayer<AbilityHandler>().dash.Locked = false;
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            mp.dash = new Dash(player);
+            mp.dash.Locked = false;
+            mp.dash.Cooldown = 90;
         }
     }
 }
