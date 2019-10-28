@@ -32,7 +32,7 @@ namespace StarlightRiver.Abilities
         public int StatStaminaRegen = 0;
 
         //Holds the player's wing or rocket boot timer, since they must be disabled to move upwards correctly.
-        public float StoredAccessoryTime = 0;
+        private float StoredAccessoryTime = 0;
 
         public override TagCompound Save()
         {
@@ -180,6 +180,14 @@ namespace StarlightRiver.Abilities
                 foreach (Ability ability in Abilities) { ability.Active = false; }
             }
 
+        }
+
+        public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        {
+            if(wisp.Active || sdash.Active)
+            {
+                foreach (PlayerLayer layer in layers) { layer.visible = false; }
+            }
         }
 
     }
