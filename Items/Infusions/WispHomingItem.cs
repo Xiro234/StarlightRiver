@@ -13,8 +13,8 @@ namespace StarlightRiver.Items.Infusions
         public WispHomingItem() : base(3) { }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Comet Rush");
-            Tooltip.SetDefault("Fae Flame Infusion\nRelease damaging homing bolts that make enemies take more damage");
+            DisplayName.SetDefault("[PH] poopy wisp");
+            Tooltip.SetDefault("Fae Flame Infusion\nRelease homing bolts that make enemies take more damage");
         }
         public override void UpdateEquip(Player player)
         {

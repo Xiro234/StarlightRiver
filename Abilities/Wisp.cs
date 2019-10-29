@@ -15,7 +15,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class Wisp : Ability
     {        
-        [DataMember] bool exit = false;
+        public bool exit = false;
         public Wisp(Player player) : base(0, player)
         {
 
