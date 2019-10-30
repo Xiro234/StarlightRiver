@@ -63,6 +63,8 @@ namespace StarlightRiver.NPCs.Pickups
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
                     Achievements.Achievements.QuickGive("Faerie Blaze", player);
+
+                    StarlightRiver.Instance.abilitytext.Display(mp.wisp, "Faeflame", "Hold " + StarlightRiver.Wisp.GetAssignedKeys()[0] + " to shrink and fly through the air");
                 }
 
                 for (int k = 0; k <= 6000; k++)
@@ -97,11 +99,7 @@ namespace StarlightRiver.NPCs.Pickups
             if (mp.wisp.Locked)
             {
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 4), Color.White);
-                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Gold2"),0,0,0,default,0.5f);
-            }
-            if (!mp.wisp.Locked && animate == 0)
-            {
-                spriteBatch.DrawString(Main.fontItemStack, "Hold F: Wisp form", npc.position - Main.screenPosition + new Vector2(-50, -32), Color.White);
+                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Gold2"), 0, 0, 0, default, 0.5f);
             }
         }
         public override void DrawEffects(ref Color drawColor)

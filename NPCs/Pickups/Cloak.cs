@@ -63,6 +63,7 @@ namespace StarlightRiver.NPCs.Pickups
                 if (animate == 1)
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
+                    StarlightRiver.Instance.abilitytext.Display(mp.sdash, "Zzelera's Cloak", "Press " + StarlightRiver.Superdash.GetAssignedKeys()[0] + " to become invincible and fly to your mouse");
                 }
 
                 for (int k = 0; k <= 6000; k++)
@@ -99,11 +100,6 @@ namespace StarlightRiver.NPCs.Pickups
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
                 Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Void"));
             }
-            if (!mp.sdash.Locked && animate == 0)
-            {
-                spriteBatch.DrawString(Main.fontItemStack, "Q: Void dash", npc.position - Main.screenPosition + new Vector2(-30, -32), Color.White);
-            }
-
         }
     }
 }

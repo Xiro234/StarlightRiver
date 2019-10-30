@@ -72,6 +72,7 @@ namespace StarlightRiver.NPCs.Pickups
                 if (animate == 1)
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
+                    StarlightRiver.Instance.abilitytext.Display(mp.pure, "Coronoa of Purity", "Press " + StarlightRiver.Purify.GetAssignedKeys()[0] + " to purify nearby tiles");
                 }
             }
 
@@ -134,11 +135,6 @@ namespace StarlightRiver.NPCs.Pickups
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
                 Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Purify"));
             }
-            if (!mp.pure.Locked && animate == 0)
-            {
-                spriteBatch.DrawString(Main.fontItemStack, "N: Purify Area", npc.position - Main.screenPosition + new Vector2(-38, -32), Color.White);
-            }
-
         }
     }
 }

@@ -16,7 +16,7 @@ namespace StarlightRiver.Abilities
     public class Wisp : Ability
     {        
         public bool exit = false;
-        public Wisp(Player player) : base(0, player)
+        public Wisp(Player player) : base(1, player)
         {
 
         }
@@ -26,14 +26,7 @@ namespace StarlightRiver.Abilities
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
             Active = true;
-            Timer = mp.StatStamina * 60 + (int)((1 - mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax) * 60) - 1; //allows the use of fractional stamina
-
-            //Sets the player's stamina if full to prevent spamming the ability to abuse it and to draw the UI correctly.
-            if (mp.StatStamina == mp.StatStaminaMax)
-            {
-                mp.StatStamina--;
-                mp.StatStaminaRegen = 1;
-            }
+            Timer = mp.StatStamina * 60;
 
             for (int k = 0; k <= 50; k++)
             {
@@ -62,26 +55,21 @@ namespace StarlightRiver.Abilities
 
 
 
-            if (Timer % 60 == 0 && Timer > 0) { mp.StatStamina--; }
-            else if (Timer > 0)
-            {
-                mp.StatStaminaRegen = (int)((1 - (Timer + 60) % 60 / 60f) * mp.StatStaminaRegenMax);
-            }
-            else { mp.StatStaminaRegen = mp.StatStaminaRegenMax; }
+            if (Timer % 60 == 0 && Timer >= 0) { mp.StatStamina--; }
 
             if (StarlightRiver.Wisp.JustReleased)
             {
                 exit = true;
             }
 
-            if (exit || (mp.StatStamina < 1 && mp.StatStaminaRegen == mp.StatStaminaRegenMax))
+            if (exit || mp.StatStamina < 1 )
             {             
                 OnExit();
             }
         }
         public override void UseEffects()
         {
-            if (Timer > -1)
+            if (Timer > -10)
             {
                 for (int k = 0; k <= 2; k++)
                 {
@@ -112,14 +100,14 @@ namespace StarlightRiver.Abilities
                 }
                 Active = false;
             }
-            else if (Timer < 0)
+            else if (Timer < 0 && Timer % 10 == 0)
             {
-                player.statLife -= 2;
+                player.statLife -= 5;
                 if(player.statLife <= 0)
                 {
                     player.KillMe(Terraria.DataStructures.PlayerDeathReason.ByCustomReason(player.name + " couldn't maintain their form"), 0, 0);
                 }
-                if (Timer % 10 == 0) { Main.PlaySound(SoundID.PlayerHit, player.Center); }
+                Main.PlaySound(SoundID.PlayerHit, player.Center); 
             }
         }
 
@@ -128,12 +116,12 @@ namespace StarlightRiver.Abilities
             int cleartiles = 0;
             for (int x2 = (int)(player.position.X / 16); x2 <= (int)(player.position.X / 16) + 1; x2++)
             {
-                for (int y2 = (int)(player.position.Y / 16) - 2; y2 <= (int)(player.position.Y / 16); y2++)
+                for (int y2 = (int)(player.position.Y / 16) - 3; y2 <= (int)(player.position.Y / 16) - 1; y2++)
                 {
                     if (Main.tile[x2, y2].collisionType == 0) { cleartiles++; }
                 }
             }
-            if (cleartiles == 6) { return true; }
+            if (cleartiles >= 6) { return true; }
             else { return false; }            
         }
     }

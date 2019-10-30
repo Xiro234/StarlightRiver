@@ -17,8 +17,6 @@ using System;
 using Terraria.GameContent.UI.Elements;
 using System.Reflection;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
-//using On.Terraria;
-//using On.Terraria;
 
 namespace StarlightRiver
 {
@@ -30,12 +28,14 @@ namespace StarlightRiver
         public Infusion infusion;
         public Cooking cooking;
         public LinkHP linkhp;
+        public AbilityText abilitytext;
         public UserInterface customResources;
         public UserInterface customResources2;
         public UserInterface customResources3;
         public UserInterface customResources4;
         public UserInterface customResources5;
         public UserInterface customResources6;
+        public UserInterface customResources7;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
@@ -99,7 +99,7 @@ namespace StarlightRiver
             Dash = RegisterHotKey("Dash", "LeftShift");
             Superdash = RegisterHotKey("Void Dash", "Q");
             Smash = RegisterHotKey("Smash", "Z");
-            Wisp = RegisterHotKey("Float", "F");
+            Wisp = RegisterHotKey("Wisp Form", "F");
             Purify = RegisterHotKey("Purify", "N");
 
             if (!Main.dedServ)
@@ -110,12 +110,14 @@ namespace StarlightRiver
                 customResources4 = new UserInterface();
                 customResources5 = new UserInterface();
                 customResources6 = new UserInterface();
+                customResources7 = new UserInterface();
                 stamina = new Stamina();
                 collection = new Collection();
                 overlay = new Overlay();
                 infusion = new Infusion();
                 cooking = new Cooking();
                 linkhp = new LinkHP();
+                abilitytext = new AbilityText();
 
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
@@ -138,6 +140,7 @@ namespace StarlightRiver
         }
         internal static readonly List<BootlegDust> VitricBackgroundDust = new List<BootlegDust>();
         internal static readonly List<BootlegDust> VitricForegroundDust = new List<BootlegDust>();
+
         private void DrawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Main self)
         {
             orig(self);
@@ -149,7 +152,7 @@ namespace StarlightRiver
             VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
-            if (Main.playerLoaded && player.GetModPlayer<BiomeHandler>().ZoneGlass)
+            if (player != null && Main.playerLoaded && player.GetModPlayer<BiomeHandler>().ZoneGlass)
             {
                 Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1000) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)
@@ -416,6 +419,18 @@ namespace StarlightRiver
 
                     return true;
                 }, InterfaceScaleType.UI));
+
+                layers.Insert(MouseTextIndex + 5, new LegacyGameInterfaceLayer("[PH]MODNAME: Ability Text",
+                delegate
+                {
+                    if (AbilityText.Visible)
+                    {
+                        customResources7.Update(Main._drawInterfaceGameTime);
+                        abilitytext.Draw(Main.spriteBatch);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI));
             }
         }
 
@@ -445,12 +460,16 @@ namespace StarlightRiver
                 customResources4 = null;
                 customResources5 = null;
                 customResources6 = null;
+                customResources7 = null;
+
                 stamina = null;
                 collection = null;
                 overlay = null;
                 infusion = null;
                 cooking = null;
                 linkhp = null;
+                abilitytext = null;
+
                 VitricBackgroundDust.Clear();
                 VitricForegroundDust.Clear();
                 CursedAccessory.Bootlegdust.Clear();
@@ -458,6 +477,7 @@ namespace StarlightRiver
                 BlessedAccessory.Bootlegdust2.Clear();
                 Collection.Bootlegdust.Clear();
                 Overlay.Bootlegdust.Clear();
+
                 Instance = null;
                 Dash = null;
                 Superdash = null;

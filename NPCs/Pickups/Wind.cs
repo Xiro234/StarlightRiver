@@ -59,6 +59,8 @@ namespace StarlightRiver.NPCs.Pickups
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
                     Achievements.Achievements.QuickGive("Stormcaller", player);
+
+                    StarlightRiver.Instance.abilitytext.Display(mp.dash, "Forbidden Winds", "Press " + StarlightRiver.Dash.GetAssignedKeys()[0] + " + A/W/S/D to dash");
                 }
             }
 
@@ -84,14 +86,12 @@ namespace StarlightRiver.NPCs.Pickups
                 Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 8);
 
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1"), npc.position + new Vector2(0, (float)Math.Sin(timer) * 8) - Main.screenPosition, Color.White);
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Bubble"), new Rectangle((int)pos.X - 4, (int)pos.Y - 4, 40 + (int)((Math.Cos(timer * 3) +1) * 4f), 40 + (int)((Math.Sin(timer * 3) + 1) * 4f)), Color.White);
-                Dust.NewDust(new Vector2(npc.position.X - 4, npc.position.Y - 4), 40, 40, mod.DustType("Air"),0,0,0,default,0.5f);
-            }
-            if(!mp.dash.Locked && animate == 0)
-            {
-                spriteBatch.DrawString(Main.fontItemStack, "Left Shift + A/W/S/D: Dash", npc.position - Main.screenPosition + new Vector2(-90, -32), Color.White);
-            }
-            
+
+                Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Sin(timer) * 30, npc.Center.Y - 20), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
+                Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Cos(timer) * 15, npc.Center.Y), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
+
+                if (Main.rand.Next(5) == 0) { Dust.NewDust(npc.Center, 1, 1, ModContent.DustType<Dusts.Air>()); }
+            }           
         }
     }
 }
