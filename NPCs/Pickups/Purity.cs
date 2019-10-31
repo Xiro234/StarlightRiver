@@ -132,8 +132,11 @@ namespace StarlightRiver.NPCs.Pickups
 
             if (mp.pure.Locked && animate == 0)
             {
-                spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 16), Color.White);
-                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Purify"));
+                spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 4), Color.White);
+                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, ModContent.DustType<Dusts.Purify>());
+
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer) * 40, (float)Math.Sin(timer) * 20), ModContent.DustType<Dusts.Purify>(), null, 0, default, 2f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer) * 40, (float)Math.Sin(timer) * 20) * -1, ModContent.DustType<Dusts.Purify>(), null, 0, default, 2f);
             }
         }
     }

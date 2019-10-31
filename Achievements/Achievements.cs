@@ -21,6 +21,15 @@ namespace StarlightRiver.Achievements
 
                 achLib.Call("AddAchievement", mod, "Faerie Blaze", "Unlock the faeflame ability, locked away in the surreal halls of the overgrowth.",
                 ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOff"), ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOn"), AchievementCategory.Explorer);
+
+                achLib.Call("AddAchievement", mod, "Otherworldly Coronation", "Unlock the cornoa of purity ability, sealed away deep within the depths of the world...",
+                ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOff"), ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOn"), AchievementCategory.Explorer);
+
+                achLib.Call("AddAchievement", mod, "Shatterer", "Unlock the gaia's fist ability, sealed away and forgotten deep in the jungle.",
+                ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOff"), ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOn"), AchievementCategory.Explorer);
+
+                achLib.Call("AddAchievement", mod, "Living Shadow", "Unlock the ??? ability, long forgotten by any living soul.",
+                ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOff"), ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOn"), AchievementCategory.Explorer);
             }
         }
 

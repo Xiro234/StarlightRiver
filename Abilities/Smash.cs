@@ -21,33 +21,42 @@ namespace StarlightRiver.Abilities
 
         }
 
+        public virtual void StartAbility(AbilityHandler handler)
+        {
+            //if the player: has enough stamina  && unlocked && not on CD     && Has no other abilities active          && Off the ground
+            if (handler.StatStamina >= StaminaCost && !Locked && Cooldown == 0 && !handler.Abilities.Any(a => a.Active) && player.velocity.Y != 0)
+            {
+                handler.StatStamina -= StaminaCost; //Consume the stamina
+                OnCast(); //Do what the ability should do when it starts
+            }
+        }
+
         public override void OnCast()
         {
             Active = true;
-            timer = 15;
+            Timer = 15;
         }
 
-        int timer;
         public override void InUse()
         {
             player.maxFallSpeed = 999;
             player.velocity.X = 0;
             player.velocity.Y = 35;
+            Timer++;
 
             for (int k = 0; k <= 5; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Stone>(), 0,0,0,default, 1.4f);
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, DustID.Dirt, Main.rand.Next(-20, 20) * 0.5f, 0, 0, default, 0.8f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Stone>(), 0,0,0,default, 1.1f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, DustID.Dirt, Main.rand.Next(-14, 15) * 0.5f, 0, 0, default, 0.8f);
                 if (k % 2 == 0)
                 {
-                    Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Grass>(), Main.rand.Next(-10, 10) * 0.5f, 0, 0, default, 1.8f);
+                    Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Grass>(), Main.rand.Next(-9, 10) * 0.5f, 0, 0, default, 1.1f);
                 }
             }
 
-            if (timer++ >= 15)
+            if (Timer % 15 == 0)
             {
                 Main.PlaySound(SoundID.Item66, player.Center);
-                timer = 0;
             }
 
             if (player.position.Y - player.oldPosition.Y == 0)
@@ -59,11 +68,13 @@ namespace StarlightRiver.Abilities
 
         public override void OnExit()
         {
-            for (float k = 0; k <= 6.28; k += 0.06f)
+            int power = (Timer > 60) ? 12 : (int)(Timer / 60f * 12);
+            for (float k = 0; k <= 6.28; k += 0.1f - (power * 0.005f))
             {
-                Dust.NewDust(player.Center, 1,1, ModContent.DustType<Stone>(), (float)Math.Cos(k) * 12, (float)Math.Sin(k) * 12, 0, default, 1.8f);
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Grass>(), (float)Math.Cos(k) * 8, (float)Math.Sin(k) * 8, 0, default, 2f);
+                Dust.NewDust(player.Center, 1, 1, ModContent.DustType<Stone>(), (float)Math.Cos(k) * power, (float)Math.Sin(k) * power, 0, default, 0.5f + power / 7f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Grass>(), (float)Math.Cos(k) * power * 0.75f, (float)Math.Sin(k) * power * 0.75f, 0, default, 0.5f + power / 7f);
             }
+
             Main.PlaySound(SoundID.Item70, player.Center);
             Main.PlaySound(SoundID.NPCHit42, player.Center);
             Main.PlaySound(SoundID.Item14, player.Center);

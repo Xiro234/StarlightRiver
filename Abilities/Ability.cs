@@ -45,7 +45,7 @@ namespace StarlightRiver.Abilities
             player = Player;
         }
 
-        public void StartAbility(AbilityHandler handler)
+        public virtual void StartAbility(AbilityHandler handler)
         {
             //if the player: has enough stamina  && unlocked && not on CD     && Has no other abilities active
             if(handler.StatStamina >= StaminaCost && !Locked && Cooldown == 0 && !handler.Abilities.Any(a => a.Active))

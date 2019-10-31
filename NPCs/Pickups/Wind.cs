@@ -83,9 +83,9 @@ namespace StarlightRiver.NPCs.Pickups
 
             if (mp.dash.Locked)
             {
-                Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 8);
+                Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 4);
 
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1"), npc.position + new Vector2(0, (float)Math.Sin(timer) * 8) - Main.screenPosition, Color.White);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1"), npc.position + new Vector2(0, (float)Math.Sin(timer) * 4) - Main.screenPosition, Color.White);
 
                 Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Sin(timer) * 30, npc.Center.Y - 20), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
                 Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Cos(timer) * 15, npc.Center.Y), ModContent.DustType<Dusts.Air>(), Vector2.Zero);

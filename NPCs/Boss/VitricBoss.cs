@@ -13,7 +13,7 @@ namespace StarlightRiver.NPCs.Boss
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("PH Vitric Boss");
+            DisplayName.SetDefault("Glass Tax Returns");
             Main.npcFrameCount[npc.type] = 1;
         }
 

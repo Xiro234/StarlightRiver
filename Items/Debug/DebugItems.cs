@@ -179,7 +179,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            ModGas.SpawnGas((int)Main.MouseWorld.X / 16,(int)Main.MouseWorld.Y / 16, ModContent.DustType<Dusts.Gas>(), 100);
+            player.GetModPlayer<AbilityHandler>().smash.Locked = true;
             return true;
         }
     }
