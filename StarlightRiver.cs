@@ -43,6 +43,8 @@ namespace StarlightRiver
         public static ModHotKey Wisp;
         public static ModHotKey Purify;
 
+        public enum AbilityEnum : int {dash, wisp, purify, smash, superdash };
+
         public static StarlightRiver Instance { get; set; }
         public StarlightRiver()
         {

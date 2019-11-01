@@ -10,6 +10,7 @@ namespace StarlightRiver.Dusts
 {
     public class Gas : ModDust
     {
+        float mult;
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -23,9 +24,10 @@ namespace StarlightRiver.Dusts
         
         public override bool Update(Dust dust)
         {
+            Lighting.AddLight((int)dust.position.X / 16, (int)dust.position.Y / 16, 0.2f, 0.19f, 0.0f);
+            dust.color = Lighting.GetColor((int)(dust.position.X / 16), (int)(dust.position.Y / 16)) * 0.05f;
             dust.position += dust.velocity * 0.1f;
-            //dust.color *= 0.982f;
-            dust.scale *= 0.982f;
+            dust.scale *= 0.992f;
             dust.velocity *= 0.97f;
             dust.rotation += 0.1f;
 

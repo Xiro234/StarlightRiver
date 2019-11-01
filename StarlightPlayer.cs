@@ -116,6 +116,8 @@ namespace StarlightRiver
                 }
                     --InvertGrav;
             }
+
+            if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; }
         }
     }
 }

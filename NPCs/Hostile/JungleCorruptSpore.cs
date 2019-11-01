@@ -33,7 +33,6 @@ namespace StarlightRiver.NPCs.Hostile
         {
             Main.PlaySound(SoundID.NPCDeath13, npc.Center);
             Projectile.NewProjectile(npc.position + new Vector2(8, 8), Vector2.Zero, mod.ProjectileType("GasPoison"), 25, 0);
-            ModGas.SpawnGas((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16), ModContent.DustType<Dusts.GasGreen>(), 80);
             for (int k = 0; k <= 50; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Corrupt"), Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default, 1.4f);

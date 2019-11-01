@@ -142,7 +142,7 @@ namespace StarlightRiver.Items.Debug
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flesh Placer");
+            DisplayName.SetDefault("Viner");
         }
 
         public override void SetDefaults()
@@ -156,7 +156,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.HellGate>();
+            item.createTile = ModContent.TileType<Tiles.VineOvergrow>();
         }
     }
 
@@ -170,17 +170,12 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 1;
+            item.createTile = ModContent.TileType<Tiles.GasVent>();
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fart");
             Tooltip.SetDefault("Haha poopy haha stinky haha funny");
-        }
-
-        public override bool UseItem(Player player)
-        {
-            player.GetModPlayer<AbilityHandler>().smash.Locked = true;
-            return true;
         }
     }
 }

@@ -24,9 +24,9 @@ namespace StarlightRiver.Tiles
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.236f / 1.5f;
-            g = 0.144f / 1.5f;
-            b = 0.071f / 1.5f;
+            r = 0.236f / 1.1f;
+            g = 0.144f / 1.1f;
+            b = 0.071f / 1.1f;
         }
 
         public override void NearbyEffects(int i, int j, bool closer)

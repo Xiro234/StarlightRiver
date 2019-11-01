@@ -13,13 +13,18 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using StarlightRiver.Projectiles;
+using StarlightRiver.Structures;
+using static StarlightRiver.StarlightRiver;
 
 namespace StarlightRiver
 {
     
     public partial class LegendWorld : ModWorld
     {
-        public Vector2 PureSpawnPoint;
+        public static Vector2 DashSP;
+        public static Vector2 WispSP;
+        public static Vector2 PureSP;
+        public static Vector2 SmashSP;
 
         public static bool ForceStarfall = false; 
 
@@ -42,11 +47,13 @@ namespace StarlightRiver
             if (ShiniesIndex != -1)
             {
                 tasks.Insert(DesertIndex + 1, new PassLegacy("Starlight River Vitric Desert", GenerateCrystalCaverns));
+                tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", GenHelper.WindsAltarGen));
+
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
                 //tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Caves", DolomiteGen));
-                //tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", VoidAltarGen));
+                //tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", GenHelper.VoidAltarGen));
 
-                tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", RuinsGen));
+                tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", GenHelper.RuinsGen));
             }
         }
         public override void PostWorldGen()
@@ -235,34 +242,6 @@ namespace StarlightRiver
                 //PlaceCrystal(tC, randomWallLocation, (Math.Abs((int)randomWallLocation.X - tC.X) / 6) + (WorldGen.genRand.Next(8, 23)));
             }
         }
-
-        ///Deprecated!
-        /// <summary> Moved to a seperate method in order to test something. Since moving it back is hard, I won't. It's staying.</summary>
-        private void PlaceCrystal(Point origin, Vector2 position, int siz = 6)
-        {
-            float side = 6.28f / 4; //Helper variable
-
-            float adjRot = Vector2.Normalize(origin.ToVector2() - position).ToRotation() + side; //Rotation direction of the direction of the crystals, starting from the wall.
-            adjRot += WorldGen.genRand.Next((int)(-side * 18), (int)(side * 18)) * 0.01f; //Randomization of angle
-            Vector2 direction = new Vector2(0, -1).RotatedBy(adjRot); //Angle velocity of the crystal
-
-            int wid = WorldGen.genRand.Next(1, 3); //Partial width of the crystal
-            int negWid = -WorldGen.genRand.Next(1, 3); //Partial width of the crystal - formatted in this way to make odd numbered widths possible
-
-            for (int j = 0; j < siz; ++j) //Places crystal, replace PlaceTile with TileRunner or other method of choice
-            {
-                WorldGen.PlaceTile((int)position.X, (int)position.Y, ModContent.TileType<Tiles.VitricGlass>(), true, true, -1, 0);
-                position += direction;
-
-                Vector2 newDir = new Vector2(0, -1).RotatedBy(Vector2.Normalize(origin.ToVector2() - position).ToRotation() - (side * 2));
-                Vector2 widthPos = position - (newDir * ((wid + negWid) / 2f));
-                for (float k = negWid; k < wid; k += 0.5f) //Widens the crystal
-                {
-                    WorldGen.PlaceTile((int)widthPos.X, (int)widthPos.Y, ModContent.TileType<Tiles.VitricGlass>(), true, true, -1, 0);
-                    widthPos += newDir / 2;
-                }
-            }
-        }
         
         /// <summary>
         /// Moves from starting point p to the first solid block it touches according to direction dir. Skips tiles of types included the ignoredTileIDs array.
@@ -349,98 +328,6 @@ namespace StarlightRiver
             }           
         }
 
-        private void VoidAltarGen(GenerationProgress progress)
-        {
-            progress.Message = "Opening the Gates...";
-
-            // Top-Left Position
-            Vector2 PureAltarSP = new Vector2(Main.spawnTileX - 50, Main.maxTilesY - 101);
-            PureSpawnPoint = PureAltarSP + new Vector2(202, 57);
-
-            Texture2D Courtyard = ModContent.GetTexture("StarlightRiver/Structures/VoidAltar");
-
-            for(int y = 0; y < Courtyard.Height; y++) // for every row
-            {
-                Color[] rawData = new Color[Courtyard.Width]; //array of colors
-                Rectangle row = new Rectangle(0, y, Courtyard.Width, 1); //one row of the image
-                Courtyard.GetData<Color>(0, row, rawData, 0, Courtyard.Width); //put the color data from the image into the array
-
-                for (int x = 0; x < Courtyard.Width; x++) //every entry in the row
-                {
-                    Main.tile[(int)PureAltarSP.X + x, (int)PureAltarSP.Y + y].ClearEverything(); //clear the tile out
-                    Main.tile[(int)PureAltarSP.X + x, (int)PureAltarSP.Y + y].liquidType(0); // clear liquids
-
-                    ushort placeType = 0;
-                    ushort wallType = 0;
-                    switch (rawData[x].R) //select block
-                    {
-                        case 10: placeType = TileID.Ash; break;
-                        case 20: placeType = (ushort)ModContent.TileType<Tiles.Void1>(); break;
-                        case 30: placeType = (ushort)ModContent.TileType<Tiles.Void2>(); break;
-                        case 40: placeType = (ushort)ModContent.TileType<Tiles.VoidDoorOn>(); break;
-                    }
-                    switch (rawData[x].B) //select wall
-                    {
-                        case 10: wallType = (ushort)ModContent.WallType<Tiles.VoidWall>(); break;
-                        case 20: wallType = (ushort)ModContent.WallType<Tiles.VoidWallPillar>(); break;
-                        case 30: wallType = (ushort)ModContent.WallType<Tiles.VoidWallPillarS>(); break;
-                    }
-
-                    if (placeType != 0) { WorldGen.PlaceTile((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, placeType, true, true); } //place block
-                    if (wallType != 0) { WorldGen.PlaceWall((int)PureAltarSP.X + x, (int)PureAltarSP.Y + y, wallType, true); } //place wall
-                }
-            }           
-        }
-
-        private void RuinsGen(GenerationProgress progress)
-        {
-            progress.Message = "Spicing up Forests...";
-            Texture2D Ruins = ModContent.GetTexture("StarlightRiver/Structures/Ruins");
-
-            for (int x = 0; x + 16 < Main.maxTilesX; x += Main.rand.Next(8, 16))
-            {
-                if (Main.rand.Next(4) == 0) // 1/5 chance to generate
-                {
-                    for (int y = 0; y < Main.maxTilesY; y++) // find the highest grass block
-                    {
-                        if (Main.tile[x, y].type == TileID.Grass && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6 && Main.tile[x+ 4,y].active() && Main.tile[x + 8, y].active())// valid placement
-                        {
-                            int variant = Main.rand.Next(5);
-
-                            // Generation Block
-                            for (int y2 = 0; y2 < Ruins.Height; y2++) // for every row
-                            {
-                                Color[] rawData = new Color[8]; //array of colors
-                                Rectangle row = new Rectangle(8 * variant, y2, 8, 1); //one row of the image
-                                Ruins.GetData<Color>(0, row, rawData, 0, 8); //put the color data from the image into the array
-
-                                for (int x2 = 0; x2 < 8; x2++) //every entry in the row
-                                {
-                                    Main.tile[x + x2, y + y2].slope(0);
-
-                                    ushort placeType = 0;
-                                    ushort wallType = 0;
-                                    switch (rawData[x2].R) //select block
-                                    {
-                                        case 10: placeType = TileID.GrayBrick; break;
-                                        case 20: placeType = TileID.LeafBlock; break;
-                                    }
-                                    switch (rawData[x2].B) //select wall
-                                    {
-                                        case 10: wallType = WallID.GrayBrick; break;
-                                    }
-
-                                    if (placeType != 0) { WorldGen.PlaceTile(x + x2, y - 15 + y2, placeType, true, true); } //place block
-                                    if (wallType != 0) { WorldGen.PlaceWall(x + x2, y - 15 + y2, wallType, true); } //place wall
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // Overgrow Generation
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -514,25 +401,31 @@ namespace StarlightRiver
 
         public override void PostUpdate()
         {
-            if (!Main.projectile.Any(proj => proj.type == mod.ProjectileType("Purifier")) && PureTiles != null)
+            if (!Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
             {
                 PureTiles.Clear();
             }
-            if (!Main.npc.Any(n => n.type == mod.NPCType("Purity") && n.active == true))
+
+            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wind>() && n.active == true))
             {
-                NPC.NewNPC((int)PureSpawnPoint.X * 16 - 20, (int)PureSpawnPoint.Y * 16 - 20, mod.NPCType("Purity"));
+                NPC.NewNPC((int)DashSP.X, (int)DashSP.Y, ModContent.NPCType<NPCs.Pickups.Wind>());
             }
         }
 
         public override void Initialize()
         {
-            AnyBossDowned = false;
+            vitricTopLeft = Vector2.Zero;
 
+            AnyBossDowned = false;
             GlassBossDowned = false;
-            ForceStarfall = false;
             SealOpen = false;
 
+            ForceStarfall = false;
+
             NPCUpgrades = new int[] { 0, 0 };
+            PureTiles = new List<Vector2>();
+
+            DashSP = Vector2.Zero;
         }
 
         public override TagCompound Save()
@@ -550,7 +443,8 @@ namespace StarlightRiver
                 [nameof(NPCUpgrades)] = NPCUpgrades,
 
                 [nameof(PureTiles)] = PureTiles,
-                [nameof(PureSpawnPoint)] = PureSpawnPoint               
+
+                [nameof(DashSP)] = DashSP             
             };
         }
         public override void Load(TagCompound tag)
@@ -566,7 +460,8 @@ namespace StarlightRiver
             NPCUpgrades = tag.GetIntArray(nameof(NPCUpgrades));           
 
             PureTiles = (List<Vector2>)tag.GetList<Vector2>(nameof(PureTiles));
-            PureSpawnPoint = tag.Get<Vector2>(nameof(PureSpawnPoint));
+
+            DashSP = tag.Get<Vector2>(nameof(DashSP));
 
 
             for (int k = 0; k <= PureTiles.Count - 1;  k++)
