@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -12,65 +13,45 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.width = 8;
             projectile.height = 8;
             projectile.friendly = true;
-            projectile.timeLeft = 2;
+            projectile.penetrate = -1;
+            projectile.timeLeft = 90;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void AI()
         {
-            //projectile.ai[1] maxLength
-            //projectile.localAI[0] length
-            //projectile.localAI[1] shrink
             Player player = Main.player[projectile.owner];
-            if (projectile.ai[0] == 0)
-            {
-                projectile.localAI[0] = 1;
-                if ((Main.MouseWorld - player.Center).Length() > 400) projectile.ai[1] = 400;
-                else projectile.ai[1] = (Main.MouseWorld - player.Center).Length();
-                projectile.ai[0] = 1;
-            }
-            projectile.timeLeft = 2;
-            projectile.position = player.Center;
-            if (projectile.localAI[0] < projectile.ai[1] && projectile.localAI[1] == 0) projectile.localAI[0] += 30f;
-            if (!player.channel) 
-            {
-                projectile.localAI[1] = 1;
-            }
-            if (projectile.localAI[1] == 1)
-            {
-                projectile.localAI[0] -= 15f;
-            }
-            if (projectile.localAI[0] < 1) projectile.Kill();
+
+            float rad = (projectile.timeLeft > 80) ? 20 - (projectile.timeLeft - 80) * 2 : (projectile.timeLeft / 70f) * 20f;
+            if (!player.channel && projectile.timeLeft < 80) { projectile.timeLeft -= 2; }
+
+            float rot = (Main.MouseWorld - player.Center).ToRotation();
+            rot += (float)Math.Sin(LegendWorld.rottime * 5) *projectile.ai[0]* 0.03f;
+            float rotvel = (rot - projectile.ai[1] + 9.42f) % 6.28f - 3.14f;
+
+            if (Math.Abs(rotvel) >= 3.14f) { rotvel = 3.13f; }
+
+            if (rotvel >= (24 - projectile.ai[0]) * 0.005f) { rot = projectile.ai[1] + (24 - projectile.ai[0]) * 0.005f; }
+            else if (rotvel <= (24 - projectile.ai[0]) * -0.005f) { rot = projectile.ai[1] + (24 - projectile.ai[0]) * -0.005f; }
+
+            
+            projectile.position = (player.Center) + (projectile.velocity * rad * projectile.ai[0]).RotatedBy(rot - projectile.velocity.ToRotation());
+            
+            projectile.rotation = rot + 1.57f;
+
+            projectile.ai[1] = rot;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D unit = Main.projectileTexture[projectile.type];
-            int unitLength = 13;
-            int numUnits = (int)Math.Ceiling(projectile.localAI[0] / unitLength);
-            float increment = 0f;
-            if (numUnits > 1)
+            Projectile proj = Main.projectile.FirstOrDefault(k => k.type == projectile.type && k.owner == projectile.owner && k.ai[0] == projectile.ai[0] - 1);
+            if (proj != null)
             {
-                increment = (projectile.localAI[0] - unitLength) / (numUnits - 1);
+                Vector2 target = Vector2.Lerp(projectile.Center, proj.Center, 0.5f) - Main.screenPosition;
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/WhipSegment1"), new Rectangle((int)target.X, (int)target.Y, 16, 12), new Rectangle(0, 0, 16, 12),
+                    Lighting.GetColor((int)projectile.position.X / 16, (int)projectile.position.Y / 16), projectile.rotation, new Vector2(8, 6), 0, 0);
             }
-            Vector2 direction = new Vector2((float)Math.Cos(projectile.rotation), (float)Math.Sin(projectile.rotation));
-            SpriteEffects effects = SpriteEffects.None;
-            if (projectile.spriteDirection == -1)
-            {
-                effects = SpriteEffects.FlipVertically;
-            }
-            for (int k = 1; k <= numUnits; k++)
-            {
-                Texture2D image = unit;
-                if (k == numUnits)
-                {
-                    image = mod.GetTexture("Projectiles/WeaponProjectiles/WhipTip");
-                }
-                Vector2 pos = projectile.position + direction * (increment * (k - 1) + unitLength / 2f);
-                Color color = Lighting.GetColor((int)(pos.X / 16f), (int)(pos.Y / 16f));
-                spriteBatch.Draw(image, pos - Main.screenPosition, null, projectile.GetAlpha(color), projectile.rotation+MathHelper.ToRadians(90), new Vector2(unit.Width / 2, unit.Height / 2), 1f, effects, 0f);
-            }
-            return false;
-
+            return true;
         }
     }
 }

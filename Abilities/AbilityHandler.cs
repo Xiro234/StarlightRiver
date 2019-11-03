@@ -189,6 +189,5 @@ namespace StarlightRiver.Abilities
                 foreach (PlayerLayer layer in layers) { layer.visible = false; }
             }
         }
-
     }
 }

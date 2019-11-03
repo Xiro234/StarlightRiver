@@ -25,6 +25,8 @@ namespace StarlightRiver
         public bool VitricSet = false;
 
         public bool AnthemDagger = false;
+
+        public int Shake = 0;
 		
 		public int InvertGrav = 0;
 		public override void PreUpdateBuffs()
@@ -117,7 +119,14 @@ namespace StarlightRiver
                     --InvertGrav;
             }
 
-            if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; }
+            if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; }           
+        }
+
+        public override void ModifyScreenPosition()
+        {
+            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
+            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
+            if (Shake > 0) { Shake--; }
         }
     }
 }

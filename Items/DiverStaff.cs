@@ -32,7 +32,7 @@ namespace StarlightRiver.Items
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(30));
+            Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(.75f);
             speedX = perturbedSpeed.X;
             speedY = perturbedSpeed.Y;
             return true;

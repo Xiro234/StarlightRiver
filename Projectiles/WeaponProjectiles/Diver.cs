@@ -18,7 +18,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.damage = 5;
-            projectile.extraUpdates = 5;
+            projectile.extraUpdates = 3;
         }
         public override void SetStaticDefaults()
         {
@@ -36,6 +36,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             {
                 Dust.NewDustPerfect(projectile.position, mod.DustType("Gold"));
                 projectile.velocity.Y -= 0.02f;
+            }
+            if(projectile.velocity.Length() > 2)
+            {
+                projectile.velocity = Vector2.Normalize(projectile.velocity) * 2;
             }
         }
     }

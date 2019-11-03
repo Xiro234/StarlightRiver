@@ -170,12 +170,18 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 1;
-            item.createTile = ModContent.TileType<Tiles.GasVent>();
+            //item.createTile = ModContent.TileType<Tiles.GasVent>();
         }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fart");
             Tooltip.SetDefault("Haha poopy haha stinky haha funny");
+        }
+
+        public override bool UseItem(Player player)
+        {
+            LegendWorld.SealOpen = false;
+            return true;
         }
     }
 }
