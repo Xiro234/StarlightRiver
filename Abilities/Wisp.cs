@@ -93,6 +93,7 @@ namespace StarlightRiver.Abilities
                 exit = false;
                 player.velocity.X = 0;
                 player.velocity.Y = 0;
+                player.Hitbox = new Rectangle((int)player.position.X, (int)player.position.Y, 20, 42);
 
                 for (int k = 0; k <= 30; k++)
                 {
