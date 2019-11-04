@@ -58,11 +58,14 @@ namespace StarlightRiver
             if (Main.playerInventory)
             {
                 Collection.visible = true;
+                GUI.Codex.Visible = true;
                 if (mp.Abilities.Any(a => !a.Locked)) { Infusion.visible = true; }
             }
             else
             {
                 Collection.visible = false;
+                GUI.Codex.Visible = false;
+                GUI.Codex.Open = false;
                 Infusion.visible = false;
             }
 

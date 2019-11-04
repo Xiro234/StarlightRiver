@@ -29,6 +29,8 @@ namespace StarlightRiver
         public Cooking cooking;
         public LinkHP linkhp;
         public AbilityText abilitytext;
+        public GUI.Codex codex;
+
         public UserInterface customResources;
         public UserInterface customResources2;
         public UserInterface customResources3;
@@ -36,6 +38,7 @@ namespace StarlightRiver
         public UserInterface customResources5;
         public UserInterface customResources6;
         public UserInterface customResources7;
+        public UserInterface customResources8;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
@@ -113,6 +116,8 @@ namespace StarlightRiver
                 customResources5 = new UserInterface();
                 customResources6 = new UserInterface();
                 customResources7 = new UserInterface();
+                customResources8 = new UserInterface();
+
                 stamina = new Stamina();
                 collection = new Collection();
                 overlay = new Overlay();
@@ -120,6 +125,7 @@ namespace StarlightRiver
                 cooking = new Cooking();
                 linkhp = new LinkHP();
                 abilitytext = new AbilityText();
+                codex = new GUI.Codex();
 
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
@@ -127,6 +133,8 @@ namespace StarlightRiver
                 customResources4.SetState(infusion);
                 customResources5.SetState(cooking);
                 customResources6.SetState(linkhp);
+                customResources7.SetState(abilitytext);
+                customResources8.SetState(codex);
             }
 
             // Cursed Accessory Control Override
@@ -433,6 +441,18 @@ namespace StarlightRiver
 
                     return true;
                 }, InterfaceScaleType.UI));
+
+                layers.Insert(MouseTextIndex + 6, new LegacyGameInterfaceLayer("[PH]MODNAME: Codex",
+                delegate
+                {
+                    if (GUI.Codex.Visible)
+                    {
+                        customResources8.Update(Main._drawInterfaceGameTime);
+                        codex.Draw(Main.spriteBatch);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI));
             }
         }
 
@@ -463,6 +483,7 @@ namespace StarlightRiver
                 customResources5 = null;
                 customResources6 = null;
                 customResources7 = null;
+                customResources8 = null;
 
                 stamina = null;
                 collection = null;
@@ -471,6 +492,7 @@ namespace StarlightRiver
                 cooking = null;
                 linkhp = null;
                 abilitytext = null;
+                codex = null;
 
                 VitricBackgroundDust.Clear();
                 VitricForegroundDust.Clear();

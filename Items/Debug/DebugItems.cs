@@ -1,4 +1,5 @@
 ﻿using StarlightRiver.Abilities;
+using StarlightRiver.Codex;
 using StarlightRiver.Gases;
 using Terraria;
 using Terraria.ModLoader;
@@ -181,6 +182,7 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             LegendWorld.SealOpen = false;
+            Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState = 0;
             return true;
         }
     }
