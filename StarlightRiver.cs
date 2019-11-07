@@ -20,7 +20,7 @@ using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 
 namespace StarlightRiver
 {
-    public class StarlightRiver : Mod
+    public partial class StarlightRiver : Mod
     {
         public Stamina stamina;
         public Collection collection;

@@ -31,7 +31,6 @@ namespace StarlightRiver.NPCs.Pickups
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
-            Lighting.AddLight(npc.Center, new Vector3(1, 0.5f, 0));
 
             if (npc.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<CodexHandler>().CodexState == 0)
             {
@@ -49,6 +48,8 @@ namespace StarlightRiver.NPCs.Pickups
             Texture2D book = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
             if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState == 0)
             {
+                Lighting.AddLight(npc.Center, new Vector3(1, 0.5f, 0));
+
                 spriteBatch.Draw(book, npc.position - Main.screenPosition + new Vector2(4, (float)Math.Sin(LegendWorld.rottime) * 4), Color.White);
                 float rot = Main.rand.NextFloat(6.28f);
                 Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(rot) * 20, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedBy(rot) * -1);

@@ -15,13 +15,13 @@ namespace StarlightRiver.Structures
 {
     public partial class GenHelper
     {
-        public static void WindsAltarGen(GenerationProgress progress)
+        public static void BookAltarGen(GenerationProgress progress)
         {
-            progress.Message = "Hiding Abilities...";
+            progress.Message = "Hiding Codex...";
 
-            Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/WindsAltar");
-            Vector2 spawn = LegendWorld.vitricTopLeft + new Vector2(0, 110);
-            LegendWorld.DashSP = spawn * 16 + new Vector2(216, 170);
+            Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/BookAltar");
+            Vector2 spawn = FindSand();
+            LegendWorld.BookSP = spawn * 16 + new Vector2(54, 174);
 
             for (int y = 0; y < Altar.Height; y++) // for every row
             {
@@ -38,18 +38,36 @@ namespace StarlightRiver.Structures
                     ushort wallType = 0;
                     switch (rawData[x].R) //select block
                     {
-                        case 10: placeType = (ushort)ModContent.TileType<Tiles.VitricBrick>(); break;
-                        case 20: placeType = (ushort)ModContent.TileType<Tiles.VitricGlass>(); break;
+                        case 10: placeType = TileID.SandstoneBrick; break;
+                        case 20: placeType = TileID.WoodBlock; break;
+                        case 30: placeType = TileID.Sand; break;
+                        case 40: placeType = TileID.Platforms; break;
                     }
                     switch (rawData[x].B) //select wall
                     {
-                        case 10: wallType = (ushort)ModContent.WallType<Tiles.VoidWall>(); break;
+                        case 10: wallType = WallID.SandstoneBrick; break;
+                        case 20: wallType = WallID.Wood; break;
                     }
 
                     if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block
                     if (wallType != 0) { WorldGen.PlaceWall((int)spawn.X + x, (int)spawn.Y + y, wallType, true); } //place wall
                 }
             }
+        }
+
+        private static Vector2 FindSand()
+        {
+            for(int i = WorldGen.UndergroundDesertLocation.X; i < Main.maxTilesX; i++)
+            {
+                for(int j = 0; j < Main.maxTilesY; j++)
+                {
+                    if(i > 20 && Main.tile[i,j].type == TileID.Sand && Helper.AirScanUp(new Vector2(i,j), 40))
+                    {
+                        return new Vector2(i, j);
+                    }
+                }               
+            }
+            return new Vector2(WorldGen.UndergroundDesertLocation.X, 200);
         }
     }
 }

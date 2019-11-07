@@ -83,7 +83,7 @@ namespace StarlightRiver
                 Overlay.visible = true;
                 Overlay.state = 1;
 
-                if(player.GetModPlayer<AbilityHandler>().pure.Locked)
+                if (player.GetModPlayer<AbilityHandler>().pure.Locked)
                 {
                     player.AddBuff(mod.BuffType("DarkSlow"), 5);
                 }
@@ -124,6 +124,36 @@ namespace StarlightRiver
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
             bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];
             holyJungleTiles = tileCounts[mod.TileType("GrassJungleHoly")];
+        }
+    }
+
+    public partial class StarlightRiver : Mod
+    {
+        public override void ModifySunLightColor(ref Color tileColor, ref Color backgroundColor)
+        {
+            if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt)
+            {
+                tileColor = tileColor.MultiplyRGB(new Color(130, 100, 145));
+                backgroundColor = backgroundColor.MultiplyRGB(new Color(130, 100, 145));
+            }
+
+            if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody)
+            {
+                tileColor = tileColor.MultiplyRGB(new Color(155, 120, 90));
+                backgroundColor = backgroundColor.MultiplyRGB(new Color(155, 120, 90));
+            }
+
+            if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
+            {
+                tileColor = tileColor.MultiplyRGB(new Color(70, 150, 165));
+                backgroundColor = backgroundColor.MultiplyRGB(new Color(70, 150, 165));
+            }
+
+            if (LegendWorld.starfall)
+            {
+                tileColor = new Color(20, 50, 60);
+                backgroundColor = new Color(10, 15, 20);
+            }
         }
     }
 }

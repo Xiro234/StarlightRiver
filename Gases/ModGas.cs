@@ -26,34 +26,37 @@ namespace StarlightRiver.Gases
             {
                 for (int y = (int)(player.Center.Y / 16) - max; y <= (int)(player.Center.Y / 16) + max; y++)
                 {
-                    ModGas gas = Gas[x, y];
-
-                    if (gas != null && gas.Strength >= 1 && x > 0 && y > 0 && x < Main.maxTilesX && y < Main.maxTilesY)
+                    if (x > 0 && y > 0 && x < Main.maxTilesX && y < Main.maxTilesY)
                     {
-                        if (Main.tile[x, y + 1].collisionType != 1)
-                        {
-                            Gas[gas.i, gas.j + 1] = new ModGas(gas.maxStrength, gas.Strength - Main.rand.Next(2, 15), gas.DustType, gas.i, gas.j + 1);
-                        }
+                        ModGas gas = Gas[x, y];
 
-                        if (Main.tile[x, y - 1].collisionType != 1)
+                        if (gas != null && gas.Strength >= 1)
                         {
-                            Gas[gas.i, gas.j - 1] = new ModGas(gas.maxStrength, gas.Strength - Main.rand.Next(2, 15), gas.DustType, gas.i, gas.j - 1);
-                        }
+                            if (Main.tile[x, y + 1].collisionType != 1)
+                            {
+                                Gas[gas.i, gas.j + 1] = new ModGas(gas.maxStrength, gas.Strength - Main.rand.Next(2, 15), gas.DustType, gas.i, gas.j + 1);
+                            }
 
-                        if (Main.tile[x + 1, y].collisionType != 1)
-                        {
-                            Gas[gas.i + 1, gas.j] = new ModGas(gas.maxStrength, gas.Strength - Main.rand.Next(2, 15), gas.DustType, gas.i + 1, gas.j);
-                        }
+                            if (Main.tile[x, y - 1].collisionType != 1)
+                            {
+                                Gas[gas.i, gas.j - 1] = new ModGas(gas.maxStrength, gas.Strength - Main.rand.Next(2, 15), gas.DustType, gas.i, gas.j - 1);
+                            }
 
-                        if (Main.tile[x - 1, y].collisionType != 1)
-                        {
-                            Gas[gas.i - 1, gas.j] = new ModGas(gas.maxStrength, gas.Strength - Main.rand.Next(2, 15), gas.DustType, gas.i - 1, gas.j);
-                        }
+                            if (Main.tile[x + 1, y].collisionType != 1)
+                            {
+                                Gas[gas.i + 1, gas.j] = new ModGas(gas.maxStrength, gas.Strength - Main.rand.Next(2, 15), gas.DustType, gas.i + 1, gas.j);
+                            }
 
-                        gas.Strength -= 3;
+                            if (Main.tile[x - 1, y].collisionType != 1)
+                            {
+                                Gas[gas.i - 1, gas.j] = new ModGas(gas.maxStrength, gas.Strength - Main.rand.Next(2, 15), gas.DustType, gas.i - 1, gas.j);
+                            }
+
+                            gas.Strength -= 3;
+                        }
+                        else if (gas != null) { Gas[gas.i, gas.j] = null; }
+                        if (gas != null) { gas.Update(); }
                     }
-                    else if (gas != null) { Gas[gas.i, gas.j] = null; }
-                    if (gas != null) { gas.Update(); }
                 }
             }
                 //timer = 0;

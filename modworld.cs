@@ -21,6 +21,7 @@ namespace StarlightRiver
     
     public partial class LegendWorld : ModWorld
     {
+        public static Vector2 BookSP;
         public static Vector2 DashSP;
         public static Vector2 WispSP;
         public static Vector2 PureSP;
@@ -47,7 +48,8 @@ namespace StarlightRiver
             if (ShiniesIndex != -1)
             {
                 tasks.Insert(DesertIndex + 1, new PassLegacy("Starlight River Vitric Desert", GenerateCrystalCaverns));
-                tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", GenHelper.WindsAltarGen));
+                tasks.Insert(DesertIndex + 2, new PassLegacy("Starlight River Codex", GenHelper.BookAltarGen));
+                tasks.Insert(DesertIndex + 3, new PassLegacy("Starlight River Dash", GenHelper.WindsAltarGen));
 
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
                 //tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Caves", DolomiteGen));
@@ -61,7 +63,7 @@ namespace StarlightRiver
         }
         
         public int MaxCrystalCaveDepth = 0;
-        public static Vector2 vitricTopLeft = new Vector2(); //Initialized after gen. Also don't know how to network, sorry.
+        public static Vector2 vitricTopLeft = new Vector2();
         
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
@@ -410,6 +412,11 @@ namespace StarlightRiver
             {
                 NPC.NewNPC((int)DashSP.X, (int)DashSP.Y, ModContent.NPCType<NPCs.Pickups.Wind>());
             }
+
+            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Lore>() && n.active == true))
+            {
+                NPC.NewNPC((int)BookSP.X, (int)BookSP.Y, ModContent.NPCType<NPCs.Pickups.Lore>());
+            }
         }
 
         public override void Initialize()
@@ -425,6 +432,7 @@ namespace StarlightRiver
             NPCUpgrades = new int[] { 0, 0 };
             PureTiles = new List<Vector2>();
 
+            BookSP = Vector2.Zero;
             DashSP = Vector2.Zero;
         }
 
@@ -444,6 +452,7 @@ namespace StarlightRiver
 
                 [nameof(PureTiles)] = PureTiles,
 
+                [nameof(BookSP)] = BookSP,
                 [nameof(DashSP)] = DashSP             
             };
         }
@@ -461,6 +470,7 @@ namespace StarlightRiver
 
             PureTiles = (List<Vector2>)tag.GetList<Vector2>(nameof(PureTiles));
 
+            BookSP = tag.Get<Vector2>(nameof(BookSP));
             DashSP = tag.Get<Vector2>(nameof(DashSP));
 
 

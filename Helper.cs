@@ -37,5 +37,18 @@ namespace StarlightRiver
                 }
             }
         }
+
+        public static bool AirScanUp(Vector2 start, int MaxScan)
+        {
+            if (start.Y - MaxScan < 0) { return false; }
+
+            bool clear = true;
+
+            for (int k = 0; k <= MaxScan; k++)
+            {
+                if (Main.tile[(int)start.X, (int)start.Y - k].active()) { clear = false; }
+            }
+            return clear;
+        }
     }
 }
