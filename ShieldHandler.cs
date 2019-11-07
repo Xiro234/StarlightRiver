@@ -19,25 +19,63 @@ namespace StarlightRiver
 
         public override bool InstancePerEntity => true;
 
-        public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
         {
             if (Shield > 0)
             {
-                Shield -= (int)(damage / 10);
-                damage *= 0.5f;
-                Main.PlaySound(SoundID.NPCHit34, npc.Center);
-                if (Shield <= 0) { Main.PlaySound(SoundID.NPCDeath37, npc.Center); }
                 for (int k = 0; k <= 10; k++)
                 {
-                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(15));
+                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.Normalize(npc.Center - projectile.Center).RotatedByRandom(1.1f) * Main.rand.NextFloat(20), 0, default, 0.6f);
                 }
+
+                Shield -= damage * 2 / (projectile.GetGlobalProjectile<ShieldBreakingProjectile>().Piercing ? 5 : 10);
+
                 if (Shield <= 0)
                 {
+                    Main.PlaySound(SoundID.NPCDeath37, npc.Center);
                     for (int k = 0; k <= 30; k++)
                     {
                         Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(25));
                     }
                 }
+
+                CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y + 12, npc.width, 0), new Color(60, 220, 255),
+                    damage * 2 / (projectile.GetGlobalProjectile<ShieldBreakingProjectile>().Piercing ? 5 : 10));
+                Main.PlaySound(SoundID.NPCHit34, npc.Center);
+            }
+        }
+
+        public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+        {
+            if (Shield > 0)
+            {
+                for (int k = 0; k <= 10; k++)
+                {
+                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.Normalize(npc.Center - player.Center).RotatedByRandom(1.1f) * Main.rand.NextFloat(20), 0, default, 0.6f);
+                }
+
+                Shield -= damage * 2 / (item.GetGlobalItem<ShieldBreakingItem>().Piercing ? 5 : 10);
+
+                if (Shield <= 0)
+                {
+                    Main.PlaySound(SoundID.NPCDeath37, npc.Center);
+                    for (int k = 0; k <= 30; k++)
+                    {
+                        Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(25));
+                    }
+                }
+
+                CombatText.NewText(new Rectangle((int)npc.position.X, (int)npc.position.Y + 12, npc.width, 0), new Color(60, 220, 255),
+                    damage * 2 / (item.GetGlobalItem<ShieldBreakingItem>().Piercing ? 5 : 10));
+                Main.PlaySound(SoundID.NPCHit34, npc.Center);
+            }
+        }
+
+        public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+        {
+            if (Shield > 0)
+            {
+                damage *= (Main.expertMode) ? 0.3f : 0.5f;
             }
             return true;
         }
@@ -65,10 +103,40 @@ namespace StarlightRiver
             {
                 SpriteBatch spriteBatch = Main.spriteBatch;
                 Vector2 drawpos = position - Main.screenPosition;
-                Rectangle target = new Rectangle((int)drawpos.X - 18, (int)drawpos.Y + 10, (int)(Shield/(float)MaxShield * 36f), 10);
+                Rectangle target = new Rectangle((int)drawpos.X - 17, (int)drawpos.Y + 10, (int)(Shield/(float)MaxShield * 36f), 10);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/ShieldBar1"), target, new Color(60, 210, 255) * Lighting.Brightness((int)npc.position.X / 16, (int)npc.position.Y / 16));
             }
             return true;
         }
+    }
+
+    public class ShieldBreakingItem : GlobalItem
+    {
+        public bool Piercing = false;
+        public override bool InstancePerEntity => true;
+        public override bool CloneNewInstances => true;
+        public override void SetDefaults(Item item)
+        {
+            if(item.hammer > 0)
+            {
+                Piercing = true;
+            }
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (Piercing)
+            {
+                TooltipLine line = new TooltipLine(mod, "Pierce", "2x Damage to Shields");
+                line.overrideColor = new Color(140, 220, 255);
+                tooltips.Add(line);
+            }
+        }
+    }
+
+    public class ShieldBreakingProjectile : GlobalProjectile
+    {
+        public bool Piercing = false;
+        public override bool InstancePerEntity => true;
     }
 }
