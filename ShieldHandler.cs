@@ -94,17 +94,27 @@ namespace StarlightRiver
                 Texture2D tex = ModContent.GetTexture(npc.modNPC.Texture);
                 spriteBatch.Draw(tex, drawpos, new Rectangle(0, 0, npc.width, npc.height), new Color(80, 230, 255) * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.2f),
                     0, npc.Size / 2, 1.1f + (float)Math.Sin(LegendWorld.rottime * 4) * 0.05f, 0, 0);
+
+                if(new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2).Intersects(npc.Hitbox))
+                {
+                    Utils.DrawBorderString(spriteBatch, "Shield: " + Shield + "/" + MaxShield, Main.MouseScreen + new Vector2(18, 38), new Color(140, 230, 255).MultiplyRGB(Main.mouseTextColorReal), 1f);
+                }
             }
         }
 
         public override bool? DrawHealthBar(NPC npc, byte hbPosition, ref float scale, ref Vector2 position)
         {
+            SpriteBatch spriteBatch = Main.spriteBatch;
+            Vector2 drawpos = position - Main.screenPosition;
+            Color color = new Color(60, 50 + (int)(Shield / (float)MaxShield * 170f), 255 );
+
             if (Shield > 0)
             {
-                SpriteBatch spriteBatch = Main.spriteBatch;
-                Vector2 drawpos = position - Main.screenPosition;
-                Rectangle target = new Rectangle((int)drawpos.X - 17, (int)drawpos.Y + 10, (int)(Shield/(float)MaxShield * 36f), 10);
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/ShieldBar1"), target, new Color(60, 210, 255) * Lighting.Brightness((int)npc.position.X / 16, (int)npc.position.Y / 16));
+                Rectangle target = new Rectangle((int)drawpos.X - 16, (int)drawpos.Y + 12, 34, 6);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/ShieldBar0"), target, color * Lighting.Brightness((int)npc.position.X / 16, (int)npc.position.Y / 16));
+
+                Rectangle target2 = new Rectangle((int)drawpos.X - 17, (int)drawpos.Y + 10, (int)(Shield/(float)MaxShield * 36f), 10);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/ShieldBar1"), target2, color * Lighting.Brightness((int)npc.position.X / 16, (int)npc.position.Y / 16));
             }
             return true;
         }

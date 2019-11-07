@@ -18,13 +18,13 @@ namespace StarlightRiver.NPCs
             npc.width = 28;
             npc.knockBackResist = 0f;
             npc.height = 48;
-            npc.lifeMax = 50000;
+            npc.lifeMax = 400;
             npc.noGravity = true;
             npc.damage = 0;
             npc.defense = 10;
             npc.aiStyle = -1;
-            npc.GetGlobalNPC<ShieldHandler>().MaxShield = 500;
-            npc.GetGlobalNPC<ShieldHandler>().Shield = 500;
+            npc.GetGlobalNPC<ShieldHandler>().MaxShield = 50;
+            npc.GetGlobalNPC<ShieldHandler>().Shield = 50;
         }
 
         public override void AI()
