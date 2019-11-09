@@ -125,6 +125,21 @@ namespace StarlightRiver
             if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; }
         }
 
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            if(1 == 0)
+            {
+                switch (Main.rand.Next(4))
+                {
+                    case 0: damageSource = PlayerDeathReason.ByCustomReason(player.name + " was juiced."); break;
+                    case 1: damageSource = PlayerDeathReason.ByCustomReason(player.name + " wanted a closer look at the grass."); break;
+                    case 2: damageSource = PlayerDeathReason.ByCustomReason(player.name + " needs some syrup."); break;
+                    case 3: damageSource = PlayerDeathReason.ByCustomReason(player.name + " fused with the floor."); break;
+                }             
+            }
+            return true;
+        }
+
         public override void ModifyScreenPosition()
         {
             Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);

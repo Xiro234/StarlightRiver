@@ -154,7 +154,8 @@ namespace StarlightRiver
         private void DrawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Main self)
         {
             orig(self);
-            Player player = Main.LocalPlayer;
+            Player player = null;
+            if (Main.playerLoaded) { player = Main.LocalPlayer; }
 
             VitricBackgroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricBackgroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
@@ -162,7 +163,8 @@ namespace StarlightRiver
             VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
-            if (player != null && Main.playerLoaded && player.GetModPlayer<BiomeHandler>().ZoneGlass)
+            if (player != null) { Main.NewText(player); }
+            if (player != null /*&& player.GetModPlayer<BiomeHandler>().ZoneGlass*/)
             {
                 Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1000) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)

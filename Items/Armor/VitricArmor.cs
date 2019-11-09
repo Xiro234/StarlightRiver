@@ -17,6 +17,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Vitric Headgear");
             Tooltip.SetDefault("10% increased ranged damage");
         }
 
@@ -81,6 +82,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Vitric Chestpiece");
             Tooltip.SetDefault("5% increased ranged critical strike chance");
         }
 
@@ -116,6 +118,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Vitric Greaves");
             Tooltip.SetDefault("Slightly improved stamina regeneration");
         }
 

@@ -22,6 +22,7 @@ namespace StarlightRiver.Tiles
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(79, 76, 71));
         }
@@ -36,6 +37,7 @@ namespace StarlightRiver.Tiles
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
             TileID.Sets.Grass[Type] = true;
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(202, 157, 49));

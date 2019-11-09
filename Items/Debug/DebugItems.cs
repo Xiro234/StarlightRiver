@@ -171,7 +171,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 1;
-            //item.createTile = ModContent.TileType<Tiles.GasVent>();
+            item.createTile = ModContent.TileType<Tiles.CrusherTile>();
         }
         public override void SetStaticDefaults()
         {
