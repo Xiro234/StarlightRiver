@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
 {
+    public class TorchOvergrowItem : QuickTileItem { public TorchOvergrowItem() : base("Faerie Torch", "Sparkly!", ModContent.TileType<Tiles.TorchOvergrow>(), 0) { } }
     public class BrickOvergrowItem : ModItem
     {
         public override void SetStaticDefaults()
