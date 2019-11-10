@@ -45,6 +45,8 @@ namespace StarlightRiver
             int SurfaceIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
             int HellIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Underworld"));
             int DesertIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
+            int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
+
             if (ShiniesIndex != -1)
             {
                 tasks.Insert(DesertIndex + 1, new PassLegacy("Starlight River Vitric Desert", GenerateCrystalCaverns));
@@ -54,6 +56,8 @@ namespace StarlightRiver
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
                 //tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Caves", DolomiteGen));
                 //tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", GenHelper.VoidAltarGen));
+
+                tasks.Insert(TrapsIndex + 1, new PassLegacy("Starlight Traps", GenHelper.BoulderSlope));
 
                 tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", GenHelper.RuinsGen));
             }

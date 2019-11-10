@@ -58,8 +58,10 @@ namespace StarlightRiver.NPCs.Boss
 
             return true;
         }
+		
         Vector2 direction = Vector2.Zero;
         Vector2[] spawns = new Vector2[6];
+
         public override void AI()
         {
             //Main.NewText(npc.localAI[0] +"/"+ npc.localAI[1] + "/" + npc.localAI[2] + "/" + npc.localAI[3]);
@@ -67,13 +69,19 @@ namespace StarlightRiver.NPCs.Boss
             {
                 case 0:
                     npc.immortal = true;
-                    npc.localAI[1]++;
-                    if(npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
+					
+                    npc.localAI[1]++; //Increases each frame
+					
+                    //increases by 0.1, if its less than (2 + Player Amount) and a multible of 1, its spawns a crystal (3 crystals for 1 player (2 + 1) and one more for each player
+                    if(npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0) //if AI[1] Less Than or equal to 20 + (10 * Amount of Players) AND npc.localAI[1] divisible by ten (10, 20, 30, 40, etc)
                     {
-                        float r = (float)(Math.PI * 2) / (2 + Main.ActivePlayersCount) * (npc.localAI[1] / 10);
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"),0,(float)Math.Cos(r) * 20,(float)Math.Sin(r) * 20);
+                        //spawns crystals equally spaced around the boss
+                        float r = (float)(Math.PI * 2) / (2 + Main.ActivePlayersCount) * (npc.localAI[1] / 10); //float r = (PI * 2) / 3 {plus one per extra player} * (AI[1] / 10)
+
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"),0,(float)Math.Cos(r) * 20,(float)Math.Sin(r) * 20); //spawns npc
                     }
-                    if (npc.localAI[1] >= 960)
+
+                    if (npc.localAI[1] >= 960) //after 960 (16 seconds) it resets the timer and sets AI[0] to 1, moving on to the next section
                     {
                         npc.localAI[1] = 0;
                         npc.localAI[0] = 1;
@@ -81,11 +89,12 @@ namespace StarlightRiver.NPCs.Boss
                     break;
 
                 case 1:
-                    for (int k = 0; k <= Main.npc.Length - 1; k++)
+                    for (int k = 0; k <= Main.npc.Length - 1; k++) //for every npc in the world
                     {
-                        if (Main.npc[k].type == mod.NPCType("Ward") && Main.npc[k].active == true)
+                        if (Main.npc[k].type == mod.NPCType("Ward") && Main.npc[k].active == true) //if npc equals Ward
                         {
-                            npc.localAI[2]++;
+                            npc.localAI[2]++;//increases eac frame
+
                             for(int n = 0; n <= Vector2.Distance(Main.npc[k].Center, Main.LocalPlayer.Center); n += 5)
                             {
                                 Dust.NewDustPerfect(Vector2.Lerp(Main.npc[k].Center, Main.LocalPlayer.Center, n/(Vector2.Distance(Main.npc[k].Center, Main.LocalPlayer.Center))), ModContent.DustType<Dusts.Air>());
