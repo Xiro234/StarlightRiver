@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Abilities;
+using StarlightRiver.Codex.Entries;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -65,6 +66,7 @@ namespace StarlightRiver.NPCs.Pickups
                     Achievements.Achievements.QuickGive("Faerie Blaze", player);
 
                     StarlightRiver.Instance.abilitytext.Display(mp.wisp, "Faeflame", "Hold " + StarlightRiver.Wisp.GetAssignedKeys()[0] + " to shrink and fly through the air");
+                    Helper.UnlockEntry<FaeEntry>(player);
                 }
 
                 for (int k = 0; k <= 6000; k++)

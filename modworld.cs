@@ -113,7 +113,7 @@ namespace StarlightRiver
                     Main.tile[x, y].active(false);
                     if ((j > maxHei - 8 || j < minHei + 8 || i < -size + 8 || i > size - 8) && WorldGen.genRand.Next(4) == 0)
                     {
-                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : ModContent.TileType<Tiles.VitricSand>(), true, 0, 0, false, true);
+                        WorldGen.TileRunner(x, y, 7, 2, j < maxHei - 8 ? TileID.HardenedSand : ModContent.TileType<Tiles.Vitric.VitricSand>(), true, 0, 0, false, true);
                         continue;
                     }
                     WorldGen.KillWall(x, y, false);
@@ -156,7 +156,7 @@ namespace StarlightRiver
                     int siz = WorldGen.genRand.Next(7, 12);
                     for (int j = 0; j < siz; ++j)
                     {
-                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, ModContent.TileType<Tiles.VitricGlassCrystal>(), true, true);
+                        WorldGen.PlaceTile((int)plPos.X, (int)plPos.Y, ModContent.TileType<Tiles.Vitric.VitricGlassCrystal>(), true, true);
                         WorldGen.KillTile((int)plPos.X, (int)plPos.Y, false, true);
                         int wid = WorldGen.genRand.Next(1, 4);
                         for (int k = 0; k < wid; ++k)
@@ -177,10 +177,10 @@ namespace StarlightRiver
                 for (int j = sHei; j < 10 + WorldGen.genRand.Next(12, 19); ++j)
                 {
                     int off = (int)(i / 5f) * ((i >= 0) ? -1 : 1);
-                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)ModContent.TileType<Tiles.VitricSand>())
+                    if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)ModContent.TileType<Tiles.Vitric.VitricSand>())
                         continue;
                     WorldGen.KillTile(midPoint.X + i, (midPoint.Y + j) + off, true, false, true);
-                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, ModContent.TileType<Tiles.VitricSand>(), true, true, -1, 0);
+                    WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, ModContent.TileType<Tiles.Vitric.VitricSand>(), true, true, -1, 0);
                 }
             }
         }
@@ -197,7 +197,7 @@ namespace StarlightRiver
 
                 if (rot > shortTau) //Caps angle
                     rot = 0;
-                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), ModContent.TileType<Tiles.VitricGlassCrystal>())
+                Vector2 randomWallLocation = GetGroundDirectional(new Vector2(0, -1f).RotatedBy(rot), tC.ToVector2(), ModContent.TileType<Tiles.Vitric.VitricGlassCrystal>())
                     + (new Vector2(0, -1).RotatedBy(rot) * 3); //Position of a wall. Starts off going UP, then goes clockwise.
 
                 int runs = 0;
@@ -217,11 +217,11 @@ namespace StarlightRiver
                     int max = 50;
                     for (int j = -max; j < max; ++j)
                     {
-                        if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.X) > Math.Abs(j) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != ModContent.TileType<Tiles.VitricGlassCrystal>())
+                        if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.X) > Math.Abs(j) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != ModContent.TileType<Tiles.Vitric.VitricGlassCrystal>())
                             nearestWallPositionDifference.X = j;
                         for (int k = -max; k < max; ++k)
                         {
-                            if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.Y) > Math.Abs(k) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != ModContent.TileType<Tiles.VitricGlassCrystal>())
+                            if (Main.tile[(int)wallPos.X, (int)wallPos.Y].active() && Math.Abs(nearestWallPositionDifference.Y) > Math.Abs(k) && Main.tile[(int)wallPos.X, (int)wallPos.Y].type != ModContent.TileType<Tiles.Vitric.VitricGlassCrystal>())
                                 nearestWallPositionDifference.Y = k;
                         }
                         wallPos = placePosition + nearestWallPositionDifference.ToVector2();
@@ -237,7 +237,7 @@ namespace StarlightRiver
                         for (int k = -5; k < 5; ++k)
                         {
                             Main.tile[(int)actualPlacePos.X, (int)actualPlacePos.Y].active(false);
-                            WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, ModContent.TileType<Tiles.VitricGlassCrystal>());
+                            WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, ModContent.TileType<Tiles.Vitric.VitricGlassCrystal>());
                             actualPlacePos += (negDir / 4);
                         }
                         placePosition += dir;
@@ -280,7 +280,7 @@ namespace StarlightRiver
         private void DolomiteGen(GenerationProgress progress)
         {
             progress.Message = "Shifting Tectonic Plates...";
-            ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite>();
+            ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite.Dolomite>();
 
             for (int k = 0; k < (Main.rand.Next(4,8)); k++)
             {
@@ -295,7 +295,7 @@ namespace StarlightRiver
                         {
                             if (Main.tile[i, j].type is TileID.Stone) { Main.tile[i, j].type = Dolomite; }
 
-                            if (!Main.tile[i, j + 2].active() && Main.tile[i, j].type == Dolomite) { Main.tile[i, j + 1].type = (ushort)ModContent.TileType<Tiles.DolomiteHanging>(); }
+                            if (!Main.tile[i, j + 2].active() && Main.tile[i, j].type == Dolomite) { Main.tile[i, j + 1].type = (ushort)ModContent.TileType<Tiles.Dolomite.DolomiteHanging>(); }
 
                             if (i % 15 == 0 && Main.tile[i, j].active() && Main.tile[i, j].type == Dolomite && !Main.tile[i, j - 1].active() && Main.rand.Next(3) == 0)
                             {

@@ -43,7 +43,7 @@ namespace StarlightRiver
                 //Main.NewText("Invert: false");
             }
         }
-		
+
         public override void PreUpdate()
         {
             Stamina.visible = false;

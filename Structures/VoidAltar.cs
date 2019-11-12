@@ -37,15 +37,15 @@ namespace StarlightRiver.Structures
                     switch (rawData[x].R) //select block
                     {
                         case 10: placeType = TileID.Ash; break;
-                        case 20: placeType = (ushort)ModContent.TileType<Tiles.Void1>(); break;
-                        case 30: placeType = (ushort)ModContent.TileType<Tiles.Void2>(); break;
-                        case 40: placeType = (ushort)ModContent.TileType<Tiles.VoidDoorOn>(); break;
+                        case 20: placeType = (ushort)ModContent.TileType<Tiles.Void.Void1>(); break;
+                        case 30: placeType = (ushort)ModContent.TileType<Tiles.Void.Void2>(); break;
+                        case 40: placeType = (ushort)ModContent.TileType<Tiles.Interactive.VoidDoorOn>(); break;
                     }
                     switch (rawData[x].B) //select wall
                     {
-                        case 10: wallType = (ushort)ModContent.WallType<Tiles.VoidWall>(); break;
-                        case 20: wallType = (ushort)ModContent.WallType<Tiles.VoidWallPillar>(); break;
-                        case 30: wallType = (ushort)ModContent.WallType<Tiles.VoidWallPillarS>(); break;
+                        case 10: wallType = (ushort)ModContent.WallType<Tiles.Void.VoidWall>(); break;
+                        case 20: wallType = (ushort)ModContent.WallType<Tiles.Void.VoidWallPillar>(); break;
+                        case 30: wallType = (ushort)ModContent.WallType<Tiles.Void.VoidWallPillarS>(); break;
                     }
 
                     if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block

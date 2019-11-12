@@ -7,7 +7,7 @@ namespace StarlightRiver.Items
 {
     public class VoidGooItem : QuickTileItem
     {
-        public VoidGooItem() : base("Void Goo", "Can be passed with a shadow dash", ModContent.TileType<Tiles.VoidGoo>(), 8) { }
+        public VoidGooItem() : base("Void Goo", "Can be passed with a shadow dash", ModContent.TileType<Tiles.Interactive.VoidGoo>(), 8) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(Itemname);
@@ -18,7 +18,7 @@ namespace StarlightRiver.Items
     }
     public class VoidDoorItem : QuickTileItem
     {
-        public VoidDoorItem() : base("Void Barrier", "Dissappears when Purified", ModContent.TileType<Tiles.VoidDoorOn>(), 8) { }
+        public VoidDoorItem() : base("Void Barrier", "Dissappears when Purified", ModContent.TileType<Tiles.Interactive.VoidDoorOn>(), 8) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(Itemname);

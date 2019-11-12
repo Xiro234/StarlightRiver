@@ -14,6 +14,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using StarlightRiver.GUI;
 using StarlightRiver.Abilities;
+using StarlightRiver.Codex.Entries;
+using StarlightRiver.Codex;
 
 namespace StarlightRiver
 {
@@ -106,6 +108,12 @@ namespace StarlightRiver
             else
             {
                 Overlay.visible = false;
+            }
+
+            //Codex Unlocks
+            if (ZoneGlass && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is VitricEntry && entry.Locked))
+            {
+                Helper.UnlockEntry<VitricEntry>(player);
             }
         }
     }

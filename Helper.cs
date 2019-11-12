@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Codex;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,6 +51,12 @@ namespace StarlightRiver
                 if (Main.tile[(int)start.X, (int)start.Y - k].active()) { clear = false; }
             }
             return clear;
+        }
+
+        public static void UnlockEntry<type>(Player player)
+        {
+            player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(entry => entry is type).Locked = false;
+            GUI.Codex.NewEntry = true;
         }
     }
 }

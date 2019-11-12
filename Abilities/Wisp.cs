@@ -40,7 +40,6 @@ namespace StarlightRiver.Abilities
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
             Timer--;
-            player.noItems = true;
             player.maxFallSpeed = 999;
             player.gravity = 0;
             player.velocity = Vector2.Normalize(new Vector2

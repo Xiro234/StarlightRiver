@@ -12,7 +12,7 @@ namespace StarlightRiver.Items.EbonyIvory
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<OreEbonyItem>(), 4);
-            recipe.AddTile(ModContent.TileType<Tiles.Oven>());
+            recipe.AddTile(ModContent.TileType<Tiles.Crafting.Oven>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
@@ -24,7 +24,7 @@ namespace StarlightRiver.Items.EbonyIvory
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<OreIvoryItem>(), 4);
-            recipe.AddTile(ModContent.TileType<Tiles.OvenAstral>());
+            recipe.AddTile(ModContent.TileType<Tiles.Crafting.OvenAstral>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

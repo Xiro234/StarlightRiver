@@ -136,7 +136,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Seal>();
+            item.createTile = ModContent.TileType<Tiles.Void.Seal>();
         }
     }
     public class FleshPlacer : ModItem
@@ -157,7 +157,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.VineOvergrow>();
+            item.createTile = ModContent.TileType<Tiles.Overgrow.VineOvergrow>();
         }
     }
 
@@ -171,7 +171,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 1;
-            item.createTile = ModContent.TileType<Tiles.CrusherTile>();
+            item.createTile = ModContent.TileType<Tiles.Overgrow.ZapperTile>();
         }
         public override void SetStaticDefaults()
         {

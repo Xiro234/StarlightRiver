@@ -38,12 +38,12 @@ namespace StarlightRiver.Structures
                     ushort wallType = 0;
                     switch (rawData[x].R) //select block
                     {
-                        case 10: placeType = (ushort)ModContent.TileType<Tiles.VitricBrick>(); break;
-                        case 20: placeType = (ushort)ModContent.TileType<Tiles.VitricGlass>(); break;
+                        case 10: placeType = (ushort)ModContent.TileType<Tiles.Vitric.VitricBrick>(); break;
+                        case 20: placeType = (ushort)ModContent.TileType<Tiles.Vitric.VitricGlass>(); break;
                     }
                     switch (rawData[x].B) //select wall
                     {
-                        case 10: wallType = (ushort)ModContent.WallType<Tiles.VoidWall>(); break;
+                        case 10: wallType = (ushort)ModContent.WallType<Tiles.Void.VoidWall>(); break;
                     }
 
                     if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block

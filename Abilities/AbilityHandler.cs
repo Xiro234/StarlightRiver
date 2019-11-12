@@ -107,6 +107,13 @@ namespace StarlightRiver.Abilities
             StatStaminaMaxTemp = 0;
             StatStaminaRegenMax = 210;
 
+            if (Abilities.Any(ability => ability.Active))
+            {
+                // The player cant use items while casting an ability.
+                player.noItems = true;
+                player.noBuilding = true;
+            }
+
             SetList(); //Update the list to ensure all interactions work correctly
         }
 
@@ -122,7 +129,7 @@ namespace StarlightRiver.Abilities
 
         public override void PreUpdate()
         {
-            Main.LocalPlayer.anglerQuestsFinished = 200;
+
             //Executes the ability's use code while it's active.
             foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
 

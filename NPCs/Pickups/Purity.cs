@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Abilities;
+using StarlightRiver.Codex.Entries;
 using StarlightRiver.GUI;
 using System;
 using Terraria;
@@ -73,6 +74,7 @@ namespace StarlightRiver.NPCs.Pickups
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
                     StarlightRiver.Instance.abilitytext.Display(mp.pure, "Coronoa of Purity", "Press " + StarlightRiver.Purify.GetAssignedKeys()[0] + " to purify nearby tiles");
+                    Helper.UnlockEntry<PureEntry>(player);
                 }
             }
 

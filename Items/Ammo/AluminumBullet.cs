@@ -33,7 +33,7 @@ namespace StarlightRiver.Items.Ammo
 		{
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AluminumBar>(), 1);
-            recipe.AddTile(ModContent.TileType<Tiles.Oven>());
+            recipe.AddTile(ModContent.TileType<Tiles.Crafting.Oven>());
             recipe.SetResult(this, 25);
             recipe.AddRecipe();
         }

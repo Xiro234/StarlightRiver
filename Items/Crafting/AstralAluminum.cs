@@ -14,7 +14,7 @@ namespace StarlightRiver.Items.Crafting
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AluminumOre>(), 5);
-            recipe.AddTile(ModContent.TileType<Tiles.Oven>());
+            recipe.AddTile(ModContent.TileType<Tiles.Crafting.Oven>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Abilities;
+using StarlightRiver.Codex.Entries;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -61,6 +62,7 @@ namespace StarlightRiver.NPCs.Pickups
                     Achievements.Achievements.QuickGive("Stormcaller", player);
 
                     StarlightRiver.Instance.abilitytext.Display(mp.dash, "Forbidden Winds", "Press " + StarlightRiver.Dash.GetAssignedKeys()[0] + " + A/W/S/D to dash");
+                    Helper.UnlockEntry<WindsEntry>(player);
                 }
             }
 
