@@ -50,6 +50,16 @@ namespace StarlightRiver.Structures
                 TileID.Marble
             };//allowed origin blocks
 
+            List<int> stoneMossBlocks = new List<int>
+            {
+                TileID.BlueMoss,
+                TileID.BrownMoss,
+                TileID.GreenMoss,
+                TileID.LavaMoss,
+                TileID.PurpleMoss,
+                TileID.RedMoss
+            };//blocks that should give a stone wall
+
             //TODO change generation step, this may generate after the crimson/corruption does, making it never spawn there
             //TODO spawn boulder and pressure plate
 
@@ -100,7 +110,7 @@ namespace StarlightRiver.Structures
                             }
 
                             if (placeType != 0 && placeType <= 250) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //used for tiles that dont change between structures
-                            else switch (placeType) //place block
+                            else switch (placeType) //place types
                                 {
                                 case 255:
                                         Main.tile[(int)spawn.X + x, (int)spawn.Y + y].ClearEverything();
@@ -135,13 +145,13 @@ namespace StarlightRiver.Structures
                                         break;
 
                                 case 254:
-                                        if(Main.tile[(int)spawn.X + x, (int)spawn.Y + y].collisionType == 0)
+                                        if(Main.tile[(int)spawn.X + x, (int)spawn.Y + y].collisionType == 0) //places tiles, only replaces blocks with no collision
                                         {
                                             if (spawnTileType == TileID.MushroomGrass || spawnTileType == TileID.JungleGrass)//blocks to mud
                                             {
                                                 WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Mud, true, true);
                                             }
-                                            else if (spawnTileType == TileID.BlueMoss || spawnTileType == TileID.BrownMoss || spawnTileType == TileID.GreenMoss || spawnTileType == TileID.LavaMoss || spawnTileType == TileID.PurpleMoss || spawnTileType == TileID.RedMoss) //blocks to stone
+                                            else if (stoneMossBlocks.Contains(spawnTileType)) //blocks to stone
                                             {
                                                 WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Stone, true, true);
                                             }
@@ -172,11 +182,11 @@ namespace StarlightRiver.Structures
                                         break;
 
                                 case 252:
-                                            if (spawnTileType == TileID.MushroomGrass || spawnTileType == TileID.JungleGrass) //same case as above but no check for solids //blocks to mud
+                                            if (spawnTileType == TileID.MushroomGrass || spawnTileType == TileID.JungleGrass) //same case as 254 but overrides everything
                                             {
                                                 WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Mud, true, true);
                                             }
-                                            else if (spawnTileType == TileID.BlueMoss || spawnTileType == TileID.BrownMoss || spawnTileType == TileID.GreenMoss || spawnTileType == TileID.LavaMoss || spawnTileType == TileID.PurpleMoss || spawnTileType == TileID.RedMoss) //blocks to stone
+                                            else if (stoneMossBlocks.Contains(spawnTileType)) //blocks to stone
                                             {
                                                 WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Stone, true, true);
                                             }
