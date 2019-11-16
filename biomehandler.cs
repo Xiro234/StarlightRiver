@@ -28,7 +28,7 @@ namespace StarlightRiver
         public bool ZoneJungleHoly = false;
         public override void UpdateBiomes()
         {
-            ZoneGlass = (LegendWorld.glassTiles > 50);
+            ZoneGlass = (player.Hitbox.Intersects(LegendWorld.vitricBiome));
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
             ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
             ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);
@@ -120,14 +120,12 @@ namespace StarlightRiver
 
     public partial class LegendWorld
     {
-        public static int glassTiles;
         public static int voidTiles;
         public static int evilJungleTiles;
         public static int bloodJungleTiles;
         public static int holyJungleTiles;
         public override void TileCountsAvailable(int[] tileCounts)
         {
-            glassTiles = tileCounts[mod.TileType("VitricSand")] + tileCounts[mod.TileType("VitricGlassCrystal")];
             voidTiles = tileCounts[mod.TileType("Void1")] + tileCounts[mod.TileType("Void2")];
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
             bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];

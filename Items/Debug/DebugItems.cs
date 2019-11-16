@@ -37,11 +37,11 @@ namespace StarlightRiver.Items.Debug
             {
                 if (player.controlDown)
                 {
-                    item.damage -= 10;
+                    item.damage -= 100;
                 }
                 if (player.controlUp)
                 {
-                    item.damage += 10;
+                    item.damage += 100;
                 }
                 Main.NewText(item.damage);
                 return false;
@@ -161,7 +161,7 @@ namespace StarlightRiver.Items.Debug
         }
     }
 
-    public class GasMaker : ModItem
+    public class DebugPotion : ModItem
     {
         public override void SetDefaults()
         {
@@ -175,8 +175,8 @@ namespace StarlightRiver.Items.Debug
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Fart");
-            Tooltip.SetDefault("Haha poopy haha stinky haha funny");
+            DisplayName.SetDefault("Potion of Debugging");
+            Tooltip.SetDefault("Effects vary");
         }
 
         public override bool UseItem(Player player)
