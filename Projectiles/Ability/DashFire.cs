@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using StarlightRiver.Items;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,6 +40,7 @@ namespace StarlightRiver.Projectiles.Ability
                     projectile.damage = 10;
                 }
             }
+            target.GetGlobalNPC<StaminaDrop>().DropStamina = true;
             return null;
         }
         public override void AI()

@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using StarlightRiver.Projectiles;
 using StarlightRiver.Structures;
-using static StarlightRiver.StarlightRiver;
 
 namespace StarlightRiver
 {
@@ -68,6 +64,8 @@ namespace StarlightRiver
         
         public int MaxCrystalCaveDepth = 0;
         public static Vector2 vitricTopLeft = new Vector2();
+        public static Vector2 vitricSize = new Vector2();
+        public static Rectangle vitricBiome = new Rectangle((int)vitricTopLeft.X * 16, (int)vitricTopLeft.Y * 16, (int)vitricSize.X * 16, (int)vitricSize.Y * 16);
         
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
@@ -138,6 +136,8 @@ namespace StarlightRiver
             GenerateMiniCrystals(centre, 30, (int)(size * 0.7f));
 
             vitricTopLeft = centre.ToVector2() - new Vector2(size, 100);
+            vitricSize = new Vector2(size * 2, 200);
+            vitricBiome = new Rectangle((int)vitricTopLeft.X * 16, (int)vitricTopLeft.Y * 16, (int)vitricSize.X * 16, (int)vitricSize.Y * 16);
         }
 
         ///TODO: Add crystal stairs
@@ -445,6 +445,7 @@ namespace StarlightRiver
             return new TagCompound
             {
                 [nameof(vitricTopLeft)] = vitricTopLeft,
+                [nameof(vitricSize)] = vitricSize,
 
                 [nameof(AnyBossDowned)] = AnyBossDowned,
                 [nameof(GlassBossDowned)] = GlassBossDowned,
@@ -463,6 +464,8 @@ namespace StarlightRiver
         public override void Load(TagCompound tag)
         {
             vitricTopLeft = tag.Get<Vector2>(nameof(vitricTopLeft));
+            vitricSize = tag.Get<Vector2>(nameof(vitricSize)); 
+            vitricBiome = new Rectangle((int)vitricTopLeft.X * 16, (int)vitricTopLeft.Y * 16, (int)vitricSize.X * 16, (int)vitricSize.Y * 16);
 
             AnyBossDowned = tag.GetBool(nameof(AnyBossDowned));
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));

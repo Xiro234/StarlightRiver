@@ -102,10 +102,10 @@ namespace StarlightRiver
             Achievements.Achievements.CallAchievements(this);
 
             Dash = RegisterHotKey("Dash", "LeftShift");
-            Superdash = RegisterHotKey("Void Dash", "Q");
-            Smash = RegisterHotKey("Smash", "Z");
             Wisp = RegisterHotKey("Wisp Form", "F");
             Purify = RegisterHotKey("Purify", "N");
+            Smash = RegisterHotKey("Smash", "Z");
+            Superdash = RegisterHotKey("Void Dash", "Q");
 
             if (!Main.dedServ)
             {
@@ -163,7 +163,7 @@ namespace StarlightRiver
             VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
-            if (player != null /*&& player.GetModPlayer<BiomeHandler>().ZoneGlass*/)
+            if (player != null && player.Hitbox.Intersects(LegendWorld.vitricBiome))
             {
                 Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1000) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)

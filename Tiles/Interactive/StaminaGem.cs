@@ -31,15 +31,15 @@ namespace StarlightRiver.Tiles.Interactive
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -19);
-            if (!Main.npc.Any(npc => npc.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && npc.type == mod.NPCType("Stamina") && npc.active))
+            Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -11);
+            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>() && proj.active))
             {
-                NPC.NewNPC((int)pos.X, (int)pos.Y, mod.NPCType("Stamina"));
+                Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>(), 0, 0);
             }
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Main.npc.Any(npc => npc.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && npc.type == mod.NPCType("Stamina") && npc.active && npc.localAI[0] == 0))
+            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>() && proj.active))
             {
                 Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime * 3f);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interative/StaminaGemGlow"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, color);

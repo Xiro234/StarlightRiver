@@ -157,7 +157,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Overgrow.VineOvergrow>();
+            item.createTile = ModContent.TileType<Tiles.Vitric.VitricRock>();
         }
     }
 
@@ -171,7 +171,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 1;
-            item.createTile = ModContent.TileType<Tiles.Overgrow.ZapperTile>();
+            item.createTile = ModContent.TileType<Tiles.Vitric.VitricOre>();
         }
         public override void SetStaticDefaults()
         {

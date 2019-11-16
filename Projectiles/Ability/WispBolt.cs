@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Items;
 
 namespace StarlightRiver.Projectiles.Ability
 {
@@ -26,6 +27,7 @@ namespace StarlightRiver.Projectiles.Ability
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.GetGlobalNPC<StaminaDrop>().DropStamina = true;
         }
 
         public override void AI()

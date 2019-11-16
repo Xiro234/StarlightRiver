@@ -44,7 +44,8 @@ namespace StarlightRiver.Projectiles
                     player.velocity.X = (player.velocity.Length() <= 8) ? (-Vector2.Normalize(player.velocity) * 8).X : player.velocity.X * -1;
                     player.velocity.Y = 0.1f;
 
-                    Main.projectile.FirstOrDefault(p => p.owner == player.whoAmI && Main.projHook[projectile.type])?.Kill();
+                    Projectile proj = Main.projectile.FirstOrDefault(p => p.owner == player.whoAmI && Main.projHook[p.type]);
+                    if(proj != null) proj.timeLeft = 0;
 
                     player.GetModPlayer<AbilityHandler>().dash.Active = false;
                 }

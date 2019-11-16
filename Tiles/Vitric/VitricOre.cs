@@ -32,7 +32,8 @@ namespace StarlightRiver.Tiles.Vitric
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("");//Map name
             AddMapEntry(new Color(0, 255, 255), name);
-            dustType = mod.DustType("Wind");
+            dustType = ModContent.DustType<Dusts.Air>();
+            soundType = SoundID.Shatter;
             disableSmartCursor = true;
             minPick = int.MaxValue;
         }
@@ -53,18 +54,18 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            foreach (Player player in Main.player.Where(player => Vector2.Distance(new Vector2(i, j) * 16, player.Center) <= 48))
+            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-                if (AbilityHelper.CheckDash(player, new Rectangle(i * 16, j * 16, 32, 48)))
+                if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>() && proj.active))
                 {
-                    WorldGen.KillTile(i, j);
+                    Projectile.NewProjectile(new Vector2(i + 1, j  + 1) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>(), 0, 0);
                 }
             }
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, mod.ItemType("Glassore"), Main.rand.Next(4,12));
+            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(4,12));
         }
     }
 
@@ -87,7 +88,8 @@ namespace StarlightRiver.Tiles.Vitric
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("");//Map name
             AddMapEntry(new Color(0, 0, 0), name);
-            dustType = mod.DustType("Wind");
+            dustType = ModContent.DustType<Dusts.Air>();
+            soundType = SoundID.Shatter;
             disableSmartCursor = true;
             minPick = int.MaxValue;
         }
@@ -107,18 +109,18 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            foreach (Player player in Main.player.Where(player => Vector2.Distance(new Vector2(i, j) * 16, player.Center) <= 48))
+            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-                if (AbilityHelper.CheckDash(player, new Rectangle(i * 16, j * 16, 32, 32)))
+                if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>() && proj.active))
                 {
-                    WorldGen.KillTile(i, j);
+                    Projectile.NewProjectile(new Vector2(i + 1, j + 1) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>(), 0, 0);
                 }
             }
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, mod.ItemType("Glassore"), Main.rand.Next(2, 6));
+            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(2, 6));
         }
     }
 }

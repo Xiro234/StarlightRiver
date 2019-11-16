@@ -31,9 +31,10 @@ namespace StarlightRiver.Tiles.Interactive
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.npc.Any(npc => npc.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && npc.type == mod.NPCType("Stamina2") && npc.active && npc.localAI[0] != 0))
+            Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -11);
+            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaOrbDummy>() && proj.active))
             {
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaOrbBack"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, Lighting.GetColor(i,j));
+                Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.StaminaOrbDummy>(), 0, 0);
             }
         }
 
