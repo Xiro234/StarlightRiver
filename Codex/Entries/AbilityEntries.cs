@@ -40,4 +40,26 @@ namespace StarlightRiver.Codex.Entries
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
         }
     }
+    class SmashEntry : CodexEntry
+    {
+        public SmashEntry()
+        {
+            Category = (int)Categories.Abilities;
+            Title = "Gaia's Fist";
+            Body = "T\nT\nT\nT\nT\nT";
+            Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
+            Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
+        }
+    }
+    class CloakEntry : CodexEntry
+    {
+        public CloakEntry()
+        {
+            Category = (int)Categories.Abilities;
+            Title = "Zzelera's Cloak";
+            Body = "T\nT\nT\nT\nT\nT";
+            Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
+            Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+        }
+    }
 }

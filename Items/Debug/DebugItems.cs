@@ -173,6 +173,7 @@ namespace StarlightRiver.Items.Debug
             item.rare = 1;
             item.createTile = ModContent.TileType<Tiles.Vitric.VitricOre>();
         }
+        public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Potion of Debugging");
@@ -182,7 +183,10 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             LegendWorld.SealOpen = false;
-            Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState = 0;
+            foreach (CodexEntry entry in Main.LocalPlayer.GetModPlayer<CodexHandler>().Entries)
+            {
+                entry.Locked = false;
+            }
             return true;
         }
     }

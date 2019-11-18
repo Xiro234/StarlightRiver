@@ -37,7 +37,7 @@ namespace StarlightRiver.Codex
             foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry))))
             {
                 CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);
-                ThisEntry.Locked = (UnlockStates.Count < Entries.Count && UnlockStates.Count != 0) ? UnlockStates.ElementAt(Entries.Count) : true;
+                ThisEntry.Locked = (UnlockStates.Count > Entries.Count && UnlockStates.Count != 0) ? UnlockStates.ElementAt(Entries.Count) : true;
                 Entries.Add(ThisEntry);
             }
         }

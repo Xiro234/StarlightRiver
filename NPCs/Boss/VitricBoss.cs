@@ -14,7 +14,7 @@ namespace StarlightRiver.NPCs.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glass Tax Returns");
-            Main.npcFrameCount[npc.type] = 1;
+            Main.npcFrameCount[npc.type] = 2;
         }
 
         public override void SetDefaults()
@@ -24,8 +24,8 @@ namespace StarlightRiver.NPCs.Boss
             npc.damage = 30;
             npc.defense = 10;
             npc.knockBackResist = 0f;
-            npc.width = 150;
-            npc.height = 150;
+            npc.width = 140;
+            npc.height = 143;
             npc.value = Item.buyPrice(0, 20, 0, 0);
             npc.npcSlots = 15f;
             npc.boss = true;
@@ -58,362 +58,42 @@ namespace StarlightRiver.NPCs.Boss
 
             return true;
         }
-		
-        Vector2 direction = Vector2.Zero;
-        Vector2[] spawns = new Vector2[6];
 
         public override void AI()
         {
-            //Main.NewText(npc.localAI[0] +"/"+ npc.localAI[1] + "/" + npc.localAI[2] + "/" + npc.localAI[3]);
-            switch (npc.localAI[0])
+            Main.NewText(npc.ai[0] + "/" + npc.ai[1]);
+            npc.ai[1]++; //keeps the timer ticking
+
+            if(npc.ai[0] == 0) //startup phase
             {
-                case 0:
-                    npc.immortal = true;
-					
-                    npc.localAI[1]++; //Increases each frame
-					
-                    //increases by 0.1, if its less than (2 + Player Amount) and a multible of 1, its spawns a crystal (3 crystals for 1 player (2 + 1) and one more for each player
-                    if(npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0) //if AI[1] Less Than or equal to 20 + (10 * Amount of Players) AND npc.localAI[1] divisible by ten (10, 20, 30, 40, etc)
+                CrystalShield(npc, 500, 6);
+            }
+        }
+
+        private void CrystalShield(NPC npc, int time, int count)
+        {
+            if (npc.ai[1] == 1)
+            {
+                for (float rot = 0; rot < 6.28f; rot += 6.28f / count)
+                {
+                    int ward = NPC.NewNPC((int)npc.Center.X + 8, (int)npc.Center.Y + 12, ModContent.NPCType<Ward>());
+                    Main.npc[ward].velocity = (new Vector2(6, 0)).RotatedBy(rot);
+                }
+            }
+            if(npc.ai[1] >= time)
+            {
+                foreach(NPC npc2 in Main.npc.Where(npc2 => npc2.type == ModContent.NPCType<Ward>() && npc2.active))
+                {
+                    npc.GetGlobalNPC<ShieldHandler>().MaxShield += 150 / count;
+                    npc.GetGlobalNPC<ShieldHandler>().Shield += 150 / count;
+                    Helper.Kill(npc2);
+                    for(int k = 0; k <= Vector2.Distance(npc.Center, npc2.Center); k++)
                     {
-                        //spawns crystals equally spaced around the boss
-                        float r = (float)(Math.PI * 2) / (2 + Main.ActivePlayersCount) * (npc.localAI[1] / 10); //float r = (PI * 2) / 3 {plus one per extra player} * (AI[1] / 10)
-
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"),0,(float)Math.Cos(r) * 20,(float)Math.Sin(r) * 20); //spawns npc
+                        Dust.NewDustPerfect(Vector2.Lerp(npc.Center, npc2.Center, k / Vector2.Distance(npc.Center, npc2.Center)), ModContent.DustType<Dusts.Air>());
                     }
-
-                    if (npc.localAI[1] >= 960) //after 960 (16 seconds) it resets the timer and sets AI[0] to 1, moving on to the next section
-                    {
-                        npc.localAI[1] = 0;
-                        npc.localAI[0] = 1;
-                    }
-                    break;
-
-                case 1:
-                    for (int k = 0; k <= Main.npc.Length - 1; k++) //for every npc in the world
-                    {
-                        if (Main.npc[k].type == mod.NPCType("Ward") && Main.npc[k].active == true) //if npc equals Ward
-                        {
-                            npc.localAI[2]++;//increases eac frame
-
-                            for(int n = 0; n <= Vector2.Distance(Main.npc[k].Center, Main.LocalPlayer.Center); n += 5)
-                            {
-                                Dust.NewDustPerfect(Vector2.Lerp(Main.npc[k].Center, Main.LocalPlayer.Center, n/(Vector2.Distance(Main.npc[k].Center, Main.LocalPlayer.Center))), ModContent.DustType<Dusts.Air>());
-                            }
-                            Helper.Kill(Main.npc[k]);
-                        }
-                    }
-                    if (npc.localAI[2] > 0)
-                    {
-                        for (int k = 0; k <= Main.player.Length - 1; k++)
-                        {
-                            if (Vector2.Distance(Main.player[k].Center, npc.Center) <= 1000)
-                            {
-                                Main.player[k].immune = false;
-                                Main.player[k].immuneTime = 0;
-                                Projectile.NewProjectile(Main.player[k].Center, Vector2.Zero, mod.ProjectileType("Pulse"),
-                                (int)(npc.localAI[2] / (Main.ActivePlayersCount + 2) * 200), 1);
-                            }
-                        }
-                    }
-                    npc.localAI[2] = 0;
-                    npc.localAI[3] = 0;
-                    npc.localAI[0] = 2;
-                    break;
-
-                case 2:
-
-                    npc.TargetClosest(true);
-                    npc.immortal = false;
-
-                    npc.localAI[3]++;
-                    if (npc.localAI[3] == 180)
-                    {
-                        npc.localAI[2] = Main.rand.Next(3);
-                    }
-                    if (npc.localAI[3] > 180)
-                    {
-                        switch (npc.localAI[2])
-                        {
-                            case 0:
-
-                                Dust.NewDust(npc.position + new Vector2(npc.width / 4, npc.height / 4), npc.width / 2, npc.height / 2, mod.DustType("Air"));
-                                
-                                if (npc.localAI[3] == 181)
-                                {
-                                    npc.netUpdate = true;
-                                    direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                                }
-                                if(npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
-                                {
-                                    int r = Main.rand.Next(5, 7);
-                                    Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(direction.X * r, direction.Y * r), 0, default, (60-(npc.localAI[3] - 180)) / 30 );                             
-                                }
-                                if(npc.localAI[3] >= 181 && npc.localAI[3] <= 260)
-                                {
-                                    npc.rotation += 0.1f;
-                                }
-                                if(npc.localAI[3] >= 261 && npc.localAI[3] <= 320)
-                                {
-                                    npc.velocity += direction * 0.5f;
-                                    npc.rotation += 0.3f;
-                                    for (int k = 0; k <= 2; k++)
-                                    {
-                                        Dust.NewDust(npc.position + new Vector2(npc.width / 4, npc.height / 4), npc.width / 2, npc.height / 2, mod.DustType("Air"));
-                                    }
-                                }
-                                if (npc.localAI[3] >= 321 && npc.localAI[3] <= 330)
-                                {
-                                    npc.velocity = Vector2.Zero;
-                                    npc.rotation = 0;
-                                }
-                                if (npc.localAI[3] >= 331 && npc.localAI[3] <= 350)
-                                {
-                                    npc.velocity += direction * -.38f;
-                                }
-                                if (npc.localAI[3] >= 351 && npc.localAI[3] <= 450)
-                                {
-                                    npc.velocity = direction * -8.34f;
-                                }
-                                if(npc.localAI[3] == 451)
-                                {
-                                    npc.velocity = Vector2.Zero;
-                                    direction = Vector2.Zero;
-                                    npc.localAI[3] = 0;
-                                    npc.localAI[2] = 0;
-                                }
-                                break;
-
-                            case 1:
-                                if (npc.localAI[3] == 181)
-                                {
-                                    npc.netUpdate = true;
-                                    spawns[0] = new Vector2(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 750);
-                                    for (int k = 1; k <= 5; k++)
-                                    {
-                                        spawns[k] = new Vector2(npc.Center.X + Main.rand.Next(-1000, 1000), Main.player[npc.target].Center.Y - 750);
-                                    }                                    
-                                }
-                                if (npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
-                                {
-                                    foreach(Vector2 spawn in spawns)
-                                    {
-                                        Dust.NewDustPerfect(spawn + new Vector2(Main.rand.Next(-4, 4), Main.rand.Next(-32, 32)), mod.DustType("Air"), new Vector2(0 , 8), 0, default, (60 - (npc.localAI[3] - 180)) / 15);
-                                    }                                  
-                                }
-                                if (npc.localAI[3] == 261)
-                                {
-                                    foreach (Vector2 spawn in spawns)
-                                    {
-                                        Projectile.NewProjectile(spawn, new Vector2(0, Main.rand.Next(6,12)), ModContent.ProjectileType<Projectiles.GlassSpike>(), 20, 0f);
-                                    }
-                                    spawns = new Vector2[6];
-                                    npc.localAI[3] = 0;
-                                    npc.localAI[2] = 0;
-                                }
-                                break;
-                            case 2:
-                                npc.localAI[3] = 0;
-                                npc.localAI[2] = 0;
-                                break;
-                        }
-                    }
-                                       
-                    if(npc.life <= npc.lifeMax / 2)
-                    {
-                        npc.localAI[1] = 0;
-                        npc.localAI[2] = 0;
-                        npc.localAI[3] = 0;
-                        npc.localAI[0] = 3;
-                    }
-                    break;
-
-                case 3:
-                    npc.immortal = true;
-                    npc.velocity *= 0;
-                    npc.localAI[1]++;
-                    if (npc.localAI[1] <= 20 + 10 * Main.ActivePlayersCount && npc.localAI[1] % 10 == 0)
-                    {
-                        float r = (float)(Math.PI * 2) / (2 + Main.ActivePlayersCount) * (npc.localAI[1] / 10);
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Ward"), 0, (float)Math.Cos(r) * 20, (float)Math.Sin(r) * 20);
-                    }
-                    if (npc.localAI[1] >= 600)
-                    {
-                        npc.localAI[1] = 0;
-                        npc.localAI[0] = 4;
-                    }
-                    break;
-
-                case 4:
-                    for (int k = 0; k <= Main.npc.Length - 1; k++)
-                    {
-                        if (Main.npc[k].type == mod.NPCType("Ward") && Main.npc[k].active == true)
-                        {
-                            npc.localAI[2]++;
-                            Helper.Kill(Main.npc[k]);
-                        }
-                    }
-                    if (npc.localAI[2] > 0)
-                    {
-                        for(int k = 0; k <= Main.player.Length - 1; k++)
-                        {
-                            if (Vector2.Distance(Main.player[k].Center, npc.Center) <= 1000)
-                            {
-                                Main.player[k].immune = false;
-                                Main.player[k].immuneTime = 0;
-                                Projectile.NewProjectile(Main.player[k].Center, Vector2.Zero, mod.ProjectileType("Pulse"),
-                                (int)(npc.localAI[2] / (Main.ActivePlayersCount + 2) * 200), 1);
-                            }
-                        }
-
-                    }
-                    npc.localAI[2] = 0;
-                    npc.localAI[0] = 5;
-                    break;
-
-                case 5:
-                    npc.TargetClosest(true);
-                    npc.immortal = false;
-
-                    npc.localAI[3]++;
-                    if (npc.localAI[3] == 180)
-                    {
-                        npc.localAI[2] = 2;//Main.rand.Next(3);
-                    }
-                    if (npc.localAI[3] > 180)
-                    {
-                        switch (npc.localAI[2])
-                        {
-                            case 0:
-
-                                Dust.NewDust(npc.position + new Vector2(npc.width / 4, npc.height / 4), npc.width / 2, npc.height / 2, mod.DustType("Air"));
-
-                                if (npc.localAI[3] == 181)
-                                {
-                                    npc.netUpdate = true;
-                                    direction = Vector2.Normalize(Main.player[npc.target].Center - npc.Center);
-                                }
-                                if (npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
-                                {
-                                    int r = Main.rand.Next(5, 7);
-                                    Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(direction.X * r, direction.Y * r), 0, default, (60 - (npc.localAI[3] - 180)) / 30);
-                                }
-                                if (npc.localAI[3] >= 181 && npc.localAI[3] <= 260)
-                                {
-                                    npc.rotation += 0.1f;
-                                }
-                                if (npc.localAI[3] >= 261 && npc.localAI[3] <= 320)
-                                {
-                                    npc.velocity += direction * 0.5f;
-                                    npc.rotation += 0.3f;
-                                    for (int k = 0; k <= 2; k++)
-                                    {
-                                        Dust.NewDust(npc.position + new Vector2(npc.width / 4, npc.height / 4), npc.width / 2, npc.height / 2, mod.DustType("Air"));
-                                    }
-                                }
-                                if (npc.localAI[3] >= 321 && npc.localAI[3] <= 330)
-                                {
-                                    npc.velocity = Vector2.Zero;
-                                    npc.rotation = 0;
-                                }
-                                if (npc.localAI[3] >= 331 && npc.localAI[3] <= 350)
-                                {
-                                    npc.velocity += direction * -.38f;
-                                }
-                                if (npc.localAI[3] >= 351 && npc.localAI[3] <= 450)
-                                {
-                                    npc.velocity = direction * -8.34f;
-                                }
-                                if (npc.localAI[3] == 451)
-                                {
-                                    npc.velocity = Vector2.Zero;
-                                    direction = Vector2.Zero;
-                                    npc.localAI[3] = 0;
-                                    npc.localAI[2] = 0;
-                                }
-                                break;
-
-                            case 1:
-                                if (npc.localAI[3] == 181)
-                                {
-                                    npc.netUpdate = true;
-                                    spawns[0] = new Vector2(Main.player[npc.target].Center.X, Main.player[npc.target].Center.Y - 750);
-                                    for (int k = 1; k <= 5; k++)
-                                    {
-                                        spawns[k] = new Vector2(npc.Center.X + Main.rand.Next(-1000, 1000), Main.player[npc.target].Center.Y - 750);
-                                    }
-                                }
-                                if (npc.localAI[3] >= 181 && npc.localAI[3] <= 240)
-                                {
-                                    foreach (Vector2 spawn in spawns)
-                                    {
-                                        Dust.NewDustPerfect(spawn + new Vector2(Main.rand.Next(-4, 4), Main.rand.Next(-32, 32)), mod.DustType("Air"), new Vector2(0, 8), 0, default, (60 - (npc.localAI[3] - 180)) / 15);
-                                    }
-                                }
-                                if (npc.localAI[3] == 261)
-                                {
-                                    foreach (Vector2 spawn in spawns)
-                                    {
-                                        Projectile.NewProjectile(spawn, new Vector2(0, Main.rand.Next(6, 12)), 2/*mod.ProjectileType("Crystal1")*/, 20, 0f);
-                                    }
-                                    spawns = new Vector2[6];
-                                    npc.localAI[3] = 0;
-                                    npc.localAI[2] = 0;
-                                }
-                                break;
-                            case 2:
-                                if(npc.localAI[3] % 30 == 0 && npc.localAI[3] <= 420)
-                                {
-                                    int x = (int)(npc.localAI[3]/30) * 320 - 3200;
-                                    int y = Main.rand.Next(-200, 400);
-                                    int proj = Projectile.NewProjectile(npc.position + new Vector2(x, y) , Vector2.Zero, ModContent.ProjectileType<Aura>(), 30, 0);
-                                    Main.projectile[proj].localAI[0] = 50 + (240 - (npc.localAI[3] - 180));
-                                    Main.projectile[proj].localAI[1] = Main.rand.Next(50, 150);
-                                }
-                                if (npc.localAI[3] > 420)
-                                {
-                                    npc.localAI[3] = 0;
-                                    npc.localAI[2] = 0;
-                                }
-                                break;
-                        }
-                    }
-
-                    if (npc.life <= npc.lifeMax / 10)
-                    {
-                        npc.localAI[1] = 0;
-                        npc.localAI[2] = 0;
-                        npc.localAI[3] = 0;
-                        npc.localAI[0] = 6;
-                    }
-                    break;
-
-
-                case 6:
-                    npc.defense = 40;
-                    npc.velocity *= 0;
-                    npc.localAI[1]++;
-                    if (npc.localAI[1] == 180)
-                    {
-                        float p = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                        Vector2 start = npc.Center + new Vector2((float)Math.Cos(p), (float)Math.Sin(p)) * 800;
-                        Projectile.NewProjectile(start, Vector2.Normalize(npc.Center - start) * 0.6f, mod.ProjectileType("HealGem"), 10, 0.2f);
-                        npc.localAI[1] = 0;
-                    }
-                    for (int k = 0; k <= Main.projectile.Length - 1; k++)
-                    {
-                        if (Main.projectile[k].type == mod.ProjectileType("HealGem") && Main.projectile[k].Hitbox.Intersects(npc.Hitbox) && Main.projectile[k].active)
-                        {
-                            npc.life += 50;                           
-                            Main.projectile[k].active = false;
-                        }
-                    }
-
-                    if(npc.life >= npc.lifeMax / 5)
-                    {
-                        npc.localAI[0] = 5;
-                    }
-                    break;
-
+                }
+                npc.ai[1] = 0;
+                npc.ai[0] = 1;
             }
         }
     }
@@ -464,9 +144,7 @@ namespace StarlightRiver.NPCs.Boss
                 }
             }
 
-            npc.velocity = new Vector2(npc.ai[0], npc.ai[1]);
-            npc.ai[0] *= 0.95f;
-            npc.ai[1] *= 0.95f;
+            npc.velocity *= 0.95f;
         }
 
         public static Texture2D glow = ModContent.GetTexture("StarlightRiver/NPCs/Boss/CrystalGlow");
