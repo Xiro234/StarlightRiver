@@ -22,6 +22,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
+            projectile.melee = true;
         }
         public override void SetStaticDefaults()
         {
@@ -30,11 +31,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void AI()
         {
-            Main.NewText("charge:" + projectile.ai[0] + "/ phase:" + projectile.ai[1]);
-            projectile.timeLeft = 2;
-            projectile.scale = projectile.ai[0] < 10 ? (projectile.ai[0] / 10f) : 1;
-
             Player player = Main.player[projectile.owner];
+
+            if(projectile.timeLeft < 2) projectile.timeLeft = 2;
+            projectile.scale = projectile.ai[0] < 10 ? (projectile.ai[0] / 10f) : 1;
+            projectile.damage = (int)((projectile.ai[0] * 1.5f) * player.meleeDamage);
 
             if(projectile.ai[0] == 100)
             {
@@ -43,7 +44,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             if(projectile.ai[1] == 0)
             {
-                projectile.position = player.position + new Vector2(-15, -60);
+                projectile.position = player.position + new Vector2(-15, -64);
             }
 
             if (projectile.ai[1] == 0 && projectile.ai[0] < 100)
@@ -77,6 +78,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 if (projectile.velocity.Y == 0.4f)
                 {
                     projectile.velocity *= 0;
+                    projectile.timeLeft = 120;
                     projectile.ai[1] = 2;
 
                     player.GetModPlayer<StarlightPlayer>().Shake += (int)(projectile.ai[0] * 0.2f);
@@ -91,19 +93,27 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             if(projectile.ai[1] == 2)
             {
-                projectile.tileCollide = false;
-
                 projectile.velocity += -Vector2.Normalize(projectile.Center - player.Center) * 0.1f;
                 if (projectile.velocity.Length() >= 5) projectile.ai[1] = 3;
 
-                if (Vector2.Distance(projectile.Center, player.Center) <= 20) projectile.timeLeft = 0;
+                if (Vector2.Distance(projectile.Center, player.Center) <= 30) projectile.timeLeft = 0;
+                if (projectile.timeLeft == 3) projectile.ai[1] = 4;
             }
 
             if(projectile.ai[1] == 3)
             {
                 projectile.velocity = -Vector2.Normalize(projectile.Center - player.Center) * 5;
 
-                if (Vector2.Distance(projectile.Center, player.Center) <= 20) projectile.timeLeft = 0;
+                if (Vector2.Distance(projectile.Center, player.Center) <= 30) projectile.timeLeft = 0;
+                if (projectile.timeLeft == 3) projectile.ai[1] = 4;
+            }
+
+            if(projectile.ai[1] == 4)
+            {
+                projectile.velocity = -Vector2.Normalize(projectile.Center - player.Center) * 15;
+                projectile.tileCollide = false;
+
+                if (Vector2.Distance(projectile.Center, player.Center) <= 30) projectile.timeLeft = 0;
             }
         }
 

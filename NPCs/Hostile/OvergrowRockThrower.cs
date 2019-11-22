@@ -16,7 +16,7 @@ namespace StarlightRiver.NPCs.Hostile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("[PH] VortexPenisEnemy");
+            DisplayName.SetDefault("[PH] RockThrower");
         }
         public override void SetDefaults()
         {
@@ -35,7 +35,7 @@ namespace StarlightRiver.NPCs.Hostile
             Player player = Main.player[npc.target];
             npc.ai[3] += 0.05f;
             if (npc.ai[3] > 6.28f) npc.ai[3] = 0;
-            npc.ai[2] = 3;
+
             switch (npc.ai[0])
             {
                 case 0: //Spawn
@@ -44,7 +44,56 @@ namespace StarlightRiver.NPCs.Hostile
                         npc.ai[0] = 1;
                     }
                     break;
+                case 1: //Passive
+                    {
+                        npc.ai[1]++;
+                        if(npc.ai[1] >= 180 && npc.ai[2] < 3) //after 3 seconds and if <3 rocks
+                        {
+                            npc.TargetClosest(); //retarget
+                            npc.ai[2]++; //add a rock
+                            npc.ai[1] = 0;//reset timer
+                        }
+                        else if (npc.ai[1] >= 180 && npc.ai[2] == 3)
+                        {
+                            npc.ai[0] = 2;//phase
+                            npc.ai[1] = 0;//reset timer
+                        }
+                        //insert movement code here
+                    }
+                    break;
+                case 2: //Attack
+                    {
+                        npc.ai[1]++;
+                        if(npc.ai[1] >= 20) //throw 3 rocks/sec
+                        {
+                            npc.ai[2]--; //decrement rock count
+                            npc.ai[1] = 0; //reset timer
+
+                            float rot = npc.ai[3] / 3f * 6.28f;
+                            Vector2 pos = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35;
+
+                            Projectile.NewProjectile(pos, -Vector2.Normalize(npc.Center - player.Center) * 4, ModContent.ProjectileType<Projectiles.OvergrowRockThrowerRock>(), npc.damage, 2); //throw rock
+                        }
+                        if(npc.ai[2] <= 0)
+                        {
+                            npc.ai[0] = 0;//back to start
+                        }
+                    }
+                    break;
             }
+        }
+
+        public override bool CheckDead()
+        {
+            for (int k = 0; k < npc.ai[2]; k++)
+            {
+                float rot = k / 3f * 6.28f;
+                Vector2 pos = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35;
+                Player player = Main.player[npc.target];
+
+                Projectile.NewProjectile(pos, -Vector2.Normalize(npc.Center - pos) * 6, ModContent.ProjectileType<Projectiles.OvergrowRockThrowerRock>(), npc.damage, 2); //throw rock
+            }
+            return true;
         }
 
         private Vector2[] drawpoints = new Vector2[3];
@@ -57,7 +106,7 @@ namespace StarlightRiver.NPCs.Hostile
                 if (rot % 6.28f > 3.14f && npc.ai[2] >= k + 1)
                 {
                     drawpoints[k] = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35 - Main.screenPosition;
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/ZapperGlow1"), drawpoints[k], new Rectangle(0,0,16,16), Color.White, 0, Vector2.One * 8, 1, 0, 0);
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/OvergrowRockThrowerRock"), drawpoints[k], new Rectangle(0,0,16,16), Color.White, 0, Vector2.One * 8, 1, 0, 0);
                 }
             }
             return true;
@@ -71,7 +120,7 @@ namespace StarlightRiver.NPCs.Hostile
                 if (rot % 6.28f < 3.14f && npc.ai[2] >= k + 1)
                 {
                     drawpoints[k] = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35 - Main.screenPosition;
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/ZapperGlow1"), drawpoints[k], new Rectangle(0, 0, 16, 16), Color.White, 0, Vector2.One * 8, 1, 0, 0);
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/OvergrowRockThrowerRock"), drawpoints[k], new Rectangle(0, 0, 16, 16), Color.White, 0, Vector2.One * 8, 1, 0, 0);
                 }
             }
         }

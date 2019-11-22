@@ -1,4 +1,5 @@
-﻿using StarlightRiver.Abilities;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Abilities;
 using StarlightRiver.Codex;
 using StarlightRiver.Gases;
 using Terraria;
@@ -143,7 +144,7 @@ namespace StarlightRiver.Items.Debug
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Viner");
+            DisplayName.SetDefault("Potion of Debugging 2");
         }
 
         public override void SetDefaults()
@@ -152,12 +153,21 @@ namespace StarlightRiver.Items.Debug
             item.height = 16;
             item.maxStack = 999;
             item.useTurn = true;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.useAnimation = 15;
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.Vitric.VitricRock>();
+        }
+
+        public override bool UseItem(Player player)
+        {
+            for (int k = 0; k <= 99; k++)
+            {
+                Helper.SpawnGem(k, player.Center + new Vector2(0, -100));              
+            }
+            return true;
         }
     }
 

@@ -19,7 +19,7 @@ namespace StarlightRiver.Items.Overgrow
 
         public override void SetDefaults()
         {
-            item.damage = 10;
+            item.damage = 150;
             item.melee = true;
             item.width = 40;
             item.height = 20;
@@ -38,7 +38,7 @@ namespace StarlightRiver.Items.Overgrow
 
         public override bool UseItem(Player player)
         {
-            int proj = Projectile.NewProjectile(player.position + new Vector2(0, -30), Vector2.Zero, ModContent.ProjectileType<Projectiles.WeaponProjectiles.ShakerBall>(), item.damage, item.knockBack);
+            int proj = Projectile.NewProjectile(player.position + new Vector2(0, -32), Vector2.Zero, ModContent.ProjectileType<Projectiles.WeaponProjectiles.ShakerBall>(), item.damage, item.knockBack);
             player.channel = true;
             Main.projectile[proj].owner = player.whoAmI;
             return true;
@@ -49,8 +49,14 @@ namespace StarlightRiver.Items.Overgrow
             if (player.channel)
             {
                 player.velocity.X *= 0.9f;
+                player.jump = -1;
                 player.GetModPlayer<AnimationHandler>().Lifting = true;
             }
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            tooltips.FirstOrDefault(tooltip => tooltip.Name == "Speed" && tooltip.mod == "Terraria").text = "Snail Speed";
         }
     }
 

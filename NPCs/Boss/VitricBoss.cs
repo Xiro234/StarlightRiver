@@ -62,15 +62,19 @@ namespace StarlightRiver.NPCs.Boss
         public override void AI()
         {
             Main.NewText(npc.ai[0] + "/" + npc.ai[1]);
+            Player player = Main.player[npc.target];
             npc.ai[1]++; //keeps the timer ticking
 
-            if(npc.ai[0] == 0) //startup phase
+            switch (npc.ai[0])
             {
-                CrystalShield(npc, 500, 6);
+                case 0: CrystalShield(npc, 500, 3, Main.expertMode ? 300 : 150); break;
+                case 1: PassiveMovement(0.2f, 2.5f, 180); break;
+                case 2: Dash(player.Center); break;
+                case 3: FallingRockAttack(); break;
             }
         }
 
-        private void CrystalShield(NPC npc, int time, int count)
+        private void CrystalShield(NPC npc, int time, int count, int maxShield)
         {
             if (npc.ai[1] == 1)
             {
@@ -80,12 +84,12 @@ namespace StarlightRiver.NPCs.Boss
                     Main.npc[ward].velocity = (new Vector2(6, 0)).RotatedBy(rot);
                 }
             }
-            if(npc.ai[1] >= time)
+            if(npc.ai[1] >= time || !Main.npc.Any(T => T.type == ModContent.NPCType<Ward>() && T.active))
             {
                 foreach(NPC npc2 in Main.npc.Where(npc2 => npc2.type == ModContent.NPCType<Ward>() && npc2.active))
                 {
-                    npc.GetGlobalNPC<ShieldHandler>().MaxShield += 150 / count;
-                    npc.GetGlobalNPC<ShieldHandler>().Shield += 150 / count;
+                    npc.GetGlobalNPC<ShieldHandler>().MaxShield += maxShield / count;
+                    npc.GetGlobalNPC<ShieldHandler>().Shield += maxShield / count;
                     Helper.Kill(npc2);
                     for(int k = 0; k <= Vector2.Distance(npc.Center, npc2.Center); k++)
                     {
@@ -94,6 +98,89 @@ namespace StarlightRiver.NPCs.Boss
                 }
                 npc.ai[1] = 0;
                 npc.ai[0] = 1;
+            }
+        }
+
+        private void PassiveMovement(float acceleration, float maxspeed, float attackspeed)
+        {
+            npc.TargetClosest();
+            Player player = Main.player[npc.target];
+            npc.velocity += -Vector2.Normalize(npc.Center - player.Center) * acceleration;
+            if (npc.velocity.Length() >= maxspeed) npc.velocity = Vector2.Normalize(npc.velocity) * maxspeed;
+            npc.ai[1]++;
+
+            if(npc.ai[1] >= attackspeed)
+            {
+                npc.velocity = Vector2.Zero;
+                if ((npc.Center - player.Center).Length() >= 300 && npc.ai[2] < 3)
+                {                   
+                    npc.ai[0] = 2;
+                }
+                else
+                {
+                    npc.ai[0] = 3;
+                    npc.ai[2] = 0;
+                }
+                npc.ai[1] = 0;
+            }
+        }
+
+        private void Dash(Vector2 target)
+        {
+            npc.ai[1]++;         
+            npc.rotation += (0.05f + npc.velocity.Length() * 0.02f) * npc.direction;
+
+            if (npc.ai[1] == 2)
+            {
+                for (int k = 0; k <= 100; k++)
+                {
+                    Dust.NewDustPerfect(npc.Center - Vector2.Normalize(npc.Center - target) * k * 20, ModContent.DustType<Dusts.VitricBossTell>(),
+                        Vector2.Normalize(npc.Center - target).RotatedBy((Main.rand.Next(2) == 0 ? 1.58f : -1.58f)) * Main.rand.NextFloat(20f), 0, Color.LightCyan * 0.5f, 3.5f);
+                }
+            }
+
+            if (npc.ai[1] >= 60 && npc.ai[1] < 90)
+            {
+                npc.velocity -= Vector2.Normalize(npc.Center - target) * 1.1f;
+            }
+            if(npc.ai[1] >= 120)
+            {
+                npc.velocity += Vector2.Normalize(npc.Center - target) * 0.3f;
+            }
+            if(npc.ai[1] >= 210)
+            {
+                npc.ai[0] = 1;
+                npc.ai[1] = 0;
+                npc.ai[2]++;// counts dashes so the boss wont just keep dashing
+                npc.velocity = Vector2.Zero;
+            }   
+            
+            if(npc.ai[1] >= 60)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Air>());
+            }
+        }
+
+        private void FallingRockAttack()
+        {
+            Player player = Main.player[npc.target];
+
+            npc.ai[1]++;
+            if(npc.ai[1] == 90)
+            {
+                Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake = 40;
+            }
+            if(npc.ai[1] == 120)
+            {
+                for(int k = -5; k <= 5; k++)
+                {
+                    Projectile.NewProjectile(player.position + new Vector2(k * Main.rand.NextFloat(150, 210), -800 + Main.rand.Next(300)), new Vector2(0, 6), ModContent.ProjectileType<Projectiles.GlassSpike>(), 20, 1);
+                }
+            }
+            if(npc.ai[1] >= 180)
+            {
+                npc.ai[0] = 1;
+                npc.ai[1] = 0;
             }
         }
     }

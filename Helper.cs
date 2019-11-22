@@ -58,5 +58,11 @@ namespace StarlightRiver
             player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(entry => entry is type).Locked = false;
             GUI.Codex.NewEntry = true;
         }
+
+        public static void SpawnGem(int ID, Vector2 position)
+        {
+            int item = Item.NewItem(position, ModContent.ItemType<Items.StarlightGem>());
+            (Main.item[item].modItem as Items.StarlightGem).gemID = ID;
+        }
     }
 }
