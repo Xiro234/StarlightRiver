@@ -92,8 +92,8 @@ namespace StarlightRiver
             {
                 Vector2 drawpos = npc.Center - Main.screenPosition;
                 Texture2D tex = ModContent.GetTexture(npc.modNPC.Texture);
-                spriteBatch.Draw(tex, drawpos, new Rectangle(0, 0, npc.width, npc.height), new Color(80, 230, 255) * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.2f),
-                    0, npc.Size / 2, 1.1f + (float)Math.Sin(LegendWorld.rottime * 4) * 0.05f, 0, 0);
+                spriteBatch.Draw(tex, drawpos, npc.frame, new Color(80, 230, 255) * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.2f),
+                    npc.rotation, npc.Size / 2, npc.scale + 0.1f + (float)Math.Sin(LegendWorld.rottime * 4) * 0.05f, 0, 0);
 
                 if(new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2).Intersects(npc.Hitbox))
                 {

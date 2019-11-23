@@ -11,6 +11,7 @@ namespace StarlightRiver.NPCs.Boss
 {
     class VitricBoss : ModNPC
     {
+        Vector2 spawnPos;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glass Tax Returns");
@@ -61,16 +62,56 @@ namespace StarlightRiver.NPCs.Boss
 
         public override void AI()
         {
-            Main.NewText(npc.ai[0] + "/" + npc.ai[1]);
+            //npc.ai Field meanings:
+            //0: the action to take (which action method should I be running every tick?)
+            //1: timer, increments every frame
+            //2: dash counter, makes sure the boss does something other than a dash even if it's too far away
+            //3: phase state
+
+            if (npc.ai[3] == 0) { spawnPos = npc.position; npc.ai[3] = 1; }
+            Main.NewText(npc.ai[0] + "/" + npc.ai[1] + "/" + npc.ai[2] + "/" + npc.ai[3]);
             Player player = Main.player[npc.target];
             npc.ai[1]++; //keeps the timer ticking
+
+            if (npc.life <= npc.lifeMax / 2 && npc.ai[3] == 1)
+            {
+                npc.GetGlobalNPC<ShieldHandler>().MaxShield = 0;
+                npc.ai[1] = 1;
+                npc.ai[0] = 5;
+                npc.ai[3] = 2;
+            }
 
             switch (npc.ai[0])
             {
                 case 0: CrystalShield(npc, 500, 3, Main.expertMode ? 300 : 150); break;
-                case 1: PassiveMovement(0.2f, 2.5f, 180); break;
+                case 1: PassiveMovement(0.2f, npc.ai[3] == 1 ? 4.5f : 5.2f, npc.ai[3] == 1 ? 90 : 75); break;
                 case 2: Dash(player.Center); break;
                 case 3: FallingRockAttack(); break;
+                case 4: BombAttack(); break;
+
+                case 5: GoHome(0); break;
+            }
+        }
+        private void GoHome(int poststate)
+        {
+            npc.scale -= 0.05f;
+            if (npc.ai[1] >= 20)
+            {
+                for(int k = 0; k <= 100; k++)
+                {
+                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f));
+                }
+                
+                npc.position = spawnPos;
+
+                for (int k = 0; k <= 100; k++)
+                {
+                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f));
+                }
+
+                npc.scale = 1;
+                npc.ai[1] = 0;
+                npc.ai[0] = poststate;
             }
         }
 
@@ -83,6 +124,9 @@ namespace StarlightRiver.NPCs.Boss
                     int ward = NPC.NewNPC((int)npc.Center.X + 8, (int)npc.Center.Y + 12, ModContent.NPCType<Ward>());
                     Main.npc[ward].velocity = (new Vector2(6, 0)).RotatedBy(rot);
                 }
+                npc.immortal = true;
+                npc.velocity *= 0;
+                npc.frame.Y = 1 * npc.height;
             }
             if(npc.ai[1] >= time || !Main.npc.Any(T => T.type == ModContent.NPCType<Ward>() && T.active))
             {
@@ -96,6 +140,8 @@ namespace StarlightRiver.NPCs.Boss
                         Dust.NewDustPerfect(Vector2.Lerp(npc.Center, npc2.Center, k / Vector2.Distance(npc.Center, npc2.Center)), ModContent.DustType<Dusts.Air>());
                     }
                 }
+                npc.immortal = false;
+                npc.frame.Y = 0 * npc.height;
                 npc.ai[1] = 0;
                 npc.ai[0] = 1;
             }
@@ -105,20 +151,19 @@ namespace StarlightRiver.NPCs.Boss
         {
             npc.TargetClosest();
             Player player = Main.player[npc.target];
-            npc.velocity += -Vector2.Normalize(npc.Center - player.Center) * acceleration;
+            npc.velocity += -Vector2.Normalize(npc.Center - (player.Center + new Vector2(0, -250))) * acceleration;
             if (npc.velocity.Length() >= maxspeed) npc.velocity = Vector2.Normalize(npc.velocity) * maxspeed;
-            npc.ai[1]++;
 
             if(npc.ai[1] >= attackspeed)
             {
-                npc.velocity = Vector2.Zero;
                 if ((npc.Center - player.Center).Length() >= 300 && npc.ai[2] < 3)
-                {                   
+                {
+                    npc.velocity = Vector2.Zero;
                     npc.ai[0] = 2;
                 }
                 else
                 {
-                    npc.ai[0] = 3;
+                    npc.ai[0] = Main.rand.Next(3, 5);
                     npc.ai[2] = 0;
                 }
                 npc.ai[1] = 0;
@@ -126,11 +171,10 @@ namespace StarlightRiver.NPCs.Boss
         }
 
         private void Dash(Vector2 target)
-        {
-            npc.ai[1]++;         
+        {    
             npc.rotation += (0.05f + npc.velocity.Length() * 0.02f) * npc.direction;
 
-            if (npc.ai[1] == 2)
+            if (npc.ai[1] == 1)
             {
                 for (int k = 0; k <= 100; k++)
                 {
@@ -139,15 +183,15 @@ namespace StarlightRiver.NPCs.Boss
                 }
             }
 
-            if (npc.ai[1] >= 60 && npc.ai[1] < 90)
+            if (npc.ai[1] >= 30 && npc.ai[1] < 45)
             {
                 npc.velocity -= Vector2.Normalize(npc.Center - target) * 1.1f;
             }
-            if(npc.ai[1] >= 120)
+            if(npc.ai[1] >= 60)
             {
                 npc.velocity += Vector2.Normalize(npc.Center - target) * 0.3f;
             }
-            if(npc.ai[1] >= 210)
+            if(npc.ai[1] >= 105)
             {
                 npc.ai[0] = 1;
                 npc.ai[1] = 0;
@@ -155,7 +199,7 @@ namespace StarlightRiver.NPCs.Boss
                 npc.velocity = Vector2.Zero;
             }   
             
-            if(npc.ai[1] >= 60)
+            if(npc.ai[1] >= 30)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Air>());
             }
@@ -165,23 +209,30 @@ namespace StarlightRiver.NPCs.Boss
         {
             Player player = Main.player[npc.target];
 
-            npc.ai[1]++;
-            if(npc.ai[1] == 90)
+            if(npc.ai[1] == 45)
             {
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake = 40;
             }
-            if(npc.ai[1] == 120)
+            if(npc.ai[1] == 60)
             {
                 for(int k = -5; k <= 5; k++)
                 {
-                    Projectile.NewProjectile(player.position + new Vector2(k * Main.rand.NextFloat(150, 210), -800 + Main.rand.Next(300)), new Vector2(0, 6), ModContent.ProjectileType<Projectiles.GlassSpike>(), 20, 1);
+                    Projectile.NewProjectile(player.position + new Vector2(k * Main.rand.NextFloat(150, 210), -800 + Main.rand.Next(300)), new Vector2(0, 7.2f), ModContent.ProjectileType<Projectiles.GlassSpike>(), 20, 1);
                 }
             }
-            if(npc.ai[1] >= 180)
+            if(npc.ai[1] >= 90)
             {
                 npc.ai[0] = 1;
                 npc.ai[1] = 0;
             }
+        }
+
+        private void BombAttack()
+        {
+            Player player = Main.player[npc.target];
+            Projectile.NewProjectile(npc.Center, Vector2.Normalize(npc.Center - player.Center), ModContent.ProjectileType<VitricBomb>(), 5, 0);
+            npc.ai[0] = 1;
+            npc.ai[1] = 0;
         }
     }
 
@@ -242,140 +293,86 @@ namespace StarlightRiver.NPCs.Boss
         }
     }
 
-    class HealGem : ModProjectile
+    class VitricBomb : ModProjectile
     {
         public override void SetDefaults()
         {
             projectile.width = 46;
             projectile.height = 46;
-            projectile.hostile = true;
-            projectile.timeLeft = 2;
             projectile.penetrate = -1;
+            projectile.timeLeft = 180;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
-
-        public override void AI()
-        {
-            projectile.timeLeft = 2;
-            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
-            projectile.velocity *= 1.004f;
-            Player player = Main.LocalPlayer; //TODO change to nearest pplayer
-            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-
-            if (AbilityHelper.CheckDash(player, projectile.Hitbox))
-            {
-                projectile.timeLeft = 0;
-                for (int k = 0; k <= 20; k++)
-                {
-                    Dust.NewDust(projectile.position, 46, 46, ModContent.DustType<Dusts.Air>());
-                    Dust.NewDust(projectile.position, 46, 46, ModContent.DustType<Dusts.Glass2>(),0,0,0,default,1.8f);
-                    Main.PlaySound(SoundID.Shatter, projectile.Center);
-                }
-                projectile.hostile = false;
-            }
-
-            if (!Main.npc.Any(npc => npc.type == mod.NPCType("VitricBoss") && npc.active))
-            {
-                projectile.timeLeft = 0;
-            }
-        }
-
-        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/NPCs/Boss/CrystalGlow2");
-
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            spriteBatch.Draw(glow, projectile.position - Main.screenPosition + new Vector2(23, 23), null, new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime), projectile.rotation, glow.Size() / 2, projectile.scale, 0, 0);
-        }
-    }
-
-    class Aura : ModProjectile
-    {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crystaline Magic");
-        }
-        public override void SetDefaults()
-        {
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.hostile = false;
-            projectile.friendly = false;
-            projectile.timeLeft = 2;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-        }
-
+            DisplayName.SetDefault("Volatile Crystal");
+            Main.projFrames[projectile.type] = 8;
+        }       
         public override void AI()
         {
-            projectile.timeLeft = 2;
-            projectile.localAI[0]--;
-            for (float k = 0; k <= 6.28; k += 0.1f)
+            projectile.velocity *= 0.9f;
+            if(Main.player.Any(player => AbilityHelper.CheckDash(player, projectile.Hitbox)))
             {
-                if (Main.rand.Next(20) == 0)
+                projectile.active = false;
+                for (int k = 0; k <= 100; k++)
                 {
-                    Dust.NewDustPerfect(projectile.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * projectile.localAI[1], ModContent.DustType<Dusts.Air4>(), Vector2.Zero);
+                    Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.8f));
+                }
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CounterWisp>(), 150, 1, Main.player.FirstOrDefault().whoAmI);
+            }
+            if (++projectile.frameCounter >= (projectile.timeLeft > 90 ? 4 : 2))
+            {
+                projectile.frameCounter = 0;
+                if (++projectile.frame >= 7)
+                {
+                    projectile.frame = 0;
                 }
             }
+        }
 
-            for (int k = 0; k <= projectile.localAI[1] * 1.3f; k += 10)
+        public override void Kill(int timeLeft)
+        {
+            for(float k = 0; k <= 6.28f; k+= 6.28f / 6)
             {
-                float offset = 0.707f * projectile.localAI[1];
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-offset + k, -offset), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-offset, -offset + k), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(offset - k, offset), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(offset , offset - k), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
-
-                float p = k * 1.6f;
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-projectile.localAI[1] + p/2,  -p/2), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(-projectile.localAI[1] + p/2,   p/2), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(projectile.localAI[1] - p/2,   -p/2), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
-                if (Main.rand.Next(20) == 0) { Dust.NewDustPerfect(projectile.Center + new Vector2(projectile.localAI[1] - p/2,    p/2), ModContent.DustType<Dusts.Air4>(), Vector2.Zero); }
+                Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedBy(k) * 2.2f, ModContent.ProjectileType<Projectiles.GlassSpike>(), 20, 1);
             }
-
-            if (projectile.localAI[0] <= 0)
+            for (int k = 0; k <= 100; k++)
             {
-                for (float k = 0; k <= 6.28; k += 0.1f)
-                {
-                    int slow = Main.rand.Next(26, 30);
-                    Dust.NewDust(projectile.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 20, 1, 1, ModContent.DustType<Dusts.Air>(), (float)Math.Cos(k) * projectile.localAI[1] / slow, (float)Math.Sin(k) * projectile.localAI[1] / slow);
-                }
-
-                foreach (Player player in Main.player.Where(player => Vector2.Distance(player.Center, projectile.Center) <= projectile.localAI[1]))
-                {
-                    Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Pulse>(), projectile.damage, 2);
-                }
-
-                foreach(Dust dust in Main.dust.Where(dust => dust.type == ModContent.DustType<Dusts.Air4>()))
-                {
-                    dust.active = false;
-                }
-                projectile.timeLeft = 0;
+                Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.8f));
             }
         }
     }
 
-    class Pulse : ModProjectile
+    class CounterWisp : ModProjectile
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Crystaline Magic");
-        }
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = true;
-            projectile.timeLeft = 2;
+            projectile.friendly = true;
+            projectile.width = 16;
+            projectile.height = 16;
             projectile.penetrate = -1;
+            projectile.timeLeft = 2;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
+            projectile.extraUpdates = 3;
         }
-
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Vengence");
+        }
+        public override string Texture => "StarlightRiver/Invisible";
         public override void AI()
         {
-
+            projectile.timeLeft = 2;
+            projectile.ai[0] += 0.04f;
+            Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Starlight>());
+            Vector2 goal = Main.npc.FirstOrDefault(npc => npc.type == ModContent.NPCType<VitricBoss>() && npc.active).Center;
+            projectile.velocity = -Vector2.Normalize(projectile.Center - goal) * projectile.ai[0];
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            projectile.timeLeft = 0;
         }
     }
 }

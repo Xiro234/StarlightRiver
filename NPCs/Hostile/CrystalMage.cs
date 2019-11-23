@@ -57,10 +57,10 @@ namespace StarlightRiver.NPCs.Hostile
                 else
                 {
                     //spawn a circle on the player
-                    int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Boss.Aura>(), 5, 0);
-                    Projectile circle = Main.projectile[proj];
-                    circle.localAI[0] = 120;
-                    circle.localAI[1] = 50;
+                    //int proj = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<Boss.Aura>(), 5, 0);
+                    //Projectile circle = Main.projectile[proj];
+                    //circle.localAI[0] = 120;
+                    //circle.localAI[1] = 50;
 
                     for (int k = 0; k <= Vector2.Distance(npc.Center, target.Center); k += 5)
                     {
