@@ -1,21 +1,12 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.ModLoader;
-using Terraria.World.Generation;
-using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Projectiles;
 using StarlightRiver.GUI;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
-namespace StarlightRiver
+namespace StarlightRiver.Worlds
 {
     public class LinkMode : ModWorld
     {

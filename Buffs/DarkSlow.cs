@@ -1,3 +1,4 @@
+using StarlightRiver.Players;
 using Terraria;
 using Terraria.ModLoader;
 

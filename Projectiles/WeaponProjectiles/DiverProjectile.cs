@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    public class Diver : ModProjectile
+    public class DiverProjectile : ModProjectile
     {
         public override void SetDefaults()
         {

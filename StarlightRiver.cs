@@ -16,6 +16,7 @@ using On.Terraria.GameContent.UI.Elements;
 using System;
 using Terraria.GameContent.UI.Elements;
 using System.Reflection;
+using StarlightRiver.Worlds;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 
 namespace StarlightRiver
