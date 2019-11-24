@@ -65,7 +65,7 @@ namespace StarlightRiver
         public int MaxCrystalCaveDepth = 0;
         public static Vector2 vitricTopLeft = new Vector2();
         public static Vector2 vitricSize = new Vector2();
-        public static Rectangle vitricBiome = new Rectangle((int)vitricTopLeft.X * 16, (int)vitricTopLeft.Y * 16, (int)vitricSize.X * 16, (int)vitricSize.Y * 16);
+        public static Rectangle VitricBiome => new Rectangle((int)vitricTopLeft.X * 16, (int)vitricTopLeft.Y * 16, (int)vitricSize.X * 16, (int)vitricSize.Y * 16);
         
         /// <summary>
         /// Generates a crystal cavern at position topCentre, where topCentre is exactly what it is called.
@@ -137,7 +137,6 @@ namespace StarlightRiver
 
             vitricTopLeft = centre.ToVector2() - new Vector2(size, 100);
             vitricSize = new Vector2(size * 2, 200);
-            vitricBiome = new Rectangle((int)vitricTopLeft.X * 16, (int)vitricTopLeft.Y * 16, (int)vitricSize.X * 16, (int)vitricSize.Y * 16);
         }
 
         ///TODO: Add crystal stairs
@@ -465,7 +464,6 @@ namespace StarlightRiver
         {
             vitricTopLeft = tag.Get<Vector2>(nameof(vitricTopLeft));
             vitricSize = tag.Get<Vector2>(nameof(vitricSize)); 
-            vitricBiome = new Rectangle((int)vitricTopLeft.X * 16, (int)vitricTopLeft.Y * 16, (int)vitricSize.X * 16, (int)vitricSize.Y * 16);
 
             AnyBossDowned = tag.GetBool(nameof(AnyBossDowned));
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
