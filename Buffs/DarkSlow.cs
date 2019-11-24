@@ -17,5 +17,7 @@ namespace StarlightRiver.Buffs
 		{
 			player.GetModPlayer<StarlightPlayer>().DarkSlow = true;
 		}
+
+        
 	}
 }

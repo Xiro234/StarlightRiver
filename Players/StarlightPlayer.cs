@@ -11,7 +11,7 @@ namespace StarlightRiver.Players
 {
     public class StarlightPlayer : ModPlayer
     {
-        public bool DarkSlow = false;
+        public bool DarkSlow { get; set; }
 
         public bool VitricSet = false;
 
@@ -20,6 +20,12 @@ namespace StarlightRiver.Players
         public int Shake = 0;
 		
 		public int InvertGrav = 0;
+
+
+        public static StarlightPlayer Get() => Get(Main.LocalPlayer);
+        public static StarlightPlayer Get(Player player) => player.GetModPlayer<StarlightPlayer>();
+
+
 		public override void PreUpdateBuffs()
         {
 
