@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss
 {
-    class VitricBoss : ModNPC
+    sealed class VitricBoss : ModNPC
     {
         Vector2 spawnPos;
         public override void SetStaticDefaults()
@@ -237,7 +237,7 @@ namespace StarlightRiver.NPCs.Boss
         }
     }
 
-    class Ward : ModNPC
+    sealed class Ward : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -294,7 +294,7 @@ namespace StarlightRiver.NPCs.Boss
         }
     }
 
-    class VitricBomb : ModProjectile
+    sealed class VitricBomb : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -345,7 +345,7 @@ namespace StarlightRiver.NPCs.Boss
         }
     }
 
-    class CounterWisp : ModProjectile
+    sealed class CounterWisp : ModProjectile
     {
         public override void SetDefaults()
         {

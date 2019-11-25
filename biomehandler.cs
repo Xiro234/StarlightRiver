@@ -28,7 +28,7 @@ namespace StarlightRiver
         public bool ZoneJungleHoly = false;
         public override void UpdateBiomes()
         {
-            ZoneGlass = (player.Hitbox.Intersects(LegendWorld.vitricBiome));
+            ZoneGlass = (player.Hitbox.Intersects(LegendWorld.VitricBiome));
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
             ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
             ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);

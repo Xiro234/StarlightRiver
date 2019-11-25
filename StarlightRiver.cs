@@ -18,6 +18,8 @@ using Terraria.GameContent.UI.Elements;
 using System.Reflection;
 using StarlightRiver.Worlds;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
+using MonoMod.Cil;
+using Mono.Cecil.Cil;
 
 namespace StarlightRiver
 {
@@ -142,13 +144,59 @@ namespace StarlightRiver
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
             On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
             On.Terraria.UI.ItemSlot.RightClick_ItemArray_int_int += NoSwapCurse;
-            //Character Slot Addons
+            // Character Slot Addons
             On.Terraria.GameContent.UI.Elements.UICharacterListItem.DrawSelf += DrawSpecialCharacter;
-            //Link mode healthbar
+            // Link mode healthbar
             On.Terraria.Main.DrawInterface_Resources_Life += LinkModeHealth;
-            //Vitrick background
+            // Vitric background
             On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
+            // Vitric lighting
+            IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
         }
+
+        private void VitricLighting(ILContext il)
+        {
+            // Create our cursor at the start of the void PreRenderPhase() method.
+            ILCursor c = new ILCursor(il);
+
+            // Find where 0.55F is loaded, then the Terraria.Main::GlobalTime field is loaded.
+            // Around IL_0727
+            c.GotoNext(i => i.MatchLdcR4(0.55f) && 
+                       i.Next.MatchLdsfld<float>("Terraria.Main::GlobalTime"));
+
+            // Emit the values of I and J.
+            c.Emit<int>(OpCodes.Ldloc_S, "n");
+            c.Emit<int>(OpCodes.Ldloc_S, "num17");
+
+            /* Emit the addresses of R, G, and B.
+             * It's important to emit their *addresses*, because we're passing them
+             *   by reference, not by value. Under the hood, "ref" tokens
+             *   pass a pointer to the object (even for managed types), 
+             *   and that's what we need to do here.
+            */
+            c.Emit<float>(OpCodes.Ldloca_S, "num18");
+            c.Emit<float>(OpCodes.Ldloca_S, "num19");
+            c.Emit<float>(OpCodes.Ldloca_S, "num20");
+
+            // Consume the values of I,J and the addresses of R,G,B by calling EmitVitricDel.
+            c.EmitDelegate<ModColorDelegate>(EmitVitricDel);
+
+            // Not much more than that.
+            // EmitVitricDel has the actual logic inside of it.
+        }
+
+        private delegate void ModColorDelegate(int i, int j, ref float r, ref float g, ref float b);
+        private static void EmitVitricDel(int i, int j, ref float r, ref float g, ref float b)
+        {
+            // If the tile is in the vitric biome, change its color.
+            if (LegendWorld.VitricBiome.Contains(i, j))
+            {
+                r = .3f;
+                g = .5f;
+                b = .55f;
+            }
+        }
+
         internal static readonly List<BootlegDust> VitricBackgroundDust = new List<BootlegDust>();
         internal static readonly List<BootlegDust> VitricForegroundDust = new List<BootlegDust>();
 
@@ -164,7 +212,7 @@ namespace StarlightRiver
             VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
-            if (player != null && player.Hitbox.Intersects(LegendWorld.vitricBiome))
+            if (player != null && player.Hitbox.Intersects(LegendWorld.VitricBiome))
             {
                 Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1000) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)
