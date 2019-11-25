@@ -62,8 +62,6 @@ D:\Vortex\Documents\My Games\Terraria\ModLoader\Mod Sources\StarlightRiver\obj\D
 D:\Vortex\Documents\My Games\Terraria\ModLoader\Mod Sources\StarlightRiver\obj\Debug\net45\StarlightRiver.csproj.CopyComplete
 D:\Vortex\Documents\My Games\Terraria\ModLoader\Mod Sources\StarlightRiver\obj\Debug\net45\StarlightRiver.dll
 D:\Vortex\Documents\My Games\Terraria\ModLoader\Mod Sources\StarlightRiver\obj\Debug\net45\StarlightRiver.pdb
-C:\Users\Alex\Documents\My Games\Terraria\ModLoader\Mod Sources\StarlightRiver\bin\Debug\net45\AchievementLib.dll
-C:\Users\Alex\Documents\My Games\Terraria\ModLoader\Mod Sources\StarlightRiver\bin\Debug\net45\AchievementLib.pdb
 C:\Users\erict_000\Documents\My Games\Terraria\ModLoader\Mod Sources\spritersguildwip\bin\Debug\net45\StarlightRiver.dll
 C:\Users\erict_000\Documents\My Games\Terraria\ModLoader\Mod Sources\spritersguildwip\bin\Debug\net45\StarlightRiver.pdb
 C:\Users\erict_000\Documents\My Games\Terraria\ModLoader\Mod Sources\spritersguildwip\bin\Debug\net45\Ionic.Zip.Reduced.dll

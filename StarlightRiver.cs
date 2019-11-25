@@ -190,9 +190,9 @@ namespace StarlightRiver
             // If the tile is in the vitric biome, change its color.
             if (LegendWorld.VitricBiome.Contains(i, j))
             {
-                r = 0;
-                g = 0;
-                b = 0;
+                r = .3f;
+                g = .5f;
+                b = .55f;
             }
         }
 
