@@ -6,10 +6,11 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using WebmilioCommons.Extensions;
 
 namespace StarlightRiver.Players
 {
-    public class StarlightPlayer : ModPlayer
+    public sealed partial class StarlightPlayer : ModPlayer
     {
         public bool DarkSlow { get; set; }
 
@@ -26,7 +27,19 @@ namespace StarlightRiver.Players
         public static StarlightPlayer Get(Player player) => player.GetModPlayer<StarlightPlayer>();
 
 
-		public override void PreUpdateBuffs()
+        public override void ModifyScreenPosition()
+        {
+            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
+            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
+            if (Shake > 0) { Shake--; }
+        }
+
+        public override void OnEnterWorld(Player player)
+        {
+            player.SendIfLocal<PlayerSynchronizationPacket>();
+        }
+
+        public override void PreUpdateBuffs()
         {
 
 			if (InvertGrav > 0)
@@ -43,13 +56,17 @@ namespace StarlightRiver.Players
 
         public override void PreUpdate()
         {
-            Stamina.visible = false;
+            PreUpdateTicks++;
+
+            PreUpdateStamina();
+
+            GUI.Stamina.visible = false;
             Infusion.visible = false;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
             if (mp.Abilities.Any(a => !a.Locked))
             {
-                Stamina.visible = true;
+                GUI.Stamina.visible = true;
             }
 
             if (Main.playerInventory)
@@ -72,11 +89,6 @@ namespace StarlightRiver.Players
             }
             DarkSlow = false;
         }
-
-		public override void ResetEffects()
-        {
-            AnthemDagger = false;
-		}
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
@@ -137,11 +149,14 @@ namespace StarlightRiver.Players
             return true;
         }
 
-        public override void ModifyScreenPosition()
+        public override void ResetEffects()
         {
-            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
-            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
-            if (Shake > 0) { Shake--; }
+            AnthemDagger = false;
+
+            ResetEffectsStamina();
         }
+
+
+        public int PreUpdateTicks { get; internal set; }
     }
 }

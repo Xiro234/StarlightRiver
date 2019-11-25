@@ -23,14 +23,6 @@ namespace StarlightRiver.Abilities
         //A list of all ability instances is kept to easily check things globally across the player's abilities.
         public List<Ability> Abilities = new List<Ability>();
 
-        //The players stamina stats.
-        public int StatStaminaMax = 0;
-        public int StatStaminaMaxTemp = 0;
-        public int StatStaminaMaxPerm = 1;
-        public int StatStamina = 1;
-        public int StatStaminaRegenMax = 210;
-        public int StatStaminaRegen = 0;
-
         //Holds the player's wing or rocket boot timer, since they must be disabled to move upwards correctly.
         private float StoredAccessoryTime = 0;
 
@@ -44,9 +36,6 @@ namespace StarlightRiver.Abilities
                 [nameof(pure)] = pure.Locked,
                 [nameof(smash)] = smash.Locked,
                 [nameof(sdash)] = sdash.Locked,
-
-                //permanent stamina amount
-                [nameof(StatStaminaMaxPerm)] = StatStaminaMaxPerm,
 
                 //infusion data
                 [nameof(slot1)] = slot1,
@@ -80,9 +69,6 @@ namespace StarlightRiver.Abilities
             Abilities.Add(sdash);
 
 
-            //loads the player's maximum stamina.
-            StatStaminaMaxPerm = tag.GetInt(nameof(StatStaminaMaxPerm));
-
             //loads infusion data.
             slot1 = tag.Get<Item>(nameof(slot1)); if (slot1.Name == "") { slot1 = null; }
             slot2 = tag.Get<Item>(nameof(slot2)); if (slot2.Name == "") { slot2 = null; }
@@ -102,11 +88,6 @@ namespace StarlightRiver.Abilities
 
         public override void ResetEffects()
         {
-            //Resets the player's stamina to prevent issues with gaining infinite stamina or stamina regeneration.
-            StatStaminaMax = StatStaminaMaxTemp + StatStaminaMaxPerm;
-            StatStaminaMaxTemp = 0;
-            StatStaminaRegenMax = 210;
-
             if (Abilities.Any(ability => ability.Active))
             {
                 // The player cant use items while casting an ability.

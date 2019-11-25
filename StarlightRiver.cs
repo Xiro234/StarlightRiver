@@ -20,6 +20,7 @@ using StarlightRiver.Worlds;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
+using WebmilioCommons.Networking;
 
 namespace StarlightRiver
 {
@@ -511,11 +512,13 @@ namespace StarlightRiver
 
             //Main.player[whoAmI].GetModPlayer<AbilityHandler>().ability = target;
 
-            LinkMode.Enabled = reader.ReadBoolean();
+            NetworkPacketLoader.Instance.HandlePacket(reader, whoAmI);
+
+            /*LinkMode.Enabled = reader.ReadBoolean();
             LinkMode.MaxWorldHP = reader.ReadInt32();
             LinkMode.WorldHP = reader.ReadInt32();
             //Main.NewText("Packet Recieved!", 100, 100, 255);
-            Console.WriteLine("Server Packet Recieved!");
+            Console.WriteLine("Server Packet Recieved!");*/
         }
 
         public override void Unload()

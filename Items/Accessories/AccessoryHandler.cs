@@ -17,10 +17,6 @@ namespace StarlightRiver.Items.Accessories
 {
     class AccessoryHandler : ModPlayer
     {
-        public int[] accessories = new int[] //used for tracking what accessories are equipped
-        {
-             0,0,0
-        };
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();

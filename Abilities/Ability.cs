@@ -16,20 +16,6 @@ using StarlightRiver.Abilities;
 
 namespace StarlightRiver.Abilities
 {
-    [DataContract]
-
-    [KnownType(typeof(Dash))]
-    [KnownType(typeof(DashAstral))]
-    [KnownType(typeof(DashFlame))]
-    [KnownType(typeof(DashCombo))]
-
-    [KnownType(typeof(Wisp))]
-
-    [KnownType(typeof(Pure))]
-
-    [KnownType(typeof(Smash))]
-
-    [KnownType(typeof(Superdash))]
     public class Ability
     {
         [DataMember] public int StaminaCost { get; set; }
