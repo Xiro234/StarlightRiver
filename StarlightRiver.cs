@@ -236,11 +236,11 @@ namespace StarlightRiver
             // If the tile is in the vitric biome and doesn't block light, emit light.
             bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type];
             bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
-            if (LegendWorld.VitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            if (LegendWorld.VitricBiome.Contains(i * 16, j * 16) && Main.tile[i, j] != null && !tileBlock && wallBlock)
             {
-                r = .3f;
-                g = .5f;
-                b = .55f;
+                r = .4f;
+                g = .57f;
+                b = .65f;
             }
         }
 
