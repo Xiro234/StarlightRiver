@@ -1,10 +1,13 @@
+using StarlightRiver.Tiles;
 using Terraria.ID;
 using Terraria.ModLoader;
+using WebmilioCommons.Items.Standard;
 
 namespace StarlightRiver.Items.EbonyIvory
 {
-    public class OreEbonyItem : QuickTileItem { public OreEbonyItem() : base("Ebony Ore", "Heavy and Impure", ModContent.TileType<Tiles.OreEbony>(), 1) { } }
-    public class OreIvoryItem : QuickMaterial { public OreIvoryItem() : base("Ivory Ore", "Light and Pure", 999, 1000, 4) { } }
+    public class OreEbonyItem : StandardTileItem { public OreEbonyItem() : base("Ebony Ore", "Heavy and Impure", 14, 14, ModContent.TileType<Tiles.OreEbony>(), ItemRarityID.Blue) { } }
+    public class OreIvoryItem : StandardTileItem { public OreIvoryItem() : base("Ivory Ore", "Light and Pure", 14, 14, ModContent.TileType<OreIvory>(), rarity: ItemRarityID.LightRed, value: 1000) { } }
+
     public class BarEbony : QuickMaterial
     {
         public BarEbony() : base("Ebony Bar", "Soft and Heavy", 999, 1000, 1) { }

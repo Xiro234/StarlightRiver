@@ -1,11 +1,12 @@
 using Terraria.ModLoader;
+using WebmilioCommons.Items.Standard;
 
 namespace StarlightRiver.Items.Vitric
 {
-    public class VitricSandItem : QuickTileItem { public VitricSandItem() : base("Glassy Sand", "", ModContent.TileType<Tiles.Vitric.VitricSand>(), 0) { } }
-    public class VitricGlassItem : QuickTileItem { public VitricGlassItem() : base("Fuseglass", "", ModContent.TileType<Tiles.Vitric.VitricGlass>(), 0) { } }
-    public class VitricGlassCrystalItem : QuickTileItem { public VitricGlassCrystalItem() : base("Crystaline Glass", "", ModContent.TileType<Tiles.Vitric.VitricGlassCrystal>(), 0) { } }
-    public class VitricBrickItem : QuickTileItem { public VitricBrickItem() : base("Vitric Brick", "", ModContent.TileType<Tiles.Vitric.VitricBrick>(), 0) { } }
+    public class VitricSandItem : StandardTileItem { public VitricSandItem() : base("Glassy Sand", "", 16, 16, ModContent.TileType<Tiles.Vitric.VitricSand>()) { } }
+    public class VitricGlassItem : StandardTileItem { public VitricGlassItem() : base("Fuseglass", "", 16, 16, ModContent.TileType<Tiles.Vitric.VitricGlass>()) { } }
+    public class VitricGlassCrystalItem : StandardTileItem { public VitricGlassCrystalItem() : base("Crystaline Glass", "", 16, 16, ModContent.TileType<Tiles.Vitric.VitricGlassCrystal>()) { } }
+    public class VitricBrickItem : StandardTileItem { public VitricBrickItem() : base("Vitric Brick", "", 16, 16, ModContent.TileType<Tiles.Vitric.VitricBrick>()) { } }
 
     public class Bounce : ModItem //TODO Migrate to itneractable tiles
     {

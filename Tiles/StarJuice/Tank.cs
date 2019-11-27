@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StarlightRiver.Items.TileItems.CraftingTables;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -35,7 +36,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.OvenItem>());
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<OvenItem>());
         }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)

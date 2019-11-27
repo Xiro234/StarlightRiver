@@ -1,15 +1,16 @@
 using Terraria.ModLoader;
+using WebmilioCommons.Items.Standard;
 
 namespace StarlightRiver.Items.Void
 {
-    public class Void1Item : QuickTileItem { public Void1Item() : base("Eldritch Brick", "It's Whispering...", ModContent.TileType<Tiles.Void.Void1>(), 0) { } }
-    public class Void2Item : QuickTileItem { public Void2Item() : base("Eldritch Stone", "It's Whispering...", ModContent.TileType<Tiles.Void.Void2>(), 0) { } }
-    public class VoidTorch1Item : QuickTileItem { public VoidTorch1Item() : base("Eldritch Torch", "This is backwards...", ModContent.TileType<Tiles.Void.VoidTorch1>(), 0) { } }
-    public class VoidTorch2Item : QuickTileItem { public VoidTorch2Item() : base("Eldritch Brazier", "This is backwards...", ModContent.TileType<Tiles.Void.VoidTorch2>(), 0) { } }
-    public class VoidPillarBItem : QuickTileItem { public VoidPillarBItem() : base("Eldritch Pillar Base", "", ModContent.TileType<Tiles.Void.VoidPillarB>(), 0) { } }
-    public class VoidPillarMItem : QuickTileItem { public VoidPillarMItem() : base("Eldritch Pillar", "", ModContent.TileType<Tiles.Void.VoidPillarM>(), 0) { } }
-    public class VoidPillarTItem : QuickTileItem { public VoidPillarTItem() : base("Eldritch Pillar Support", "", ModContent.TileType<Tiles.Void.VoidPillarT>(), 0) { } }
-    public class VoidPillarPItem : QuickTileItem { public VoidPillarPItem() : base("Eldritch Pillar Pedestal", "", ModContent.TileType<Tiles.Void.VoidPillarP>(), 0) { } }
+    public class Void1Item : StandardTileItem { public Void1Item() : base("Eldritch Brick", "It's Whispering...", 16, 16, ModContent.TileType<Tiles.Void.Void1>()) { } }
+    public class Void2Item : StandardTileItem { public Void2Item() : base("Eldritch Stone", "It's Whispering...", 16, 16, ModContent.TileType<Tiles.Void.Void2>()) { } }
+    public class VoidTorch1Item : StandardTileItem { public VoidTorch1Item() : base("Eldritch Torch", "This is backwards...", 14, 26, ModContent.TileType<Tiles.Void.VoidTorch1>()) { } }
+    public class VoidTorch2Item : StandardTileItem { public VoidTorch2Item() : base("Eldritch Brazier", "This is backwards...", 16, 16, ModContent.TileType<Tiles.Void.VoidTorch2>()) { } }
+    public class VoidPillarBItem : StandardTileItem { public VoidPillarBItem() : base("Eldritch Pillar Base", "", 36, 24, ModContent.TileType<Tiles.Void.VoidPillarB>()) { } }
+    public class VoidPillarMItem : StandardTileItem { public VoidPillarMItem() : base("Eldritch Pillar", "", 36, 24, ModContent.TileType<Tiles.Void.VoidPillarM>()) { } }
+    public class VoidPillarTItem : StandardTileItem { public VoidPillarTItem() : base("Eldritch Pillar Support", "", 36, 24, ModContent.TileType<Tiles.Void.VoidPillarT>()) { } }
+    public class VoidPillarPItem : StandardTileItem { public VoidPillarPItem() : base("Eldritch Pillar Pedestal", "", 36, 24, ModContent.TileType<Tiles.Void.VoidPillarP>()) { } }
 
     public class VoidWallItem : ModItem
     {
