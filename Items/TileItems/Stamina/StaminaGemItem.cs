@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using WebmilioCommons.Items.Standard;
 
-namespace StarlightRiver.Items.Tiles.Stamina
+namespace StarlightRiver.Items.TileItems.Stamina
 {
     public sealed class StaminaGemItem : StandardTileItem
     {

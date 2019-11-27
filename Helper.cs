@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Codex;
+using System;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -63,6 +65,17 @@ namespace StarlightRiver
         {
             int item = Item.NewItem(position, ModContent.ItemType<Items.StarlightGem>());
             (Main.item[item].modItem as Items.StarlightGem).gemID = ID;
+        }
+
+        public static void DrawSymbol(SpriteBatch spriteBatch, Vector2 position, Color color)
+        {
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/Symbol");
+            float scale = 0.9f + (float)Math.Sin(LegendWorld.rottime) * 0.1f;
+            spriteBatch.Draw(tex, position, tex.Frame(), color * 0.8f * scale, 0, tex.Size() * 0.5f, scale * 0.8f, 0, 0);
+
+            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+            float fade = LegendWorld.rottime / 6.28f;
+            spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 0.6f, 0, 0);
         }
     }
 }

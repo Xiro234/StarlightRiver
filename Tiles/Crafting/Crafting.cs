@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.ID;
 using StarlightRiver.GUI;
+using StarlightRiver.Items.TileItems.CraftingTables;
 
 namespace StarlightRiver.Tiles.Crafting
 {
@@ -25,7 +26,6 @@ namespace StarlightRiver.Tiles.Crafting
             Main.tileLighted[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            //AddMapEntry(new Color(113, 113, 113)); this goes after ModTranslation & name.SetDefault, not before.
             dustType = DustID.Stone;
             disableSmartCursor = true;
 
@@ -41,7 +41,7 @@ namespace StarlightRiver.Tiles.Crafting
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.OvenItem>());
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<OvenItem>());
         }
     }
 
@@ -70,7 +70,7 @@ namespace StarlightRiver.Tiles.Crafting
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.OvenAstralItem>());
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<OvenAstralItem>());
         }
     }
 
@@ -92,7 +92,7 @@ namespace StarlightRiver.Tiles.Crafting
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.HerbStationItem>());
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<HerbStationItem>());
         }
     }
 
@@ -114,7 +114,7 @@ namespace StarlightRiver.Tiles.Crafting
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.CookStationItem>());
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<CookStationItem>());
         }
 
         public override bool NewRightClick(int i, int j)
