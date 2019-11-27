@@ -36,6 +36,7 @@ namespace StarlightRiver.NPCs.Boss
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
+            npc.alpha = 255;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
         }
 
@@ -70,6 +71,7 @@ namespace StarlightRiver.NPCs.Boss
             //3: phase state
 
             if (npc.ai[3] == 0) { spawnPos = npc.position; npc.ai[3] = 1; }
+            if (npc.ai[3] == 1 && npc.alpha > 0) { npc.alpha -= 5; }
             Main.NewText(npc.ai[0] + "/" + npc.ai[1] + "/" + npc.ai[2] + "/" + npc.ai[3]);
             Player player = Main.player[npc.target];
             npc.ai[1]++; //keeps the timer ticking
@@ -122,8 +124,8 @@ namespace StarlightRiver.NPCs.Boss
             {
                 for (float rot = 0; rot < 6.28f; rot += 6.28f / count)
                 {
-                    int ward = NPC.NewNPC((int)npc.Center.X + 8, (int)npc.Center.Y + 12, ModContent.NPCType<Ward>());
-                    Main.npc[ward].velocity = (new Vector2(6, 0)).RotatedBy(rot);
+                    int ward = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 24, ModContent.NPCType<Ward>());
+                    Main.npc[ward].velocity = (new Vector2(0, -6)).RotatedBy(rot);
                 }
                 npc.immortal = true;
                 npc.velocity *= 0;
@@ -257,12 +259,15 @@ namespace StarlightRiver.NPCs.Boss
             npc.aiStyle = -1;
             npc.immortal = true;
             npc.noGravity = true;
+            npc.alpha = 255;
         }
         public override void AI()
         {
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+
+            if (npc.alpha > 0) { npc.alpha -= 5; }
 
             if (AbilityHelper.CheckDash(player, npc.Hitbox))
             {
@@ -290,7 +295,7 @@ namespace StarlightRiver.NPCs.Boss
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(glow, npc.position - Main.screenPosition + new Vector2(0, 3), new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime));
+            spriteBatch.Draw(glow, npc.position - Main.screenPosition + new Vector2(0, 3), new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime) * ( 1 - npc.alpha / 255f));
         }
     }
 

@@ -26,7 +26,6 @@ namespace StarlightRiver.Tiles.Crafting
             Main.tileLighted[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            //AddMapEntry(new Color(113, 113, 113)); this goes after ModTranslation & name.SetDefault, not before.
             dustType = DustID.Stone;
             disableSmartCursor = true;
 
