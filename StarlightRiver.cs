@@ -150,7 +150,7 @@ namespace StarlightRiver
             // Vitric background
             On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
             // Vitric lighting
-            IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
+            //IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
         }
 
         private void VitricLighting(ILContext il)

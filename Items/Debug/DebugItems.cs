@@ -181,7 +181,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 1;
-            item.createTile = ModContent.TileType<Tiles.Vitric.VitricOre>();
+            item.createTile = ModContent.TileType<Tiles.Vitric.VitricBossAltar>();
         }
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()
