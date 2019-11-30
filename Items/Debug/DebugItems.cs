@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Linq;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex;
 using StarlightRiver.Gases;
@@ -192,10 +193,42 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            LegendWorld.SealOpen = false;
-            foreach (CodexEntry entry in Main.LocalPlayer.GetModPlayer<CodexHandler>().Entries)
+            foreach(NPC npc in Main.npc)
             {
-                entry.Locked = false;
+                npc.Kill();
+            }
+            foreach(Projectile projectile in Main.projectile)
+            {
+                projectile.Kill();
+            }
+            foreach(Dust dust in Main.dust)
+            {
+                dust.active = false;
+            }
+            foreach(Gore gore in Main.gore)
+            {
+                gore.active = false;
+            }
+            foreach(Item item in Main.item)
+            {
+                item.active = false;
+            }
+            for(int k = 0; k < Main.maxTilesX; k++)
+            {
+                for(int j = 0; j < Main.maxTilesY; j++)
+                {
+                    Main.tile[k, j].ClearEverything();
+                }
+
+                for (int j = Main.spawnTileY; j < Main.spawnTileY + 50; j++)
+                {
+                    WorldGen.PlaceTile(k, j, 267, true);                   
+                }
+
+                for (int j = Main.spawnTileY - 100; j < Main.spawnTileY + 1; j++)
+                {
+                    WorldGen.PlaceWall(k, j, 155, true);
+                }
             }
             return true;
         }

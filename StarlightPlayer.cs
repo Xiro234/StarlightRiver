@@ -20,9 +20,9 @@ namespace StarlightRiver
 {
     public class StarlightPlayer : ModPlayer
     {
-        public bool DarkSlow = false;
+        public bool JustHit = false;
 
-        public bool VitricSet = false;
+        public bool DarkSlow = false;
 
         public bool AnthemDagger = false;
 
@@ -124,6 +124,16 @@ namespace StarlightRiver
 
             if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; }
         }
+
+        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        {
+            JustHit = true;
+        }
+        public override void PostUpdateEquips()
+        {
+            JustHit = false;
+        }
+
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
