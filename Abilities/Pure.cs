@@ -42,8 +42,8 @@ namespace StarlightRiver.Abilities
 
         public override void InUse()
         {
-            Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Purifier>(), 0, 0, player.whoAmI);
-            LegendWorld.PureTiles.Add(player.Center / 16);
+            Projectile.NewProjectile(player.Center + new Vector2(16, -24), Vector2.Zero, ModContent.ProjectileType<Purifier>(), 0, 0, player.whoAmI);
+            LegendWorld.PureTiles.Add((player.Center + new Vector2(16, -24)) / 16);
 
             Active = false;
             OnExit();
