@@ -22,6 +22,17 @@ namespace StarlightRiver.Abilities
 
         }
 
+        public override void StartAbility(AbilityHandler handler)
+        {
+            //if the player: has enough stamina  && unlocked && not on CD     && Has no other abilities active
+            if (handler.StatStamina >= StaminaCost && !Locked && Cooldown == 0 && !handler.Abilities.Any(a => a.Active) && 
+                !(Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.active && (proj.type == ModContent.ProjectileType<Purifier>() || proj.type == ModContent.ProjectileType<PurifierReturn>()))))
+            {
+                handler.StatStamina -= StaminaCost; //Consume the stamina
+                OnCast(); //Do what the ability should do when it starts
+            }
+        }
+
         public override void OnCast()
         {
             Active = true;
@@ -31,14 +42,9 @@ namespace StarlightRiver.Abilities
 
         public override void InUse()
         {
-            for (float k = 0; k <= (float) Math.PI * 2; k += (float) Math.PI / 40)
-            {
-                int proj = Projectile.NewProjectile(player.Center + new Vector2((float)Math.Cos(k), (float)Math.Sin(k)), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * 5, ModContent.ProjectileType<Purifier>(),0,0, player.whoAmI);
-                Purifier pur = Main.projectile[proj].modProjectile as Purifier;
-                pur.start = player.Center;
-                LegendWorld.PureTiles.Add(player.Center/16);
+            Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Purifier>(), 0, 0, player.whoAmI);
+            LegendWorld.PureTiles.Add(player.Center / 16);
 
-            }
             Active = false;
             OnExit();
 

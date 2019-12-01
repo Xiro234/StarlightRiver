@@ -26,7 +26,7 @@ namespace StarlightRiver.Tiles.Void
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D pillar = ModContent.GetTexture("StarlightRiver/Tiles/BackPillar");
+            Texture2D pillar = ModContent.GetTexture("StarlightRiver/Tiles/Void/BackPillar");
             for (int x = 0; x <= pillar.Width / 16; x ++)
             {
                 for (int y = 0; y <= pillar.Height / 16; y++)
@@ -49,7 +49,7 @@ namespace StarlightRiver.Tiles.Void
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D pillar = ModContent.GetTexture("StarlightRiver/Tiles/BackPillarS");
+            Texture2D pillar = ModContent.GetTexture("StarlightRiver/Tiles/Void/BackPillarS");
             for (int x = 0; x <= pillar.Width / 16; x++)
             {
                 for (int y = 0; y <= pillar.Height / 16; y++)
