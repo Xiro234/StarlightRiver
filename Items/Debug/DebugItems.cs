@@ -159,15 +159,11 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.StarJuice.Tank>();
+            item.createTile = ModContent.TileType<Tiles.Rift.MainRift>();
         }
 
         public override bool UseItem(Player player)
         {
-            for (int k = 0; k <= 99; k++)
-            {
-                Helper.SpawnGem(k, player.Center + new Vector2(0, -100));              
-            }
             return true;
         }
     }

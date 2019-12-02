@@ -158,16 +158,15 @@ namespace StarlightRiver.Items.Armor
             for (int k = 0; k < leaves; k++)
             {
                 Dust dus = Dust.NewDustPerfect(player.Center + (new Vector2((float)Math.Cos(LegendWorld.rottime) * 2, (float)Math.Sin(LegendWorld.rottime)) * 20).RotatedBy(k / (float)leaves * 6.28f),
-                ModContent.DustType<Dusts.Void4>(), Vector2.Zero, 0, default, leaves == 10 ? 0.8f : 0.4f);
+                ModContent.DustType<Dusts.GenericFollow>(), Vector2.Zero, 0, default, leaves == 10 ? 1.2f : 0.8f);
                 dus.customData = player;
             }
 
             if (player.GetModPlayer<StarlightPlayer>().JustHit)
             {
-                Main.NewText("Leaves shot: " + leaves);
                 for (int k = 0; k < leaves; k++)
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.One * 5, ModContent.ProjectileType<Projectiles.Ammo.VitricArrow>(), 10, 0);
+                    Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(6.28f) * 3, ModContent.ProjectileType<Projectiles.WeaponProjectiles.ArmorLeaf>(), 10, 0);
                 }
                 leaves = 0;
             }

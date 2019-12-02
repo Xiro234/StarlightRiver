@@ -15,10 +15,12 @@ using ReLogic.Graphics;
 using On.Terraria.GameContent.UI.Elements;
 using System;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using System.Reflection;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
+using StarlightRiver.RiftCrafting;
 
 namespace StarlightRiver
 {
@@ -47,6 +49,8 @@ namespace StarlightRiver
         public static ModHotKey Smash;
         public static ModHotKey Wisp;
         public static ModHotKey Purify;
+
+        public List<RiftRecipe> RiftRecipes;
 
         public enum AbilityEnum : int {dash, wisp, purify, smash, superdash };
 
@@ -102,6 +106,34 @@ namespace StarlightRiver
         {
             //Calls to add achievements.
             Achievements.Achievements.CallAchievements(this);
+
+            RiftRecipes = new List<RiftRecipe>();
+
+            RiftRecipes.Add(new RiftRecipe(new List<RiftIngredient>()
+            {
+                new RiftIngredient(ItemID.DirtBlock, 1),
+                new RiftIngredient(ItemID.StoneBlock, 1)
+            },
+            new List<int>()
+            {
+                NPCID.Zombie,
+                NPCID.TheHungryII,
+                NPCID.Mummy
+            },
+            1, ItemID.DiscoBall));
+
+            RiftRecipes.Add(new RiftRecipe(new List<RiftIngredient>()
+            {
+                new RiftIngredient(ItemID.IronPickaxe, 1),
+                new RiftIngredient(ItemID.HellstoneBar, 4)
+            },
+            new List<int>()
+            { 
+                NPCID.Demon,
+                NPCID.TheHungryII,
+                NPCID.Hellbat
+            },
+            3, ItemID.MoltenPickaxe));
 
             Dash = RegisterHotKey("Dash", "LeftShift");
             Wisp = RegisterHotKey("Wisp Form", "F");
@@ -569,6 +601,8 @@ namespace StarlightRiver
         {
             if (!Main.dedServ)
             {
+                RiftRecipes = null;
+
                 customResources = null;
                 customResources2 = null;
                 customResources3 = null;

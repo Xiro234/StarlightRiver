@@ -19,7 +19,7 @@ namespace StarlightRiver.Items
             item.knockBack = 2f;
             item.damage = 50;
             item.UseSound = SoundID.Item43;
-            item.shoot = mod.ProjectileType("Battery");
+            item.shoot = mod.ProjectileType("ArmorLeaf");
             item.rare = 2;
             item.noMelee = true;
             item.magic = true;

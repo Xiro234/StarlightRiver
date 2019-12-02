@@ -4,9 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Projectiles.Ammo
+namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class Battery : ModProjectile
+    class ArmorLeaf : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -15,14 +15,13 @@ namespace StarlightRiver.Projectiles.Ammo
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 1000;
+            projectile.timeLeft = 120;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.extraUpdates = 5;
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Missile Battery");
+            DisplayName.SetDefault("Leaf");
         }
 
         bool picked = false;
@@ -40,13 +39,16 @@ namespace StarlightRiver.Projectiles.Ammo
                     }
                 }
                 picked = true;
-                projectile.velocity *= 2f;
             }
 
             Dust.NewDust(projectile.position, 1, 1, ModContent.DustType<Dusts.Gold>(), 0, 0, 0, default, 0.4f);
             if (Vector2.Distance(target.Center, projectile.Center) <= 800)
             {
-                projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.1f;
+                projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.4f;
+            }
+            if(projectile.velocity.Length() >= 12)
+            {
+                projectile.velocity = Vector2.Normalize(projectile.velocity) * 12;
             }
         }
     }
