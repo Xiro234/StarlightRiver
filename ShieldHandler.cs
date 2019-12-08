@@ -94,11 +94,6 @@ namespace StarlightRiver
                 Texture2D tex = ModContent.GetTexture(npc.modNPC.Texture);
                 spriteBatch.Draw(tex, drawpos, npc.frame, new Color(80, 230, 255) * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.2f),
                     npc.rotation, npc.Size / 2, npc.scale + 0.1f + (float)Math.Sin(LegendWorld.rottime * 4) * 0.05f, 0, 0);
-
-                if(new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2).Intersects(npc.Hitbox))
-                {
-                    Utils.DrawBorderString(spriteBatch, "Shield: " + Shield + "/" + MaxShield, Main.MouseScreen + new Vector2(18, 38), new Color(140, 230, 255).MultiplyRGB(Main.mouseTextColorReal), 1f);
-                }
             }
         }
 
@@ -116,7 +111,7 @@ namespace StarlightRiver
                 Rectangle target2 = new Rectangle((int)drawpos.X - 17, (int)drawpos.Y + 10, (int)(Shield/(float)MaxShield * 36f), 10);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/ShieldBar1"), target2, color * Lighting.Brightness((int)npc.position.X / 16, (int)npc.position.Y / 16));
             }
-            return true;
+            return base.DrawHealthBar(npc, hbPosition, ref scale, ref position);
         }
     }
 

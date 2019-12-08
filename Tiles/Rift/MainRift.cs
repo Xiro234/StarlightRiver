@@ -22,18 +22,22 @@ namespace StarlightRiver.Tiles.Rift
             Main.tileFrameImportant[Type] = true;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<RiftEntity>().Hook_AfterPlacement, -1, 0, false);
             TileObjectData.addTile(Type);
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("");
-            AddMapEntry(new Color(0, 0, 0), name);
+            AddMapEntry(new Color(100, 0, 120), name);
             dustType = ModContent.DustType<Dusts.Darkness>();
             disableSmartCursor = true;
         }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            Texture2D riftTex = ModContent.GetTexture("StarlightRiver/Tiles/Rift/Rift");
+            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), Color.White, 0, riftTex.Size() / 2, 1, 0, 0);
+
             int index = ModContent.GetInstance<RiftEntity>().Find(i, j);
             if (index == -1) return true;           
             RiftEntity entity = (RiftEntity)TileEntity.ByID[index];
@@ -88,13 +92,19 @@ namespace StarlightRiver.Tiles.Rift
         public override void Update()
         {
             if (timer >= 1) timer--;
-            Rectangle hitbox = new Rectangle(Position.X * 16, Position.Y * 16, 64, 128);
+            Rectangle hitbox = new Rectangle(Position.X * 16 - 24, Position.Y * 16 - 56, 64, 128);
+            Vector2 pos = Position.ToVector2() * 16;
+            //Temporary dust to visualize hitbox
+            Dust.NewDustPerfect(hitbox.TopLeft(), ModContent.DustType<Dusts.Purify2>(), new Vector2(4, 0));
+            Dust.NewDustPerfect(hitbox.TopRight(), ModContent.DustType<Dusts.Purify2>(), new Vector2(0, 8));
+            Dust.NewDustPerfect(hitbox.BottomLeft(), ModContent.DustType<Dusts.Purify2>(), new Vector2(0, -8));
+            Dust.NewDustPerfect(hitbox.BottomRight(), ModContent.DustType<Dusts.Purify2>(), new Vector2(-4, 0));
 
             if (activeCraft == null)
             {
                 //Adds the items to the inventory of the rift
                 foreach (Item item in Main.item.Where(item => item.active && item.Hitbox.Intersects(hitbox) && item.stack == 1 &&
-                item.GetGlobalItem<RiftItem>().crafted == false && item.GetGlobalItem<RiftItem>().tier == 0))
+                item.GetGlobalItem<RiftItem>().crafted == false && item.GetGlobalItem<RiftItem>().tier == 0 && !item.GetGlobalItem<RiftItem>().starless))
                 {
                     Shake(10, Position.ToVector2() * 16);
                     inventory.Add(item.Clone());
@@ -102,9 +112,9 @@ namespace StarlightRiver.Tiles.Rift
                     item.active = false;
                 }
 
-                if (Main.item.Any(item => item.active && item.GetGlobalItem<RiftItem>().tier > 0)) //Catalyst check
+                if (Main.item.Any(item => item.active && item.GetGlobalItem<RiftItem>().tier > 0 && item.Hitbox.Intersects(hitbox))) //Catalyst check
                 {
-                    Item item = Main.item.FirstOrDefault(i => i.active && i.GetGlobalItem<RiftItem>().tier > 0); //The Catalyst
+                    Item item = Main.item.FirstOrDefault(i => i.active && i.GetGlobalItem<RiftItem>().tier > 0 && i.Hitbox.Intersects(hitbox)); //The Catalyst
 
                     foreach (RiftRecipe recipe in (mod as StarlightRiver).RiftRecipes) //Checks all the recipies for a valid one
                     {
@@ -127,8 +137,6 @@ namespace StarlightRiver.Tiles.Rift
                 if (spawnCooldown > 0) spawnCooldown--;
                 if (spawnCooldown == 0)
                 {
-                    Vector2 pos = Position.ToVector2() * 16;
-
                     int i = NPC.NewNPC((int)pos.X, (int)pos.Y, activeCraft.SpawnPool[Main.rand.Next(0, activeCraft.SpawnPool.Count)]);
                     Main.npc[i].GetGlobalNPC<RiftNPC>().parent = this;
 
@@ -150,6 +158,11 @@ namespace StarlightRiver.Tiles.Rift
             {
                 activeCraft = null;
                 timer = 0;
+                foreach (Item item in inventory.Where(item => item.maxStack == 1))
+                {
+                    int i = Item.NewItem(pos, item.type);
+                    Main.item[i].GetGlobalItem<RiftItem>().starless = true;
+                }
                 inventory.Clear();
             }
         }
@@ -193,6 +206,7 @@ namespace StarlightRiver.Tiles.Rift
     public class RiftItem : GlobalItem
     {
         public bool crafted = false;
+        public bool starless = false;
         public int tier = 0;
 
         public override bool InstancePerEntity => true;
@@ -211,7 +225,22 @@ namespace StarlightRiver.Tiles.Rift
                 Dust.NewDustPerfect(item.Center, ModContent.DustType<Dusts.VitricBossTell>(), Vector2.One.RotatedByRandom(6.28f) * 20, 0, color);
                 Lighting.AddLight(item.Center, color.ToVector3());
             }
+
+            if (starless)
+            {
+                item.color = new Color(50, 50, 50);
+            }
             base.PostUpdate(item);
+        }
+
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+            if (starless)
+            {
+                TooltipLine tip = new TooltipLine(mod, "StarlessState", "Starless\nInfuse with celestial energy to restore");
+                tip.overrideColor = new Color(50, 50, 50);
+                tooltips.Add(tip);
+            }
         }
 
         public override bool PreDrawInWorld(Item item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
@@ -301,7 +330,7 @@ namespace StarlightRiver.Tiles.Rift
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-                GameShaders.Armor.GetShaderFromItemId(2869).Apply(null);
+                //GameShaders.Misc["StarlightRiver:Distort"].Apply(null);
             }
             return base.PreDraw(npc, spriteBatch, drawColor);
         }

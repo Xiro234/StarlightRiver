@@ -42,7 +42,7 @@ namespace StarlightRiver.Tiles.Vitric
         public VitricTile(int drop, int chance, int pick)
         {
             Drop = drop;
-            Chance = chance; //unused?
+            Chance = chance;
             Pick = pick;
         }
         public override void SetDefaults()

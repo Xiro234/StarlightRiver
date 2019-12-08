@@ -21,6 +21,7 @@ using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using StarlightRiver.RiftCrafting;
+using Terraria.Graphics.Shaders;
 
 namespace StarlightRiver
 {
@@ -99,6 +100,7 @@ namespace StarlightRiver
                     priority = MusicPriority.BiomeHigh;
                 }
             }
+
             return;           
         }
 
@@ -106,6 +108,9 @@ namespace StarlightRiver
         {
             //Calls to add achievements.
             Achievements.Achievements.CallAchievements(this);
+
+            //Shaders
+            GameShaders.Misc["StarlightRiver:Distort"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Distort")), "Distort");
 
             RiftRecipes = new List<RiftRecipe>();
 
