@@ -66,3 +66,6 @@ obj/Debug/net45/StarlightRiver.csproj.FileListAbsolute.txt
 obj/Debug/net45/StarlightRiver.dll
 obj/Debug/net45/starlightriver.pdb
 Properties/launchSettings.json
+StarlightRiver.csproj.DotSettings
+obj/
+bin/
