@@ -66,6 +66,7 @@ namespace StarlightRiver
                 Collection.visible = false;
                 GUI.Codex.Visible = false;
                 GUI.Codex.Open = false;
+                GUI.Codex.Crafting = false;
                 Infusion.visible = false;
             }
 

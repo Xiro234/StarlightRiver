@@ -103,7 +103,17 @@ namespace StarlightRiver
 
             return;           
         }
-
+        public static void AutoloadRiftRecipes(List<RiftRecipe> target)
+        {
+            Mod mod = ModContent.GetInstance<StarlightRiver>();
+            if (mod.Code != null)
+            {
+                foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))
+                {
+                    target.Add((RiftRecipe)Activator.CreateInstance(type));
+                }
+            }
+        }
         public override void Load()
         {
             //Calls to add achievements.
@@ -113,32 +123,7 @@ namespace StarlightRiver
             GameShaders.Misc["StarlightRiver:Distort"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Distort")), "Distort");
 
             RiftRecipes = new List<RiftRecipe>();
-
-            RiftRecipes.Add(new RiftRecipe(new List<RiftIngredient>()
-            {
-                new RiftIngredient(ItemID.DirtBlock, 1),
-                new RiftIngredient(ItemID.StoneBlock, 1)
-            },
-            new List<int>()
-            {
-                NPCID.Zombie,
-                NPCID.TheHungryII,
-                NPCID.Mummy
-            },
-            1, ItemID.DiscoBall));
-
-            RiftRecipes.Add(new RiftRecipe(new List<RiftIngredient>()
-            {
-                new RiftIngredient(ItemID.IronPickaxe, 1),
-                new RiftIngredient(ItemID.HellstoneBar, 4)
-            },
-            new List<int>()
-            { 
-                NPCID.Demon,
-                NPCID.TheHungryII,
-                NPCID.Hellbat
-            },
-            3, ItemID.MoltenPickaxe));
+            AutoloadRiftRecipes(RiftRecipes);
 
             Dash = RegisterHotKey("Dash", "LeftShift");
             Wisp = RegisterHotKey("Wisp Form", "F");

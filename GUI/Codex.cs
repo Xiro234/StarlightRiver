@@ -11,6 +11,9 @@ using StarlightRiver.Abilities;
 using System.Collections.Generic;
 using StarlightRiver.Codex;
 using StarlightRiver.Codex.Entries;
+using StarlightRiver.RiftCrafting;
+using Terraria.GameContent.UI;
+using ReLogic.Graphics;
 
 namespace StarlightRiver.GUI
 {
@@ -18,21 +21,52 @@ namespace StarlightRiver.GUI
     {
         public static bool Visible;
         public static bool Open;
+        public static bool Crafting;
         public static bool NewEntry;
         public CodexEntry ActiveEntry;
+        public RiftRecipe ActiveRecipe;
 
         public UIImageButton BookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed"));
+        public UIImageButton CraftButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/RiftButton"));
+        public UIImageButton BackButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/BackButton"));
+        public QuerySlot QuerySlot = new QuerySlot();
         public List<EntryButton> Buttons = new List<EntryButton>();
         public List<EntryButton> ShownButtons = new List<EntryButton>();
+        public List<RecipeButton> Recipes = new List<RecipeButton>();
+        public List<RecipeButton> ShownRecipes = new List<RecipeButton>();
+
+        public List<BootlegDust> Dust = new List<BootlegDust>();
 
         public override void OnInitialize()
         {
-            BookButton.Left.Set(400, 0);
-            BookButton.Top.Set(100, 0);
+            BookButton.Left.Set(502, 0);
+            BookButton.Top.Set(276, 0);
             BookButton.Width.Set(26, 0);
             BookButton.Height.Set(32, 0);
             BookButton.OnClick += OpenCodex;
             Append(BookButton);
+
+            CraftButton.Left.Set(-160, 0.5f);
+            CraftButton.Top.Set(-235, 0.5f);
+            CraftButton.Width.Set(76, 0);
+            CraftButton.Height.Set(28, 0);
+            CraftButton.OnClick += OpenCrafting;
+            CraftButton.SetVisibility(0.8f, 0.8f);
+            Append(CraftButton);
+
+            BackButton.Left.Set(-210, 0.5f);
+            BackButton.Top.Set(-150, 0.5f);
+            BackButton.Width.Set(32, 0);
+            BackButton.Height.Set(32, 0);
+            BackButton.OnClick += CloseCrafting;
+            BackButton.SetVisibility(0.8f, 0.8f);
+            Append(BackButton);
+
+            QuerySlot.Left.Set(160, 0.5f);
+            QuerySlot.Top.Set(-150, 0.5f);
+            QuerySlot.Width.Set(48, 0);
+            QuerySlot.Height.Set(48, 0);
+            Append(QuerySlot);
 
             for (int k = 0; k < 5; k++)
             {
@@ -47,28 +81,102 @@ namespace StarlightRiver.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
-            BookButton.Left.Set(502, 0);
-            BookButton.Top.Set(276, 0);
-            if (BookButton.IsMouseHovering || Open) { BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Open")); }
-            else { BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed")); }
-
-            if (NewEntry)
-            {
-               spriteBatch.Draw((BookButton.IsMouseHovering || Open) ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed"),
-                   BookButton.GetDimensions().ToRectangle().TopLeft() + new Vector2(-1, 0), Color.White * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.25f));
-            }
-
-            if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState == 0) { BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/BookLocked")); };
-
+            //regular codex open
             if (Open)
             {
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/CodexBack"), new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(170, 168), Color.White * 0.8f);
                 if (ActiveEntry != null) { ActiveEntry.Draw(new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(120, 150), spriteBatch); }
+
+                BackButton.Left.Set(0, 2);
+                CraftButton.Left.Set(-160, 0.5f);
+                QuerySlot.Left.Set(0, 2);
             }
+            //RC open
+            else if (Crafting)
+            {
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/RecipeBack"), new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(170, 168), Color.White * 0.8f);
+
+                CraftButton.Left.Set(0, 2);
+                BackButton.Left.Set(-210, 0.5f);
+                QuerySlot.Left.Set(160, 0.5f);
+            }
+            //Nothing open
+            else
+            {
+                CraftButton.Left.Set(0, 2);
+                BackButton.Left.Set(0, 2);
+                QuerySlot.Left.Set(0, 2);
+            }
+
+            //Draw Bootlegdusts
+            foreach(BootlegDust dust in Dust)
+            {
+                dust.Update();
+                dust.Draw(spriteBatch);
+            }
+            Dust.RemoveAll(dust => dust.time <= 0);
+
+            //Draw actual UI elements
+            base.Draw(spriteBatch);
+
+            //Swap the button textures
+            if (BookButton.IsMouseHovering || Open || Crafting) { BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Open")); }
+            else { BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed")); }
+
+            //Glow for new entry
+            if (NewEntry)
+            {
+               spriteBatch.Draw((BookButton.IsMouseHovering || Open || Crafting) ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed"),
+                   BookButton.GetDimensions().ToRectangle().TopLeft() + new Vector2(-1, 0), Color.White * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.25f));
+            }
+
+            //if locked
+            if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState == 0) { BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/BookLocked")); };
+
+            //bootlegdust for crafing 
+            if(Crafting && ShownRecipes.Count > 0 && ActiveRecipe == null)
+            {
+                Vector2 pos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + new Vector2(-10, -10);
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Light");
+                Dust.Add(new HolyDust(tex, pos + Vector2.One.RotatedByRandom(6.28f) * 80, Vector2.Zero));
+            }
+
+            if(Crafting && ActiveRecipe != null)
+            {
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Holy");
+                Vector2 pos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + new Vector2(-15, -15);
+                DrawItem(spriteBatch, pos, ActiveRecipe.Result);
+
+                for (int k = 0; k < ActiveRecipe.Ingredients.Count; k++)
+                {
+                    float rot = k / (float)ActiveRecipe.Ingredients.Count * 6.28f;
+                    Vector2 pos2 = pos + new Vector2(0, 110).RotatedBy(rot);
+                    DrawItem(spriteBatch, pos2, ActiveRecipe.Ingredients[k].type);
+
+                    Dust.Add(new ExpertDust(tex, pos + new Vector2((float)Math.Sin(LegendWorld.rottime * 5) * 3, (6.28f - LegendWorld.rottime) / 6.28f * 100).RotatedBy(rot), Vector2.Zero, Color.White, 1, 30));
+                    Dust.Add(new ExpertDust(tex, pos + new Vector2(0, Main.rand.NextFloat(100)).RotatedBy(rot), Vector2.Zero, Color.White * 0.5f, 0.5f, 30));
+                }
+                //Dust.Add(new ExpertDust(tex, pos + Vector2.One.RotatedBy(LegendWorld.rottime) * 20, Vector2.Zero, Color.White, 1, 30));
+            }
+
             Recalculate();
         }
+        private void DrawItem(SpriteBatch spriteBatch, Vector2 pos, int type)
+        {
+            Item item = new Item();
+            item.type = type;
+            item.SetDefaults(item.type);
+            Texture2D tex = (item.modItem != null) ? ModContent.GetTexture(item.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + item.type);
+            spriteBatch.Draw(tex, pos, tex.Frame(), Color.White * (0.8f + (float)Math.Sin(LegendWorld.rottime) * 0.2f),
+                0 + (float)Math.Sin(LegendWorld.rottime * 2) * 0.1f, tex.Size() / 2, 1 + (float)Math.Sin(LegendWorld.rottime) * 0.1f, 0, 0);
 
+            Rectangle rect = new Rectangle((int)pos.X - tex.Frame().Width / 2, (int)pos.Y - tex.Frame().Height / 2, tex.Frame().Width, tex.Frame().Height);
+            if (rect.Contains(Main.MouseScreen.ToPoint()))
+            {
+                spriteBatch.DrawString(Main.fontMouseText, item.Name, rect.Center() + new Vector2(-Main.fontMouseText.MeasureString(item.Name).X * 0.7f / 2, -tex.Frame().Height / 2 - 14),
+                    Main.mouseTextColorReal, 0, Vector2.Zero, 0.7f, 0, 0);
+            }
+        }
         private void OpenCodex(UIMouseEvent evt, UIElement listeningElement)
         {
             if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState != 0)
@@ -85,6 +193,17 @@ namespace StarlightRiver.GUI
                     EntryButton button = new EntryButton(entry);
                     button.Visible = false;
                     Buttons.Add(button);
+                    Append(button);
+                }
+            }
+
+            if (!Elements.Any(element => element is RecipeButton))
+            {
+                foreach (RiftRecipe recipe in ModContent.GetInstance<StarlightRiver>().RiftRecipes)
+                {
+                    RecipeButton button = new RecipeButton(recipe);
+                    button.Visible = false;
+                    Recipes.Add(button);
                     Append(button);
                 }
             }
@@ -106,6 +225,48 @@ namespace StarlightRiver.GUI
                 button.Width.Set(120, 0);
                 button.Height.Set(24, 0);
                 button.Visible = true;
+            }
+        }
+
+        public void RefreshRecipes()
+        {
+            foreach (UIElement element in Elements.Where(element => element is RecipeButton))
+            {
+                (element as RecipeButton).Visible = false;
+                element.Width.Set(0, 0);
+            }
+
+            for (int k = 0; k < ShownRecipes.Count; k++)
+            {
+                RecipeButton button = ShownRecipes.ElementAt(k);
+                Vector2 offset = new Vector2(0, -110).RotatedBy(k / (float)ShownRecipes.Count * 6.28f);
+                button.Left.Set(offset.X - 40, 0.5f);
+                button.Top.Set(offset.Y - 40, 0.5f);
+                button.Width.Set(48, 0);
+                button.Height.Set(48, 0);
+                button.Visible = true;
+            }
+        }
+
+        public void OpenCrafting(UIMouseEvent evt, UIElement listeningElement)
+        {
+            Open = false;
+            Crafting = true;
+        }
+
+        public void CloseCrafting(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (ActiveRecipe != null)
+            {
+                ActiveRecipe = null;
+                return;
+            }
+            else
+            {
+                Crafting = false;
+                ShownRecipes.Clear();
+                RefreshRecipes();
+                OpenCodex(evt, listeningElement);             
             }
         }
     }
@@ -179,6 +340,141 @@ namespace StarlightRiver.GUI
 
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/CategoryButton"), new Rectangle((int)pos.X, (int)pos.Y, 50, 27), Color.White * 0.8f);
                 Utils.DrawBorderString(spriteBatch, name, pos + new Vector2(7, 7), (Parent as Codex).ShownButtons.Any(button => button.Entry.Category == Category) ? Color.Yellow : Color.White, 0.6f);
+            }
+        }
+    }
+
+    public class RecipeButton : UIElement
+    {
+        public RiftRecipe Recipe;
+        public bool Visible = false;
+        public RecipeButton(RiftRecipe recipe)
+        {
+            Recipe = recipe;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (Visible && Codex.Crafting &&(Parent as Codex).ActiveRecipe == null)
+            {
+                Item item = new Item();
+                item.type = Recipe.Result;
+                item.SetDefaults(item.type);
+                Texture2D tex = (item.modItem != null) ? ModContent.GetTexture(item.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + item.type);
+
+                spriteBatch.Draw(tex, GetDimensions().ToRectangle().Center(), tex.Frame(), Color.White * (0.8f + (float)Math.Sin(LegendWorld.rottime) * 0.2f),
+                    0 + (float)Math.Sin(LegendWorld.rottime * 2) * 0.1f, tex.Size() / 2, 1 + (float)Math.Sin(LegendWorld.rottime) * 0.1f, 0, 0);
+
+                Rectangle rect = GetDimensions().ToRectangle();
+                if (rect.Contains(Main.MouseScreen.ToPoint()))
+                {
+                    spriteBatch.DrawString(Main.fontMouseText, item.Name, rect.Center() + new Vector2(-Main.fontMouseText.MeasureString(item.Name).X * 0.7f / 2, -GetDimensions().Height / 2 - 8),
+                        Main.mouseTextColorReal, 0, Vector2.Zero, 0.7f, 0, 0);
+                }
+            }
+        }
+
+        public override void Click(UIMouseEvent evt)
+        {
+            Codex codex = Parent as Codex;
+            codex.ActiveRecipe = Recipe;
+            codex.Dust.Clear();
+        }
+    }
+
+    public class QuerySlot : UIElement
+    {
+        public Item item = null;
+
+        public override void Update(GameTime gameTime)
+        {
+            if (IsMouseHovering)
+            {
+                Main.LocalPlayer.mouseInterface = true;
+                Main.isMouseLeftConsumedByUI = true;
+            }
+            if (!Codex.Crafting)
+            {
+                Codex codex = (Parent as Codex);
+                item = null;
+                codex.ShownRecipes.Clear();
+                codex.RefreshRecipes();
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            Texture2D tex = Main.inventoryBackTexture;
+
+            //Draws the slot
+            spriteBatch.Draw(tex, GetDimensions().ToRectangle(), new Rectangle(0, 0, (int)tex.Size().X, (int)tex.Size().Y), Color.White * 0.75f);
+
+            if (item != null)
+            {
+                //Draws the item itself
+                Texture2D tex2 = (item.modItem != null) ? ModContent.GetTexture(item.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + item.type);
+                spriteBatch.Draw(tex2, GetDimensions().Center(), tex2.Frame(), Color.White, 0f, tex2.Frame().Center(), 0.8f, 0, 0);
+
+                if (IsMouseHovering && Main.mouseItem.IsAir)
+                {
+                    //Grabs the items tooltip
+                    string ToolTip = "";
+                    for (int k = 0; k < item.ToolTip.Lines; k++)
+                    {
+                        ToolTip += item.ToolTip.GetLine(k);
+                        ToolTip += "\n";
+                    }
+
+                    //Draws the name and tooltip at the mouse
+                    Utils.DrawBorderStringBig(spriteBatch, item.Name, Main.MouseScreen + new Vector2(22, 22), ItemRarity.GetColor(item.rare).MultiplyRGB(Main.mouseTextColorReal), 0.39f);
+                    Utils.DrawBorderStringBig(spriteBatch, ToolTip, Main.MouseScreen + new Vector2(22, 48), Main.mouseTextColorReal, 0.39f);
+                }
+            }
+        }
+
+        public override void Click(UIMouseEvent evt)
+        {
+            if (item == null && Main.mouseItem.IsAir) 
+                return;
+
+            //if the player isnt holding anything but something is equipped, unequip it
+            Codex codex = (Parent as Codex);
+            if (item != null && Main.mouseItem.IsAir)
+            {
+                item = null;
+                Main.PlaySound(SoundID.Grab);
+
+                codex.ShownRecipes.Clear();
+                codex.RefreshRecipes();
+                return;
+            }
+            //if nothing is equipped, equip the held item
+            if (item == null)
+            {
+                item = Main.mouseItem.Clone();
+                Main.PlaySound(SoundID.Grab);
+
+                UpdateParent(item);
+            }
+            //if something is equipped, swap that for the held item
+            else
+            {
+                item = Main.mouseItem.Clone();
+                Main.PlaySound(SoundID.Grab);
+
+                UpdateParent(item);
+            }
+            codex.RefreshRecipes();
+        }
+
+        private void UpdateParent(Item item)
+        {
+            Codex codex = (Parent as Codex);
+            codex.ShownRecipes.Clear();
+            foreach(RecipeButton recipe in codex.Recipes)
+            {
+                if (recipe.Recipe.Ingredients.Any(i => i.type == item.type))
+                    codex.ShownRecipes.Add(recipe);
             }
         }
     }
