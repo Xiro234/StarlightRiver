@@ -94,7 +94,8 @@ namespace StarlightRiver.GUI
             //RC open
             else if (Crafting)
             {
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/RecipeBack"), new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(170, 168), Color.White * 0.8f);
+                Texture2D tex = (ActiveRecipe == null) ? ModContent.GetTexture("StarlightRiver/GUI/RecipeBack") : ModContent.GetTexture("StarlightRiver/GUI/RecipeBackDark");
+                spriteBatch.Draw(tex, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(170, 168), Color.White * 0.8f);
 
                 CraftButton.Left.Set(0, 2);
                 BackButton.Left.Set(-210, 0.5f);
@@ -147,16 +148,27 @@ namespace StarlightRiver.GUI
                 Vector2 pos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + new Vector2(-15, -15);
                 DrawItem(spriteBatch, pos, ActiveRecipe.Result);
 
+                List<int> DrawnItems = new List<int>();
+                DrawnItems.Add(ModContent.ItemType<Items.RiftCore1>() + (ActiveRecipe.Tier - 1));
                 for (int k = 0; k < ActiveRecipe.Ingredients.Count; k++)
                 {
-                    float rot = k / (float)ActiveRecipe.Ingredients.Count * 6.28f;
-                    Vector2 pos2 = pos + new Vector2(0, 110).RotatedBy(rot);
-                    DrawItem(spriteBatch, pos2, ActiveRecipe.Ingredients[k].type);
-
-                    Dust.Add(new ExpertDust(tex, pos + new Vector2((float)Math.Sin(LegendWorld.rottime * 5) * 3, (6.28f - LegendWorld.rottime) / 6.28f * 100).RotatedBy(rot), Vector2.Zero, Color.White, 1, 30));
-                    Dust.Add(new ExpertDust(tex, pos + new Vector2(0, Main.rand.NextFloat(100)).RotatedBy(rot), Vector2.Zero, Color.White * 0.5f, 0.5f, 30));
+                    for (int l = 0; l < ActiveRecipe.Ingredients[k].count; l++)
+                    {
+                        DrawnItems.Add(ActiveRecipe.Ingredients[k].type);
+                    }
                 }
-                //Dust.Add(new ExpertDust(tex, pos + Vector2.One.RotatedBy(LegendWorld.rottime) * 20, Vector2.Zero, Color.White, 1, 30));
+
+                for (int k = 0; k < DrawnItems.Count; k++)
+                {
+                    float rot = k / (float)DrawnItems.Count * 6.28f;
+                    Vector2 pos2 = pos + new Vector2(0, 110).RotatedBy(rot);
+                    DrawItem(spriteBatch, pos2, DrawnItems[k]);
+
+                    float offset = (6.28f - LegendWorld.rottime) / 6.28f * 100;
+                    Dust.Add(new ExpertDust(tex, pos + new Vector2((float)Math.Sin(LegendWorld.rottime * 5) * 3, offset).RotatedBy(rot), Vector2.Zero, Color.White, 1, 30));
+                    Dust.Add(new ExpertDust(tex, pos + new Vector2(0, Main.rand.NextFloat(100)).RotatedBy(rot), Vector2.Zero, Color.White * 0.6f, 0.6f, 30));
+                }
+                Dust.Add(new ExpertDust(tex, pos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1), Color.White * 0.7f, 1.5f, 30));
             }
 
             Recalculate();
@@ -266,8 +278,9 @@ namespace StarlightRiver.GUI
                 Crafting = false;
                 ShownRecipes.Clear();
                 RefreshRecipes();
-                OpenCodex(evt, listeningElement);             
+                OpenCodex(evt, listeningElement);
             }
+            
         }
     }
 

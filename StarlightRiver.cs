@@ -171,8 +171,28 @@ namespace StarlightRiver
             On.Terraria.Main.DrawInterface_Resources_Life += LinkModeHealth;
             // Vitric background
             On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
+
+            On.Terraria.Main.drawWaters += DrawUnderwaterNPCs;
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
+        }
+
+        private void DrawUnderwaterNPCs(On.Terraria.Main.orig_drawWaters orig, Main self, bool bg, int styleOverride, bool allowUpdate)
+        {
+            orig(self, bg, styleOverride, allowUpdate);
+            foreach(NPC npc in Main.npc.Where(npc => npc.type == ModContent.NPCType<NPCs.Hostile.BoneMine>() && npc.active))
+            {
+                SpriteBatch spriteBatch = Main.spriteBatch;
+                Color drawColor = Lighting.GetColor((int)npc.position.X / 16, (int)npc.position.Y / 16) * 0.3f;
+
+                spriteBatch.Draw(ModContent.GetTexture(npc.modNPC.Texture), npc.position - Main.screenPosition + Vector2.One * 16 * 12 + new Vector2((float)Math.Sin(npc.ai[0]) * 4f, 0), drawColor);
+                for (int k = 0; k >= 0; k++)
+                {
+                    if (Main.tile[(int)npc.position.X / 16, (int)npc.position.Y / 16 + k + 2].active()) break;
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"),
+                        npc.Center - Main.screenPosition + Vector2.One * 16 * 12 + new Vector2(-4 + (float)Math.Sin(npc.ai[0] + k) * 4, 18 + k * 16), drawColor);
+                }
+            }
         }
 
         private delegate void ModLightingStateDelegate(float from, ref float to);

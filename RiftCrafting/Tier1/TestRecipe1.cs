@@ -12,7 +12,7 @@ namespace StarlightRiver.RiftCrafting.Tier1
     {
         static List<RiftIngredient> ingredients = new List<RiftIngredient>()
         {
-            new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 1 ),
+            new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 4 ),
             new RiftIngredient(ItemID.IronHammer, 1 )
         };
 
@@ -28,7 +28,7 @@ namespace StarlightRiver.RiftCrafting.Tier1
     {
         static List<RiftIngredient> ingredients = new List<RiftIngredient>()
         {
-            new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 1 ),
+            new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 3 ),
             new RiftIngredient(ItemID.IronPickaxe, 1 )
         };
 
@@ -44,7 +44,7 @@ namespace StarlightRiver.RiftCrafting.Tier1
     {
         static List<RiftIngredient> ingredients = new List<RiftIngredient>()
         {
-            new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 1 ),
+            new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 100 ),
             new RiftIngredient(ItemID.IronAxe, 1 ),
         };
 
