@@ -24,7 +24,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.height = 50;
             npc.lifeMax = 200;
             npc.HitSound = SoundID.NPCHit8;
-            npc.DeathSound = SoundID.NPCDeath12;
+            npc.DeathSound = SoundID.NPCDeath33;
             npc.noGravity = true;
             npc.damage = 100;
             npc.aiStyle = -1;
@@ -33,6 +33,8 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override bool CheckDead()
         {
+            Main.PlaySound(SoundID.Item14, npc.Center);
+            Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.AOEExplosionHostile>(), npc.damage, 3, 255, 128);
             return true;
         }
 
@@ -44,15 +46,14 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void AI()
         {
+            npc.ai[0] += 0.02f;
+            if (npc.ai[0] >= 6.28f) npc.ai[0] = 0;
+
             if (npc.ai[1] == 0)
             {
-                npc.ai[0] += 0.02f;
-                if (npc.ai[0] >= 6.28f) npc.ai[0] = 0;
-
                 if (Main.player.Any(player => Vector2.Distance(player.Center, npc.Center) <= 64)) //arm
                 {
                     npc.ai[1] = 1;
-                    npc.ai[0] = 0;
                 }
 
                 if (Main.player.Any(player => Vector2.Distance(player.Center, npc.Center) <= 128)) //warning ring
@@ -62,10 +63,19 @@ namespace StarlightRiver.NPCs.Hostile
             }
             else
             {
-                npc.ai[0]++;
-                if(npc.ai[0] % 10 == 0) Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
-                if (npc.ai[0] >= 45) Helper.Kill(npc); //detonate
+                npc.ai[2]++;
+                if(npc.ai[2] % 10 == 0) Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
+                if (npc.ai[2] >= 45) Helper.Kill(npc); //detonate
             }
+        }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            Player player = spawnInfo.player;
+            Vector2 spawnPos = new Vector2(spawnInfo.spawnTileX * 16, spawnInfo.spawnTileY * 16);
+
+            return (player.position.Y >= Main.maxTilesY - 200 && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].lava() && 
+                !Main.npc.Any(npc => npc.active && npc.type == ModContent.NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)) ? 5 : 0;
         }
     }
 }

@@ -164,6 +164,16 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            int i = 0;
+            string types = "Types: ";
+            foreach (NPC npc in Main.npc.Where(npc => npc.type != 0)) { i++; types += npc.type + ", "; }
+
+            int j = 0;
+            foreach (NPC npc in Main.npc.Where(npc => npc.active)) { j++; }
+           
+            Main.NewText("Extant NPCs: " + i + "/201");
+            Main.NewText("Active NPCs: " + j + "/201");
+            Main.NewText(types);
             return true;
         }
     }

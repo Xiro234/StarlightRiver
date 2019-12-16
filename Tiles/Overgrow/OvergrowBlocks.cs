@@ -23,8 +23,54 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileLighted[Type] = false;
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
+            minPick = 210;
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(79, 76, 71));
+        }
+    }
+    class GlowBrickOvergrow : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileLighted[Type] = false;
+            Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
+            minPick = 210;
+            drop = mod.ItemType("BrickOvergrowItem");
+            AddMapEntry(new Color(79, 76, 71));
+
+            animationFrameHeight = 270;
+        }
+
+        public override void AnimateTile(ref int frame, ref int frameCounter)
+        {
+            if (++frameCounter >= 5)
+            {
+                frameCounter = 0;
+                if (++frame >= 5)
+                {
+                    frame = 0;
+                }
+            }
+        }
+    }
+    class LeafOvergrow : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileLighted[Type] = false;
+            Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
+            minPick = 210;
+            drop = mod.ItemType("BrickOvergrowItem");
+            AddMapEntry(new Color(221, 211, 67));
         }
     }
 
