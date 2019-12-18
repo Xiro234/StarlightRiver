@@ -249,6 +249,22 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+    public class Gold4 : Gold
+    {
+        public override bool Update(Dust dust)
+        {
+            dust.position += dust.velocity;
+            dust.rotation += 0.1f;
+
+            dust.scale *= 0.9972f;
+            dust.color *= 0.99999999999f;
+            if (dust.scale < 0.3f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
 
     public class Void : ModDust
     {

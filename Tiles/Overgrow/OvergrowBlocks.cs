@@ -123,13 +123,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void RandomUpdate(int i, int j)
         {
-            if (!Main.tile[i, j + 1].active() && Main.tile[i, j - 9].type != Type)
-            {
-                if (Main.rand.Next(1) == 0)
-                {
-                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<VineOvergrow>(), true);
-                }
-            }
+
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)

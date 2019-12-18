@@ -48,6 +48,7 @@ namespace StarlightRiver
                 tasks.Insert(DesertIndex + 1, new PassLegacy("Starlight River Vitric Desert", GenerateCrystalCaverns));
                 tasks.Insert(DesertIndex + 2, new PassLegacy("Starlight River Codex", GenHelper.BookAltarGen));
                 tasks.Insert(DesertIndex + 3, new PassLegacy("Starlight River Dash", GenHelper.WindsAltarGen));
+                tasks.Insert(DesertIndex + 4, new PassLegacy("Starlight River Debug", GenHelper.DebugWispGen));
 
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
                 //tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Caves", DolomiteGen));

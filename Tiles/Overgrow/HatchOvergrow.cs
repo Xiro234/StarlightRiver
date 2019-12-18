@@ -41,4 +41,25 @@ namespace StarlightRiver.Tiles.Overgrow
             Lighting.AddLight(new Vector2(i, j + 2) * 16, new Vector3(0.6f, 0.6f, 0.5f));
         }
     }
+    class BigHatchOvergrow : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = false;
+            Main.tileBlockLight[Type] = false;
+            Main.tileLighted[Type] = false;
+            minPick = 210;
+            AddMapEntry(new Color(255, 255, 220));
+        }
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (!Main.projectile.Any(proj => proj.active && proj.type == ModContent.ProjectileType<Projectiles.Dummies.BigHatchDummy>() &&
+             proj.Hitbox.Intersects(new Rectangle(i * 16, j * 16, 16, 16))))
+            {
+                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.BigHatchDummy>(), 0, 0);
+            }
+
+            Lighting.AddLight(new Vector2(i - 8, j + 4) * 16, new Vector3(0.6f, 0.6f, 0.5f) * 2);
+        }
+    }
 }
