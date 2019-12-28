@@ -14,4 +14,13 @@ namespace StarlightRiver.Tiles.Overgrow
             AddMapEntry(new Color(114, 65, 37));
         }
     }
+    public class WallOvergrowBrick : ModWall
+    {
+        public override void SetDefaults()
+        {
+            Main.wallHouse[Type] = true;
+            dustType = ModContent.DustType<Dusts.Stone>();
+            AddMapEntry(new Color(62, 68, 55));
+        }
+    }
 }

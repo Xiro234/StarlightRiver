@@ -47,6 +47,7 @@ namespace StarlightRiver.Structures
                     }
                     switch (rawData[x].B) //select wall
                     {
+                        case 10: wallType = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>(); break;
                         case 20: wallType = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>(); break;
                     }
                     switch (rawData[x].G)

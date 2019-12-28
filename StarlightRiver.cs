@@ -12,7 +12,6 @@ using StarlightRiver.Items.CursedAccessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using On.Terraria.GameContent.UI.Elements;
 using System;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
@@ -22,6 +21,7 @@ using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using StarlightRiver.RiftCrafting;
 using Terraria.Graphics.Shaders;
+using StarlightRiver.Dimensions;
 
 namespace StarlightRiver
 {
@@ -171,10 +171,19 @@ namespace StarlightRiver
             On.Terraria.Main.DrawInterface_Resources_Life += LinkModeHealth;
             // Vitric background
             On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
-
+            //Mines
             On.Terraria.Main.drawWaters += DrawUnderwaterNPCs;
+
+            On.Terraria.IO.WorldFile.saveWorld += CheckDim;
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
+        }
+
+        private void CheckDim(On.Terraria.IO.WorldFile.orig_saveWorld orig)
+        {
+            if (Dimension.safeTravel) { orig(); Dimension.safeTravel = false; return; }
+            if (Main.ActiveWorldFileData is Dimension) Dimension.Return(Main.ActiveWorldFileData as Dimension);
+            orig();
         }
 
         private void DrawUnderwaterNPCs(On.Terraria.Main.orig_drawWaters orig, Main self, bool bg, int styleOverride, bool allowUpdate)
@@ -493,7 +502,7 @@ namespace StarlightRiver
             int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             if (MouseTextIndex != -1)
             {
-                layers.Insert(MouseTextIndex, new LegacyGameInterfaceLayer("[PH]MODNAME: Cooldown",
+                layers.Insert(MouseTextIndex, new LegacyGameInterfaceLayer("StarlightRiver: Stamina",
                 delegate
                 {
                     if (Stamina.visible)
@@ -505,7 +514,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 1, new LegacyGameInterfaceLayer("[PH]MODNAME: Collection",
+                layers.Insert(MouseTextIndex + 1, new LegacyGameInterfaceLayer("StarlightRiver: Collection",
                 delegate
                 {
                     if (Collection.visible)
@@ -517,7 +526,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(0, new LegacyGameInterfaceLayer("[PH]MODNAME: Overlay",
+                layers.Insert(0, new LegacyGameInterfaceLayer("StarlightRiver: Overlay",
                 delegate
                 {
                     if (Overlay.visible)
@@ -529,7 +538,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 2, new LegacyGameInterfaceLayer("[PH]MODNAME: Infusions",
+                layers.Insert(MouseTextIndex + 2, new LegacyGameInterfaceLayer("StarlightRiver: Infusions",
                 delegate
                 {
                     if (Infusion.visible)
@@ -541,7 +550,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 3, new LegacyGameInterfaceLayer("[PH]MODNAME: Cooking",
+                layers.Insert(MouseTextIndex + 3, new LegacyGameInterfaceLayer("StarlightRiver: Cooking",
                 delegate
                 {
                     if (Cooking.visible)
@@ -553,7 +562,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 4, new LegacyGameInterfaceLayer("[PH]MODNAME: LinkHP",
+                layers.Insert(MouseTextIndex + 4, new LegacyGameInterfaceLayer("StarlightRiver: LinkHP",
                 delegate
                 {
                     if (LinkHP.visible)
@@ -565,7 +574,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 5, new LegacyGameInterfaceLayer("[PH]MODNAME: Ability Text",
+                layers.Insert(MouseTextIndex + 5, new LegacyGameInterfaceLayer("StarlightRiver: Ability Text",
                 delegate
                 {
                     if (AbilityText.Visible)
@@ -577,7 +586,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 6, new LegacyGameInterfaceLayer("[PH]MODNAME: Codex",
+                layers.Insert(MouseTextIndex + 6, new LegacyGameInterfaceLayer("StarlightRiver: Codex",
                 delegate
                 {
                     if (GUI.Codex.Visible)

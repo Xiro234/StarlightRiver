@@ -24,6 +24,10 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
             Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
+
+            Main.tileMerge[Type][TileID.BlueDungeonBrick] = true;
+            Main.tileMerge[Type][TileID.GreenDungeonBrick] = true;
+            Main.tileMerge[Type][TileID.PinkDungeonBrick] = true;
             minPick = 210;
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(79, 76, 71));

@@ -5,6 +5,9 @@ using StarlightRiver.Codex;
 using StarlightRiver.Gases;
 using Terraria;
 using Terraria.ModLoader;
+using System.IO;
+using Terraria.IO;
+using StarlightRiver.Dimensions;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -192,6 +195,7 @@ namespace StarlightRiver.Items.Debug
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
         public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.CrystalBlock>(), 0) { }
     }
+
     public class DebugPotion : ModItem
     {
         public override void SetDefaults()
@@ -213,43 +217,35 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            foreach(NPC npc in Main.npc)
-            {
-                npc.Kill();
-            }
-            foreach(Projectile projectile in Main.projectile)
-            {
-                projectile.Kill();
-            }
-            foreach(Dust dust in Main.dust)
-            {
-                dust.active = false;
-            }
-            foreach(Gore gore in Main.gore)
-            {
-                gore.active = false;
-            }
-            foreach(Item item in Main.item)
-            {
-                item.active = false;
-            }
-            for(int k = 0; k < Main.maxTilesX; k++)
-            {
-                for(int j = 0; j < Main.maxTilesY; j++)
-                {
-                    Main.tile[k, j].ClearEverything();
-                }
+            player.position = Vector2.One * -100;
+            if (Main.ActiveWorldFileData is Dimension) { Dimension.Return(Main.ActiveWorldFileData as Dimension); return true; }
+            Dimension.Travel(new Underworld(Main.ActiveWorldFileData));
+            return true;
+        }
+    }
 
-                for (int j = Main.spawnTileY; j < Main.spawnTileY + 50; j++)
-                {
-                    WorldGen.PlaceTile(k, j, 267, true);                   
-                }
+    public class DebugPotion2 : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 64;
+            item.height = 64;
+            item.useStyle = 5;
+            item.useAnimation = 10;
+            item.useTime = 10;
+            item.rare = 2;
+            item.createTile = ModContent.TileType<Tiles.Overgrow.OvergrowGate>();
+            item.noUseGraphic = true;
+        }
+        public override string Texture => "StarlightRiver/MarioCumming";
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Potion of Debugging 2");
+            Tooltip.SetDefault("Effects vary");
+        }
 
-                for (int j = Main.spawnTileY - 100; j < Main.spawnTileY + 1; j++)
-                {
-                    WorldGen.PlaceWall(k, j, 155, true);
-                }
-            }
+        public override bool UseItem(Player player)
+        {
             return true;
         }
     }
