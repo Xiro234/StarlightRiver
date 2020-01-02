@@ -77,5 +77,14 @@ namespace StarlightRiver
             float fade = LegendWorld.rottime / 6.28f;
             spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 0.6f, 0, 0);
         }
+
+        public static bool CheckCircularCollision(Vector2 center, int radius, Rectangle hitbox)
+        {
+            if (Vector2.Distance(center, hitbox.TopLeft()) <= radius) return true;
+            if (Vector2.Distance(center, hitbox.TopRight()) <= radius) return true;
+            if (Vector2.Distance(center, hitbox.BottomLeft()) <= radius) return true;
+            if (Vector2.Distance(center, hitbox.BottomRight()) <= radius) return true;
+            return false;
+        }
     }
 }

@@ -4,26 +4,6 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Accessories
 {
-    public class BroochOfRage : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            Tooltip.SetDefault("Getting hit has a chance to recover stamina");
-            DisplayName.SetDefault("Brooch of Rage");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.accessory = true;
-        }
-        public override void UpdateEquip(Player player) 
-        {
-            AccessoryHandler mp = Main.LocalPlayer.GetModPlayer<AccessoryHandler>();
-            mp.accessories[0] = 1;
-        }
-    }
     public class ResonantVessel : ModItem
     {
         public override void SetStaticDefaults()
@@ -40,8 +20,8 @@ namespace StarlightRiver.Items.Accessories
         }
         public override void UpdateEquip(Player player)
         {
-            AccessoryHandler mp = Main.LocalPlayer.GetModPlayer<AccessoryHandler>();
-            mp.accessories[1] = 1;
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            mp.StatStaminaMaxTemp += 1;
         }
     }
     public class RingofStamina : ModItem
@@ -60,8 +40,8 @@ namespace StarlightRiver.Items.Accessories
         }
         public override void UpdateEquip(Player player)
         {
-            AccessoryHandler mp = Main.LocalPlayer.GetModPlayer<AccessoryHandler>();
-            mp.accessories[2] = 1;
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            mp.StatStaminaRegenMax -= 60;
         }
     }
 }

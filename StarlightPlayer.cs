@@ -18,7 +18,7 @@ using StarlightRiver.Items.CursedAccessories;
 
 namespace StarlightRiver
 {
-    public class StarlightPlayer : ModPlayer
+    public partial class StarlightPlayer : ModPlayer
     {
         public bool JustHit = false;
 
@@ -80,6 +80,10 @@ namespace StarlightRiver
 		public override void ResetEffects()
         {
             AnthemDagger = false;
+            GuardDamage = 1;
+            GuardCrit = 0;
+            GuardBuff = 1;
+            GuardRad = 0;
 		}
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)

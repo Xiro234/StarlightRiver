@@ -48,9 +48,9 @@ namespace StarlightRiver.Tiles.Rift
                 Item item = entity.inventory[k];
                 Texture2D tex = (item.modItem != null) ? ModContent.GetTexture(item.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + item.type);
                 Vector2 pos = new Vector2(i, j) * 16 + Vector2.One * 8 + new Vector2(0, -128).RotatedBy(k / (float)maxItems * 6.28f) - Main.screenPosition + Vector2.One * 12 * 16;
-                Rectangle frame = new Rectangle(0, 0, tex.Frame().Width, tex.Frame().Height);
+                Rectangle frame = Main.itemAnimations[item.type] != null ? Main.itemAnimations[item.type].GetFrame(tex) : tex.Frame();
 
-                spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, frame.Width, frame.Height), frame, Color.White * 0.6f, (float)Math.Sin(LegendWorld.rottime) * 0.15f, tex.Size() / 2, 0, 0);
+                spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, frame.Width, frame.Height), frame, Color.White * 0.6f, (float)Math.Sin(LegendWorld.rottime) * 0.15f, frame.Size() / 2, 0, 0);
             }
 
             if(entity.timer > 0)
@@ -94,11 +94,6 @@ namespace StarlightRiver.Tiles.Rift
             if (timer >= 1) timer--;
             Rectangle hitbox = new Rectangle(Position.X * 16 - 24, Position.Y * 16 - 56, 64, 128);
             Vector2 pos = Position.ToVector2() * 16;
-            //Temporary dust to visualize hitbox
-            Dust.NewDustPerfect(hitbox.TopLeft(), ModContent.DustType<Dusts.Purify2>(), new Vector2(4, 0));
-            Dust.NewDustPerfect(hitbox.TopRight(), ModContent.DustType<Dusts.Purify2>(), new Vector2(0, 8));
-            Dust.NewDustPerfect(hitbox.BottomLeft(), ModContent.DustType<Dusts.Purify2>(), new Vector2(0, -8));
-            Dust.NewDustPerfect(hitbox.BottomRight(), ModContent.DustType<Dusts.Purify2>(), new Vector2(-4, 0));
 
             if (activeCraft == null)
             {
