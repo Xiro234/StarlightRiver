@@ -20,7 +20,6 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = true;
 
-            drop = mod.ItemType("StaminaOrbItem");
             dustType = ModContent.DustType<Dusts.Gas>();
             AddMapEntry(new Color(255, 186, 66));
         }

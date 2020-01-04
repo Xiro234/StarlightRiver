@@ -21,9 +21,10 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
-            Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
             Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
 
             Main.tileMerge[Type][TileID.BlueDungeonBrick] = true;
             Main.tileMerge[Type][TileID.GreenDungeonBrick] = true;
@@ -41,7 +42,9 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
+            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
             minPick = 210;
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(79, 76, 71));
@@ -87,7 +90,9 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
             TileID.Sets.Grass[Type] = true;
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(202, 157, 49));
@@ -125,20 +130,24 @@ namespace StarlightRiver.Tiles.Overgrow
             AddMapEntry(new Color(202, 157, 49));
         }
 
-        public override void RandomUpdate(int i, int j)
-        {
-
-        }
-
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             float sway = 0;
+            float rot = LegendWorld.rottime + (i % 4) * 0.3f;
             for(int k = 1; k > 0; k++)
             {
-                if (Main.tile[i, j - k].type == Type && sway <= 2.6f) { sway += 0.3f; }
+                if (Main.tile[i, j - k].type == Type && sway <= 2.4f) { sway += 0.3f; }
                 else { break; }
             }
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow"), new Vector2(i + 12, j + 12) * 16 - Main.screenPosition + new Vector2((float)Math.Sin((i % 4 * 1.57f)+LegendWorld.rottime + j % 6.28f) * sway, 0), new Rectangle((j % 2) * 16, 0, 16, 16), drawColor);
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow"), 
+                new Vector2(i + 12, j + 12) * 16 - Main.screenPosition + new Vector2((float) (1 + Math.Cos(rot * 2) + Math.Sin(rot)) * sway * sway, 0),
+                new Rectangle(Main.tile[i, j + 1].type != ModContent.TileType<VineOvergrow>() ? 32 : j % 2 * 16, 0, 16, 16), Lighting.GetColor(i, j));
+            return false;
+        }
+
+        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            Main.NewText("PENIS");
         }
     }
 

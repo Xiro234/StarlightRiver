@@ -70,6 +70,12 @@ namespace StarlightRiver
                     priority = MusicPriority.BiomeMedium;
                 }
 
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
+                    priority = MusicPriority.BiomeMedium;
+                }
+
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/VoidPre");
