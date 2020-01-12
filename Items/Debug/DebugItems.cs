@@ -188,7 +188,7 @@ namespace StarlightRiver.Items.Debug
     public class DebugPlacer2 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.Siphon>(), 0) { }
+        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<Tiles.Rift.MainRift>(), 0) { }
     }
     public class DebugPlacer3 : QuickTileItem
     {
@@ -234,7 +234,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createTile = ModContent.TileType<Tiles.Overgrow.OvergrowGate>();
+            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -246,7 +246,27 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            LegendWorld.SealOpen = false;
             return true;
+        }
+    }
+    public class RedKiller : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 32;
+            item.height = 32;
+            item.damage = 10;
+            item.useStyle = 1;
+            item.useAnimation = 10;
+            item.useTime = 10;
+            item.rare = 7;
+            item.GetGlobalItem<ShieldBreakingItem>().RedHurting = true;
+        }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("RedKiller");
+            Tooltip.SetDefault("Debugging Item");
         }
     }
 }

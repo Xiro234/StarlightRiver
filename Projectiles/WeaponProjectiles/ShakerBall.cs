@@ -103,6 +103,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if(projectile.ai[1] == 3)
             {
                 projectile.velocity = -Vector2.Normalize(projectile.Center - player.Center) * 5;
+                projectile.velocity.Y += 3;
 
                 if (Vector2.Distance(projectile.Center, player.Center) <= 30) projectile.timeLeft = 0;
                 if (projectile.timeLeft == 3) projectile.ai[1] = 4;
@@ -110,7 +111,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             if(projectile.ai[1] == 4)
             {
-                projectile.velocity = -Vector2.Normalize(projectile.Center - player.Center) * 15;
+                projectile.velocity = -Vector2.Normalize(projectile.Center - player.Center) * 18;
                 projectile.tileCollide = false;
 
                 if (Vector2.Distance(projectile.Center, player.Center) <= 30) projectile.timeLeft = 0;

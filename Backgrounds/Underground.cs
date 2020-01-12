@@ -12,12 +12,24 @@ namespace StarlightRiver.Backgrounds
         }
         public override void FillTextureArray(int[] textureSlots)
         {
-            textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/Blank");
-            textureSlots[1] = mod.GetBackgroundSlot("Backgrounds/Blank");
-            textureSlots[2] = mod.GetBackgroundSlot("Backgrounds/Blank");
-            textureSlots[3] = mod.GetBackgroundSlot("Backgrounds/Blank");
-            textureSlots[4] = mod.GetBackgroundSlot("Backgrounds/Blank");
-            textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/Blank");
+            for (int k = 0; k <= 5; k++)
+            {
+                textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/Blank");
+            }
+        }
+    }
+    public class OvergrowBG : ModUgBgStyle
+    {
+        public override bool ChooseBgStyle()
+        {
+            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow;
+        }
+        public override void FillTextureArray(int[] textureSlots)
+        {
+            for(int k = 0; k <= 5; k++)
+            {
+                textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/OvergrowBackground");
+            }
         }
     }
     public class JungleCorruptBG : ModUgBgStyle
@@ -29,12 +41,10 @@ namespace StarlightRiver.Backgrounds
 
 		public override void FillTextureArray(int[] textureSlots)
 		{
-			textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[1] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[2] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[3] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[4] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            for (int k = 0; k <= 5; k++)
+            {
+                textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            }
         }
 	}
     public class JungleBloodyBG : ModUgBgStyle

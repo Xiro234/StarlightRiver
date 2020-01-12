@@ -132,8 +132,12 @@ namespace StarlightRiver.Tiles.Rift
                 if (spawnCooldown > 0) spawnCooldown--;
                 if (spawnCooldown == 0)
                 {
-                    int i = NPC.NewNPC((int)pos.X, (int)pos.Y, activeCraft.SpawnPool[Main.rand.Next(0, activeCraft.SpawnPool.Count)]);
+                    int i = NPC.NewNPC((int)pos.X + Main.rand.Next(-400, 400), (int)pos.Y + Main.rand.Next(-400, 400), activeCraft.SpawnPool[Main.rand.Next(0, activeCraft.SpawnPool.Count)]);
                     Main.npc[i].GetGlobalNPC<RiftNPC>().parent = this;
+                    for(int k = 0; k <= 50; k++)
+                    {
+                        Dust.NewDustPerfect(Main.npc[i].Center, ModContent.DustType<Dusts.Darkness>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10));
+                    }
 
                     spawnCooldown = 180 - activeCraft.Tier * 15;
                 }
@@ -307,6 +311,7 @@ namespace StarlightRiver.Tiles.Rift
                 drawColor = Color.Black * 0.6f;
                 Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Darkness>());
             }
+            base.DrawEffects(npc, ref drawColor);
         }
 
         public override bool PreNPCLoot(NPC npc)

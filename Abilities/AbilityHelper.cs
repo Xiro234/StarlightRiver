@@ -28,5 +28,14 @@ namespace StarlightRiver.Abilities
             }
             return false;
         }
+
+        public static bool CheckSmash(Player player, Rectangle hitbox)
+        {
+            if (Collision.CheckAABBvAABBCollision(player.Hitbox.TopLeft(), player.Hitbox.Size(), hitbox.TopLeft(), hitbox.Size()) && player.GetModPlayer<AbilityHandler>().smash.Active)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

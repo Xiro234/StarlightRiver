@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
@@ -21,6 +22,16 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.wallHouse[Type] = true;
             dustType = ModContent.DustType<Dusts.Stone>();
             AddMapEntry(new Color(62, 68, 55));
+        }
+    }
+    public class WallOvergrowInvisible : ModWall
+    {
+        public override void SetDefaults()
+        {
+            Main.wallHouse[Type] = false;
+            WallID.Sets.Transparent[Type] = true;
+            dustType = ModContent.DustType<Dusts.Stone>();
+            AddMapEntry(new Color(31, 34, 27));
         }
     }
 }

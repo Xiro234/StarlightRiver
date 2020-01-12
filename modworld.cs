@@ -23,6 +23,8 @@ namespace StarlightRiver
         public static Vector2 PureSP;
         public static Vector2 SmashSP;
 
+        public static Vector2 RiftLocation;
+
         public static bool ForceStarfall = false; 
 
         //Boss Flags
@@ -39,7 +41,7 @@ namespace StarlightRiver
         {
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
             int SurfaceIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
-            int HellIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Underworld"));
+            int HellIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lakes"));
             int DesertIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
             int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
 
@@ -52,7 +54,7 @@ namespace StarlightRiver
 
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
                 //tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Caves", DolomiteGen));
-                //tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", GenHelper.VoidAltarGen));
+                tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", GenHelper.VoidAltarGen));
 
                 tasks.Insert(TrapsIndex + 1, new PassLegacy("Starlight Traps", GenHelper.BoulderSlope));
 
@@ -458,7 +460,9 @@ namespace StarlightRiver
                 [nameof(PureTiles)] = PureTiles,
 
                 [nameof(BookSP)] = BookSP,
-                [nameof(DashSP)] = DashSP             
+                [nameof(DashSP)] = DashSP,  
+                
+                [nameof(RiftLocation)] = RiftLocation
             };
         }
         public override void Load(TagCompound tag)
@@ -478,6 +482,8 @@ namespace StarlightRiver
 
             BookSP = tag.Get<Vector2>(nameof(BookSP));
             DashSP = tag.Get<Vector2>(nameof(DashSP));
+
+            RiftLocation = tag.Get<Vector2>(nameof(RiftLocation));
 
 
             for (int k = 0; k <= PureTiles.Count - 1;  k++)

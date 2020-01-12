@@ -42,8 +42,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 else if (target.noGravity && !target.noTileCollide) NPC.NewNPC((int)target.position.X, (int)target.position.Y, ModContent.NPCType<NPCs.Beasts.AirBeast>());
                 else if (target.noGravity && target.noTileCollide) NPC.NewNPC((int)target.position.X, (int)target.position.Y, ModContent.NPCType<NPCs.Beasts.PhaseBeast>());
                 else NPC.NewNPC((int)target.position.X, (int)target.position.Y, ModContent.NPCType<NPCs.Beasts.FailsafeBeast>()); //probably stupid rare*/
-                
-                target.active = false;
             }
         }       
     }

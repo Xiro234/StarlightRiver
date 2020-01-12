@@ -177,12 +177,28 @@ namespace StarlightRiver
             On.Terraria.Main.DrawInterface_Resources_Life += LinkModeHealth;
             // Vitric background
             On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
+            On.Terraria.Main.DrawUnderworldBackground += DrawBlackFade;
             //Mines
             On.Terraria.Main.drawWaters += DrawUnderwaterNPCs;
 
             On.Terraria.IO.WorldFile.saveWorld += CheckDim;
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
+            //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
+        }
+
+        private void DrawBlackFade(On.Terraria.Main.orig_DrawUnderworldBackground orig, Main self, bool flat)
+        {
+            orig(self, flat);
+            if (Main.gameMenu) return;
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Fire");
+
+            float distance = Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation);
+            float val = ((1500 / distance - 1) / 3);
+            if (val > 0.8f) val = 0.8f;
+            Color color = Color.Black * (distance <= 1500 ? val : 0);
+                   
+            Main.spriteBatch.Draw(tex, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), tex.Frame(), color);
         }
 
         private void CheckDim(On.Terraria.IO.WorldFile.orig_saveWorld orig)
@@ -209,7 +225,22 @@ namespace StarlightRiver
                 }
             }
         }
-
+        /*private delegate int HealthDel(NPC npc);
+        private void ForceRedDraw(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.Goto(112);
+            c.Emit(OpCodes.Ldsfld, Main.npc);
+            c.Emit(OpCodes.Ldloc_1);
+            c.Emit(OpCodes.Ldelem_Ref);
+            c.EmitDelegate<HealthDel>(EmitHealthDel);
+            c.Emit(OpCodes.Ldc_I4_0);
+            c.Emit(OpCodes.Bgt, 122);      
+        }
+        private static int EmitHealthDel(NPC npc)
+        {
+            return npc.GetGlobalNPC<ShieldHandler>().Red;
+        }*/
         private delegate void ModLightingStateDelegate(float from, ref float to);
         private delegate void ModColorDelegate(int i, int j, ref float r, ref float g, ref float b);
 
@@ -298,6 +329,16 @@ namespace StarlightRiver
                 r = .4f;
                 g = .57f;
                 b = .65f;
+            }
+
+            //underworld lighting
+            if(Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) <= 1500 && j >= Main.maxTilesY - 200 && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            {
+                r = 0;
+                g = 0;
+
+                b = (1500 / Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) - 1) / 2;
+                if (b >= 0.8f) b = 0.8f;
             }
         }
 

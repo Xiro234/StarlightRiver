@@ -36,7 +36,8 @@ namespace StarlightRiver
             ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);
             ZoneJungleHoly = (LegendWorld.holyJungleTiles > 50);
             ZoneOvergrow = Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>() ||
-                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>(); 
+                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>() ||
+                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>();
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -88,6 +89,15 @@ namespace StarlightRiver
 
         public override void PreUpdate()
         {
+            float distance = Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation);
+            if (distance <= 1500)
+            {
+                float val = (1500 / distance - 1) * 2;
+                if (val <= 1) val = 1;
+                if (val >= 2.5f) val = 2.5f;
+                Lighting.brightness = 1 / val;
+            }
+
             if (ZoneVoidPre)
             {
                 Overlay.state = 1;
@@ -159,7 +169,7 @@ namespace StarlightRiver
                 backgroundColor = backgroundColor.MultiplyRGB(new Color(70, 150, 165));
             }
 
-            if (Main.ActiveWorldFileData is Underworld)
+            if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
             {
                 tileColor = tileColor.MultiplyRGB(Color.Purple);
                 backgroundColor = backgroundColor.MultiplyRGB(Color.Purple);
