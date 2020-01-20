@@ -219,7 +219,7 @@ namespace StarlightRiver.Dusts
 
             float rot = dust.velocity.ToRotation();
 
-            if ((int)dust.customData <= 0)
+            if (dust.customData != null && (int)dust.customData <= 0)
             {
 
                 rot += (float)(Math.PI * 2) / (20 * 18);

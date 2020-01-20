@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
-using StarlightRiver.Dimensions;
 using System;
 using System.Linq;
 using Terraria;
@@ -30,6 +29,7 @@ namespace StarlightRiver.Tiles.Void
             TileObjectData.addTile(Type);
 
             drop = mod.ItemType("Bounce");
+            minPick = int.MaxValue;
             AddMapEntry(new Color(50, 50, 50));
         }
 

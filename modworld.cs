@@ -394,8 +394,6 @@ namespace StarlightRiver
 
             if (starfall)
             {
-                Player player = Main.LocalPlayer;
-                
                 if (Main.time % 2 == 0)
                 {
                     Projectile.NewProjectile(new Vector2(Main.rand.Next(0, Main.maxTilesX) * 16 + Main.rand.Next(-16, 16), 100), Vector2.Zero, mod.ProjectileType("StarShard"), 500, 0.5f);

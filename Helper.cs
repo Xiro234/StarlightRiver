@@ -86,5 +86,11 @@ namespace StarlightRiver
             if (Vector2.Distance(center, hitbox.BottomRight()) <= radius) return true;
             return false;
         }
+
+        public static string TicksToTime(int ticks)
+        {
+            int sec = ticks / 60;
+            return (sec / 60) + ":" + (sec % 60 < 10 ? "0" + sec % 60 : "" + sec % 60);
+        }
     }
 }

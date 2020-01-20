@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using System.IO;
 using Terraria.IO;
-using StarlightRiver.Dimensions;
+using SubworldLibrary;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -218,8 +218,6 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             player.position = Vector2.One * -100;
-            if (Main.ActiveWorldFileData is Dimension) { Dimension.Return(Main.ActiveWorldFileData as Dimension); return true; }
-            Dimension.Travel(new Underworld(Main.ActiveWorldFileData));
             return true;
         }
     }

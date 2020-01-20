@@ -16,7 +16,6 @@ using StarlightRiver.GUI;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
 using StarlightRiver.Codex;
-using StarlightRiver.Dimensions;
 
 namespace StarlightRiver
 {
@@ -31,7 +30,7 @@ namespace StarlightRiver
         public override void UpdateBiomes()
         {
             ZoneGlass = (player.Hitbox.Intersects(LegendWorld.VitricBiome));
-            ZoneVoidPre = (LegendWorld.voidTiles > 50) || Main.ActiveWorldFileData is Underworld;
+            ZoneVoidPre = (LegendWorld.voidTiles > 50);
             ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
             ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);
             ZoneJungleHoly = (LegendWorld.holyJungleTiles > 50);
