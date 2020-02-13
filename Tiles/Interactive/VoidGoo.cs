@@ -52,6 +52,7 @@ namespace StarlightRiver.Tiles.Interactive
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/VoidGooGlow"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, new Rectangle(Main.tile[i,j].frameX, Main.tile[i, j].frameY + 88*Frame, 16, 16), Color.White);
+
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {

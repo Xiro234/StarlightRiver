@@ -10,6 +10,8 @@ namespace StarlightRiver.Items.Overgrow
     public class GlowBrickOvergrowItem : QuickTileItem { public GlowBrickOvergrowItem() : base("Awoken Runic Bricks", "They have a pulse...", ModContent.TileType<Tiles.Overgrow.GlowBrickOvergrow>(), 1) { } }
     public class LeafOvergrowItem : QuickTileItem { public LeafOvergrowItem() : base("Faerie Leaves", "", ModContent.TileType<Tiles.Overgrow.LeafOvergrow>(), 0) { } }
     public class HatchOvergrowItem : QuickTileItem { public HatchOvergrowItem() : base("Skyview Vent", "", ModContent.TileType<Tiles.Overgrow.HatchOvergrow>(), 0) { } }
+	public class DartOvergrowItem : QuickTileItem { public DartOvergrowItem() : base("Overgrow Dart Trap", "", ModContent.TileType<Tiles.Overgrow.DartTile>(), 0) { } }
+	public class CrusherOvergrowItem : QuickTileItem { public CrusherOvergrowItem() : base("Crusher Trap", "", ModContent.TileType<Tiles.Overgrow.CrusherTile>(), 0) { } }
 
     public class GrassOvergrowItem : ModItem
     {
