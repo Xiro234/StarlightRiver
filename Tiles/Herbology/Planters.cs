@@ -46,7 +46,7 @@ namespace StarlightRiver.Tiles.Herbology
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Post"), new Vector2((i + 12) * 16, (j+9) * 16) - (Main.screenPosition), Lighting.GetColor(i, j));
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Herbology/Post"), new Vector2((i + 12) * 16, (j+9) * 16) - (Main.screenPosition), Lighting.GetColor(i, j));
         }
     }
 

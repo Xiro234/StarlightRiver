@@ -127,7 +127,7 @@ namespace StarlightRiver
                     --InvertGrav;
             }
 
-            if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; }          
+            if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; } 
         }
 
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)

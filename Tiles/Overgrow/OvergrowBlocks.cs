@@ -21,7 +21,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
-            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
             Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;

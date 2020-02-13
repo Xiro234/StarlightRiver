@@ -76,8 +76,8 @@ namespace StarlightRiver
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
-                    priority = MusicPriority.BiomeMedium;
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Overgrow");
+                    priority = MusicPriority.BiomeHigh;
                 }
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
@@ -190,9 +190,27 @@ namespace StarlightRiver
             //Mines
             On.Terraria.Main.drawWaters += DrawUnderwaterNPCs;
 
+            On.Terraria.Main.DrawMenu += TestMenu;
+
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
             //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
+        }
+
+        private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
+        {
+            orig(self, gameTime);
+            if (!ModLoader.Mods.Any(n => n is StarlightRiver)) return;
+            Main.spriteBatch.Begin();
+
+                Main.spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Rectangle(0, 50, Main.screenWidth, 60), new Rectangle(0, 0, 1, 1), new Color(50, 50, 50) * 0.25f);
+
+                string message = "Starlight River ----- Private Alpha Branch! UNSTABLE!!!";
+                float length = Main.fontMouseText.MeasureString(message).X * 2;
+
+                Utils.DrawBorderString(Main.spriteBatch, message, new Vector2(Main.screenWidth - (float)(gameTime.TotalGameTime.TotalMilliseconds % 10000 / 10000 * (Main.screenWidth + length)), 60), Color.Red *  (float)Math.Cos(Math.Sin(gameTime.TotalGameTime.TotalMilliseconds % 1000 / 1000 * 6.28f)), 2);
+            
+            Main.spriteBatch.End();
         }
 
         private void DrawProto(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_refItem_int_Vector2_Color orig, SpriteBatch spriteBatch, ref Item inv, int context, Vector2 position, Color lightColor)
@@ -352,7 +370,7 @@ namespace StarlightRiver
             // If the tile is in the vitric biome and doesn't block light, emit light.
             bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type];
             bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
-            if (LegendWorld.VitricBiome.Contains(i * 16, j * 16) && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            if (LegendWorld.vitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
             {
                 r = .4f;
                 g = .57f;
@@ -385,9 +403,9 @@ namespace StarlightRiver
             VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
-            if (player != null && player.Hitbox.Intersects(LegendWorld.VitricBiome))
+            if (player != null && LegendWorld.vitricBiome.Contains((player.Center / 16).ToPoint()))
             {
-                Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1000) : Vector2.Zero;
+                Vector2 basepoint = (LegendWorld.vitricBiome != null) ? LegendWorld.vitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)
                 {
                     DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
@@ -411,7 +429,7 @@ namespace StarlightRiver
 
                     if (Main.rand.Next(400) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 1000), k, 2.25f, 1f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 1000), k, 2.25f, 0.6f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }
