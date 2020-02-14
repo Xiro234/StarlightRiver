@@ -190,6 +190,8 @@ namespace StarlightRiver
             //Mines
             On.Terraria.Main.drawWaters += DrawUnderwaterNPCs;
 
+            On.Terraria.Main.DrawTiles += TruePostdrawTiles;
+
             On.Terraria.Main.DrawMenu += TestMenu;
 
             // Vitric lighting
@@ -197,10 +199,25 @@ namespace StarlightRiver
             //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
         }
 
+        private void TruePostdrawTiles(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidOnly, int waterStyleOverride)
+        {
+            orig(self, solidOnly, waterStyleOverride);
+            for(int i = (int)Main.screenPosition.X / 16; i < (int)Main.screenPosition.X / 16 + Main.screenWidth / 16; i++)
+                for (int j = (int)Main.screenPosition.Y / 16; j < (int)Main.screenPosition.Y / 16 + Main.screenWidth / 16; j++)
+                {
+                if (Main.tile[i, j].type == ModContent.TileType<Tiles.Overgrow.BrickOvergrow>())
+                {
+                    ModContent.GetModTile(ModContent.TileType<Tiles.Overgrow.BrickOvergrow>()).PostDraw(i, j, Main.spriteBatch);
+                }
+            }
+        }
+
+        internal static readonly List<BootlegDust> MenuDust = new List<BootlegDust>();
         private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
-            if (!ModLoader.Mods.Any(n => n is StarlightRiver)) return;
+            if (ModContent.GetTexture("StarlightRiver/GUI/Fire") == null) return;
+            MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/MarioCumming"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 100), new Vector2(0, -4)));
             Main.spriteBatch.Begin();
 
                 Main.spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Rectangle(0, 50, Main.screenWidth, 60), new Rectangle(0, 0, 1, 1), new Color(50, 50, 50) * 0.25f);
@@ -209,7 +226,13 @@ namespace StarlightRiver
                 float length = Main.fontMouseText.MeasureString(message).X * 2;
 
                 Utils.DrawBorderString(Main.spriteBatch, message, new Vector2(Main.screenWidth - (float)(gameTime.TotalGameTime.TotalMilliseconds % 10000 / 10000 * (Main.screenWidth + length)), 60), Color.Red *  (float)Math.Cos(Math.Sin(gameTime.TotalGameTime.TotalMilliseconds % 1000 / 1000 * 6.28f)), 2);
-            
+
+            foreach (BootlegDust dus in MenuDust) dus.Draw(Main.spriteBatch);
+            foreach (BootlegDust dus in MenuDust) dus.Update();
+
+            List<BootlegDust> Removals = new List<BootlegDust>();
+            foreach (BootlegDust dus in MenuDust.Where(dus => dus.time <= 0)) Removals.Add(dus);
+            foreach (BootlegDust dus in Removals) MenuDust.Remove(dus);
             Main.spriteBatch.End();
         }
 

@@ -18,20 +18,7 @@ namespace StarlightRiver.Backgrounds
             }
         }
     }
-    public class OvergrowBG : ModUgBgStyle
-    {
-        public override bool ChooseBgStyle()
-        {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow;
-        }
-        public override void FillTextureArray(int[] textureSlots)
-        {
-            for(int k = 0; k <= 5; k++)
-            {
-                textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/OvergrowBackground");
-            }
-        }
-    }
+
     public class JungleCorruptBG : ModUgBgStyle
 	{
 		public override bool ChooseBgStyle()
