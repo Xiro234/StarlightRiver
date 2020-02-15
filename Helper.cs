@@ -77,5 +77,41 @@ namespace StarlightRiver
             float fade = LegendWorld.rottime / 6.28f;
             spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 0.6f, 0, 0);
         }
+
+        public static bool CheckCircularCollision(Vector2 center, int radius, Rectangle hitbox)
+        {
+            if (Vector2.Distance(center, hitbox.TopLeft()) <= radius) return true;
+            if (Vector2.Distance(center, hitbox.TopRight()) <= radius) return true;
+            if (Vector2.Distance(center, hitbox.BottomLeft()) <= radius) return true;
+            if (Vector2.Distance(center, hitbox.BottomRight()) <= radius) return true;
+            return false;
+        }
+
+        public static string TicksToTime(int ticks)
+        {
+            int sec = ticks / 60;
+            return (sec / 60) + ":" + (sec % 60 < 10 ? "0" + sec % 60 : "" + sec % 60);
+        }
+
+        public static void DrawElectricity(Vector2 point1, Vector2 point2)
+        {
+            int nodeCount = (int)Vector2.Distance(point1, point2) / 30;
+            Vector2[] nodes = new Vector2[nodeCount + 1];
+
+            nodes[nodeCount] = point2; //adds the end as the last point
+
+            for (int k = 1; k < nodes.Count(); k++)
+            {
+                //Sets all intermediate nodes to their appropriate randomized dot product positions
+                nodes[k] = Vector2.Lerp(point1, point2, k / (float)nodeCount) + (k == nodes.Count() - 1 ? Vector2.Zero : Vector2.Normalize(point1 - point2).RotatedBy(1.58f) * Main.rand.NextFloat(-18, 18));
+
+                //Spawns the dust between each node
+                Vector2 prevPos = k == 1 ? point1 : nodes[k - 1];
+                for (float i = 0; i < 1; i += 0.05f)
+                {
+                    Dust.NewDustPerfect(Vector2.Lerp(prevPos, nodes[k], i), ModContent.DustType<Dusts.Electric>(), Vector2.Zero);
+                }
+            }
+        }
     }
 }

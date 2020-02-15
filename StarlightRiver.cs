@@ -12,7 +12,6 @@ using StarlightRiver.Items.CursedAccessories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using On.Terraria.GameContent.UI.Elements;
 using System;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
@@ -22,6 +21,11 @@ using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using StarlightRiver.RiftCrafting;
 using Terraria.Graphics.Shaders;
+using StarlightRiver.Dimensions;
+using Terraria.IO;
+using StarlightRiver.Items.Prototypes;
+using Terraria.ModLoader.IO;
+using Terraria.Utilities;
 
 namespace StarlightRiver
 {
@@ -68,6 +72,12 @@ namespace StarlightRiver
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
                     priority = MusicPriority.BiomeMedium;
+                }
+
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Overgrow");
+                    priority = MusicPriority.BiomeHigh;
                 }
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
@@ -165,16 +175,106 @@ namespace StarlightRiver
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
             On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
             On.Terraria.UI.ItemSlot.RightClick_ItemArray_int_int += NoSwapCurse;
+            // Prototype Item Background
+            On.Terraria.UI.ItemSlot.Draw_SpriteBatch_refItem_int_Vector2_Color += DrawProto;
             // Character Slot Addons
             On.Terraria.GameContent.UI.Elements.UICharacterListItem.DrawSelf += DrawSpecialCharacter;
+            // Seal World Indicator
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.GetIcon += VoidIcon;
             // Link mode healthbar
             On.Terraria.Main.DrawInterface_Resources_Life += LinkModeHealth;
             // Vitric background
             On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
-
+            //Rift fading
+            On.Terraria.Main.DrawUnderworldBackground += DrawBlackFade;
+            //Mines
             On.Terraria.Main.drawWaters += DrawUnderwaterNPCs;
+
+            On.Terraria.Main.DrawTiles += TruePostdrawTiles;
+
+            On.Terraria.Main.DrawMenu += TestMenu;
+
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
+            //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
+        }
+
+        private void TruePostdrawTiles(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidOnly, int waterStyleOverride)
+        {
+            orig(self, solidOnly, waterStyleOverride);
+            for(int i = (int)Main.screenPosition.X / 16; i < (int)Main.screenPosition.X / 16 + Main.screenWidth / 16; i++)
+                for (int j = (int)Main.screenPosition.Y / 16; j < (int)Main.screenPosition.Y / 16 + Main.screenWidth / 16; j++)
+                {
+                if (Main.tile[i, j].type == ModContent.TileType<Tiles.Overgrow.BrickOvergrow>())
+                {
+                    ModContent.GetModTile(ModContent.TileType<Tiles.Overgrow.BrickOvergrow>()).PostDraw(i, j, Main.spriteBatch);
+                }
+            }
+        }
+
+        internal static readonly List<BootlegDust> MenuDust = new List<BootlegDust>();
+        private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
+        {
+            orig(self, gameTime);
+            if (ModContent.GetTexture("StarlightRiver/GUI/Fire") == null) return;
+            MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/MarioCumming"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 100), new Vector2(0, -4)));
+            Main.spriteBatch.Begin();
+
+                Main.spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Rectangle(0, 50, Main.screenWidth, 60), new Rectangle(0, 0, 1, 1), new Color(50, 50, 50) * 0.25f);
+
+                string message = "Starlight River ----- Private Alpha Branch! UNSTABLE!!!";
+                float length = Main.fontMouseText.MeasureString(message).X * 2;
+
+                Utils.DrawBorderString(Main.spriteBatch, message, new Vector2(Main.screenWidth - (float)(gameTime.TotalGameTime.TotalMilliseconds % 10000 / 10000 * (Main.screenWidth + length)), 60), Color.Red *  (float)Math.Cos(Math.Sin(gameTime.TotalGameTime.TotalMilliseconds % 1000 / 1000 * 6.28f)), 2);
+
+            foreach (BootlegDust dus in MenuDust) dus.Draw(Main.spriteBatch);
+            foreach (BootlegDust dus in MenuDust) dus.Update();
+
+            List<BootlegDust> Removals = new List<BootlegDust>();
+            foreach (BootlegDust dus in MenuDust.Where(dus => dus.time <= 0)) Removals.Add(dus);
+            foreach (BootlegDust dus in Removals) MenuDust.Remove(dus);
+            Main.spriteBatch.End();
+        }
+
+        private void DrawProto(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_refItem_int_Vector2_Color orig, SpriteBatch spriteBatch, ref Item inv, int context, Vector2 position, Color lightColor)
+        {
+             orig(spriteBatch, ref inv, context, position, lightColor);
+        }
+
+        private Texture2D VoidIcon(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_GetIcon orig, UIWorldListItem self)
+        {
+            /*FieldInfo datainfo = self.GetType().GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance);
+            WorldFileData data = (WorldFileData)datainfo.GetValue(self);
+            string path = data.Path.Replace(".wld", ".twld");
+
+            byte[] buf = FileUtilities.ReadAllBytes(path, data.IsCloudSave);
+            TagCompound tag = TagIO.FromStream(new MemoryStream(buf), true);
+            TagCompound tag2 = tag.GetList<TagCompound>("modData").FirstOrDefault(k => k.ContainsKey());
+            ModContent.GetInstance<LegendWorld>().Load(tag.GetCompound("data"));
+
+            bool riftopen = false;
+            if (tag2 != null && tag2.HasTag(nameof(LegendWorld.SealOpen))) riftopen = tag2.GetBool(nameof(LegendWorld.SealOpen));
+
+            if (riftopen)
+            {
+                return ModContent.GetTexture("StarlightRiver/GUI/Fire");
+            }*/
+
+            return orig(self);
+        }
+
+        private void DrawBlackFade(On.Terraria.Main.orig_DrawUnderworldBackground orig, Main self, bool flat)
+        {
+            orig(self, flat);
+            if (Main.gameMenu) return;
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Fire");
+
+            float distance = Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation);
+            float val = ((1500 / distance - 1) / 3);
+            if (val > 0.8f) val = 0.8f;
+            Color color = Color.Black * (distance <= 1500 ? val : 0);
+                   
+            Main.spriteBatch.Draw(tex, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), tex.Frame(), color);
         }
 
         private void DrawUnderwaterNPCs(On.Terraria.Main.orig_drawWaters orig, Main self, bool bg, int styleOverride, bool allowUpdate)
@@ -194,7 +294,22 @@ namespace StarlightRiver
                 }
             }
         }
-
+        /*private delegate int HealthDel(NPC npc);
+        private void ForceRedDraw(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.Goto(112);
+            c.Emit(OpCodes.Ldsfld, Main.npc);
+            c.Emit(OpCodes.Ldloc_1);
+            c.Emit(OpCodes.Ldelem_Ref);
+            c.EmitDelegate<HealthDel>(EmitHealthDel);
+            c.Emit(OpCodes.Ldc_I4_0);
+            c.Emit(OpCodes.Bgt, 122);      
+        }
+        private static int EmitHealthDel(NPC npc)
+        {
+            return npc.GetGlobalNPC<ShieldHandler>().Red;
+        }*/
         private delegate void ModLightingStateDelegate(float from, ref float to);
         private delegate void ModColorDelegate(int i, int j, ref float r, ref float g, ref float b);
 
@@ -278,11 +393,21 @@ namespace StarlightRiver
             // If the tile is in the vitric biome and doesn't block light, emit light.
             bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type];
             bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
-            if (LegendWorld.VitricBiome.Contains(i * 16, j * 16) && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            if (LegendWorld.vitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
             {
                 r = .4f;
                 g = .57f;
                 b = .65f;
+            }
+
+            //underworld lighting
+            if(Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) <= 1500 && j >= Main.maxTilesY - 200 && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            {
+                r = 0;
+                g = 0;
+
+                b = (1500 / Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) - 1) / 2;
+                if (b >= 0.8f) b = 0.8f;
             }
         }
 
@@ -301,9 +426,9 @@ namespace StarlightRiver
             VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
-            if (player != null && player.Hitbox.Intersects(LegendWorld.VitricBiome))
+            if (player != null && LegendWorld.vitricBiome.Contains((player.Center / 16).ToPoint()))
             {
-                Vector2 basepoint = (LegendWorld.vitricTopLeft != null) ? LegendWorld.vitricTopLeft * 16 + new Vector2(-2000, 1000) : Vector2.Zero;
+                Vector2 basepoint = (LegendWorld.vitricBiome != null) ? LegendWorld.vitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)
                 {
                     DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
@@ -327,7 +452,7 @@ namespace StarlightRiver
 
                     if (Main.rand.Next(400) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 1000), k, 2.25f, 1f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 1000), k, 2.25f, 0.6f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }
@@ -373,7 +498,7 @@ namespace StarlightRiver
             }
         }
 
-        private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, Terraria.GameContent.UI.Elements.UICharacterListItem self, SpriteBatch spriteBatch)
+        private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, UICharacterListItem self, SpriteBatch spriteBatch)
         {
             orig(self, spriteBatch);
             Vector2 origin = new Vector2(self.GetDimensions().X, self.GetDimensions().Y);
@@ -393,7 +518,6 @@ namespace StarlightRiver
             if (mp == null) { return; }
 
             playerStamina = mp.StatStaminaMax;
-
 
             Texture2D wind = !mp.dash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind0");
             Texture2D wisp = !mp.wisp.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp0");
@@ -457,34 +581,42 @@ namespace StarlightRiver
                 Texture2D back = inv[slot].modItem is CursedAccessory ? ModContent.GetTexture("StarlightRiver/GUI/CursedBack") : ModContent.GetTexture("StarlightRiver/GUI/BlessedBack");
                 Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
                 sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
-
-                //Zoinked from vanilla code
-                Item item = inv[slot];
-                Vector2 vector = back.Size() * Main.inventoryScale;
-                Texture2D texture2D3 = ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/"+inv[slot].modItem.Name);
-                Rectangle rectangle2 = (texture2D3.Frame(1, 1, 0, 0));
-                Color currentColor = color;
-                float scale3 = 1f;
-                ItemSlot.GetItemLight(ref currentColor, ref scale3, item, false);
-                float num8 = 1f;
-                if (rectangle2.Width > 32 || rectangle2.Height > 32)
-                {
-                    num8 = ((rectangle2.Width <= rectangle2.Height) ? (32f / (float)rectangle2.Height) : (32f / (float)rectangle2.Width));
-                }
-                num8 *= Main.inventoryScale;
-                Vector2 position2 = position + vector / 2f - rectangle2.Size() * num8 / 2f;
-                Vector2 origin = rectangle2.Size() * (scale3 / 2f - 0.5f);
-                if (ItemLoader.PreDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3))
-                {
-                    sb.Draw(texture2D3, position2, rectangle2, Color.White, 0f, origin, num8 * scale3, SpriteEffects.None, 0f);
-                }
-                ItemLoader.PostDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3);
-                //End zoink
+                RedrawItem(sb, inv, back, position, slot, color);
+            }
+            else if (inv[slot].modItem is PrototypeWeapon && inv[slot] != Main.mouseItem)
+            {
+                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/ProtoBack");
+                Color backcolor = Main.LocalPlayer.HeldItem != inv[slot] ? Color.White * 0.75f : Color.Yellow;
+                sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
+                RedrawItem(sb, inv, back, position, slot, color);
             }
             else
             {
                 orig(sb, inv, context, slot, position, color);
             }
+        }
+        private void RedrawItem(SpriteBatch sb, Item[] inv, Texture2D back, Vector2 position, int slot, Color color)
+        {
+            Item item = inv[slot];
+            Vector2 vector = back.Size() * Main.inventoryScale;
+            Texture2D texture2D3 = ModContent.GetTexture(item.modItem.Texture);
+            Rectangle rectangle2 = (texture2D3.Frame(1, 1, 0, 0));
+            Color currentColor = color;
+            float scale3 = 1f;
+            ItemSlot.GetItemLight(ref currentColor, ref scale3, item, false);
+            float num8 = 1f;
+            if (rectangle2.Width > 32 || rectangle2.Height > 32)
+            {
+                num8 = ((rectangle2.Width <= rectangle2.Height) ? (32f / (float)rectangle2.Height) : (32f / (float)rectangle2.Width));
+            }
+            num8 *= Main.inventoryScale;
+            Vector2 position2 = position + vector / 2f - rectangle2.Size() * num8 / 2f;
+            Vector2 origin = rectangle2.Size() * (scale3 / 2f - 0.5f);
+            if (ItemLoader.PreDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3))
+            {
+                sb.Draw(texture2D3, position2, rectangle2, Color.White, 0f, origin, num8 * scale3, SpriteEffects.None, 0f);
+            }
+            ItemLoader.PostDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3);
         }
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -493,7 +625,7 @@ namespace StarlightRiver
             int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             if (MouseTextIndex != -1)
             {
-                layers.Insert(MouseTextIndex, new LegacyGameInterfaceLayer("[PH]MODNAME: Cooldown",
+                layers.Insert(MouseTextIndex, new LegacyGameInterfaceLayer("StarlightRiver: Stamina",
                 delegate
                 {
                     if (Stamina.visible)
@@ -505,7 +637,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 1, new LegacyGameInterfaceLayer("[PH]MODNAME: Collection",
+                layers.Insert(MouseTextIndex + 1, new LegacyGameInterfaceLayer("StarlightRiver: Collection",
                 delegate
                 {
                     if (Collection.visible)
@@ -517,7 +649,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(0, new LegacyGameInterfaceLayer("[PH]MODNAME: Overlay",
+                layers.Insert(0, new LegacyGameInterfaceLayer("StarlightRiver: Overlay",
                 delegate
                 {
                     if (Overlay.visible)
@@ -529,7 +661,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 2, new LegacyGameInterfaceLayer("[PH]MODNAME: Infusions",
+                layers.Insert(MouseTextIndex + 2, new LegacyGameInterfaceLayer("StarlightRiver: Infusions",
                 delegate
                 {
                     if (Infusion.visible)
@@ -541,7 +673,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 3, new LegacyGameInterfaceLayer("[PH]MODNAME: Cooking",
+                layers.Insert(MouseTextIndex + 3, new LegacyGameInterfaceLayer("StarlightRiver: Cooking",
                 delegate
                 {
                     if (Cooking.visible)
@@ -553,7 +685,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 4, new LegacyGameInterfaceLayer("[PH]MODNAME: LinkHP",
+                layers.Insert(MouseTextIndex + 4, new LegacyGameInterfaceLayer("StarlightRiver: LinkHP",
                 delegate
                 {
                     if (LinkHP.visible)
@@ -565,7 +697,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 5, new LegacyGameInterfaceLayer("[PH]MODNAME: Ability Text",
+                layers.Insert(MouseTextIndex + 5, new LegacyGameInterfaceLayer("StarlightRiver: Ability Text",
                 delegate
                 {
                     if (AbilityText.Visible)
@@ -577,7 +709,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(MouseTextIndex + 6, new LegacyGameInterfaceLayer("[PH]MODNAME: Codex",
+                layers.Insert(MouseTextIndex + 6, new LegacyGameInterfaceLayer("StarlightRiver: Codex",
                 delegate
                 {
                     if (GUI.Codex.Visible)

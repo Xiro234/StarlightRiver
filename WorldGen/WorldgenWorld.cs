@@ -1,0 +1,45 @@
+﻿using StarlightRiver.Structures;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
+using Terraria.GameContent.Generation;
+using Terraria.ModLoader;
+using Terraria.World.Generation;
+
+namespace StarlightRiver
+{
+    public partial class LegendWorld : ModWorld
+    {
+        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
+        {
+            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
+            int SurfaceIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Sunflowers"));
+            int HellIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Lakes"));
+            int DesertIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
+            int TrapsIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Traps"));
+
+            if (ShiniesIndex != -1)
+            {
+                tasks.Insert(DesertIndex + 1, new PassLegacy("Starlight River Vitric Desert", GenHelper.VitricDesertGen));
+                tasks.Insert(DesertIndex + 2, new PassLegacy("Starlight River Overgrowth", GenHelper.OvergrowthGen));
+                tasks.Insert(DesertIndex + 3, new PassLegacy("Starlight River Codex", GenHelper.BookAltarGen));
+                tasks.Insert(DesertIndex + 4, new PassLegacy("Starlight River Dash", GenHelper.WindsAltarGen));
+                tasks.Insert(DesertIndex + 5, new PassLegacy("Starlight River Debug", GenHelper.DebugWispGen));
+
+                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
+                //tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Caves", DolomiteGen));
+                tasks.Insert(HellIndex + 1, new PassLegacy("Starlight River Void Altar", GenHelper.VoidAltarGen));
+
+                tasks.Insert(TrapsIndex + 1, new PassLegacy("Starlight Traps", GenHelper.BoulderSlope));
+
+                tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", GenHelper.RuinsGen));
+            }
+        }
+        public override void PostWorldGen()
+        {
+        }
+    }
+}

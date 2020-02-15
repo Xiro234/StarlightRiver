@@ -5,6 +5,9 @@ using StarlightRiver.Codex;
 using StarlightRiver.Gases;
 using Terraria;
 using Terraria.ModLoader;
+using System.IO;
+using Terraria.IO;
+using SubworldLibrary;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -164,24 +167,35 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            int i = 0;
+            string types = "Types: ";
+            foreach (NPC npc in Main.npc.Where(npc => npc.type != 0)) { i++; types += npc.type + ", "; }
+
+            int j = 0;
+            foreach (NPC npc in Main.npc.Where(npc => npc.active)) { j++; }
+           
+            Main.NewText("Extant NPCs: " + i + "/201");
+            Main.NewText("Active NPCs: " + j + "/201");
+            Main.NewText(types);
             return true;
         }
     }
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.Tank>(), 0) { }
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.Overgrow.ZapperTile>(), 0) { }
     }
     public class DebugPlacer2 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.Siphon>(), 0) { }
+        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<Tiles.Rift.MainRift>(), 0) { }
     }
     public class DebugPlacer3 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
         public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.CrystalBlock>(), 0) { }
     }
+
     public class DebugPotion : ModItem
     {
         public override void SetDefaults()
@@ -203,44 +217,53 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            foreach(NPC npc in Main.npc)
-            {
-                npc.Kill();
-            }
-            foreach(Projectile projectile in Main.projectile)
-            {
-                projectile.Kill();
-            }
-            foreach(Dust dust in Main.dust)
-            {
-                dust.active = false;
-            }
-            foreach(Gore gore in Main.gore)
-            {
-                gore.active = false;
-            }
-            foreach(Item item in Main.item)
-            {
-                item.active = false;
-            }
-            for(int k = 0; k < Main.maxTilesX; k++)
-            {
-                for(int j = 0; j < Main.maxTilesY; j++)
-                {
-                    Main.tile[k, j].ClearEverything();
-                }
-
-                for (int j = Main.spawnTileY; j < Main.spawnTileY + 50; j++)
-                {
-                    WorldGen.PlaceTile(k, j, 267, true);                   
-                }
-
-                for (int j = Main.spawnTileY - 100; j < Main.spawnTileY + 1; j++)
-                {
-                    WorldGen.PlaceWall(k, j, 155, true);
-                }
-            }
             return true;
+        }
+    }
+
+    public class DebugPotion2 : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 64;
+            item.height = 64;
+            item.useStyle = 5;
+            item.useAnimation = 10;
+            item.useTime = 10;
+            item.rare = 2;
+            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>();
+            item.noUseGraphic = true;
+        }
+        public override string Texture => "StarlightRiver/MarioCumming";
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Potion of Debugging 2");
+            Tooltip.SetDefault("Effects vary");
+        }
+
+        public override bool UseItem(Player player)
+        {
+            LegendWorld.SealOpen = false;
+            return true;
+        }
+    }
+    public class RedKiller : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 32;
+            item.height = 32;
+            item.damage = 10;
+            item.useStyle = 1;
+            item.useAnimation = 10;
+            item.useTime = 10;
+            item.rare = 7;
+            item.GetGlobalItem<ShieldBreakingItem>().RedHurting = true;
+        }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("RedKiller");
+            Tooltip.SetDefault("Debugging Item");
         }
     }
 }

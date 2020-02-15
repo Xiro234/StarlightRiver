@@ -80,7 +80,7 @@ namespace StarlightRiver.Projectiles
                 {
                     Dust.NewDustPerfect(joints[(int)dims.Y / 20], ModContent.DustType<Dusts.Gold2>(), new Vector2(-1, 0).RotatedBy(k) * Main.rand.NextFloat(2), 0, default, 0.6f);
                 }
-                Main.PlaySound(SoundID.NPCHit53.WithVolume(0.5f), joints[(int)dims.Y / 20]);
+                Main.PlaySound(SoundID.NPCHit53.WithVolume(0.2f), joints[(int)dims.Y / 20]);
             }
         }
 

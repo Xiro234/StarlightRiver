@@ -39,10 +39,14 @@ namespace StarlightRiver.Dusts
 			return false;
 		}
     }
-
     public class Air2 : ModDust
     {
         int timer = 0;
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Dusts/Air";
+            return base.Autoload(ref name, ref texture);
+        }
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -85,6 +89,11 @@ namespace StarlightRiver.Dusts
     }
     public class Air3 : ModDust
     {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Dusts/Air";
+            return base.Autoload(ref name, ref texture);
+        }
         public override void OnSpawn(Dust dust)
         {
             dust.velocity *= 0.3f;
@@ -113,9 +122,13 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-
     public class Air4 : ModDust
     {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Dusts/Air";
+            return base.Autoload(ref name, ref texture);
+        }
         public override void OnSpawn(Dust dust)
         {
             dust.velocity *= 0.3f;
@@ -148,6 +161,11 @@ namespace StarlightRiver.Dusts
 
     public class Gold : ModDust
     {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Dusts/Gold";
+            return base.Autoload(ref name, ref texture);
+        }
         public override void OnSpawn(Dust dust)
         {
             dust.velocity *= 0.3f;
@@ -174,7 +192,6 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-
     public class Gold2 : Gold
     {
         public override bool Update(Dust dust)
@@ -190,9 +207,13 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-
     public class Gold3 : ModDust
     {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Dusts/Gold";
+            return base.Autoload(ref name, ref texture);
+        }
         int timer = 0;
         public override void OnSpawn(Dust dust)
         {
@@ -219,7 +240,7 @@ namespace StarlightRiver.Dusts
 
             float rot = dust.velocity.ToRotation();
 
-            if ((int)dust.customData <= 0)
+            if (dust.customData != null && (int)dust.customData <= 0)
             {
 
                 rot += (float)(Math.PI * 2) / (20 * 18);
@@ -249,9 +270,30 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+    public class Gold4 : Gold
+    {
+        public override bool Update(Dust dust)
+        {
+            dust.position += dust.velocity;
+            dust.rotation += 0.1f;
+
+            dust.scale *= 0.9972f;
+            dust.color *= 0.99999999999f;
+            if (dust.scale < 0.3f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
 
     public class Void : ModDust
     {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Dusts/Void";
+            return base.Autoload(ref name, ref texture);
+        }
         public override void OnSpawn(Dust dust)
         {
             dust.velocity *= 0.1f;
@@ -281,7 +323,6 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-
     public class Void2 : Void
     {
         public override void OnSpawn(Dust dust)
@@ -312,7 +353,6 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-
     public class Void3 : Void
     {
         public override bool Update(Dust dust)
@@ -330,7 +370,6 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-
     public class Void4 : Void
     {
         public override bool Update(Dust dust)

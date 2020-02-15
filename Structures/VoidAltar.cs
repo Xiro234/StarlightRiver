@@ -19,7 +19,8 @@ namespace StarlightRiver.Structures
             progress.Message = "Opening the Gates...";
 
             Texture2D Courtyard = ModContent.GetTexture("StarlightRiver/Structures/VoidAltar");
-            Vector2 spawn = new Vector2(Main.maxTilesX / 2, Main.maxTilesY - 200);
+            Vector2 spawn = new Vector2(Main.maxTilesX / 4, Main.maxTilesY - 100);
+            LegendWorld.RiftLocation = (spawn + new Vector2(25.5f, 3.5f)) * 16;
 
             for (int y = 0; y < Courtyard.Height; y++) // for every row
             {
@@ -39,7 +40,8 @@ namespace StarlightRiver.Structures
                         case 10: placeType = TileID.Ash; break;
                         case 20: placeType = (ushort)ModContent.TileType<Tiles.Void.Void1>(); break;
                         case 30: placeType = (ushort)ModContent.TileType<Tiles.Void.Void2>(); break;
-                        case 40: placeType = (ushort)ModContent.TileType<Tiles.Interactive.VoidDoorOn>(); break;
+                        case 40: placeType = TileID.Platforms; break;
+                        case 50: placeType = (ushort)ModContent.TileType<Tiles.Rift.MainRift>(); break;
                     }
                     switch (rawData[x].B) //select wall
                     {

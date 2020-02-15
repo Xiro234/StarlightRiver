@@ -179,7 +179,9 @@ namespace StarlightRiver.GUI
             item.type = type;
             item.SetDefaults(item.type);
             Texture2D tex = (item.modItem != null) ? ModContent.GetTexture(item.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + item.type);
-            spriteBatch.Draw(tex, pos, tex.Frame(), Color.White * (0.8f + (float)Math.Sin(LegendWorld.rottime) * 0.2f),
+            Rectangle frame = Main.itemAnimations[item.type] != null ? Main.itemAnimations[item.type].GetFrame(tex) : tex.Frame();
+
+            spriteBatch.Draw(tex, pos, frame, Color.White * (0.8f + (float)Math.Sin(LegendWorld.rottime) * 0.2f),
                 0 + (float)Math.Sin(LegendWorld.rottime * 2) * 0.1f, tex.Size() / 2, 1 + (float)Math.Sin(LegendWorld.rottime) * 0.1f, 0, 0);
 
             Rectangle rect = new Rectangle((int)pos.X - tex.Frame().Width / 2, (int)pos.Y - tex.Frame().Height / 2, tex.Frame().Width, tex.Frame().Height);

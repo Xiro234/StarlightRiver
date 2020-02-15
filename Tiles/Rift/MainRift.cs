@@ -36,7 +36,19 @@ namespace StarlightRiver.Tiles.Rift
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Texture2D riftTex = ModContent.GetTexture("StarlightRiver/Tiles/Rift/Rift");
-            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), Color.White, 0, riftTex.Size() / 2, 1, 0, 0);
+            Color color = new Color(50, 10, 120);
+
+            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), color * 0.4f, 0, riftTex.Size() / 2,
+                0.7f + (float)Math.Sin(LegendWorld.rottime + 2) * 0.04f, 0, 0);
+
+            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), color * 0.3f, 0, riftTex.Size() / 2,
+                0.8f + (float)Math.Sin(LegendWorld.rottime + 4) * 0.04f, 0, 0);
+
+            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), color * 0.1f, 0, riftTex.Size() / 2,
+                0.9f + (float)Math.Sin(LegendWorld.rottime + 4) * 0.04f, 0, 0);
+
+            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), Color.Black, 0, riftTex.Size() / 2,
+                0.6f + (float)Math.Sin(LegendWorld.rottime) * 0.02f, 0, 0);
 
             int index = ModContent.GetInstance<RiftEntity>().Find(i, j);
             if (index == -1) return true;           
@@ -48,9 +60,9 @@ namespace StarlightRiver.Tiles.Rift
                 Item item = entity.inventory[k];
                 Texture2D tex = (item.modItem != null) ? ModContent.GetTexture(item.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + item.type);
                 Vector2 pos = new Vector2(i, j) * 16 + Vector2.One * 8 + new Vector2(0, -128).RotatedBy(k / (float)maxItems * 6.28f) - Main.screenPosition + Vector2.One * 12 * 16;
-                Rectangle frame = new Rectangle(0, 0, tex.Frame().Width, tex.Frame().Height);
+                Rectangle frame = Main.itemAnimations[item.type] != null ? Main.itemAnimations[item.type].GetFrame(tex) : tex.Frame();
 
-                spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, frame.Width, frame.Height), frame, Color.White * 0.6f, (float)Math.Sin(LegendWorld.rottime) * 0.15f, tex.Size() / 2, 0, 0);
+                spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, frame.Width, frame.Height), frame, Color.White * 0.6f, (float)Math.Sin(LegendWorld.rottime) * 0.15f, frame.Size() / 2, 0, 0);
             }
 
             if(entity.timer > 0)
@@ -94,11 +106,15 @@ namespace StarlightRiver.Tiles.Rift
             if (timer >= 1) timer--;
             Rectangle hitbox = new Rectangle(Position.X * 16 - 24, Position.Y * 16 - 56, 64, 128);
             Vector2 pos = Position.ToVector2() * 16;
-            //Temporary dust to visualize hitbox
-            Dust.NewDustPerfect(hitbox.TopLeft(), ModContent.DustType<Dusts.Purify2>(), new Vector2(4, 0));
-            Dust.NewDustPerfect(hitbox.TopRight(), ModContent.DustType<Dusts.Purify2>(), new Vector2(0, 8));
-            Dust.NewDustPerfect(hitbox.BottomLeft(), ModContent.DustType<Dusts.Purify2>(), new Vector2(0, -8));
-            Dust.NewDustPerfect(hitbox.BottomRight(), ModContent.DustType<Dusts.Purify2>(), new Vector2(-4, 0));
+
+            float rot = Main.rand.NextFloat(6.28f);
+            Vector2 off = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) * 3.5f);
+
+            Dust.NewDustPerfect(hitbox.Center.ToVector2() + (off * 30) - Vector2.One * 4, ModContent.DustType<Dusts.VitricBossTell>(), 
+                Vector2.Normalize(off).RotatedBy(1.58f) * -5, 0, new Color(100, 30, 175) * 0.9f, 1.2f);
+
+            Dust.NewDustPerfect(hitbox.Center.ToVector2() + (off * 30) - Vector2.One * 4, ModContent.DustType<Dusts.VitricBossTell>(),
+                Vector2.Normalize(off).RotatedBy(1.58f) * -5, 0, new Color(1, 1, 1), 0.8f);
 
             if (activeCraft == null)
             {
@@ -137,8 +153,12 @@ namespace StarlightRiver.Tiles.Rift
                 if (spawnCooldown > 0) spawnCooldown--;
                 if (spawnCooldown == 0)
                 {
-                    int i = NPC.NewNPC((int)pos.X, (int)pos.Y, activeCraft.SpawnPool[Main.rand.Next(0, activeCraft.SpawnPool.Count)]);
+                    int i = NPC.NewNPC((int)pos.X + Main.rand.Next(-400, 400), (int)pos.Y + Main.rand.Next(-400, 400), activeCraft.SpawnPool[Main.rand.Next(0, activeCraft.SpawnPool.Count)]);
                     Main.npc[i].GetGlobalNPC<RiftNPC>().parent = this;
+                    for(int k = 0; k <= 50; k++)
+                    {
+                        Dust.NewDustPerfect(Main.npc[i].Center, ModContent.DustType<Dusts.Darkness>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10));
+                    }
 
                     spawnCooldown = 180 - activeCraft.Tier * 15;
                 }
@@ -309,9 +329,10 @@ namespace StarlightRiver.Tiles.Rift
         {
             if (parent != null)
             {
-                drawColor = Color.Black * 0.6f;
+                drawColor = new Color(100, 0, 200) * 0.5f;
                 Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Darkness>());
             }
+            base.DrawEffects(npc, ref drawColor);
         }
 
         public override bool PreNPCLoot(NPC npc)

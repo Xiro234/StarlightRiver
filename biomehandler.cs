@@ -26,13 +26,17 @@ namespace StarlightRiver
         public bool ZoneJungleCorrupt = false;
         public bool ZoneJungleBloody = false;
         public bool ZoneJungleHoly = false;
+        public bool ZoneOvergrow = false;
         public override void UpdateBiomes()
         {
-            ZoneGlass = (player.Hitbox.Intersects(LegendWorld.VitricBiome));
+            ZoneGlass = LegendWorld.vitricBiome.Contains((player.Center / 16).ToPoint());
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
             ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
             ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);
             ZoneJungleHoly = (LegendWorld.holyJungleTiles > 50);
+            ZoneOvergrow = Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>() ||
+                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>() ||
+                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>();
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -44,6 +48,7 @@ namespace StarlightRiver
             allMatch &= ZoneJungleCorrupt == modOther.ZoneJungleCorrupt;
             allMatch &= ZoneJungleBloody == modOther.ZoneJungleBloody;
             allMatch &= ZoneJungleHoly == modOther.ZoneJungleHoly;
+            allMatch &= ZoneOvergrow == modOther.ZoneOvergrow;
             return allMatch;
         }
 
@@ -55,6 +60,7 @@ namespace StarlightRiver
             modOther.ZoneJungleCorrupt = ZoneJungleCorrupt;
             modOther.ZoneJungleBloody = ZoneJungleBloody;
             modOther.ZoneJungleHoly = ZoneJungleHoly;
+            modOther.ZoneOvergrow = ZoneOvergrow;
         }
 
         public override void SendCustomBiomes(BinaryWriter writer)
@@ -65,6 +71,7 @@ namespace StarlightRiver
             flags[2] = ZoneJungleCorrupt;
             flags[3] = ZoneJungleBloody;
             flags[4] = ZoneJungleHoly;
+            flags[5] = ZoneOvergrow;
             writer.Write(flags);
         }
 
@@ -76,13 +83,22 @@ namespace StarlightRiver
             ZoneJungleCorrupt = flags[2];
             ZoneJungleBloody = flags[3];
             ZoneJungleHoly = flags[4];
+            ZoneOvergrow = flags[5];
         }
 
         public override void PreUpdate()
         {
+            float distance = Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation);
+            if (distance <= 1500)
+            {
+                float val = (1500 / distance - 1) * 2;
+                if (val <= 1) val = 1;
+                if (val >= 2.5f) val = 2.5f;
+                Lighting.brightness = 1 / val;
+            }
+
             if (ZoneVoidPre)
             {
-                Overlay.visible = true;
                 Overlay.state = 1;
 
                 if (player.GetModPlayer<AbilityHandler>().pure.Locked)
@@ -92,22 +108,19 @@ namespace StarlightRiver
             }
             else if (ZoneJungleCorrupt)
             {
-                Overlay.visible = true;
                 Overlay.state = 2;
             }
             else if (ZoneJungleBloody)
             {
-                Overlay.visible = true;
                 Overlay.state = 3;
             }
             else if (ZoneJungleHoly)
             {
-                Overlay.visible = true;
                 Overlay.state = 4;
             }
-            else
+            else if (ZoneOvergrow)
             {
-                Overlay.visible = false;
+                Overlay.state = (int)OverlayState.Overgrow;
             }
 
             //Codex Unlocks
@@ -153,6 +166,12 @@ namespace StarlightRiver
             {
                 tileColor = tileColor.MultiplyRGB(new Color(70, 150, 165));
                 backgroundColor = backgroundColor.MultiplyRGB(new Color(70, 150, 165));
+            }
+
+            if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
+            {
+                tileColor = tileColor.MultiplyRGB(Color.Purple);
+                backgroundColor = backgroundColor.MultiplyRGB(Color.Purple);
             }
 
             if (LegendWorld.starfall)

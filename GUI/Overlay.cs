@@ -12,9 +12,17 @@ using Terraria.UI;
 
 namespace StarlightRiver.GUI
 {
+    public enum OverlayState : int
+    {
+        Rift = 1,
+        CorruptJungle = 2,
+        BloodyJungle = 3,
+        HolyJungle = 4,
+        Overgrow = 5
+    }
     public class Overlay : UIState
     {
-        public static bool visible = false;
+        public static bool visible = true;
         public static int state = 0;
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -26,62 +34,32 @@ namespace StarlightRiver.GUI
         internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
         public override void Update(GameTime gameTime)
         {
-            Bootlegdust.ForEach(VoidDust => VoidDust.Update());
-            Bootlegdust.RemoveAll(VoidDust => VoidDust.time <= 0);
+            BiomeHandler player = Main.LocalPlayer.GetModPlayer<BiomeHandler>();
+            Bootlegdust.ForEach(dust => dust.Update());
+            Bootlegdust.RemoveAll(dust => dust.time <= 0);
 
             if (visible)
             {
-                if (state == 1)
+                if(!(player.ZoneVoidPre || player.ZoneJungleCorrupt || player.ZoneJungleBloody || player.ZoneJungleHoly || player.ZoneOvergrow))
                 {
-                    if (!Main.LocalPlayer.GetModPlayer<AbilityHandler>().pure.Locked)
+                    state = 0;
+                }
+
+                if (state == (int)OverlayState.Rift)
+                {
+                    for (int k = 0; k <= Main.screenHeight; k++)
                     {
-                        for (int k = 0; k <= Main.screenWidth; k++)
+                        if (k % Main.rand.Next(3, 13) == 0 && Main.rand.Next(30) == 0)
                         {
-                            if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
-                            {
-                                VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, -10), new Vector2(0, 2));
-                                VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -2));
-                                Bootlegdust.Add(dus);
-                                Bootlegdust.Add(dus2);
-                            }
-                        }
-                        for (int k = 0; k <= Main.screenHeight; k++)
-                        {
-                            if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(4) == 0)
-                            {
-                                VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(-15, k), new Vector2(2, 0));
-                                VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-2, 0));
-                                Bootlegdust.Add(dus);
-                                Bootlegdust.Add(dus2);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int k = 0; k <= Main.screenWidth; k++)
-                        {
-                            if (k % Main.rand.Next(3, 13) == 0 && Main.rand.Next(4) == 0)
-                            {
-                                VoidDust2 dus = new VoidDust2(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, -10), new Vector2(0, 2));
-                                VoidDust2 dus2 = new VoidDust2(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(k, Main.screenHeight), new Vector2(0, -2));
-                                Bootlegdust.Add(dus);
-                                Bootlegdust.Add(dus2);
-                            }
-                        }
-                        for (int k = 0; k <= Main.screenHeight; k++)
-                        {
-                            if (k % Main.rand.Next(3, 13) == 0 && Main.rand.Next(4) == 0)
-                            {
-                                VoidDust2 dus = new VoidDust2(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(-15, k), new Vector2(2, 0));
-                                VoidDust2 dus2 = new VoidDust2(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-2, 0));
-                                Bootlegdust.Add(dus);
-                                Bootlegdust.Add(dus2);
-                            }
+                            VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(-15, k), new Vector2(Main.rand.NextFloat(1, 2), 0));
+                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-Main.rand.NextFloat(1, 2), 0));
+                            Bootlegdust.Add(dus);
+                            Bootlegdust.Add(dus2);
                         }
                     }
                 }
 
-                if (state == 2)
+                if (state == (int)OverlayState.CorruptJungle)
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
@@ -93,7 +71,7 @@ namespace StarlightRiver.GUI
                     }
                 }
 
-                if (state == 3)
+                if (state == (int)OverlayState.BloodyJungle)
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
@@ -105,7 +83,7 @@ namespace StarlightRiver.GUI
                     }
                 }
 
-                if (state == 4)
+                if (state == (int)OverlayState.HolyJungle)
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
@@ -116,21 +94,18 @@ namespace StarlightRiver.GUI
                         }
                     }
                 }
-            }
-            if 
-                (
-                !Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre &&
-                !Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt &&
-                !Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody &&
-                !Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly
-                )
-            {
-                Bootlegdust.Clear();
-            }
 
-            if(state == 0)
-            {
-                Bootlegdust.Clear();
+                if (state == (int)OverlayState.Overgrow)
+                {
+                    for (int k = 0; k <= Main.screenWidth; k++)
+                    {
+                        if (k % Main.rand.Next(20, 40) == 0 && Main.rand.Next(550) == 0)
+                        {
+                            HolyDust dus = new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Holy"), new Vector2(k, Main.rand.Next(Main.screenHeight)), Vector2.Zero);
+                            Bootlegdust.Add(dus);
+                        }
+                    }
+                }
             }
         }
     }
@@ -138,22 +113,7 @@ namespace StarlightRiver.GUI
     public class VoidDust : BootlegDust
     {
         public VoidDust(Texture2D texture, Vector2 position, Vector2 velocity) :
-            base(texture, position, velocity, Color.Black, 8f, 80)
-        {
-        }
-
-        public override void Update()
-        {
-            col *= 0.98f;
-            pos += vel;
-            scl *= 0.97f;
-            time--;
-        }
-    }
-    public class VoidDust2 : BootlegDust
-    {
-        public VoidDust2(Texture2D texture, Vector2 position, Vector2 velocity) :
-            base(texture, position, velocity, Color.Black, 8f, 160)
+            base(texture, position, velocity, Color.Black, Main.rand.NextFloat(1, 10), 140)
         {
         }
 
@@ -163,9 +123,9 @@ namespace StarlightRiver.GUI
             pos += vel;
             scl *= 0.99f;
             time--;
-
         }
     }
+
     public class EvilDust : BootlegDust
     {
         public EvilDust(Texture2D texture, Vector2 position, Vector2 velocity) :
