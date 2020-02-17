@@ -70,7 +70,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
             if (tile.frameX == 0 && tile.frameY == 0)
             {
-                Vector2 pos = (new Vector2(i + 12, j + 12) * 16) + new Vector2(8, -28) - Main.screenPosition;
+                Vector2 pos = ((new Vector2(i, j) + Helper.TileAdj) * 16) + new Vector2(8, -28) - Main.screenPosition;
                 int charge = (int)(entity.charge / 5000f * 32f);
 
                 spriteBatch.End();

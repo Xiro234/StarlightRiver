@@ -37,7 +37,7 @@ namespace StarlightRiver.Tiles.StarJuice
             if (Main.tile[i, j + 2].type == ModContent.TileType<CrystalBlock>() && Main.tile[i, j].frameY == 0)
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/StarJuice/SiphonGlow");
-                spriteBatch.Draw(tex, new Vector2(i + 12, j + 12) * 16 + new Vector2(8, 12) - Main.screenPosition, tex.Frame(), Color.White * 0.8f, 0, tex.Frame().Size() / 2, 1.2f, 0, 0);
+                spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16 + new Vector2(8, 12) - Main.screenPosition, tex.Frame(), Color.White * 0.8f, 0, tex.Frame().Size() / 2, 1.2f, 0, 0);
             }
         }
     }

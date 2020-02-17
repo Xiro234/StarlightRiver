@@ -160,6 +160,11 @@ namespace StarlightRiver
             {
                 NPC.NewNPC((int)BookSP.X, (int)BookSP.Y, ModContent.NPCType<NPCs.Pickups.Lore>());
             }
+
+            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wisp>() && n.active == true))
+            {
+                NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, ModContent.NPCType<NPCs.Pickups.Wisp>());
+            }
         }
 
         public override void Initialize()

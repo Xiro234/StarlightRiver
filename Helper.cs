@@ -15,6 +15,8 @@ namespace StarlightRiver
         /// Kills the NPC.
         /// </summary>
         /// <param name="npc"></param>
+
+        public static Vector2 TileAdj { get  =>  Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; }
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC != null && !npc.modNPC.CheckDead();
@@ -112,6 +114,12 @@ namespace StarlightRiver
                     Dust.NewDustPerfect(Vector2.Lerp(prevPos, nodes[k], i), ModContent.DustType<Dusts.Electric>(), Vector2.Zero);
                 }
             }
+        }
+
+        public static bool HasEquipped(Player player, int ItemID)
+        {
+            for (int k = 3; k < 7 + player.extraAccessorySlots; k++) if (player.armor[k].type == ItemID) return true;
+            return false;
         }
     }
 }

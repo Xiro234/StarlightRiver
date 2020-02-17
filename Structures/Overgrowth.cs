@@ -58,7 +58,8 @@ namespace StarlightRiver.Structures
             EntranceOpening = new Point(y + 3, y + (int)(EntranceDistanceX * 0.4f));
             int aX = x + (EntranceDistanceX * dir);
 
-            GenerateOvergrowRoom(ModContent.GetTexture("StarlightRiver/Structures/WispAltar"), new Point16(aX, EntranceOpening.Y), new Rectangle(0, 0, 34, 21)); 
+            GenerateOvergrowRoom(ModContent.GetTexture("StarlightRiver/Structures/WispAltar"), new Point16(aX, EntranceOpening.Y), new Rectangle(0, 0, 34, 21));
+            LegendWorld.WispSP = new Vector2(aX, EntranceOpening.Y) * 16 + new Vector2(216, 170);
 
             List<Point> roomCentres = new List<Point>();
             List<RoomType> roomTypes = new List<RoomType>();

@@ -27,7 +27,7 @@ namespace StarlightRiver.Projectiles.Dummies
         }
         public override void AI()
         {
-            if (projectile.localAI[0] > 0) { projectile.localAI[0]--; }
+            if (projectile.ai[0] > 0) { projectile.ai[0]--; }
             else if (Main.rand.Next(3) == 0)
             {
                 Dust.NewDust(projectile.position, 16, 16, ModContent.DustType<Dusts.Stamina>());
@@ -37,11 +37,11 @@ namespace StarlightRiver.Projectiles.Dummies
             {
                 AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-                if (projectile.Hitbox.Intersects(player.Hitbox) && mp.StatStamina < mp.StatStaminaMax && mp.Abilities.Any(a => a.Active) && projectile.localAI[0] == 0)
+                if (projectile.Hitbox.Intersects(player.Hitbox) && mp.StatStamina < mp.StatStaminaMax && mp.Abilities.Any(a => a.Active) && projectile.ai[0] == 0)
                 {
                     mp.StatStamina++;
                     if (mp.wisp.Active) { mp.wisp.Timer = 60 * mp.StatStamina - 1; }
-                    projectile.localAI[0] = 300;
+                    projectile.ai[0] = 300;
 
                     Main.PlaySound(SoundID.Shatter, projectile.Center);
                     Main.PlaySound(SoundID.Item112, projectile.Center);

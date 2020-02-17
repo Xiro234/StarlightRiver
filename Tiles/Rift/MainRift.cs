@@ -38,17 +38,8 @@ namespace StarlightRiver.Tiles.Rift
             Texture2D riftTex = ModContent.GetTexture("StarlightRiver/Tiles/Rift/Rift");
             Color color = new Color(50, 10, 120);
 
-            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), color * 0.4f, 0, riftTex.Size() / 2,
+            spriteBatch.Draw(riftTex, (new Vector2(i, j) + Helper.TileAdj) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), color * 0.4f, 0, riftTex.Size() / 2,
                 0.7f + (float)Math.Sin(LegendWorld.rottime + 2) * 0.04f, 0, 0);
-
-            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), color * 0.3f, 0, riftTex.Size() / 2,
-                0.8f + (float)Math.Sin(LegendWorld.rottime + 4) * 0.04f, 0, 0);
-
-            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), color * 0.1f, 0, riftTex.Size() / 2,
-                0.9f + (float)Math.Sin(LegendWorld.rottime + 4) * 0.04f, 0, 0);
-
-            spriteBatch.Draw(riftTex, new Vector2(i + 12, j + 12) * 16 + Vector2.One * 4 - Main.screenPosition, riftTex.Frame(), Color.Black, 0, riftTex.Size() / 2,
-                0.6f + (float)Math.Sin(LegendWorld.rottime) * 0.02f, 0, 0);
 
             int index = ModContent.GetInstance<RiftEntity>().Find(i, j);
             if (index == -1) return true;           
@@ -59,7 +50,7 @@ namespace StarlightRiver.Tiles.Rift
                 int maxItems = entity.inventory.Count;
                 Item item = entity.inventory[k];
                 Texture2D tex = (item.modItem != null) ? ModContent.GetTexture(item.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + item.type);
-                Vector2 pos = new Vector2(i, j) * 16 + Vector2.One * 8 + new Vector2(0, -128).RotatedBy(k / (float)maxItems * 6.28f) - Main.screenPosition + Vector2.One * 12 * 16;
+                Vector2 pos = new Vector2(i, j) * 16 + Vector2.One * 8 + new Vector2(0, -128).RotatedBy(k / (float)maxItems * 6.28f) - Main.screenPosition + Helper.TileAdj * 16;
                 Rectangle frame = Main.itemAnimations[item.type] != null ? Main.itemAnimations[item.type].GetFrame(tex) : tex.Frame();
 
                 spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, frame.Width, frame.Height), frame, Color.White * 0.6f, (float)Math.Sin(LegendWorld.rottime) * 0.15f, frame.Size() / 2, 0, 0);
@@ -68,7 +59,7 @@ namespace StarlightRiver.Tiles.Rift
             if(entity.timer > 0)
             {
                 Utils.DrawBorderString(spriteBatch, (entity.timer / 60).ToString(),
-                    new Vector2(i, j) * 16 - new Vector2(Main.fontMouseText.MeasureString((entity.timer / 60).ToString()).X / 2, 0) - Main.screenPosition + Vector2.One * 12 * 16, Color.White);
+                    new Vector2(i, j) * 16 - new Vector2(Main.fontMouseText.MeasureString((entity.timer / 60).ToString()).X / 2, 0) - Main.screenPosition + Helper.TileAdj * 16, Color.White);
             }
             
             return true;

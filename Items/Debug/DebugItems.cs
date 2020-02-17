@@ -183,7 +183,7 @@ namespace StarlightRiver.Items.Debug
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.Overgrow.ZapperTile>(), 0) { }
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.Overgrow.SetpieceAltar>(), 0) { }
     }
     public class DebugPlacer2 : QuickTileItem
     {
@@ -217,6 +217,8 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            Main.NewText(LegendWorld.WispSP + "/" + player.Center);
+            Main.LocalPlayer.GetModPlayer<AbilityHandler>().wisp.Locked = true;
             return true;
         }
     }
@@ -231,7 +233,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>();
+            item.createTile = ModContent.TileType<Tiles.Overgrow.BossWindow>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";

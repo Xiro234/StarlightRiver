@@ -36,10 +36,11 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-           if(i % 7 == 0 && j % 9 == 0)
+            Random rand = new Random(i * j * j);
+           if(rand.Next(30) == 0 && i != 1 && j != 1)
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/MarioCumming");
-                spriteBatch.Draw(tex, (Vector2.One * 12 + new Vector2(i, j)) * 16 + Vector2.One * 8 - Main.screenPosition, tex.Frame(), Lighting.GetColor(i, j), i % 10 / 1.58f, tex.Frame().Size() / 2, 1, 0, 0);
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Blob");
+                spriteBatch.Draw(tex, (Helper.TileAdj + new Vector2(i, j)) * 16 + Vector2.One * 8 - Main.screenPosition, new Rectangle(rand.Next(4) * 40, 0, 40, 50), Lighting.GetColor(i, j), 0, new Vector2(20, 25), 1, 0, 0);
             }
         }
     }
@@ -51,7 +52,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
-            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
             minPick = 210;
@@ -71,6 +72,11 @@ namespace StarlightRiver.Tiles.Overgrow
                     frame = 0;
                 }
             }
+        }
+
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            frameYOffset = 270 * (( j + Main.tileFrame[type]) % 6);   
         }
     }
     class LeafOvergrow : ModTile
@@ -149,7 +155,7 @@ namespace StarlightRiver.Tiles.Overgrow
                 else { break; }
             }
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow"), 
-                new Vector2(i + 12, j + 12) * 16 - Main.screenPosition + new Vector2((float) (1 + Math.Cos(rot * 2) + Math.Sin(rot)) * sway * sway, 0),
+                (new Vector2(i, j)  + Helper.TileAdj) * 16 - Main.screenPosition + new Vector2((float) (1 + Math.Cos(rot * 2) + Math.Sin(rot)) * sway * sway, 0),
                 new Rectangle(Main.tile[i, j + 1].type != ModContent.TileType<VineOvergrow>() ? 32 : j % 2 * 16, 0, 16, 16), Lighting.GetColor(i, j));
             return false;
         }
@@ -181,7 +187,9 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle(((i + 12) * 16) - (int)Main.screenPosition.X + 8, ((j + 13) * 16) - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle((i % 2) * 16, 0, 16, 16), drawColor, (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.25f, new Vector2(8, 16), 0, 0);
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle(((i + (int)Helper.TileAdj.X) * 16) - (int)Main.screenPosition.X + 8, 
+                ((j + (int)Helper.TileAdj.Y + 1) * 16) - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle((i % 2) * 16, 0, 16, 16), drawColor, (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.25f, 
+                new Vector2(8, 16), 0, 0);
         }
     }
 }

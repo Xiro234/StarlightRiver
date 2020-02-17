@@ -18,9 +18,8 @@ namespace StarlightRiver.Structures
         {
             progress.Message = "DebugAltar...";
 
-            Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/WispAltar");
-            Vector2 spawn = new Vector2(Main.spawnTileX, Main.spawnTileY - 100);
-            LegendWorld.WispSP = spawn * 16 + new Vector2(216, 170);
+            Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/OvergrowBossRoom");
+            Vector2 spawn = new Vector2(Main.spawnTileX, Main.spawnTileY + 300);
 
             for (int y = 0; y < Altar.Height; y++) // for every row
             {
@@ -37,18 +36,13 @@ namespace StarlightRiver.Structures
                     ushort wallType = 0;
                     switch (rawData[x].R) //select block
                     {
-                        case 10: placeType = TileID.Dirt; break;
-                        case 20: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>(); break;
-                        case 30: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.GrassOvergrow>(); break;
-                        case 40: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.GlowBrickOvergrow>(); break;
-                        case 50: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.LeafOvergrow>(); break;
-                        case 60: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.BigHatchOvergrow>(); break;
-                        case 70: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.VineOvergrow>(); break;
+                        case 10: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>(); break;
+                        case 20: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.BossWindow>(); break;
                     }
                     switch (rawData[x].B) //select wall
                     {
                         case 10: wallType = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>(); break;
-                        case 20: wallType = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>(); break;
+                        case 20: wallType = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>(); break;
                     }
                     switch (rawData[x].G)
                     {

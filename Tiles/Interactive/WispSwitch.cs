@@ -50,7 +50,7 @@ namespace StarlightRiver.Tiles.Interactive
                 WispSwitchEntity altarentity = (WispSwitchEntity)TileEntity.ByID[index];
 
                 int timer = altarentity.timer;
-                Vector2 pos = new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition;
+                Vector2 pos = (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition;
                 Color color = Color.White * (0.2f + (timer / 300f * 0.8f));
 
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchReal"), pos, Lighting.GetColor(i, j));
