@@ -137,11 +137,12 @@ namespace StarlightRiver.Items.Debug
             item.maxStack = 999;
             item.useTurn = true;
             item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
+            item.useAnimation = 2;
+            item.useTime = 1;
             item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Void.Seal>();
+            //item.consumable = true;
+            item.autoReuse = true;
+            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
         }
     }
     public class FleshPlacer : ModItem
@@ -246,6 +247,7 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             LegendWorld.SealOpen = false;
+            NPC.NewNPC((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, ModContent.NPCType<NPCs.Hostile.OvergrowNightmare>());
             return true;
         }
     }

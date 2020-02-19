@@ -650,7 +650,7 @@ namespace StarlightRiver
 
         private void NoClickCurse(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
-            if(inv[slot].modItem is CursedAccessory && context == 10)
+            if((inv[slot].modItem is CursedAccessory || inv[slot].modItem is Blocker) && context == 10)
             {
                 return;
             }
@@ -658,16 +658,24 @@ namespace StarlightRiver
         }
 
         private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
-        {
+        {           
             Player player = Main.player[Main.myPlayer];
             for (int i = 0; i < player.armor.Length; i++)
             {
-                if (player.armor[i].modItem is CursedAccessory && ItemSlot.ShiftInUse && inv[slot].accessory)
+                if ((player.armor[i].modItem is CursedAccessory || player.armor[i].modItem is Blocker) && ItemSlot.ShiftInUse && inv[slot].accessory)
                 {
                     return;
                 }              
             }
+
+            if (inv == player.armor)
+            {
+                Item swaptarget = player.armor[slot - 10 + player.extraAccessorySlots];
+                if (context == 11 && (swaptarget.modItem is CursedAccessory || swaptarget.modItem is Blocker || swaptarget.modItem is InfectedAccessory)) return;
+            }
+
             orig(inv, context, slot);
+           
         }
 
         private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Terraria.Item[] inv, int context, int slot, Vector2 position, Color color)
@@ -675,6 +683,13 @@ namespace StarlightRiver
             if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is BlessedAccessory) && context == 10)
             {
                 Texture2D back = inv[slot].modItem is CursedAccessory ? ModContent.GetTexture("StarlightRiver/GUI/CursedBack") : ModContent.GetTexture("StarlightRiver/GUI/BlessedBack");
+                Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
+                sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
+                RedrawItem(sb, inv, back, position, slot, color);
+            }
+            else if (inv[slot].modItem is InfectedAccessory || inv[slot].modItem is Blocker && context == 10)
+            {
+                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/ProtoBack");
                 Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
                 sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
                 RedrawItem(sb, inv, back, position, slot, color);
