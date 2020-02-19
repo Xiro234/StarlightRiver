@@ -669,8 +669,9 @@ namespace StarlightRiver
             }
 
             if (inv == player.armor)
-            {
-                Item swaptarget = player.armor[slot - 10 + player.extraAccessorySlots];
+            {               
+                Item swaptarget = player.armor[slot - 10];
+                Main.NewText(swaptarget + "  /  " + slot);
                 if (context == 11 && (swaptarget.modItem is CursedAccessory || swaptarget.modItem is Blocker || swaptarget.modItem is InfectedAccessory)) return;
             }
 
@@ -687,9 +688,9 @@ namespace StarlightRiver
                 sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
                 RedrawItem(sb, inv, back, position, slot, color);
             }
-            else if (inv[slot].modItem is InfectedAccessory || inv[slot].modItem is Blocker && context == 10)
+            else if ((inv[slot].modItem is InfectedAccessory || inv[slot].modItem is Blocker) && context == 10)
             {
-                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/ProtoBack");
+                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/InfectedBack");
                 Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
                 sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
                 RedrawItem(sb, inv, back, position, slot, color);

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader.IO;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
@@ -30,6 +31,23 @@ namespace StarlightRiver.Items.CursedAccessories
             player.armor[slot - 1] = blocker;
             return true;
         }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            TooltipLine line = new TooltipLine(mod, "StarlightRiverInfectedWarning", "Infected! Requires 2 accessory slots");
+            line.overrideColor = new Color(100, 160, 120);
+            tooltips.Add(line);
+        }
+        public virtual bool SafePreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) { return true; }
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (Main.LocalPlayer.armor.Any(n => n == item))
+            {
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/InfectedGoop");
+                spriteBatch.Draw(tex, position + new Vector2(-10, -35), tex.Frame(), Color.White);
+            }
+
+            return SafePreDrawInInventory(spriteBatch, position, frame, drawColor, itemColor, origin, scale);
+        }
     }
 
     class Blocker : ModItem
@@ -39,6 +57,10 @@ namespace StarlightRiver.Items.CursedAccessories
         public override void SetDefaults()
         {
             item.accessory = true;
+        }
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            tooltips.Clear();
         }
         public override void UpdateEquip(Player player)
         {
