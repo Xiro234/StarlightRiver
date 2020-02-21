@@ -8,7 +8,7 @@ namespace StarlightRiver.Backgrounds
     {
         public override bool ChooseBgStyle()
         {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass;
+            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().GlassBG;
         }
         public override void FillTextureArray(int[] textureSlots)
         {
