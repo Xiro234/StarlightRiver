@@ -23,7 +23,6 @@ namespace StarlightRiver.Items.CursedAccessories
         }
         public override void UpdateEquip(Player player)
         {
-            Main.NewText("You came in your pants!");
         }
     }
 }

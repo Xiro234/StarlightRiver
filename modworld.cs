@@ -11,6 +11,7 @@ using Terraria.ModLoader.IO;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using StarlightRiver.Structures;
+using StarlightRiver.Keys;
 
 namespace StarlightRiver
 {
@@ -39,6 +40,10 @@ namespace StarlightRiver
         public static List<Vector2> PureTiles = new List<Vector2> { };
 
         public static Rectangle vitricBiome = new Rectangle();
+
+        //Handling Keys
+        public static List<Key> Keys = new List<Key>();
+        public static List<Key> KeyInventory = new List<Key>();
                      
         
         private void EbonyGen(GenerationProgress progress)
@@ -165,6 +170,12 @@ namespace StarlightRiver
             {
                 NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, ModContent.NPCType<NPCs.Pickups.Wisp>());
             }
+
+            //Keys
+            foreach(Key key in Keys)
+            {
+                key.Update();
+            }
         }
 
         public override void Initialize()
@@ -258,6 +269,11 @@ namespace StarlightRiver
             }
             PureTiles.Clear();
             PureTiles = new List<Vector2> { };
+
+            foreach(Key key in KeyInventory)
+            {
+                GUI.KeyInventory.keys.Add(new GUI.KeyIcon(key, false));
+            }
         }   
     }
 }

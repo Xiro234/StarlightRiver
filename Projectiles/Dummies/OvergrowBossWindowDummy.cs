@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    class OvergrowBossWindowDummy : ModProjectile
+    class OvergrowBossWindowDummy : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -19,35 +19,34 @@ namespace StarlightRiver.Projectiles.Dummies
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.aiStyle = -1;
-            projectile.timeLeft = 2;
-            projectile.tileCollide = false;
+            npc.width = 100;
+            npc.height = 100;
+            npc.knockBackResist = 0;
+            npc.aiStyle = -1;
+            npc.lifeMax = 1;
+            npc.immortal = true;
+            npc.noGravity = true;
+            npc.behindTiles = true;
         }
 
         public override void AI()
         {
-            projectile.timeLeft = 2;
-
             for(float k = 0; k <= 6.28f; k+= 0.2f)
             {
-                Lighting.AddLight(projectile.Center + Vector2.One.RotatedBy(k) * 23 * 16, new Vector3(1, 1, 0.7f));
+                Lighting.AddLight(npc.Center + Vector2.One.RotatedBy(k) * 23 * 16, new Vector3(1, 1, 0.7f));
             }
-        }
-
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-        {
-            drawCacheProjsBehindNPCsAndTiles.Add(index);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 pos = projectile.Center;
+            Vector2 pos = npc.Center;
             Vector2 dpos = pos - Main.screenPosition;
 
             Texture2D frametex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowFrame");
+            Texture2D glasstex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowGlass");
+
             spriteBatch.Draw(frametex, dpos, frametex.Frame(), Color.White, 0, frametex.Frame().Size() / 2, 1, 0, 0);
+            spriteBatch.Draw(glasstex, dpos, glasstex.Frame(), Color.White * 0.2f, 0, glasstex.Frame().Size() / 2, 1, 0, 0);
 
             return false;
         }

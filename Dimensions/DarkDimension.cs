@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using SubworldLibrary;
 
 namespace StarlightRiver.Dimensions
 {

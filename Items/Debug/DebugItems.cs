@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ModLoader;
 using System.IO;
 using Terraria.IO;
-using SubworldLibrary;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -218,8 +217,8 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            Main.NewText(LegendWorld.WispSP + "/" + player.Center);
-            Main.LocalPlayer.GetModPlayer<AbilityHandler>().wisp.Locked = true;
+            GUI.KeyInventory.visible = true;
+            Keys.Key.Spawn<Keys.OvergrowKey>(Main.MouseWorld);
             return true;
         }
     }
@@ -246,8 +245,6 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            LegendWorld.SealOpen = false;
-            NPC.NewNPC((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, ModContent.NPCType<NPCs.Hostile.OvergrowNightmare>());
             return true;
         }
     }
