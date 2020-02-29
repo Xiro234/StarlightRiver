@@ -34,7 +34,8 @@ namespace StarlightRiver.Tiles.Overgrow
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Random rand = new Random(i * j * j);
-            if (rand.Next(30) == 0 && i != 1 && j != 1)
+            Tile tile = Main.tile[i, j];
+            if (rand.Next(30) == 0 && i != 1 && j != 1 && tile.frameX > 10 && tile.frameX < 70 && tile.frameY == 18)
             {
                 Main.specX[nextSpecialDrawIndex] = i;
                 Main.specY[nextSpecialDrawIndex] = j;
@@ -43,12 +44,8 @@ namespace StarlightRiver.Tiles.Overgrow
         }
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Random rand = new Random(i * j * j);
-            if (rand.Next(30) == 0 && i != 1 && j != 1)
-            {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Blob");
-                spriteBatch.Draw(tex, (Helper.TileAdj + new Vector2(i, j)) * 16 + Vector2.One * 8 - Main.screenPosition, new Rectangle(rand.Next(4) * 40, 0, 40, 50), Lighting.GetColor(i, j), 0, new Vector2(20, 25), 1, 0, 0);
-            }
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Blob");
+            spriteBatch.Draw(tex, (Helper.TileAdj + new Vector2(i, j)) * 16 + Vector2.One * 8 - Main.screenPosition, new Rectangle(i * j % 4 * 40, 0, 40, 50), Lighting.GetColor(i, j), 0, new Vector2(20, 25), 1, 0, 0);
         }
     }
     class GlowBrickOvergrow : ModTile
@@ -137,12 +134,12 @@ namespace StarlightRiver.Tiles.Overgrow
             Color color = Lighting.GetColor(i, j);
 
             Vector2 crunch = new Vector2(0, -5);
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 - 8, j * 16 - 1, 16, 1)))) crunch.Y += 2;
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 8, 1)))) crunch.Y += 3;
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 - 8, j * 16 - 1, 16, 1)))) crunch.Y += 1;
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 8, 1)))) crunch.Y += 2;
 
             Vector2 crunch2 = new Vector2(0, -4);
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 16, 1)))) crunch2.Y += 2;
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 8, 1)))) crunch2.Y += 3;
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 16, 1)))) crunch2.Y += 1;
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 8, 1)))) crunch2.Y += 2;
 
 
             if (tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0)
@@ -218,7 +215,6 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            Main.NewText("PENIS");
         }
     }
 

@@ -246,7 +246,7 @@ namespace StarlightRiver
             if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow)
             {
                 int direction = Main.dungeonX > Main.spawnTileX ? -1 : 1;
-                if (Main.rand.Next(7) == 0)
+                if (Main.rand.Next(9) == 0)
                     for (int k = 0; k < 10; k++)
                     {
                         foregroundDusts.Add(new OvergrowForegroundDust(direction * 800 * k + Main.rand.Next(80), 1.4f, new Vector2(0, -Main.rand.NextFloat(2.5f, 3)), Color.White * 0.005f, Main.rand.NextFloat(1, 2)));

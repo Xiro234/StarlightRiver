@@ -236,7 +236,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createTile = ModContent.TileType<Tiles.Overgrow.OvergrowLock>();
+            item.createTile = ModContent.TileType<Tiles.Overgrow.BulbFruit>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
