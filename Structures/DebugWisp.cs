@@ -25,7 +25,7 @@ namespace StarlightRiver.Structures
             {
                 Color[] rawData = new Color[Altar.Width]; //array of colors
                 Rectangle row = new Rectangle(0, y, Altar.Width, 1); //one row of the image
-                Altar.GetData<Color>(0, row, rawData, 0, Altar.Width); //put the color data from the image into the array
+                Altar.GetData(0, row, rawData, 0, Altar.Width); //put the color data from the image into the array
 
                 for (int x = 0; x < Altar.Width; x++) //every entry in the row
                 {

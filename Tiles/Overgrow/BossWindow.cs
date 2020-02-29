@@ -7,6 +7,7 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using MonoMod.Cil;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -23,16 +24,6 @@ namespace StarlightRiver.Tiles.Overgrow
             {
                 NPC.NewNPC(i * 16 + 8, j * 16 + 72, ModContent.NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>());
             }
-        }
-
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            Vector2 pos = new Vector2(i + 0.5f, j + 0.5f) * 16;
-            Vector2 drawpos = (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition;
-
-            Texture2D frametex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowFrame");
-            //spriteBatch.Draw(frametex, drawpos, frametex.Frame(), Color.White, 0, frametex.Frame().Size() / 2, 1, 0, 0);
-            return false;
         }
     }
 }

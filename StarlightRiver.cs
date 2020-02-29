@@ -185,8 +185,8 @@ namespace StarlightRiver
             On.Terraria.Main.drawWaters += DrawUnderwaterNPCs;
             //Keys
             On.Terraria.Main.DrawItems += DrawKeys;
-            //Leaf Blobs
-            On.Terraria.Main.DrawTiles += TruePostdrawTiles;
+            //Tile draws infront of the player
+            On.Terraria.Main.DrawPlayer += PostDrawPlayer;
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
             //Menu themes
@@ -196,6 +196,19 @@ namespace StarlightRiver
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
             //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
             IL.Terraria.Main.DoDraw += DrawWindow;
+        }
+
+        private void PostDrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
+        {
+            orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
+            for (int i = (int)Main.screenPosition.X / 16; i < (int)Main.screenPosition.X / 16 + Main.screenWidth / 16; i++)
+                for (int j = (int)Main.screenPosition.Y / 16; j < (int)Main.screenPosition.Y / 16 + Main.screenWidth / 16; j++)
+                {
+                    if (i >  0 && j > 0 && i < Main.maxTilesX && j < Main.maxTilesY && Main.tile[i, j] != null && Main.tile[i, j].type == ModContent.TileType<Tiles.Overgrow.GrassOvergrow>())
+                    {
+                        (ModContent.GetModTile(ModContent.TileType<Tiles.Overgrow.GrassOvergrow>()) as Tiles.Overgrow.GrassOvergrow).CustomDraw(i, j, Main.spriteBatch);
+                    }
+                }
         }
 
         private void DrawKeys(On.Terraria.Main.orig_DrawItems orig, Main self)
@@ -244,19 +257,6 @@ namespace StarlightRiver
             else foreach (BootlegDust dus in foregroundDusts) (dus as OvergrowForegroundDust).fadein = 101;
                     Main.spriteBatch.End();
             orig(self, gameTime);
-        }
-
-        private void TruePostdrawTiles(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidOnly, int waterStyleOverride)
-        {
-            orig(self, solidOnly, waterStyleOverride);
-            for(int i = (int)Main.screenPosition.X / 16; i < (int)Main.screenPosition.X / 16 + Main.screenWidth / 16; i++)
-                for (int j = (int)Main.screenPosition.Y / 16; j < (int)Main.screenPosition.Y / 16 + Main.screenWidth / 16; j++)
-                {
-                if (Main.tile[i, j] != null && Main.tile[i, j].type == ModContent.TileType<Tiles.Overgrow.BrickOvergrow>())
-                {
-                    ModContent.GetModTile(ModContent.TileType<Tiles.Overgrow.BrickOvergrow>()).PostDraw(i, j, Main.spriteBatch);
-                }
-            }
         }
 
         internal static readonly List<BootlegDust> MenuDust = new List<BootlegDust>();

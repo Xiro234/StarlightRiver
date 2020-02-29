@@ -206,7 +206,8 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createTile = ModContent.TileType<Tiles.Vitric.VitricBossAltar>();
+            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
+            item.autoReuse = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()
@@ -217,8 +218,10 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            GUI.KeyInventory.visible = true;
-            Keys.Key.Spawn<Keys.OvergrowKey>(Main.MouseWorld);
+            foreach (Projectile proj in Main.projectile.Where(p => p.type == ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>()))
+            {
+                proj.ai[1] = 2;
+            }
             return true;
         }
     }
@@ -233,7 +236,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createTile = ModContent.TileType<Tiles.Overgrow.BossWindow>();
+            item.createTile = ModContent.TileType<Tiles.Overgrow.OvergrowLock>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -245,6 +248,11 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            Keys.Key.Spawn<Keys.OvergrowKey>(Main.MouseWorld);
+            foreach (Projectile proj in Main.projectile.Where(p => p.type == ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>()))
+            {
+                proj.ai[1] = 1;
+            }
             return true;
         }
     }

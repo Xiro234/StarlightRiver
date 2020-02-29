@@ -95,7 +95,7 @@ namespace StarlightRiver
             return (sec / 60) + ":" + (sec % 60 < 10 ? "0" + sec % 60 : "" + sec % 60);
         }
 
-        public static void DrawElectricity(Vector2 point1, Vector2 point2)
+        public static void DrawElectricity(Vector2 point1, Vector2 point2, int dusttype, float scale = 1)
         {
             int nodeCount = (int)Vector2.Distance(point1, point2) / 30;
             Vector2[] nodes = new Vector2[nodeCount + 1];
@@ -111,7 +111,7 @@ namespace StarlightRiver
                 Vector2 prevPos = k == 1 ? point1 : nodes[k - 1];
                 for (float i = 0; i < 1; i += 0.05f)
                 {
-                    Dust.NewDustPerfect(Vector2.Lerp(prevPos, nodes[k], i), ModContent.DustType<Dusts.Electric>(), Vector2.Zero);
+                    Dust.NewDustPerfect(Vector2.Lerp(prevPos, nodes[k], i), dusttype, Vector2.Zero, 0, default, scale);
                 }
             }
         }

@@ -1,15 +1,13 @@
 ﻿using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ModLoader;
-using StarlightRiver.Items.Vitric;
-using StarlightRiver.Items.Debug;
 using System;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using System.Linq;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -33,11 +31,20 @@ namespace StarlightRiver.Tiles.Overgrow
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(79, 76, 71));
         }
-
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Random rand = new Random(i * j * j);
-           if(rand.Next(30) == 0 && i != 1 && j != 1)
+            if (rand.Next(30) == 0 && i != 1 && j != 1)
+            {
+                Main.specX[nextSpecialDrawIndex] = i;
+                Main.specY[nextSpecialDrawIndex] = j;
+                nextSpecialDrawIndex++;
+            }
+        }
+        public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Random rand = new Random(i * j * j);
+            if (rand.Next(30) == 0 && i != 1 && j != 1)
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Blob");
                 spriteBatch.Draw(tex, (Helper.TileAdj + new Vector2(i, j)) * 16 + Vector2.One * 8 - Main.screenPosition, new Rectangle(rand.Next(4) * 40, 0, 40, 50), Lighting.GetColor(i, j), 0, new Vector2(20, 25), 1, 0, 0);
@@ -111,6 +118,55 @@ namespace StarlightRiver.Tiles.Overgrow
             TileID.Sets.Grass[Type] = true;
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(202, 157, 49));
+        }
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Tile tile = Main.tile[i, j];
+            if ((tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0) )
+            {
+                Main.specX[nextSpecialDrawIndex] = i;
+                Main.specY[nextSpecialDrawIndex] = j;
+                nextSpecialDrawIndex++;
+            }
+        }
+        public void CustomDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Tile tile = Main.tile[i, j];
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/GrassOvergrowMoss");
+            Rectangle source = new Rectangle(0 + i % 5 * 8, 0, 8, 16);
+            Color color = Lighting.GetColor(i, j);
+
+            Vector2 crunch = new Vector2(0, -5);
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 - 8, j * 16 - 1, 16, 1)))) crunch.Y += 2;
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 8, 1)))) crunch.Y += 3;
+
+            Vector2 crunch2 = new Vector2(0, -4);
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 16, 1)))) crunch2.Y += 2;
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 8, 1)))) crunch2.Y += 3;
+
+
+            if (tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0)
+            {
+                if(Main.tile[i - 1, j].type == Type)
+                    spriteBatch.Draw(tex, new Vector2(i, j) * 16 + crunch - Main.screenPosition, source, color);
+                if (Main.tile[i + 1, j].type == Type)
+                    spriteBatch.Draw(tex, new Vector2(i + 0.5f, j) * 16 + crunch2 - Main.screenPosition, source, color);
+            }
+
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 16, 1)) && n.velocity.X != 0))
+            {
+                Player player = Main.player.FirstOrDefault(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 16, 1)) && n.velocity.X != 0);
+                if (Main.rand.Next(3) == 0)Dust.NewDust(new Vector2(i, j - 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Stamina>(), -player.velocity.X * 0.5f, -2);
+                if(Main.rand.Next(10) == 0)Dust.NewDust(new Vector2(i, j + 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, 0.6f);
+
+                if (player.GetModPlayer<Abilities.AbilityHandler>().dash.Cooldown == 90)
+                {
+                    for (int k = 0; k < 20; k++)
+                    {
+                        Dust.NewDust(new Vector2(i, j + 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, -2);
+                    }
+                }
+            }
         }
 
         public override void RandomUpdate(int i, int j)
