@@ -116,6 +116,24 @@ namespace StarlightRiver
             }
         }
 
+        private static int tiltTime;
+        private static float tiltMax;
+        public static void DoTilt(float intensity) { tiltMax = intensity; tiltTime = 0; }
+        public static void UpdateTilt()
+        {
+            if (Math.Abs(tiltMax) > 0)
+            {
+                tiltTime++;
+                if (tiltTime >= 1 && tiltTime < 40)
+                {
+                    float tilt = tiltMax - tiltTime * tiltMax / 40f;
+                    StarlightRiver.Rotation = tilt * (float)Math.Sin(Math.Pow(tiltTime / 40f * 6.28f, 0.9f));
+                }
+
+                if (tiltTime >= 40) { StarlightRiver.Rotation = 0; tiltMax = 0; }
+            }
+        }
+
         public static bool HasEquipped(Player player, int ItemID)
         {
             for (int k = 3; k < 7 + player.extraAccessorySlots; k++) if (player.armor[k].type == ItemID) return true;

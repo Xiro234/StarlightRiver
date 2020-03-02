@@ -122,7 +122,7 @@ namespace StarlightRiver
             }
 
 
-            if (ZoneOvergrow && Main.rand.Next(3) == 0)
+            if (ZoneOvergrow && Main.rand.Next(5) == 0)
             {
                 Dust.NewDustPerfect(Main.screenPosition - Vector2.One * 100 + new Vector2(Main.rand.Next(Main.screenWidth + 200), Main.rand.Next(Main.screenHeight + 200)),
                 ModContent.DustType<Dusts.OvergrowDust>(), Vector2.Zero, 0, new Color(255, 255, 205) * 0.05f, 2);

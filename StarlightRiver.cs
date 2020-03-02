@@ -22,6 +22,7 @@ using StarlightRiver.Configs;
 using static Terraria.ModLoader.ModContent;
 using StarlightRiver.BootlegDusts;
 using StarlightRiver.Keys;
+using Terraria.Graphics;
 
 namespace StarlightRiver
 {
@@ -52,6 +53,8 @@ namespace StarlightRiver
         public static ModHotKey Purify;
 
         public List<RiftRecipe> RiftRecipes;
+
+        public static float Rotation;
 
         public enum AbilityEnum : int {dash, wisp, purify, smash, superdash };
 
@@ -191,11 +194,17 @@ namespace StarlightRiver
             On.Terraria.Main.DrawInterface += DrawForeground;
             //Menu themes
             On.Terraria.Main.DrawMenu += TestMenu;
-
+            //Tilt
+            On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
             //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
             IL.Terraria.Main.DoDraw += DrawWindow;
+        }
+
+        private bool UpdateMatrixFirst(On.Terraria.Graphics.SpriteViewMatrix.orig_ShouldRebuild orig, Terraria.Graphics.SpriteViewMatrix self)
+        {
+            return false;
         }
 
         private void PostDrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
@@ -395,13 +404,13 @@ namespace StarlightRiver
                 
                 //sun
                 spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
+                spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
 
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
                 spriteBatch.Draw(tex, dpos + FindOffset(pos, 0.5f), tex.Frame(), Color.White * 0.9f, LegendWorld.rottime, tex.Frame().Size() / 2, 10 + (float)Math.Cos(LegendWorld.rottime) * 1.5f, 0, 0);
 
                 spriteBatch.End();
-                spriteBatch.Begin();
+                spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
 
                 for (int k = -5; k < 5; k++)//back row
                 {
@@ -446,6 +455,11 @@ namespace StarlightRiver
                     spriteBatch.Draw(watertex, dpos + new Vector2(300, k * 600) + FindOffset(pos, 0.1f), new Rectangle(0, frame, watertex.Width, 200), Color.White * 0.3f, 0, Vector2.Zero, 3, 0, 0);
                 }
 
+                foreach(NPC boss in Main.npc.Where(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == 5))
+                {
+                    Texture2D bosstex = ModContent.GetTexture(boss.modNPC.Texture);
+                    spriteBatch.Draw(bosstex, boss.position - Main.screenPosition, bosstex.Frame(), Color.White, boss.rotation, Vector2.Zero, boss.scale, 0, 0);
+                }
 
             }
         }
@@ -763,6 +777,19 @@ namespace StarlightRiver
             ItemLoader.PostDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3);
         }
 
+        public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
+        {
+            var type = typeof(SpriteViewMatrix);
+            var field = type.GetField("_transformationMatrix", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            Matrix rotation = Matrix.CreateRotationZ(Rotation);
+            Matrix translation = Matrix.CreateTranslation(new Vector3(Main.screenWidth / 2, Main.screenHeight / 2, 0));
+            Matrix translation2 = Matrix.CreateTranslation(new Vector3(Main.screenWidth / -2, Main.screenHeight / -2, 0));
+
+            field.SetValue(Transform, (translation2 * rotation) * translation);
+            base.ModifyTransformMatrix(ref Transform);
+            Helper.UpdateTilt();
+        }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
 

@@ -218,10 +218,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            foreach (Projectile proj in Main.projectile.Where(p => p.type == ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>()))
-            {
-                proj.ai[1] = 2;
-            }
+            StarlightRiver.Rotation = 0f;
             return true;
         }
     }
@@ -248,12 +245,12 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            Keys.Key.Spawn<Keys.OvergrowKey>(Main.MouseWorld);
-            foreach (Projectile proj in Main.projectile.Where(p => p.type == ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>()))
-            {
-                proj.ai[1] = 1;
-            }
+            Helper.DoTilt(0.5f);
             return true;
+        }
+        public override void HoldItem(Player player)
+        {
+            //StarlightRiver.Rotation += 0.02f;
         }
     }
     public class RedKiller : ModItem
