@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -62,7 +63,33 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         }
         private void Phase1Bolts()
         {
-
+            Vector2 handpos = npc.Center; //used as a basepoint for this attack to match the animation
+           
+            if(npc.ai[3] <= 30)
+            {
+                float rot = Main.rand.NextFloat(6.28f); //random rotation for the dust
+                Dust.NewDustPerfect(handpos + Vector2.One.RotatedBy(rot) * 50, ModContent.DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 2); //"suck in" charging effect
+            }
+            if(npc.ai[3] == 30)
+            {
+                RandomTarget(); //pick a random target
+                if(Main.player[npc.target] == null) //safety check
+                {
+                    ResetAttack();
+                    return;
+                }
+                targetPoint = Main.player[npc.target].Center;
+            }
+            if(npc.ai[3] > 30 && npc.ai[3] <= 120 && npc.ai[3] % 30 == 0) //3 rounds of projectiles
+            {
+                Main.PlaySound(ModLoader.GetMod("StarlightRiver").GetLegacySoundSlot(SoundType.Custom, "Sounds/ProjectileLaunch1"), npc.Center);
+                for (float k = -0.6f; k <= 0.6f; k += 0.3f) //5 projectiles in even spread
+                {
+                    Vector2 trajectory = Vector2.Normalize(targetPoint - handpos).RotatedBy(k + (npc.ai[3] == 90 ? 0.15f : 0)) * 1.6f; //towards the target, alternates on the second round
+                    Projectile.NewProjectile(handpos, trajectory, ModContent.ProjectileType<OvergrowBossProjectile.Phase1Bolt>(), 20, 0.2f);
+                }
+            }
+            if (npc.ai[3] == 200) ResetAttack();
         }
         private void Phase1Toss()
         {
@@ -73,6 +100,15 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         }
 
+        private void RandomTarget()
+        {
+            List<int> players = new List<int>();
+            foreach (Player player in Main.player.Where(p => Vector2.Distance(npc.Center, p.Center) < 2000)) players.Add(player.whoAmI);
+            if (players.Count == 0) return;
+            npc.target = players[Main.rand.Next(players.Count)];
+
+            Main.NewText("Random target chosen!");
+        }
         private void ResetAttack()
         {
             flail.npc.velocity *= 0;

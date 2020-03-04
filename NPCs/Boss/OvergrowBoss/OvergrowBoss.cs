@@ -15,6 +15,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
     {
         public OvergrowBossFlail flail;
         private Vector2 spawnPoint;
+        private Vector2 targetPoint;
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetDefaults()
         {
@@ -63,10 +64,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (npc.ai[0] == 2)
             {
                 //attacks here
-                if (npc.ai[2] == 0) npc.ai[2] = Main.rand.Next(1, 1);
+                if (npc.ai[2] == 0) npc.ai[2] = Main.rand.Next(2, 3);
+                Main.NewText(Main.rand.Next(1, 3));
                 switch (npc.ai[2])
                 {
                     case 1: Phase1Spin(1.1f); break;
+                    case 2: Phase1Bolts(); break;
                 }
 
                 if (flail.npc.life <= 1)
