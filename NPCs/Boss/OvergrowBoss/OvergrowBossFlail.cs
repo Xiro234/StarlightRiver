@@ -12,7 +12,7 @@ using ReLogic.Graphics;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
-    class OvergrowBossFlail : ModNPC
+    public class OvergrowBossFlail : ModNPC
     {
         public OvergrowBoss parent;
         public Player holder;
@@ -48,11 +48,13 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (parent == null) return; //safety check
 
+            if (parent.npc.ai[0] <= 3) npc.ai[3] = 1;
+
             npc.ai[1]++; //ticks our timer
 
             if (npc.life <= 1) Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedBy(LegendWorld.rottime * 4)); //dust when "destroyed"
 
-            if(parent.npc.ai[0] == 3 && npc.ai[2] <= 0) //if the boss is tossing and the flail is not zapper
+            if(parent.npc.ai[0] == 3 && npc.ai[2] <= 0) //if the boss is tossing and the flail is not zapped
             {
                 npc.TargetClosest();
                 npc.position = Main.player[npc.target].position;
@@ -79,9 +81,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             {
                 npc.friendly = true;
                 npc.rotation += npc.velocity.X / 125f;
-                if (npc.velocity.Y == 0 && npc.velocity.X > 0.2f) npc.velocity.X -= 0.2f;
-                if (npc.velocity.Y == 0 && npc.velocity.X < -0.2f) npc.velocity.X += 0.2f;
-                if (Math.Abs(npc.velocity.X) <= 0.2f) npc.velocity.X = 0;
+                if (npc.velocity.Y == 0 && npc.velocity.X > 0.3f) npc.velocity.X -= 0.3f;
+                if (npc.velocity.Y == 0 && npc.velocity.X < -0.3f) npc.velocity.X += 0.3f;
+                if (Math.Abs(npc.velocity.X) <= 0.3f) npc.velocity.X = 0;
                 if (Main.player.Any(p => p.Hitbox.Intersects(npc.Hitbox)) && holder == null && npc.velocity == Vector2.Zero)
                 {
                     holder = Main.player.FirstOrDefault(p => p.Hitbox.Intersects(npc.Hitbox)); //the first person to walk over it picks it up
@@ -100,7 +102,21 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                         holder = null;
                     }
                 }
+
+                npc.velocity.Y += 0.2f;
             }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            if (npc.ai[3] != 0)
+            {
+                for (float k = 0; k <= 1; k += 1 / (Vector2.Distance(npc.Center, parent.npc.Center) / 16))
+                {
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), Vector2.Lerp(npc.Center, parent.npc.Center, k) - Main.screenPosition,
+                        new Rectangle(0, 0, 8, 16), drawColor, (npc.Center - parent.npc.Center).ToRotation() + 1.58f, new Vector2(4, 8), 1, 0, 0);
+                }
+            }
+            return true;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {

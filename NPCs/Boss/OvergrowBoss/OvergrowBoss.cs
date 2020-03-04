@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
-    class OvergrowBoss : ModNPC
+    public partial class OvergrowBoss : ModNPC
     {
         public OvergrowBossFlail flail;
         private Vector2 spawnPoint;
@@ -35,8 +35,10 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
              * 0: phase
              * 1: timer
              * 2: attack phase
+             * 3: attack timer
              */
             npc.ai[1]++; //tick our timer up constantly
+            npc.ai[3]++; //tick up our attack timer
 
             if(npc.ai[0] == 0)
             {
@@ -61,15 +63,11 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (npc.ai[0] == 2)
             {
                 //attacks here
-                //Temporary attacks
-                if(npc.ai[2] == 0) flail.npc.velocity.Y += 0.1f;
-                if(flail.npc.velocity.Y == 0.1f && npc.ai[2] == 0)
+                if (npc.ai[2] == 0) npc.ai[2] = Main.rand.Next(1, 1);
+                switch (npc.ai[2])
                 {
-                    npc.ai[2] = 1;
-                    flail.npc.velocity.Y = -5f;
-                    Helper.DoTilt((flail.npc.Center.X - Main.LocalPlayer.Center.X) / 1680f);
+                    case 1: Phase1Spin(1.1f); break;
                 }
-                if (npc.ai[2] == 1 && npc.Hitbox.Contains(flail.npc.Hitbox)) npc.ai[2] = 0;
 
                 if (flail.npc.life <= 1)
                 {
