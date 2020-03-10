@@ -432,7 +432,7 @@ namespace StarlightRiver
                 spriteBatch.Draw(tex, dpos + FindOffset(pos, 0.5f), tex.Frame(), Color.White * 0.9f, LegendWorld.rottime, tex.Frame().Size() / 2, 10 + (float)Math.Cos(LegendWorld.rottime) * 1.5f, 0, 0);
 
                 spriteBatch.End();
-                spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
+                spriteBatch.Begin(default, default, SamplerState.PointWrap, default, default, default, Main.GameViewMatrix.TransformationMatrix);
 
                 for (int k = -5; k < 5; k++)//back row
                 {
@@ -448,12 +448,14 @@ namespace StarlightRiver
                     if (Vector2.Distance(thispos, dpos) < 800)
                         spriteBatch.Draw(backtex3, thispos, backtex3.Frame(), Color.White, 0, backtex3.Frame().Size() / 2, 1, 0, 0);
                 }
-                for (int k = -2; k < 2; k++)// small waterfalls
+
+                for (int k = -10; k < 10; k++)// small waterfalls
                 {
                     Texture2D watertex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
-                    int frame = (int)(LegendWorld.rottime / 6.28f * 200);
-                    spriteBatch.Draw(watertex, dpos + new Vector2(100, k * 400) + FindOffset(pos, 0.22f), new Rectangle(0, frame, watertex.Width, 200), Color.White * 0.3f, 0, Vector2.Zero, 2, 0, 0);
+                    int frame = (int)Main.time % 16 / 2;
+                    spriteBatch.Draw(watertex, dpos + new Vector2(100, k * 64) + FindOffset(pos, 0.22f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 2, 0, 0);
                 }
+
                 for (int k = -4; k < 4; k++) //front row
                 {
                     Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
@@ -470,14 +472,14 @@ namespace StarlightRiver
                         spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
                 }
 
-                for (int k = -1; k < 1; k++) //big waterfall
+                for (int k = -7; k < 7; k++) //big waterfall
                 {
                     Texture2D watertex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
-                    int frame = (int)(LegendWorld.rottime / 6.28f * 200);
-                    spriteBatch.Draw(watertex, dpos + new Vector2(300, k * 600) + FindOffset(pos, 0.1f), new Rectangle(0, frame, watertex.Width, 200), Color.White * 0.3f, 0, Vector2.Zero, 3, 0, 0);
+                    int frame = (int)Main.time % 16 / 2;
+                    spriteBatch.Draw(watertex, dpos + new Vector2(300, k * 96) + FindOffset(pos, 0.1f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 3, 0, 0);
                 }
 
-                foreach(NPC boss in Main.npc.Where(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == 5))
+                foreach (NPC boss in Main.npc.Where(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == 5))
                 {
                     Texture2D bosstex = ModContent.GetTexture(boss.modNPC.Texture);
                     spriteBatch.Draw(bosstex, boss.position - Main.screenPosition, bosstex.Frame(), Color.White, boss.rotation, Vector2.Zero, boss.scale, 0, 0);

@@ -39,11 +39,13 @@ namespace StarlightRiver.Structures
                         case 10: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>(); break;
                         case 20: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.BossWindow>(); break;
                         case 30: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.AppearingBrick>(); break;
+                        case 40: placeType = (ushort)ModContent.TileType<Tiles.Overgrow.GrassOvergrow>(); break;
                     }
                     switch (rawData[x].B) //select wall
                     {
                         case 10: wallType = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>(); break;
                         case 20: wallType = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>(); break;
+                        case 30: wallType = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>(); break;
                     }
                     switch (rawData[x].G)
                     {
