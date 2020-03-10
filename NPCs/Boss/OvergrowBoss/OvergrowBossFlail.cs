@@ -54,25 +54,23 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (npc.life <= 1) Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedBy(LegendWorld.rottime * 4)); //dust when "destroyed"
 
-            if(parent.npc.ai[0] == 3 && npc.ai[2] <= 0) //if the boss is tossing and the flail is not zapped
-            {
-                npc.TargetClosest();
-                npc.position = Main.player[npc.target].position;
-            }
-
             if(npc.ai[2] == 1) //if zapped
             {
                 parent.npc.ai[1] = 0; //resets the boss' timer constatnly, effectively freezing it
+                parent.ResetAttack(); //also reset's their attack just incase
 
-                if(npc.ai[1] % 5 == 0) Helper.DrawElectricity(npc.Center, parent.npc.Center, ModContent.DustType<Dusts.Gold>(), 0.5f); //draw zap effects
+                if(npc.ai[1] % 5 == 0 && npc.ai[1] < 60) Helper.DrawElectricity(npc.Center, parent.npc.Center, ModContent.DustType<Dusts.Gold>(), 0.5f); //draw zap effects
                 
-                if(npc.ai[1] >= 60) //after 60 seconds disconnect the flail and phase the boss
+                if(npc.ai[1] == 60) //after 60 seconds disconnect the flail and phase the boss
                 {
                     npc.velocity.Y -= 10; //launches it out of the pit
                     npc.ai[3] = 0; //cut the chain
-                    npc.ai[2] = 0; //no longer zapped!
-                    parent.npc.ai[0] = 4; //phase the boss
+                    parent.npc.ai[0] = 4; //phase the boss            
+                }
 
+                if (npc.ai[1] == 80) //some things need to be on a delay
+                {
+                    npc.ai[2] = 0; //no longer zapped!
                     foreach (Projectile proj in Main.projectile.Where(p => p.type == ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>())) proj.ai[1] = 2; //closes the pits
                 }
             }
@@ -93,8 +91,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     npc.position = holder.Center + new Vector2(-32, -100); //they hold it above their head
                     holder.bodyFrame = new Rectangle(0, 56 * 5, 40, 56); //holding animation
                     holder.AddBuff(BuffID.Cursed, 2, true); //they cant use items!
-                    holder.jump = -1; //they cant jump high!
-                    holder.velocity.X *= 0.9f; //they cant move fast!
+                    holder.rocketTime = 0; holder.wingTime = 0; //they cant rocket/fly!
+                    holder.velocity.X *= 0.95f; //they cant move fast!
 
                     if (holder.controlUseItem) //but they can YEET THIS MOTHERFUCKER
                     {
@@ -112,7 +110,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             {
                 for (float k = 0; k <= 1; k += 1 / (Vector2.Distance(npc.Center, parent.npc.Center) / 16))
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), Vector2.Lerp(npc.Center, parent.npc.Center, k) - Main.screenPosition,
+
+                    Vector2 pos = Vector2.Lerp(npc.Center, parent.npc.Center, k) - Main.screenPosition;
+                    //shake the chain when tossed
+                    if ((parent.npc.ai[2] == 3 || parent.npc.ai[0] == 3) && npc.velocity.Length() > 0) pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float) Math.Sin(LegendWorld.rottime + k * 20) * 10;
+
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), pos,
                         new Rectangle(0, 0, 8, 16), drawColor, (npc.Center - parent.npc.Center).ToRotation() + 1.58f, new Vector2(4, 8), 1, 0, 0);
                 }
             }

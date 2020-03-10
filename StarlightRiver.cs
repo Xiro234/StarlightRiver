@@ -196,13 +196,35 @@ namespace StarlightRiver
             On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
+            //Moving Platforms
+            On.Terraria.Player.Update_NPCCollision += PlatformCollision;
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
             //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
             IL.Terraria.Main.DoDraw += DrawWindow;
         }
 
-        private bool UpdateMatrixFirst(On.Terraria.Graphics.SpriteViewMatrix.orig_ShouldRebuild orig, Terraria.Graphics.SpriteViewMatrix self)
+        private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
+        {
+            foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC != null && n.modNPC is NPCs.MovingPlatform))
+            {
+                if(new Rectangle((int)self.position.X, (int)self.position.Y + (self.height - 2), self.width, 4).Intersects
+                (new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, 4)) && self.position.Y <= npc.position.Y)
+                {  
+                    if (!self.justJumped && self.velocity.Y >= 0)
+                    {
+                        self.gfxOffY = npc.gfxOffY;
+                        self.velocity.Y = 0;
+                        self.fallStart = (int)(self.position.Y / 16f);
+                        return;
+                    }                 
+                }
+            }
+            
+            orig(self);
+        }
+
+        private bool UpdateMatrixFirst(On.Terraria.Graphics.SpriteViewMatrix.orig_ShouldRebuild orig, SpriteViewMatrix self)
         {
             return false;
         }
@@ -415,14 +437,14 @@ namespace StarlightRiver
                 for (int k = -5; k < 5; k++)//back row
                 {
                     Texture2D backtex2 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window3");
-                    Vector2 thispos = dpos + new Vector2(k * 160, 300) + FindOffset(pos, 0.4f);
+                    Vector2 thispos = dpos + new Vector2(k * backtex2.Width, 300) + FindOffset(pos, 0.4f);
                     if (Vector2.Distance(thispos, dpos) < 800)
                         spriteBatch.Draw(backtex2, thispos, backtex2.Frame(), Color.White, 0, backtex2.Frame().Size() / 2, 1, 0, 0);
                 }
                 for (int k = -4; k < 5; k++)//mid row
                 {
                     Texture2D backtex3 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window2");
-                    Vector2 thispos = dpos + new Vector2(k * 160, 400) + FindOffset(pos, 0.3f);
+                    Vector2 thispos = dpos + new Vector2(k * backtex3.Width, 350) + FindOffset(pos, 0.3f);
                     if (Vector2.Distance(thispos, dpos) < 800)
                         spriteBatch.Draw(backtex3, thispos, backtex3.Frame(), Color.White, 0, backtex3.Frame().Size() / 2, 1, 0, 0);
                 }
@@ -435,7 +457,7 @@ namespace StarlightRiver
                 for (int k = -4; k < 4; k++) //front row
                 {
                     Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
-                    Vector2 thispos = dpos + new Vector2(k * 160, 380) + FindOffset(pos, 0.2f);
+                    Vector2 thispos = dpos + new Vector2(k * backtex4.Width, 380) + FindOffset(pos, 0.2f);
                     if (Vector2.Distance(thispos, dpos) < 800)
                         spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
                 }
@@ -443,7 +465,7 @@ namespace StarlightRiver
                 for (int k = -4; k < 4; k++) //top row
                 {
                     Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
-                    Vector2 thispos = dpos + new Vector2(k * 160, -450) + FindOffset(pos, 0.25f);
+                    Vector2 thispos = dpos + new Vector2(k * backtex4.Width, -450) + FindOffset(pos, 0.25f);
                     if (Vector2.Distance(thispos, dpos) < 800)
                         spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
                 }
@@ -461,6 +483,12 @@ namespace StarlightRiver
                     spriteBatch.Draw(bosstex, boss.position - Main.screenPosition, bosstex.Frame(), Color.White, boss.rotation, Vector2.Zero, boss.scale, 0, 0);
                 }
 
+                if (npc.ai[0] <= 360) //wall
+                {
+                    Texture2D walltex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowFill");
+                    spriteBatch.Draw(walltex, dpos + new Vector2(0, 282 + npc.ai[0] / 360 * 564), walltex.Frame(), new Color(255, 255, 200), 0, walltex.Frame().Size() / 2, 1, 0, 0); //frame
+                    spriteBatch.Draw(walltex, dpos + new Vector2(0, -282 - +npc.ai[0] / 360 * 564), walltex.Frame(), new Color(255, 255, 200), 0, walltex.Frame().Size() / 2, 1, SpriteEffects.FlipVertically, 0); //frame
+                }
             }
         }
 
