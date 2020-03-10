@@ -39,12 +39,12 @@ namespace StarlightRiver.Tiles.Interactive
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            //if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>() && proj.active)) //disabled for now because it was broken
-            //{
+            if (Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>() && proj.active && proj.ai[0] == 0))
+            {
                 Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime * 3f);
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemGlow"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, color);
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemOn"), new Vector2((i + 12) * 16, (j + 12) * 16) - Main.screenPosition, Color.White);
-            //}
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemGlow"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, color);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemOn"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, Color.White);
+            }
         }
     }
 }

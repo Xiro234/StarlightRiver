@@ -29,7 +29,8 @@ namespace StarlightRiver
         public int Shake = 0;
 		
 		public int InvertGrav = 0;
-		public override void PreUpdateBuffs()
+
+        public override void PreUpdateBuffs()
         {
 
 			if (InvertGrav > 0)

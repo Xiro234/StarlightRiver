@@ -31,7 +31,7 @@ namespace StarlightRiver.Tiles.Interactive
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/BounceGlow"), new Vector2((i+ 12) * 16 -1, (j+12) * 16 - 1) - Main.screenPosition, color);
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/BounceGlow"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Vector2.One - Main.screenPosition, color);
         }
     }
 }

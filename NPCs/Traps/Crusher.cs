@@ -70,7 +70,7 @@ namespace StarlightRiver.NPCs.Traps
             int count = (npc.ai[0] < 10) ? ((int)npc.ai[0] / 3) : (npc.ai[0] > 40) ? ((60 - (int)npc.ai[0]) / 4): 3;
             for (int k = 1; k <= count; k++)
             {
-                spriteBatch.Draw(tex2, npc.position - Main.screenPosition + new Vector2(8, -50 - k * 28), drawColor);
+                spriteBatch.Draw(tex2, npc.position - Main.screenPosition + new Vector2(8, -48 - k * 28), drawColor);
             }
         }
     }

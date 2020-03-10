@@ -29,21 +29,12 @@ namespace StarlightRiver.Tiles.Interactive
             b = 0.071f / 1.1f;
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void NearbyEffects(int i, int j, bool closer)
         {
             Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -11);
             if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaOrbDummy>() && proj.active))
             {
                 Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.StaminaOrbDummy>(), 0, 0);
-            }
-        }
-
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -19);
-            if (!Main.npc.Any(npc => npc.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && npc.type == mod.NPCType("Stamina2") && npc.active))
-            {
-                NPC.NewNPC((int)pos.X, (int)pos.Y, mod.NPCType("Stamina2"));
             }
         }
     }

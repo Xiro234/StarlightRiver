@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -14,6 +15,8 @@ namespace StarlightRiver.Tiles.Overgrow
         {
             Main.tileLavaDeath[Type] = false;
             Main.tileFrameImportant[Type] = true;
+
+            TileID.Sets.FramesOnKillWall[Type] = true;
 
             drop = mod.ItemType("TorchOvergrowItem");
             dustType = mod.DustType("Gold2");

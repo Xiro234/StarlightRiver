@@ -30,7 +30,7 @@ namespace StarlightRiver.Items.Prototypes
         {
             int index = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<Projectiles.WeaponProjectiles.LightningNode>(), 120, 0, player.whoAmI, 1, 500);
             NPC npc = Main.npc.FirstOrDefault(n => n.Hitbox.Contains(Main.MouseWorld.ToPoint()));
-            Helper.DrawElectricity(player.Center, npc == null ? Main.projectile[index].Center : npc.Center);
+            Helper.DrawElectricity(player.Center, npc == null ? Main.projectile[index].Center : npc.Center, ModContent.DustType<Dusts.Electric>());
             return true;
         }
     }

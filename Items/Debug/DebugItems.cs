@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ModLoader;
 using System.IO;
 using Terraria.IO;
-using SubworldLibrary;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -137,11 +136,12 @@ namespace StarlightRiver.Items.Debug
             item.maxStack = 999;
             item.useTurn = true;
             item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
+            item.useAnimation = 2;
+            item.useTime = 1;
             item.useStyle = 1;
-            item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Void.Seal>();
+            //item.consumable = true;
+            item.autoReuse = true;
+            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
         }
     }
     public class FleshPlacer : ModItem
@@ -183,7 +183,7 @@ namespace StarlightRiver.Items.Debug
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.Overgrow.ZapperTile>(), 0) { }
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.Overgrow.SetpieceAltar>(), 0) { }
     }
     public class DebugPlacer2 : QuickTileItem
     {
@@ -206,7 +206,8 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createTile = ModContent.TileType<Tiles.Vitric.VitricBossAltar>();
+            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
+            item.autoReuse = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()
@@ -217,6 +218,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            StarlightRiver.Rotation = 0f;
             return true;
         }
     }
@@ -231,7 +233,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>();
+            item.createTile = ModContent.TileType<Tiles.Overgrow.BulbFruit>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -243,8 +245,12 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            LegendWorld.SealOpen = false;
+            Helper.DoTilt(0.5f);
             return true;
+        }
+        public override void HoldItem(Player player)
+        {
+            //StarlightRiver.Rotation += 0.02f;
         }
     }
     public class RedKiller : ModItem

@@ -95,7 +95,7 @@ namespace StarlightRiver.GUI
                     }
                 }
 
-                if (state == (int)OverlayState.Overgrow)
+                /*if (state == (int)OverlayState.Overgrow)
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
@@ -105,7 +105,7 @@ namespace StarlightRiver.GUI
                             Bootlegdust.Add(dus);
                         }
                     }
-                }
+                }*/
             }
         }
     }
@@ -182,8 +182,8 @@ namespace StarlightRiver.GUI
             }
 
             time--;
-            pos.X += (float)Math.Cos((float)(time / 550f * 31.4f)) * 0.5f;
-            pos.Y += (float)Math.Sin((float)(time / 550f * 31.4f)) * 0.5f;
+            pos.X += vel.X + (float)Math.Cos((time / 550f * 31.4f)) * 0.5f;
+            pos.Y += vel.Y + (float)Math.Sin((time / 550f * 31.4f)) * 0.5f;
         }
     }
     public class VitricDust : BootlegDust

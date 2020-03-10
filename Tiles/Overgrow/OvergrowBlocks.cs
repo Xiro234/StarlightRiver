@@ -1,15 +1,13 @@
 ﻿using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ModLoader;
-using StarlightRiver.Items.Vitric;
-using StarlightRiver.Items.Debug;
 using System;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using System.Linq;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -33,14 +31,21 @@ namespace StarlightRiver.Tiles.Overgrow
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(79, 76, 71));
         }
-
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-           if(i % 7 == 0 && j % 9 == 0)
+            Random rand = new Random(i * j * j);
+            Tile tile = Main.tile[i, j];
+            if (rand.Next(30) == 0 && i != 1 && j != 1 && tile.frameX > 10 && tile.frameX < 70 && tile.frameY == 18)
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/MarioCumming");
-                spriteBatch.Draw(tex, (Vector2.One * 12 + new Vector2(i, j)) * 16 + Vector2.One * 8 - Main.screenPosition, tex.Frame(), Lighting.GetColor(i, j), i % 10 / 1.58f, tex.Frame().Size() / 2, 1, 0, 0);
+                Main.specX[nextSpecialDrawIndex] = i;
+                Main.specY[nextSpecialDrawIndex] = j;
+                nextSpecialDrawIndex++;
             }
+        }
+        public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Blob");
+            spriteBatch.Draw(tex, (Helper.TileAdj + new Vector2(i, j)) * 16 + Vector2.One * 8 - Main.screenPosition, new Rectangle(i * j % 4 * 40, 0, 40, 50), Lighting.GetColor(i, j), 0, new Vector2(20, 25), 1, 0, 0);
         }
     }
     class GlowBrickOvergrow : ModTile
@@ -51,7 +56,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
-            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
+            Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
             minPick = 210;
@@ -71,6 +76,11 @@ namespace StarlightRiver.Tiles.Overgrow
                     frame = 0;
                 }
             }
+        }
+
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
+            frameYOffset = 270 * (( j + Main.tileFrame[type]) % 6);   
         }
     }
     class LeafOvergrow : ModTile
@@ -105,6 +115,55 @@ namespace StarlightRiver.Tiles.Overgrow
             TileID.Sets.Grass[Type] = true;
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(202, 157, 49));
+        }
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Tile tile = Main.tile[i, j];
+            if ((tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0) )
+            {
+                Main.specX[nextSpecialDrawIndex] = i;
+                Main.specY[nextSpecialDrawIndex] = j;
+                nextSpecialDrawIndex++;
+            }
+        }
+        public void CustomDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Tile tile = Main.tile[i, j];
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/GrassOvergrowMoss");
+            Rectangle source = new Rectangle(0 + i % 5 * 8, 0, 8, 16);
+            Color color = Lighting.GetColor(i, j);
+
+            Vector2 crunch = new Vector2(0, -5);
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 - 8, j * 16 - 1, 16, 1)))) crunch.Y += 1;
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 8, 1)))) crunch.Y += 2;
+
+            Vector2 crunch2 = new Vector2(0, -4);
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 16, 1)))) crunch2.Y += 1;
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 8, 1)))) crunch2.Y += 2;
+
+
+            if (tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0)
+            {
+                if(Main.tile[i - 1, j].type == Type)
+                    spriteBatch.Draw(tex, new Vector2(i, j) * 16 + crunch - Main.screenPosition, source, color);
+                if (Main.tile[i + 1, j].type == Type)
+                    spriteBatch.Draw(tex, new Vector2(i + 0.5f, j) * 16 + crunch2 - Main.screenPosition, source, color);
+            }
+
+            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 16, 1)) && n.velocity.X != 0))
+            {
+                Player player = Main.player.FirstOrDefault(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 16, 1)) && n.velocity.X != 0);
+                if (Main.rand.Next(3) == 0)Dust.NewDust(new Vector2(i, j - 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Stamina>(), -player.velocity.X * 0.5f, -2);
+                if(Main.rand.Next(10) == 0)Dust.NewDust(new Vector2(i, j + 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, 0.6f);
+
+                if (player.GetModPlayer<Abilities.AbilityHandler>().dash.Cooldown == 90)
+                {
+                    for (int k = 0; k < 20; k++)
+                    {
+                        Dust.NewDust(new Vector2(i, j + 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, -2);
+                    }
+                }
+            }
         }
 
         public override void RandomUpdate(int i, int j)
@@ -149,14 +208,13 @@ namespace StarlightRiver.Tiles.Overgrow
                 else { break; }
             }
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow"), 
-                new Vector2(i + 12, j + 12) * 16 - Main.screenPosition + new Vector2((float) (1 + Math.Cos(rot * 2) + Math.Sin(rot)) * sway * sway, 0),
+                (new Vector2(i, j)  + Helper.TileAdj) * 16 - Main.screenPosition + new Vector2((float) (1 + Math.Cos(rot * 2) + Math.Sin(rot)) * sway * sway, 0),
                 new Rectangle(Main.tile[i, j + 1].type != ModContent.TileType<VineOvergrow>() ? 32 : j % 2 * 16, 0, 16, 16), Lighting.GetColor(i, j));
             return false;
         }
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            Main.NewText("PENIS");
         }
     }
 
@@ -181,7 +239,9 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle(((i + 12) * 16) - (int)Main.screenPosition.X + 8, ((j + 13) * 16) - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle((i % 2) * 16, 0, 16, 16), drawColor, (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.25f, new Vector2(8, 16), 0, 0);
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle(((i + (int)Helper.TileAdj.X) * 16) - (int)Main.screenPosition.X + 8, 
+                ((j + (int)Helper.TileAdj.Y + 1) * 16) - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle((i % 2) * 16, 0, 16, 16), drawColor, (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.25f, 
+                new Vector2(8, 16), 0, 0);
         }
     }
 }

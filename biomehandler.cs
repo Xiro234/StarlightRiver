@@ -22,6 +22,7 @@ namespace StarlightRiver
     public class BiomeHandler : ModPlayer
     {
         public bool ZoneGlass = false;
+        public bool GlassBG = false;
         public bool ZoneVoidPre = false;
         public bool ZoneJungleCorrupt = false;
         public bool ZoneJungleBloody = false;
@@ -29,7 +30,8 @@ namespace StarlightRiver
         public bool ZoneOvergrow = false;
         public override void UpdateBiomes()
         {
-            ZoneGlass = LegendWorld.vitricBiome.Contains((player.Center / 16).ToPoint());
+            ZoneGlass = (LegendWorld.glassTiles > 50);
+            GlassBG = LegendWorld.vitricBiome.Contains((player.Center / 16).ToPoint()) && ZoneGlass;
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
             ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
             ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);
@@ -116,11 +118,14 @@ namespace StarlightRiver
             }
             else if (ZoneJungleHoly)
             {
-                Overlay.state = 4;
+                Overlay.state = (int)OverlayState.HolyJungle;
             }
-            else if (ZoneOvergrow)
+
+
+            if (ZoneOvergrow && Main.rand.Next(5) == 0)
             {
-                Overlay.state = (int)OverlayState.Overgrow;
+                Dust.NewDustPerfect(Main.screenPosition - Vector2.One * 100 + new Vector2(Main.rand.Next(Main.screenWidth + 200), Main.rand.Next(Main.screenHeight + 200)),
+                ModContent.DustType<Dusts.OvergrowDust>(), Vector2.Zero, 0, new Color(255, 255, 205) * 0.05f, 2);
             }
 
             //Codex Unlocks
@@ -133,12 +138,14 @@ namespace StarlightRiver
 
     public partial class LegendWorld
     {
+        public static int glassTiles;
         public static int voidTiles;
         public static int evilJungleTiles;
         public static int bloodJungleTiles;
         public static int holyJungleTiles;
         public override void TileCountsAvailable(int[] tileCounts)
         {
+			glassTiles = tileCounts[mod.TileType("VitricSand")];
             voidTiles = tileCounts[mod.TileType("Void1")] + tileCounts[mod.TileType("Void2")];
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
             bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];

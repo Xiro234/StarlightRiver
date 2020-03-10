@@ -15,6 +15,8 @@ namespace StarlightRiver
         /// Kills the NPC.
         /// </summary>
         /// <param name="npc"></param>
+
+        public static Vector2 TileAdj { get  =>  Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; }
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC != null && !npc.modNPC.CheckDead();
@@ -93,7 +95,7 @@ namespace StarlightRiver
             return (sec / 60) + ":" + (sec % 60 < 10 ? "0" + sec % 60 : "" + sec % 60);
         }
 
-        public static void DrawElectricity(Vector2 point1, Vector2 point2)
+        public static void DrawElectricity(Vector2 point1, Vector2 point2, int dusttype, float scale = 1)
         {
             int nodeCount = (int)Vector2.Distance(point1, point2) / 30;
             Vector2[] nodes = new Vector2[nodeCount + 1];
@@ -109,9 +111,33 @@ namespace StarlightRiver
                 Vector2 prevPos = k == 1 ? point1 : nodes[k - 1];
                 for (float i = 0; i < 1; i += 0.05f)
                 {
-                    Dust.NewDustPerfect(Vector2.Lerp(prevPos, nodes[k], i), ModContent.DustType<Dusts.Electric>(), Vector2.Zero);
+                    Dust.NewDustPerfect(Vector2.Lerp(prevPos, nodes[k], i), dusttype, Vector2.Zero, 0, default, scale);
                 }
             }
+        }
+
+        private static int tiltTime;
+        private static float tiltMax;
+        public static void DoTilt(float intensity) { tiltMax = intensity; tiltTime = 0; }
+        public static void UpdateTilt()
+        {
+            if (Math.Abs(tiltMax) > 0)
+            {
+                tiltTime++;
+                if (tiltTime >= 1 && tiltTime < 40)
+                {
+                    float tilt = tiltMax - tiltTime * tiltMax / 40f;
+                    StarlightRiver.Rotation = tilt * (float)Math.Sin(Math.Pow(tiltTime / 40f * 6.28f, 0.9f));
+                }
+
+                if (tiltTime >= 40) { StarlightRiver.Rotation = 0; tiltMax = 0; }
+            }
+        }
+
+        public static bool HasEquipped(Player player, int ItemID)
+        {
+            for (int k = 3; k < 7 + player.extraAccessorySlots; k++) if (player.armor[k].type == ItemID) return true;
+            return false;
         }
     }
 }
