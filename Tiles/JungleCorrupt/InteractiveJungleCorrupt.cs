@@ -61,7 +61,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Thorns");
-            AddMapEntry(new Color(50, 30, 120), name);
+            AddMapEntry(new Color(46, 41, 58), name);
         }
 
         public override void RandomUpdate(int i, int j)
