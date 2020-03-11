@@ -78,7 +78,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 //attacks here
                 if (npc.ai[2] == 0)
                 {
-                    npc.ai[2] = Main.rand.Next(4, 5);
+                    npc.ai[2] = Main.rand.Next(0, 5);
                     if (usedBolts && npc.ai[2] == 2) { npc.ai[2] = 3; usedBolts = false; }//use a toss instead if you just used bolts!
                 }
                 switch (npc.ai[2])
