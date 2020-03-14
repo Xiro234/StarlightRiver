@@ -218,7 +218,9 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StarlightRiver.Rotation = 0f;
+            LegendWorld.OvergrowBossOpen = false;
+            LegendWorld.OvergrowBossFree = false;
+            LegendWorld.OvergrowBossDowned = false;
             return true;
         }
     }
@@ -245,7 +247,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            //Helper.DoTilt(0.5f);
+            LegendWorld.OvergrowBossOpen = true;
             return true;
         }
         public override void HoldItem(Player player)

@@ -32,6 +32,10 @@ namespace StarlightRiver
         public static bool AnyBossDowned = false;
         public static bool GlassBossDowned = false;
 
+        public static bool OvergrowBossOpen = false;
+        public static bool OvergrowBossFree = false;
+        public static bool OvergrowBossDowned = false;
+
         public static bool SealOpen = false;
 
         //Voidsmith
@@ -205,6 +209,11 @@ namespace StarlightRiver
 
                 [nameof(AnyBossDowned)] = AnyBossDowned,
                 [nameof(GlassBossDowned)] = GlassBossDowned,
+
+                [nameof(OvergrowBossOpen)] = OvergrowBossOpen,
+                [nameof(OvergrowBossFree)] = OvergrowBossFree,
+                [nameof(OvergrowBossDowned)] = OvergrowBossDowned,
+
                 [nameof(SealOpen)] = SealOpen,
 
                 [nameof(ForceStarfall)] = ForceStarfall,
@@ -229,6 +238,11 @@ namespace StarlightRiver
 
             AnyBossDowned = tag.GetBool(nameof(AnyBossDowned));
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
+
+            OvergrowBossOpen = tag.GetBool(nameof(OvergrowBossOpen));
+            OvergrowBossFree = tag.GetBool(nameof(OvergrowBossFree));
+            OvergrowBossDowned = tag.GetBool(nameof(OvergrowBossDowned));
+
             SealOpen = tag.GetBool(nameof(SealOpen));
 
             ForceStarfall = tag.GetBool(nameof(ForceStarfall));

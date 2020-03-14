@@ -56,8 +56,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 data.Draw(spriteBatch);
             }
 
-            Texture2D tex = ModContent.GetTexture("Terraria/Extra_49");
-
             spriteBatch.End();
             spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
         }

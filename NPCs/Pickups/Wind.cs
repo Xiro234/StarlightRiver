@@ -61,7 +61,7 @@ namespace StarlightRiver.NPCs.Pickups
                     player.AddBuff(BuffID.Featherfall, 120);
                     Achievements.Achievements.QuickGive("Stormcaller", player);
 
-                    StarlightRiver.Instance.abilitytext.Display(mp.dash, "Forbidden Winds", "Press " + StarlightRiver.Dash.GetAssignedKeys()[0] + " + A/W/S/D to dash");
+                    StarlightRiver.Instance.abilitytext.Display("Forbidden Winds", "Press " + StarlightRiver.Dash.GetAssignedKeys()[0] + " + A/W/S/D to dash", mp.dash);
                     Helper.UnlockEntry<WindsEntry>(player);
                 }
             }

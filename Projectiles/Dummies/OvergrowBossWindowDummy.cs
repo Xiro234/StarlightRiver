@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    class OvergrowBossWindowDummy : ModNPC
+    class OvergrowBossWindowDummy : ModNPC //yeah its actually an NPC fucking fight me
     {
         public override void SetStaticDefaults()
         {
@@ -41,7 +41,7 @@ namespace StarlightRiver.Projectiles.Dummies
             }
 
             //Screenshake
-            if (npc.ai[0] < 359) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += (int)(359 - npc.ai[0]) / 175;
+            if (npc.ai[0] < 359 && npc.ai[0] > 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += (int)(359 - npc.ai[0]) / 175;
 
 
             //Lighting
@@ -76,13 +76,17 @@ namespace StarlightRiver.Projectiles.Dummies
                     Lighting.AddLight(npc.Center + new Vector2(-40, 550 + k * 10), new Vector3(1, 1, 0.7f) * bright);
                 }
             }
-            if (npc.ai[0] == 359)
+            if (Main.player.Any(p => Vector2.Distance(p.Center, npc.Center) < 2000) && !Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>()) && !LegendWorld.OvergrowBossFree)
             {
-                //NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>());
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 250, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>());
+
+                NPC.NewNPC((int)npc.Center.X - 790, (int)npc.Center.Y + 450, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
+                NPC.NewNPC((int)npc.Center.X + 790, (int)npc.Center.Y + 450, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
+                NPC.NewNPC((int)npc.Center.X - 300, (int)npc.Center.Y + 600, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
+                NPC.NewNPC((int)npc.Center.X + 300, (int)npc.Center.Y + 600, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
             }
 
-            if (Main.player.Any(p => Vector2.Distance(p.Center, npc.Center) < 1000)) npc.ai[0]++;
-            else npc.ai[0] = 0;
+            if (LegendWorld.OvergrowBossOpen && npc.ai[0] <= 360) npc.ai[0]++;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

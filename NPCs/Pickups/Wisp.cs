@@ -65,7 +65,7 @@ namespace StarlightRiver.NPCs.Pickups
                     player.AddBuff(BuffID.Featherfall, 120);
                     Achievements.Achievements.QuickGive("Faerie Blaze", player);
 
-                    StarlightRiver.Instance.abilitytext.Display(mp.wisp, "Faeflame", "Hold " + StarlightRiver.Wisp.GetAssignedKeys()[0] + " to shrink and fly through the air");
+                    StarlightRiver.Instance.abilitytext.Display( "Faeflame", "Hold " + StarlightRiver.Wisp.GetAssignedKeys()[0] + " to shrink and fly through the air", mp.wisp);
                     Helper.UnlockEntry<FaeEntry>(player);
                 }
 

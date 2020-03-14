@@ -14,24 +14,38 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
     public partial class OvergrowBoss : ModNPC
     {
-        private void Phase1Spin(float size)
+        private void Phase1Spin()
         {
             if(npc.ai[3] <= 60)
-                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, npc.ai[3] / 40);
-
-            if (npc.ai[3] > 60 && npc.ai[3] <= 80)
-                flail.npc.velocity.Y += size;
-            if (npc.ai[3] > 80 && npc.ai[3] <= 100)
-                flail.npc.velocity.Y -= size;
-
-            if (npc.ai[3] > 100 && npc.ai[3] <= 220)
             {
-                int x = (int)npc.ai[3] - 100;
+                npc.Center = Vector2.SmoothStep(npc.Center, spawnPoint, npc.ai[3] / 60f);
+                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, spawnPoint, npc.ai[3] / 60f);
+                if (npc.Center == spawnPoint) npc.ai[3] = 61;
+            }
+            if(npc.ai[3] == 61)
+            {
+                npc.TargetClosest();
+                targetPoint = Main.player[npc.target].Center;
+                Main.NewText(targetPoint);
+            }
+            float size = Vector2.Distance(targetPoint, npc.Center);
+            if (size > 400) size = 400;
+            //Main.NewText(size);
+
+            if (npc.ai[3] <= 120)
+                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, (npc.ai[3] - 60) / 40);
+
+            if (npc.ai[3] > 120 && npc.ai[3] <= 160)
+                flail.npc.Center = Vector2.SmoothStep(npc.Center, npc.Center + new Vector2(0, size), (npc.ai[3] - 120) / 40f);
+
+            if (npc.ai[3] > 160 && npc.ai[3] <= 280)
+            {
+                int x = (int)npc.ai[3] - 160;
                 float rot = 0.314f * -0.042f * x + 0.003f * (float)Math.Pow(x, 2) - 0.00002f * (float)Math.Pow(x, 3);
                 //function to model the desired rotation, thanks wolfram alpha :3
-                flail.npc.Center = npc.Center + new Vector2(0, 1).RotatedBy(rot) * 39 * size * 20 * 0.5f;
+                flail.npc.Center = npc.Center + new Vector2(0, 1).RotatedBy(rot) * size;
 
-                if (npc.ai[3] > 105 && npc.ai[3] < 190)
+                if (npc.ai[3] > 165 && npc.ai[3] < 250)
                 {
                     for (int k = 0; k < 3; k++)
                         Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, ModContent.DustType<Dusts.Gold2>());
@@ -39,14 +53,14 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                         Dust.NewDustPerfect(Vector2.Lerp(flail.npc.Center, flail.npc.oldPosition + flail.npc.Size / 2, k / 8f), ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * 0.5f);
                 }
             }
-            if (npc.ai[3] == 220)
+            if (npc.ai[3] == 280)
             {
                 flail.npc.velocity = flail.npc.position - flail.npc.oldPosition;
                 flail.npc.velocity.X *= 0.2f;
             }
-            if(npc.ai[3] > 220 && npc.ai[3] <= 390)
+            if(npc.ai[3] > 280 && npc.ai[3] <= 450)
             {
-                if (Vector2.Distance(flail.npc.Center, npc.Center) < 39 * size * 20 * 0.5f) flail.npc.velocity.Y += 0.8f;
+                if (Vector2.Distance(flail.npc.Center, npc.Center) < size) flail.npc.velocity.Y += 0.8f;
                 else
                 {
                     float cos = (float)Math.Cos((npc.Center - flail.npc.Center).ToRotation());
@@ -57,11 +71,36 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 flail.npc.velocity.X += (npc.Center.X - flail.npc.Center.X) * 0.01f;
                 flail.npc.velocity *= 0.96f;
             }
-            if (npc.ai[3] == 391) ResetAttack();
+            if (npc.ai[3] == 451) ResetAttack();
         }
         private void Phase1Pendulum()
         {
 
+            if (npc.ai[3] > 1 && npc.ai[3] <= 60)
+            {
+                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, npc.ai[3] / 60f);
+            }
+
+            if (npc.ai[3] == 60) targetPoint = Main.player[npc.target].Center;
+            int direction = -Math.Sign(targetPoint.X - spawnPoint.X);
+
+            if(npc.ai[3] > 60 && npc.ai[3] <= 90)
+            {
+                if(targetPoint.Y > npc.Center.Y)
+                {
+                    flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, targetPoint.Y - npc.Center.Y), (npc.ai[3] - 60) / 30f);
+                }
+                else
+                {
+                    flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, 150), (npc.ai[3] - 60) / 30f);
+                }
+            }
+            if(npc.ai[3] > 90 && npc.ai[3] <= 160)
+            {
+                npc.Center = Vector2.SmoothStep(npc.Center, spawnPoint + new Vector2((500) * -direction, 0), (npc.ai[3] - 90) / 70f);
+                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, spawnPoint + new Vector2((500) * -direction, flail.npc.Center.Y - npc.Center.Y), (npc.ai[3] - 90) / 60f);
+            }
+            if (npc.ai[3] == 210) ResetAttack();
         }
         private void Phase1Bolts()
         {
@@ -112,7 +151,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 flail.npc.Center = Vector2.Lerp(npc.Center, npc.Center + trajectory * -20, (npc.ai[3] - 60) / 120f); //pull it back
             }
             if (npc.ai[3] == 120) flail.npc.velocity = trajectory * 20;
-            if ((flail.npc.velocity.Y == 0 || flail.npc.velocity.X == 0) && !(flail.npc.velocity.Y == 0 && flail.npc.velocity.X == 0)) //hit the ground
+            if ((flail.npc.velocity.Y == 0 || flail.npc.velocity.X == 0 || Main.tile[(int)flail.npc.Center.X / 16, (int)flail.npc.Center.Y / 16 + 1].collisionType == 1) && !(flail.npc.velocity.Y == 0 && flail.npc.velocity.X == 0)) //hit the ground
             {
                 //updates
                 flail.npc.velocity *= 0;
@@ -200,9 +239,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         private void RapidToss()
         {
-            if (npc.ai[3] <= 20)
-                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, npc.ai[3] / 20);
-            if (npc.ai[3] == 20)
+            if (npc.ai[3] <= 15)
+                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, npc.ai[3] / 15);
+            if (npc.ai[3] == 15)
             {
                 npc.TargetClosest();
                 targetPoint = Main.player[npc.target].Center + Main.player[npc.target].velocity * 10; //sets the target to the closest player
@@ -218,8 +257,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 flail.npc.Center = Vector2.Lerp(npc.Center, npc.Center + trajectory * -10, (npc.ai[3] - 60) / 120f); //pull it back
                 npc.ai[3]++; //double time! im lazy.
             }
-            if (npc.ai[3] == 120) flail.npc.velocity = trajectory * 20;
-            if ((flail.npc.velocity.Y == 0 || flail.npc.velocity.X == 0) && !(flail.npc.velocity.Y == 0 && flail.npc.velocity.X == 0)) //hit the ground
+            if (npc.ai[3] == 120) flail.npc.velocity = trajectory * 24;
+            if ((flail.npc.velocity.Y == 0 || flail.npc.velocity.X == 0 || Main.tile[(int)flail.npc.Center.X / 16, (int)flail.npc.Center.Y / 16 + 1].collisionType == 1) && !(flail.npc.velocity.Y == 0 && flail.npc.velocity.X == 0)) //hit the ground
             {
                 //updates
                 flail.npc.velocity *= 0;

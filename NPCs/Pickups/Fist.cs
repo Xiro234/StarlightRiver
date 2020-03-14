@@ -60,7 +60,7 @@ namespace StarlightRiver.NPCs.Pickups
                     player.AddBuff(BuffID.Featherfall, 120);
                     Achievements.Achievements.QuickGive("Shatterer", player);
 
-                    StarlightRiver.Instance.abilitytext.Display(mp.smash, "Gaia's Fist", "Press " + StarlightRiver.Smash.GetAssignedKeys()[0] + " in the air to dive downwards");
+                    StarlightRiver.Instance.abilitytext.Display( "Gaia's Fist", "Press " + StarlightRiver.Smash.GetAssignedKeys()[0] + " in the air to dive downwards", mp.smash);
                 }
             }
 

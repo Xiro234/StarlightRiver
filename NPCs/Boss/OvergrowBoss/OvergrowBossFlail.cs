@@ -29,6 +29,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             npc.aiStyle = -1;
             npc.noGravity = true;
             npc.knockBackResist = 0;
+            npc.damage = 60;
             for (int k = 0; k < npc.buffImmune.Length; k++) { npc.buffImmune[k] = true; }
 
             npc.ai[3] = 1;
@@ -48,7 +49,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (parent == null) return; //safety check
 
-            if (parent.npc.ai[0] <= 3) npc.ai[3] = 1;
+            if (parent.npc.ai[0] <= 4) npc.ai[3] = 1;
 
             npc.ai[1]++; //ticks our timer
 
@@ -65,7 +66,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     npc.velocity.Y -= 10; //launches it out of the pit
                     npc.ai[3] = 0; //cut the chain
-                    parent.npc.ai[0] = 4; //phase the boss            
+                    parent.npc.ai[0] = 5; //phase the boss            
                 }
 
                 if (npc.ai[1] == 80) //some things need to be on a delay
@@ -113,7 +114,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                     Vector2 pos = Vector2.Lerp(npc.Center, parent.npc.Center, k) - Main.screenPosition;
                     //shake the chain when tossed
-                    if ((parent.npc.ai[2] == 3 || parent.npc.ai[0] == 3) && npc.velocity.Length() > 0) pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float) Math.Sin(LegendWorld.rottime + k * 20) * 10;
+                    if ((parent.npc.ai[2] == 3 || parent.npc.ai[0] == 4) && npc.velocity.Length() > 0) pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float) Math.Sin(LegendWorld.rottime + k * 20) * 10;
 
                     spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), pos,
                         new Rectangle(0, 0, 8, 16), drawColor, (npc.Center - parent.npc.Center).ToRotation() + 1.58f, new Vector2(4, 8), 1, 0, 0);
