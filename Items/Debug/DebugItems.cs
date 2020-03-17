@@ -218,7 +218,9 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StarlightRiver.Rotation = 0f;
+            LegendWorld.OvergrowBossOpen = false;
+            LegendWorld.OvergrowBossFree = false;
+            LegendWorld.OvergrowBossDowned = false;
             return true;
         }
     }
@@ -233,7 +235,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createTile = ModContent.TileType<Tiles.Overgrow.BulbFruit>();
+            item.createTile = ModContent.TileType<Tiles.Overgrow.BossPit>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -245,12 +247,12 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            Helper.DoTilt(0.5f);
+            LegendWorld.OvergrowBossOpen = true;
             return true;
         }
         public override void HoldItem(Player player)
         {
-            //StarlightRiver.Rotation += 0.02f;
+            //StarlightRiver.Rotation = (player.Center - Main.MouseWorld).ToRotation() - 1.58f;
         }
     }
     public class RedKiller : ModItem

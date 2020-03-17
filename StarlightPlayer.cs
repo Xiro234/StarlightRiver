@@ -27,6 +27,10 @@ namespace StarlightRiver
         public bool AnthemDagger = false;
 
         public int Shake = 0;
+
+        public int ScreenMoveTime = 0;
+        public Vector2 ScreenMoveTarget = new Vector2(0, 0);
+        private int ScreenMoveTimer = 0;
 		
 		public int InvertGrav = 0;
 
@@ -161,6 +165,23 @@ namespace StarlightRiver
             Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
+
+            if(ScreenMoveTime > 0&& ScreenMoveTarget != Vector2.Zero)
+            {
+                Vector2 off = new Vector2(Main.screenWidth, Main.screenHeight) / -2;
+                if (ScreenMoveTimer <= 30) //go out
+                {
+                    Main.screenPosition = Vector2.SmoothStep(Main.LocalPlayer.Center + off, ScreenMoveTarget + off, ScreenMoveTimer / 30f);
+                }
+                else if (ScreenMoveTimer >= ScreenMoveTime - 30) //go in
+                {
+                    Main.screenPosition = Vector2.SmoothStep(ScreenMoveTarget + off, Main.LocalPlayer.Center + off, (ScreenMoveTimer - (ScreenMoveTime - 30)) / 30f);
+                }
+                else Main.screenPosition = ScreenMoveTarget + off; //stay on target
+
+                if (ScreenMoveTimer == ScreenMoveTime) { ScreenMoveTime = 0; ScreenMoveTimer = 0; ScreenMoveTarget = Vector2.Zero; }
+                ScreenMoveTimer++;
+            }
         }
     }
 }
