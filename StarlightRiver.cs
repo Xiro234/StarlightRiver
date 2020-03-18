@@ -23,6 +23,8 @@ using static Terraria.ModLoader.ModContent;
 using StarlightRiver.BootlegDusts;
 using StarlightRiver.Keys;
 using Terraria.Graphics;
+using ReLogic.Graphics;
+using StarlightRiver.Dragons;
 
 namespace StarlightRiver
 {
@@ -204,37 +206,308 @@ namespace StarlightRiver
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
             //Menu themes
-            //On.Terraria.Main.DrawMenu += TestMenu;
+            On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
             On.Terraria.Player.Update_NPCCollision += PlatformCollision;
+            On.Terraria.Main.DoUpdate += UpdateDragonMenu;
+
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
             //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
             IL.Terraria.Main.DoDraw += DrawWindow;
+            IL.Terraria.Main.DrawMenu += DragonMenuAttach;
         }
 
+
+
+
+
+        //IL edits-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        //IL edit for dragon customization
+        private void DragonMenuAttach(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.GotoNext(n => n.MatchLdsfld<Main>("menuMode") && n.Next.MatchLdcI4(2));
+            c.Index++;
+
+            c.EmitDelegate<DragonMenuDelegate>(EmitDragonDel);
+        }
+        private delegate void DragonMenuDelegate();
+        private DragonMenu dragonMenu = new DragonMenu();
+        private UserInterface dragonMenuUI = new UserInterface();
+        private void EmitDragonDel()
+        {
+            if (Main.menuMode == 2 || DragonMenu.visible)
+            {
+                if (!DragonMenu.created)
+                {
+                    dragonMenu = new DragonMenu();
+                    dragonMenu.OnInitialize();
+                    dragonMenu.dragon = Main.PendingPlayer.GetModPlayer<DragonHandler>();
+                    DragonMenu.created = true;
+
+                    dragonMenuUI = new UserInterface();
+                    dragonMenuUI.SetState(dragonMenu);
+                }
+                SpriteBatch spriteBatch = Main.spriteBatch;
+
+                if (dragonMenu != null && dragonMenuUI != null)
+                {
+                    dragonMenu.Draw(spriteBatch);                                   
+                }
+
+            }
+            else
+            {
+                DragonMenu.created = false;
+                dragonMenu = null;
+                dragonMenuUI = null;
+            }
+        }
+
+        // IL edit to get the overgrow boss window drawing correctly
+        private delegate void DrawWindowDelegate();
+        private void DrawWindow(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.GotoNext(n => n.MatchLdfld<Main>("DrawCacheNPCsMoonMoon"));
+            c.Index--;
+
+            c.EmitDelegate<DrawWindowDelegate>(EmitWindowDel);
+        }
+        private List<BootlegDust> WindowDust = new List<BootlegDust>();
+        private void EmitWindowDel()
+        {
+            foreach (NPC npc in Main.npc.Where(n => n.active && n.type == ModContent.NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>()))
+            {
+                Vector2 pos = npc.Center;
+                Vector2 dpos = pos - Main.screenPosition;
+                SpriteBatch spriteBatch = Main.spriteBatch;
+
+                //background
+                Texture2D backtex1 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window4");
+                spriteBatch.Draw(backtex1, dpos, new Rectangle(0, 0, 100, 100), new Color(205, 165, 70), 0, Vector2.One * 50, 10, 0, 0);
+
+                for (int k = -5; k < 5; k++)//back row
+                {
+                    Texture2D backtex2 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window3");
+                    Vector2 thispos = dpos + new Vector2(k * backtex2.Width, 300) + FindOffset(pos, 0.4f);
+                    if (Vector2.Distance(thispos, dpos) < 800)
+                        spriteBatch.Draw(backtex2, thispos, backtex2.Frame(), Color.White, 0, backtex2.Frame().Size() / 2, 1, 0, 0);
+                }
+                for (int k = -5; k < 5; k++)//mid row
+                {
+                    Texture2D backtex3 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window2");
+                    Vector2 thispos = dpos + new Vector2(k * backtex3.Width, 350) + FindOffset(pos, 0.3f);
+                    if (Vector2.Distance(thispos, dpos) < 800)
+                        spriteBatch.Draw(backtex3, thispos, backtex3.Frame(), Color.White, 0, backtex3.Frame().Size() / 2, 1, 0, 0);
+                }
+
+                //sun
+                spriteBatch.End();
+                spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
+
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
+
+                // Update + draw dusts
+                foreach (BootlegDust dust in WindowDust)
+                {
+                    dust.Draw(spriteBatch);
+                    dust.Update();
+                }
+                WindowDust.RemoveAll(n => n.time == 0);
+
+                if (Main.rand.Next(10) == 0) WindowDust.Add(new WindowLightDust(npc.Center + new Vector2(Main.rand.Next(-350, 350), -650), new Vector2(0, Main.rand.NextFloat(0.8f, 1.6f))));
+
+                for (int k = -2; k < 3; k++)
+                {
+                    Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/PitGlow");
+                    float rot = (float)Main.time / 50 % 6.28f;
+                    float sin = (float)Math.Sin(rot + k);
+                    float sin2 = (float)Math.Sin(rot + k * 1.4f);
+                    float cos = (float)Math.Cos(rot + k * 1.8f);
+                    Vector2 beampos = dpos + FindOffset(pos, 0.4f + Math.Abs(k) * 0.05f) + new Vector2(k * 85 + (k % 2 == 0 ? sin : sin2) * 30, -300);
+                    Rectangle beamrect = new Rectangle((int)beampos.X - (int)(sin * 30), (int)beampos.Y + (int)(sin2 * 70), 90 + (int)(sin * 30), 700 + (int)(sin2 * 140));
+
+                    spriteBatch.Draw(tex2, beamrect, tex2.Frame(), new Color(255, 255, 200) * (1.4f + cos) * 0.8f, 0, tex2.Frame().Size() / 2, SpriteEffects.FlipVertically, 0);
+                }
+
+                spriteBatch.End();
+                spriteBatch.Begin(default, default, SamplerState.PointWrap, default, default, default, Main.GameViewMatrix.TransformationMatrix);
+
+                for (int k = -10; k < 10; k++)// small waterfalls
+                {
+                    Texture2D watertex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
+                    int frame = (int)Main.time % 16 / 2;
+                    spriteBatch.Draw(watertex, dpos + new Vector2(100, k * 64) + FindOffset(pos, 0.22f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 2, 0, 0);
+                }
+
+                for (int k = -5; k < 5; k++) //front row
+                {
+                    Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
+                    Vector2 thispos = dpos + new Vector2(k * backtex4.Width, 380) + FindOffset(pos, 0.2f);
+                    if (Vector2.Distance(thispos, dpos) < 800)
+                        spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
+                }
+
+                for (int k = -5; k < 5; k++) //top row
+                {
+                    Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
+                    Vector2 thispos = dpos + new Vector2(k * backtex4.Width, -450) + FindOffset(pos, 0.25f);
+                    if (Vector2.Distance(thispos, dpos) < 800)
+                        spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
+                }
+
+                for (int k = -7; k < 7; k++) //big waterfall
+                {
+                    Texture2D watertex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
+                    int frame = (int)Main.time % 16 / 2;
+                    spriteBatch.Draw(watertex, dpos + new Vector2(300, k * 96) + FindOffset(pos, 0.1f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 3, 0, 0);
+                }
+
+                foreach (NPC boss in Main.npc.Where(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == (int)NPCs.Boss.OvergrowBoss.OvergrowBoss.OvergrowBossPhase.FirstGuard)) //boss behind
+                {
+                    Texture2D bosstex = ModContent.GetTexture(boss.modNPC.Texture);
+                    spriteBatch.Draw(bosstex, boss.Center - Main.screenPosition, bosstex.Frame(), Color.White, boss.rotation, bosstex.Frame().Size() / 2, boss.scale, 0, 0);
+                }
+
+                if (npc.ai[0] <= 360) //wall
+                {
+                    Texture2D walltex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowFill");
+                    Rectangle sourceRect = new Rectangle(0, 0, walltex.Width, walltex.Height - (int)(npc.ai[0] / 360 * 564));
+                    Rectangle sourceRect2 = new Rectangle(0, 0, walltex.Width, walltex.Height - (int)(npc.ai[0] / 360 * 564));
+                    spriteBatch.Draw(walltex, dpos + new Vector2(0, 282 + npc.ai[0] / 360 * 564), sourceRect, new Color(255, 255, 200), 0, walltex.Frame().Size() / 2, 1, 0, 0); //frame
+                    spriteBatch.Draw(walltex, dpos + new Vector2(0, -282 - npc.ai[0] / 360), sourceRect2, new Color(255, 255, 200), 0, walltex.Frame().Size() / 2, 1, SpriteEffects.FlipVertically, 0); //frame
+                }
+            }
+        }
+
+        //IL edit for vitric biome lighting
+        private delegate void ModLightingStateDelegate(float from, ref float to);
+        private delegate void ModColorDelegate(int i, int j, ref float r, ref float g, ref float b);
+
+        private void VitricLighting(ILContext il)
+        {
+            // Create our cursor at the start of the void PreRenderPhase() method.
+            ILCursor c = new ILCursor(il);
+
+            // We insert our emissions right before the ModifyLight call (line 1963, CIL 0x3428)
+            // Get the TileLoader.ModifyLight method. Then, using it,
+            // find where it's called and place the cursor right before that call instruction.
+
+            MethodInfo ModifyLight = typeof(TileLoader).GetMethod("ModifyLight", BindingFlags.Public | BindingFlags.Static);
+            c.GotoNext(i => i.MatchCall(ModifyLight));
+
+            // Emit the values of I and J.
+            /* To emit local variables, you have to know the indeces of where those variables are stored.
+             * These are stated at the very top of the method, in a format like below:
+             * .locals init ( 
+             *      [0] = float32 FstName, 
+             *      [1] = ScdName, 
+             *      [2] = ThdName
+             * )
+            */
+
+            c.Emit(OpCodes.Ldloc, 27); // [27] = n
+            c.Emit(OpCodes.Ldloc, 29); // [29] = num17
+
+            /* Emit the addresses of R, G, and B.
+             * It's important to emit their *addresses*, because we're passing them—
+             *   by reference, not by value. Under the hood, "ref" tokens—
+             *   pass a pointer to the object (even for managed types),
+             *   and that's what we need to do here.
+            */
+            c.Emit(OpCodes.Ldloca, 32); // [32] = num18
+            c.Emit(OpCodes.Ldloca, 33); // [33] = num19
+            c.Emit(OpCodes.Ldloca, 34); // [34] = num20
+
+            // Consume the values of I,J and the addresses of R,G,B by calling EmitVitricDel.
+            c.EmitDelegate<ModColorDelegate>(EmitVitricDel);
+
+            #region DEPRECATED
+            //// This following code is hacky just because I dislike writing "if"s in IL :)
+            //EmitLightingState3("r2", 32); // [32] = num18 (R)
+            //EmitLightingState3("g2", 33); // [33] = num19 (G)
+            //EmitLightingState3("b2", 34); // [34] = num20 (B)
+
+            //void EmitLightingState3(string fieldname, int colorIndex)
+            //{
+            //    // Find the field info of Lighting.LightingState's r2/g2/b2 fields.
+            //    Type LightingState = typeof(Lighting).GetNestedType("LightingState", BindingFlags.NonPublic);
+            //    FieldInfo field = LightingState.GetField(fieldname, BindingFlags.Public | BindingFlags.Instance);
+
+            //    // Emit R, B, and G from before
+            //    c.Emit(OpCodes.Ldloc, colorIndex);
+
+            //    // Emit LightingState, then its r2/g2/b2 address.
+            //    c.Emit(OpCodes.Ldloc, 30); // [30] = lightingState3
+            //    c.Emit(OpCodes.Ldflda, field);
+            //    c.EmitDelegate<ModLightingStateDelegate>(EmitLightingStateDel);
+            //}
+            #endregion
+
+            // Not much more than that.
+            // EmitVitricDel has the actual logic inside of it.
+        }
+
+        private static void EmitVitricDel(int i, int j, ref float r, ref float g, ref float b)
+        {
+            if (Main.tile[i, j] == null)
+            {
+                return;
+            }
+            // If the tile is in the vitric biome and doesn't block light, emit light.
+            bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type];
+            bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
+            if (LegendWorld.vitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            {
+                r = .4f;
+                g = .57f;
+                b = .65f;
+            }
+
+            //underworld lighting
+            if (Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) <= 1500 && j >= Main.maxTilesY - 200 && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            {
+                r = 0;
+                g = 0;
+
+                b = (1500 / Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) - 1) / 2;
+                if (b >= 0.8f) b = 0.8f;
+            }
+        }
+
+        // On.hooks ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, GameTime gameTime)
+        {
+            if (dragonMenuUI != null)
+            {
+                dragonMenuUI.Update(gameTime);
+            }
+            orig(self, gameTime);
+        }
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
         {
             foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC != null && n.modNPC is NPCs.MovingPlatform))
             {
-                if(new Rectangle((int)self.position.X, (int)self.position.Y + (self.height - 2), self.width, 4).Intersects
+                if (new Rectangle((int)self.position.X, (int)self.position.Y + (self.height - 2), self.width, 4).Intersects
                 (new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, 4)) && self.position.Y <= npc.position.Y)
-                {  
+                {
                     if (!self.justJumped && self.velocity.Y >= 0)
                     {
                         self.gfxOffY = npc.gfxOffY;
                         self.velocity.Y = 0;
                         self.fallStart = (int)(self.position.Y / 16f);
                         return;
-                    }                 
+                    }
                 }
             }
-            
+
             orig(self);
         }
-
         private bool UpdateMatrixFirst(On.Terraria.Graphics.SpriteViewMatrix.orig_ShouldRebuild orig, SpriteViewMatrix self)
         {
             return false;
@@ -309,6 +582,7 @@ namespace StarlightRiver
             if (ModLoader.GetMod("StarlightRiver") == null) return;
 
             Main.spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
+            Main.spriteBatch.DrawString(Main.fontMouseText, "Menu Mode: " + Main.menuMode, Vector2.One * 200, Color.White);
 
             switch (GetInstance<TitleScreenConfig>().Style)
             {
@@ -411,224 +685,6 @@ namespace StarlightRiver
                     spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"),
                         npc.Center - Main.screenPosition + Vector2.One * 16 * 12 + new Vector2(-4 + (float)Math.Sin(npc.ai[0] + k) * 4, 18 + k * 16), drawColor);
                 }
-            }
-        }
-
-
-        private delegate void DrawWindowDelegate();
-        private void DrawWindow(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(n => n.MatchLdfld<Main>("DrawCacheNPCsMoonMoon"));
-            c.Index--;
-
-            c.EmitDelegate<DrawWindowDelegate>(EmitWindowDel);
-        }
-        private List<BootlegDust> WindowDust = new List<BootlegDust>();
-        private void EmitWindowDel()
-        {
-            foreach(NPC npc in Main.npc.Where(n => n.active && n.type == ModContent.NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>()))
-            {
-                Vector2 pos = npc.Center;
-                Vector2 dpos = pos - Main.screenPosition;
-                SpriteBatch spriteBatch = Main.spriteBatch;
-
-                //background
-                Texture2D backtex1 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window4");
-                spriteBatch.Draw(backtex1, dpos, new Rectangle(0, 0, 100, 100), new Color(205, 165, 70), 0, Vector2.One * 50, 10, 0, 0);               
-
-                for (int k = -5; k < 5; k++)//back row
-                {
-                    Texture2D backtex2 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window3");
-                    Vector2 thispos = dpos + new Vector2(k * backtex2.Width, 300) + FindOffset(pos, 0.4f);
-                    if (Vector2.Distance(thispos, dpos) < 800)
-                        spriteBatch.Draw(backtex2, thispos, backtex2.Frame(), Color.White, 0, backtex2.Frame().Size() / 2, 1, 0, 0);
-                }
-                for (int k = -5; k < 5; k++)//mid row
-                {
-                    Texture2D backtex3 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window2");
-                    Vector2 thispos = dpos + new Vector2(k * backtex3.Width, 350) + FindOffset(pos, 0.3f);
-                    if (Vector2.Distance(thispos, dpos) < 800)
-                        spriteBatch.Draw(backtex3, thispos, backtex3.Frame(), Color.White, 0, backtex3.Frame().Size() / 2, 1, 0, 0);
-                }
-
-                //sun
-                spriteBatch.End();
-                spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
-
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
-
-                // Update + draw dusts
-                foreach(BootlegDust dust in WindowDust)
-                {
-                    dust.Draw(spriteBatch);
-                    dust.Update();
-                }
-                 WindowDust.RemoveAll(n => n.time == 0);
-
-                if (Main.rand.Next(10) == 0) WindowDust.Add(new WindowLightDust(npc.Center + new Vector2(Main.rand.Next(-350, 350), -650), new Vector2(0, Main.rand.NextFloat(0.8f, 1.6f))));
-
-                for (int k = -2; k < 3; k++)
-                {
-                    Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/PitGlow");
-                    float rot = (float)Main.time / 50 % 6.28f;
-                    float sin = (float)Math.Sin(rot + k);
-                    float sin2 = (float)Math.Sin(rot + k * 1.4f);
-                    float cos = (float)Math.Cos(rot + k * 1.8f);
-                    Vector2 beampos = dpos + FindOffset(pos, 0.4f + Math.Abs(k) * 0.05f) + new Vector2(k * 85 + (k % 2 == 0 ? sin : sin2) * 30, -300);
-                    Rectangle beamrect = new Rectangle((int)beampos.X - (int)(sin * 30), (int)beampos.Y + (int)(sin2 * 70), 90 + (int)(sin * 30), 700 + (int)(sin2 * 140));
-
-                    spriteBatch.Draw(tex2, beamrect, tex2.Frame(), new Color(255, 255, 200) * (1.4f + cos) * 0.8f, 0, tex2.Frame().Size() / 2, SpriteEffects.FlipVertically, 0);
-                }
-
-                spriteBatch.End();
-                spriteBatch.Begin(default, default, SamplerState.PointWrap, default, default, default, Main.GameViewMatrix.TransformationMatrix);
-
-                for (int k = -10; k < 10; k++)// small waterfalls
-                {
-                    Texture2D watertex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
-                    int frame = (int)Main.time % 16 / 2;
-                    spriteBatch.Draw(watertex, dpos + new Vector2(100, k * 64) + FindOffset(pos, 0.22f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 2, 0, 0);
-                }
-
-                for (int k = -5; k < 5; k++) //front row
-                {
-                    Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
-                    Vector2 thispos = dpos + new Vector2(k * backtex4.Width, 380) + FindOffset(pos, 0.2f);
-                    if (Vector2.Distance(thispos, dpos) < 800)
-                        spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
-                }
-
-                for (int k = -5; k < 5; k++) //top row
-                {
-                    Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
-                    Vector2 thispos = dpos + new Vector2(k * backtex4.Width, -450) + FindOffset(pos, 0.25f);
-                    if (Vector2.Distance(thispos, dpos) < 800)
-                        spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
-                }
-
-                for (int k = -7; k < 7; k++) //big waterfall
-                {
-                    Texture2D watertex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
-                    int frame = (int)Main.time % 16 / 2;
-                    spriteBatch.Draw(watertex, dpos + new Vector2(300, k * 96) + FindOffset(pos, 0.1f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 3, 0, 0);
-                }
-
-                foreach (NPC boss in Main.npc.Where(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == (int)NPCs.Boss.OvergrowBoss.OvergrowBoss.OvergrowBossPhase.FirstGuard)) //boss behind
-                {
-                    Texture2D bosstex = ModContent.GetTexture(boss.modNPC.Texture);
-                    spriteBatch.Draw(bosstex, boss.Center - Main.screenPosition, bosstex.Frame(), Color.White, boss.rotation, bosstex.Frame().Size() / 2, boss.scale, 0, 0);
-                }
-
-                if (npc.ai[0] <= 360) //wall
-                {
-                    Texture2D walltex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowFill");
-                    Rectangle sourceRect = new Rectangle(0, 0, walltex.Width, walltex.Height - (int)(npc.ai[0] / 360 * 564));
-                    Rectangle sourceRect2 = new Rectangle(0, 0, walltex.Width, walltex.Height - (int)(npc.ai[0] / 360 * 564));
-                    spriteBatch.Draw(walltex, dpos + new Vector2(0, 282 + npc.ai[0] / 360 * 564), sourceRect, new Color(255, 255, 200), 0, walltex.Frame().Size() / 2, 1, 0, 0); //frame
-                    spriteBatch.Draw(walltex, dpos + new Vector2(0, -282 - npc.ai[0] / 360), sourceRect2, new Color(255, 255, 200), 0, walltex.Frame().Size() / 2, 1, SpriteEffects.FlipVertically, 0); //frame
-                }
-            }
-        }
-
-        private delegate void ModLightingStateDelegate(float from, ref float to);
-        private delegate void ModColorDelegate(int i, int j, ref float r, ref float g, ref float b);
-
-        private void VitricLighting(ILContext il)
-        {
-            // Create our cursor at the start of the void PreRenderPhase() method.
-            ILCursor c = new ILCursor(il);
-
-            // We insert our emissions right before the ModifyLight call (line 1963, CIL 0x3428)
-            // Get the TileLoader.ModifyLight method. Then, using it,
-            // find where it's called and place the cursor right before that call instruction.
-
-            MethodInfo ModifyLight = typeof(TileLoader).GetMethod("ModifyLight", BindingFlags.Public | BindingFlags.Static);
-            c.GotoNext(i => i.MatchCall(ModifyLight));
-
-            // Emit the values of I and J.
-            /* To emit local variables, you have to know the indeces of where those variables are stored.
-             * These are stated at the very top of the method, in a format like below:
-             * .locals init ( 
-             *      [0] = float32 FstName, 
-             *      [1] = ScdName, 
-             *      [2] = ThdName
-             * )
-            */
-
-            c.Emit(OpCodes.Ldloc, 27); // [27] = n
-            c.Emit(OpCodes.Ldloc, 29); // [29] = num17
-
-            /* Emit the addresses of R, G, and B.
-             * It's important to emit their *addresses*, because we're passing them—
-             *   by reference, not by value. Under the hood, "ref" tokens—
-             *   pass a pointer to the object (even for managed types),
-             *   and that's what we need to do here.
-            */
-            c.Emit(OpCodes.Ldloca, 32); // [32] = num18
-            c.Emit(OpCodes.Ldloca, 33); // [33] = num19
-            c.Emit(OpCodes.Ldloca, 34); // [34] = num20
-
-            // Consume the values of I,J and the addresses of R,G,B by calling EmitVitricDel.
-            c.EmitDelegate<ModColorDelegate>(EmitVitricDel);
-
-            #region DEPRECATED
-            //// This following code is hacky just because I dislike writing "if"s in IL :)
-            //EmitLightingState3("r2", 32); // [32] = num18 (R)
-            //EmitLightingState3("g2", 33); // [33] = num19 (G)
-            //EmitLightingState3("b2", 34); // [34] = num20 (B)
-
-            //void EmitLightingState3(string fieldname, int colorIndex)
-            //{
-            //    // Find the field info of Lighting.LightingState's r2/g2/b2 fields.
-            //    Type LightingState = typeof(Lighting).GetNestedType("LightingState", BindingFlags.NonPublic);
-            //    FieldInfo field = LightingState.GetField(fieldname, BindingFlags.Public | BindingFlags.Instance);
-
-            //    // Emit R, B, and G from before
-            //    c.Emit(OpCodes.Ldloc, colorIndex);
-
-            //    // Emit LightingState, then its r2/g2/b2 address.
-            //    c.Emit(OpCodes.Ldloc, 30); // [30] = lightingState3
-            //    c.Emit(OpCodes.Ldflda, field);
-            //    c.EmitDelegate<ModLightingStateDelegate>(EmitLightingStateDel);
-            //}
-            #endregion
-
-            // Not much more than that.
-            // EmitVitricDel has the actual logic inside of it.
-        }
-
-        //private static void EmitLightingStateDel(float from, ref float to)
-        //{
-        //    // If the lighting at this position is less than the set R/G/B value, set it.
-        //    if (to < from)
-        //        to = from;
-        //}
-
-        private static void EmitVitricDel(int i, int j, ref float r, ref float g, ref float b)
-        {
-            if (Main.tile[i, j] == null)
-            {
-                return;
-            }
-            // If the tile is in the vitric biome and doesn't block light, emit light.
-            bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type];
-            bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
-            if (LegendWorld.vitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
-            {
-                r = .4f;
-                g = .57f;
-                b = .65f;
-            }
-
-            //underworld lighting
-            if(Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) <= 1500 && j >= Main.maxTilesY - 200 && Main.tile[i, j] != null && !tileBlock && wallBlock)
-            {
-                r = 0;
-                g = 0;
-
-                b = (1500 / Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) - 1) / 2;
-                if (b >= 0.8f) b = 0.8f;
             }
         }
 
