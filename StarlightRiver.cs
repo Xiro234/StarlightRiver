@@ -519,11 +519,18 @@ namespace StarlightRiver
         {
             if (Main.mouseItem.type > 0 && !Main.playerInventory && Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem)
             {
-                Item item = self.inventory[49];
-                int index = Item.NewItem(self.position, item.type, item.stack, false, item.prefix, false, false);
-                Main.item[index] = item.Clone();
-                Main.item[index].position = self.position;
-                item.TurnToAir();
+                for (int k = 49; k > 0; k--)
+                {
+                    Item item = self.inventory[49];
+                    if (!(self.inventory[49].modItem is Items.SoulboundItem) || k == 0)
+                    {
+                        int index = Item.NewItem(self.position, item.type, item.stack, false, item.prefix, false, false);
+                        Main.item[index] = item.Clone();
+                        Main.item[index].position = self.position;
+                        item.TurnToAir();
+                        break;
+                    }
+                }
             }
             orig(self);
         }
@@ -563,7 +570,6 @@ namespace StarlightRiver
         {
             return false;
         }
-
         private void PostDrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
             orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
@@ -576,7 +582,6 @@ namespace StarlightRiver
                     }
                 }
         }
-
         private void DrawKeys(On.Terraria.Main.orig_DrawItems orig, Main self)
         {
             foreach (Key key in LegendWorld.Keys)
@@ -585,7 +590,6 @@ namespace StarlightRiver
             }
             orig(self);
         }
-
         public Vector2 FindOffset(Vector2 basepos, float factor)
         {
             Vector2 origin = Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
@@ -680,12 +684,10 @@ namespace StarlightRiver
             foreach (BootlegDust dus in Removals) MenuDust.Remove(dus);
             Main.spriteBatch.End();
         }
-
         private void DrawProto(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_refItem_int_Vector2_Color orig, SpriteBatch spriteBatch, ref Item inv, int context, Vector2 position, Color lightColor)
         {
              orig(spriteBatch, ref inv, context, position, lightColor);
         }
-
         private Texture2D VoidIcon(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_GetIcon orig, UIWorldListItem self)
         {
             /*FieldInfo datainfo = self.GetType().GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -707,7 +709,6 @@ namespace StarlightRiver
 
             return orig(self);
         }
-
         private void DrawBlackFade(On.Terraria.Main.orig_DrawUnderworldBackground orig, Main self, bool flat)
         {
             orig(self, flat);
@@ -798,7 +799,6 @@ namespace StarlightRiver
                 }
             }           
         }
-
         public void DrawLayer(Vector2 basepoint, Texture2D texture, int parallax)
         {
             for (int k = 0; k <= 5; k++)
@@ -808,12 +808,10 @@ namespace StarlightRiver
                     new Rectangle(0, 0, 2956, 1528), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             }
         }
-
         public int GetParallaxOffset(float startpoint, float factor)
         {
             return (int)((Main.LocalPlayer.position.X - startpoint) * factor);
         }
-
         private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, UICharacterListItem self, SpriteBatch spriteBatch)
         {
             orig(self, spriteBatch);
@@ -867,14 +865,13 @@ namespace StarlightRiver
                 spriteBatch.Draw(Main.heart2Texture, origin + new Vector2(80, 37), Color.White);
             }
         }
-
         private void HandleSpecialItemInteractions(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
             if((inv[slot].modItem is CursedAccessory || inv[slot].modItem is Blocker) && context == 10)
             {
                 return;
             }
-            if(Main.mouseItem.modItem is Items.SoulboundItem && context != 0)
+            if(Main.mouseItem.modItem is Items.SoulboundItem && (context != 0 || inv != Main.LocalPlayer.inventory))
             {
                 return;
             }
