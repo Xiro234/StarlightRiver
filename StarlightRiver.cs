@@ -25,6 +25,7 @@ using StarlightRiver.Keys;
 using Terraria.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Dragons;
+using Terraria.GameInput;
 
 namespace StarlightRiver
 {
@@ -184,7 +185,7 @@ namespace StarlightRiver
             }
 
             // Cursed Accessory Control Override
-            On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += NoClickCurse;
+            On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += HandleSpecialItemInteractions;
             On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
             On.Terraria.UI.ItemSlot.RightClick_ItemArray_int_int += NoSwapCurse;
             // Prototype Item Background
@@ -212,6 +213,8 @@ namespace StarlightRiver
             //Moving Platforms
             On.Terraria.Player.Update_NPCCollision += PlatformCollision;
             On.Terraria.Main.DoUpdate += UpdateDragonMenu;
+            On.Terraria.Player.DropSelectedItem += dontDropSoulbound;
+            On.Terraria.Player.dropItemCheck += SoulboundPriority;
 
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
@@ -219,10 +222,6 @@ namespace StarlightRiver
             IL.Terraria.Main.DoDraw += DrawWindow;
             IL.Terraria.Main.DrawMenu += DragonMenuAttach;
         }
-
-
-
-
 
         //IL edits-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -481,6 +480,23 @@ namespace StarlightRiver
         }
 
         // On.hooks ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void SoulboundPriority(On.Terraria.Player.orig_dropItemCheck orig, Player self)
+        {
+            if (Main.mouseItem.type > 0 && !Main.playerInventory && Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem)
+            {
+                Item item = self.inventory[49];
+                int index = Item.NewItem(self.position, item.type, item.stack, false, item.prefix, false, false);
+                Main.item[index] = item.Clone();
+                Main.item[index].position = self.position;
+                item.TurnToAir();
+            }
+            orig(self);
+        }
+        private void dontDropSoulbound(On.Terraria.Player.orig_DropSelectedItem orig, Terraria.Player self)
+        {
+            if (Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem) return;
+            else orig(self);
+        }
         private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, GameTime gameTime)
         {
             if (dragonMenuUI != null)
@@ -817,12 +833,21 @@ namespace StarlightRiver
             }
         }
 
-        private void NoClickCurse(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
+        private void HandleSpecialItemInteractions(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
             if((inv[slot].modItem is CursedAccessory || inv[slot].modItem is Blocker) && context == 10)
             {
                 return;
             }
+            if(Main.mouseItem.modItem is Items.SoulboundItem && context != 0)
+            {
+                return;
+            }
+            if(inv[slot].modItem is Items.SoulboundItem && Main.keyState.PressingShift())
+            {
+                return;
+            }
+            Main.NewText(context);
             orig(inv, context, slot);
         }
 
