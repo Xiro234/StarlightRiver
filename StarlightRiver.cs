@@ -225,10 +225,31 @@ namespace StarlightRiver
             //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
             IL.Terraria.Main.DoDraw += DrawWindow;
             IL.Terraria.Main.DrawMenu += DragonMenuAttach;
+            IL.Terraria.UI.ChestUI.DepositAll += PreventSoulboundStack;
         }
 
-        //IL edits-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+        //IL edits-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private void PreventSoulboundStack(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            c.TryGotoNext(i => i.MatchLdloc(1), i => i.MatchLdcI4(1), i => i.MatchSub());
+            Instruction target = c.Prev.Previous;    
+
+            c.TryGotoPrev(n => n.MatchLdfld<Item>("favorited"));
+            c.Index++;
+
+            c.Emit(OpCodes.Ldloc_0);
+            c.EmitDelegate<SoulboundDelegate>(EmitSoulboundDel);
+            c.Emit(OpCodes.Brtrue_S, target);
+        }
+        private delegate bool SoulboundDelegate(int index);
+        private bool EmitSoulboundDel(int index)
+        {
+            return Main.LocalPlayer.inventory[index].modItem is Items.SoulboundItem;
+        }
         //IL edit for dragon customization
         private void DragonMenuAttach(ILContext il)
         {
