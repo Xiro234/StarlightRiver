@@ -207,14 +207,18 @@ namespace StarlightRiver
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
             //Menu themes
-            On.Terraria.Main.DrawMenu += TestMenu;
+            //On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
             On.Terraria.Player.Update_NPCCollision += PlatformCollision;
+            //Dergon menu
             On.Terraria.Main.DoUpdate += UpdateDragonMenu;
-            On.Terraria.Player.DropSelectedItem += dontDropSoulbound;
+            //Soulbound Items, ech these are a pain
+            On.Terraria.Player.DropSelectedItem += DontDropSoulbound;
             On.Terraria.Player.dropItemCheck += SoulboundPriority;
+            On.Terraria.Player.ItemFitsItemFrame += NoSoulboundFrame;
+            On.Terraria.Player.ItemFitsWeaponRack += NoSoulboundRack;
 
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
@@ -480,6 +484,16 @@ namespace StarlightRiver
         }
 
         // On.hooks ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private bool NoSoulboundFrame(On.Terraria.Player.orig_ItemFitsItemFrame orig, Player self, Item i)
+        {
+            if (i.modItem is Items.SoulboundItem) return false;
+            return orig(self, i);
+        }
+        private bool NoSoulboundRack(On.Terraria.Player.orig_ItemFitsWeaponRack orig, Player self, Item i)
+        {
+            if (i.modItem is Items.SoulboundItem) return false;
+            return orig(self, i);
+        }
         private void SoulboundPriority(On.Terraria.Player.orig_dropItemCheck orig, Player self)
         {
             if (Main.mouseItem.type > 0 && !Main.playerInventory && Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem)
@@ -492,9 +506,9 @@ namespace StarlightRiver
             }
             orig(self);
         }
-        private void dontDropSoulbound(On.Terraria.Player.orig_DropSelectedItem orig, Terraria.Player self)
+        private void DontDropSoulbound(On.Terraria.Player.orig_DropSelectedItem orig, Terraria.Player self)
         {
-            if (Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem) return;
+            if (self.inventory[self.selectedItem].modItem is Items.SoulboundItem || Main.mouseItem.modItem is Items.SoulboundItem) return;
             else orig(self);
         }
         private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, GameTime gameTime)

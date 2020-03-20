@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Dragons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,26 @@ namespace StarlightRiver.Items.Dragons
 {
     class Egg : SoulboundItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dragon Egg");
+        }
         public override void SetDefaults()
         {
             item.width = 16;
             item.height = 16;
         }
 
+        public override void UpdateInventory(Player player)
+        {
+            item.color = player.GetModPlayer<DragonHandler>().scaleColor;
+        }
+
         public override void SafeModifyTooltips(List<TooltipLine> tooltips)
         {
             TooltipLine nameline = tooltips.FirstOrDefault(n => n.Name == "ItemName" && n.mod == "Terraria");
             nameline.text = Main.LocalPlayer.name + "`s Dragon Egg";
-            nameline.overrideColor = new Color(255, 120, 0);
+            nameline.overrideColor = new Color(255, 220, 50);
 
             TooltipLine line = new TooltipLine(mod, "n", "Perhaps it would hatch if it had a nest...");
             line.overrideColor = new Color(255, 255, 200);
