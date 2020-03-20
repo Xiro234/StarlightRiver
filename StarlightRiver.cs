@@ -521,8 +521,8 @@ namespace StarlightRiver
             {
                 for (int k = 49; k > 0; k--)
                 {
-                    Item item = self.inventory[49];
-                    if (!(self.inventory[49].modItem is Items.SoulboundItem) || k == 0)
+                    Item item = self.inventory[k];
+                    if (!(self.inventory[k].modItem is Items.SoulboundItem) || k == 0)
                     {
                         int index = Item.NewItem(self.position, item.type, item.stack, false, item.prefix, false, false);
                         Main.item[index] = item.Clone();
