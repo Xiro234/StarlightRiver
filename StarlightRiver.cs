@@ -871,7 +871,7 @@ namespace StarlightRiver
             {
                 return;
             }
-            if(Main.mouseItem.modItem is Items.SoulboundItem && (context != 0 || inv != Main.LocalPlayer.inventory))
+            if(Main.mouseItem.modItem is Items.SoulboundItem && (context != 0 || slot > 49))
             {
                 return;
             }
