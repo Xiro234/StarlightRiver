@@ -26,6 +26,12 @@ using Terraria.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Dragons;
 using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.Localization;
+using Terraria.DataStructures;
+using Terraria.GameContent.UI;
+using System.Globalization;
+using System.Windows;
 
 namespace StarlightRiver
 {
@@ -144,6 +150,17 @@ namespace StarlightRiver
 
             //Shaders
             GameShaders.Misc["StarlightRiver:Distort"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Distort")), "Distort");
+			
+			Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/AuraEffect"));
+
+            Terraria.Graphics.Effects.Filters.Scene["AuraFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef2, "AuraPass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
+            Terraria.Graphics.Effects.Filters.Scene["AuraFilter"].Load();
+
+            Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/BlurEffect"));
+
+            Terraria.Graphics.Effects.Filters.Scene["BlurFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef, "BlurPass"), Terraria.Graphics.Effects.EffectPriority.High);
+            Terraria.Graphics.Effects.Filters.Scene["BlurFilter"].Load();
+			
 
             RiftRecipes = new List<RiftRecipe>();
             AutoloadRiftRecipes(RiftRecipes);
