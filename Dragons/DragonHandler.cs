@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader.IO;
+using System.IO;
 
 namespace StarlightRiver.Dragons
 {
@@ -16,32 +17,26 @@ namespace StarlightRiver.Dragons
         normal = 0,
         scalie = 1
     };
-    public class DragonHandler : ModPlayer
+    public enum GrowthStage
     {
-        public Color hornColor = new Color(180, 140, 60);
-        public Color scaleColor = new Color(255, 50, 50);
-        public Color bellyColor = new Color(250, 220, 130);
-        public Color eyeColor = new Color(100, 100, 220);
+        egg = 0,
+        baby = 1
+    }
+    public struct DragonData
+    {
+        public Color hornColor;
+        public Color scaleColor;
+        public Color bellyColor;
+        public Color eyeColor;
 
-        public string name = "[PH]DefaultDragonName";
+        public string name;
 
-        public Roar roar = Roar.normal;
+        public Roar roar;
 
-        public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
-        {
-            if (!mediumcoreDeath)
-            {
-                Item egg = new Item();
-                egg.SetDefaults(ModContent.ItemType<Items.Dragons.Egg>());
-                items.Add(egg);
-            }
-        }
-        public override bool ShiftClickSlot(Item[] inventory, int context, int slot)
-        {
-            if (inventory[slot].modItem != null && inventory[slot].modItem is Items.SoulboundItem) return false;
-            else return default;
-        }
-        public override TagCompound Save()
+        public GrowthStage stage;
+        public Item gear;
+
+        public TagCompound Save()
         {
             return new TagCompound()
             {
@@ -52,10 +47,13 @@ namespace StarlightRiver.Dragons
 
                 [nameof(name)] = name,
 
-                [nameof(roar)] = (int)roar
+                [nameof(roar)] = (int)roar,
+
+                [nameof(stage)] = (int)stage,
+                [nameof(gear)] = gear
             };
         }
-        public override void Load(TagCompound tag)
+        public void Load(TagCompound tag)
         {
             hornColor = tag.Get<Color>(nameof(hornColor));
             scaleColor = tag.Get<Color>(nameof(scaleColor));
@@ -65,6 +63,48 @@ namespace StarlightRiver.Dragons
             name = tag.GetString(nameof(name));
 
             roar = (Roar)tag.GetInt(nameof(roar));
+
+            stage = (GrowthStage)tag.GetInt(nameof(stage));
+            gear = tag.Get<Item>(nameof(gear));
+        }
+        public void SetDefault()
+        {
+            hornColor = new Color(180, 140, 60);
+            scaleColor = new Color(255, 50, 50);
+            bellyColor = new Color(250, 220, 130);
+            eyeColor = new Color(100, 100, 220);
+
+            name = "Draggy the Dragon";
+
+            roar = Roar.normal;
+
+            stage = GrowthStage.egg;
+            gear = null;
+        }
+    }
+    public class DragonHandler : ModPlayer
+    {
+        public DragonData data = new DragonData();
+        public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
+        {
+            if (!mediumcoreDeath)
+            {
+                Item egg = new Item();
+                egg.SetDefaults(ModContent.ItemType<Items.Dragons.Egg>());
+                items.Add(egg);
+            }
+        }
+        public override TagCompound Save()
+        {
+            return new TagCompound()
+            {
+                [nameof(data)] = data.Save(),
+            };
+        }
+        public override void Load(TagCompound tag)
+        {
+            data.Load(tag.GetCompound(nameof(data)));
+            if (data.name == null) data.SetDefault(); //safety check
         }
     }
 }

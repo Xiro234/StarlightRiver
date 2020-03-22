@@ -19,7 +19,8 @@ namespace StarlightRiver.GUI
         horn = 1,
         scale = 2,
         belly = 3,
-        eye = 4
+        eye = 4,
+        name = 5
     };
     public class DragonMenu : UIState
     {
@@ -68,6 +69,7 @@ namespace StarlightRiver.GUI
         private void Customize0(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
+            part = ActivePart.name;
 
 
             QuickAddButton("Back", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
@@ -75,9 +77,9 @@ namespace StarlightRiver.GUI
         private void Customize1(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
-            QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.hornColor.R);
-            QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.hornColor.G);
-            QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.hornColor.B);
+            QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.data.hornColor.R);
+            QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.data.hornColor.G);
+            QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.data.hornColor.B);
             part = ActivePart.horn;
 
             QuickAddButton("Back", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
@@ -87,9 +89,9 @@ namespace StarlightRiver.GUI
         private void Customize2(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
-            QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.scaleColor.R);
-            QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.scaleColor.G);
-            QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.scaleColor.B);
+            QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.data.scaleColor.R);
+            QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.data.scaleColor.G);
+            QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.data.scaleColor.B);
             part = ActivePart.scale;
 
             QuickAddButton("Back", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
@@ -99,9 +101,9 @@ namespace StarlightRiver.GUI
         private void Customize3(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
-            QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.bellyColor.R);
-            QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.bellyColor.G);
-            QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.bellyColor.B);
+            QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.data.bellyColor.R);
+            QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.data.bellyColor.G);
+            QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.data.bellyColor.B);
             part = ActivePart.belly;
 
             QuickAddButton("Back", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
@@ -111,9 +113,9 @@ namespace StarlightRiver.GUI
         private void Customize4(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
-            QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.eyeColor.R);
-            QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.eyeColor.G);
-            QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.eyeColor.B);
+            QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.data.eyeColor.R);
+            QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.data.eyeColor.G);
+            QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.data.eyeColor.B);
             part = ActivePart.eye;
 
             QuickAddButton("Back", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
@@ -122,10 +124,10 @@ namespace StarlightRiver.GUI
         }
         private void Randomize(UIMouseEvent evt, UIElement listeningElement)
         {
-            dragon.hornColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
-            dragon.scaleColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
-            dragon.bellyColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
-            dragon.eyeColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
+            dragon.data.hornColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
+            dragon.data.scaleColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
+            dragon.data.bellyColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
+            dragon.data.eyeColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
 
             Main.PlaySound(SoundID.MenuTick);
         }
@@ -138,12 +140,18 @@ namespace StarlightRiver.GUI
                 Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Dragons/DragonScale");
                 Texture2D tex3 = ModContent.GetTexture("StarlightRiver/Dragons/DragonBelly");
                 Texture2D tex4 = ModContent.GetTexture("StarlightRiver/Dragons/DragonEye");
-                spriteBatch.Draw(tex, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.hornColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
-                spriteBatch.Draw(tex2, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.scaleColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
-                spriteBatch.Draw(tex3, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.bellyColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
-                spriteBatch.Draw(tex4, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.eyeColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.data.hornColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex2, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.data.scaleColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex3, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.data.bellyColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex4, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.data.eyeColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
 
                 currentColor.A = 255;
+
+                if(part == ActivePart.name)
+                {
+                    Vector2 adj = new Vector2((int)Main.fontMouseText.MeasureString(dragon.data.name).X, (int)Main.fontMouseText.MeasureString(dragon.data.name).Y * 1.2f);
+                    Utils.DrawBorderStringBig(spriteBatch, dragon.data.name, new Vector2(Main.screenWidth / 2, 300) - adj, Color.White, 0.675f);
+                }
             }
 
             base.Draw(spriteBatch);
@@ -154,10 +162,11 @@ namespace StarlightRiver.GUI
             base.Update(gameTime);
             switch (part)
             {
-                case ActivePart.horn: dragon.hornColor = currentColor; break;
-                case ActivePart.scale: dragon.scaleColor = currentColor; break;
-                case ActivePart.belly: dragon.bellyColor = currentColor; break;
-                case ActivePart.eye: dragon.eyeColor = currentColor; break;
+                case ActivePart.horn: dragon.data.hornColor = currentColor; break;
+                case ActivePart.scale: dragon.data.scaleColor = currentColor; break;
+                case ActivePart.belly: dragon.data.bellyColor = currentColor; break;
+                case ActivePart.eye: dragon.data.eyeColor = currentColor; break;
+                case ActivePart.name: dragon.data.name = Main.GetInputText(dragon.data.name); break;
             }
         }
         private void QuickAddButton(string text, Vector2 pos, MouseEvent OnClick = null)
@@ -179,10 +188,6 @@ namespace StarlightRiver.GUI
 
             base.Append(slider);
 
-        }
-        private void QuickAddTextbox(Vector2 pos)
-        {
-            
         }
     }
 
@@ -263,7 +268,7 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            if(sliderBox.Contains(Main.MouseScreen.ToPoint()) && Main.mouseLeft)
+            if(GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint()) && Main.mouseLeft)
             {
                 sliderPos = (int)(Main.MouseScreen.ToPoint().X - GetDimensions().X);
             }

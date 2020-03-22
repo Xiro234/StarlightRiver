@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dragons;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,13 @@ namespace StarlightRiver.Items.Dragons
 
         public override void UpdateInventory(Player player)
         {
-            item.color = player.GetModPlayer<DragonHandler>().scaleColor;
+            item.color = player.GetModPlayer<DragonHandler>().data.scaleColor;
+        }
+
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/Items/Dragons/EggOver");
+            spriteBatch.Draw(tex, position, tex.Frame(), Main.LocalPlayer.GetModPlayer<DragonHandler>().data.bellyColor, 0, Vector2.Zero, scale, 0, 0);
         }
 
         public override void SafeModifyTooltips(List<TooltipLine> tooltips)

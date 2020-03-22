@@ -270,6 +270,7 @@ namespace StarlightRiver
                 {
                     dragonMenu = new DragonMenu();
                     dragonMenu.OnInitialize();
+                    Main.PendingPlayer.GetModPlayer<DragonHandler>().data.SetDefault();
                     dragonMenu.dragon = Main.PendingPlayer.GetModPlayer<DragonHandler>();
                     DragonMenu.created = true;
 
