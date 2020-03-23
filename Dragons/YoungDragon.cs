@@ -69,10 +69,10 @@ namespace StarlightRiver.Dragons
         {
             SetDefaults();
             player.noItems = true;
-            /*if (player.controlUseItem)
+            if (player.controlUseItem)
             {
                 Dust.NewDustPerfect(player.Center + new Vector2(player.direction * -14, 8), ModContent.DustType<Dusts.Piss>(), new Vector2(player.direction * 2, 0), 180, new Color(255, 255, 150));
-            }*/
+            }
         }
         public override bool Draw(List<DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
         {
