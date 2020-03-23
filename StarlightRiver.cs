@@ -594,7 +594,7 @@ namespace StarlightRiver
             for (int i = (int)Main.screenPosition.X / 16; i < (int)Main.screenPosition.X / 16 + Main.screenWidth / 16; i++)
                 for (int j = (int)Main.screenPosition.Y / 16; j < (int)Main.screenPosition.Y / 16 + Main.screenWidth / 16; j++)
                 {
-                    if (i >  0 && j > 0 && i < Main.maxTilesX && j < Main.maxTilesY && Main.tile[i, j] != null && Main.tile[i, j].type == ModContent.TileType<Tiles.Overgrow.GrassOvergrow>())
+                    if (i > 0 && j > 0 && i < Main.maxTilesX && j < Main.maxTilesY && Main.tile[i, j] != null && Main.tile[i, j].type == ModContent.TileType<Tiles.Overgrow.GrassOvergrow>())
                     {
                         (ModContent.GetModTile(ModContent.TileType<Tiles.Overgrow.GrassOvergrow>()) as Tiles.Overgrow.GrassOvergrow).CustomDraw(i, j, Main.spriteBatch);
                     }

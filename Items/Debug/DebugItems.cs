@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using System.IO;
 using Terraria.IO;
+using StarlightRiver.Dragons;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -206,7 +207,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
+            item.mountType = ModContent.MountType<YoungDragon>();
             item.autoReuse = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -218,10 +219,6 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            LegendWorld.OvergrowBossOpen = false;
-            LegendWorld.OvergrowBossFree = false;
-            LegendWorld.OvergrowBossDowned = false;
-            Keys.Key.Spawn<Keys.OvergrowKey>(Main.MouseWorld);
             return true;
         }
     }
