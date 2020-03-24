@@ -9,7 +9,7 @@ namespace StarlightRiver.Items.Accessories
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Mirage Boots");
-            DisplayName.SetDefault("Allows extended flight");
+            DisplayName.SetDefault("Allows extended flight" + "\nUnimplimented Function");
         }
 
         public override void SetDefaults()
