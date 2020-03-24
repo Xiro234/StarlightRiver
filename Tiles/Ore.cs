@@ -40,4 +40,20 @@ namespace StarlightRiver.Tiles
             AddMapEntry(new Color(245, 245, 230), name);
         }
     }
+	class OreCelumite : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileLighted[Type] = true;
+            Main.tileStone[Type] = true;
+            drop = mod.ItemType("OreCelumiteItem");
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Celumite");
+            AddMapEntry(new Color(108, 134, 120), name);
+        }
+    }
 }

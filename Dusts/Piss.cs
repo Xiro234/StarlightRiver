@@ -13,29 +13,27 @@ namespace StarlightRiver.Dusts
     {
         public override bool Autoload(ref string name, ref string texture)
         {
-            texture = "StarlightRiver/Dusts/Air";
+            texture = "StarlightRiver/Dusts/GasChaos";
             return true;
         }
         public override void OnSpawn(Dust dust)
         {
-            dust.noGravity = false;
+			dust.color = new Color(Main.rand.Next(100, 255), Main.rand.Next(100, 255), Main.rand.Next(100, 255));
+            dust.noGravity = true;
             dust.noLight = false;
             dust.alpha = 180;
         }
 
-        public override bool Update(Dust dust)
-        {
-            dust.position += dust.velocity;
-            dust.velocity.Y += 0.1f;
-            if (Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].active() && Main.tile[(int)dust.position.X / 16, (int)dust.position.Y / 16].collisionType == 1)
-            {
-                Dust.NewDustPerfect(dust.position, ModContent.DustType<Gas>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8f), 0, default, 5);
-                dust.active = false;
-            }
-
-            dust.rotation += 0.1f;
-            dust.scale *= 0.99f;
-            return false;
-        }
+        public override bool Update(Dust dust) {
+			dust.velocity = new Vector2(Main.rand.Next(-4, 4), Main.rand.Next(-4, 4));
+			dust.position += dust.velocity;
+			dust.rotation += dust.velocity.X;
+			Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), 0.05f, 0.15f, 0.2f);
+			dust.scale += 0.03f;
+			if (dust.scale > 3.0f) {
+				dust.active = false;
+			}
+			return false;
+		}
     }
 }

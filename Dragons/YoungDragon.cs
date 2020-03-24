@@ -94,7 +94,7 @@ namespace StarlightRiver.Dragons
         public override void SetDefaults()
         {
             DisplayName.SetDefault("YoungDragon");
-            Description.SetDefault("Piss");
+            Description.SetDefault("Wheeeeee");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
