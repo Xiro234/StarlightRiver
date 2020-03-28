@@ -1,6 +1,7 @@
 using System.Math;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -51,7 +52,11 @@ namespace StarlightRiver.Projectiles
 			Vector2 hitboxCenter = new Vector2((float)(hitbox.y + hitbox.height / 2), (float)(hitbox.x + hitbox.width / 2));
 			Vector2 intersectionPoint = GetIntersectionPoint(centroid, hitboxCenter, pos, vertex1);
 			
-			if (GetDistance(centroid, intersectionPoint) <= GetDistance(centroid, hitboxCenter))
+			float angleToHitbox = Math.Atan2(hitbox.x - hitboxCenter.x, hitbox.y - hitboxCenter.y);
+			
+			float inHitbox = Math.Min((float)((hitbox.width/2)/Math.Sin(angleToHitbox)), (float)((hitbox.height/2)/Math.Cos(angleToHitbox)));
+			
+			if (GetDistance(centroid, intersectionPoint) <= GetDistance(centroid, hitboxCenter) - inHitbox)
 			{
 				return true;
 			}
