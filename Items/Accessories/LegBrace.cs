@@ -8,8 +8,8 @@ namespace StarlightRiver.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Leg Brace");
-            DisplayName.SetDefault("Unimplimented Function");
+            DisplayName.SetDefault("Leg Brace");
+            Tooltip.SetDefault("Unimplimented Function");
         }
 
         public override void SetDefaults()

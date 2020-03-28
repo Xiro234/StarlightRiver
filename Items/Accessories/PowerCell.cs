@@ -8,8 +8,8 @@ namespace StarlightRiver.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Power Cell");
-            DisplayName.SetDefault("Unimplimented Function");
+            DisplayName.SetDefault("Power Cell");
+            Tooltip.SetDefault("Unimplimented Function");
         }
 
         public override void SetDefaults()

@@ -8,8 +8,8 @@ namespace StarlightRiver.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Shock Absorber");
-            DisplayName.SetDefault("Unimplimented Function");
+            DisplayName.SetDefault("Shock Absorber");
+            Tooltip.SetDefault("Unimplimented Function");
         }
 
         public override void SetDefaults()
