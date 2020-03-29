@@ -13,7 +13,6 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Abilities
 {
-    [DataContract]
     public class Pure : Ability
     {
         
@@ -21,17 +20,7 @@ namespace StarlightRiver.Abilities
         {
 
         }
-
-        public override void StartAbility(AbilityHandler handler)
-        {
-            //if the player: has enough stamina  && unlocked && not on CD     && Has no other abilities active
-            if (handler.StatStamina >= StaminaCost && !Locked && Cooldown == 0 && !handler.Abilities.Any(a => a.Active) && 
-                !(Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.active && (proj.type == ModContent.ProjectileType<Purifier>() || proj.type == ModContent.ProjectileType<PurifierReturn>()))))
-            {
-                handler.StatStamina -= StaminaCost; //Consume the stamina
-                OnCast(); //Do what the ability should do when it starts
-            }
-        }
+        public override bool CanUse => !Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.active && (proj.type == ModContent.ProjectileType<Purifier>() || proj.type == ModContent.ProjectileType<PurifierReturn>()));
 
         public override void OnCast()
         {

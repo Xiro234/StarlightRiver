@@ -23,7 +23,6 @@ namespace StarlightRiver.Abilities
 
         public override void OnCast()
         {
-            Active = true;
             Main.PlaySound(SoundID.Item45);
             Main.PlaySound(SoundID.Item104);
 

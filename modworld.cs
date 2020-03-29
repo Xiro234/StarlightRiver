@@ -65,7 +65,6 @@ namespace StarlightRiver
                 }
             }
         }
-
         private void DolomiteGen(GenerationProgress progress)
         {
             progress.Message = "Shifting Tectonic Plates...";
@@ -152,7 +151,6 @@ namespace StarlightRiver
                 }
             }
         }
-
         public override void PostUpdate()
         {
             if (!Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
@@ -181,7 +179,6 @@ namespace StarlightRiver
                 key.Update();
             }
         }
-
         public override void Initialize()
         {
             vitricBiome.X = 0;
@@ -199,7 +196,6 @@ namespace StarlightRiver
             BookSP = Vector2.Zero;
             DashSP = Vector2.Zero;
         }
-
         public override TagCompound Save()
         {
             return new TagCompound

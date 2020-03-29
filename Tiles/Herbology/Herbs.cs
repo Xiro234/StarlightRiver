@@ -9,23 +9,14 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    /*class HallowThistle : ModTile
+    class HangingPlant : ModTile
     {
-        public override void SetDefaults()
+        private readonly string ItemDrop;
+        public HangingPlant(string drop) { ItemDrop = drop; }
+        public override bool Autoload(ref string name, ref string texture)
         {
-            Main.tileFrameImportant[Type] = true;
-            Main.tileCut[Type] = true;
-            Main.tileNoFail[Type] = true;
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[]
-            {
-				ModContent.TileType<Trellis>()
-            };
+            return GetType().IsSubclassOf(typeof(HangingPlant));
         }
-    }*/
-
-    class ForestIvy : ModTile
-    {
         public override void SetDefaults()
         {
             Main.tileCut[Type] = true;
@@ -37,23 +28,29 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                ModContent.TileType<ForestIvy>(),
+                mod.TileType(Type.ToString()),
                 ModContent.TileType<Planter>()
             };
             TileObjectData.addTile(Type);
-            drop = mod.ItemType("Ivy");
+            drop = mod.ItemType(ItemDrop);
         }
 
         public override void RandomUpdate(int i, int j)
         {
             if(Main.tile[i, j + 1].active() == false)
             {
-                WorldGen.PlaceTile(i, j + 1, mod.TileType("ForestIvy"), true);
+                WorldGen.PlaceTile(i, j + 1, mod.TileType(Type.ToString()), true);
             }
         }
     }
-    class Deathstalk : ModTile
+    class TallPlant : ModTile
     {
+        private readonly string ItemDrop;
+        public TallPlant(string drop) { ItemDrop = drop; }
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            return GetType().IsSubclassOf(typeof(HangingPlant));
+        }
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -66,61 +63,18 @@ namespace StarlightRiver.Tiles.Herbology
             };
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
 			{
-                ModContent.TileType<Deathstalk>()
-			};
+                mod.TileType(Type.ToString())
+            };
             TileObjectData.addTile(Type);
-            drop = mod.ItemType("Deathstalk");
+            drop = mod.ItemType(ItemDrop);
         }
 
         public override void RandomUpdate(int i, int j)
         {
             if (Main.tile[i, j - 1].active() == false)
             {
-                WorldGen.PlaceTile(i, j - 1, mod.TileType("Deathstalk"));
+                WorldGen.PlaceTile(i, j - 1, mod.TileType(Type.ToString()));
             }
         }
     }
-	class GiantDeathweed : ModTile
-	{
-        public override void SetDefaults()
-        {
-            Main.tileFrameImportant[Type] = true;
-            Main.tileNoFail[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.StyleAlch);
-            TileObjectData.newTile.AnchorValidTiles = new int[]
-            {
-                ModContent.TileType<Soil>()
-            };
-            TileObjectData.newTile.AnchorAlternateTiles = new int[]
-            {
-                TileID.PlanterBox
-            };
-            TileObjectData.addTile(Type);
-        }
-			
-			public override void SetSpriteEffects(int i, int j, ref SpriteEffects spriteEffects)
-			{
-				/*if (i % 2 == 1)
-				{
-					spriteEffects = SpriteEffects.FlipHorizontally;
-				}*/
-			}
-			
-			public override void RandomUpdate(int i, int j)
-			{ 
-				if (Main.tile[i, j].frameY == 0 || Main.tile[i, j].frameY == 32)
-				{ 
-					Main.tile[i, j].frameY += 32;
-				} 
-			}
-			
-			public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-			{
-				Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-				
-				Texture2D texture = mod.GetTexture("Tiles/Herbology/GiantDeathweed"); //Overlay
-
-				Main.spriteBatch.Draw(texture, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(0, 0, texture.Width, texture.Height * Main.tile[i, j].frameY), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-			}
-	}
 }

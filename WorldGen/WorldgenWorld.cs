@@ -36,6 +36,7 @@ namespace StarlightRiver
                 tasks.Insert(TrapsIndex + 1, new PassLegacy("Starlight Traps", GenHelper.BoulderSlope));
 
                 tasks.Insert(SurfaceIndex + 1, new PassLegacy("Starlight River Ruins", GenHelper.RuinsGen));
+                tasks.Insert(SurfaceIndex + 2, new PassLegacy("Starlight River Ivy", ForestHerbGen));
             }
         }
         public override void PostWorldGen()
