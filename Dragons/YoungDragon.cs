@@ -63,7 +63,7 @@ namespace StarlightRiver.Dragons
             }
             if (player.velocity.Y == 0) player.GetModPlayer<DragonHandler>().jumpAgainDragon = true;
         }
-        public override bool Draw(List<DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
+        /*public override bool Draw(List<DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
         {
             texture = ModContent.GetTexture("StarlightRiver/Invisible");
             DragonData data = drawPlayer.GetModPlayer<DragonHandler>().data;
@@ -76,14 +76,14 @@ namespace StarlightRiver.Dragons
             playerDrawData.Add(new DrawData(ModContent.GetTexture("StarlightRiver/Dragons/YoungDragonHorn"), target, source, data.hornColor.MultiplyRGB(drawColor), 0, source.Size() / 2, flip, 0));
             playerDrawData.Add(new DrawData(ModContent.GetTexture("StarlightRiver/Dragons/YoungDragonEye"), target, source, data.eyeColor.MultiplyRGB(drawColor), 0, source.Size() / 2, flip, 0));
             return true;
-        }
+        }*/ //Error	CS0115	'YoungDragon.Draw(List<DrawData>, int, Player, ref Texture2D, ref Texture2D, ref Vector2, ref Rectangle, ref Color, ref Color, ref float, ref SpriteEffects, ref Vector2, ref float, float)': no suitable method found to override
     }
     public class CarMount : ModBuff
     {
         public override void SetDefaults()
         {
             DisplayName.SetDefault("YoungDragon");
-            Description.SetDefault("Piss");
+            Description.SetDefault("Wheeeeee");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

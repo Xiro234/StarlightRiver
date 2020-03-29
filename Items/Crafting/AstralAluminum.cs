@@ -9,8 +9,8 @@ namespace StarlightRiver.Items.Crafting
     public class AluminumOre : QuickMaterial { public AluminumOre() : base("Astral Aluminum Chunk", "Smelt into bars at an Oven", 999, 500, 2) { } }
     public class AluminumBar : QuickTileItem
     {
-        public AluminumBar() : base("Astral Aluminum Bar", "'Shimmering with Beautiful Light'", ModContent.TileType<Tiles.Crafting.AluminumBar>(), 3) { }
-        //Todo: Item no longer has a cost, cant fix without setting SetDefaults here instead of using QuickMat/QuickTile 
+        public AluminumBar() : base("Astral Aluminum Bar", "'Shimmering with Beautiful Light'", ModContent.TileType<Tiles.AluminumBar>(), 3) { }
+        //Note: Item no longer has a cost, cant fix without setting SetDefaults here instead of using QuickTile 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
