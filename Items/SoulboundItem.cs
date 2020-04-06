@@ -9,13 +9,8 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    class SoulboundItem : ModItem
+    abstract class SoulboundItem : ModItem
     {
-        public override bool Autoload(ref string name)
-        {
-            return GetType().IsSubclassOf(typeof(SoulboundItem));
-        }
-
         public virtual void SafeModifyTooltips(List<TooltipLine> tooltips) { }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {

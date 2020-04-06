@@ -62,23 +62,13 @@ namespace StarlightRiver.Items.Accessories
                 {
                     if (player.velocity.X > 0 && player.velocity.X < maxSpeed)
                     {
-                        //Main.NewText(player.velocity.X + "<" + maxSpeed);
-
-                        //Main.NewText("before" + player.velocity.X);
                         player.velocity.X += ((maxSpeed - player.velocity.X) / 2);
-                        //Main.NewText("after" + player.velocity.X);
                     }
                     else if (player.velocity.X < 0)
                     {
-                        //Main.NewText("u-turn right");
                         player.velocity.X = 6;
                     }
                 }
-
-                /*if (player.velocity.X != 0)
-                {
-                    player.velocity.X = (10 * player.direction);
-                }*/
             }
             if (player.velocity.Y == 0)
             {

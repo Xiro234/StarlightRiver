@@ -193,12 +193,12 @@ namespace StarlightRiver.GUI
         float Parallax;
         float Velocity;
         public VitricDust(Texture2D texture, Vector2 basepos, int offset, float scale, float alpha, float parallax) :
-            base(texture, basepos, new Vector2(0, -1), Color.White * alpha, scale + Main.rand.NextFloat(0, 2f), 1500)
+            base(texture, basepos, new Vector2(0, -1), Color.White * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
         {
             Basepos = basepos;
             Offset = offset;
             Parallax = parallax;
-            Velocity = Main.rand.NextFloat(4.2f, 5.6f);
+            Velocity = Main.rand.NextFloat(3.4f, 6.2f);
         }
 
         public override void Update()

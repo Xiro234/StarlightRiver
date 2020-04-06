@@ -144,7 +144,7 @@ namespace StarlightRiver.Abilities
 
             //Physics fuckery due to redcode being retarded
             if (Abilities.Any(ability => ability.Active))
-            {
+            {   
                 player.velocity.Y += 0.01f; //Required to ensure that the game never thinks we hit the ground when using an ability. Thanks redcode!
 
                 // We need to store the player's wing or rocket boot time and set the effective time to zero while an ability is active to move upwards correctly. Thanks redcode!

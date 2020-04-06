@@ -791,15 +791,15 @@ namespace StarlightRiver
 
                 for (int k = (int)(player.position.X - basepoint.X) - (int)(Main.screenWidth * 1.5f); k <= (int)(player.position.X - basepoint.X) + (int)(Main.screenWidth * 1.5f); k += 30)
                 {
-                    if (Main.rand.Next(500) == 0)
+                    if (Main.rand.Next(600) == 0)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 1000), k, 1.5f, 0.3f, 0.1f);
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/LightBig"), basepoint + new Vector2(-2000, 1000), k, 0.5f, 0.3f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
-                    if (Main.rand.Next(400) == 0)
+                    if (Main.rand.Next(500) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), basepoint + new Vector2(-2000, 1000), k, 2.25f, 0.6f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/LightBig"), basepoint + new Vector2(-2000, 1000), k, 0.75f, 0.6f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }

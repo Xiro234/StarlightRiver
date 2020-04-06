@@ -16,7 +16,7 @@ namespace StarlightRiver
         private void ForestHerbGen(GenerationProgress progress)
         {
             progress.Message = "Planting ivy...";
-            for (int k = 0; k < Main.maxTilesX; k++)
+            for (int k = 0; k < Main.maxTilesX - 20; k++)
             {
                 if(Main.rand.Next(8) == 0 && k > Main.maxTilesX / 3 && k < Main.maxTilesX / 3 * 2) //Berry Bushes
                 {

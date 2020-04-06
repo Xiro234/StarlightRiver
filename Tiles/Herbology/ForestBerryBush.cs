@@ -79,7 +79,7 @@ namespace StarlightRiver.Tiles.Herbology
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), ModContent.ItemType<Items.Herbology.BerryBush>()); //dropa bush item
+            Item.NewItem(new Vector2(i * 16, j * 16), ModContent.ItemType<Items.Herbology.BerryBush>()); //drop a bush item
         }
     }
 }
