@@ -9,6 +9,19 @@ using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Herbology
 {
@@ -26,6 +39,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.CoordinateWidth = 16; //width of each tile frame in the multitile complex in pixels
             TileObjectData.newTile.CoordinatePadding = 2; //spacing between each frame in pixels
             TileObjectData.newTile.Origin = new Point16(0, 0); //where the tile is placed from for the purpose of createTile in items. (1, 1) would make the tile place from the top left of the bottom right tile instead
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type); //Adds the data to this type of tile. Make sure you call this after setting everything else.
 
             AddMapEntry(new Color(255, 255, 0)); //the color of your tile on the map.

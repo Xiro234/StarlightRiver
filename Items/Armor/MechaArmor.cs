@@ -17,7 +17,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mecha Helmet");
+            DisplayName.SetDefault("Amylophite Helmet");
             Tooltip.SetDefault("Placeholder");
         }
 
@@ -46,7 +46,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mecha Chestplate");
+            DisplayName.SetDefault("Amylophite Chestplate");
             Tooltip.SetDefault("Placeholder");
         }
 
@@ -80,7 +80,7 @@ namespace StarlightRiver.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mecha Boots");
+            DisplayName.SetDefault("Amylophite Boots");
             Tooltip.SetDefault("Placeholder");
         }
 
