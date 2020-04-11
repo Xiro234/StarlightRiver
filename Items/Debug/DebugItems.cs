@@ -284,7 +284,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StructureSaver.GenerateStructure("Structures/TestHouse", (Main.MouseWorld / 16).ToPoint16(), mod);
+            LegendWorld.OvergrowBossOpen = true;
             return true;
         }
         public override void HoldItem(Player player)
