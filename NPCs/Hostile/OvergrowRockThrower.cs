@@ -9,6 +9,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -28,6 +29,17 @@ namespace StarlightRiver.NPCs.Hostile
             npc.value = 10f;
             npc.knockBackResist = 0.2f;
             npc.aiStyle = -1;
+            npc.noGravity = true;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.localAI[0]);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.localAI[0] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -72,7 +84,7 @@ namespace StarlightRiver.NPCs.Hostile
                             float rot = npc.ai[3] / 3f * 6.28f;
                             Vector2 pos = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35;
 
-                            Projectile.NewProjectile(pos, -Vector2.Normalize(npc.Center - player.Center) * 4, ModContent.ProjectileType<Projectiles.OvergrowRockThrowerRock>(), npc.damage, 2); //throw rock
+                            Projectile.NewProjectile(pos, -Vector2.Normalize(npc.Center - player.Center) * 8, ModContent.ProjectileType<Projectiles.OvergrowRockThrowerRock>(), npc.damage, 2); //throw rock
                         }
                         if(npc.ai[2] <= 0)
                         {
@@ -81,9 +93,14 @@ namespace StarlightRiver.NPCs.Hostile
                     }
                     break;
             }
+
+            npc.velocity = new Vector2(npc.velocity.X / 1.01f, npc.velocity.Y / 1.02f);
+
+            npc.localAI[0]++;
+            npc.visualOffset.Y = (float)Math.Sin(npc.localAI[0] / 16) * 4;
         }
 
-        public override bool CheckDead()
+        public override bool CheckDead() //shoots each rock outward on death
         {
             for (int k = 0; k < npc.ai[2]; k++)
             {
@@ -98,7 +115,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         private Vector2[] drawpoints = new Vector2[3];
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) //draws behind the NPC
         {
             for (int k = 0; k < 3; k++)
             {
@@ -106,13 +123,13 @@ namespace StarlightRiver.NPCs.Hostile
                 if (rot % 6.28f > 3.14f && npc.ai[2] >= k + 1)
                 {
                     drawpoints[k] = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35 - Main.screenPosition;
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/OvergrowRockThrowerRock"), drawpoints[k], new Rectangle(0,0,16,16), Color.White, 0, Vector2.One * 8, 1, 0, 0);
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/OvergrowRockThrowerRock"), drawpoints[k], new Rectangle(0,0,18,18), Color.White, 0, Vector2.One * 8, 1, 0, 0);
                 }
             }
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor) //draws in front of the NPC
         {
             for (int k = 0; k < 3; k++)
             {
@@ -120,7 +137,7 @@ namespace StarlightRiver.NPCs.Hostile
                 if (rot % 6.28f < 3.14f && npc.ai[2] >= k + 1)
                 {
                     drawpoints[k] = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35 - Main.screenPosition;
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/OvergrowRockThrowerRock"), drawpoints[k], new Rectangle(0, 0, 16, 16), Color.White, 0, Vector2.One * 8, 1, 0, 0);
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/OvergrowRockThrowerRock"), drawpoints[k], new Rectangle(0, 0, 18, 18), Color.White, 0, Vector2.One * 8, 1, 0, 0);
                 }
             }
         }
