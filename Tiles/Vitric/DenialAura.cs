@@ -15,7 +15,7 @@ namespace StarlightRiver.Tiles.Vitric
     {
         public override bool Autoload(ref string name, ref string texture)
         {
-            texture = "StarlightRiver/DebugPiss";
+            texture = "StarlightRiver/Invisible";
             return true;
         }
         public override void SetDefaults()
@@ -24,10 +24,10 @@ namespace StarlightRiver.Tiles.Vitric
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Vector2 center = new Vector2(i, j) * 16 + Vector2.One * 8;
+            Vector2 center = new Vector2(i, j - 2) * 16 + Vector2.One * 8;
 
-            if(Main.rand.Next(5) == 0)
-            Dust.NewDustPerfect(center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(120), ModContent.DustType<Dusts.Mist>());
+            for(int k = 0; k < 2; k++)
+            //Dust.NewDustPerfect(center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(120), ModContent.DustType<Dusts.Mist>());
 
             if (Main.rand.Next(10) == 0)
                 Dust.NewDustPerfect(center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(120), ModContent.DustType<Dusts.Air>());

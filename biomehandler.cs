@@ -30,8 +30,8 @@ namespace StarlightRiver
         public bool ZoneOvergrow = false;
         public override void UpdateBiomes()
         {
-            ZoneGlass = (LegendWorld.glassTiles > 50);
-            GlassBG = LegendWorld.vitricBiome.Contains((player.Center / 16).ToPoint()) && ZoneGlass;
+            ZoneGlass = LegendWorld.glassTiles > 50 || LegendWorld.VitricBiome.Contains((player.position / 16).ToPoint());
+            GlassBG = LegendWorld.VitricBiome.Contains((player.Center / 16).ToPoint()) && ZoneGlass;
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
             ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
             ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);

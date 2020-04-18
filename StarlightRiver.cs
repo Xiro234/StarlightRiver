@@ -315,7 +315,7 @@ namespace StarlightRiver
         private void DrawWindow(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            c.GotoNext(n => n.MatchLdfld<Main>("DrawCacheNPCsMoonMoon"));
+            c.TryGotoNext(n => n.MatchLdfld<Main>("DrawCacheNPCsMoonMoon"));
             c.Index--;
 
             c.EmitDelegate<DrawWindowDelegate>(EmitWindowDel);
@@ -504,7 +504,7 @@ namespace StarlightRiver
             // If the tile is in the vitric biome and doesn't block light, emit light.
             bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type];
             bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
-            if (LegendWorld.vitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            if (LegendWorld.VitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
             {
                 r = .4f;
                 g = .57f;
@@ -570,13 +570,14 @@ namespace StarlightRiver
             foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC != null && n.modNPC is NPCs.MovingPlatform))
             {
                 if (new Rectangle((int)self.position.X, (int)self.position.Y + (self.height - 2), self.width, 4).Intersects
-                (new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, 4)) && self.position.Y <= npc.position.Y)
-                {
+                (new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, 8 + (self.velocity.Y > 0 ? (int)self.velocity.Y : 0))) && self.position.Y <= npc.position.Y)
+                {                   
                     if (!self.justJumped && self.velocity.Y >= 0)
                     {
                         self.gfxOffY = npc.gfxOffY;
                         self.velocity.Y = 0;
                         self.fallStart = (int)(self.position.Y / 16f);
+                        self.position.Y = npc.position.Y - self.height + 4;
                         return;
                     }
                 }
@@ -773,9 +774,9 @@ namespace StarlightRiver
             VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
             VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
-            if (player != null && LegendWorld.vitricBiome.Contains((player.Center / 16).ToPoint()))
+            if (player != null && LegendWorld.VitricBiome.Contains((player.Center / 16).ToPoint()))
             {
-                Vector2 basepoint = (LegendWorld.vitricBiome != null) ? LegendWorld.vitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
+                Vector2 basepoint = (LegendWorld.VitricBiome != null) ? LegendWorld.VitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
                 for (int k = 5; k >= 0; k--)
                 {
                     DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
@@ -793,13 +794,13 @@ namespace StarlightRiver
                 {
                     if (Main.rand.Next(600) == 0)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/LightBig"), basepoint + new Vector2(-2000, 1000), k, 0.5f, 0.3f, 0.1f);
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.5f, 0.2f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
                     if (Main.rand.Next(500) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/GUI/LightBig"), basepoint + new Vector2(-2000, 1000), k, 0.75f, 0.6f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.75f, 0.5f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }
@@ -828,7 +829,7 @@ namespace StarlightRiver
         }
         public int GetParallaxOffset(float startpoint, float factor)
         {
-            return (int)((Main.LocalPlayer.position.X - startpoint) * factor);
+            return (int)((Main.screenPosition.X + Main.screenWidth / 2 - startpoint) * factor);
         }
         private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, UICharacterListItem self, SpriteBatch spriteBatch)
         {

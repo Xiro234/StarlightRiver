@@ -9,12 +9,8 @@ using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.NPCs
 {
-    class MovingPlatform : ModNPC
+    abstract class MovingPlatform : ModNPC
     {
-        public override bool Autoload(ref string name)
-        {
-            return GetType().IsSubclassOf(typeof(MovingPlatform));
-        }
         public virtual void SafeSetDefaults() { }
         public sealed override void SetDefaults()
         {
@@ -23,6 +19,7 @@ namespace StarlightRiver.NPCs
             npc.lifeMax = 1;
             npc.immortal = true;
             npc.noGravity = true;
+            npc.knockBackResist = 0; //very very important!! 
             npc.aiStyle = -1;
         }
         public override bool CheckActive()

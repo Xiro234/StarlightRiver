@@ -8,29 +8,21 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    /*
-     * This NPC exists to handle the arena elements of the sentinel bossfight (anything that requires the base position of the fighting area)
-     */
-    public sealed class VitricBossArenaManager : ModNPC
+    public class VitricBackdropLeft : ModNPC
     {
-        public override string Texture => "StarlightRiver/Invisible";
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Vitric Boss Arena");
-        }
+        public const int Scrolltime = 1000;
+        public const int Risetime = 360;
         public override void SetDefaults()
         {
+            npc.height = 1;
+            npc.width = 1;
             npc.aiStyle = -1;
-            npc.lifeMax = 1;
-            npc.damage = 1;
-            npc.defense = 0;
+            npc.lifeMax = 2;
             npc.knockBackResist = 0f;
-            npc.width = 0;
-            npc.height = 0;
-            npc.value = 0;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -38,34 +30,88 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         public override void AI()
         {
-            /*
-             * AI fields:
-             * 0: Timer
-             * 1: Phasestate
+            /* AI fields:
+             * 0: timer
+             * 1: activation state, im too lazy to create an enum for this so: (0 = hidden, 1 = rising, 2 = still, 3 = scrolling)
+             * 2: scrolling timer
+             * 3:
              */
 
-            //The boss NPC that this arena is tied to
-            NPC parent;
-
-            //Finds the active sentinel, NPC kills itself if zero or >1 is found.
-            if (Main.npc.Count(n => n.active && n.type == ModContent.NPCType<VitricBoss>()) != 1) { npc.Kill(); return; }
-            else parent = Main.npc.FirstOrDefault(n => n.active && n.type == ModContent.NPCType<VitricBoss>());
-
-            //Ticks the timer
-            npc.ai[0]++;
-
-            //Creates the arena barrier which prevents players from leaving the fight or attempting to use run-n-gun tactics
-            foreach(Player player in Main.player.Where(player => player.active && Vector2.Distance(player.Center, npc.Center) >= 1000))
+            if (LegendWorld.GlassBossOpen && npc.ai[1] == 0) npc.ai[1] = 1; //when the altar is hit, make the BG rise out of the ground
+            if (npc.ai[1] == 1)
             {
-                player.velocity = Vector2.Normalize(player.Center - npc.Center) * -10;
-                player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " tried to escape the sentinel..."), 50, 0);
+                SpawnPlatforms();
+
+                if (npc.ai[0]++ > Risetime) npc.ai[1] = 2;
+                if (npc.ai[0] % 10 == 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += npc.ai[0] < 100 ? 6 : 4;
+                Dust.NewDust(npc.position, 560, 1, ModContent.DustType<Dusts.Air>()); //replace with proper dust later
             }
-            for(float k = 0; k <= 5; k ++) //visuals
+            if (npc.ai[1] == 2) npc.ai[0] = Risetime;
+            if (npc.ai[1] == 3) npc.ai[2]++;
+            if (npc.ai[2] > Scrolltime) npc.ai[2] = 0;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            return false;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            if (npc.ai[1] != 3) //animation for rising out of the sand
             {
-                float rot = Main.rand.NextFloat(6.28f);
-                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(rot) * 710, ModContent.DustType<Dusts.VitricBossTell>(), Vector2.One.RotatedBy(rot + 1.58f) * 20, 0, new Color(220, 250, 250), 2);
-                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(rot) * 710, ModContent.DustType<Dusts.Air>(), Vector2.One.RotatedBy(rot + 1.58f) * 2, 0, default, 2);
+                Texture2D tex = ModContent.GetTexture(Texture);
+                int targetHeight = (int)(npc.ai[0] / Risetime * tex.Height);
+                Rectangle target = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - targetHeight - Main.screenPosition.Y), tex.Width, targetHeight);
+                Rectangle source = new Rectangle(0, 0, tex.Width, targetHeight);
+                spriteBatch.Draw(tex, target, source, Color.White, 0, Vector2.Zero, 0, 0);
             }
+            else ScrollDraw(spriteBatch);
+        }
+        public virtual void ScrollDraw(SpriteBatch sb) //im lazy
+        {
+            Texture2D tex = ModContent.GetTexture(Texture);
+            int height1 = (int)(npc.ai[2] / Scrolltime * tex.Height);
+            int height2 = tex.Height - height1;
+            Rectangle target1 = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - height1 - Main.screenPosition.Y), tex.Width, height1);
+            Rectangle target2 = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - height1 - height2 - Main.screenPosition.Y), tex.Width, height2);
+            Rectangle source1 = new Rectangle(0, 0, tex.Width, height1);
+            Rectangle source2 = new Rectangle(0, tex.Height - height2, tex.Width, height2);
+
+            sb.Draw(tex, target1, source1, Color.White, 0, Vector2.Zero, 0, 0);
+            sb.Draw(tex, target2, source2, Color.White, 0, Vector2.Zero, 0, 0);
+        }
+        public virtual void SpawnPlatforms(bool rising = true)
+        {
+            PlacePlatform(40, 600, ModContent.NPCType<VitricBossPlatformUp>(), rising);
+            PlacePlatform(-30, 300, ModContent.NPCType<VitricBossPlatformUp>(), rising);
+            PlacePlatform(80, 100, ModContent.NPCType<VitricBossPlatformUp>(), rising);
+        }
+        public void PlacePlatform(int x, int y, int type, bool rising)
+        {
+            if (rising && npc.ai[0] == (int)(y / 880f * Risetime)) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y, type, 0, 0, Risetime - npc.ai[0]); //When rising out of the ground, check for the appropriate time to spawn the platform based on y coord
+            else if (!rising) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - y, type, 0, 2, Risetime); //otherwise spawn it instantly AT the y coord
         }
     }
+    public class VitricBackdropRight : VitricBackdropLeft //im lazy
+    {
+        public override void ScrollDraw(SpriteBatch sb)
+        {
+            Texture2D tex = ModContent.GetTexture(Texture);
+            int height1 = (int)(npc.ai[2] / Scrolltime * tex.Height);
+            int height2 = tex.Height - height1;
+            Rectangle target1 = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - tex.Height * 2 + height1 + height2 - Main.screenPosition.Y), tex.Width, height1);
+            Rectangle target2 = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - tex.Height + height1 - Main.screenPosition.Y), tex.Width, height2);
+            Rectangle source2 = new Rectangle(0, 0, tex.Width, height2);
+            Rectangle source1 = new Rectangle(0, tex.Height - height1, tex.Width, height1);
+
+            sb.Draw(tex, target1, source1, Color.White, 0, Vector2.Zero, 0, 0);
+            sb.Draw(tex, target2, source2, Color.White, 0, Vector2.Zero, 0, 0);
+        }
+
+        public override void SpawnPlatforms(bool rising = true)
+        {
+            PlacePlatform(540, 500, ModContent.NPCType<VitricBossPlatformDown>(), rising);
+            PlacePlatform(-30, 200, ModContent.NPCType<VitricBossPlatformDown>(), rising);
+            PlacePlatform(580, 150, ModContent.NPCType<VitricBossPlatformDown>(), rising);
+        }
+    } 
 }

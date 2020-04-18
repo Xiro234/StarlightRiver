@@ -43,7 +43,7 @@ namespace StarlightRiver.Structures
             GenerateCrystals(centre); //I wonder what this does
             GenerateFloatingOre(centre, 30, (int)(size * 0.7f));
 
-            LegendWorld.vitricBiome = new Rectangle(centre.X - size, centre.Y - TotalHeight / 2, size * 2, 96);
+            LegendWorld.VitricBiome = new Rectangle(centre.X - size, centre.Y - TotalHeight / 2, size * 2, 96);
         }
 
         private static void DigVitricCave(Point centre, int size)

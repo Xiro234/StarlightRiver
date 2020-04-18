@@ -192,24 +192,30 @@ namespace StarlightRiver.GUI
         int Offset = 0;
         float Parallax;
         float Velocity;
+        float rot = Main.rand.NextFloat(6.28f);
         public VitricDust(Texture2D texture, Vector2 basepos, int offset, float scale, float alpha, float parallax) :
-            base(texture, basepos, new Vector2(0, -1), Color.White * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
+            base(texture, basepos, new Vector2(0, -1), new Color(130, 205, 215) * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
         {
             Basepos = basepos;
             Offset = offset;
             Parallax = parallax;
             Velocity = Main.rand.NextFloat(3.4f, 6.2f);
         }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(tex, pos, new Rectangle(0, 0, 32, 22), col, rot, default, scl, default, 0);
+        }
 
         public override void Update()
         {
-            col *= 0.9999999995f;
+            col *= 0.9999999994f;
             //pos += vel;
             float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
-            float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax*(Main.LocalPlayer.position.X - Basepos.X));
+            float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax*(Main.screenPosition.X + Main.screenWidth / 2 - Basepos.X));
             pos.X = (off) - Main.screenPosition.X;
             pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
             scl *= (Parallax > 0.2) ? 0.997f : 0.999f;
+            rot += 0.015f;
             time--;
         }
     }

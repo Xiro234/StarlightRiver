@@ -20,7 +20,7 @@ namespace StarlightRiver.Structures
             progress.Message = "Hiding Abilities...";
 
             Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/WindsAltar");
-            Vector2 spawn = LegendWorld.vitricBiome.TopLeft() + new Vector2(0, 110);
+            Vector2 spawn = LegendWorld.VitricBiome.TopLeft() + new Vector2(0, 110);
             LegendWorld.DashSP = spawn * 16 + new Vector2(216, 170);
 
             for (int y = 0; y < Altar.Height; y++) // for every row

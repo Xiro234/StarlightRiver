@@ -256,7 +256,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         public override bool CheckDead()
         {
             LegendWorld.OvergrowBossDowned = true;
-            LegendWorld.AnyBossDowned = true;
             return true;
         }
     }

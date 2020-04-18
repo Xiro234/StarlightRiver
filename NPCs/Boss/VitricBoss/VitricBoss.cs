@@ -44,9 +44,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override bool CheckDead()
         {
-            if (!LegendWorld.AnyBossDowned) LegendWorld.ForceStarfall = true;
             LegendWorld.GlassBossDowned = true;
-            LegendWorld.AnyBossDowned = true;
 
             return true;
         }

@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Terraria;
-using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace StarlightRiver
 {
@@ -18,15 +14,20 @@ namespace StarlightRiver
         const int RoomHeight = 32;
         const int HallWidth = 16;
         const int HallThickness = 2;
-        static List<Rectangle> rooms = new List<Rectangle>();
+        static List<Rectangle> Rooms = new List<Rectangle>();
 
         public static void OvergrowGen(GenerationProgress progress)
         {
             progress.Message = "fuck my ass.";
-            Rectangle firstRoom = new Rectangle(Main.dungeonX + 100, (int)Main.worldSurface + 75, 46, RoomHeight);
-            MakeRoom(firstRoom);
+            Rectangle firstRoom = new Rectangle(Main.dungeonX, (int)Main.worldSurface + 50, 38, 23);
+            while (!CheckDungeon(firstRoom))
+            {
+                if (Math.Abs(firstRoom.X - Main.dungeonX) > 100) firstRoom.Y += 5;
+                else firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
+            }
+            Helper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
             WormFromRoom(firstRoom);
-            while (rooms.Count <= 10) WormFromRoom(rooms[WorldGen.genRand.Next(rooms.Count)]);
+            while (Rooms.Count <= 10) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
 
             //TODO: Room self-identifier (where am I connected to?)
             //      Generate that room's insides based on that from file
@@ -42,25 +43,25 @@ namespace StarlightRiver
             byte attempts = 0;
             while (1 == 1)
             {
-                int RoomWidth = WorldGen.genRand.Next(4) == 0 ? 92 : 46;
-                int HallSize = WorldGen.genRand.Next(25, 45);
+                int roomWidth = WorldGen.genRand.Next(4) == 0 ? 92 : 46;
+                int hallSize = WorldGen.genRand.Next(25, 45);
                 switch (direction % 4) //the 4 possible directions that the hallway can generate in, this generates the rectangles for the hallway and room to safety check them.
                 {
                     case 0: //up
-                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y - HallSize - 1, HallWidth, HallSize); //Big brain power required to think back through the math here lol. 
-                        room = new Rectangle(parent.X + (parent.Width - RoomWidth) / 2, parent.Y - HallSize - RoomHeight, RoomWidth, RoomHeight);
+                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y - hallSize + 1, HallWidth, hallSize - 2); //Big brain power required to think back through the math here lol. 
+                        room = new Rectangle(parent.X + (parent.Width - roomWidth) / 2, parent.Y - hallSize - RoomHeight, roomWidth, RoomHeight);
                         break;
                     case 1: //right
-                        hall = new Rectangle(parent.X + parent.Width + 1, parent.Y + RoomHeight / 2 - HallWidth / 2, HallSize, HallWidth);
-                        room = new Rectangle(parent.X + parent.Width + HallSize, parent.Y, RoomWidth, RoomHeight);
+                        hall = new Rectangle(parent.X + parent.Width + 1, parent.Y + RoomHeight / 2 - HallWidth / 2, hallSize - 2, HallWidth);
+                        room = new Rectangle(parent.X + parent.Width + hallSize, parent.Y, roomWidth, RoomHeight);
                         break;
                     case 2: //down
-                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y + RoomHeight + 1, HallWidth, HallSize);
-                        room = new Rectangle(parent.X + (parent.Width - RoomWidth) / 2, parent.Y + RoomHeight + HallSize, RoomWidth, RoomHeight);
+                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y + RoomHeight + 1, HallWidth, hallSize - 2);
+                        room = new Rectangle(parent.X + (parent.Width - roomWidth) / 2, parent.Y + RoomHeight + hallSize, roomWidth, RoomHeight);
                         break;
                     case 3: //left
-                        hall = new Rectangle(parent.X - HallSize - 1, parent.Y + RoomHeight / 2 - HallWidth / 2, HallSize, HallWidth);
-                        room = new Rectangle(parent.X - HallSize - RoomWidth, parent.Y, RoomWidth, RoomHeight);
+                        hall = new Rectangle(parent.X - hallSize + 1, parent.Y + RoomHeight / 2 - HallWidth / 2, hallSize - 2, HallWidth);
+                        room = new Rectangle(parent.X - hallSize - roomWidth, parent.Y, roomWidth, RoomHeight);
                         break;
                     default: //failsafe, this should never happen. If it does, seek shelter immediately, the universe is likely collapsing.
                         hall = new Rectangle();
@@ -71,9 +72,10 @@ namespace StarlightRiver
                 }
                 if (CheckDungeon(hall) && CheckDungeon(room)) //all clear!
                 {
-                    if(direction % 2 == 0) MakeHallTall(hall);  //should we make a sideways or longways hall?
-                    else MakeHallLong(hall);
                     MakeRoom(room); //get a room
+                    if (direction % 2 == 0) MakeHallTall(hall);  //should we make a sideways or longways hall?
+                    else MakeHallLong(hall);
+
                     Debug.WriteLine("Successfully wormed");
 
                     WormFromRoom(room); 
@@ -105,7 +107,12 @@ namespace StarlightRiver
                     tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
                     if (y - target.Y <= HallThickness || y - target.Y >= HallWidth - HallThickness)
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>();
+                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.GrassOvergrow>();
+                        tile.active(true);
+                    }
+                    if (y - target.Y == HallWidth / 2 && (x == target.X + 1 || x == target.X + target.Width - 1))
+                    {
+                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.MarkerGem>();
                         tile.active(true);
                     }
                 }
@@ -122,7 +129,12 @@ namespace StarlightRiver
                     tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
                     if (x - target.X <= HallThickness || x - target.X >= HallWidth - HallThickness)
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>();
+                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.GrassOvergrow>();
+                        tile.active(true);
+                    }
+                    if (x - target.X == HallWidth / 2 && (y == target.Y + 1 || y == target.Y + target.Height - 1))
+                    {
+                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.MarkerGem>();
                         tile.active(true);
                     }
                 }
@@ -130,7 +142,7 @@ namespace StarlightRiver
         }
         private static void MakeRoom(Rectangle target)
         {
-            rooms.Add(target);
+            Rooms.Add(target);
             for (int x = target.X; x <= target.X + target.Width; x++)
             {
                 for (int y = target.Y; y <= target.Y + target.Height; y++)
@@ -170,6 +182,23 @@ namespace StarlightRiver
                 }
             }
             return true;
+        }
+
+        private static void PopulateRoom(Rectangle room)
+        {
+            //this will determine what kind of room this is based on it's openings.
+            bool up;
+            bool down;
+            bool left;
+            bool right;
+            bool isLong = room.Width > 20;
+            int type = ModContent.TileType<Tiles.Overgrow.MarkerGem>();
+
+            for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y - 2).type == type) up = true;
+            for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y + room.Height + 2).type == type) down = true;
+            for (int y = room.Y; y <= room.Y + room.Height; y++) if (Framing.GetTileSafely(room.X - 2, y).type == type) left = true;
+            for (int y = room.Y; y <= room.Y + room.Height; y++) if (Framing.GetTileSafely(room.X + room.Width + 2, y).type == type) right = true;
+            //lots left to do here
         }
     }
 }

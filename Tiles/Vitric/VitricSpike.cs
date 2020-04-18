@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -19,6 +20,7 @@ namespace StarlightRiver.Tiles.Vitric
             minPick = int.MaxValue;
             soundStyle = SoundID.CoinPickup;
             dustType = ModContent.DustType<Dusts.Air>();
+            AddMapEntry(new Color(95, 162, 138));
 
             Main.tileMerge[Type][ModContent.TileType<VitricSand>()] = true;
         }

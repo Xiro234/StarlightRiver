@@ -55,10 +55,13 @@ namespace StarlightRiver.Abilities
         }
         public override void UseEffects()
         {
-            for (int k = 0; k <= 10; k++)
+            Vector2 prevPos = player.Center + Vector2.Normalize(player.velocity) * 10;
+            int direction = Timer % 2 == 0 ? -1 : 1;
+            for (int k = 0; k < 60; k++)
             {
-                Dust.NewDustPerfect(player.Center + player.velocity * Main.rand.NextFloat(0, 2), ModContent.DustType<Air>(), 
-                    player.velocity.RotatedBy((Main.rand.Next(2) == 0) ? 2.8f : 3.48f) * Main.rand.NextFloat(0, 0.05f), 0, default, 0.95f);
+                float rot = (0.1f * k) * direction;
+                Dust dus = Dust.NewDustPerfect(prevPos + Vector2.Normalize(player.velocity).RotatedBy(rot) * (k / 2) * (0.5f + Timer / 8f), ModContent.DustType<AirDash>());
+                dus.fadeIn = k - Timer * 3;
             }
         }
         public override void OnCastDragon()

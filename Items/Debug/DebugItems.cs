@@ -210,6 +210,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.rare = 2;
             item.autoReuse = true;
+            item.createTile = ModContent.TileType<Tiles.Vitric.VitricBossAltar>();
         }
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()
@@ -220,45 +221,9 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            CrystalGen();
+            LegendWorld.GlassBossOpen = false;
+            LegendWorld.DesertOpen = false;
             return true;
-        }
-        public static void CrystalGen()
-        {
-            Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/Crystal");
-            Vector2 spawn = Main.MouseWorld / 16;
-
-            for (int y = 0; y < Altar.Height; y++) // for every row
-            {
-                Color[] rawData = new Color[Altar.Width]; //array of colors
-                Rectangle row = new Rectangle(0, y, Altar.Width, 1); //one row of the image
-                Altar.GetData(0, row, rawData, 0, Altar.Width); //put the color data from the image into the array
-
-                for (int x = 0; x < Altar.Width; x++) //every entry in the row
-                {
-                    Main.tile[(int)spawn.X + x, (int)spawn.Y + y].ClearEverything(); //clear the tile out
-                    Main.tile[(int)spawn.X + x, (int)spawn.Y + y].liquidType(0); // clear liquids
-
-                    ushort placeType = 0;
-
-                    switch (rawData[x].R) //select block
-                    {
-                        case 10: placeType = (ushort)ModContent.TileType<VitricCrystalCollision>(); break;
-                        case 20: placeType = (ushort)ModContent.TileType<VitricCrystalBig>(); break;
-                    }
-
-                    switch (rawData[x].G)
-                    {
-                        case 10: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(1); break;
-                        case 20: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(2); break;
-                        case 30: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(3); break;
-                        case 40: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(4); break;
-                        case 50: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(5); break;
-                    }
-
-                    if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block
-                }
-            }
         }
     }
 
@@ -272,7 +237,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createTile = ModContent.TileType<Tiles.Vitric.DenialAura>();
+            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -284,7 +249,15 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            LegendWorld.OvergrowBossOpen = true;
+            LegendWorld.GlassBossOpen = true;
+            foreach(NPC n in Main.npc.Where(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropLeft>() || n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropRight>()))
+            {
+                n.ai[1] = 3;
+            }
+            foreach (NPC n in Main.npc.Where(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBossPlatformUp>() || n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBossPlatformDown>()))
+            {
+                n.ai[0] = 1;
+            }
             return true;
         }
         public override void HoldItem(Player player)

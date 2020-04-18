@@ -30,6 +30,7 @@ namespace StarlightRiver
 
         public int ScreenMoveTime = 0;
         public Vector2 ScreenMoveTarget = new Vector2(0, 0);
+        public Vector2 ScreenMovePan = new Vector2(0, 0);
         private int ScreenMoveTimer = 0;
 		
 		public int InvertGrav = 0;
@@ -162,10 +163,6 @@ namespace StarlightRiver
 
         public override void ModifyScreenPosition()
         {
-            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
-            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
-            if (Shake > 0) { Shake--; }
-
             if(ScreenMoveTime > 0&& ScreenMoveTarget != Vector2.Zero)
             {
                 Vector2 off = new Vector2(Main.screenWidth, Main.screenHeight) / -2;
@@ -175,13 +172,21 @@ namespace StarlightRiver
                 }
                 else if (ScreenMoveTimer >= ScreenMoveTime - 30) //go in
                 {
-                    Main.screenPosition = Vector2.SmoothStep(ScreenMoveTarget + off, Main.LocalPlayer.Center + off, (ScreenMoveTimer - (ScreenMoveTime - 30)) / 30f);
+                    Main.screenPosition = Vector2.SmoothStep((ScreenMovePan == Vector2.Zero ? ScreenMoveTarget : ScreenMovePan) + off, Main.LocalPlayer.Center + off, (ScreenMoveTimer - (ScreenMoveTime - 30)) / 30f);
                 }
-                else Main.screenPosition = ScreenMoveTarget + off; //stay on target
+                else
+                {
+                    if(ScreenMovePan == Vector2.Zero) Main.screenPosition = ScreenMoveTarget + off; //stay on target
+                    else Main.screenPosition = Vector2.Lerp(ScreenMoveTarget + off, ScreenMovePan + off, ScreenMoveTimer/(float)(ScreenMoveTime - 30));
+                }
 
-                if (ScreenMoveTimer == ScreenMoveTime) { ScreenMoveTime = 0; ScreenMoveTimer = 0; ScreenMoveTarget = Vector2.Zero; }
+                if (ScreenMoveTimer == ScreenMoveTime) { ScreenMoveTime = 0; ScreenMoveTimer = 0; ScreenMoveTarget = Vector2.Zero; ScreenMovePan = Vector2.Zero; }
                 ScreenMoveTimer++;
             }
+
+            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
+            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
+            if (Shake > 0) { Shake--; }
         }
     }
 }

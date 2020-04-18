@@ -24,7 +24,13 @@ namespace StarlightRiver.Tiles.Vitric
             Main.tileLavaDeath[Type] = false;
             Main.tileFrameImportant[Type] = true;
             Main.tileLighted[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+
+            TileObjectData.newTile.Width = 5;
+            TileObjectData.newTile.Height = 7;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16 };
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.addTile(Type);
             dustType = DustID.Stone;
             disableSmartCursor = true;
@@ -33,37 +39,42 @@ namespace StarlightRiver.Tiles.Vitric
             name.SetDefault("Vitric Altar");
             AddMapEntry(new Color(113, 113, 113), name);
         }
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            Tile tile = Framing.GetTileSafely(i, j);
+            if (tile.frameX % 90 == 0 && tile.frameY == 0)
+            {
+                if (!Main.projectile.Any(n => n.type == ModContent.ProjectileType<Projectiles.Dummies.VitricAltarDummy>() && n.active && n.Hitbox.Contains(new Point(i * 16 + 8, j * 16 + 8))))
+                {
+                    Projectile.NewProjectile(new Vector2(i, j) * 16 + new Vector2(40, 56), Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.VitricAltarDummy>(), 0, 0);
+                }
+                if (!Main.npc.Any(n => n.type == ModContent.NPCType<VitricBackdropLeft>() && n.active))
+                {
+                    Vector2 center = new Vector2(i * 16 + 40, j * 16 + 114);
+                    int timerset = LegendWorld.GlassBossOpen ? 360 : 0;
 
+                    int index = NPC.NewNPC((int)center.X + 120, (int)center.Y, ModContent.NPCType<VitricBackdropRight>(), 0, timerset);
+                    if (LegendWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropRight) (Main.npc[index].modNPC as VitricBackdropRight).SpawnPlatforms(false);
+
+                    index = NPC.NewNPC((int)center.X - 120 - 560, (int)center.Y, ModContent.NPCType<VitricBackdropLeft>(), 0, timerset);
+                    if (LegendWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropLeft) (Main.npc[index].modNPC as VitricBackdropLeft).SpawnPlatforms(false);
+
+                }
+            }
+        }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if(Main.tile[i,j].frameX == 0 && Main.tile[i,j].frameY == 0)
+            if(Main.tile[i,j].frameX == 90 && Main.tile[i,j].frameY == 0)
             {
-                Color color = Main.npc.Any(npc => npc.type == ModContent.NPCType<VitricBoss>() && npc.active) ? new Color(255, 70, 70) : new Color(200, 235, 255);
-                Helper.DrawSymbol(spriteBatch, (new Vector2(i + 12, j + 12) * 16 + new Vector2(24, -18)) - Main.screenPosition, color);
+                //draw the boss summon hologram here
             }
             return true;
         }
-
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
-        {
-            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0 && !Main.npc.Any(npc => npc.type == ModContent.NPCType<VitricBoss>() && npc.active))
-            {
-                float rot = Main.rand.NextFloat(6.28f);
-                Dust.NewDustPerfect(new Vector2(i, j) * 16 + new Vector2(24, -18), ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(rot) * 6f);
-            }
-        }
-
         public override bool NewRightClick(int i, int j)
         {
-            if(!Main.npc.Any(npc => npc.type == ModContent.NPCType<VitricBoss>() && npc.active))
+            if(Main.tile[i, j].frameX >= 90)
             {
-                NPC.NewNPC(i * 16, (j - 10) * 16, ModContent.NPCType<VitricBoss>());
-                NPC.NewNPC(i * 16, (j - 10) * 16, ModContent.NPCType<VitricBossArenaManager>());
-                for (int k = 0; k <= 150; k++)
-                {
-                    float scale = Main.rand.NextFloat(2);
-                    Dust.NewDustPerfect(new Vector2(i * 16, (j - 14) * 16), ModContent.DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f) * scale, 0, default, (2 - scale) * 2f);
-                }
+                //boss spawning logic somewhere in here I guess
             }
             return true;
         }

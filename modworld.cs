@@ -29,7 +29,8 @@ namespace StarlightRiver
         public static bool ForceStarfall = false; 
 
         //Boss Flags
-        public static bool AnyBossDowned = false;
+        public static bool DesertOpen = false;
+        public static bool GlassBossOpen = false;
         public static bool GlassBossDowned = false;
 
         public static bool OvergrowBossOpen = false;
@@ -43,7 +44,7 @@ namespace StarlightRiver
 
         public static List<Vector2> PureTiles = new List<Vector2> { };
 
-        public static Rectangle vitricBiome = new Rectangle();
+        public static Rectangle VitricBiome = new Rectangle();
 
         //Handling Keys
         public static List<Key> Keys = new List<Key>();
@@ -131,25 +132,6 @@ namespace StarlightRiver
             {
                 rottime = 0;
             }
-            if(Main.time == 12 && ((AnyBossDowned && !Main.bloodMoon && Main.rand.Next(11) == 0) || ForceStarfall))
-            {
-                starfall = true;
-                Main.bloodMoon = false;
-                ForceStarfall = false;
-                Main.NewText("The Starlight River is Passing Through!",120, 241, 255);
-            }
-
-            if (starfall)
-            {
-                if (Main.time % 2 == 0)
-                {
-                    Projectile.NewProjectile(new Vector2(Main.rand.Next(0, Main.maxTilesX) * 16 + Main.rand.Next(-16, 16), 100), Vector2.Zero, mod.ProjectileType("StarShard"), 500, 0.5f);
-                }
-                if(Main.dayTime)
-                {
-                    starfall = false;
-                }
-            }
         }
         public override void PostUpdate()
         {
@@ -181,11 +163,17 @@ namespace StarlightRiver
         }
         public override void Initialize()
         {
-            vitricBiome.X = 0;
-            vitricBiome.Y = 0;
+            VitricBiome.X = 0;
+            VitricBiome.Y = 0;
 
-            AnyBossDowned = false;
+            DesertOpen = false;
+            GlassBossOpen = false;
             GlassBossDowned = false;
+
+            OvergrowBossDowned = false;
+            OvergrowBossFree = false;
+            OvergrowBossOpen = false;
+
             SealOpen = false;
 
             ForceStarfall = false;
@@ -200,10 +188,11 @@ namespace StarlightRiver
         {
             return new TagCompound
             {
-                ["VitricBiomePos"] = vitricBiome.TopLeft(),
-                ["VitricBiomeSize"] = vitricBiome.Size(),
+                ["VitricBiomePos"] = VitricBiome.TopLeft(),
+                ["VitricBiomeSize"] = VitricBiome.Size(),
 
-                [nameof(AnyBossDowned)] = AnyBossDowned,
+                [nameof(DesertOpen)] = DesertOpen,
+                [nameof(GlassBossOpen)] = GlassBossOpen,
                 [nameof(GlassBossDowned)] = GlassBossDowned,
 
                 [nameof(OvergrowBossOpen)] = OvergrowBossOpen,
@@ -226,13 +215,14 @@ namespace StarlightRiver
         }
         public override void Load(TagCompound tag)
         {
-            vitricBiome.X = (int)tag.Get<Vector2>("VitricBiomePos").X;
-            vitricBiome.Y = (int)tag.Get<Vector2>("VitricBiomePos").Y;
+            VitricBiome.X = (int)tag.Get<Vector2>("VitricBiomePos").X;
+            VitricBiome.Y = (int)tag.Get<Vector2>("VitricBiomePos").Y;
 
-            vitricBiome.Width = (int)tag.Get<Vector2>("VitricBiomeSize").X;
-            vitricBiome.Height = (int)tag.Get<Vector2>("VitricBiomeSize").Y;
+            VitricBiome.Width = (int)tag.Get<Vector2>("VitricBiomeSize").X;
+            VitricBiome.Height = (int)tag.Get<Vector2>("VitricBiomeSize").Y;
 
-            AnyBossDowned = tag.GetBool(nameof(AnyBossDowned));
+            DesertOpen = tag.GetBool(nameof(DesertOpen));
+            GlassBossOpen = tag.GetBool(nameof(GlassBossOpen));
             GlassBossDowned = tag.GetBool(nameof(GlassBossDowned));
 
             OvergrowBossOpen = tag.GetBool(nameof(OvergrowBossOpen));

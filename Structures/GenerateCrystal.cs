@@ -14,12 +14,10 @@ namespace StarlightRiver.Structures
 {
     public partial class GenHelper
     {
-        public static void CrystalGen(GenerationProgress progress)
+        public static void CrystalGen(Vector2 topLeft)
         {
-            progress.Message = "DebugAltar...";
-
             Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/Crystal");
-            Vector2 spawn = new Vector2(Main.spawnTileX, Main.spawnTileY - 50);
+            Vector2 spawn = topLeft;
 
             for (int y = 0; y < Altar.Height; y++) // for every row
             {
@@ -29,15 +27,12 @@ namespace StarlightRiver.Structures
 
                 for (int x = 0; x < Altar.Width; x++) //every entry in the row
                 {
-                    Main.tile[(int)spawn.X + x, (int)spawn.Y + y].ClearEverything(); //clear the tile out
-                    Main.tile[(int)spawn.X + x, (int)spawn.Y + y].liquidType(0); // clear liquids
-
                     ushort placeType = 0;
 
                     switch (rawData[x].R) //select block
                     {
                         case 10: placeType = (ushort)ModContent.TileType<VitricCrystalCollision>(); break;
-                        case 20: placeType = (ushort)ModContent.TileType<VitricCrystalBig>(); break;
+                        case 20: WorldGen.PlaceWall((int)spawn.X + x, (int)spawn.Y + y, ModContent.WallType<Tiles.Vitric.VitricCrystalBig>()); break;
                     }
 
                     switch (rawData[x].G)
@@ -49,7 +44,8 @@ namespace StarlightRiver.Structures
                         case 50: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(5); break;
                     }
 
-                    if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block
+                    if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, false); } //place block
+
                 }
             }
         }

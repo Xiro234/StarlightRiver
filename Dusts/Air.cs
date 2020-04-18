@@ -158,6 +158,33 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+    public class AirDash : ModDust
+    {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Dusts/Air";
+            return base.Autoload(ref name, ref texture);
+        }
+        public override void OnSpawn(Dust dust)
+        {
+            dust.noGravity = true;
+            dust.noLight = false;
+        }
+        public override Color? GetAlpha(Dust dust, Color lightColor)
+        {
+            return dust.fadeIn <= 0 ? new Color(170, 255, 255) * (dust.alpha / 255f) : Color.Transparent;
+        }
+
+        public override bool Update(Dust dust)
+        {
+            dust.fadeIn -= 3;
+            dust.scale = 2f - Math.Abs(dust.fadeIn) / 30f;
+            dust.alpha = 150 - (int)(Math.Abs(dust.fadeIn) / 60f * 150);
+
+            if (dust.fadeIn <= -60) dust.active = false;
+            return false;
+        }
+    }
 
     public class Gold : ModDust
     {

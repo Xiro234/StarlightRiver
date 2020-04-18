@@ -33,13 +33,16 @@ namespace StarlightRiver.Tiles.Overgrow
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Random rand = new Random(i * j * j);
-            Tile tile = Main.tile[i, j];
-            if (rand.Next(30) == 0 && i != 1 && j != 1 && tile.frameX > 10 && tile.frameX < 70 && tile.frameY == 18)
+            if (i > Main.screenPosition.X / 16 && i < Main.screenPosition.X / 16 + Main.screenWidth / 16 && j > Main.screenPosition.Y / 16 && j < Main.screenPosition.Y / 16 + Main.screenHeight / 16)
             {
-                Main.specX[nextSpecialDrawIndex] = i;
-                Main.specY[nextSpecialDrawIndex] = j;
-                nextSpecialDrawIndex++;
+                Random rand = new Random(i * j * j);
+                Tile tile = Main.tile[i, j];
+                if (rand.Next(60) == 0 && i != 1 && j != 1 && tile.frameX > 10 && tile.frameX < 70 && tile.frameY == 18)
+                {
+                    Main.specX[nextSpecialDrawIndex] = i;
+                    Main.specY[nextSpecialDrawIndex] = j;
+                    nextSpecialDrawIndex++;
+                }
             }
         }
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
@@ -134,34 +137,32 @@ namespace StarlightRiver.Tiles.Overgrow
             Color color = Lighting.GetColor(i, j);
 
             Vector2 crunch = new Vector2(0, -5);
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 - 8, j * 16 - 1, 16, 1)))) crunch.Y += 1;
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 8, 1)))) crunch.Y += 2;
-
-            Vector2 crunch2 = new Vector2(0, -4);
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 16, 1)))) crunch2.Y += 1;
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 8, 1)))) crunch2.Y += 2;
-
+            foreach (Player player in Main.player.Where(n => n.active))
+            {
+                if (player.Hitbox.Intersects(new Rectangle(i * 16 - 8, j * 16 - 1, 16, 1))) crunch.Y += 1;
+                if (player.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 8, 1))) crunch.Y += 2;
+            }
 
             if (tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0)
             {
-                if(Main.tile[i - 1, j].type == Type)
-                    spriteBatch.Draw(tex, new Vector2(i, j) * 16 + crunch - Main.screenPosition, source, color);
-                if (Main.tile[i + 1, j].type == Type)
-                    spriteBatch.Draw(tex, new Vector2(i + 0.5f, j) * 16 + crunch2 - Main.screenPosition, source, color);
+                spriteBatch.Draw(tex, new Vector2(i, j) * 16 + crunch - Main.screenPosition, source, color);
+                spriteBatch.Draw(tex, new Vector2(i + 0.5f, j) * 16 + crunch * 0.5f - Main.screenPosition, source, color);
+            }
+        }
+        public override void FloorVisuals(Player player)
+        {
+            Vector2 playerFeet = player.Center + new Vector2(-8, player.height / 2);
+            if (player.velocity.X != 0)
+            {
+                if (Main.rand.Next(3) == 0) Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Stamina>(), 0, -2);
+                if (Main.rand.Next(10) == 0) Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, 0.6f);
             }
 
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 16, 1)) && n.velocity.X != 0))
+            if (player.GetModPlayer<Abilities.AbilityHandler>().dash.Cooldown == 90)
             {
-                Player player = Main.player.FirstOrDefault(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 16, 1)) && n.velocity.X != 0);
-                if (Main.rand.Next(3) == 0)Dust.NewDust(new Vector2(i, j - 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Stamina>(), -player.velocity.X * 0.5f, -2);
-                if(Main.rand.Next(10) == 0)Dust.NewDust(new Vector2(i, j + 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, 0.6f);
-
-                if (player.GetModPlayer<Abilities.AbilityHandler>().dash.Cooldown == 90)
+                for (int k = 0; k < 20; k++)
                 {
-                    for (int k = 0; k < 20; k++)
-                    {
-                        Dust.NewDust(new Vector2(i, j + 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, -2);
-                    }
+                    Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, -2);
                 }
             }
         }

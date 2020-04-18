@@ -12,10 +12,7 @@ namespace StarlightRiver.Food
 {
     class Meal : ModItem
     {
-        public MainCourse mains = null;
-        public SideCourse side1 = null;
-        public SideCourse side2 = null;
-        public Seasoning seasoning = null;
+        public List<Item> Ingredients { get; set; }
         public override bool CloneNewInstances => true;
 
         public override void SetStaticDefaults()
@@ -35,52 +32,29 @@ namespace StarlightRiver.Food
         }
         public override bool CanUseItem(Player player)
         {
-            int totalfill = 0;
             FoodBuffHandler mp = player.GetModPlayer<FoodBuffHandler>();
 
-            if (mp.Full) { return false; }
+            if (player.HasBuff(ModContent.BuffType<Full>())) { return false; }
 
-            player.AddBuff(ModContent.BuffType<FoodBuff>(), (seasoning != null) ? 18000 + seasoning.Modifier : 18000);
+            if (Ingredients.Count > 0)
+            {
+                player.AddBuff(ModContent.BuffType<FoodBuff>(), 1);
+                mp.Consumed.AddRange(Ingredients);
 
-            mp.Buffs[0] = mains.Buff; mp.Powers[0] = (int)(mains.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1));  totalfill += mains.Fill;
-            if (side1 != null) { mp.Buffs[1] = side1.Buff; mp.Powers[1] = (int)(side1.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)); totalfill += side1.Fill; }
-            else { mp.Buffs[1] = 0; mp.Powers[1] = 0; }
-            if (side2 != null) { mp.Buffs[2] = side2.Buff; mp.Powers[2] = (int)(side2.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)); totalfill += side2.Fill; }
-            else { mp.Buffs[2] = 0; mp.Powers[2] = 0; }
-            if (seasoning != null) { totalfill += seasoning.Fill; }
-
-            player.AddBuff(ModContent.BuffType<Full>(), totalfill);
+                player.AddBuff(ModContent.BuffType<Full>(), 1);
+            }
+            else Main.NewText("Bad food! Please report me to the mod devs.", Color.Red);
 
             item.stack--;
             return true;
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            string join1 = (side1 != null) ? " With " : "";
-            string join2 = (side2 != null) ? " And " : "";
-            string prefix = (seasoning != null) ? seasoning.IName + "ed " : "";
-            string title1 = (mains != null) ? mains.IName : "";
-            string title2 = (side1 != null) ? side1.IName : "";
-            string title3 = (side2 != null) ? side2.IName : "";
-            string duration = "Duration: " + (300 + ((seasoning != null) ? seasoning.Modifier / 60 : 0)) + " Seconds";
-
-            foreach (TooltipLine line in tooltips)
+            foreach(Item item in Ingredients)
             {
-                if (line.mod == "Terraria" && line.Name == "ItemName" && mains != null) { line.text = prefix + title1 + join1 + title2 + join2 + title3; }
-                if (line.mod == "Terraria" && line.Name == "Tooltip0" && mains != null) { line.text = "+ " + (mains.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + mains.ITooltip; line.overrideColor = new Color(255, 220, 140); }
-                if (line.mod == "Terraria" && line.Name == "Tooltip1" && side1 != null) { line.text = "+ " + (side1.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + side1.ITooltip; line.overrideColor = new Color(140, 255, 140); }
-                if (line.mod == "Terraria" && line.Name == "Tooltip2" && side2 != null) { line.text = "+ " + (side2.Strength * ((seasoning != null) ? seasoning.StrengthMod : 1)) + side2.ITooltip; line.overrideColor = new Color(140, 255, 140); }
-                else if (line.mod == "Terraria" && line.Name == "Tooltip2") { line.text = duration; line.overrideColor = (seasoning != null && seasoning.Modifier > 0) ? new Color(140, 200, 255) : Color.White; }
-                if (line.mod == "Terraria" && line.Name == "Tooltip3" && side2 != null) { line.text = duration; line.overrideColor = (seasoning != null && seasoning.Modifier > 0) ? new Color(140, 200, 255) : Color.White; }
-
-                int totalfill = 0;
-                if (mains != null) { totalfill += mains.Fill; }
-                if (side1 != null) { totalfill += side1.Fill; }
-                if (side2 != null) {  totalfill += side2.Fill; }
-                if (seasoning != null) { totalfill += seasoning.Fill; }
-
-                if (line.mod == "Terraria" && line.Name == "Tooltip4") { line.text = "Fullness: " + totalfill / 60 + " Seconds"; line.overrideColor = new Color(255, 163, 153); }
+                tooltips.Add(new TooltipLine(mod, "StarlightRiver: Ingredient", (item.modItem as Ingredient).ItemTooltip));
             }
+            
         }
     }
 }
