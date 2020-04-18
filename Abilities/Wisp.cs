@@ -25,7 +25,6 @@ namespace StarlightRiver.Abilities
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            Active = true;
             Timer = mp.StatStamina * 60;
 
             for (int k = 0; k <= 50; k++)

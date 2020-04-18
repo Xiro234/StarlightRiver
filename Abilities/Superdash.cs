@@ -26,7 +26,6 @@ namespace StarlightRiver.Abilities
 
         public override void OnCast()
         {
-            Active = true;
             timer = 4;          
 
             Main.PlaySound(SoundID.Item8);

@@ -36,7 +36,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
 
         public override Texture2D GetTexture()
         {
-            return mod.GetTexture("Tiles/TreeJungleCorrupt");
+            return mod.GetTexture("Tiles/JungleCorrupt/TreeJungleCorrupt");
         }
 
         public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
@@ -45,13 +45,13 @@ namespace StarlightRiver.Tiles.JungleCorrupt
             frameHeight = 98;
             xOffsetLeft = 48;
             yOffset = 2;
-            return mod.GetTexture("Tiles/TreeJungleCorrupt_Tops");
+            return mod.GetTexture("Tiles/JungleCorrupt/TreeJungleCorrupt_Tops");
             
         }
 
         public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
         {
-            return mod.GetTexture("Tiles/TreeJungleCorrupt_Branches");
+            return mod.GetTexture("Tiles/JungleCorrupt/TreeJungleCorrupt_Branches");
         }
     }
 }

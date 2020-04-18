@@ -4,8 +4,10 @@ using StarlightRiver.Codex;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace StarlightRiver
 {
@@ -29,21 +31,39 @@ namespace StarlightRiver
             npc.active = false;
         }
 
-        public static void PlaceMultitile(int width, int height, int xPos, int yPos, int type)
+        public static void PlaceMultitile(Point16 position, int type, int style = 0)
         {
-            for (int multiN = 0; multiN < width; multiN++)
+            TileObjectData data = TileObjectData.GetTileData(type, style); //magic numbers and uneccisary params begone!
+
+            if (position.X + data.Width > Main.maxTilesX || position.X < 0) return; //make sure we dont spawn outside of the world!
+            if (position.Y + data.Height > Main.maxTilesY || position.Y < 0) return;
+
+            for (int x = 0; x < data.Width; x++) //generate each column
             {
-                for (int multiM = 0; multiM < height; multiM++)
+                for (int y = 0; y < data.Height; y++) //generate each row
                 {
-                    Tile tileAt = Main.tile[multiN + xPos, multiM + yPos];
-                    //WorldGen.PlaceTile(multiN + xPos, multiM + yPos, type, false, true);
-                    tileAt.type = (ushort)type;
-                    tileAt.frameX = (short)(multiN * 18);
-                    tileAt.frameY = (short)(multiM * 18);
+                    Tile tile = Framing.GetTileSafely(position.X + x, position.Y + y); //get the targeted tile
+                    tile.type = (ushort)type; //set the type of the tile to our multitile
+                    tile.frameX = (short)(x * (data.CoordinateWidth + data.CoordinatePadding)); //set the X frame appropriately
+                    tile.frameY = (short)(y * (data.CoordinateHeights[y] + data.CoordinatePadding)); //set the Y frame appropriately
+                    tile.active(true); //activate the tile
                 }
             }
         }
+        public static bool CheckAirRectangle(Point16 position, Point16 size)
+        {
+            if (position.X + size.X > Main.maxTilesX || position.X < 0) return false; //make sure we dont check outside of the world!
+            if (position.Y + size.Y > Main.maxTilesY || position.Y < 0) return false;
 
+            for (int x = position.X; x < position.X + size.X; x++)
+            {
+                for (int y = position.Y; y < position.Y + size.Y; y++)
+                {
+                    if (Main.tile[x, y].active()) return false; //if any tiles there are active, return false!
+                }
+            }
+            return true;
+        }
         public static bool AirScanUp(Vector2 start, int MaxScan)
         {
             if (start.Y - MaxScan < 0) { return false; }
@@ -56,19 +76,16 @@ namespace StarlightRiver
             }
             return clear;
         }
-
         public static void UnlockEntry<type>(Player player)
         {
             player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(entry => entry is type).Locked = false;
             GUI.Codex.NewEntry = true;
         }
-
         public static void SpawnGem(int ID, Vector2 position)
         {
             int item = Item.NewItem(position, ModContent.ItemType<Items.StarlightGem>());
             (Main.item[item].modItem as Items.StarlightGem).gemID = ID;
         }
-
         public static void DrawSymbol(SpriteBatch spriteBatch, Vector2 position, Color color)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Symbol");
@@ -79,7 +96,6 @@ namespace StarlightRiver
             float fade = LegendWorld.rottime / 6.28f;
             spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 0.6f, 0, 0);
         }
-
         public static bool CheckCircularCollision(Vector2 center, int radius, Rectangle hitbox)
         {
             if (Vector2.Distance(center, hitbox.TopLeft()) <= radius) return true;
@@ -88,13 +104,11 @@ namespace StarlightRiver
             if (Vector2.Distance(center, hitbox.BottomRight()) <= radius) return true;
             return false;
         }
-
         public static string TicksToTime(int ticks)
         {
             int sec = ticks / 60;
             return (sec / 60) + ":" + (sec % 60 < 10 ? "0" + sec % 60 : "" + sec % 60);
         }
-
         public static void DrawElectricity(Vector2 point1, Vector2 point2, int dusttype, float scale = 1)
         {
             int nodeCount = (int)Vector2.Distance(point1, point2) / 30;
@@ -133,7 +147,6 @@ namespace StarlightRiver
                 if (tiltTime >= 40) { StarlightRiver.Rotation = 0; tiltMax = 0; }
             }
         }
-
         public static bool HasEquipped(Player player, int ItemID)
         {
             for (int k = 3; k < 7 + player.extraAccessorySlots; k++) if (player.armor[k].type == ItemID) return true;

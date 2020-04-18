@@ -34,12 +34,11 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             FirstBurn = 6,
             FirstGuard = 7
         };
-        public override string Texture => "StarlightRiver/MarioCumming"; //mario make big cream
         public override void SetDefaults()
         {
             npc.lifeMax = 6000;
-            npc.width = 200;
-            npc.height = 240;
+            npc.width = 86;
+            npc.height = 176;
             npc.immortal = true;
             npc.boss = true;
             npc.aiStyle = -1;
@@ -49,6 +48,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         }
         public override void AI()
         {
+            Lighting.AddLight(npc.Center, new Vector3(1, 1, 0.8f));
             /* AI fields:
              * 0: phase
              * 1: timer
@@ -242,7 +242,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     float sin = (float)Math.Sin(LegendWorld.rottime + k * (6.28f / 6));
 
-                    DrawData data = new DrawData(TextureManager.Load("Images/Misc/Perlin"), npc.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 375, 250)), new Color(255, 255, 200) * 0.6f, npc.rotation, new Vector2(187.5f, 125), 2 + sin * 0.1f, 0, 0);
+                    DrawData data = new DrawData(TextureManager.Load("Images/Misc/Perlin"), npc.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 300, 200)), new Color(255, 255, 200) * 0.6f, npc.rotation, new Vector2(150, 100), 2 + sin * 0.1f, 0, 0);
 
                     GameShaders.Misc["ForceField"].UseColor(new Vector3(1.1f - (sin * 0.4f)));
                     GameShaders.Misc["ForceField"].Apply(new DrawData?(data));

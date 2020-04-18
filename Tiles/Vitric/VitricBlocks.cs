@@ -21,7 +21,8 @@ namespace StarlightRiver.Tiles.Vitric
             drop = ModContent.ItemType<VitricSandItem>();
             AddMapEntry(new Color(172, 131, 105));
 
-            animationFrameHeight = 88;
+            Main.tileMerge[Type][ModContent.TileType<VitricSpike>()] = true;
+            Main.tileMerge[Type][ModContent.TileType<AncientSandstone>()] = true;
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {

@@ -5,9 +5,9 @@ namespace StarlightRiver.Items.EbonyIvory
 {
     public class OreEbonyItem : QuickTileItem { public OreEbonyItem() : base("Ebony Ore", "Heavy and Impure", ModContent.TileType<Tiles.OreEbony>(), 1) { } }
     public class OreIvoryItem : QuickMaterial { public OreIvoryItem() : base("Ivory Ore", "Light and Pure", 999, 1000, 4) { } }
-    public class BarEbony : QuickMaterial
+    public class BarEbony : QuickTileItem
     {
-        public BarEbony() : base("Ebony Bar", "Soft and Heavy", 999, 1000, 1) { }
+        public BarEbony() : base("Ebony Bar", "Soft and Heavy", ModContent.TileType<Tiles.EbonyBar>(), 1) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -17,9 +17,9 @@ namespace StarlightRiver.Items.EbonyIvory
             recipe.AddRecipe();
         }
     }
-    public class BarIvory : QuickMaterial
+    public class BarIvory : QuickTileItem
     {
-        public BarIvory() : base("Ivory Bar", "Hard and Light", 999, 5000, 4) { }
+        public BarIvory() : base("Ivory Bar", "Hard and Light", ModContent.TileType<Tiles.IvoryBar>(), 1) { }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

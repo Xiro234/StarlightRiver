@@ -7,6 +7,9 @@ using Terraria;
 using Terraria.ModLoader;
 using System.IO;
 using Terraria.IO;
+using StarlightRiver.Dragons;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Tiles.Vitric;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -188,12 +191,12 @@ namespace StarlightRiver.Items.Debug
     public class DebugPlacer2 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<Tiles.Rift.MainRift>(), 0) { }
+        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<AncientSandstone>(), 0) { }
     }
     public class DebugPlacer3 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.CrystalBlock>(), 0) { }
+        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<VitricSpike>(), 0) { }
     }
 
     public class DebugPotion : ModItem
@@ -206,7 +209,6 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
             item.autoReuse = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -218,10 +220,45 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            LegendWorld.OvergrowBossOpen = false;
-            LegendWorld.OvergrowBossFree = false;
-            LegendWorld.OvergrowBossDowned = false;
+            CrystalGen();
             return true;
+        }
+        public static void CrystalGen()
+        {
+            Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/Crystal");
+            Vector2 spawn = Main.MouseWorld / 16;
+
+            for (int y = 0; y < Altar.Height; y++) // for every row
+            {
+                Color[] rawData = new Color[Altar.Width]; //array of colors
+                Rectangle row = new Rectangle(0, y, Altar.Width, 1); //one row of the image
+                Altar.GetData(0, row, rawData, 0, Altar.Width); //put the color data from the image into the array
+
+                for (int x = 0; x < Altar.Width; x++) //every entry in the row
+                {
+                    Main.tile[(int)spawn.X + x, (int)spawn.Y + y].ClearEverything(); //clear the tile out
+                    Main.tile[(int)spawn.X + x, (int)spawn.Y + y].liquidType(0); // clear liquids
+
+                    ushort placeType = 0;
+
+                    switch (rawData[x].R) //select block
+                    {
+                        case 10: placeType = (ushort)ModContent.TileType<VitricCrystalCollision>(); break;
+                        case 20: placeType = (ushort)ModContent.TileType<VitricCrystalBig>(); break;
+                    }
+
+                    switch (rawData[x].G)
+                    {
+                        case 10: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(1); break;
+                        case 20: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(2); break;
+                        case 30: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(3); break;
+                        case 40: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(4); break;
+                        case 50: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(5); break;
+                    }
+
+                    if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block
+                }
+            }
         }
     }
 
@@ -235,7 +272,7 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createTile = ModContent.TileType<Tiles.Overgrow.BossPit>();
+            item.createTile = ModContent.TileType<Tiles.Vitric.DenialAura>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";

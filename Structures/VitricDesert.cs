@@ -89,7 +89,7 @@ namespace StarlightRiver.Structures
                     Vector2 pos = centre.ToVector2() + new Vector2(WorldGen.genRand.Next(-width, width), WorldGen.genRand.Next((int)(HalfHeight * 0.8f)));
                     while (Main.tile[(int)pos.X, (int)pos.Y].active())
                         pos = centre.ToVector2() + new Vector2(WorldGen.genRand.Next(-width, width), WorldGen.genRand.Next((int)(HalfHeight * 0.8f)));
-                    Helper.PlaceMultitile(2, 3, (int)pos.X, (int)pos.Y, ModContent.TileType<VitricOreFloat>());
+                    Helper.PlaceMultitile(pos.ToPoint16(), ModContent.TileType<VitricOreFloat>());
                 }
             }
         }

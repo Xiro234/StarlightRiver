@@ -99,7 +99,7 @@ namespace StarlightRiver.Tiles.Herbology
         public override bool NewRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
-            if (player.HeldItem.type == mod.ItemType("IvySeeds") && Main.tile[i, j].frameX == 0)
+            if (player.HeldItem.type == mod.ItemType("IvySeeds") && Main.tile[i, j].frameX == 0) //plants ivy
             {
                 Main.tile[i, j].frameX = 18;               
             }

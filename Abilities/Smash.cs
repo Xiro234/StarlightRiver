@@ -15,25 +15,11 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class Smash : Ability
     {
-        
-        public Smash(Player player) : base(2, player) // stamina cost
-        {
-
-        }
-
-        public override void StartAbility(AbilityHandler handler)
-        {
-            //if the player: has enough stamina  && unlocked && not on CD     && Has no other abilities active          && Off the ground
-            if (handler.StatStamina >= StaminaCost && !Locked && Cooldown == 0 && !handler.Abilities.Any(a => a.Active) && player.velocity.Y != 0)
-            {
-                handler.StatStamina -= StaminaCost; //Consume the stamina
-                OnCast(); //Do what the ability should do when it starts
-            }
-        }
+        public Smash(Player player) : base(2, player) { }
+        public override bool CanUse => player.velocity.Y != 0;
 
         public override void OnCast()
         {
-            Active = true;
             Timer = 0;
         }
 
@@ -81,10 +67,8 @@ namespace StarlightRiver.Abilities
             }
             else
             {
-
                 float rot = Main.rand.NextFloat(6.28f);
                 Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(rot) * 40, ModContent.DustType<JungleEnergy>(), Vector2.One.RotatedBy(rot) * -2f, 0, default, 0.3f);
-
             }
         }
 

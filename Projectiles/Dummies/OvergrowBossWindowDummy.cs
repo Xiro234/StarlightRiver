@@ -12,6 +12,7 @@ namespace StarlightRiver.Projectiles.Dummies
 {
     class OvergrowBossWindowDummy : ModNPC //yeah its actually an NPC fucking fight me
     {
+        public override bool CheckActive() { return false; }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");

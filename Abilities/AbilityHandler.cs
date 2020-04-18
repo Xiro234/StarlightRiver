@@ -120,17 +120,20 @@ namespace StarlightRiver.Abilities
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             //Activates one of the player's abilities on the appropriate keystroke.
-            if (StarlightRiver.Dash.JustPressed) { dash.StartAbility(this); }
-            if (StarlightRiver.Wisp.JustPressed) { wisp.StartAbility(this); }
-            if (StarlightRiver.Purify.JustPressed) { pure.StartAbility(this); }
-            if (StarlightRiver.Smash.JustPressed) { smash.StartAbility(this); }
-            if (StarlightRiver.Superdash.JustPressed) { sdash.StartAbility(this); }
+            if (StarlightRiver.Dash.JustPressed) { dash.StartAbility(player); }
+            if (StarlightRiver.Wisp.JustPressed) { wisp.StartAbility(player); }
+            if (StarlightRiver.Purify.JustPressed) { pure.StartAbility(player); }
+            if (StarlightRiver.Smash.JustPressed) { smash.StartAbility(player); }
+            if (StarlightRiver.Superdash.JustPressed) { sdash.StartAbility(player); }
         }
 
         public override void PreUpdate()
         {
 
             //Executes the ability's use code while it's active.
+            if(player.GetModPlayer<Dragons.DragonHandler>().DragonMounted)
+            foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUseDragon(); ability.UseEffectsDragon(); }
+            else
             foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
 
             //Decrements internal cooldowns of abilities.
@@ -141,7 +144,7 @@ namespace StarlightRiver.Abilities
 
             //Physics fuckery due to redcode being retarded
             if (Abilities.Any(ability => ability.Active))
-            {
+            {   
                 player.velocity.Y += 0.01f; //Required to ensure that the game never thinks we hit the ground when using an ability. Thanks redcode!
 
                 // We need to store the player's wing or rocket boot time and set the effective time to zero while an ability is active to move upwards correctly. Thanks redcode!
