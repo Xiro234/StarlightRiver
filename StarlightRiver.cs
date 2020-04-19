@@ -1046,7 +1046,7 @@ namespace StarlightRiver
                 layers.Insert(MouseTextIndex + 3, new LegacyGameInterfaceLayer("StarlightRiver: Cooking",
                 delegate
                 {
-                    if (Cooking.visible)
+                    if (Cooking.Visible)
                     {
                         customResources5.Update(Main._drawInterfaceGameTime);
                         cooking.Draw(Main.spriteBatch);

@@ -118,14 +118,14 @@ namespace StarlightRiver.Tiles.Crafting
 
         public override bool NewRightClick(int i, int j)
         {
-            if (Vector2.Distance(Main.LocalPlayer.Center, new Vector2(i, j) * 16) <= 64 && !Cooking.visible) { Cooking.visible = true; Main.PlaySound(SoundID.MenuOpen); }
-            else { Cooking.visible = false; Main.PlaySound(SoundID.MenuClose); }
+            if (Vector2.Distance(Main.LocalPlayer.Center, new Vector2(i, j) * 16) <= 64 && !Cooking.Visible) { Cooking.Visible = true; Main.PlaySound(SoundID.MenuOpen); }
+            else { Cooking.Visible = false; Main.PlaySound(SoundID.MenuClose); }
             return true;
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (Vector2.Distance(Main.LocalPlayer.Center, new Vector2(i, j) * 16) > 64 && Cooking.visible) { Cooking.visible = false; }
+            if (Vector2.Distance(Main.LocalPlayer.Center, new Vector2(i, j) * 16) > 64 && Cooking.Visible) { Cooking.Visible = false; }
         }
     }
 }
