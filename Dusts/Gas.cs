@@ -24,8 +24,8 @@ namespace StarlightRiver.Dusts
         
         public override bool Update(Dust dust)
         {
-            Lighting.AddLight((int)dust.position.X / 16, (int)dust.position.Y / 16, 0.2f, 0.19f, 0.0f);
-            dust.color = Lighting.GetColor((int)(dust.position.X / 16), (int)(dust.position.Y / 16)) * 0.05f;
+            //Lighting.AddLight((int)dust.position.X / 16, (int)dust.position.Y / 16, 0.2f, 0.19f, 0.0f);
+            dust.color = Lighting.GetColor((int)(dust.position.X / 16), (int)(dust.position.Y / 16)).MultiplyRGB(Color.White) * 0.07f;
             dust.position += dust.velocity * 0.1f;
             dust.scale *= 0.992f;
             dust.velocity *= 0.97f;

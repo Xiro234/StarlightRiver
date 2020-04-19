@@ -29,14 +29,14 @@ namespace StarlightRiver.Food
         }
 
          ///<summary>Where the effects of this food item's buff will go. use the multiplier param for any effect that should be multiplier-sensitive</summary>
-        public virtual void BuffEffects(Player player, float multipler)
+        public virtual void BuffEffects(Player player, float multiplier)
         {
 
         }
         /// <summary>
         /// Make sure to reset appropriate buff updates here
         /// </summary>
-        public virtual void ResetBuffEffects(Player player)
+        public virtual void ResetBuffEffects(Player player, float multiplier)
         {
 
         }
@@ -73,6 +73,9 @@ namespace StarlightRiver.Food
                 if (line.mod == "Terraria" && line.Name == "Tooltip0") { line.text = description; line.overrideColor = nameColor; }
                 if (line.mod == "Terraria" && line.Name == "Tooltip1") { line.text = ItemTooltip; line.overrideColor = descriptionColor; }
             }
+            TooltipLine fullLine = new TooltipLine(mod, "StarlightRiver: Fullness", "adds " + Fill / 60 + " seconds duration to food");
+            fullLine.overrideColor = new Color(110, 235, 255);
+            tooltips.Add(fullLine);
         }
         
         public Color GetColor()

@@ -26,7 +26,7 @@ namespace StarlightRiver.GUI
         UIImage StatBack = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookStatWindow"));
         UIImage TopBar = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookTop"));
 
-        Vector2 Basepos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+        Vector2 Basepos = new Vector2(Main.screenWidth / 2 - 173, Main.screenHeight / 2 - 122);
         public override void OnInitialize()
         {
             CookButton.OnClick += CookFood;
@@ -36,8 +36,11 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            Basepos = new Vector2(Main.screenWidth / 2 - 173, Main.screenHeight / 2 - 122);
-
+            if(TopBar.IsMouseHovering && Main.mouseLeft)
+            {
+                Basepos = Main.MouseScreen - (Main.MouseScreen - TopBar.GetDimensions().ToRectangle().TopLeft());
+                Main.isMouseLeftConsumedByUI = true;
+            }
             SetPosition(MainSlot, 44, 44);
             SetPosition(SideSlot0, 10, 112);
             SetPosition(SideSlot1, 78, 112);
@@ -84,13 +87,14 @@ namespace StarlightRiver.GUI
                 item.position = Main.LocalPlayer.Center;
                 Main.LocalPlayer.QuickSpawnClonedItem(item);
             }
+            Main.isMouseLeftConsumedByUI = true;
         }
         private void CookIngredient(Item target, CookingSlot source)
         {
             if (!source.Item.IsAir && source.Item.modItem is Ingredient)
             {
                 (target.modItem as Meal).Ingredients.Add(source.Item.Clone());
-                (target.modItem as Meal).Fullness += (MainSlot.Item.modItem as Ingredient).Fill;
+                (target.modItem as Meal).Fullness += (source.Item.modItem as Ingredient).Fill;
                 if (source.Item.stack == 1) source.Item.TurnToAir();
                 else source.Item.stack--;
             }
@@ -98,6 +102,7 @@ namespace StarlightRiver.GUI
         private void Exit(UIMouseEvent evt, UIElement listeningElement)
         {
             Visible = false;
+            Main.isMouseLeftConsumedByUI = true;
         }
     }
     public class CookingSlot : UIElement
@@ -145,6 +150,7 @@ namespace StarlightRiver.GUI
                 player.HeldItem.TurnToAir();
                 Main.PlaySound(SoundID.Grab);
             }
+            Main.isMouseLeftConsumedByUI = true;
         }
         public override void Update(GameTime gameTime)
         {
