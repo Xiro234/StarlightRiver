@@ -46,7 +46,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             if (npc.HasValidTarget)
             {
-                if(damage >= 5)
+                if(damage >= changeAgroDamage)
                 {
                     npc.target = player.whoAmI;
                 }
@@ -90,7 +90,6 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void AI()
         {
-            Framing.GetTileSafely(0, 0);
             Player target = new Player();
             if (npc.HasValidTarget)
             {
@@ -102,7 +101,7 @@ namespace StarlightRiver.NPCs.Hostile
                 npc.direction = playerSide; old version. saved in case npc direction and player side need to be seperate
             */
 
-            if (true == false) //easy disabling
+            /*if (true == false) //easy disabling
             {
                 Main.NewText("DEBUG:"); //guess what this is for
                 Main.NewText("state 1: " + npc.ai[0]); //debug
@@ -110,7 +109,7 @@ namespace StarlightRiver.NPCs.Hostile
                 Main.NewText("timer 1: " + npc.ai[2]); //debug
                 Main.NewText("timer 2: " + npc.ai[3]); //debug
                 Main.NewText(npc.velocity.X + " " + npc.velocity.Y); //debug
-            } //debug
+            }*/ //debug
 
             switch (npc.ai[0])//main switch
             {
