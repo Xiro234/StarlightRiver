@@ -17,6 +17,7 @@ namespace StarlightRiver.GUI
     public class Cooking : UIState
     {
         public static bool Visible = false;
+        private static bool Moving = false;
         CookingSlot MainSlot = new CookingSlot(IngredientType.Main);
         CookingSlot SideSlot0 = new CookingSlot(IngredientType.Side);
         CookingSlot SideSlot1 = new CookingSlot(IngredientType.Side);
@@ -36,11 +37,16 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            if(TopBar.IsMouseHovering && Main.mouseLeft)
-            {
-                Basepos = Main.MouseScreen - (Main.MouseScreen - TopBar.GetDimensions().ToRectangle().TopLeft());
-                Main.isMouseLeftConsumedByUI = true;
-            }
+            if (TopBar.IsMouseHovering && Main.mouseLeft) Moving = true;
+            if (!Main.mouseLeft) Moving = false;
+
+            if(Moving) Basepos = Main.MouseScreen;
+            if (Basepos.X < 20) Basepos.X = 20;
+            if (Basepos.Y < 20) Basepos.Y = 20;
+            if (Basepos.X > Main.screenWidth - 20 - 346) Basepos.X = Main.screenWidth - 20 - 346;
+            if (Basepos.Y > Main.screenHeight - 20 - 244) Basepos.Y = Main.screenHeight - 20 - 244;
+
+            Main.isMouseLeftConsumedByUI = true;
             SetPosition(MainSlot, 44, 44);
             SetPosition(SideSlot0, 10, 112);
             SetPosition(SideSlot1, 78, 112);
