@@ -66,7 +66,7 @@ namespace StarlightRiver.Structures
             for (int k = 0; k < (int)((Main.maxTilesX * Main.maxTilesY) * .000015); k++) //too common atm, add another zero to reduce it to (likely) reasonable levels
             {
                 spawn.X = WorldGen.genRand.Next(BoulderSlope.Width, Main.maxTilesX - BoulderSlope.Width);//keeps it 200 blocks away from edge of world, can be decreased if need be
-                spawn.Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY - BoulderSlope.Width);
+                spawn.Y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY - 220);
                 ushort spawnTileType = Main.tile[(int)spawn.X + (BoulderSlope.Width / 2), (int)spawn.Y + (BoulderSlope.Height / 2)].type;
 
                 if (allowedBlocks.Contains(spawnTileType))//checks origin for stone, may shift this check to the middle of the structure later, or even check a area for X% or more of stone
