@@ -1,7 +1,7 @@
 ﻿using StarlightRiver.Food;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using System.Linq;
 
 namespace StarlightRiver.Buffs
 {
@@ -37,7 +37,7 @@ namespace StarlightRiver.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Full");
-            Description.SetDefault("Cannot consume anymore rich food");
+            Description.SetDefault("Cannot consume any more rich food");
             Main.debuff[Type] = true;
         }
 

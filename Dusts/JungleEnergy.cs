@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -27,7 +22,7 @@ namespace StarlightRiver.Dusts
         {
             dust.position += dust.velocity;
             dust.rotation += 0.05f;
-            dust.color.R --;
+            dust.color.R--;
             dust.scale *= 0.992f;
             if (dust.scale < 0.3f)
             {

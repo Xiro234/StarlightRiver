@@ -1,11 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.StarJuice
 {
@@ -29,9 +23,9 @@ namespace StarlightRiver.Items.StarJuice
 
         public override void UpdateInventory(Player player)
         {
-            if(charge > 0) 
+            if (charge > 0)
             {
-                if(Main.time % 30 == 0 && !Main.fastForwardTime) charge--;
+                if (Main.time % 30 == 0 && !Main.fastForwardTime) charge--;
                 Lighting.AddLight(player.Center, new Vector3(1f, 1.7f, 1.9f) * (charge / (float)maxCharge) * 0.4f);
             }
         }

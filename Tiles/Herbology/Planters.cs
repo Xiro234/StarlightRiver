@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.Enums;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.DataStructures;
 
 namespace StarlightRiver.Tiles.Herbology
 {
@@ -46,7 +40,7 @@ namespace StarlightRiver.Tiles.Herbology
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Herbology/Post"), new Vector2((i + 12) * 16, (j+9) * 16) - (Main.screenPosition), Lighting.GetColor(i, j));
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Herbology/Post"), new Vector2((i + 12) * 16, (j + 9) * 16) - (Main.screenPosition), Lighting.GetColor(i, j));
         }
     }
 
@@ -66,7 +60,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.addTile(Type);
-            
+
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Planter");
             AddMapEntry(new Color(103, 92, 73), name);
@@ -89,11 +83,11 @@ namespace StarlightRiver.Tiles.Herbology
         {
             if (Main.tile[i, j + 1].active() == false)
             {
-               switch (Main.tile[i,j].frameX / 18)
+                switch (Main.tile[i, j].frameX / 18)
                 {
                     case 0: break;
                     case 1: WorldGen.PlaceTile(i, j + 1, mod.TileType("ForestIvy"), true); break;
-                }                 
+                }
             }
         }
         public override bool NewRightClick(int i, int j)
@@ -101,7 +95,7 @@ namespace StarlightRiver.Tiles.Herbology
             Player player = Main.LocalPlayer;
             if (player.HeldItem.type == mod.ItemType("IvySeeds") && Main.tile[i, j].frameX == 0) //plants ivy
             {
-                Main.tile[i, j].frameX = 18;               
+                Main.tile[i, j].frameX = 18;
             }
             return true;
         }

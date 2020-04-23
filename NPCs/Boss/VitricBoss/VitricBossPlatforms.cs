@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-
-namespace StarlightRiver.NPCs.Boss.VitricBoss
+﻿namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
     class VitricBossPlatformUp : MovingPlatform
     {
@@ -37,11 +30,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (npc.ai[0] == 1)
             {
                 npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Scrolltime;
-                if(npc.position.Y <= LegendWorld.VitricBiome.Y * 16 + 8 * 16)
+                if (npc.position.Y <= LegendWorld.VitricBiome.Y * 16 + 8 * 16)
                 {
                     npc.position.Y += MaxHeight;
                 }
-            }       
+            }
         }
     }
 
@@ -74,4 +67,27 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
         }
     }
+
+    class VitricBossPlatformUpSmall : VitricBossPlatformUp
+    {
+        public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatformSmall";
+        public override void SafeSetDefaults()
+        {
+            npc.width = 100;
+            npc.height = 16;
+            npc.noTileCollide = true;
+        }
+    }
+
+    class VitricBossPlatformDownSmall : VitricBossPlatformDown
+    {
+        public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatformSmall";
+        public override void SafeSetDefaults()
+        {
+            npc.width = 100;
+            npc.height = 16;
+            npc.noTileCollide = true;
+        }
+    }
+
 }

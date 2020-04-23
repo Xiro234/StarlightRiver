@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -16,7 +13,7 @@ namespace StarlightRiver.Tiles
         public static List<Point16> breakuator = new List<Point16>();
         public override void HitWire(int i, int j, int type)
         {
-            if (breakuator.Any(point => point == new Point16(i,j)))
+            if (breakuator.Any(point => point == new Point16(i, j)))
             {
                 WorldGen.KillTile(i, j);
             }

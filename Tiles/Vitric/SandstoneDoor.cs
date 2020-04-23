@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.ObjectData;
+using System.Linq;
+using Terraria;
 using Terraria.DataStructures;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -56,7 +52,7 @@ namespace StarlightRiver.Tiles.Vitric
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/SandstoneDoor");
                 Vector2 basepos = (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition;
                 int off = LegendWorld.DesertOpen ? 46 : 0;
-                spriteBatch.Draw(tex, basepos + new Vector2(-off, 0), tex.Frame(), drawColor, 0,  Vector2.Zero, 1, 0, 0);
+                spriteBatch.Draw(tex, basepos + new Vector2(-off, 0), tex.Frame(), drawColor, 0, Vector2.Zero, 1, 0, 0);
                 spriteBatch.Draw(tex, basepos + new Vector2(tex.Width + off, 0), tex.Frame(), drawColor, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
             }
         }

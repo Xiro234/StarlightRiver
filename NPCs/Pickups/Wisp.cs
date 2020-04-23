@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -54,7 +53,7 @@ namespace StarlightRiver.NPCs.Pickups
                 if (animate > 100 && animate < 290)
                 {
                     if (animate % 10 == 0)
-                    {                     
+                    {
                         Dust dus = Dust.NewDustPerfect(player.Center, mod.DustType("Gold3"), new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * 10);
                         dus.customData = animate - 50;
                         rot -= (float)(Math.PI * 2) / 18;
@@ -65,15 +64,15 @@ namespace StarlightRiver.NPCs.Pickups
                     player.AddBuff(BuffID.Featherfall, 120);
                     Achievements.Achievements.QuickGive("Faerie Blaze", player);
 
-                    StarlightRiver.Instance.abilitytext.Display( "Faeflame", "Hold " + StarlightRiver.Wisp.GetAssignedKeys()[0] + " to shrink and fly through the air", mp.wisp);
+                    StarlightRiver.Instance.abilitytext.Display("Faeflame", "Hold " + StarlightRiver.Wisp.GetAssignedKeys()[0] + " to shrink and fly through the air", mp.wisp);
                     Helper.UnlockEntry<FaeEntry>(player);
                 }
 
                 for (int k = 0; k <= 6000; k++)
                 {
                     if (Main.dust[k].type == mod.DustType("Gold3"))
-                    { 
-                        Dust.NewDustPerfect(Main.dust[k].position, mod.DustType("Gold"),null,0,default, 0.5f);
+                    {
+                        Dust.NewDustPerfect(Main.dust[k].position, mod.DustType("Gold"), null, 0, default, 0.5f);
                     }
                 }
             }
@@ -109,7 +108,7 @@ namespace StarlightRiver.NPCs.Pickups
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
             if (mp.wisp.Locked)
             {
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer), (float)Math.Sin(timer)) * 32, ModContent.DustType<Dusts.Gold>(),null,0,default,0.4f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer), (float)Math.Sin(timer)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
                 Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 3) / 2, (float)Math.Sin(timer + 3)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
                 Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 2), (float)Math.Sin(timer + 2) / 2) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
             }

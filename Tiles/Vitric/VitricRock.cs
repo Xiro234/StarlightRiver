@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
-using Terraria.ObjectData;
 using Terraria.Enums;
-using Microsoft.Xna.Framework;
 using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Vitric
 {

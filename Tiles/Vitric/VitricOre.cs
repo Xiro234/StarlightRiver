@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using System;
 using System.Linq;
 using Terraria;
@@ -58,14 +57,14 @@ namespace StarlightRiver.Tiles.Vitric
             {
                 if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>() && proj.active))
                 {
-                    Projectile.NewProjectile(new Vector2(i + 1, j  + 1) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>(), 0, 0);
+                    Projectile.NewProjectile(new Vector2(i + 1, j + 1) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>(), 0, 0);
                 }
             }
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(4,12));
+            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(4, 12));
         }
     }
 

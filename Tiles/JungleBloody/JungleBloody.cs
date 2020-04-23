@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.Enums;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.DataStructures;
 
 namespace StarlightRiver.Tiles.JungleBloody
 {
@@ -28,7 +22,7 @@ namespace StarlightRiver.Tiles.JungleBloody
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
             drop = ItemID.MudBlock;
-            AddMapEntry(new Color (143, 45, 45));
+            AddMapEntry(new Color(143, 45, 45));
             soundType = 0;
             dustType = 125;
         }

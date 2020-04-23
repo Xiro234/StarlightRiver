@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -56,7 +55,7 @@ namespace StarlightRiver.NPCs.Pickups
                     Dust dus = Dust.NewDustPerfect(player.Center, mod.DustType("Air2"), new Vector2((float)Math.Cos(rot) * 5, (float)Math.Sin(rot) * 5));
                     dus.customData = animate - 50;
                 }
-                if(animate == 1)
+                if (animate == 1)
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
                     Achievements.Achievements.QuickGive("Stormcaller", player);
@@ -66,11 +65,11 @@ namespace StarlightRiver.NPCs.Pickups
                 }
             }
 
-            if(animate > 0)
+            if (animate > 0)
             {
                 animate--;
             }
-            
+
         }
         float timer = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -78,7 +77,7 @@ namespace StarlightRiver.NPCs.Pickups
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
 
             timer += (float)(Math.PI * 2) / 120;
-            if(timer >= Math.PI * 2)
+            if (timer >= Math.PI * 2)
             {
                 timer = 0;
             }
@@ -93,7 +92,7 @@ namespace StarlightRiver.NPCs.Pickups
                 Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Cos(timer) * 15, npc.Center.Y), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
 
                 if (Main.rand.Next(5) == 0) { Dust.NewDust(npc.Center, 1, 1, ModContent.DustType<Dusts.Air>()); }
-            }           
+            }
         }
     }
 }

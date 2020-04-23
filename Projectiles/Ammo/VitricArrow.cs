@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -42,7 +42,7 @@ namespace StarlightRiver.Projectiles.Ammo
             for (int k = 0; k <= 10; k++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Air"));
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Glass2"), projectile.velocity.X * Main.rand.NextFloat(0,1), projectile.velocity.Y * Main.rand.NextFloat(0, 1));
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Glass2"), projectile.velocity.X * Main.rand.NextFloat(0, 1), projectile.velocity.Y * Main.rand.NextFloat(0, 1));
             }
             Main.PlaySound(SoundID.Item27);
         }

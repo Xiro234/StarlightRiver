@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Dusts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +10,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     // Second Infusion to be made
     public class WispWIP : Wisp
-    {        
+    {
         [DataMember] bool exit = false;
         public WispWIP(Player player) : base(player)
         {
@@ -40,7 +35,7 @@ namespace StarlightRiver.Abilities
             {
                 Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Gold2>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 1.2f);
             }
-            
+
         }
 
         public override void InUse()
@@ -74,7 +69,7 @@ namespace StarlightRiver.Abilities
             }
 
             if (exit || (mp.StatStamina < 1 && mp.StatStaminaRegen == mp.StatStaminaRegenMax))
-            {             
+            {
                 OnExit();
             }
         }
@@ -114,7 +109,7 @@ namespace StarlightRiver.Abilities
             else if (Timer < 0)
             {
                 player.statLife -= 2;
-                if(player.statLife <= 0)
+                if (player.statLife <= 0)
                 {
                     player.KillMe(Terraria.DataStructures.PlayerDeathReason.ByCustomReason(player.name + " couldn't maintain their form"), 0, 0);
                 }

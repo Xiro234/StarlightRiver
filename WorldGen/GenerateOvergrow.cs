@@ -78,14 +78,14 @@ namespace StarlightRiver
 
                     Debug.WriteLine("Successfully wormed");
 
-                    WormFromRoom(room); 
-                    if(WorldGen.genRand.Next(3) >= 1) WormFromRoom(room); //chance to worm in an additional direciton
+                    WormFromRoom(room);
+                    if (WorldGen.genRand.Next(3) >= 1) WormFromRoom(room); //chance to worm in an additional direciton
 
                     break;
                 }
                 else //area is not clear, change direction and try again
                 {
-                    if(attempts >= 4) //all directions exhausted, cant worm!
+                    if (attempts >= 4) //all directions exhausted, cant worm!
                     {
                         Debug.WriteLine("WORMING FAILED! no safe place found to worm to in any direction...");
                         break;
@@ -117,7 +117,7 @@ namespace StarlightRiver
                     }
                 }
             }
-        } 
+        }
         private static void MakeHallTall(Rectangle target)
         {
             for (int x = target.X; x <= target.X + target.Width; x++)
@@ -154,14 +154,14 @@ namespace StarlightRiver
                     tile.active(true);
                 }
             }
-        } 
+        }
         private static bool CheckDungeon(Rectangle rect)
         {
-            for(int x = rect.X; x <= rect.X + rect.Width; x++)
+            for (int x = rect.X; x <= rect.X + rect.Width; x++)
             {
                 for (int y = rect.Y; y <= rect.Y + rect.Height; y++)
                 {
-                    if(x < 50 || x > Main.maxTilesX - 50 || y < Main.worldSurface || y > Main.maxTilesY - 220) //keeps us out of the ocean, hell, and OOB
+                    if (x < 50 || x > Main.maxTilesX - 50 || y < Main.worldSurface || y > Main.maxTilesY - 220) //keeps us out of the ocean, hell, and OOB
                     {
                         Debug.WriteLine("Failed to find a safe place within the rectangle: " + rect + " due to: out of bounds");
                         return false;
@@ -175,7 +175,7 @@ namespace StarlightRiver
                     //keeps us from running into ourselves or the dungeon. Essentially playing snake.
                     if (tile.type == TileID.BlueDungeonBrick || tile.type == TileID.GreenDungeonBrick || tile.type == TileID.PinkDungeonBrick || tile.type == ModContent.TileType<Tiles.Overgrow.BrickOvergrow>())
                     {
-                        Debug.WriteLine("Failed to find a safe place within the rectangle: " + rect + 
+                        Debug.WriteLine("Failed to find a safe place within the rectangle: " + rect +
                             " due to: " + (tile.type == ModContent.TileType<Tiles.Overgrow.BrickOvergrow>() ? "other overgrow tiles" : "vanilla dungeon tiles"));
                         return false;
                     }

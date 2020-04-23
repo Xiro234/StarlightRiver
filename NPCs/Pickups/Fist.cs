@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using StarlightRiver.Abilities;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -60,7 +58,7 @@ namespace StarlightRiver.NPCs.Pickups
                     player.AddBuff(BuffID.Featherfall, 120);
                     Achievements.Achievements.QuickGive("Shatterer", player);
 
-                    StarlightRiver.Instance.abilitytext.Display( "Gaia's Fist", "Press " + StarlightRiver.Smash.GetAssignedKeys()[0] + " in the air to dive downwards", mp.smash);
+                    StarlightRiver.Instance.abilitytext.Display("Gaia's Fist", "Press " + StarlightRiver.Smash.GetAssignedKeys()[0] + " in the air to dive downwards", mp.smash);
                 }
             }
 
@@ -87,7 +85,7 @@ namespace StarlightRiver.NPCs.Pickups
 
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1"), npc.position + new Vector2(0, (float)Math.Sin(timer) * 4) - Main.screenPosition, Color.White);
 
-                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * (23 + (float)Math.Sin(timer * 10) * 4) , ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 0, default, 0.8f);
+                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * (23 + (float)Math.Sin(timer * 10) * 4), ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 0, default, 0.8f);
                 Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * 18, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 0, default, 0.8f);
                 Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * 28, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 0, default, 0.8f);
             }

@@ -1,21 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -71,7 +54,7 @@ namespace StarlightRiver.Tiles.Herbology
         public override bool NewRightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            TileObjectData data = TileObjectData.GetTileData(tile); 
+            TileObjectData data = TileObjectData.GetTileData(tile);
             int fullFrameWidth = data.Width * (data.CoordinateWidth + data.CoordinatePadding);
 
             if (tile.frameX >= fullFrameWidth)
@@ -79,12 +62,12 @@ namespace StarlightRiver.Tiles.Herbology
                 int offX = (tile.frameX - fullFrameWidth) / 10;
                 int offY = tile.frameY / 10;
 
-                for (int x = -offX; x < data.Width; x++) 
+                for (int x = -offX; x < data.Width; x++)
                 {
-                    for (int y = -offY; y < data.Height; y++) 
+                    for (int y = -offY; y < data.Height; y++)
                     {
-                        Tile targetTile = Main.tile[i + x, j + y]; 
-                        targetTile.frameX -= (short)fullFrameWidth; 
+                        Tile targetTile = Main.tile[i + x, j + y];
+                        targetTile.frameX -= (short)fullFrameWidth;
                     }
                 }
                 Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.ForestBerries>());

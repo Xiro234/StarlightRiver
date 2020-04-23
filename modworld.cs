@@ -1,21 +1,17 @@
-﻿using System.IO;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Keys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
-using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using StarlightRiver.Structures;
-using StarlightRiver.Keys;
+using Terraria.World.Generation;
 
 namespace StarlightRiver
 {
-    
+
     public partial class LegendWorld : ModWorld
     {
         public static Vector2 BookSP;
@@ -26,7 +22,7 @@ namespace StarlightRiver
 
         public static Vector2 RiftLocation;
 
-        public static bool ForceStarfall = false; 
+        public static bool ForceStarfall = false;
 
         //Boss Flags
         public static bool DesertOpen = false;
@@ -40,7 +36,7 @@ namespace StarlightRiver
         public static bool SealOpen = false;
 
         //Voidsmith
-        public static int[] NPCUpgrades = new int[] { 0,0 };
+        public static int[] NPCUpgrades = new int[] { 0, 0 };
 
         public static List<Vector2> PureTiles = new List<Vector2> { };
 
@@ -49,8 +45,8 @@ namespace StarlightRiver
         //Handling Keys
         public static List<Key> Keys = new List<Key>();
         public static List<Key> KeyInventory = new List<Key>();
-                     
-        
+
+
         private void EbonyGen(GenerationProgress progress)
         {
             progress.Message = "Making the World Impure...";
@@ -60,7 +56,7 @@ namespace StarlightRiver
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int y = WorldGen.genRand.Next(0, (int)WorldGen.worldSurfaceHigh);
 
-                if (Main.tile[x, y].type == TileID.Dirt  && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6)
+                if (Main.tile[x, y].type == TileID.Dirt && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6)
                 {
                     WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(10, 11), 1, ModContent.TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
                 }
@@ -71,16 +67,16 @@ namespace StarlightRiver
             progress.Message = "Shifting Tectonic Plates...";
             ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite.Dolomite>();
 
-            for (int k = 0; k < (Main.rand.Next(4,8)); k++)
+            for (int k = 0; k < (Main.rand.Next(4, 8)); k++)
             {
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 
-                for(int i = x - 200; i <= x + 200; i++)
+                for (int i = x - 200; i <= x + 200; i++)
                 {
                     for (int j = y - 100; j <= y + 100; j++)
                     {
-                        if(i > 20 && j > 20 && i < Main.maxTilesX - 20 && j < Main.maxTilesY - 20)
+                        if (i > 20 && j > 20 && i < Main.maxTilesX - 20 && j < Main.maxTilesY - 20)
                         {
                             if (Main.tile[i, j].type is TileID.Stone) { Main.tile[i, j].type = Dolomite; }
 
@@ -120,7 +116,7 @@ namespace StarlightRiver
                         return;
                     }
                 }
-            }           
+            }
         }
 
         public static float rottime = 0;
@@ -156,7 +152,7 @@ namespace StarlightRiver
             }
 
             //Keys
-            foreach(Key key in Keys)
+            foreach (Key key in Keys)
             {
                 key.Update();
             }
@@ -208,8 +204,8 @@ namespace StarlightRiver
                 [nameof(PureTiles)] = PureTiles,
 
                 [nameof(BookSP)] = BookSP,
-                [nameof(DashSP)] = DashSP,  
-                
+                [nameof(DashSP)] = DashSP,
+
                 [nameof(RiftLocation)] = RiftLocation
             };
         }
@@ -233,7 +229,7 @@ namespace StarlightRiver
 
             ForceStarfall = tag.GetBool(nameof(ForceStarfall));
 
-            NPCUpgrades = tag.GetIntArray(nameof(NPCUpgrades));           
+            NPCUpgrades = tag.GetIntArray(nameof(NPCUpgrades));
 
             PureTiles = (List<Vector2>)tag.GetList<Vector2>(nameof(PureTiles));
 
@@ -243,9 +239,9 @@ namespace StarlightRiver
             RiftLocation = tag.Get<Vector2>(nameof(RiftLocation));
 
 
-            for (int k = 0; k <= PureTiles.Count - 1;  k++)
+            for (int k = 0; k <= PureTiles.Count - 1; k++)
             {
-                for(int i = (int)PureTiles[k].X - 16; i <= (int)PureTiles[k].X + 16; i++)
+                for (int i = (int)PureTiles[k].X - 16; i <= (int)PureTiles[k].X + 16; i++)
                 {
                     for (int j = (int)PureTiles[k].Y - 16; j <= (int)PureTiles[k].Y + 16; j++)
                     {
@@ -260,7 +256,7 @@ namespace StarlightRiver
                 }
             }
 
-            foreach(NPC npc in Main.npc)
+            foreach (NPC npc in Main.npc)
             {
                 if (npc.townNPC)
                 {
@@ -270,10 +266,10 @@ namespace StarlightRiver
             PureTiles.Clear();
             PureTiles = new List<Vector2> { };
 
-            foreach(Key key in KeyInventory)
+            foreach (Key key in KeyInventory)
             {
                 GUI.KeyInventory.keys.Add(new GUI.KeyIcon(key, false));
             }
-        }   
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace StarlightRiver.Items.IceandFire
         {
             player.channel = true;
 
-            for(int k = 0; k <= 20; k++)
+            for (int k = 0; k <= 20; k++)
             {
                 Dust.NewDustPerfect(player.Center + new Vector2(6 * player.direction, -8), ModContent.DustType<Dusts.DragonFire>(),
                     new Vector2(player.direction, 0.15f).RotatedBy(Main.rand.NextFloat(-0.3f, 0.3f)) * Main.rand.NextFloat(12), 0, default, 3);

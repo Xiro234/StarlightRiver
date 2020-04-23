@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Dusts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +11,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class Superdash : Ability
     {
-        
+
         [DataMember] float timer = 0;
         [DataMember] Vector2 objective;
         [DataMember] Vector2 start;
@@ -26,7 +22,7 @@ namespace StarlightRiver.Abilities
 
         public override void OnCast()
         {
-            timer = 4;          
+            timer = 4;
 
             Main.PlaySound(SoundID.Item8);
 
@@ -90,7 +86,7 @@ namespace StarlightRiver.Abilities
 
         public override void OffCooldownEffects()
         {
-            for(float k = 0; k <= 6.28f; k += 0.05f)
+            for (float k = 0; k <= 6.28f; k += 0.05f)
             {
                 Dust dus = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.Void4>(), Vector2.One.RotatedBy(k));
                 dus.customData = player;

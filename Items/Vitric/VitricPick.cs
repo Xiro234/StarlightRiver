@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,7 +33,7 @@ namespace StarlightRiver.Items.Vitric
 
         public override bool UseItem(Player player)
         {
-            foreach(Item item in Main.item.Where(item => Vector2.Distance(item.Center, player.Center) <= 120 && item.active))
+            foreach (Item item in Main.item.Where(item => Vector2.Distance(item.Center, player.Center) <= 120 && item.active))
             {
                 item.velocity = Vector2.Normalize(item.Center - player.Center) * -2;
                 Dust.NewDust(item.Center, 4, 4, ModContent.DustType<Dusts.Air>());

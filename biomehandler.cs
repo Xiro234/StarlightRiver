@@ -1,21 +1,12 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Abilities;
+using StarlightRiver.Codex;
+using StarlightRiver.Codex.Entries;
+using StarlightRiver.GUI;
+using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
-using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using StarlightRiver.GUI;
-using StarlightRiver.Abilities;
-using StarlightRiver.Codex.Entries;
-using StarlightRiver.Codex;
 
 namespace StarlightRiver
 {
@@ -145,7 +136,7 @@ namespace StarlightRiver
         public static int holyJungleTiles;
         public override void TileCountsAvailable(int[] tileCounts)
         {
-			glassTiles = tileCounts[mod.TileType("VitricSand")];
+            glassTiles = tileCounts[mod.TileType("VitricSand")];
             voidTiles = tileCounts[mod.TileType("Void1")] + tileCounts[mod.TileType("Void2")];
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
             bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];

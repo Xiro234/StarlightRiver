@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Guardian
 {
     class Mace : GuardianWeapon
     {
         int Timer { get; set; }
-        public Mace(int HPcost, int lifesteal, int healrad, int heal) : base(HPcost, lifesteal, healrad, heal) {}
+        public Mace(int HPcost, int lifesteal, int healrad, int heal) : base(HPcost, lifesteal, healrad, heal) { }
         public override void HoldItem(Player player)
         {
             Timer++; //the timing ticker
@@ -71,7 +68,7 @@ namespace StarlightRiver.Items.Guardian
                 {
                     Dust.NewDustPerfect(player.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(HealRadius), ModContent.DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, Main.rand.NextFloat(0.6f));
                 }
-                for (int k = 0; k <= HealRadius * 6.28f; k+= 2)
+                for (int k = 0; k <= HealRadius * 6.28f; k += 2)
                 {
                     Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(k / (HealRadius * 6.28f) * 6.28f) * HealRadius, ModContent.DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, 0.8f);
                 }

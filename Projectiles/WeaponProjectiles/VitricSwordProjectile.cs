@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,7 +35,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.velocity *= 0.94f;
             projectile.rotation = (player.Center - projectile.Center).Length() * 0.1f;
 
-            if((player.Center - projectile.Center).Length() <= 32 && projectile.timeLeft < 110)
+            if ((player.Center - projectile.Center).Length() <= 32 && projectile.timeLeft < 110)
             {
                 projectile.timeLeft = 0;
                 Main.PlaySound(SoundID.Item101);

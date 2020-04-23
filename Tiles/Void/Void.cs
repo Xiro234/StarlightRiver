@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -16,7 +15,7 @@ namespace StarlightRiver.Tiles.Void
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = true;         
+            Main.tileLighted[Type] = true;
             drop = mod.ItemType("Void1Item");
             dustType = mod.DustType("Darkness");
             AddMapEntry(new Color(35, 40, 20));
@@ -57,10 +56,10 @@ namespace StarlightRiver.Tiles.Void
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-                for(int k = 0; k <= 3; k++)
+                for (int k = 0; k <= 3; k++)
                 {
                     Dust.NewDust(new Vector2((i * 16) - 1, (j - 1) * 16), 12, 16, mod.DustType("Darkness"));
-                }              
+                }
             }
         }
     }

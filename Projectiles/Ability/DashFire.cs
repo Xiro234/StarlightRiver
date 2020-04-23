@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Items;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Ability
@@ -25,7 +23,7 @@ namespace StarlightRiver.Projectiles.Ability
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if(target.lifeMax * 0.05 <= 200 && target.lifeMax * 0.05 >= 10)
+            if (target.lifeMax * 0.05 <= 200 && target.lifeMax * 0.05 >= 10)
             {
                 projectile.damage = (int)(target.lifeMax * 0.05);
             }
@@ -45,7 +43,7 @@ namespace StarlightRiver.Projectiles.Ability
         }
         public override void AI()
         {
-            projectile.position = Main.player[projectile.owner].position + new Vector2(-21,-12);
+            projectile.position = Main.player[projectile.owner].position + new Vector2(-21, -12);
         }
     }
 }
