@@ -41,9 +41,13 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 projectile.ai[0]--;
             }
-            Filters.Scene["AuraFilter"].GetShader().UseProgress((1.3f + (-(projectile.ai[0] - 255) * 0.1f))); //to update the shader //1.3
+            Filters.Scene["AuraFilter"].GetShader().UseProgress(((projectile.ai[0] - 6) / (255 - 6))
+          * (0.15f - -0.1f) + -0.1f).UseIntensity(-0.02f * (projectile.ai[0] * 0.01f + 0.5f))
+          .UseOpacity(projectile.ai[0] * 0.01f * 0.5f)
+          .UseColor(new Vector3(0.4f, 0.4f, 0.4f) * (projectile.ai[0] * 0.01f * 0.5f)); //to update the shader //1.3
 
-                Main.NewText((1.2f + (-(projectile.ai[0] - 255) * 0.1f)));
+                Main.NewText(((projectile.ai[0] - 6) / (255 - 6))
+          * (0.15f - -0.1f) + -0.1f);
             for (int x = 0; x < 30; x++)
             {
                 Dust.NewDustPerfect(projectile.Center + (Vector2.One * (projectile.ai[0] * 0.72f)).RotatedByRandom(6.28f) - Vector2.One * 16, ModContent.DustType<Dusts.Purify>());
