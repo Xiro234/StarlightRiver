@@ -13,8 +13,10 @@ namespace StarlightRiver.NPCs.Hostile
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandbat");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 7;
         }
+        const int animFramesLoop = 6; //amount of frames in the main loop
+
         public override void SetDefaults()
         {
             npc.width = 50;
@@ -30,61 +32,55 @@ namespace StarlightRiver.NPCs.Hostile
             npc.DeathSound = SoundID.NPCDeath4;
         }
 
-        public override bool CheckDead()
-        {
-            return true;
-        }
+        float AnimSpeedMult = 0.3f;
+
         public override void AI()
         {
             npc.TargetClosest(true);
-            if(npc.ai[0] == 0)
+            switch (npc.ai[0])
             {
-                if(Vector2.Distance(Main.player[npc.target].Center, npc.Center)<= 180)
-                {
-                    npc.ai[0] = 1;
-                }
-            }
-
-            if(npc.ai[0] == 1)
-            {
-                npc.ai[1]++;
-
-                if(npc.ai[1] == 1)
-                {
-                    npc.velocity.Y = -20;
-                }
-
-                npc.velocity.Y += (.6f);
-                
-                for (int k = 0; k <= 10; k++)
-                {
-                    Dust.NewDust(npc.position, 32, 32, DustID.Sandstorm);
-                }
-
-                if(npc.ai[1] >= 5)
-                {
-                    npc.noTileCollide = false;
-                }
-
-                if(npc.ai[1] >= 30)
-                {
-                    npc.velocity.Y = 0;
-                    npc.ai[1] = 0;
-                    npc.ai[0] = 2;
-                    for (int k = -1; k <= 1; k++)
+                case 0://in ground checking for player
+                    if(Vector2.Distance(Main.player[npc.target].Center, npc.Center)<= 180)
                     {
-                        Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center - npc.Center).RotatedBy(k * 0.5f) * 6, ModContent.ProjectileType<Projectiles.GlassSpike>(), 10, 0);
+                        npc.ai[0] = 1;
                     }
-                    npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * -5.5f;
-                }
-            }
+                    break;
 
-            if(npc.ai[0] == 2)
-            {
-                npc.velocity += Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 0.08f;
-                if (npc.velocity.Length() > 5.5f && ((npc.velocity - npc.oldVelocity).ToRotation() == (Main.player[npc.target].Center - npc.Center).ToRotation()))
-                { npc.velocity = Vector2.Normalize(npc.velocity) * 5.5f; }
-                npc.spriteDirection = (Main.player[npc.target].Center.X - npc.Center.X < 0) ? -1 : 1;
+                case 1://shoot out of ground and attack
+                    npc.ai[1]++;
+
+                    if(npc.ai[1] == 1)
+                    {
+                        npc.velocity.Y = -20;
+                    }
+                    npc.velocity.Y += (.6f);
+                    for (int k = 0; k <= 10; k++)
+                    {
+                        Dust.NewDust(npc.position, 32, 32, DustID.Sandstorm);
+                    }
+                    if(npc.ai[1] >= 5)
+                    {
+                        npc.noTileCollide = false;
+                    }
+                    if(npc.ai[1] >= 30)
+                    {
+                        npc.velocity.Y = 0;
+                        npc.ai[1] = 0;
+                        npc.ai[0] = 2;
+                        for (int k = -1; k <= 1; k++)
+                        {
+                            Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center - npc.Center).RotatedBy(k * 0.5f) * 6, ModContent.ProjectileType<Projectiles.GlassSpike>(), 10, 0);
+                        }
+                        npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * -5.5f;
+                    }
+                    break;
+
+                case 2://seek and destroy
+                    npc.velocity += Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 0.08f;
+                    if (npc.velocity.Length() > 5.5f && ((npc.velocity - npc.oldVelocity).ToRotation() == (Main.player[npc.target].Center - npc.Center).ToRotation()))
+                    { npc.velocity = Vector2.Normalize(npc.velocity) * 5.5f; }
+                    npc.spriteDirection = (Main.player[npc.target].Center.X - npc.Center.X < 0) ? -1 : 1;
+                    break;
             }
         }
 
@@ -99,28 +95,22 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextFloat() < 0.50f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(1, 3)); }
-            if (Main.rand.NextFloat() < 0.80f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricSandItem>(), Main.rand.Next(10, 12)); }
+            if (Main.rand.NextFloat() < 0.5f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(1, 3)); }
+            if (Main.rand.NextFloat() < 0.8f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricSandItem>(), Main.rand.Next(10, 12)); }
         }
 
         public int Framecounter = 0;
         public int Gameframecounter = 0;
         public override void FindFrame(int frameHeight)
         {
-            if (Gameframecounter++ == 4)
+            npc.frameCounter++;//skele frame-code
+            if ((int)(npc.frameCounter * AnimSpeedMult) >= animFramesLoop)
+                npc.frameCounter = 0;
+            switch (npc.ai[0])
             {
-                Framecounter++;
-                Gameframecounter = 0;
-            }
-            npc.frame.Y = 42 * Framecounter;
-            if (Framecounter >= 5)
-            {
-                Framecounter = 0;
-            }
-            switch(npc.ai[0])
-            {
-                case 0: npc.frame.Y = npc.height * 5; break;
-                case 1: npc.frame.Y = npc.height * 0; break;
+                case 0: npc.frame.Y = frameHeight * 6; break;
+                case 1: npc.frame.Y = frameHeight * 0; break;
+                case 2: npc.frame.Y = (int)(npc.frameCounter * AnimSpeedMult) * frameHeight; ; break;
             }
         }
     }

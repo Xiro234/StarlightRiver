@@ -343,11 +343,9 @@ namespace StarlightRiver.NPCs.Hostile
         public override void FindFrame(int frameHeight)//note: this controls everything to do with the npc frame
         {
             npc.frameCounter += Math.Abs(npc.velocity.X);//note: slightly jank, but best I could come up with
-            if ((int)(npc.frameCounter / 10) > Main.npcFrameCount[npc.type] - 1)
-            {
+            if ((int)(npc.frameCounter * 0.1) >= Main.npcFrameCount[npc.type])//replace the 0.1 with a const float to control animation speed
                 npc.frameCounter = 0;
-            }
-            npc.frame.Y = (int)(npc.frameCounter / 10) * frameHeight;
+            npc.frame.Y = (int)(npc.frameCounter * 0.1) * frameHeight;
             //Main.NewText(npc.frame.Y / frameHeight); //debug
         }
 

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
 
 namespace StarlightRiver.Projectiles.Ability
 {
@@ -40,6 +41,9 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 projectile.ai[0]--;
             }
+            Filters.Scene["AuraFilter"].GetShader().UseProgress((1.3f + (-(projectile.ai[0] - 255) * 0.1f))); //to update the shader //1.3
+
+                Main.NewText((1.2f + (-(projectile.ai[0] - 255) * 0.1f)));
             for (int x = 0; x < 30; x++)
             {
                 Dust.NewDustPerfect(projectile.Center + (Vector2.One * (projectile.ai[0] * 0.72f)).RotatedByRandom(6.28f) - Vector2.One * 16, ModContent.DustType<Dusts.Purify>());
@@ -70,6 +74,10 @@ namespace StarlightRiver.Projectiles.Ability
                 }
                 Projectile.NewProjectile(projectile.Center - Vector2.One * 16, Vector2.Normalize((projectile.Center - Vector2.One * 16) - Main.player[projectile.owner].Center).RotatedBy(0.3f) * 6,
                     ModContent.ProjectileType<PurifierReturn>(), 0, 0, projectile.owner);
+                if (Filters.Scene["AuraFilter"].IsActive())
+                {
+                    Filters.Scene.Deactivate("AuraFilter");
+                }
             }
         }
 
