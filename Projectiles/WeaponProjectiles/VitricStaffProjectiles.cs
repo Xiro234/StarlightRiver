@@ -1,10 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using StarlightRiver.NPCs;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -26,7 +21,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override void AI()
         {
-            
+
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ID;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -26,11 +20,11 @@ namespace StarlightRiver.Tiles.Vitric
         {
             Vector2 center = new Vector2(i, j - 2) * 16 + Vector2.One * 8;
 
-            for(int k = 0; k < 2; k++)
-            //Dust.NewDustPerfect(center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(120), ModContent.DustType<Dusts.Mist>());
+            for (int k = 0; k < 2; k++)
+                //Dust.NewDustPerfect(center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(120), ModContent.DustType<Dusts.Mist>());
 
-            if (Main.rand.Next(10) == 0)
-                Dust.NewDustPerfect(center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(120), ModContent.DustType<Dusts.Air>());
+                if (Main.rand.Next(10) == 0)
+                    Dust.NewDustPerfect(center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(120), ModContent.DustType<Dusts.Air>());
         }
         public override void NearbyEffects(int i, int j, bool closer)
         {

@@ -1,14 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using StarlightRiver.RiftCrafting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -42,7 +39,7 @@ namespace StarlightRiver.Tiles.Rift
                 0.7f + (float)Math.Sin(LegendWorld.rottime + 2) * 0.04f, 0, 0);
 
             int index = ModContent.GetInstance<RiftEntity>().Find(i, j);
-            if (index == -1) return true;           
+            if (index == -1) return true;
             RiftEntity entity = (RiftEntity)TileEntity.ByID[index];
 
             for (int k = 0; k < entity.inventory.Count; k++)
@@ -56,12 +53,12 @@ namespace StarlightRiver.Tiles.Rift
                 spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, frame.Width, frame.Height), frame, Color.White * 0.6f, (float)Math.Sin(LegendWorld.rottime) * 0.15f, frame.Size() / 2, 0, 0);
             }
 
-            if(entity.timer > 0)
+            if (entity.timer > 0)
             {
                 Utils.DrawBorderString(spriteBatch, (entity.timer / 60).ToString(),
                     new Vector2(i, j) * 16 - new Vector2(Main.fontMouseText.MeasureString((entity.timer / 60).ToString()).X / 2, 0) - Main.screenPosition + Helper.TileAdj * 16, Color.White);
             }
-            
+
             return true;
         }
 
@@ -101,7 +98,7 @@ namespace StarlightRiver.Tiles.Rift
             float rot = Main.rand.NextFloat(6.28f);
             Vector2 off = new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) * 3.5f);
 
-            Dust.NewDustPerfect(hitbox.Center.ToVector2() + (off * 30) - Vector2.One * 4, ModContent.DustType<Dusts.VitricBossTell>(), 
+            Dust.NewDustPerfect(hitbox.Center.ToVector2() + (off * 30) - Vector2.One * 4, ModContent.DustType<Dusts.VitricBossTell>(),
                 Vector2.Normalize(off).RotatedBy(1.58f) * -5, 0, new Color(100, 30, 175) * 0.9f, 1.2f);
 
             Dust.NewDustPerfect(hitbox.Center.ToVector2() + (off * 30) - Vector2.One * 4, ModContent.DustType<Dusts.VitricBossTell>(),
@@ -146,7 +143,7 @@ namespace StarlightRiver.Tiles.Rift
                 {
                     int i = NPC.NewNPC((int)pos.X + Main.rand.Next(-400, 400), (int)pos.Y + Main.rand.Next(-400, 400), activeCraft.SpawnPool[Main.rand.Next(0, activeCraft.SpawnPool.Count)]);
                     Main.npc[i].GetGlobalNPC<RiftNPC>().parent = this;
-                    for(int k = 0; k <= 50; k++)
+                    for (int k = 0; k <= 50; k++)
                     {
                         Dust.NewDustPerfect(Main.npc[i].Center, ModContent.DustType<Dusts.Darkness>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10));
                     }
@@ -186,17 +183,17 @@ namespace StarlightRiver.Tiles.Rift
                 removals.Add(item);
             }
 
-            for(int k = 0; k < removals.Count; k++)
+            for (int k = 0; k < removals.Count; k++)
             {
                 inventory.Remove(inventory.FirstOrDefault(item => item == removals[k]));
             }
 
             foreach (RiftIngredient ingredient in recipe.Ingredients)
             {
-                if(inventory.Any(i => i.type == ingredient.type))
+                if (inventory.Any(i => i.type == ingredient.type))
                 {
                     int total = inventory.Count(i => i.type == ingredient.type);
-                    for(int k = total; k > ingredient.count; k--)
+                    for (int k = total; k > ingredient.count; k--)
                     {
                         Item.NewItem(position, ingredient.type);
                         inventory.Remove(inventory.FirstOrDefault(i => i.type == ingredient.type));
@@ -207,7 +204,7 @@ namespace StarlightRiver.Tiles.Rift
 
         private void Shake(int amount, Vector2 pos)
         {
-            foreach(Player player in Main.player.Where(player => Vector2.Distance(player.Center, pos) < 1200))
+            foreach (Player player in Main.player.Where(player => Vector2.Distance(player.Center, pos) < 1200))
             {
                 player.GetModPlayer<StarlightPlayer>().Shake += amount;
             }
@@ -294,7 +291,7 @@ namespace StarlightRiver.Tiles.Rift
         }
         public override bool CheckDead(NPC npc)
         {
-            if(parent != null)
+            if (parent != null)
             {
                 if (parent.timer > 130)
                 {
@@ -309,7 +306,7 @@ namespace StarlightRiver.Tiles.Rift
 
         public override bool PreAI(NPC npc)
         {
-            if(parent != null && parent.timer == 0)
+            if (parent != null && parent.timer == 0)
             {
                 Helper.Kill(npc);
             }
@@ -328,7 +325,7 @@ namespace StarlightRiver.Tiles.Rift
 
         public override bool PreNPCLoot(NPC npc)
         {
-            if(parent != null)
+            if (parent != null)
             {
                 return false;
             }
@@ -337,7 +334,7 @@ namespace StarlightRiver.Tiles.Rift
 
         public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
         {
-            if(parent != null)
+            if (parent != null)
             {
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

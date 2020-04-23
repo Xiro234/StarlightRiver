@@ -1,9 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.NPCs;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -41,7 +38,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (projectile.ai[0] == 0)
             {
                 for (int a = 52; a < 1020; a += 51)
-                { 
+                {
                     int laser = Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), mod.ProjectileType("BigFuckingDeathRay2"), projectile.damage, projectile.knockBack, player.whoAmI);
                     Main.projectile[laser].position.Y -= a;
                     Main.projectile[laser].ai[0] = (int)projectile.whoAmI;

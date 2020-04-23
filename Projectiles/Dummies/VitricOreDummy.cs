@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
+using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
@@ -44,7 +41,7 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
 
             if (Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != ModContent.TileType<Tiles.Vitric.VitricOre>() &&
-                Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != ModContent.TileType < Tiles.Vitric.VitricOreFloat>())
+                Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != ModContent.TileType<Tiles.Vitric.VitricOreFloat>())
             {
                 projectile.timeLeft = 0;
             }

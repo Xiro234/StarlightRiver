@@ -1,11 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Gases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -25,7 +19,7 @@ namespace StarlightRiver.Tiles.Overgrow
         }
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if(Main.rand.Next(2) == 0)
+            if (Main.rand.Next(2) == 0)
             {
                 ModGas.SpawnGas(i, j, ModContent.DustType<Dusts.Gas>(), 200);
             }

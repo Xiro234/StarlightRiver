@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace StarlightRiver.Codex.Entries
 {
@@ -13,7 +8,7 @@ namespace StarlightRiver.Codex.Entries
         {
             Category = (int)Categories.Misc;
             Title = "Stamina";
-            Body = 
+            Body =
                 "All of your abilities utilize stamina, represtented\n" +
                 "by the orange crystals to the left of your mana bar.\n" +
                 "Stamina is consumed when an ability is used, and\n" +

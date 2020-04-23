@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
@@ -19,7 +17,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
             Main.tileFrameImportant[Type] = true;
-            dustType = mod.DustType("Gold2");          
+            dustType = mod.DustType("Gold2");
             AddMapEntry(new Color(81, 77, 71));
         }
 

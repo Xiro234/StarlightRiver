@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StarlightRiver.Tiles.Vitric;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
-using StarlightRiver.Tiles.Vitric;
 
 namespace StarlightRiver.Structures
 {

@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
@@ -33,7 +32,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             {
                 for (int k = 0; k < Main.npc.Length; k++)
                 {
-                    if(Vector2.Distance(Main.npc[k].Center, projectile.Center) < Vector2.Distance(target.Center, projectile.Center) && Main.npc[k].active && !Main.npc[k].friendly) 
+                    if (Vector2.Distance(Main.npc[k].Center, projectile.Center) < Vector2.Distance(target.Center, projectile.Center) && Main.npc[k].active && !Main.npc[k].friendly)
                     {
                         target = Main.npc[k];
                     }
@@ -46,7 +45,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             {
                 projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.4f;
             }
-            if(projectile.velocity.Length() >= 12)
+            if (projectile.velocity.Length() >= 12)
             {
                 projectile.velocity = Vector2.Normalize(projectile.velocity) * 12;
             }

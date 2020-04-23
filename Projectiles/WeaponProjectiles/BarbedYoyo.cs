@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -31,11 +28,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             Player player = Main.player[projectile.owner];
 
-            if(player.channel) projectile.timeLeft = 2;
+            if (player.channel) projectile.timeLeft = 2;
             projectile.rotation += 0.2f;
 
             Vector2 basepos;
-            if(targets.Count == 0)
+            if (targets.Count == 0)
             {
                 basepos = player.Center;
             }
@@ -44,18 +41,18 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 basepos = targets.Last().Center;
             }
 
-            projectile.position = Vector2.Distance(basepos, Main.MouseWorld) < 200 ? 
-                Main.MouseWorld : 
+            projectile.position = Vector2.Distance(basepos, Main.MouseWorld) < 200 ?
+                Main.MouseWorld :
                 basepos + new Vector2(-200, 0).RotatedBy((basepos - Main.MouseWorld).ToRotation());
 
             List<NPC> removals = new List<NPC>();
-            foreach(NPC npc in targets)
+            foreach (NPC npc in targets)
             {
                 //npc.StrikeNPC(projectile.damage / 2, 0, 0);
                 if (!npc.active) removals.Add(npc);
             }
 
-            foreach(NPC npc in removals)
+            foreach (NPC npc in removals)
             {
                 targets.Remove(npc);
             }
@@ -74,11 +71,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Player player = Main.player[projectile.owner];
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/BarbedYoyoChain");
 
-            if(targets.Count == 0) DrawBetween(spriteBatch, tex, player.Center, projectile.Center, lightColor);
+            if (targets.Count == 0) DrawBetween(spriteBatch, tex, player.Center, projectile.Center, lightColor);
             else
             {
                 DrawBetween(spriteBatch, tex, player.Center, targets.First().Center, lightColor);
-                for(int k = 1; k < targets.Count(); k++)
+                for (int k = 1; k < targets.Count(); k++)
                 {
                     DrawBetween(spriteBatch, tex, targets[k].Center, targets[k - 1].Center, lightColor);
                 }
@@ -89,9 +86,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         private void DrawBetween(SpriteBatch spriteBatch, Texture2D texture, Vector2 point1, Vector2 point2, Color color)
         {
-            for(int k = 0; k < Vector2.Distance(point1, point2) / texture.Width; k++)
+            for (int k = 0; k < Vector2.Distance(point1, point2) / texture.Width; k++)
             {
-                spriteBatch.Draw(texture, Vector2.Lerp(point1, point2, k / (Vector2.Distance(point1, point2) / texture.Width)) - Main.screenPosition, texture.Frame(), color, 
+                spriteBatch.Draw(texture, Vector2.Lerp(point1, point2, k / (Vector2.Distance(point1, point2) / texture.Width)) - Main.screenPosition, texture.Frame(), color,
                     (point1 - point2).ToRotation(), texture.Size() / 2, 1, 0, 0);
             }
         }

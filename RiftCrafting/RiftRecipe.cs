@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 
 namespace StarlightRiver.RiftCrafting
@@ -24,7 +21,7 @@ namespace StarlightRiver.RiftCrafting
 
         public bool CheckRecipe(List<Item> items)
         {
-            foreach(RiftIngredient ingredient in Ingredients)
+            foreach (RiftIngredient ingredient in Ingredients)
             {
                 if (items.Count(item => item.type == ingredient.type) < ingredient.count) return false;
             }

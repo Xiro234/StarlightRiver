@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
-using System;
-using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -32,7 +29,7 @@ namespace StarlightRiver.Tiles
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (Main.tile[i,j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
                 if (Main.hardMode)
                 {

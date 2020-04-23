@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles
@@ -24,9 +22,9 @@ namespace StarlightRiver.Projectiles
         }
         public override void Kill(int timeLeft)
         {
-            for(int k = 0; k <= 50; k++)
+            for (int k = 0; k <= 50; k++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Starlight"), Main.rand.NextFloat(-30, 30), Main.rand.NextFloat(-30, 30), 0, default, 1.8f);               
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Starlight"), Main.rand.NextFloat(-30, 30), Main.rand.NextFloat(-30, 30), 0, default, 1.8f);
             }
             if (Vector2.Distance(projectile.position, Main.LocalPlayer.position) <= 800)
             {
@@ -49,6 +47,6 @@ namespace StarlightRiver.Projectiles
             {
                 projectile.active = false;
             }
-        }      
+        }
     }
 }

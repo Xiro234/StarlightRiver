@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ID;
-using Terraria;
-using Terraria.Localization;
-using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
-using Microsoft.Xna.Framework;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Armor
 {
@@ -32,7 +27,7 @@ namespace StarlightRiver.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-			player.rangedDamage += 0.1f;
+            player.rangedDamage += 0.1f;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

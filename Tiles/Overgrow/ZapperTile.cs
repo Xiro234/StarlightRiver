@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -35,11 +32,11 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if(Main.tile[i,j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-                if(!(Main.projectile.Any(proj => proj.modProjectile is Projectiles.Zapper && (proj.modProjectile as Projectiles.Zapper).parent == Main.tile[i,j] && proj.active)))
+                if (!(Main.projectile.Any(proj => proj.modProjectile is Projectiles.Zapper && (proj.modProjectile as Projectiles.Zapper).parent == Main.tile[i, j] && proj.active)))
                 {
-                    int proj = Projectile.NewProjectile(new Vector2(i + 2,j + 2) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Zapper>(), 1, 1);
+                    int proj = Projectile.NewProjectile(new Vector2(i + 2, j + 2) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Zapper>(), 1, 1);
                     (Main.projectile[proj].modProjectile as Projectiles.Zapper).parent = Main.tile[i, j];
                 }
             }

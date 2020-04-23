@@ -1,9 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -37,7 +34,7 @@ namespace StarlightRiver.Tiles.Herbology
 
         public override void RandomUpdate(int i, int j)
         {
-            if(Main.tile[i, j + 1].active() == false)
+            if (Main.tile[i, j + 1].active() == false)
             {
                 WorldGen.PlaceTile(i, j + 1, mod.TileType(Type.ToString()), true);
             }
@@ -59,10 +56,10 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.newTile.AnchorValidTiles = new int[]
             {
-                ModContent.TileType<Soil>()               
+                ModContent.TileType<Soil>()
             };
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
-			{
+            {
                 mod.TileType(Type.ToString())
             };
             TileObjectData.addTile(Type);

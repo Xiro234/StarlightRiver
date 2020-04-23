@@ -1,14 +1,12 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -16,13 +14,13 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
     {
         private void Phase1Spin()
         {
-            if(npc.ai[3] <= 60)
+            if (npc.ai[3] <= 60)
             {
                 npc.Center = Vector2.SmoothStep(npc.Center, spawnPoint, npc.ai[3] / 60f);
                 flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, spawnPoint, npc.ai[3] / 60f);
                 if (npc.Center == spawnPoint) npc.ai[3] = 61;
             }
-            if(npc.ai[3] == 61)
+            if (npc.ai[3] == 61)
             {
                 npc.TargetClosest();
                 targetPoint = Main.player[npc.target].Center;
@@ -58,7 +56,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 flail.npc.velocity = flail.npc.position - flail.npc.oldPosition;
                 flail.npc.velocity.X *= 0.2f;
             }
-            if(npc.ai[3] > 280 && npc.ai[3] <= 450)
+            if (npc.ai[3] > 280 && npc.ai[3] <= 450)
             {
                 if (Vector2.Distance(flail.npc.Center, npc.Center) < size) flail.npc.velocity.Y += 0.8f;
                 else
@@ -84,9 +82,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (npc.ai[3] == 60) targetPoint = Main.player[npc.target].Center;
             int direction = -Math.Sign(targetPoint.X - spawnPoint.X);
 
-            if(npc.ai[3] > 60 && npc.ai[3] <= 90)
+            if (npc.ai[3] > 60 && npc.ai[3] <= 90)
             {
-                if(targetPoint.Y > npc.Center.Y)
+                if (targetPoint.Y > npc.Center.Y)
                 {
                     flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, targetPoint.Y - npc.Center.Y), (npc.ai[3] - 60) / 30f);
                 }
@@ -95,7 +93,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, 150), (npc.ai[3] - 60) / 30f);
                 }
             }
-            if(npc.ai[3] > 90 && npc.ai[3] <= 160)
+            if (npc.ai[3] > 90 && npc.ai[3] <= 160)
             {
                 npc.Center = Vector2.SmoothStep(npc.Center, spawnPoint + new Vector2((500) * -direction, 0), (npc.ai[3] - 90) / 70f);
                 flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, spawnPoint + new Vector2((500) * -direction, flail.npc.Center.Y - npc.Center.Y), (npc.ai[3] - 90) / 60f);
@@ -105,22 +103,22 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         private void Phase1Bolts()
         {
             Vector2 handpos = npc.Center; //used as a basepoint for this attack to match the animation
-           
-            if(npc.ai[3] <= 30)
+
+            if (npc.ai[3] <= 30)
             {
                 float rot = Main.rand.NextFloat(6.28f); //random rotation for the dust
                 Dust.NewDustPerfect(handpos + Vector2.One.RotatedBy(rot) * 50, ModContent.DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 2); //"suck in" charging effect
             }
-            if(npc.ai[3] == 30)
+            if (npc.ai[3] == 30)
             {
                 RandomTarget(); //pick a random target
-                if(Main.player[npc.target] == null) //safety check
+                if (Main.player[npc.target] == null) //safety check
                 {
                     ResetAttack();
                     return;
-                }               
+                }
             }
-            if(npc.ai[3] == 60) targetPoint = Main.player[npc.target].Center;
+            if (npc.ai[3] == 60) targetPoint = Main.player[npc.target].Center;
             if (npc.ai[3] >= 60 && npc.ai[3] <= 120 && npc.ai[3] % 30 == 0) //3 rounds of projectiles
             {
                 Main.PlaySound(ModLoader.GetMod("StarlightRiver").GetLegacySoundSlot(SoundType.Custom, "Sounds/ProjectileLaunch1"), npc.Center);
@@ -146,7 +144,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (Main.player[npc.target] == null && npc.ai[3] == 60) ResetAttack(); //defensive programminginging!!
 
             Vector2 trajectory = -Vector2.Normalize(npc.Center - targetPoint); //boss' toss direction
-            if(npc.ai[3] > 60 && npc.ai[3] < 120)
+            if (npc.ai[3] > 60 && npc.ai[3] < 120)
             {
                 flail.npc.Center = Vector2.Lerp(npc.Center, npc.Center + trajectory * -20, (npc.ai[3] - 60) / 120f); //pull it back
             }
@@ -188,7 +186,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 sb.Draw(tex, point - Main.screenPosition, tex.Frame(), color, (targetPoint - npc.Center).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
 
                 if (!WorldGen.InWorld((int)point.X / 16, (int)point.Y / 16)) break;
-                Tile tile = Framing.GetTileSafely(point / 16);              
+                Tile tile = Framing.GetTileSafely(point / 16);
                 if (tile.active()) break;
             }
             sb.End();
@@ -202,16 +200,16 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 RandomTarget();
                 targetPoint = Main.player[npc.target].Center + new Vector2(0, -50);
             }
-            if(npc.ai[3] == 90)
+            if (npc.ai[3] == 90)
             {
-                foreach(Player player in Main.player.Where( p => p.active && Helper.CheckCircularCollision(targetPoint, 100, p.Hitbox))) //circular collision
+                foreach (Player player in Main.player.Where(p => p.active && Helper.CheckCircularCollision(targetPoint, 100, p.Hitbox))) //circular collision
                 {
                     player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " was strangled..."), 50, 0); //hurt em
                     //debuff em
                 }
 
                 //dusts
-                for(float k = 0; k < 6.28f; k+= 0.1f)
+                for (float k = 0; k < 6.28f; k += 0.1f)
                 {
                     Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * 90, ModContent.DustType<Dusts.Leaf>(), null, 0, default, 1.5f);
                     Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * Main.rand.NextFloat(95, 105), ModContent.DustType<Dusts.Gold2>(), null, 0, default, 0.6f);
@@ -228,8 +226,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             sb.End();
             sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
 
-            if(npc.ai[3] <= 90) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), color, 0, tex.Frame().Size() / 2, 2, 0, 0);
-            else if(npc.ai[3] <= 100) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), new Color(255, 200,  30) * (1 - (npc.ai[3] - 90) / 10f), 0, tex.Frame().Size() / 2, 2, 0, 0);
+            if (npc.ai[3] <= 90) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), color, 0, tex.Frame().Size() / 2, 2, 0, 0);
+            else if (npc.ai[3] <= 100) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), new Color(255, 200, 30) * (1 - (npc.ai[3] - 90) / 10f), 0, tex.Frame().Size() / 2, 2, 0, 0);
 
             sb.End();
             sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);

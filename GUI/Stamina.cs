@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
 using StarlightRiver.Abilities;
+using System;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace StarlightRiver.GUI
 {
@@ -66,7 +64,7 @@ namespace StarlightRiver.GUI
             base.Draw(spriteBatch);
             Recalculate();
         }
-        
+
     }
 
     class Stam : UIElement
@@ -99,7 +97,7 @@ namespace StarlightRiver.GUI
                 }
             }
             //special case to draw the first crystal regenerating
-            if(color == Color.White && mp.StatStamina == 0)
+            if (color == Color.White && mp.StatStamina == 0)
             {
                 spriteBatch.Draw(Texture, new Vector2((int)dimensions.X, (int)dimensions.Y) + new Vector2(dimensions.Width / 2, dimensions.Height / 2), null, Color.White * (1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax)), 0f, new Vector2(dimensions.Width / 2, dimensions.Height / 2), (1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax)), SpriteEffects.None, 0f);
             }
@@ -107,4 +105,3 @@ namespace StarlightRiver.GUI
         }
     }
 }
-  

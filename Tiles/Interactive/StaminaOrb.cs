@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;

@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Terraria.ModLoader;
-using StarlightRiver.Keys;
-using System.IO;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver
 {

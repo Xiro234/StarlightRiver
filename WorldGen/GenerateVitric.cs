@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Structures;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using Terraria.World.Generation;
-using StarlightRiver.Structures;
 
 namespace StarlightRiver
 {
@@ -55,10 +51,22 @@ namespace StarlightRiver
 
             for (int x = biomeTarget.X + biomeTarget.Width / 2 - 40; x < biomeTarget.X + biomeTarget.Width / 2 + 40; x++) //flat part of center dune
             {
+                int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 40);
                 for (int y = biomeTarget.Y + biomeTarget.Height - 30; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
                     Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
+                }
+                if (xRel == 0 || xRel == 79)
+                {
+                    for (int y = biomeTarget.Y; y < biomeTarget.Y + biomeTarget.Height - 30; y++)
+                    {
+                        WorldGen.PlaceTile(x + xRel == 79 ? 1 : 0, y, ModContent.TileType<Tiles.Vitric.VitricBossBarrier>(), false, true);
+                    }
+                }
+                if (xRel == 38)
+                {
+                    Helper.PlaceMultitile(new Terraria.DataStructures.Point16(x, biomeTarget.Y + 57), ModContent.TileType<Tiles.Vitric.VitricBossAltar>());
                 }
             }
 
@@ -88,7 +96,7 @@ namespace StarlightRiver
             {
                 int yRel = y - biomeTarget.Y;
                 int off = (5 * yRel) / 6 - (5 * yRel * yRel) / 576;
-                for (int x = biomeTarget.X; x <= biomeTarget.X - off + 28; x++) 
+                for (int x = biomeTarget.X; x <= biomeTarget.X - off + 28; x++)
                 {
                     int xRel = x - (biomeTarget.X - off + 20);
                     WorldGen.PlaceTile(x, y, xRel >= WorldGen.genRand.Next(4, 7) ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
@@ -117,8 +125,8 @@ namespace StarlightRiver
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
             }
-            
-            for(int x = biomeTarget.X + biomeTarget.Width / 2 - 30; x <= biomeTarget.X + biomeTarget.Width / 2 + 30; x++) //entrance hole 
+
+            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 30; x <= biomeTarget.X + biomeTarget.Width / 2 + 30; x++) //entrance hole 
             {
                 for (int y = biomeTarget.Y; y < biomeTarget.Y + 20; y++)
                 {

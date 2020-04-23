@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
-using StarlightRiver.Abilities;
 using StarlightRiver.Codex;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,11 +34,11 @@ namespace StarlightRiver.NPCs.Pickups
             {
                 player.GetModPlayer<CodexHandler>().CodexState = 1;
                 Main.PlaySound(SoundID.NPCDeath7);
-                for(float k = 0; k <= 6.28f; k += 0.1f)
+                for (float k = 0; k <= 6.28f; k += 0.1f)
                 {
                     Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedBy(k) * Main.rand.NextFloat(8), 0, default, 2);
                 }
-            }           
+            }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

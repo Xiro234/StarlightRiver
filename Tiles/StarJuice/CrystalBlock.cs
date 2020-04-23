@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ObjectData;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.StarJuice
 {
@@ -26,7 +24,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Dust.NewDust(new Vector2(i,j) * 16, 16, 16, ModContent.DustType<Dusts.Starlight>(), 0, 4, 0, default, 0.5f);
+            Dust.NewDust(new Vector2(i, j) * 16, 16, 16, ModContent.DustType<Dusts.Starlight>(), 0, 4, 0, default, 0.5f);
         }
     }
 }

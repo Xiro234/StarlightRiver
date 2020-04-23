@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -112,7 +108,7 @@ namespace StarlightRiver.Structures
                             if (placeType != 0 && placeType <= 250) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //used for tiles that dont change between structures
                             else switch (placeType) //place types
                                 {
-                                case 255:
+                                    case 255:
                                         Main.tile[(int)spawn.X + x, (int)spawn.Y + y].ClearEverything();
                                         if (spawnTileType == TileID.Marble)
                                         {
@@ -144,8 +140,8 @@ namespace StarlightRiver.Structures
                                         }
                                         break;
 
-                                case 254:
-                                        if(Main.tile[(int)spawn.X + x, (int)spawn.Y + y].collisionType == 0) //places tiles, only replaces blocks with no collision
+                                    case 254:
+                                        if (Main.tile[(int)spawn.X + x, (int)spawn.Y + y].collisionType == 0) //places tiles, only replaces blocks with no collision
                                         {
                                             if (spawnTileType == TileID.MushroomGrass || spawnTileType == TileID.JungleGrass)//blocks to mud
                                             {
@@ -170,7 +166,7 @@ namespace StarlightRiver.Structures
                                         }
                                         break;
 
-                                case 253:
+                                    case 253:
                                         if (Main.tile[(int)spawn.X + x, (int)spawn.Y + y].collisionType == 0)
                                         {
                                             WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, spawnTileType, true, true);
@@ -181,30 +177,30 @@ namespace StarlightRiver.Structures
                                         }
                                         break;
 
-                                case 252:
-                                            if (spawnTileType == TileID.MushroomGrass || spawnTileType == TileID.JungleGrass) //same case as 254 but overrides everything
-                                            {
-                                                WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Mud, true, true);
-                                            }
-                                            else if (stoneMossBlocks.Contains(spawnTileType)) //blocks to stone
-                                            {
-                                                WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Stone, true, true);
-                                            }
-                                            else if (spawnTileType == TileID.Grass || spawnTileType == TileID.CorruptGrass || spawnTileType == TileID.FleshGrass)//blocks to dirt
-                                            {
-                                                WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Dirt, true, true);
-                                            }
-                                            else
-                                            {
-                                                WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, spawnTileType, true, true);
-                                            }
-                                            Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(0); //deslopes
+                                    case 252:
+                                        if (spawnTileType == TileID.MushroomGrass || spawnTileType == TileID.JungleGrass) //same case as 254 but overrides everything
+                                        {
+                                            WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Mud, true, true);
+                                        }
+                                        else if (stoneMossBlocks.Contains(spawnTileType)) //blocks to stone
+                                        {
+                                            WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Stone, true, true);
+                                        }
+                                        else if (spawnTileType == TileID.Grass || spawnTileType == TileID.CorruptGrass || spawnTileType == TileID.FleshGrass)//blocks to dirt
+                                        {
+                                            WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, TileID.Dirt, true, true);
+                                        }
+                                        else
+                                        {
+                                            WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, spawnTileType, true, true);
+                                        }
+                                        Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(0); //deslopes
                                         break;
 
-                                case 251:
+                                    case 251:
                                         WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, spawnTileType, true, true);
                                         break;
-                            }
+                                }
 
                             //if (wallType != 0 && wallType != 255) { WorldGen.PlaceWall((int)spawn.X + x, (int)spawn.Y + y, wallType, true); } //place wall
 
@@ -239,7 +235,7 @@ namespace StarlightRiver.Structures
                         }
                     }
                 }
-               // WorldGen.PlaceTile((int)spawn.X, (int)spawn.Y, TileID.DiamondGemspark, true, true); //debug
+                // WorldGen.PlaceTile((int)spawn.X, (int)spawn.Y, TileID.DiamondGemspark, true, true); //debug
                 //WorldGen.PlaceTile((int)spawn.X + (BoulderSlope.Width / 2), (int)spawn.Y + (BoulderSlope.Height / 2), TileID.RubyGemspark, true, true);
             }
         }
