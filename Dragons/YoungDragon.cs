@@ -1,8 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Dragons
@@ -47,7 +52,7 @@ namespace StarlightRiver.Dragons
             {
                 Dust.NewDustPerfect(player.Center + new Vector2(player.direction * -14, 8), ModContent.DustType<Dusts.Piss>(), new Vector2(player.direction * 2, 0), 180, new Color(255, 255, 150));
             }
-            if (player.controlJump && player.releaseJump && player.velocity.Y != 0 && player.GetModPlayer<DragonHandler>().jumpAgainDragon)
+            if(player.controlJump && player.releaseJump && player.velocity.Y != 0 && player.GetModPlayer<DragonHandler>().jumpAgainDragon)
             {
                 player.GetModPlayer<DragonHandler>().jumpAgainDragon = false;
                 player.velocity.Y = -6;

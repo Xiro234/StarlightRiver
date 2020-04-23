@@ -1,5 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 
 namespace StarlightRiver.Codex
@@ -23,7 +28,7 @@ namespace StarlightRiver.Codex
             Bosses = 3,
             Misc = 4,
             RiftCrafting = 5
-
+    
         }
 
         public virtual void Draw(Vector2 pos, SpriteBatch spriteBatch)
@@ -31,7 +36,7 @@ namespace StarlightRiver.Codex
             spriteBatch.Draw(Image, pos + new Vector2(-50 + (310 - Image.Width) / 2, 36), Color.White);
             spriteBatch.Draw(Icon, pos + new Vector2(-38, -5), Color.White);
             Utils.DrawBorderString(spriteBatch, Title, pos, Color.White, 1.2f);
-            Utils.DrawBorderString(spriteBatch, Body, pos + new Vector2(-30, 50 + Image.Height), Color.White, 0.8f);
+            Utils.DrawBorderString(spriteBatch, Body, pos + new Vector2(-30, 50 +  Image.Height), Color.White, 0.8f);
         }
     }
 }

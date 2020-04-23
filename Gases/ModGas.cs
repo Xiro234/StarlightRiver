@@ -1,5 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace StarlightRiver.Gases
 {
@@ -53,9 +59,9 @@ namespace StarlightRiver.Gases
                     }
                 }
             }
-            //timer = 0;
+                //timer = 0;
             //}
-
+            
         }
     }
     class ModGas
@@ -71,11 +77,11 @@ namespace StarlightRiver.Gases
             Strength = strength;
             DustType = dusttype;
             i = x;
-            j = y;
+            j = y;            
         }
 
         public virtual void Update()
-        {
+        {           
             if (Main.rand.Next(90) == 0)
             {
 
@@ -89,8 +95,9 @@ namespace StarlightRiver.Gases
 
         public static void SpawnGas(int i, int j, int type, int strength)
         {
-            GasWorld.Gas[i, j] = new ModGas(strength, strength, type, i, j);
+            GasWorld.Gas[i, j] = new ModGas(strength, strength, type, i, j); 
         }
 
     }
 }
+ 

@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
+using StarlightRiver.Gases;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,7 +41,7 @@ namespace StarlightRiver.NPCs.Hostile
         }
         public override void AI()
         {
-            Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Corrupt"), 0, 0, 0, default, 0.6f);
+            Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Corrupt"),0,0,0, default, 0.6f);
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

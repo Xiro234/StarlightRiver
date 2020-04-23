@@ -1,6 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Projectiles;
 using StarlightRiver.Projectiles.Ability;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +15,7 @@ namespace StarlightRiver.Abilities
 {
     public class Pure : Ability
     {
-
+        
         public Pure(Player player) : base(4, player)
         {
 

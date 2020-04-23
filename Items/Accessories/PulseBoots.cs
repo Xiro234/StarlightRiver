@@ -1,9 +1,10 @@
-﻿using Terraria;
+﻿using StarlightRiver.Abilities;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Accessories
 {
-    [AutoloadEquip(EquipType.Shoes)]
+	[AutoloadEquip(EquipType.Shoes)]
     public class PulseBoots : ModItem //WIP, this item does not work fluently with vanilla rocket boots and double jumps
     { //needs sound / particles and number tweaking
         private bool doubleJumped = false;

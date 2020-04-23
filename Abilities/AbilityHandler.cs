@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using StarlightRiver.Abilities;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ModLoader;
@@ -127,10 +131,10 @@ namespace StarlightRiver.Abilities
         {
 
             //Executes the ability's use code while it's active.
-            if (player.GetModPlayer<Dragons.DragonHandler>().DragonMounted)
-                foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUseDragon(); ability.UseEffectsDragon(); }
+            if(player.GetModPlayer<Dragons.DragonHandler>().DragonMounted)
+            foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUseDragon(); ability.UseEffectsDragon(); }
             else
-                foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
+            foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
 
             //Decrements internal cooldowns of abilities.
             foreach (Ability ability in Abilities.Where(ability => ability.Cooldown > 0)) { ability.Cooldown--; }
@@ -140,7 +144,7 @@ namespace StarlightRiver.Abilities
 
             //Physics fuckery due to redcode being retarded
             if (Abilities.Any(ability => ability.Active))
-            {
+            {   
                 player.velocity.Y += 0.01f; //Required to ensure that the game never thinks we hit the ground when using an ability. Thanks redcode!
 
                 // We need to store the player's wing or rocket boot time and set the effective time to zero while an ability is active to move upwards correctly. Thanks redcode!
@@ -162,7 +166,7 @@ namespace StarlightRiver.Abilities
             }
 
             //Dont exceed max stamina or regenerate stamina when full.
-            if (StatStamina >= StatStaminaMax)
+            if(StatStamina >= StatStaminaMax)
             {
                 StatStamina = StatStaminaMax;
                 StatStaminaRegen = StatStaminaRegenMax;
@@ -190,7 +194,7 @@ namespace StarlightRiver.Abilities
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            if (wisp.Active || sdash.Active)
+            if(wisp.Active || sdash.Active)
             {
                 foreach (PlayerLayer layer in layers) { layer.visible = false; }
             }

@@ -61,7 +61,7 @@ namespace StarlightRiver.Tiles.Interactive
                     spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2"), pos + Vector2.One * 16, new Rectangle(0, 0, 96, 96), Color.LightYellow * (timer / 300f), 0, new Vector2(48, 48), timer * 0.002f, 0, 0);
                 }
             }
-
+            
             return true;
         }
 
@@ -105,7 +105,7 @@ namespace StarlightRiver.Tiles.Interactive
                     Wiring.TripWire(Position.X, Position.Y, 2, 2);
                 }
 
-                Dust.NewDust(Position.ToVector2() * 16 + new Vector2(10, 10), 2, 2, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, timer / 300f);
+                Dust.NewDust(Position.ToVector2() * 16 + new Vector2(10, 10), 2, 2, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, timer/300f);
                 Lighting.AddLight(Position.ToVector2() * 16 + new Vector2(10, 10), new Vector3(10, 8, 2) * timer / 300f * 0.06f);
             }
         }

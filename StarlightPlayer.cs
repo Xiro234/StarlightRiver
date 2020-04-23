@@ -1,13 +1,20 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Abilities;
-using StarlightRiver.GUI;
-using System;
+﻿using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.World.Generation;
+using Microsoft.Xna.Framework;
+using Terraria.GameContent.Generation;
+using Terraria.ModLoader.IO;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using StarlightRiver.GUI;
+using StarlightRiver.Abilities;
+using StarlightRiver.Items.CursedAccessories;
 
 namespace StarlightRiver
 {
@@ -25,18 +32,18 @@ namespace StarlightRiver
         public Vector2 ScreenMoveTarget = new Vector2(0, 0);
         public Vector2 ScreenMovePan = new Vector2(0, 0);
         private int ScreenMoveTimer = 0;
-
-        public int InvertGrav = 0;
+		
+		public int InvertGrav = 0;
 
         public override void PreUpdateBuffs()
         {
 
-            if (InvertGrav > 0)
-            {
+			if (InvertGrav > 0)
+			{
                 //Main.NewText("Invert: true");
-                player.gravControl = true;
-                player.gravDir = -1f;
-            }
+				player.gravControl = true;
+				player.gravDir = -1f;
+			}
             else
             {
                 //Main.NewText("Invert: false");
@@ -76,14 +83,14 @@ namespace StarlightRiver
             DarkSlow = false;
         }
 
-        public override void ResetEffects()
+		public override void ResetEffects()
         {
             AnthemDagger = false;
             GuardDamage = 1;
             GuardCrit = 0;
             GuardBuff = 1;
             GuardRad = 0;
-        }
+		}
 
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
@@ -100,7 +107,7 @@ namespace StarlightRiver
                     playSound = false;
                     genGore = false;
                     Main.PlaySound(SoundID.MaxMana);
-
+                    
                 }
                 else if (player.statMana > 0)
                 {
@@ -123,10 +130,10 @@ namespace StarlightRiver
                 {
                     player.velocity.Y = 0;
                 }
-                --InvertGrav;
+                    --InvertGrav;
             }
 
-            if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; }
+            if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; } 
         }
 
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
@@ -138,9 +145,25 @@ namespace StarlightRiver
             JustHit = false;
         }
 
+
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            if(1 == 0)
+            {
+                switch (Main.rand.Next(4))
+                {
+                    case 0: damageSource = PlayerDeathReason.ByCustomReason(player.name + " was juiced."); break;
+                    case 1: damageSource = PlayerDeathReason.ByCustomReason(player.name + " wanted a closer look at the grass."); break;
+                    case 2: damageSource = PlayerDeathReason.ByCustomReason(player.name + " needs some syrup."); break;
+                    case 3: damageSource = PlayerDeathReason.ByCustomReason(player.name + " fused with the floor."); break;
+                }             
+            }
+            return true;
+        }
+
         public override void ModifyScreenPosition()
         {
-            if (ScreenMoveTime > 0 && ScreenMoveTarget != Vector2.Zero)
+            if(ScreenMoveTime > 0&& ScreenMoveTarget != Vector2.Zero)
             {
                 Vector2 off = new Vector2(Main.screenWidth, Main.screenHeight) / -2;
                 if (ScreenMoveTimer <= 30) //go out
@@ -153,8 +176,8 @@ namespace StarlightRiver
                 }
                 else
                 {
-                    if (ScreenMovePan == Vector2.Zero) Main.screenPosition = ScreenMoveTarget + off; //stay on target
-                    else Main.screenPosition = Vector2.Lerp(ScreenMoveTarget + off, ScreenMovePan + off, ScreenMoveTimer / (float)(ScreenMoveTime - 30));
+                    if(ScreenMovePan == Vector2.Zero) Main.screenPosition = ScreenMoveTarget + off; //stay on target
+                    else Main.screenPosition = Vector2.Lerp(ScreenMoveTarget + off, ScreenMovePan + off, ScreenMoveTimer/(float)(ScreenMoveTime - 30));
                 }
 
                 if (ScreenMoveTimer == ScreenMoveTime) { ScreenMoveTime = 0; ScreenMoveTimer = 0; ScreenMoveTarget = Vector2.Zero; ScreenMovePan = Vector2.Zero; }
@@ -164,10 +187,6 @@ namespace StarlightRiver
             Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
-        }
-        public override void ModifyDrawLayers(List<PlayerLayer> layers)
-        {
-            if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;
         }
     }
 }

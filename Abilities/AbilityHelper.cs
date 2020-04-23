@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 
 namespace StarlightRiver.Abilities
@@ -8,7 +13,7 @@ namespace StarlightRiver.Abilities
     {
         public static bool CheckDash(Player player, Rectangle hitbox)
         {
-            if (Collision.CheckAABBvAABBCollision(player.Hitbox.TopLeft(), player.Hitbox.Size(), hitbox.TopLeft(), hitbox.Size()) && player.GetModPlayer<AbilityHandler>().dash.Active)
+            if(Collision.CheckAABBvAABBCollision(player.Hitbox.TopLeft(), player.Hitbox.Size(), hitbox.TopLeft(), hitbox.Size()) && player.GetModPlayer<AbilityHandler>().dash.Active)
             {
                 return true;
             }

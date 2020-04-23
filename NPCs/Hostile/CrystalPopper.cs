@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,36 +37,36 @@ namespace StarlightRiver.NPCs.Hostile
         public override void AI()
         {
             npc.TargetClosest(true);
-            if (npc.ai[0] == 0)
+            if(npc.ai[0] == 0)
             {
-                if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) <= 180)
+                if(Vector2.Distance(Main.player[npc.target].Center, npc.Center)<= 180)
                 {
                     npc.ai[0] = 1;
                 }
             }
 
-            if (npc.ai[0] == 1)
+            if(npc.ai[0] == 1)
             {
                 npc.ai[1]++;
 
-                if (npc.ai[1] == 1)
+                if(npc.ai[1] == 1)
                 {
                     npc.velocity.Y = -20;
                 }
 
                 npc.velocity.Y += (.6f);
-
+                
                 for (int k = 0; k <= 10; k++)
                 {
                     Dust.NewDust(npc.position, 32, 32, DustID.Sandstorm);
                 }
 
-                if (npc.ai[1] >= 5)
+                if(npc.ai[1] >= 5)
                 {
                     npc.noTileCollide = false;
                 }
 
-                if (npc.ai[1] >= 30)
+                if(npc.ai[1] >= 30)
                 {
                     npc.velocity.Y = 0;
                     npc.ai[1] = 0;
@@ -76,7 +79,7 @@ namespace StarlightRiver.NPCs.Hostile
                 }
             }
 
-            if (npc.ai[0] == 2)
+            if(npc.ai[0] == 2)
             {
                 npc.velocity += Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 0.08f;
                 if (npc.velocity.Length() > 5.5f && ((npc.velocity - npc.oldVelocity).ToRotation() == (Main.player[npc.target].Center - npc.Center).ToRotation()))
@@ -114,7 +117,7 @@ namespace StarlightRiver.NPCs.Hostile
             {
                 Framecounter = 0;
             }
-            switch (npc.ai[0])
+            switch(npc.ai[0])
             {
                 case 0: npc.frame.Y = npc.height * 5; break;
                 case 1: npc.frame.Y = npc.height * 0; break;

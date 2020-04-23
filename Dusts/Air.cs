@@ -5,14 +5,14 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Dusts
 {
-    public class Air : ModDust
-    {
-        public override void OnSpawn(Dust dust)
-        {
-            dust.velocity *= 0.3f;
-            dust.noGravity = true;
-            dust.noLight = false;
-            dust.scale *= 1.4f;
+	public class Air : ModDust
+	{
+		public override void OnSpawn(Dust dust)
+		{
+			dust.velocity *= 0.3f;
+			dust.noGravity = true;
+			dust.noLight = false;
+			dust.scale *= 1.4f;
             dust.color.R = 160;
             dust.color.G = 235;
             dust.color.B = 255;
@@ -22,22 +22,22 @@ namespace StarlightRiver.Dusts
             return dust.color;
         }
         public override bool Update(Dust dust)
-        {
+		{
             dust.position.Y += dust.velocity.Y * 2;
             dust.velocity.Y += 0.01f;
-            dust.position.X += dust.velocity.X * 2;
+			dust.position.X += dust.velocity.X * 2;
             dust.rotation += 0.06f;
 
             dust.scale *= 0.97f;
             dust.color *= 0.995f;
 
-
-            if (dust.scale < 0.4f)
-            {
-                dust.active = false;
-            }
-            return false;
-        }
+                                     
+			if (dust.scale < 0.4f)
+			{
+				dust.active = false;
+			}
+			return false;
+		}
     }
     public class Air2 : ModDust
     {
@@ -68,14 +68,14 @@ namespace StarlightRiver.Dusts
 
             if (dust.customData is int) { dust.customData = (int)dust.customData - 1; }
             dust.position += dust.velocity;
-
+            
 
             if ((int)dust.customData <= 0)
             {
                 dust.velocity = Vector2.Normalize(dust.position - player.Center) * (Main.rand.Next(10, 35) * -0.1f);
                 dust.scale *= 0.95f;
                 timer--;
-                if (timer == 0)
+                if(timer == 0)
                 {
                     dust.active = false;
                 }
@@ -258,7 +258,7 @@ namespace StarlightRiver.Dusts
         }
 
         public override bool Update(Dust dust)
-        {
+        {                 
             Player player = Main.LocalPlayer;
             dust.rotation = Vector2.Distance(dust.position, player.Center) * 0.1f;
 
@@ -271,7 +271,7 @@ namespace StarlightRiver.Dusts
             {
 
                 rot += (float)(Math.PI * 2) / (20 * 18);
-                if (rot >= (float)Math.PI * 2)
+                if(rot >= (float)Math.PI * 2)
                 {
                     rot = 0;
                 }
@@ -292,7 +292,7 @@ namespace StarlightRiver.Dusts
             }
             else
             {
-                dust.velocity *= 0.95f;
+                dust.velocity *= 0.95f;            
             }
             return false;
         }
@@ -366,7 +366,7 @@ namespace StarlightRiver.Dusts
         public override bool Update(Dust dust)
         {
             Player player = Main.LocalPlayer;
-            dust.velocity = (player.Center - dust.position) / 30;
+            dust.velocity = (player.Center - dust.position ) / 30;
             dust.position += dust.velocity;
             dust.rotation += 0.05f;
 
@@ -401,7 +401,7 @@ namespace StarlightRiver.Dusts
     {
         public override bool Update(Dust dust)
         {
-            if (dust.customData is Player)
+            if(dust.customData is Player)
             {
                 dust.position += (dust.customData as Player).velocity + dust.velocity;
                 dust.rotation += 0.05f;

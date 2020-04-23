@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
@@ -20,7 +21,7 @@ namespace StarlightRiver
         /// </summary>
         /// <param name="npc"></param>
 
-        public static Vector2 TileAdj { get => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; }
+        public static Vector2 TileAdj { get  =>  Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; }
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC != null && !npc.modNPC.CheckDead();
@@ -90,12 +91,12 @@ namespace StarlightRiver
         public static void DrawSymbol(SpriteBatch spriteBatch, Vector2 position, Color color)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Symbol");
-            spriteBatch.Draw(tex, position, tex.Frame(), color * 0.8f, 0, tex.Size() / 2, 1, 0, 0);
+            float scale = 0.9f + (float)Math.Sin(LegendWorld.rottime) * 0.1f;
+            spriteBatch.Draw(tex, position, tex.Frame(), color * 0.8f * scale, 0, tex.Size() * 0.5f, scale * 0.8f, 0, 0);
 
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
-
             float fade = LegendWorld.rottime / 6.28f;
-            spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 1.1f, 0, 0);
+            spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 0.6f, 0, 0);
         }
         public static bool CheckCircularCollision(Vector2 center, int radius, Rectangle hitbox)
         {

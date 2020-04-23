@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
@@ -24,7 +26,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override void AI()
         {
-
+            
             if (Main.tile[(int)projectile.position.X / 16, (int)projectile.position.Y / 16].active() == false)
             {
                 Dust.NewDustPerfect(projectile.position, mod.DustType("Gold"));
@@ -35,7 +37,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 Dust.NewDustPerfect(projectile.position, mod.DustType("Gold"));
                 projectile.velocity.Y -= 0.02f;
             }
-            if (projectile.velocity.Length() > 2)
+            if(projectile.velocity.Length() > 2)
             {
                 projectile.velocity = Vector2.Normalize(projectile.velocity) * 2;
             }

@@ -1,4 +1,9 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -41,7 +46,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
             xOffsetLeft = 48;
             yOffset = 2;
             return mod.GetTexture("Tiles/JungleCorrupt/TreeJungleCorrupt_Tops");
-
+            
         }
 
         public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)

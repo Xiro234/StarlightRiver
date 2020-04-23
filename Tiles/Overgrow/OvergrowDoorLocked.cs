@@ -1,8 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ObjectData;
+using Terraria.DataStructures;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -35,9 +41,9 @@ namespace StarlightRiver.Tiles.Overgrow
         {
             if (Keys.Key.Use<Keys.OvergrowKey>())
             {
-                for (int x = i - 2; x < i + 2; x++)
-                    for (int y = j - 7; y < j + 7; y++)
-                        if (Main.tile[x, y].type == Type)
+                for(int x = i - 2; x < i  + 2; x++)
+                    for(int y = j - 7; y < j + 7; y++)
+                        if(Main.tile[x, y].type == Type)
                             Main.tile[x, y].frameX += 36;
 
                 CombatText.NewText(new Rectangle(i * 16, j * 16, 1, 1), new Color(255, 255, 200), Main.tile[i, j].frameX / 36 + "/3");

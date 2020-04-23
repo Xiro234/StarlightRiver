@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Projectiles.WeaponProjectiles;
-using System.Linq;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using StarlightRiver.Projectiles.WeaponProjectiles;
+using System.Linq;
 
 namespace StarlightRiver.Items.Overgrow
 {

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -25,7 +28,7 @@ namespace StarlightRiver.Codex
         }
 
         public override void Load(TagCompound tag)
-        {
+        {           
             CodexState = tag.GetInt(nameof(CodexState));
 
             Entries = new List<CodexEntry>();

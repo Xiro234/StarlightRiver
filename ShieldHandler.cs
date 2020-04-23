@@ -1,8 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -43,7 +47,7 @@ namespace StarlightRiver
                 Main.PlaySound(SoundID.NPCHit34, npc.Center);
             }
 
-            if (Red > 0 && projectile.GetGlobalProjectile<ShieldBreakingProjectile>().RedHurting)
+            if(Red > 0 && projectile.GetGlobalProjectile<ShieldBreakingProjectile>().RedHurting)
             {
                 Red -= projectile.damage * 2;
                 CombatText.NewText(npc.Hitbox, new Color(250, 100, 100), projectile.damage * 2);
@@ -121,18 +125,18 @@ namespace StarlightRiver
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
             Vector2 drawpos = position - Main.screenPosition;
-            Color color = new Color(60, 50 + (int)(Shield / (float)MaxShield * 170f), 255);
+            Color color = new Color(60, 50 + (int)(Shield / (float)MaxShield * 170f), 255 );
 
             if (Shield > 0)
             {
                 Rectangle target = new Rectangle((int)drawpos.X - 16, (int)drawpos.Y + 12, 34, 6);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/ShieldBar0"), target, color * Lighting.Brightness((int)npc.position.X / 16, (int)npc.position.Y / 16));
 
-                Rectangle target2 = new Rectangle((int)drawpos.X - 17, (int)drawpos.Y + 10, (int)(Shield / (float)MaxShield * 36f), 10);
+                Rectangle target2 = new Rectangle((int)drawpos.X - 17, (int)drawpos.Y + 10, (int)(Shield/(float)MaxShield * 36f), 10);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/ShieldBar1"), target2, color * Lighting.Brightness((int)npc.position.X / 16, (int)npc.position.Y / 16));
             }
 
-            if (Red > 0)
+            if(Red > 0)
             {
                 int offset = Shield > 0 ? 8 : 0;
                 Rectangle target = new Rectangle((int)drawpos.X - 16, (int)drawpos.Y + 12 + offset, 34, 6);
@@ -154,7 +158,7 @@ namespace StarlightRiver
         public override bool CloneNewInstances => true;
         public override void SetDefaults(Item item)
         {
-            if (item.hammer > 0)
+            if(item.hammer > 0)
             {
                 Piercing = true;
             }

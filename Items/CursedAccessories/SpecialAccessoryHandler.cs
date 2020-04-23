@@ -1,8 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
@@ -38,7 +44,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
         public override void PreUpdate()
         {
-            foreach (Item item in player.inventory.Where(item => item.modItem is BlessedAccessory))
+            foreach(Item item in player.inventory.Where(item => item.modItem is BlessedAccessory))
             {
                 CheckFail(item);
             }

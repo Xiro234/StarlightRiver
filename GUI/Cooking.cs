@@ -1,14 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
-using StarlightRiver.Food;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using System;
+using Terraria.ID;
+using System.Linq;
+using StarlightRiver.Abilities;
+using StarlightRiver.Food;
+using ReLogic.Graphics;
+using System.Collections.Generic;
 
 namespace StarlightRiver.GUI
 {
@@ -38,7 +40,7 @@ namespace StarlightRiver.GUI
             if (TopBar.IsMouseHovering && Main.mouseLeft) Moving = true;
             if (!Main.mouseLeft) Moving = false;
 
-            if (Moving) Basepos = Main.MouseScreen;
+            if(Moving) Basepos = Main.MouseScreen;
             if (Basepos.X < 20) Basepos.X = 20;
             if (Basepos.Y < 20) Basepos.Y = 20;
             if (Basepos.X > Main.screenWidth - 20 - 346) Basepos.X = Main.screenWidth - 20 - 346;
@@ -71,27 +73,6 @@ namespace StarlightRiver.GUI
             Utils.DrawBorderString(spriteBatch, "Info/Stats", Basepos + new Vector2(202, 8), Color.White, 0.8f);
             Utils.DrawBorderString(spriteBatch, "Prepare", Basepos + new Vector2(212, 210), Color.White, 1.1f);
 
-            int drawY = 0;
-            if (!Elements.Any(n => n is CookingSlot && !(n as CookingSlot).Item.IsAir && ((n as CookingSlot).Item.modItem as Ingredient).ThisType == IngredientType.Main))
-            {
-                Utils.DrawBorderString(spriteBatch, "Place a Main Course in\nthe top slot to start\ncooking", Basepos + new Vector2(186, 54 + drawY), Color.White, 0.7f);
-            }
-            else
-            {
-                int duration = 0;
-                int cooldown = 0;
-                foreach (UIElement element in Elements.Where(n => n is CookingSlot && !(n as CookingSlot).Item.IsAir))
-                {
-                    Ingredient ingredient = (element as CookingSlot).Item.modItem as Ingredient;
-                    Utils.DrawBorderString(spriteBatch, ingredient.ItemTooltip, Basepos + new Vector2(186, 54 + drawY), ingredient.GetColor(), 0.7f);
-                    duration += ingredient.Fill;
-                    cooldown += (int)(ingredient.Fill * 1.5f);
-                    drawY += 16;
-                }
-                Utils.DrawBorderString(spriteBatch, duration / 60 + " seconds duration", Basepos + new Vector2(186, 150), new Color(110, 235, 255), 0.65f);
-                Utils.DrawBorderString(spriteBatch, cooldown / 60 + " seconds fullness", Basepos + new Vector2(186, 164), new Color(255, 170, 120), 0.65f);
-            }
-
         }
         private void SetPosition(UIElement element, int x, int y)
         {
@@ -112,6 +93,7 @@ namespace StarlightRiver.GUI
                 item.position = Main.LocalPlayer.Center;
                 Main.LocalPlayer.QuickSpawnClonedItem(item);
             }
+            Main.isMouseLeftConsumedByUI = true;
         }
         private void CookIngredient(Item target, CookingSlot source)
         {
@@ -126,7 +108,7 @@ namespace StarlightRiver.GUI
         private void Exit(UIMouseEvent evt, UIElement listeningElement)
         {
             Visible = false;
-            Main.PlaySound(SoundID.MenuClose);
+            Main.isMouseLeftConsumedByUI = true;
         }
     }
     public class CookingSlot : UIElement
@@ -168,7 +150,7 @@ namespace StarlightRiver.GUI
                 player.HeldItem.TurnToAir();
                 Main.PlaySound(SoundID.Grab);
             }
-            if (player.HeldItem.modItem is Ingredient && (player.HeldItem.modItem as Ingredient).ThisType == Type && Item.IsAir) //if the slot is empty and the cursor has an item, put it in the slot
+            if(player.HeldItem.modItem is Ingredient && (player.HeldItem.modItem as Ingredient).ThisType == Type && Item.IsAir) //if the slot is empty and the cursor has an item, put it in the slot
             {
                 Item = player.HeldItem.Clone();
                 player.HeldItem.TurnToAir();

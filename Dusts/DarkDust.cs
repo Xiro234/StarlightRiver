@@ -1,9 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Dusts
-{
+    {
     public class Darkness : ModDust
     {
         public override void OnSpawn(Dust dust)
@@ -24,11 +28,11 @@ namespace StarlightRiver.Dusts
             float light = 0.4f * dust.scale;
             if (dust.scale <= 2.5 + .55)
             {
-                Lighting.AddLight(dust.position, new Vector3(1.1f, 1.12f, 1) * light);
+                Lighting.AddLight(dust.position, new Vector3(1.1f,1.12f,1) * light);
             }
             return false;
         }
-
+   
     }
 
 }

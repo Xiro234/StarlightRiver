@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Vitric
@@ -15,5 +16,5 @@ namespace StarlightRiver.Items.Vitric
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-    }
+    }  
 }

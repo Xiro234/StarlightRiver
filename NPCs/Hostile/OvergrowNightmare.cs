@@ -1,8 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -32,7 +35,7 @@ namespace StarlightRiver.NPCs.Hostile
              */
             Player target = Main.player[npc.target];
             switch (npc.ai[0])
-            {
+            {          
                 case 0:
                     npc.immortal = true;
                     if (Main.player.Any(n => Vector2.Distance(n.Center, npc.Center) <= 100))
@@ -84,7 +87,7 @@ namespace StarlightRiver.NPCs.Hostile
                     break;
 
                 case 2:
-                    if (Math.Abs(npc.velocity.X) >= Math.Abs(npc.oldVelocity.X))
+                    if (Math.Abs(npc.velocity.X) >= Math.Abs(npc.oldVelocity.X)) 
                     {
                         npc.frame.Y = frameHeight * 10 + frameHeight * frame; //speeding up & running
                     }

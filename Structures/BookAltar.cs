@@ -1,9 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using static StarlightRiver.StarlightRiver;
 
 namespace StarlightRiver.Structures
 {
@@ -51,15 +57,15 @@ namespace StarlightRiver.Structures
 
         private static Vector2 FindSand()
         {
-            for (int i = WorldGen.UndergroundDesertLocation.X; i < Main.maxTilesX; i++)
+            for(int i = WorldGen.UndergroundDesertLocation.X; i < Main.maxTilesX; i++)
             {
-                for (int j = 0; j < Main.maxTilesY; j++)
+                for(int j = 0; j < Main.maxTilesY; j++)
                 {
-                    if (i > 20 && Main.tile[i, j].type == TileID.Sand && Helper.AirScanUp(new Vector2(i, j), 40))
+                    if(i > 20 && Main.tile[i,j].type == TileID.Sand && Helper.AirScanUp(new Vector2(i,j), 40))
                     {
                         return new Vector2(i, j);
                     }
-                }
+                }               
             }
             return new Vector2(WorldGen.UndergroundDesertLocation.X, 200);
         }

@@ -1,9 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Dusts
-{
+    {
     public class Purify : ModDust
     {
         public override void OnSpawn(Dust dust)
@@ -29,11 +33,11 @@ namespace StarlightRiver.Dusts
             }
 
             float light = 0.2f * dust.scale;
-            Lighting.AddLight(dust.position, new Vector3(1, 1, 1) * light);
-
+            Lighting.AddLight(dust.position, new Vector3(1,1,1) * light);
+            
             return false;
         }
-
+   
     }
 
     public class Purify2 : ModDust

@@ -1,13 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
-using StarlightRiver.Abilities;
-using StarlightRiver.Items.Infusions;
 using Terraria;
-using Terraria.GameContent.UI;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using System;
+using Terraria.ID;
+using System.Linq;
+using StarlightRiver.Abilities;
+using System.Collections.Generic;
+using StarlightRiver.Items.Infusions;
+using ReLogic.Graphics;
+using Terraria.GameContent.UI;
 
 namespace StarlightRiver.GUI
 {
@@ -73,7 +77,7 @@ namespace StarlightRiver.GUI
 
             //Draws the slot
             spriteBatch.Draw(tex, GetDimensions().ToRectangle(), new Rectangle(0, 0, (int)tex.Size().X, (int)tex.Size().Y), Color.White * 0.75f);
-            if (Equipped != null)
+            if(Equipped != null)
             {
                 //Draws the item itself
                 Texture2D tex2 = ModContent.GetTexture(Equipped.modItem.Texture);
@@ -82,7 +86,7 @@ namespace StarlightRiver.GUI
                 {
                     //Grabs the items tooltip
                     string ToolTip = "";
-                    for (int k = 0; k < Equipped.ToolTip.Lines; k++)
+                    for(int k = 0; k < Equipped.ToolTip.Lines; k++)
                     {
                         ToolTip += Equipped.ToolTip.GetLine(k);
                         ToolTip += "\n";

@@ -1,6 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Dusts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +14,7 @@ namespace StarlightRiver.Abilities
 {
     [DataContract]
     public class Wisp : Ability
-    {
+    {        
         public bool exit = false;
         public Wisp(Player player) : base(1, player)
         {
@@ -26,7 +31,7 @@ namespace StarlightRiver.Abilities
             {
                 Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Gold2>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 1.2f);
             }
-
+            
         }
 
         public override void InUse()
@@ -55,8 +60,8 @@ namespace StarlightRiver.Abilities
                 exit = true;
             }
 
-            if (exit || mp.StatStamina < 1)
-            {
+            if (exit || mp.StatStamina < 1 )
+            {             
                 OnExit();
             }
         }
@@ -97,11 +102,11 @@ namespace StarlightRiver.Abilities
             else if (Timer < 0 && Timer % 10 == 0)
             {
                 player.statLife -= 5;
-                if (player.statLife <= 0)
+                if(player.statLife <= 0)
                 {
                     player.KillMe(Terraria.DataStructures.PlayerDeathReason.ByCustomReason(player.name + " couldn't maintain their form"), 0, 0);
                 }
-                Main.PlaySound(SoundID.PlayerHit, player.Center);
+                Main.PlaySound(SoundID.PlayerHit, player.Center); 
             }
         }
 
@@ -116,7 +121,7 @@ namespace StarlightRiver.Abilities
                 }
             }
             if (cleartiles >= 6) { return true; }
-            else { return false; }
+            else { return false; }            
         }
     }
 }

@@ -2,6 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Items.StarJuice;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -17,7 +22,7 @@ namespace StarlightRiver.Tiles.StarJuice
             Main.tileLavaDeath[Type] = false;
             Main.tileFrameImportant[Type] = true;
             Main.tileLighted[Type] = true;
-
+          
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TankEntity>().Hook_AfterPlacement, -1, 0, false);
             TileObjectData.newTile.Origin = new Point16(0, 0);
@@ -81,7 +86,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/StarJuice/OrbOut"), pos, Lighting.GetColor(i + 1, j - 2));
 
-                if (new Rectangle(i * 16, (j - 2) * 16, 48, 64).Contains(Main.MouseWorld.ToPoint()))
+                if(new Rectangle(i * 16, (j - 2) * 16, 48, 64).Contains(Main.MouseWorld.ToPoint()))
                 {
                     string counter = entity.charge + "/" + entity.maxCharge;
                     float scale = 0.7f;
@@ -131,7 +136,7 @@ namespace StarlightRiver.Tiles.StarJuice
                 if (Main.time % 10 == 0 && !Main.fastForwardTime) charge++;
             }
 
-            if (charge == maxCharge)
+            if(charge == maxCharge)
             {
                 for (int k = 0; k < 4; k++)
                 {

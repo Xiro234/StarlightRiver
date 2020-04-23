@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +32,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             npc.TargetClosest(true);
 
-            if (npc.localAI[1] == 0)
+            if(npc.localAI[1] == 0)
             {
                 float r = npc.localAI[0] / 60 * 6.28f;
                 if (Vector2.Distance(npc.Center, Main.player[npc.target].Center + new Vector2(0, -32)) >= 100)
@@ -49,12 +51,12 @@ namespace StarlightRiver.NPCs.Hostile
                 npc.localAI[1] = 1;
                 npc.localAI[0] = 180;
             }
-            else if (npc.localAI[0] >= 240 && npc.localAI[1] == 0)
+            else if(npc.localAI[0] >= 240 && npc.localAI[1] == 0)
             {
                 npc.localAI[1] = 0;
             }
 
-            if (npc.localAI[1] == 1)
+            if(npc.localAI[1] == 1)
             {
                 npc.velocity *= 0;
                 if (npc.localAI[0] % 10 == 0)
@@ -117,7 +119,7 @@ namespace StarlightRiver.NPCs.Hostile
             if (projectile.localAI[1] >= 10)
             {
                 projectile.localAI[0]++;
-                projectile.localAI[1] = 0;
+                projectile.localAI[1]=0;
             }
             projectile.velocity.Y += 0.05f;
         }

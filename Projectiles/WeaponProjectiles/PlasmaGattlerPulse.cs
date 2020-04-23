@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -39,7 +44,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override void Kill(int timeLeft)
         {
-            for (int k = 0; k <= 30; k++)
+            for(int k = 0; k <= 30; k++)
             {
                 Color color = new Color(projectile.ai[0] / 200f, (300 - projectile.ai[0]) / 255f, (300 - projectile.ai[0]) / 255f);
                 Dust.NewDustPerfect(projectile.Center, 264, Vector2.One.RotatedByRandom(6.28f), 0, color, 0.8f);

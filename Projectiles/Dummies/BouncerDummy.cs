@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Abilities;
+﻿using System;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +27,7 @@ namespace StarlightRiver.Projectiles.Dummies
         public override void AI()
         {
             foreach (Player player in Main.player.Where(player => Vector2.Distance(player.Center, projectile.Center) <= 100))
-            {
+                {
                 AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
                 if (AbilityHelper.CheckDash(player, projectile.Hitbox))
@@ -54,7 +56,7 @@ namespace StarlightRiver.Projectiles.Dummies
             }
             projectile.timeLeft = 2;
 
-            if (Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != mod.TileType("Bounce"))
+            if(Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != mod.TileType("Bounce"))
             {
                 projectile.timeLeft = 0;
             }

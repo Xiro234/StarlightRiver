@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -27,7 +31,7 @@ namespace StarlightRiver.Items.JungleCorrupt
         }
         public override void PostUpdate()
         {
-            Lighting.AddLight(item.Center, .3f, .25f, 0.6f);
+            Lighting.AddLight(item.Center, .3f, .25f, 0.6f) ;
             item.position.Y += (float)Math.Sin(LegendWorld.rottime) / 3;
         }
     }

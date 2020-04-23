@@ -1,4 +1,9 @@
-﻿using Terraria;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,13 +18,13 @@ namespace StarlightRiver
             progress.Message = "Planting ivy...";
             for (int k = 60; k < Main.maxTilesX - 60; k++)
             {
-                if (Main.rand.Next(8) == 0 && k > Main.maxTilesX / 3 && k < Main.maxTilesX / 3 * 2) //Berry Bushes
+                if(Main.rand.Next(8) == 0 && k > Main.maxTilesX / 3 && k < Main.maxTilesX / 3 * 2) //Berry Bushes
                 {
                     for (int y = 10; y < Main.worldSurface; y++)
                     {
                         if (Main.tile[k, y].type == TileID.Grass && Helper.CheckAirRectangle(new Point16(k, y - 2), new Point16(2, 2)))
                         {
-                            Helper.PlaceMultitile(new Point16(k, y - 2), ModContent.TileType<Tiles.Herbology.ForestBerryBush>());
+                            Helper.PlaceMultitile(new Point16(k, y-2), ModContent.TileType<Tiles.Herbology.ForestBerryBush>());
                         }
                     }
                 }

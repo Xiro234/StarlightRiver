@@ -1,4 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -27,7 +32,7 @@ namespace StarlightRiver.Dusts
         {
             dust.rotation += Main.rand.NextFloat(2f);
             dust.color *= 0.92f;
-            if (dust.color.G > 80) dust.color.G -= 4;
+            if(dust.color.G > 80) dust.color.G -= 4;
 
             dust.scale *= 0.92f;
             if (dust.scale < 0.2f)

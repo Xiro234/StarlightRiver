@@ -1,6 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
@@ -62,7 +68,7 @@ namespace StarlightRiver.NPCs.Hostile
         public override void AI()
         {
             Vector2 offset = new Vector2(10, 10);
-            if (pot != null) npc.position = pot.npc.position + offset;
+            if(pot != null) npc.position = pot.npc.position + offset;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

@@ -1,8 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
@@ -43,11 +46,11 @@ namespace StarlightRiver.Projectiles.Dummies
 
 
             //Lighting
-            for (float k = 0; k <= 6.28f; k += 0.2f)
+            for(float k = 0; k <= 6.28f; k+= 0.2f)
             {
                 Lighting.AddLight(npc.Center + Vector2.One.RotatedBy(k) * 23 * 16, new Vector3(1, 1, 0.7f) * 0.8f);
             }
-            for (int k = 0; k < 6; k++)
+            for(int k = 0; k < 6; k++)
             {
                 if (npc.ai[0] > 0)
                 {
@@ -94,7 +97,7 @@ namespace StarlightRiver.Projectiles.Dummies
 
             Texture2D frametex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowFrame");
             Texture2D glasstex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowGlass");
-
+        
             spriteBatch.Draw(glasstex, dpos, glasstex.Frame(), Color.White * 0.2f, 0, glasstex.Frame().Size() / 2, 1, 0, 0); //glass
 
             spriteBatch.Draw(frametex, dpos, frametex.Frame(), new Color(255, 255, 200), 0, frametex.Frame().Size() / 2, 1, 0, 0); //frame

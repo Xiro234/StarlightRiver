@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,7 +46,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             if (npc.HasValidTarget)
             {
-                if (damage >= changeAgroDamage)
+                if(damage >= changeAgroDamage)
                 {
                     npc.target = player.whoAmI;
                 }
@@ -229,12 +231,12 @@ namespace StarlightRiver.NPCs.Hostile
                 case 2:
                     npc.ai[3]++;
                     npc.velocity.X *= 0.95f;
-                    if (npc.ai[2] == 1)//this checks if this is for hitting a wall or slowing down
+                    if(npc.ai[2] == 1)//this checks if this is for hitting a wall or slowing down
                     {
-
+                        
                     }
 
-                    if (npc.ai[3] >= 50)
+                    if(npc.ai[3] >= 50)
                     {
                         npc.ai[3] = 0;
                         npc.ai[2] = 0;
@@ -269,7 +271,7 @@ namespace StarlightRiver.NPCs.Hostile
                 }
                 if (y >= npc.ai[1] + (npc.height / 16)) //stops counting if there is room for the npc to walk under //((int)((npc.position.Y - target.position.Y) / 16) + 1)
                 {
-                    if (npc.HasValidTarget && jump)
+                    if(npc.HasValidTarget && jump)
                     {
                         Player target = Main.player[npc.target];
                         if (npc.ai[1] >= ((int)((npc.position.Y - target.position.Y) / 16) + 1) - ((int)(npc.height / 16) - 1))
@@ -286,7 +288,7 @@ namespace StarlightRiver.NPCs.Hostile
             if (npc.ai[1] > 0)//jump and step up
             {
                 Tile tileType = Framing.GetTileSafely((int)(npc.position.X / 16) + (npc.direction * 2) + 1, (int)((npc.position.Y + npc.height + 8) / 16) - 1);
-                if (npc.ai[1] == 1 && npc.collideX)
+                if (npc.ai[1] == 1 && npc.collideX) 
                 {
                     if (tileType.halfBrick() || (Main.tileSolid[tileType.type] && (npc.position.Y % 16) == 0))
                     {
@@ -357,7 +359,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void NPCLoot()
         {
-
+            
         }
     }
 }

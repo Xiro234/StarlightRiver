@@ -1,10 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 using Terraria.ModLoader.IO;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
@@ -24,7 +27,7 @@ namespace StarlightRiver.Items.CursedAccessories
             Item blocker = new Item();
             blocker.type = ModContent.ItemType<Blocker>();
             blocker.SetDefaults(ModContent.ItemType<Blocker>());
-            (blocker.modItem as Blocker).Parent = item;
+            (blocker.modItem as Blocker).Parent = item; 
             player.armor[slot - 1] = blocker;
             return true;
         }

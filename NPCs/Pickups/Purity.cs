@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
 using StarlightRiver.GUI;
@@ -36,7 +37,7 @@ namespace StarlightRiver.NPCs.Pickups
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
             if (npc.Hitbox.Intersects(player.Hitbox) && mp.pure.Locked && animate == 0)
-            {
+            {               
                 animate = 500;
             }
 
@@ -95,7 +96,7 @@ namespace StarlightRiver.NPCs.Pickups
                 if (animate >= 400)
                 {
                     spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (100 - ((float)animate - 400)) / 100));
-                    Lighting.brightness = (float)(animate - 400) / 100;
+                    Lighting.brightness = (float)(animate - 400) / 100 ;
                 }
 
                 if (animate >= 30 && animate < 400)
@@ -104,7 +105,7 @@ namespace StarlightRiver.NPCs.Pickups
                     Lighting.brightness = 0f;
                 }
 
-                if (animate >= 60 && animate < 400)
+                if(animate >= 60 && animate < 400)
                 {
                     Overlay.visible = false;
                     Overlay.Bootlegdust.Clear();
@@ -112,8 +113,8 @@ namespace StarlightRiver.NPCs.Pickups
 
                 if (animate < 30 && animate > 0)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (float)animate / 30));
-                    Lighting.brightness = (float)(30 - animate) / 30;
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (float)animate / 30 ));
+                    Lighting.brightness = (float)(30 - animate) / 30 ;
                 }
 
                 //crown

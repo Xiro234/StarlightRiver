@@ -1,10 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.NPCs.Traps
 {
@@ -49,7 +52,7 @@ namespace StarlightRiver.NPCs.Traps
                 }
                 Main.PlaySound(SoundID.Item70.WithPitchVariance(0.6f), npc.Center);
 
-                foreach (Player player in Main.player.Where(player => Vector2.Distance(player.Center, npc.Center) <= 250))
+                foreach(Player player in Main.player.Where(player => Vector2.Distance(player.Center, npc.Center) <= 250))
                 {
                     player.GetModPlayer<StarlightPlayer>().Shake = (250 - (int)Vector2.Distance(player.Center, npc.Center)) / 12;
                 }
@@ -61,10 +64,10 @@ namespace StarlightRiver.NPCs.Traps
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Traps/CrusherGlow");
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Traps/CrusherTile");
-
+            
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, -24), tex.Bounds, Color.White * 0.8f, 0, tex.Size() / 2, 1.2f + (float)Math.Sin(npc.ai[0] / 80f * 6.28f) * 0.2f, 0, 0);
 
-            int count = (npc.ai[0] < 10) ? ((int)npc.ai[0] / 3) : (npc.ai[0] > 40) ? ((60 - (int)npc.ai[0]) / 4) : 3;
+            int count = (npc.ai[0] < 10) ? ((int)npc.ai[0] / 3) : (npc.ai[0] > 40) ? ((60 - (int)npc.ai[0]) / 4): 3;
             for (int k = 1; k <= count; k++)
             {
                 spriteBatch.Draw(tex2, npc.position - Main.screenPosition + new Vector2(8, -48 - k * 28), drawColor);

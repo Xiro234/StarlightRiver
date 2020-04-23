@@ -1,5 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -64,7 +69,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
             if (tank == null)
             {
-                for (int i = -6; i <= 6; i++)
+                for(int i = -6; i <= 6; i++)
                 {
                     for (int j = -6; j <= 6; j++)
                     {
@@ -80,12 +85,12 @@ namespace StarlightRiver.Tiles.StarJuice
                 Vector2 tankpos = tank.Position.ToVector2() * 16 + new Vector2(24, -16);
 
                 timer++;
-                if (timer > 100 + variation)
+                if(timer > 100 + variation)
                 {
                     Dust.NewDustPerfect(Vector2.Lerp(pos, tankpos, (timer - (100 + variation)) / 20f), ModContent.DustType<Dusts.Starlight>());
                 }
 
-                if (timer >= 120 + variation)
+                if(timer >= 120 + variation)
                 {
                     timer = 0;
                     tank.charge += 10;

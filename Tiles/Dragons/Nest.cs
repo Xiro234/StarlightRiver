@@ -2,9 +2,16 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Dragons;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Dragons
@@ -48,7 +55,7 @@ namespace StarlightRiver.Tiles.Dragons
                 (Main.npc[index].modNPC as DragonEgg).nest = entity;
                 item.TurnToAir(); //Absorbs the egg
             }
-
+            
             return true;
         }
 
@@ -56,9 +63,9 @@ namespace StarlightRiver.Tiles.Dragons
         {
             Tile tile = Main.tile[i, j];
             NestEntity entity = GetTE(i, j);
-            if (entity == null || entity.owner == null) return;
+            if (entity == null|| entity.owner == null) return;
 
-            if (tile.frameX == 0 && tile.frameY == 0)
+            if(tile.frameX == 0 && tile.frameY == 0)
             {
                 Vector2 center = (new Vector2(i + 1, j - 1) + Helper.TileAdj) * 16 + new Vector2(8, 0);
                 spriteBatch.DrawString(Main.fontItemStack, entity.owner.name + "'s dragon\n" + entity.dragon.data.name, center + new Vector2(0, -64) - Main.screenPosition - Main.fontItemStack.MeasureString(entity.dragon.data.name) / 2, Color.White);

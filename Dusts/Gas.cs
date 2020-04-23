@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -17,7 +21,7 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
-
+        
         public override bool Update(Dust dust)
         {
             //Lighting.AddLight((int)dust.position.X / 16, (int)dust.position.Y / 16, 0.2f, 0.19f, 0.0f);

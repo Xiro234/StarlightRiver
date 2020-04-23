@@ -1,9 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Items;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using StarlightRiver.Items;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Food
 {
@@ -11,7 +15,7 @@ namespace StarlightRiver.Food
     {
         public override void NPCLoot(NPC npc)
         {
-            if (npc.type == NPCID.DD2OgreT3 || npc.type == NPCID.DD2OgreT2) Item.NewItem(npc.Center, ModContent.ItemType<Onion>());
+            if(npc.type == NPCID.DD2OgreT3 || npc.type == NPCID.DD2OgreT2) Item.NewItem(npc.Center, ModContent.ItemType<Onion>());
         }
     }
     public class Onion : QuickMaterial { public Onion() : base("Onion", "Does this mod add any drops to ogre?", 69420, 69420, -12) { } }

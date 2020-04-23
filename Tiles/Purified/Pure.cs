@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Purified
 {

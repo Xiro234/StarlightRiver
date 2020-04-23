@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using StarlightRiver.Abilities;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -54,7 +55,7 @@ namespace StarlightRiver.NPCs.Pickups
                 }
                 if (animate <= 30 && animate % 10 == 0)
                 {
-                    for (float k = 0; k <= (float)Math.PI * 2; k += (float)Math.PI / 40)
+                    for(float k = 0; k <= (float)Math.PI * 2; k += (float)Math.PI / 40)
                     {
                         Dust.NewDustPerfect(player.Center, mod.DustType("Void"), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * -5, 0, default, 1.5f);
                     }
@@ -91,9 +92,9 @@ namespace StarlightRiver.NPCs.Pickups
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 4), Color.White);
                 Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 4), npc.width, npc.height, ModContent.DustType<Dusts.Darkness>(), 0, 0, 0, default, 0.5f);
 
-                for (float k = 0; k < 6.28f; k += 6.28f / 5)
+                for (float k = 0; k < 6.28f; k+= 6.28f / 5)
                 {
-                    Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(k + (float)Math.Sin((timer + k) * 2) * 0.25f) * 10, ModContent.DustType<Dusts.Void>(), Vector2.One.RotatedBy(k + (float)Math.Sin(timer) * .5f) * 0.5f, 0, default, 0.5f);
+                    Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy( k + (float)Math.Sin((timer + k) * 2) * 0.25f) * 10, ModContent.DustType<Dusts.Void>(), Vector2.One.RotatedBy( k + (float)Math.Sin(timer) * .5f) * 0.5f, 0, default, 0.5f);
                 }
             }
         }

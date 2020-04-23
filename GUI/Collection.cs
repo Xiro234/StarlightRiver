@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.GameContent.UI.Elements;
+using Terraria.UI;
+using System;
+using Terraria.ID;
+using System.Linq;
 using StarlightRiver.Abilities;
 using System.Collections.Generic;
-using Terraria;
-using Terraria.GameContent.UI.Elements;
-using Terraria.ModLoader;
-using Terraria.UI;
 
 namespace StarlightRiver.GUI
 {
@@ -32,7 +35,7 @@ namespace StarlightRiver.GUI
 
         public static bool visible = false;
         int select = 0;
-
+        
         public override void OnInitialize()
         {
             back.Left.Set(20, 0);
@@ -133,33 +136,27 @@ namespace StarlightRiver.GUI
 
             switch (select)
             {
-                case 0:
-                    Name.SetText("");
+                case 0: Name.SetText("");
                     Line1.SetText("");
                     Line2.SetText("");
                     Line3.SetText(""); break;
-                case 1:
-                    Name.SetText("Forbidden Winds      x1");
+                case 1: Name.SetText("Forbidden Winds      x1");
                     Line1.SetText("Press Shift");
                     Line2.SetText("Dash forward A short");
                     Line3.SetText("distance, breaks crystals"); break;
-                case 2:
-                    Name.SetText("Faeflame                1/s");
+                case 2: Name.SetText("Faeflame                1/s");
                     Line1.SetText("Hold F");
                     Line2.SetText("Shrink and float in the air,");
                     Line3.SetText("using your mouse to steer"); break;
-                case 3:
-                    Name.SetText("Corona of Purity      x4");
+                case 3: Name.SetText("Corona of Purity      x4");
                     Line1.SetText("Press N");
                     Line2.SetText("Temporarily purify the area");
                     Line3.SetText("around you, resist the darkness"); break;
-                case 4:
-                    Name.SetText("Gaia's Fist             x2");
+                case 4: Name.SetText("Gaia's Fist             x2");
                     Line1.SetText("Press Z");
                     Line2.SetText("Dive downwards, shattering");
                     Line3.SetText("solid rock and steel"); break;
-                case 5:
-                    Name.SetText("Zzelera's Cloak        x3");
+                case 5: Name.SetText("Zzelera's Cloak        x3");
                     Line1.SetText("Press Q");
                     Line2.SetText("Become invincible and quickly");
                     Line3.SetText("fly to a targeted location"); break;
@@ -167,7 +164,7 @@ namespace StarlightRiver.GUI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch); 
             Bootlegdust.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
             Recalculate();
         }
@@ -178,9 +175,9 @@ namespace StarlightRiver.GUI
             Bootlegdust.ForEach(BootlegDust => BootlegDust.Update());
             Bootlegdust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
 
-            if (Main.expertMode && visible)
+            if(Main.expertMode && visible)
             {
-                BootlegDust dus = new ExpertDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(78, 288) + new Vector2(Main.rand.Next(0, 16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255, 255, 100), 2f, 60);
+                BootlegDust dus = new ExpertDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(78, 288) + new Vector2(Main.rand.Next(0,16), Main.rand.Next(0, 16)), new Vector2(0, -1), new Color(255,255,100), 2f, 60);
                 Bootlegdust.Add(dus);
             }
         }
@@ -198,7 +195,7 @@ namespace StarlightRiver.GUI
     }
 
     public class BootlegDust
-    {
+    {     
         public Texture2D tex;
         public Vector2 pos;
         public Vector2 vel;

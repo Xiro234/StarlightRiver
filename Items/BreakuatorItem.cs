@@ -1,8 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Tiles;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
+using StarlightRiver.Tiles;
 
 namespace StarlightRiver.Items
 {
@@ -25,7 +30,7 @@ namespace StarlightRiver.Items
 
         public override bool UseItem(Player player)
         {
-            if (Vector2.Distance(player.Center, Main.MouseWorld) <= 500)
+            if(Vector2.Distance(player.Center, Main.MouseWorld) <= 500)
             {
                 Breakuator.breakuator.Add(new Point16((int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16));
             }

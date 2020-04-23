@@ -1,7 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
+using System;
+using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Interactive
 {
@@ -27,7 +35,7 @@ namespace StarlightRiver.Tiles.Interactive
             {
                 if (player.Hitbox.Intersects(new Rectangle(i * 16, j * 16, 16, 16)))
                 {
-                    if (player.GetModPlayer<StarlightPlayer>().InvertGrav == 0 && player.velocity.Y < 5 && player.velocity.Y > -5)
+                    if(player.GetModPlayer<StarlightPlayer>().InvertGrav == 0 && player.velocity.Y < 5 && player.velocity.Y > -5)
                     {
                         player.velocity.Y = 0;
                     }

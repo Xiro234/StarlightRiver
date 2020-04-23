@@ -1,23 +1,28 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.Graphics.Shaders;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    public class GreenhouseGlass : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = false;
+	public class GreenhouseGlass : ModTile
+	{
+		public override void SetDefaults()
+		{
+			Main.tileSolid[Type] = true;
+			Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = false;
-            //Main.tileLighted[Type] = true;
-            TileID.Sets.DrawsWalls[Type] = true;
-            drop = mod.ItemType("GreenhouseGlassItem");
-            dustType = 13;
-            soundType = 13;
+			//Main.tileLighted[Type] = true;
+			TileID.Sets.DrawsWalls[Type] = true;
+			drop = mod.ItemType("GreenhouseGlassItem");
+			dustType = 13;
+			soundType = 13;
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Greenhouse Glass");

@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 namespace StarlightRiver.Projectiles.WeaponProjectiles
@@ -27,7 +27,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (!player.channel && projectile.timeLeft < 80) { projectile.timeLeft -= 2; }
 
             float rot = (Main.MouseWorld - player.Center).ToRotation();
-            rot += (float)Math.Sin(LegendWorld.rottime * 5) * projectile.ai[0] * 0.03f;
+            rot += (float)Math.Sin(LegendWorld.rottime * 5) *projectile.ai[0]* 0.03f;
             float rotvel = (rot - projectile.ai[1] + 9.42f) % 6.28f - 3.14f;
 
             if (Math.Abs(rotvel) >= 3.14f) { rotvel = 3.13f; }
@@ -35,9 +35,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (rotvel >= (24 - projectile.ai[0]) * 0.005f) { rot = projectile.ai[1] + (24 - projectile.ai[0]) * 0.005f; }
             else if (rotvel <= (24 - projectile.ai[0]) * -0.005f) { rot = projectile.ai[1] + (24 - projectile.ai[0]) * -0.005f; }
 
-
+            
             projectile.position = (player.Center) + (projectile.velocity * rad * projectile.ai[0]).RotatedBy(rot - projectile.velocity.ToRotation());
-
+            
             projectile.rotation = rot + 1.57f;
 
             projectile.ai[1] = rot;

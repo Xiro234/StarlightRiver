@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
-using System;
+﻿using System;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using StarlightRiver.Abilities;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.Projectiles
 {
@@ -45,7 +45,7 @@ namespace StarlightRiver.Projectiles
                     player.velocity.Y = 0.1f;
 
                     Projectile proj = Main.projectile.FirstOrDefault(p => p.owner == player.whoAmI && Main.projHook[p.type]);
-                    if (proj != null) proj.timeLeft = 0;
+                    if(proj != null) proj.timeLeft = 0;
 
                     player.GetModPlayer<AbilityHandler>().dash.Active = false;
                 }

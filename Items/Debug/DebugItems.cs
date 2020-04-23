@@ -1,7 +1,15 @@
-﻿using StarlightRiver.Tiles.Vitric;
+﻿using Microsoft.Xna.Framework;
 using System.Linq;
+using StarlightRiver.Abilities;
+using StarlightRiver.Codex;
+using StarlightRiver.Gases;
 using Terraria;
 using Terraria.ModLoader;
+using System.IO;
+using Terraria.IO;
+using StarlightRiver.Dragons;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Tiles.Vitric;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -168,7 +176,7 @@ namespace StarlightRiver.Items.Debug
 
             int j = 0;
             foreach (NPC npc in Main.npc.Where(npc => npc.active)) { j++; }
-
+           
             Main.NewText("Extant NPCs: " + i + "/201");
             Main.NewText("Active NPCs: " + j + "/201");
             Main.NewText(types);
@@ -213,7 +221,6 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            LegendWorld.OvergrowBossOpen = false;
             LegendWorld.GlassBossOpen = false;
             LegendWorld.DesertOpen = false;
             return true;
@@ -243,12 +250,11 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             LegendWorld.GlassBossOpen = true;
-            LegendWorld.OvergrowBossOpen = true;
-            foreach (NPC n in Main.npc.Where(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropLeft>() || n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropRight>()))
+            foreach(NPC n in Main.npc.Where(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropLeft>() || n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropRight>()))
             {
                 n.ai[1] = 3;
             }
-            foreach (NPC n in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBossPlatformUp))
+            foreach (NPC n in Main.npc.Where(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBossPlatformUp>() || n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBossPlatformDown>()))
             {
                 n.ai[0] = 1;
             }

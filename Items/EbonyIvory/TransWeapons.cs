@@ -26,10 +26,10 @@ namespace StarlightRiver.Items.EbonyIvory
             item.knockBack = 4;
             item.value = 10000;
             item.rare = 2;
-            item.autoReuse = true;
-            item.shoot = 10;
-            item.shootSpeed = 16f;
-            item.useAmmo = AmmoID.Bullet;
+			item.autoReuse = true;
+			item.shoot = 10;
+			item.shootSpeed = 16f;
+			item.useAmmo = AmmoID.Bullet;
         }
         public override bool AltFunctionUse(Player player)
         {

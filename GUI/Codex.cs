@@ -1,17 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
-using StarlightRiver.Codex;
-using StarlightRiver.RiftCrafting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
-using Terraria.GameContent.UI;
-using Terraria.GameContent.UI.Elements;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using System;
+using Terraria.ID;
+using System.Linq;
+using StarlightRiver.Abilities;
+using System.Collections.Generic;
+using StarlightRiver.Codex;
+using StarlightRiver.Codex.Entries;
+using StarlightRiver.RiftCrafting;
+using Terraria.GameContent.UI;
+using ReLogic.Graphics;
 
 namespace StarlightRiver.GUI
 {
@@ -108,7 +110,7 @@ namespace StarlightRiver.GUI
             }
 
             //Draw Bootlegdusts
-            foreach (BootlegDust dust in Dust)
+            foreach(BootlegDust dust in Dust)
             {
                 dust.Update();
                 dust.Draw(spriteBatch);
@@ -125,22 +127,22 @@ namespace StarlightRiver.GUI
             //Glow for new entry
             if (NewEntry)
             {
-                spriteBatch.Draw((BookButton.IsMouseHovering || Open || Crafting) ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed"),
-                    BookButton.GetDimensions().ToRectangle().TopLeft() + new Vector2(-1, 0), Color.White * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.25f));
+               spriteBatch.Draw((BookButton.IsMouseHovering || Open || Crafting) ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed"),
+                   BookButton.GetDimensions().ToRectangle().TopLeft() + new Vector2(-1, 0), Color.White * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.25f));
             }
 
             //if locked
             if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState == 0) { BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/BookLocked")); };
 
             //bootlegdust for crafing 
-            if (Crafting && ShownRecipes.Count > 0 && ActiveRecipe == null)
+            if(Crafting && ShownRecipes.Count > 0 && ActiveRecipe == null)
             {
                 Vector2 pos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + new Vector2(-10, -10);
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Light");
                 Dust.Add(new HolyDust(tex, pos + Vector2.One.RotatedByRandom(6.28f) * 80, Vector2.Zero));
             }
 
-            if (Crafting && ActiveRecipe != null)
+            if(Crafting && ActiveRecipe != null)
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Holy");
                 Vector2 pos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + new Vector2(-15, -15);
@@ -223,10 +225,10 @@ namespace StarlightRiver.GUI
 
         public void Refresh()
         {
-            foreach (UIElement element in Elements.Where(element => element is EntryButton))
+            foreach(UIElement element in Elements.Where(element => element is EntryButton))
             {
                 (element as EntryButton).Visible = false;
-                element.Width.Set(0, 0);
+                element.Width.Set(0,0);
             }
 
             for (int k = 0; k < ShownButtons.Count; k++)
@@ -280,7 +282,7 @@ namespace StarlightRiver.GUI
                 RefreshRecipes();
                 OpenCodex(evt, listeningElement);
             }
-
+            
         }
     }
 
@@ -309,7 +311,7 @@ namespace StarlightRiver.GUI
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/EntryButton"), new Rectangle((int)pos.X, (int)pos.Y, 120, 27), Color.White * 0.8f);
 
                 spriteBatch.Draw(Entry.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Entry.Icon,
-                    new Rectangle((int)pos.X + 5, (int)pos.Y + 5, 16, 16), new Rectangle(0, 0, 32, 32), Color.White);
+                    new Rectangle((int)pos.X + 5, (int)pos.Y + 5, 16, 16), new Rectangle(0,0,32,32), Color.White);
 
                 Utils.DrawBorderString(spriteBatch, Entry.Locked ? "???" : Entry.Title, pos + new Vector2(24, 7), (Parent as Codex).ActiveEntry == Entry ? Color.Yellow : Color.White, 0.6f);
             }
@@ -327,7 +329,7 @@ namespace StarlightRiver.GUI
         public override void Click(UIMouseEvent evt)
         {
             (Parent as Codex).ShownButtons.Clear();
-            foreach (EntryButton entry in (Parent as Codex).Buttons.Where(entry => entry.Entry.Category == Category))
+            foreach(EntryButton entry in (Parent as Codex).Buttons.Where(entry => entry.Entry.Category == Category))
             {
                 (Parent as Codex).ShownButtons.Add(entry);
             }
@@ -368,7 +370,7 @@ namespace StarlightRiver.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Visible && Codex.Crafting && (Parent as Codex).ActiveRecipe == null)
+            if (Visible && Codex.Crafting &&(Parent as Codex).ActiveRecipe == null)
             {
                 Item item = new Item();
                 item.type = Recipe.Result;
@@ -447,7 +449,7 @@ namespace StarlightRiver.GUI
 
         public override void Click(UIMouseEvent evt)
         {
-            if (item == null && Main.mouseItem.IsAir)
+            if (item == null && Main.mouseItem.IsAir) 
                 return;
 
             //if the player isnt holding anything but something is equipped, unequip it
@@ -484,7 +486,7 @@ namespace StarlightRiver.GUI
         {
             Codex codex = (Parent as Codex);
             codex.ShownRecipes.Clear();
-            foreach (RecipeButton recipe in codex.Recipes)
+            foreach(RecipeButton recipe in codex.Recipes)
             {
                 if (recipe.Recipe.Ingredients.Any(i => i.type == item.type))
                     codex.ShownRecipes.Add(recipe);

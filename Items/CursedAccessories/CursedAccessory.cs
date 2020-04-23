@@ -3,9 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
@@ -39,7 +42,7 @@ namespace StarlightRiver.Items.CursedAccessories
             for (int k = 0; k <= 175; k++)
             {
                 BootlegDust dus = new CurseDust2(ModContent.GetTexture("StarlightRiver/GUI/Dark"), drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0, 0.8f), Color.White * 0.4f, 3.8f, 180);
-                Bootlegdust.Add(dus);
+                Bootlegdust.Add(dus);              
             }
 
             return true;
@@ -66,7 +69,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
             scl *= 0.97f;
             pos += vel;
-
+            
             time--;
         }
     }

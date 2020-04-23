@@ -1,9 +1,15 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Microsoft.Xna.Framework;
+using StarlightRiver.Projectiles;
+using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -53,7 +59,7 @@ namespace StarlightRiver.NPCs.Hostile
                 case 1: //Passive
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] >= 180 && npc.ai[2] < 3) //after 3 seconds and if <3 rocks
+                        if(npc.ai[1] >= 180 && npc.ai[2] < 3) //after 3 seconds and if <3 rocks
                         {
                             npc.TargetClosest(); //retarget
                             npc.ai[2]++; //add a rock
@@ -70,7 +76,7 @@ namespace StarlightRiver.NPCs.Hostile
                 case 2: //Attack
                     {
                         npc.ai[1]++;
-                        if (npc.ai[1] >= 20) //throw 3 rocks/sec
+                        if(npc.ai[1] >= 20) //throw 3 rocks/sec
                         {
                             npc.ai[2]--; //decrement rock count
                             npc.ai[1] = 0; //reset timer
@@ -80,7 +86,7 @@ namespace StarlightRiver.NPCs.Hostile
 
                             Projectile.NewProjectile(pos, -Vector2.Normalize(npc.Center - player.Center) * 8, ModContent.ProjectileType<Projectiles.OvergrowRockThrowerRock>(), npc.damage, 2); //throw rock
                         }
-                        if (npc.ai[2] <= 0)
+                        if(npc.ai[2] <= 0)
                         {
                             npc.ai[0] = 0;//back to start
                         }
@@ -117,7 +123,7 @@ namespace StarlightRiver.NPCs.Hostile
                 if (rot % 6.28f > 3.14f && npc.ai[2] >= k + 1)
                 {
                     drawpoints[k] = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35 - Main.screenPosition;
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/OvergrowRockThrowerRock"), drawpoints[k], new Rectangle(0, 0, 18, 18), Color.White, 0, Vector2.One * 8, 1, 0, 0);
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/OvergrowRockThrowerRock"), drawpoints[k], new Rectangle(0,0,18,18), Color.White, 0, Vector2.One * 8, 1, 0, 0);
                 }
             }
             return true;

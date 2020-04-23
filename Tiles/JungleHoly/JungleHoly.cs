@@ -1,10 +1,16 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Enums;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace StarlightRiver.Tiles.JungleHoly
 {
@@ -22,7 +28,7 @@ namespace StarlightRiver.Tiles.JungleHoly
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
             drop = ItemID.MudBlock;
-            AddMapEntry(new Color(64, 193, 147));
+            AddMapEntry(new Color (64, 193, 147));
             soundType = 0;
             dustType = 125;
         }
@@ -89,7 +95,7 @@ namespace StarlightRiver.Tiles.JungleHoly
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.064f / 1.5f;
+            r = 0.064f /1.5f;
             g = 0.193f / 1.5f;
             b = 0.147f / 1.5f;
         }

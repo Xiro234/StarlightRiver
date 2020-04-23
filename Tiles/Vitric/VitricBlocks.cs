@@ -1,9 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Terraria.ID;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Items.Vitric;
+using StarlightRiver.Abilities;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Items.Vitric;
+using StarlightRiver.Items.Debug;
+using System;
 
 namespace StarlightRiver.Tiles.Vitric
 {

@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -15,7 +19,7 @@ namespace StarlightRiver.Food
     {
         public string ItemTooltip;
         public int Fill = 0;
-        public IngredientType ThisType { get; set; }
+        public IngredientType ThisType {get; set;}
 
         public Ingredient(string tooltip, int filling, IngredientType type)
         {
@@ -24,7 +28,7 @@ namespace StarlightRiver.Food
             ThisType = type;
         }
 
-        ///<summary>Where the effects of this food item's buff will go. use the multiplier param for any effect that should be multiplier-sensitive</summary>
+         ///<summary>Where the effects of this food item's buff will go. use the multiplier param for any effect that should be multiplier-sensitive</summary>
         public virtual void BuffEffects(Player player, float multiplier)
         {
 
@@ -73,14 +77,14 @@ namespace StarlightRiver.Food
             fullLine.overrideColor = new Color(110, 235, 255);
             tooltips.Add(fullLine);
         }
-
+        
         public Color GetColor()
         {
             switch (ThisType)
             {
                 case IngredientType.Main: return new Color(255, 220, 140);
-                case IngredientType.Side: return new Color(140, 255, 140);
-                case IngredientType.Seasoning: return new Color(140, 200, 255);
+                case IngredientType.Side: return new Color(140, 255, 140); 
+                case IngredientType.Seasoning: return new Color(140, 200, 255); 
                 default: return Color.Black;
             }
         }

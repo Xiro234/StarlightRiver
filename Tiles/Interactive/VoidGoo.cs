@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
+using StarlightRiver.Gases;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -18,7 +19,7 @@ namespace StarlightRiver.Tiles.Interactive
             drop = ModContent.ItemType<Items.VoidGooItem>();
             dustType = ModContent.DustType<Dusts.Void>();
             AddMapEntry(new Color(0, 0, 0));
-
+            
             animationFrameHeight = 88;
         }
 
@@ -50,7 +51,7 @@ namespace StarlightRiver.Tiles.Interactive
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/VoidGooGlow"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, new Rectangle(Main.tile[i, j].frameX, Main.tile[i, j].frameY + 88 * Frame, 16, 16), Color.White);
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/VoidGooGlow"), (new Vector2(i, j) + Helper.TileAdj) *  16 - Main.screenPosition, new Rectangle(Main.tile[i,j].frameX, Main.tile[i, j].frameY + 88*Frame, 16, 16), Color.White);
 
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)

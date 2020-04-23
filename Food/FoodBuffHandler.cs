@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Food
 {
@@ -12,7 +16,7 @@ namespace StarlightRiver.Food
 
         public override void PostUpdateBuffs()
         {
-
+            
         }
 
         public override void ResetEffects()

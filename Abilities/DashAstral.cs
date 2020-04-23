@@ -1,7 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Dusts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Abilities
@@ -9,7 +15,7 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class DashAstral : Dash
     {
-
+        
 
         public DashAstral(Player player) : base(player)
         {

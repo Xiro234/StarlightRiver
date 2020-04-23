@@ -1,9 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Items.Salvage
 {
@@ -67,19 +70,19 @@ namespace StarlightRiver.Items.Salvage
             if (tip1 != null)
             {
                 tip1.text += " (" + (int)(percent1 * 100) + "%)";
-                tip1.overrideColor = new Color((1 - percent1) * (1 / percent1), percent1 * (1 / (1 - percent1)), 0);
+                tip1.overrideColor =  new Color((1 - percent1) * (1 / percent1) , percent1 * (1 / (1 - percent1)), 0);
             }
 
             TooltipLine tip2 = tooltips.FirstOrDefault(tooltip => tooltip.Name == "Speed" && tooltip.mod == "Terraria");
-            if (tip2 != null)
-            {
+            if(tip2 != null)
+            {               
                 tip2.text = "Delay: " + Speed.value + " (" + (int)(percent2 * 100) + "%)";
                 tip2.overrideColor = new Color((1 - percent2) * (1 / percent2), percent2 * (1 / (1 - percent2)), 0);
             }
 
             TooltipLine tip3 = tooltips.FirstOrDefault(tooltip => tooltip.Name == "CritChance" && tooltip.mod == "Terraria");
-            if (tip3 != null)
-            {
+            if(tip3 != null)
+            {              
                 tip3.text += " (" + (int)(percent3 * 100) + "%)";
                 tip3.overrideColor = new Color((1 - percent3) * (1 / percent3), percent3 * (1 / (1 - percent3)), 0);
             }

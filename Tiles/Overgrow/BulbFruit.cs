@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using System;
 using System.Linq;
 using Terraria;
@@ -51,8 +52,8 @@ namespace StarlightRiver.Tiles.Overgrow
                     float sway = (float)Math.Sin(LegendWorld.rottime + (15 - k) / 4) * (15 - k) / 150;
                     spriteBatch.Draw(tex, (new Vector2(i + 0.5f + sway, j - k) + Helper.TileAdj) * 16 - Main.screenPosition, new Rectangle(16 * k % 3, 0, 16, 16), Lighting.GetColor(i, j - k));
 
-                    if (tile.frameX == 0 && Main.rand.Next(5) == 0)
-                        Dust.NewDust(new Vector2(i + 0.5f, j - k) * 16, 16, 16, ModContent.DustType<Dusts.Gold2>(), 0, -3, 0, default, 0.3f);
+                    if(tile.frameX == 0 && Main.rand.Next(5) == 0)
+                    Dust.NewDust(new Vector2(i + 0.5f, j - k) * 16, 16, 16, ModContent.DustType<Dusts.Gold2>(), 0, -3, 0, default, 0.3f);
                 }
             }
             return true;
@@ -60,13 +61,13 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (!Main.projectile.Any(p => p.active && p.type == ModContent.ProjectileType<Projectiles.Dummies.BulbDummy>() && p.Hitbox.Contains((new Vector2(i, j) * 16).ToPoint())))
+            if(!Main.projectile.Any( p => p.active && p.type == ModContent.ProjectileType<Projectiles.Dummies.BulbDummy>() && p.Hitbox.Contains((new Vector2(i,j) * 16).ToPoint())))
             {
                 Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.BulbDummy>(), 0, 0);
             }
 
-            if (Main.tile[i, j].frameX < 34)
-                Dust.NewDust(new Vector2(i, j) * 16, 16, 16, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
+            if(Main.tile[i,j].frameX < 34)
+            Dust.NewDust(new Vector2(i, j) * 16, 16, 16, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -81,7 +82,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Tile tile = Main.tile[i, j];
             if (tile.frameY == 0 && tile.frameX == 34)
             {
-                if (Main.rand.Next(8) == 0)
+                if(Main.rand.Next(8) == 0)
                 {
                     for (int x = i; x <= i + 1; x++)
                         for (int y = j; y <= j + 1; y++)

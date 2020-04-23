@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -60,7 +62,7 @@ namespace StarlightRiver.Projectiles
             {
                 for (int x = -3; x <= 3; x++)
                 {
-                    Tile target = Main.tile[x + (int)projectile.Center.X / 16, y + (int)projectile.Center.Y / 16];
+                    Tile target = Main.tile[x + (int)projectile.Center.X / 16,y + (int)projectile.Center.Y / 16];
 
                     if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleBloody"); }
                 }

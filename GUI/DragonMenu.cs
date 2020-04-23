@@ -1,10 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Dragons;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using System;
+using Terraria.ID;
+using System.Linq;
+using StarlightRiver.Abilities;
+using ReLogic.Graphics;
+using StarlightRiver.Dragons;
 
 namespace StarlightRiver.GUI
 {
@@ -142,7 +147,7 @@ namespace StarlightRiver.GUI
 
                 currentColor.A = 255;
 
-                if (part == ActivePart.name)
+                if(part == ActivePart.name)
                 {
                     Vector2 adj = new Vector2((int)Main.fontMouseText.MeasureString(dragon.data.name).X, (int)Main.fontMouseText.MeasureString(dragon.data.name).Y * 1.2f);
                     Utils.DrawBorderStringBig(spriteBatch, dragon.data.name, new Vector2(Main.screenWidth / 2, 300) - adj, Color.White, 0.675f);
@@ -263,7 +268,7 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            if (GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint()) && Main.mouseLeft)
+            if(GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint()) && Main.mouseLeft)
             {
                 sliderPos = (int)(Main.MouseScreen.ToPoint().X - GetDimensions().X);
             }

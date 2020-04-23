@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,7 +32,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             npc.TargetClosest(true);
             Player target = Main.player[npc.target];
-            if (npc.localAI[0] < 6.28) { npc.localAI[0] += 0.1f; } else { npc.localAI[0] = 0; }
+            if (npc.localAI[0] < 6.28) { npc.localAI[0]+= 0.1f; } else { npc.localAI[0] = 0; }
             if (npc.localAI[1] <= 300) { npc.localAI[1]++; } else { npc.localAI[1] = 0; }
 
             for (int k = 1; k <= Vector2.Distance(npc.Center, target.Center); k++)

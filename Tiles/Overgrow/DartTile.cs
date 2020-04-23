@@ -1,61 +1,64 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Localization;
+using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
     // This class shows off a number of less common ModTile methods. These methods help our trap tile behave like vanilla traps. 
     // In particular, hammer behavior is particularly tricky. The logic here is setup for multiple styles as well.
     public class DartTile : ModTile
-    {
-        public override void SetDefaults()
-        {
-            TileID.Sets.DrawsWalls[Type] = true;
-            Main.tileSolid[Type] = true;
+	{
+		public override void SetDefaults()
+		{
+			TileID.Sets.DrawsWalls[Type] = true;
+			Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
+			Main.tileFrameImportant[Type] = true;
+			Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
-
-            dustType = mod.DustType("Gold2");
+			
+			dustType = mod.DustType("Gold2");          
             AddMapEntry(new Color(81, 77, 71));
-        }
+		}
 
-        public override bool Dangersense(int i, int j, Player player) => true;
+		public override bool Dangersense(int i, int j, Player player) => true;
 
-        public override void PlaceInWorld(int i, int j, Item item)
+		public override void PlaceInWorld(int i, int j, Item item)
+		{
+			Tile tile = Main.tile[i, j];
+			if (Main.LocalPlayer.direction == 1)
+			{
+				tile.frameX += 18;
+			}
+			if (Main.netMode == 1)
+			{
+				NetMessage.SendTileSquare(-1, Player.tileTargetX, Player.tileTargetY, 1, TileChangeType.None);
+			}
+		}
+
+		static int[] frameXCycle = { 2, 3, 1, 0 };
+		public override bool Slope(int i, int j)
+		{
+			Tile tile = Main.tile[i, j];
+			int nextFrameX = frameXCycle[tile.frameX / 18];
+			tile.frameX = (short)(nextFrameX * 18);
+			if (Main.netMode == 1)
+			{
+				NetMessage.SendTileSquare(-1, Player.tileTargetX, Player.tileTargetY, 1, TileChangeType.None);
+			}
+			return false;
+		}
+		
+		public override void NearbyEffects(int i, int j, bool closer)
         {
-            Tile tile = Main.tile[i, j];
-            if (Main.LocalPlayer.direction == 1)
-            {
-                tile.frameX += 18;
-            }
-            if (Main.netMode == 1)
-            {
-                NetMessage.SendTileSquare(-1, Player.tileTargetX, Player.tileTargetY, 1, TileChangeType.None);
-            }
-        }
-
-        static int[] frameXCycle = { 2, 3, 1, 0 };
-        public override bool Slope(int i, int j)
-        {
-            Tile tile = Main.tile[i, j];
-            int nextFrameX = frameXCycle[tile.frameX / 18];
-            tile.frameX = (short)(nextFrameX * 18);
-            if (Main.netMode == 1)
-            {
-                NetMessage.SendTileSquare(-1, Player.tileTargetX, Player.tileTargetY, 1, TileChangeType.None);
-            }
-            return false;
-        }
-
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            if (Main.tile[i, j].frameY == 0)
+            if(Main.tile[i, j].frameY == 0)
             {
                 if (!(Main.projectile.Any(proj => proj.modProjectile is Projectiles.DartShooter && (proj.modProjectile as Projectiles.DartShooter).parent == Main.tile[i, j] && proj.active)))
                 {
@@ -102,7 +105,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
 
         public override void HitWire(int i, int j)
-        {
+		{
             Tile tile = Main.tile[i, j];
 
             if (tile.frameY == 0)
@@ -114,5 +117,5 @@ namespace StarlightRiver.Tiles.Overgrow
                 tile.frameY = 0;
             }
         }
-    }
+	}
 }

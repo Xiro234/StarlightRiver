@@ -1,8 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Microsoft.Xna.Framework;
+using StarlightRiver.Abilities;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Items
@@ -36,8 +42,8 @@ namespace StarlightRiver.Items
         {
             player.GetModPlayer<GemHandler>().gems[gemID] = 1;
 
-            CombatText.NewText(player.Hitbox, new Color(120, 245 - gemID, 175 + gemID), "Starlight Gem #" + (gemID + 1) + " Accquired!");
-            for (float k = 0; k <= 6.28f; k += 0.1f)
+            CombatText.NewText(player.Hitbox, new Color(120, 245 - gemID, 175 + gemID),"Starlight Gem #" + (gemID + 1) + " Accquired!");
+            for(float k = 0; k <= 6.28f; k += 0.1f)
             {
                 Dust.NewDustPerfect(item.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(k) * (k % 0.79f) * 15, 0, new Color(120, 245 - gemID, 175 + gemID), 3 - (k % 0.79f) * 3);
             }

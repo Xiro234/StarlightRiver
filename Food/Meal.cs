@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Buffs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -36,8 +39,8 @@ namespace StarlightRiver.Food
             if (player.HasBuff(ModContent.BuffType<Full>())) { return false; }
 
             if (Ingredients.Count > 0)
-            {
-                foreach (Item item in Ingredients)
+            {                
+                foreach(Item item in Ingredients)
                 {
                     mp.Consumed.Add(item.DeepClone());
                 }

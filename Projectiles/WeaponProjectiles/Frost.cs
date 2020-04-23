@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.NPCs;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.NPCs;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -26,7 +27,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             Player player = Main.player[projectile.owner];
             for (float counter = -1.2f; counter <= 1.2f; counter += 2.4f)
-            {
+            { 
                 Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 15, -projectile.velocity.X, -projectile.velocity.Y, 255, default(Color), 1f)];
                 dust.velocity = dust.velocity.RotatedBy(counter);
                 dust.scale = 1.4f;

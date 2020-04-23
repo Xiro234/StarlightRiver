@@ -3,8 +3,8 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    public class GreenhouseGlassItem : QuickTileItem
-    {
+	public class GreenhouseGlassItem : QuickTileItem
+	{
         public GreenhouseGlassItem() : base("Greenhouse Glass", "Speeds up the growth the plant below it\nNeeds a clear area above it", ModContent.TileType<Tiles.Herbology.GreenhouseGlass>(), 1) { }
         public override void AddRecipes()
         {

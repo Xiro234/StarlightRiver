@@ -1,7 +1,14 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -12,7 +19,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override void SetDefaults()
         {
             npc.height = 1;
-            npc.width = 560;
+            npc.width = 1;
             npc.aiStyle = -1;
             npc.lifeMax = 2;
             npc.knockBackResist = 0f;
@@ -47,7 +54,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             return false;
         }
-        public void SpecialDraw(SpriteBatch spriteBatch)
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[1] != 3) //animation for rising out of the sand
             {
@@ -74,18 +81,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         public virtual void SpawnPlatforms(bool rising = true)
         {
-            PlacePlatform(200, 140, ModContent.NPCType<VitricBossPlatformUp>(), rising);
-            PlacePlatform(140, 430, ModContent.NPCType<VitricBossPlatformUp>(), rising);
-            PlacePlatform(430, 670, ModContent.NPCType<VitricBossPlatformUp>(), rising);
-            PlacePlatform(210, 30, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
-            PlacePlatform(400, 230, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
-            PlacePlatform(280, 310, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
-            PlacePlatform(230, 570, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
-            PlacePlatform(260, 790, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
+            PlacePlatform(40, 600, ModContent.NPCType<VitricBossPlatformUp>(), rising);
+            PlacePlatform(-30, 300, ModContent.NPCType<VitricBossPlatformUp>(), rising);
+            PlacePlatform(80, 100, ModContent.NPCType<VitricBossPlatformUp>(), rising);
         }
         public void PlacePlatform(int x, int y, int type, bool rising)
         {
-            if (rising && npc.ai[0] == Risetime - (int)(y / 880f * Risetime)) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - 2, type, 0, 0, Risetime - npc.ai[0]); //When rising out of the ground, check for the appropriate time to spawn the platform based on y coord
+            if (rising && npc.ai[0] == (int)(y / 880f * Risetime)) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y, type, 0, 0, Risetime - npc.ai[0]); //When rising out of the ground, check for the appropriate time to spawn the platform based on y coord
             else if (!rising) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - y, type, 0, 2, Risetime); //otherwise spawn it instantly AT the y coord
         }
     }
@@ -107,13 +109,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void SpawnPlatforms(bool rising = true)
         {
-            PlacePlatform(150, 90, ModContent.NPCType<VitricBossPlatformDown>(), rising);
-            PlacePlatform(260, 330, ModContent.NPCType<VitricBossPlatformDown>(), rising);
-            PlacePlatform(180, 580, ModContent.NPCType<VitricBossPlatformDown>(), rising);
-            PlacePlatform(380, 200, ModContent.NPCType<VitricBossPlatformDownSmall>(), rising);
-            PlacePlatform(80, 440, ModContent.NPCType<VitricBossPlatformDownSmall>(), rising);
-            PlacePlatform(410, 660, ModContent.NPCType<VitricBossPlatformDownSmall>(), rising);
-            PlacePlatform(280, 760, ModContent.NPCType<VitricBossPlatformDownSmall>(), rising);
+            PlacePlatform(540, 500, ModContent.NPCType<VitricBossPlatformDown>(), rising);
+            PlacePlatform(-30, 200, ModContent.NPCType<VitricBossPlatformDown>(), rising);
+            PlacePlatform(580, 150, ModContent.NPCType<VitricBossPlatformDown>(), rising);
         }
-    }
+    } 
 }

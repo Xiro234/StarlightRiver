@@ -1,7 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -36,7 +40,7 @@ namespace StarlightRiver.GUI
 
             if (visible)
             {
-                if (!(player.ZoneVoidPre || player.ZoneJungleCorrupt || player.ZoneJungleBloody || player.ZoneJungleHoly || player.ZoneOvergrow))
+                if(!(player.ZoneVoidPre || player.ZoneJungleCorrupt || player.ZoneJungleBloody || player.ZoneJungleHoly || player.ZoneOvergrow))
                 {
                     state = 0;
                 }
@@ -166,7 +170,7 @@ namespace StarlightRiver.GUI
 
         public override void Update()
         {
-            if (time >= 100)
+            if(time >= 100)
             {
                 col *= 1.05f;
                 scl *= 1.025f;
@@ -207,7 +211,7 @@ namespace StarlightRiver.GUI
             col *= 0.9999999994f;
             //pos += vel;
             float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
-            float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax * (Main.screenPosition.X + Main.screenWidth / 2 - Basepos.X));
+            float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax*(Main.screenPosition.X + Main.screenWidth / 2 - Basepos.X));
             pos.X = (off) - Main.screenPosition.X;
             pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
             scl *= (Parallax > 0.2) ? 0.997f : 0.999f;
