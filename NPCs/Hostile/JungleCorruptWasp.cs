@@ -26,6 +26,8 @@ namespace StarlightRiver.NPCs.Hostile
             npc.aiStyle = -1;
         }
 
+        float AnimSpeedMult = 0.5f;//speed
+
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -75,22 +77,15 @@ namespace StarlightRiver.NPCs.Hostile
             return (spawnInfo.player.ZoneRockLayerHeight && !Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt) ? 1f : 0f;
         }
 
-        public int Framecounter = 0;
-        public int Gameframecounter = 0;
         public override void FindFrame(int frameHeight)
         {
-            if (Gameframecounter++ == 6)
-            {
-                Framecounter++;
-                Gameframecounter = 0;
-            }
-            npc.frame.Y = 36 * Framecounter;
-            if (Framecounter >= 3)
-            {
-                Framecounter = 0;
-            }
+            npc.frameCounter++;//skele frame-code
+            if ((int)(npc.frameCounter * AnimSpeedMult) >= Main.npcFrameCount[npc.type])
+                npc.frameCounter = 0;
+            npc.frame.Y = (int)(npc.frameCounter * AnimSpeedMult) * frameHeight;
         }
     }
+
     public class GasCurse : ModProjectile
     {
         public override void SetDefaults()

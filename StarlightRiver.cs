@@ -903,7 +903,7 @@ namespace StarlightRiver
             {
                 return;
             }
-            Main.NewText(context);
+            //Main.NewText(context);
             orig(inv, context, slot);
         }
 
@@ -921,7 +921,7 @@ namespace StarlightRiver
             if (inv == player.armor)
             {
                 Item swaptarget = player.armor[slot - 10];
-                Main.NewText(swaptarget + "  /  " + slot);
+                //Main.NewText(swaptarget + "  /  " + slot);
                 if (context == 11 && (swaptarget.modItem is CursedAccessory || swaptarget.modItem is Blocker || swaptarget.modItem is InfectedAccessory)) return;
             }
 
