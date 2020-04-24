@@ -51,6 +51,7 @@ namespace StarlightRiver.Projectiles.Dummies
             //This controls spawning the rest of the arena
             if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBackdropLeft>())) //Need to find a better check
             {
+                Main.NewText("Debug");
                 Vector2 center = projectile.Center + new Vector2(0, 60);
                 int timerset = LegendWorld.GlassBossOpen ? 360 : 0; //the arena should already be up if it was opened before
 
