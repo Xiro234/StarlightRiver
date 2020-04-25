@@ -26,6 +26,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.width = 32;
             npc.height = 48;
             npc.value = 0;
+            npc.friendly = true;
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -37,11 +38,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
              * 0: state, lazy so: 0 = vulnerable, 1 = vulnerable broken, 2 = invulnerable, 3 = invulnerable broken
              * 1: timer
              * 2: phase
+             * 3: alt timer
              */
             if (Parent == null) npc.Kill();
             npc.frame = new Rectangle(0, npc.height * (int)npc.ai[0], npc.width, npc.height); //frame finding based on state
 
-            npc.ai[1]++;
+            npc.ai[1]++; //ticks the timers
+            npc.ai[3]++;
 
             foreach(Player player in Main.player)
             if(npc.ai[0] == 0 && Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
@@ -55,15 +58,27 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             switch (npc.ai[2])
             {
-                case 0: //nothing
+                case 0: //nothing / spawning animation, sensitive to friendliness
+                    if (npc.friendly && npc.ai[0] != 0)
+                    {
+                        if (npc.ai[3] > 0 && npc.ai[3] <= 90)
+                        {
+                            npc.Center = Vector2.SmoothStep(StartPos, TargetPos, npc.ai[3] / 90);
+                        }
+                        if (npc.ai[3] == 90)
+                        {
+                            npc.friendly = false;
+                            ResetTimers();
+                        }
+                    }
                     break;
 
                 case 1: //nuke attack
                     if(npc.ai[1] > 60 && npc.ai[1] <= 180)
                     {
-                        npc.Center = Vector2.SmoothStep(StartPos, TargetPos, (npc.ai[1] - 60) / 120f);
+                        npc.Center = Vector2.SmoothStep(StartPos, TargetPos, (npc.ai[1] - 60) / 120f); //go to the platform
                     }
-                    if (npc.ai[1] >= 720)
+                    if (npc.ai[1] >= 720) //when time is up... uh oh
                     {
                         npc.ai[0] = 2; //make invulnerable again
                         npc.ai[2] = 0; //go back to doing nothing
@@ -73,20 +88,24 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             }
         }
-
+        private void ResetTimers()
+        {
+            npc.ai[1] = 0;
+            npc.ai[3] = 0;
+        }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline
             if (npc.ai[0] == 0)
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
 
-            if(npc.ai[2] == 1 && npc.ai[1] < 180)
+            if(npc.ai[2] == 1 && npc.ai[1] < 180) //tell line for going to a platform in the nuke attack
             {
                 DrawLine(spriteBatch, npc.Center, TargetPos);
             }
         }
 
-        private void DrawLine(SpriteBatch sb, Vector2 p1, Vector2 p2)
+        private void DrawLine(SpriteBatch sb, Vector2 p1, Vector2 p2) //helper method to draw a tell line between two points.
         {
             sb.End();
             sb.Begin(default, BlendState.Additive);

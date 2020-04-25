@@ -38,7 +38,7 @@ namespace StarlightRiver.GUI
             int TitleLength = (int)(Main.fontDeathText.MeasureString(Title).X * 0.65f) / 2;
             int MessageLength = (int)(Main.fontDeathText.MeasureString(Message).X * 0.4f) / 2;
             int Longest = MessageLength > TitleLength ? MessageLength : TitleLength;
-            int startY = Main.screenHeight / 3;
+            int startY = Main.screenHeight / 4;
             Color color = Color.White * (Timer / 120f);
 
             spriteBatch.End();

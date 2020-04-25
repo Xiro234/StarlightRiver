@@ -89,7 +89,7 @@ namespace StarlightRiver.Projectiles.Dummies
         }
         public void SpawnBoss()
         {
-            NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y - 500, ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>());
+            NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 500, ModContent.NPCType<VitricBoss>());
         }
     }
 }

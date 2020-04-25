@@ -168,6 +168,15 @@ namespace StarlightRiver
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;
+
+            Action<PlayerDrawInfo> layerTarget = s => DrawGlowmasks(s); //the Action<T> of our layer. This is the delegate which will actually do the drawing of the layer.
+            PlayerLayer layer = new PlayerLayer("ExampleSwordLayer", "Sword Glowmask", layerTarget); //Instantiate a new instance of PlayerLayer to insert into the list
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Arms")), layer); //Insert the layer at the appropriate index. 
+            
+            void DrawGlowmasks(PlayerDrawInfo info)
+            {
+                if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem) (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
+            }
         }
     }
 }
