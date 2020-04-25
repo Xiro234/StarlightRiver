@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Projectiles;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,7 +29,7 @@ namespace StarlightRiver.Buffs
                     multiplier = 12 / multiplier;
                     speedX *= multiplier;
                     speedY *= multiplier;
-                    Projectile.NewProjectile(vector.X, vector.Y, speedX, speedY, 12, 1000, 10f, player.whoAmI);
+                    Projectile.NewProjectile(vector.X, vector.Y, speedX, speedY, ModContent.ProjectileType<StarfallCocktailStar>(), 1000, 10f, player.whoAmI);
                 }
             }
         }
