@@ -71,6 +71,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                             ResetTimers();
                         }
                     }
+                    npc.scale = 1; //resets scale, just incase
                     break;
 
                 case 1: //nuke attack
@@ -84,6 +85,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
                     }
+                    break;
+
+                case 2: //circle attack
+                    npc.rotation = (npc.Center - Parent.npc.Center).ToRotation() + 1.57f; //sets the rotation appropriately for the circle attack
+                    if (Vector2.Distance(npc.Center, Parent.npc.Center) <= 100) //shrink the crystals for the rotation attack if they're near the boss so they properly hide in him
+                    {
+                        npc.scale = Vector2.Distance(npc.Center, Parent.npc.Center) / 100f;
+                    }
+                    else npc.scale = 1;
                     break;
 
             }

@@ -38,7 +38,76 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 ResetAttack();
             }
         }
-        private void Angry()
+        private void CrystalCage()
+        {
+            for (int k = 0; k < 4; k++) //each crystal
+            {
+                NPC crystal = Crystals[k];
+                VitricBossCrystal crystalModNPC = crystal.modNPC as VitricBossCrystal;
+                if (npc.ai[3] == 1) //set the crystal's home position to where they are
+                {
+                    crystalModNPC.StartPos = crystal.Center;
+                    FavoriteCrystal = Main.rand.Next(4); //randomize which crystal will have the opening
+                }
+
+                if (npc.ai[3] > 1 && npc.ai[3] <= 60) //suck the crystals in
+                {
+                    crystal.Center = npc.Center + (Vector2.SmoothStep(crystalModNPC.StartPos, npc.Center, npc.ai[3] / 60) - npc.Center).RotatedBy(npc.ai[3] / 60f * 3.14f);
+                }
+
+                if (npc.ai[3] == 61)  //Set the crystal's new endpoints. !! actual endpoints are offset by pi !!
+                {
+                    crystalModNPC.StartPos = crystal.Center;
+                    crystalModNPC.TargetPos = npc.Center + new Vector2(0, -800).RotatedBy(1.57f * k);
+                    crystal.ai[2] = 2; //set them into this mode to get the rotational effect
+                }
+
+                if(npc.ai[3] >= 120 && npc.ai[3] < 360) //spiral outwards slowly
+                {
+                    crystal.Center = npc.Center + (Vector2.SmoothStep(crystalModNPC.StartPos, crystalModNPC.TargetPos, (npc.ai[3] - 120) / 240) - npc.Center).RotatedBy((npc.ai[3] - 120) / 240 * 3.14f);
+                }
+
+                if (npc.ai[3] >= 360 && npc.ai[3] < 840) //come back in
+                {
+                    crystal.Center = npc.Center + (Vector2.SmoothStep(crystalModNPC.TargetPos, crystalModNPC.StartPos, (npc.ai[3] - 360) / 480) - npc.Center).RotatedBy(-(npc.ai[3] - 360) / 480 * 3.14f);
+
+                    //the chosen "favorite" or master crystal is the one where our opening should be
+                    if (k != FavoriteCrystal) for (int i = 0; i < 5; i++)
+                        {
+                            Dust d = Dust.NewDustPerfect(npc.Center + (crystal.Center - npc.Center).RotatedBy(Main.rand.NextFloat(1.57f)), ModContent.DustType<Dusts.Stamina>(), Vector2.Zero);
+                        }
+                }
+
+                if (npc.ai[3] >= 840 && npc.ai[3] < 880) //reset to ready position
+                {
+                    crystal.Center = Vector2.SmoothStep(npc.Center, npc.Center + new Vector2(0, -120).RotatedBy(1.57f * k), (npc.ai[3] - 840) / 40);
+                }
+
+                if (npc.ai[3] == 880) //end of the attack
+                {
+                    crystal.ai[2] = 0; //reset our crystals
+                    ResetAttack(); //all done!
+                }
+            }
+            if (npc.ai[3] >= 360 && npc.ai[3] < 840) //the collision handler for this attack. out here so its not done 4 times
+            {
+                foreach(Player player in Main.player.Where(n => n.active))
+                {
+                    float dist = Vector2.Distance(player.Center, npc.Center); //distance the player is from the boss
+                    float angleOff = (player.Center - npc.Center).ToRotation() % 6.28f; //where the player is versus the boss angularly. used to check if the player is in the opening
+                    NPC crystal = Crystals[FavoriteCrystal]; 
+                    float crystalDist = Vector2.Distance(crystal.Center, npc.Center); //distance from the boss to the ring
+
+                    // if the player's distance from the boss is within 2 player widths of the ring and if the player isnt in the gab where they would be safe
+                    if ((dist <= crystalDist + player.width && dist >= crystalDist - player.width) && !(angleOff >= (crystal.Center - npc.Center).ToRotation() && angleOff <= (crystal.Center - npc.Center).ToRotation() + 1.57f))
+                    {
+                        player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByNPC(npc.whoAmI), 50, 0); //do big damag
+                        player.velocity += Vector2.Normalize(player.Center - npc.Center) * -5; //knock into boss
+                    }
+                }
+            }
+        }
+        private void CrystalSmash()
         {
 
         }
