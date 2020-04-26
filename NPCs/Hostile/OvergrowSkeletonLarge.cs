@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,7 +29,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.noGravity = false;
             npc.aiStyle = -1;
 
-            npc.direction = 1;
+            npc.direction = Main.rand.Next(2) == 0 ? 1 : -1;
         }
 
         /*
@@ -44,7 +46,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             if (npc.HasValidTarget)
             {
-                if (damage >= changeAgroDamage)
+                if(damage >= changeAgroDamage)
                 {
                     npc.target = player.whoAmI;
                 }
@@ -181,7 +183,7 @@ namespace StarlightRiver.NPCs.Hostile
 
                     if (npc.velocity.Y == 0)//jumping. note: (the could be moved to just before it sets the velocity high in MoveVertical())
                     {
-                        MoveVertical(true);
+                        Helper.NpcVertical(this.npc, true, jumpheight);
                     }
 
                     Move(walkSpeedMax);
@@ -191,7 +193,7 @@ namespace StarlightRiver.NPCs.Hostile
                 case 1: //start dash
                     if (npc.velocity.Y == 0)//jumping. note: (the could be moved to just before it sets the velocity high in MoveVertical())
                     {
-                        MoveVertical(false);
+                        Helper.NpcVertical(this.npc, false);
                         if (Main.rand.Next(4) == 0)//placeholder dash
                         {
                             Dust.NewDustPerfect(new Vector2(npc.Center.X, npc.position.Y + npc.height), 16, new Vector2((Main.rand.Next(-20, 20) * 0.02f), Main.rand.Next(-20, 20) * 0.02f), 0, default, 1.2f);
@@ -229,12 +231,12 @@ namespace StarlightRiver.NPCs.Hostile
                 case 2:
                     npc.ai[3]++;
                     npc.velocity.X *= 0.95f;
-                    if (npc.ai[2] == 1)//this checks if this is for hitting a wall or slowing down
+                    if(npc.ai[2] == 1)//this checks if this is for hitting a wall or slowing down
                     {
-
+                        
                     }
 
-                    if (npc.ai[3] >= 50)
+                    if(npc.ai[3] >= 50)
                     {
                         npc.ai[3] = 0;
                         npc.ai[2] = 0;
@@ -245,7 +247,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         }
 
-        void Move(float speed) //note: seperated for simplicity
+        void Move(float speed) //note: seperated for simplicity //note: decide if this can be replaced with nightmare's version
         {
             if ((npc.velocity.X * npc.direction) <= speed)//getting up to max speed
             {
@@ -254,75 +256,6 @@ namespace StarlightRiver.NPCs.Hostile
             else if ((npc.velocity.X * npc.direction) >= speed + 0.1f)//slowdown if too fast
             {
                 npc.velocity.X -= 0.2f * npc.direction;
-            }
-        }
-
-        void MoveVertical(bool jump) //idea: could be seperated farther
-        {
-            npc.ai[1] = 0;//reset jump counter
-            for (int y = 0; y < jumpheight; y++)//idea: this should have diminishing results for output jump height
-            {
-                Tile tileType = Framing.GetTileSafely((int)(npc.position.X / 16) + (npc.direction * 2) + 1, (int)((npc.position.Y + npc.height + 8) / 16) - y - 1);
-                if ((Main.tileSolid[tileType.type] || Main.tileSolidTop[tileType.type]) && tileType.active()) //how tall the wall is
-                {
-                    npc.ai[1] = (y + 1);
-                }
-                if (y >= npc.ai[1] + (npc.height / 16)) //stops counting if there is room for the npc to walk under //((int)((npc.position.Y - target.position.Y) / 16) + 1)
-                {
-                    if (npc.HasValidTarget && jump)
-                    {
-                        Player target = Main.player[npc.target];
-                        if (npc.ai[1] >= ((int)((npc.position.Y - target.position.Y) / 16) + 1) - ((int)(npc.height / 16) - 1))
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-            if (npc.ai[1] > 0)//jump and step up
-            {
-                Tile tileType = Framing.GetTileSafely((int)(npc.position.X / 16) + (npc.direction * 2) + 1, (int)((npc.position.Y + npc.height + 8) / 16) - 1);
-                if (npc.ai[1] == 1 && npc.collideX)
-                {
-                    if (tileType.halfBrick() || (Main.tileSolid[tileType.type] && (npc.position.Y % 16) == 0))
-                    {
-                        npc.position.Y -= 8;//note: these just zip the npc up the block and it looks bad, need to figure out how vanilla glides them up
-                        npc.velocity.X = npc.oldVelocity.X;
-                    }
-                    else if (Main.tileSolid[tileType.type])
-                    {
-                        npc.position.Y -= 16;
-                        npc.velocity.X = npc.oldVelocity.X;
-                    }
-                }
-                else if (npc.ai[1] == 2 && (npc.position.Y % 16) == 0 && Framing.GetTileSafely((int)(npc.position.X / 16) + (npc.direction * 2) + 1, (int)((npc.position.Y + npc.height) / 16) - 1).halfBrick())
-                {//note: I dislike this extra check, but couldn't find a way to avoid it
-                    if (npc.collideX)
-                    {
-                        npc.position.Y -= 16;
-                        npc.velocity.X = npc.oldVelocity.X;
-                    }
-                }
-                else if (npc.ai[1] > 1 && jump == true)
-                {
-
-                    /*if (npc.position.Y > target.position.Y)
-                    {
-                        npc.velocity.Y = -(3 + jumpheight); //note: this raises the jump height to max if player is above npc, similar to zombies
-                    }
-                    else
-                    {*/
-
-                    npc.velocity.Y = -(3 + npc.ai[1]);
-                    if (!npc.HasValidTarget && npc.velocity.X == 0)
-                    {
-                        npc.ai[3]++;
-                    }
-                }
             }
         }
 
@@ -341,7 +274,7 @@ namespace StarlightRiver.NPCs.Hostile
         public override void FindFrame(int frameHeight)//note: this controls everything to do with the npc frame
         {
             npc.frameCounter += Math.Abs(npc.velocity.X);//note: slightly jank, but best I could come up with
-            if ((int)(npc.frameCounter * 0.1) >= Main.npcFrameCount[npc.type])//replace the 0.1 with a const float to control animation speed
+            if ((int)(npc.frameCounter * 0.1) >= Main.npcFrameCount[npc.type])//replace the 0.1 with a float to control animation speed
                 npc.frameCounter = 0;
             npc.frame.Y = (int)(npc.frameCounter * 0.1) * frameHeight;
             //Main.NewText(npc.frame.Y / frameHeight); //debug
@@ -355,7 +288,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void NPCLoot()
         {
-
+            
         }
     }
 }
