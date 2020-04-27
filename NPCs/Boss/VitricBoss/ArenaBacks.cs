@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
@@ -37,9 +38,16 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             {
                 SpawnPlatforms();
 
+                if(npc.ai[0] == Risetime - 1) //hitting the top
+                {
+                    Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 18;
+                    Main.PlaySound(SoundID.NPCDeath9);
+                }
                 if (npc.ai[0]++ > Risetime) npc.ai[1] = 2;
-                if (npc.ai[0] % 10 == 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += npc.ai[0] < 100 ? 6 : 4;
-                Dust.NewDust(npc.position, 560, 1, ModContent.DustType<Dusts.Air>()); //replace with proper dust later
+
+                if (npc.ai[0] % 10 == 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += npc.ai[0] < 100 ? 5 : 3;
+                for(int k = 0; k < 18; k++)
+                Dust.NewDust(npc.position, 560, 1, ModContent.DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f)); //spawns dust
             }
             if (npc.ai[1] == 2) npc.ai[0] = Risetime;
             if (npc.ai[1] == 3) npc.ai[2]++;

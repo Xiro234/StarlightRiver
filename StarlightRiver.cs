@@ -583,7 +583,7 @@ namespace StarlightRiver
                         self.velocity.Y = 0;
                         self.fallStart = (int)(self.position.Y / 16f);
                         self.position.Y = npc.position.Y - self.height + 4;
-                        return;
+                        orig(self);
                     }
                 }
             }

@@ -36,7 +36,7 @@ namespace StarlightRiver.Tiles.Vitric
             Tile tile = Framing.GetTileSafely(i, j);
             if (tile.frameX % 90 == 0 && tile.frameY == 0)
             {
-                if (!(Dummy.modProjectile is VitricAltarDummy && Dummy.active))
+                if (!(Dummy.modProjectile is VitricAltarDummy && Dummy.active && Dummy.Hitbox.Contains(new Point(i * 16 + 30, j * 16 + 30))))
                 {
                     Dummy = Main.projectile[Projectile.NewProjectile(new Vector2(i, j) * 16 + new Vector2(40, 56), Vector2.Zero, ModContent.ProjectileType<VitricAltarDummy>(), 0, 0)];
                 }
@@ -53,6 +53,21 @@ namespace StarlightRiver.Tiles.Vitric
         }
         public override bool NewRightClick(int i, int j)
         {
+            //debug stuff
+            if(Main.LocalPlayer.HeldItem.modItem is Items.Debug.DebugPotion && Main.tile[i, j].frameX >= 90)
+            {
+                Tile tile = Framing.GetTileSafely(i, j);
+                for (int x = i - tile.frameX % 90 / 16; x < (i - tile.frameX % 90 / 16) + 5; x++)
+                {
+                    for (int y = j - tile.frameY / 16; y < (j - tile.frameY / 16) + 7; y++)
+                    {
+                        Framing.GetTileSafely(x, y).frameX -= 90;
+                    }
+                }
+                LegendWorld.GlassBossOpen = false;
+                return true;
+            }
+            //end debug
             if (Main.tile[i, j].frameX >= 90 && Dummy.modProjectile is VitricAltarDummy)
             {
                 (Dummy.modProjectile as VitricAltarDummy).SpawnBoss();

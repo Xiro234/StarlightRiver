@@ -59,6 +59,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             switch (npc.ai[2])
             {
                 case 0: //nothing / spawning animation, sensitive to friendliness
+                    if(npc.rotation != 0) //normalize rotation
+                    {
+                        npc.rotation += 0.5f;
+                        if (npc.rotation >= 5f) npc.rotation = 0;
+                    }
                     if (npc.friendly && npc.ai[0] != 0)
                     {
                         if (npc.ai[3] > 0 && npc.ai[3] <= 90)
@@ -71,6 +76,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                             ResetTimers();
                         }
                     }
+                    npc.scale = 1; //resets scale, just incase
                     break;
 
                 case 1: //nuke attack
@@ -85,6 +91,46 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         npc.ai[1] = 0; //reset timer
                     }
                     break;
+
+                case 2: //circle attack
+                    npc.rotation = (npc.Center - Parent.npc.Center).ToRotation() + 1.57f; //sets the rotation appropriately for the circle attack
+                    if (Vector2.Distance(npc.Center, Parent.npc.Center) <= 100) //shrink the crystals for the rotation attack if they're near the boss so they properly hide in him
+                    {
+                        npc.scale = Vector2.Distance(npc.Center, Parent.npc.Center) / 100f;
+                    }
+                    else npc.scale = 1;
+                    break;
+
+                case 3: //falling for smash attack
+                    npc.velocity.Y += 0.7f;
+
+                    if (npc.rotation != 0) //normalize rotation
+                    {
+                        npc.rotation += 0.5f;
+                        if (npc.rotation >= 5f) npc.rotation = 0;
+                    }
+
+                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>());
+
+                    if(npc.Center.Y > TargetPos.Y)
+                    foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
+                    {
+                        Rectangle hitbox = new Rectangle((int)point.X - 110, (int)point.Y + 48, 220, 16); //grabs the platform hitbox
+                        Rectangle myHitbx = new Rectangle((int)npc.position.X, (int)npc.position.Y + 40, npc.width, 20);
+                        if (npc.Hitbox.Intersects(hitbox))
+                        {
+                            npc.velocity *= 0;
+                            npc.position.Y = hitbox.Y - 40; //embed into the platform
+                            npc.ai[2] = 0; //turn it idle
+                        }
+                    }
+                    if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).active()) //tile collision
+                    {
+                        npc.velocity *= 0;
+                        npc.ai[2] = 0; //turn it idle
+                    }
+                    break;
+
 
             }
         }

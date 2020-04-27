@@ -1,18 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
+    [AutoloadBossHead]
     sealed partial class VitricBoss : ModNPC
     {
         #region tml hooks
+        public override bool CheckActive() => false;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("[PH] Vitric Boss");
+            DisplayName.SetDefault("Vortex's Engorged Clitoris - Brought to Life!");
         }
 
         public override void SetDefaults()
@@ -22,8 +25,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.damage = 30;
             npc.defense = 10;
             npc.knockBackResist = 0f;
-            npc.width = 140;
-            npc.height = 140;
+            npc.width = 124;
+            npc.height = 110;
             npc.value = Item.buyPrice(0, 20, 0, 0);
             npc.npcSlots = 15f;
             npc.immortal = true;
@@ -47,20 +50,24 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override bool CheckDead()
         {
             LegendWorld.GlassBossDowned = true;
-
             return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            npc.frame.Width = 140;
-            npc.frame.Height = 140;
+            npc.frame.Width = 124;
+            npc.frame.Height = 110;
             spriteBatch.Draw(ModContent.GetTexture(Texture), npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, 0, 0);
 
-            Utils.DrawBorderString(spriteBatch, "AI: " + npc.ai[0] + " / " + npc.ai[1] + " / " + npc.ai[2] + " / " + npc.ai[3], new Vector2(40, 100), Color.Red);
-            Utils.DrawBorderString(spriteBatch, "Vel: " + npc.velocity, new Vector2(40, 120), Color.Red);
-            Utils.DrawBorderString(spriteBatch, "Pos: " + npc.position, new Vector2(40, 140), Color.Red);
-            Utils.DrawBorderString(spriteBatch, "TargetedCenter: " + (npc.Center + new Vector2(0, (90 - npc.ai[0]) * -5)), new Vector2(40, 160), Color.Red);
+            //debug drawing
+            Utils.DrawBorderString(spriteBatch, "AI: " + npc.ai[0] + " / " + npc.ai[1] + " / " + npc.ai[2] + " / " + npc.ai[3], new Vector2(40, Main.screenHeight - 100), Color.Red);
+            Utils.DrawBorderString(spriteBatch, "Vel: " + npc.velocity, new Vector2(40, Main.screenHeight - 120), Color.Red);
+            Utils.DrawBorderString(spriteBatch, "Pos: " + npc.position, new Vector2(40, Main.screenHeight - 140), Color.Red);
+            Utils.DrawBorderString(spriteBatch, "TargetedCenter: " + (npc.Center + new Vector2(0, (90 - npc.ai[0]) * -5)), new Vector2(40, Main.screenHeight - 160), Color.Red);
+            for(int k = 0; k < 4; k++)
+            {
+                if(Crystals.Count == 4) Utils.DrawBorderString(spriteBatch, "Crystal " + k + " Distance: " + Vector2.Distance(Crystals[k].Center, npc.Center) + " State: " + Crystals[k].ai[2], new Vector2(40, Main.screenHeight - 180 - k * 20), Color.Yellow);
+            }
             return false;
         }
         #endregion
@@ -90,8 +97,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         #region AI
 
-        List<NPC> Crystals = new List<NPC>();
-        List<Vector2> CrystalLocations = new List<Vector2>();
+        public List<NPC> Crystals = new List<NPC>();
+        public List<Vector2> CrystalLocations = new List<Vector2>();
         enum AIStates
         {
             SpawnEffects = 0,
@@ -135,15 +142,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 case (int)AIStates.SpawnAnimation: //the animation that plays while the boss is spawning and the title card is shown
 
-                    if(npc.ai[0] <= 200)
+                    if(npc.ai[0] <= 200) //rise up
                     {
                         npc.Center += new Vector2(0, -4f);
                     }
-                    if (npc.ai[0] > 200 && npc.ai[0] <= 300)
+                    if (npc.ai[0] > 200 && npc.ai[0] <= 300) //grow
                     {
                         npc.scale = 0.5f + (npc.ai[0] - 200) / 200f;
                     }
-                    if(npc.ai[0] > 280)
+                    if(npc.ai[0] > 280) //summon crystal babies
                     {
                         for(int k = 0; k <= 4; k++)
                         {
@@ -158,7 +165,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                             }
                         }
                     }
-                    if (npc.ai[0] > 460)
+                    if (npc.ai[0] > 460) //start the fight
                     {
                         npc.immortal = false;
                         npc.friendly = false;
@@ -167,13 +174,36 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case (int)AIStates.FirstPhase:
+                    if(npc.ai[3] == 1) //switching out attacks
+                    {
+                        if (npc.immortal) npc.ai[2] = 0; //nuke attack once the boss turns immortal for a chance to break a crystal
+
+                        else //otherwise proceed with attacking pattern
+                        {
+                            npc.ai[2]++;
+                            if (npc.ai[2] > 2) npc.ai[2] = 1;
+                        }
+                    }
                     switch (npc.ai[2]) //switch for crystal behavior
                     {
                         case 0: NukePlatforms(); break;
+                        case 1: CrystalCage(); break;
+                        case 2: CrystalSmash(); break;
                     }
                     break;
 
             }
+        }
+        #endregion
+        #region Networking
+        int FavoriteCrystal = 0;
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(FavoriteCrystal);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            FavoriteCrystal = reader.ReadInt32();
         }
         #endregion
     }

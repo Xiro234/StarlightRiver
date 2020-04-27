@@ -32,19 +32,32 @@ namespace StarlightRiver.Projectiles.Dummies
 
             if (parent.frameX == 0 && Main.player.Any(n => Abilities.AbilityHelper.CheckDash(n, projectile.Hitbox)))
             {
-                LegendWorld.GlassBossOpen = true;
-                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass)
-                {
-                    Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMoveTarget = projectile.Center;
-                    Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMovePan = projectile.Center + new Vector2(0, -600);
-                    Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMoveTime = VitricBackdropLeft.Risetime + 120;
-                }
                 for (int x = parentPos.X; x < parentPos.X + 5; x++)
                 {
                     for (int y = parentPos.Y; y < parentPos.Y + 7; y++)
                     {
                         Framing.GetTileSafely(x, y).frameX += 90;
                     }
+                }
+            }
+
+            if(parent.frameX == 90 && !LegendWorld.GlassBossOpen)
+            {
+                Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 1;
+                Dust.NewDust(projectile.Center + new Vector2(-632, projectile.height / 2), 560, 1, ModContent.DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f));
+                Dust.NewDust(projectile.Center + new Vector2(72, projectile.height / 2), 560, 1, ModContent.DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f));
+                //Main.PlaySound(SoundID.); TODO: Rumble sound
+                projectile.ai[1]++;
+                if(projectile.ai[1] > 120)
+                {
+                    LegendWorld.GlassBossOpen = true;
+                    if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass)
+                    {
+                        Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMovePan = projectile.Center + new Vector2(0, -400);
+                        Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMoveTarget = projectile.Center;
+                        Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMoveTime = VitricBackdropLeft.Risetime + 120;
+                    }
+                    projectile.ai[1] = 0;
                 }
             }
 
