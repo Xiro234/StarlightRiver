@@ -4,11 +4,13 @@
     {
         public const int MaxHeight = 880;
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatform";
+        public override bool CheckActive() => false;
         public override void SafeSetDefaults()
         {
             npc.width = 220;
             npc.height = 16;
             npc.noTileCollide = true;
+            npc.dontCountMe = true;
         }
         public override void SafeAI()
         {
@@ -76,6 +78,7 @@
             npc.width = 100;
             npc.height = 16;
             npc.noTileCollide = true;
+            npc.dontCountMe = true;
         }
     }
 
@@ -87,6 +90,7 @@
             npc.width = 100;
             npc.height = 16;
             npc.noTileCollide = true;
+            npc.dontCountMe = true;
         }
     }
 

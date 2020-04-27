@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -80,6 +81,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         #endregion
 
         #region AI
+
+        List<NPC> Crystals = new List<NPC>();
+        List<Vector2> CrystalLocations = new List<Vector2>();
         enum AIStates
         {
             SpawnEffects = 0,
@@ -101,6 +105,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             //Ticks the timer
             npc.ai[0]++;
+            npc.ai[3]++;
 
             switch (npc.ai[1])
             {
@@ -111,6 +116,20 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     mp.ScreenMoveTime = 360;
                     StarlightRiver.Instance.abilitytext.Display(npc.FullName, Main.rand.Next(10000) == 0 ? "Glass tax returns" : "Shattered Sentinel", null, 210); //Screen pan + intro text
 
+                    for(int k = 0; k < Main.maxNPCs; k++)
+                    {
+                        NPC npc = Main.npc[k];
+                        if (npc != null && npc.active && (npc.type == ModContent.NPCType<VitricBossPlatformUp>() || npc.type == ModContent.NPCType<VitricBossPlatformDown>())) CrystalLocations.Add(npc.Center + new Vector2(0, -48));
+                    }
+                    Main.NewText(CrystalLocations.Count);
+                    for(int k = 0; k < 4; k++)
+                    {
+                        Vector2 target = npc.Center + Vector2.One.RotatedBy(k) * 64;
+                        int index = NPC.NewNPC((int)target.X, (int)target.Y, ModContent.NPCType<VitricBossCrystal>(), 0, 2); //spawn in state 2: sandstone forme
+                        (Main.npc[index].modNPC as VitricBossCrystal).Parent = this;
+                        Crystals.Add(Main.npc[index]);
+                    }
+
                     ChangePhase(AIStates.SpawnAnimation, true);
                     break;
 
@@ -119,7 +138,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case (int)AIStates.FirstPhase:
-                    Main.NewText("This is where the actual AI goes!");
+                    switch (npc.ai[2]) //switch for crystal behavior
+                    {
+                        case 0: NukePlatforms(); break;
+                    }
                     break;
 
             }

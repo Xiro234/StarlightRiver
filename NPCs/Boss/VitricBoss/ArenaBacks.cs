@@ -9,6 +9,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public const int Scrolltime = 1000;
         public const int Risetime = 360;
+        public override bool CheckActive() => false;
         public override void SetDefaults()
         {
             npc.height = 1;
@@ -19,7 +20,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.immortal = true;
+            npc.dontTakeDamage = true;
+            npc.dontCountMe = true;
         }
         public override void AI()
         {
