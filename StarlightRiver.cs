@@ -239,7 +239,7 @@ namespace StarlightRiver
 
 
 
-        //IL edits-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        #region IL edits
         private void PreventSoulboundStack(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -525,8 +525,9 @@ namespace StarlightRiver
                 if (b >= 0.8f) b = 0.8f;
             }
         }
+        #endregion
 
-        // On.hooks ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        #region Detours
         private bool NoSoulboundFrame(On.Terraria.Player.orig_ItemFitsItemFrame orig, Player self, Item i)
         {
             if (i.modItem is Items.SoulboundItem) return false;
@@ -810,9 +811,9 @@ namespace StarlightRiver
                     }
                 }
 
-                for (int i = -2 + (int)(player.position.X - Main.screenWidth / 2) / 16; i <= 2 + (int)(player.position.X + Main.screenWidth / 2) / 16; i++)
+                for (int i = -2 + (int)(Main.screenPosition.X) / 16; i <= 2 + (int)(Main.screenPosition.X + Main.screenWidth) / 16; i++)
                 {
-                    for (int j = -2 + (int)(player.position.Y - Main.screenHeight) / 16; j <= 2 + (int)(player.position.Y + Main.screenHeight) / 16; j++)
+                    for (int j = -2 + (int)(Main.screenPosition.Y) / 16; j <= 2 + (int)(Main.screenPosition.Y + Main.screenHeight) / 16; j++)
                     {
                         if (Lighting.Brightness(i, j) == 0 || ((Main.tile[i, j].active() && Main.tile[i, j].collisionType == 1) || Main.tile[i, j].wall != 0))
                         {
@@ -928,7 +929,6 @@ namespace StarlightRiver
             orig(inv, context, slot);
 
         }
-
         private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Terraria.Item[] inv, int context, int slot, Vector2 position, Color color)
         {
             if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is BlessedAccessory) && context == 10)
@@ -980,7 +980,7 @@ namespace StarlightRiver
             }
             ItemLoader.PostDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3);
         }
-
+        #endregion
         public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
             if (Rotation != 0)
