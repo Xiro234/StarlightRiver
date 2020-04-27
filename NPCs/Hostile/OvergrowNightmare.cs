@@ -1,8 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -11,17 +14,21 @@ namespace StarlightRiver.NPCs.Hostile
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("?!?!?!");
-            Main.npcFrameCount[npc.type] = 11;
+            Main.npcFrameCount[npc.type] = 22;
         }
+
+        const int runFramesLoop = 11;
+
         public override void SetDefaults()
         {
-            npc.height = 16;
-            npc.width = 16;
+            npc.height = 42;
+            npc.width = 48;
             npc.lifeMax = 110;
             npc.damage = 40;
             npc.aiStyle = -1;
             npc.noGravity = false;
             npc.direction = Main.rand.Next(2) == 0 ? 1 : -1;
+            npc.spriteDirection = -npc.direction;
         }
 
         public override void AI()
@@ -32,8 +39,8 @@ namespace StarlightRiver.NPCs.Hostile
              */
             Player target = Main.player[npc.target];
             switch (npc.ai[0])
-            {
-                case 0:
+            {          
+                case 0://waiting
                     npc.immortal = true;
                     if (Main.player.Any(n => Vector2.Distance(n.Center, npc.Center) <= 100))
                     {
@@ -42,15 +49,22 @@ namespace StarlightRiver.NPCs.Hostile
                     }
                     break;
 
-                case 1:
+                case 1://popping up from ground
                     if (npc.ai[1]++ >= 50) npc.ai[0] = 2;
+                    npc.TargetClosest();
                     break;
 
-                case 2:
-                    npc.TargetClosest();
-                    npc.direction = npc.velocity.X > 0 ? 1 : -1;
+                case 2://oh god oh fuck
+                    if (npc.velocity.Y == 0)//jumping. note: (the could be moved to just before it sets the velocity high in MoveVertical())
+                    {
+                        Helper.NpcVertical(this.npc, false);
+                    }
+
                     npc.velocity.X += npc.position.X - target.Center.X > 0 ? -0.2f : 0.2f;
                     if (Math.Abs(npc.velocity.X) >= 10) npc.velocity.X = (npc.velocity.X > 0) ? 10 : -10;
+
+                    npc.direction = npc.velocity.X > 0 ? 1 : -1;
+                    npc.spriteDirection = -npc.direction;
 
                     int x = (int)npc.Center.X / 16;
                     int y = (int)npc.Center.Y / 16;
@@ -69,32 +83,25 @@ namespace StarlightRiver.NPCs.Hostile
             npc.velocity *= 0.1f;
         }
 
-        int frame = 0;
         public override void FindFrame(int frameHeight)
         {
-            if (npc.frameCounter++ >= 3) { frame++; npc.frameCounter = 0; }
-            if (frame > 5) frame = 0;
-
             switch (npc.ai[0])
             {
-                case 0: npc.frame.Y = 0; break;
+                case 0:
+                    npc.frame.Y = 0;
+                    break;
 
                 case 1:
                     npc.frame.Y = frameHeight + frameHeight * (int)(npc.ai[1] / 5);
                     break;
 
                 case 2:
-                    if (Math.Abs(npc.velocity.X) >= Math.Abs(npc.oldVelocity.X))
-                    {
-                        npc.frame.Y = frameHeight * 10 + frameHeight * frame; //speeding up & running
-                    }
-                    else npc.frame.Y = frameHeight * 13; //slowing down
-
-                    if (npc.velocity.Y > 0) npc.frame.Y = frameHeight * 14; //Jumping/falling
-
+                    npc.frameCounter += Math.Abs(npc.velocity.X);
+                    if ((int)(npc.frameCounter * 0.1) >= Main.npcFrameCount[npc.type])//replace the 0.1 with a float to control animation speed
+                        npc.frameCounter = (Main.npcFrameCount[npc.type] - runFramesLoop) * 10;//accounting for the offset makes this a bit jank, might be able to optimize this.
+                    npc.frame.Y = (int)(npc.frameCounter * 0.1) * frameHeight;
                     break;
             }
         }
-
     }
 }
