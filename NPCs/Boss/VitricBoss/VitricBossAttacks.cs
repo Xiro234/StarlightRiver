@@ -12,7 +12,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         private void ResetAttack()
         {
             npc.ai[3] = 0;
-            npc.ai[2] = 0;
+        }
+        private void RandomizeTarget()
+        {
+            List<int> players = new List<int>();
+            foreach(Player player in Main.player.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) <= 500))
+            {
+                players.Add(player.whoAmI);
+            }
+            npc.target = players[Main.rand.Next(players.Count)];
         }
         private void NukePlatforms()
         {
@@ -109,7 +117,31 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         private void CrystalSmash()
         {
+            for(int k = 0; k < 4; k++)
+            {
+                NPC crystal = Crystals[k];
+                VitricBossCrystal crystalModNPC = crystal.modNPC as VitricBossCrystal;
+                if (npc.ai[3] == 60 + k * 60) //set motion points correctly
+                {
+                    RandomizeTarget(); //pick a random target to smash a crystal down
 
+                    Player player = Main.player[npc.target]; 
+                    crystal.ai[2] = 0; //set the crystal into normal mode
+                    crystalModNPC.StartPos = crystal.Center;
+                    crystalModNPC.TargetPos = new Vector2(player.Center.X + player.velocity.X * 50, player.Center.Y - 400); //endpoint is above the player
+                }
+                if(npc.ai[3] >= 60 + k * 60 && npc.ai[3] <= 60 + (k + 1) * 60) //move the crystal there
+                {
+                    crystal.Center = Vector2.SmoothStep(crystalModNPC.StartPos, crystalModNPC.TargetPos, (npc.ai[3] - (60 + k * 60)) / 60);
+                }
+                if(npc.ai[3] == 60 + (k + 1) * 60) //set the crystal into falling mode after moving
+                {
+                    Player player = Main.player[npc.target];
+                    crystal.ai[2] = 3;
+                    crystalModNPC.TargetPos = player.Center;
+                }
+            }
+            if (npc.ai[3] > 360) ResetAttack();
         }
     }
 }

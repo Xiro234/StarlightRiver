@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     sealed partial class VitricBoss : ModNPC
     {
         #region tml hooks
+        public override bool CheckActive() => false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vortex's Engorged Clitoris - Brought to Life!");
@@ -24,8 +25,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.damage = 30;
             npc.defense = 10;
             npc.knockBackResist = 0f;
-            npc.width = 140;
-            npc.height = 140;
+            npc.width = 124;
+            npc.height = 110;
             npc.value = Item.buyPrice(0, 20, 0, 0);
             npc.npcSlots = 15f;
             npc.immortal = true;
@@ -54,8 +55,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            npc.frame.Width = 140;
-            npc.frame.Height = 140;
+            npc.frame.Width = 124;
+            npc.frame.Height = 110;
             spriteBatch.Draw(ModContent.GetTexture(Texture), npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, 0, 0);
 
             //debug drawing
@@ -96,8 +97,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         #region AI
 
-        List<NPC> Crystals = new List<NPC>();
-        List<Vector2> CrystalLocations = new List<Vector2>();
+        public List<NPC> Crystals = new List<NPC>();
+        public List<Vector2> CrystalLocations = new List<Vector2>();
         enum AIStates
         {
             SpawnEffects = 0,
@@ -180,13 +181,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         else //otherwise proceed with attacking pattern
                         {
                             npc.ai[2]++;
-                            if (npc.ai[2] > 3) npc.ai[2] = 1;
+                            if (npc.ai[2] > 2) npc.ai[2] = 1;
                         }
                     }
                     switch (npc.ai[2]) //switch for crystal behavior
                     {
                         case 0: NukePlatforms(); break;
                         case 1: CrystalCage(); break;
+                        case 2: CrystalSmash(); break;
                     }
                     break;
 
