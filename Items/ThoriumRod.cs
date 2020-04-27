@@ -11,9 +11,9 @@ namespace StarlightRiver.Items
         public override void SetDefaults()
         {
             item.useStyle = 5;
-            item.useAnimation = 45;
-            item.useTime = 45;
-            item.shootSpeed = 10f;
+            item.useAnimation = 90;
+            item.useTime = 90;
+            item.shootSpeed = 4f;
             item.knockBack = 2f;
             item.width = 60;
             item.height = 72;

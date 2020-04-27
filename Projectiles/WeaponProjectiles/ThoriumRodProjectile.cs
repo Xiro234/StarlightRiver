@@ -17,7 +17,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.penetrate = -1;
             projectile.aiStyle = -1;
             projectile.tileCollide = true;
-            projectile.timeLeft = 336;
+            projectile.timeLeft = 420;
             projectile.ignoreWater = true;
         }
         public override void Kill(int timeLeft)
@@ -48,43 +48,36 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void AI()
         {
             Texture2D auraTexture = mod.GetTexture("Projectiles/WeaponProjectiles/ThoriumAura");
-            for (int k = 0; k < Main.npc.Length; k++)
+            if (projectile.timeLeft % 10 == 0)
             {
-                if (Vector2.Distance(Main.npc[k].Center, projectile.Center) < (auraTexture.Height * projectile.ai[0]) / 2 && Main.npc[k].active && !Main.npc[k].friendly)
+                for (int k = 0; k < Main.npc.Length; k++)
                 {
-                    if (projectile.timeLeft % 10 == 0)
+                    if (Main.npc[k].active && !Main.npc[k].friendly)
                     {
-                        Main.npc[k].StrikeNPC(projectile.damage, projectile.knockBack, projectile.direction);
+                        if (Helper.CheckCircularCollision(projectile.Center, auraTexture.Height / 2, Main.npc[k].Hitbox))
+                        {
+                            Main.npc[k].StrikeNPC(projectile.damage, projectile.knockBack, projectile.direction);
+
+                        }
                     }
                 }
             }
             float scale = 1.2f;
-            if (projectile.timeLeft > 316)
+            if (projectile.timeLeft > 410)
             {
                 projectile.rotation = projectile.velocity.ToRotation() * (float)Math.PI / 2;
-                projectile.ai[0] += scale / 20;
+                projectile.ai[0] += scale / 10;
             }
             else
             {
-                projectile.velocity *= 0.9f;
+                projectile.velocity *= 0.995f;
                 projectile.rotation += (float)Math.PI / 40;
             }
-            if (projectile.timeLeft <= 232)
-            {
-                if (projectile.ai[0] > scale * 0.75f)
-                {
-                    projectile.ai[0] -= 0.0125f;
-                }
-            }
-            for (float f = 316;f>= 64;f-= 84)
+            for (float f = 336; f >= 0; f -= 84) //keep this 84
             {
                 if (projectile.timeLeft <= f)
                 {
-                    Main.NewText("i: " + f + " TL: " + projectile.timeLeft + " scale * (i / 316): " + scale * (f / 316));
-                    if (projectile.ai[0] >= scale * (f / 316))
-                    {
-                        projectile.ai[0] -= 0.0125f;
-                    }
+                    projectile.ai[0] -= 0.00125f;
                 }
             }
             if (projectile.timeLeft <= 32)
