@@ -16,7 +16,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         private void RandomizeTarget()
         {
             List<int> players = new List<int>();
-            foreach(Player player in Main.player.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) <= 500))
+            foreach(Player player in Main.player.Where(n => n.active))
             {
                 players.Add(player.whoAmI);
             }
