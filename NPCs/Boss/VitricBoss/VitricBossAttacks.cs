@@ -9,7 +9,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
     sealed partial class VitricBoss : ModNPC
     {
-        private void ResetAttack()
+        public void ResetAttack()
         {
             npc.ai[3] = 0;
         }
@@ -142,6 +142,24 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 }
             }
             if (npc.ai[3] > 360) ResetAttack();
+        }
+
+        private void AngerAttack()
+        {
+            if(npc.ai[3] == 180)
+            {
+                for(float k = 0; k < 6.28f; k += 6.28f / 12) //ring of glass spikes
+                {
+                    Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k) * 2.5f, ModContent.ProjectileType<Projectiles.GlassSpike>(), 15, 0.2f);
+                }
+            }
+            if (npc.ai[3] >= 200)
+            {
+                Crystals.FirstOrDefault(n => n.ai[0] == 1).ai[0] = 3;
+                npc.ai[1] = (int)AIStates.FirstPhase; //go back to normal attacks after this is all over
+                npc.immortal = false;
+                ResetAttack();
+            }
         }
     }
 }

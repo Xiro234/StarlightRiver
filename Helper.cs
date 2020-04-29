@@ -105,6 +105,19 @@ namespace StarlightRiver
             if (Vector2.Distance(center, hitbox.BottomRight()) <= radius) return true;
             return false;
         }
+        public static bool CheckConicalCollision(Vector2 center, int radius, float angle, float width, Rectangle hitbox)
+        {
+            if (CheckPoint(center, radius, hitbox.TopLeft(), angle, width)) return true;
+            if (CheckPoint(center, radius, hitbox.TopRight(), angle, width)) return true;
+            if (CheckPoint(center, radius, hitbox.BottomLeft(), angle, width)) return true;
+            if (CheckPoint(center, radius, hitbox.BottomRight(), angle, width)) return true;
+            return false;
+        }
+        private static bool CheckPoint(Vector2 center, int radius, Vector2 check, float angle, float width)
+        {
+            float thisAngle = (center - check).ToRotation() % 6.28f;
+            return Vector2.Distance(center, check) <= radius && thisAngle > angle - width && thisAngle < angle + width;
+        }
         public static string TicksToTime(int ticks)
         {
             int sec = ticks / 60;

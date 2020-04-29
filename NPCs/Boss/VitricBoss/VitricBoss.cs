@@ -2,14 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    [AutoloadBossHead]
-    sealed partial class VitricBoss : ModNPC
+    sealed partial class VitricBoss : ModNPC, IDynamicMapIcon
     {
         #region tml hooks
         public override bool CheckActive() => false;
@@ -23,7 +23,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.aiStyle = -1;
             npc.lifeMax = 3500;
             npc.damage = 30;
-            npc.defense = 10;
+            npc.defense = 28;
             npc.knockBackResist = 0f;
             npc.width = 124;
             npc.height = 110;
@@ -63,7 +63,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             Utils.DrawBorderString(spriteBatch, "AI: " + npc.ai[0] + " / " + npc.ai[1] + " / " + npc.ai[2] + " / " + npc.ai[3], new Vector2(40, Main.screenHeight - 100), Color.Red);
             Utils.DrawBorderString(spriteBatch, "Vel: " + npc.velocity, new Vector2(40, Main.screenHeight - 120), Color.Red);
             Utils.DrawBorderString(spriteBatch, "Pos: " + npc.position, new Vector2(40, Main.screenHeight - 140), Color.Red);
-            Utils.DrawBorderString(spriteBatch, "TargetedCenter: " + (npc.Center + new Vector2(0, (90 - npc.ai[0]) * -5)), new Vector2(40, Main.screenHeight - 160), Color.Red);
+            Utils.DrawBorderString(spriteBatch, "Next Health Gate: " + (npc.lifeMax - (1 + Crystals.Count(n => n.ai[0] == 3)) * 500), new Vector2(40, Main.screenHeight - 160), Color.Red);
             for(int k = 0; k < 4; k++)
             {
                 if(Crystals.Count == 4) Utils.DrawBorderString(spriteBatch, "Crystal " + k + " Distance: " + Vector2.Distance(Crystals[k].Center, npc.Center) + " State: " + Crystals[k].ai[2], new Vector2(40, Main.screenHeight - 180 - k * 20), Color.Yellow);
@@ -99,13 +99,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public List<NPC> Crystals = new List<NPC>();
         public List<Vector2> CrystalLocations = new List<Vector2>();
-        enum AIStates
+        public enum AIStates
         {
             SpawnEffects = 0,
             SpawnAnimation = 1,
             FirstPhase = 2,
-            FirstToSecond = 3,
-            SecondPhase = 4
+            Anger = 3,
+            FirstToSecond = 4,
+            SecondPhase = 5
         }
 
         public override void AI()
@@ -174,6 +175,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case (int)AIStates.FirstPhase:
+
+                    if(npc.life <= npc.lifeMax - (1 + Crystals.Count(n => n.ai[0] == 3 || n.ai[0] == 1)) * 500 && !npc.immortal)
+                    {
+                        npc.immortal = true; //boss is immune at phase gate
+                        npc.life = npc.lifeMax - ((1 + Crystals.Count(n => n.ai[0] == 3 || n.ai[0] == 1)) * 500) - 1; //set health at phase gate
+                        Main.PlaySound(SoundID.ForceRoar, npc.Center);
+                    }
+
                     if(npc.ai[3] == 1) //switching out attacks
                     {
                         if (npc.immortal) npc.ai[2] = 0; //nuke attack once the boss turns immortal for a chance to break a crystal
@@ -190,6 +199,19 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         case 1: CrystalCage(); break;
                         case 2: CrystalSmash(); break;
                     }
+                    if(npc.ai[2] == 1) //during the cage attack
+                    {
+                        if (npc.ai[3] % 110 == 0 && npc.ai[3] != 0)
+                        {
+                            RandomizeTarget();
+                            int index = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandCone>(), 1, 0); //spawn a sand cone attack
+                            Main.projectile[index].rotation = (npc.Center - Main.player[npc.target].Center).ToRotation() + Main.rand.NextFloat(-0.5f, 0.5f);
+                        }
+                    }
+                    break;
+
+                case (int)AIStates.Anger: //the short anger phase attack when the boss loses a crystal
+                    AngerAttack();
                     break;
 
             }
@@ -206,5 +228,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             FavoriteCrystal = reader.ReadInt32();
         }
         #endregion
+        public void DrawOnMap(SpriteBatch spriteBatch, Vector2 center, float scale)
+        {
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBoss_Head_Boss");
+            spriteBatch.Draw(tex, center, tex.Frame(), Color.White, npc.rotation, tex.Frame().Size() / 2, scale, 0, 0);
+        }
     }
 }
