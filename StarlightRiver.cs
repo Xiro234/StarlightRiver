@@ -278,7 +278,7 @@ namespace StarlightRiver
 
                 float scale = (Main.mapMinimapScale * 0.25f * 2f + 1f) / 3f;
 
-                (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale);
+                (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale, Color.White * Main.mapOverlayAlpha);
             }
             return npc;
         }
@@ -291,9 +291,16 @@ namespace StarlightRiver
                 Vector2 framePos = (Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2));
                 Vector2 target = mapPos + Vector2.One * 117 + (npcPos - framePos) / 16 * Main.mapMinimapScale;
 
-                float scale = (Main.mapMinimapScale * 0.25f * 2f + 1f) / 3f;
+                if (target.X > Main.miniMapX + 15 && target.Y > Main.miniMapY + 15 && target.X < Main.miniMapX + 235 && target.Y < Main.miniMapY + 235) //only draw on the minimap
+                {
+                    float scale = (Main.mapMinimapScale * 0.25f * 2f + 1f) / 3f;
 
-                (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale);
+                    (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale, Color.White);
+                    if (new Rectangle((int)target.X - (int)(15 * scale), (int)target.Y - (int)(15 * scale), (int)(30 * scale), (int)(30 * scale)).Contains(Main.MouseScreen.ToPoint()))
+                    {
+                        Utils.DrawBorderString(Main.spriteBatch, npc.GivenOrTypeName, Main.MouseScreen + Vector2.One * 15, Main.mouseTextColorReal);
+                    }
+                }
             }
             return npc;
         }
@@ -301,15 +308,24 @@ namespace StarlightRiver
         {
             if (npc != null && npc.active && npc.modNPC is NPCs.IDynamicMapIcon)
             {
-                Vector2 mapPos = Vector2.Zero;
+                float mapScale = Main.mapFullscreenScale / Main.UIScale;
+
+                float mapFullscrX = Main.mapFullscreenPos.X * mapScale;
+                float mapFullscrY = Main.mapFullscreenPos.Y * mapScale;
+                float mapX = -mapFullscrX + (Main.screenWidth / 2f);
+                float mapY = -mapFullscrY + (Main.screenHeight / 2f);
+
+                Vector2 mapPos = new Vector2(mapX, mapY);
                 Vector2 npcPos = npc.Center;
                 Vector2 target = mapPos + npcPos / 16 * Main.mapFullscreenScale;
 
-                float scale = (Main.mapFullscreenScale * 0.25f * 2f + 1f) / 3f;
+                float scale = Main.UIScale;
 
-                Utils.DrawBorderString(Main.spriteBatch, "Bullshit Position:  " + Main.mapFullscreenPos, mapPos, Color.White);
-                (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale);
-                (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, mapPos, scale);
+                (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale, Color.White);
+                if (new Rectangle((int)target.X - (int)(15 * scale), (int)target.Y - (int)(15 * scale), (int)(30 * scale), (int)(30 * scale)).Contains(Main.MouseScreen.ToPoint()))
+                {
+                    Utils.DrawBorderString(Main.spriteBatch, npc.GivenOrTypeName, Main.MouseScreen + Vector2.One * 15, Main.mouseTextColorReal);
+                }
             }
             return npc;
         }

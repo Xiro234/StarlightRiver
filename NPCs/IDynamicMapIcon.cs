@@ -11,6 +11,6 @@ namespace StarlightRiver.NPCs
 {
     interface IDynamicMapIcon
     {
-        void DrawOnMap(SpriteBatch spriteBatch, Vector2 center, float scale);
+        void DrawOnMap(SpriteBatch spriteBatch, Vector2 center, float scale, Color color);
     }
 }

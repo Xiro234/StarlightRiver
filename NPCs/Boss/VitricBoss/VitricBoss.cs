@@ -12,10 +12,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     sealed partial class VitricBoss : ModNPC, IDynamicMapIcon
     {
         #region tml hooks
-        public override bool CheckActive() => false;
+        public override bool CheckActive() => npc.ai[1] == (int)AIStates.Leaving;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vortex's Engorged Clitoris - Brought to Life!");
+            DisplayName.SetDefault("Shit, Piss, Cock, Balls.");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.aiStyle = -1;
             npc.lifeMax = 3500;
             npc.damage = 30;
-            npc.defense = 28;
+            npc.defense = 25;
             npc.knockBackResist = 0f;
             npc.width = 124;
             npc.height = 110;
@@ -106,7 +106,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             FirstPhase = 2,
             Anger = 3,
             FirstToSecond = 4,
-            SecondPhase = 5
+            SecondPhase = 5,
+            Leaving = 6
         }
 
         public override void AI()
@@ -123,6 +124,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.ai[0]++;
             npc.ai[3]++;
 
+            if(!Main.player.Any(n => n.active && n.statLife > 0 && Vector2.Distance(n.Center, npc.Center) <= 1000)) //if no valid players are detected
+            {
+                npc.ai[0] = 0;
+                npc.ai[1] = (int)AIStates.Leaving; //begone thot!
+                Crystals.ForEach(n => n.ai[2] = 4);
+                Crystals.ForEach(n => n.ai[1] = 0);
+            }
             switch (npc.ai[1])
             {
                 //on spawn effects
@@ -190,7 +198,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         else //otherwise proceed with attacking pattern
                         {
                             npc.ai[2]++;
-                            if (npc.ai[2] > 2) npc.ai[2] = 1;
+                            if (npc.ai[2] > 3) npc.ai[2] = 1;
                         }
                     }
                     switch (npc.ai[2]) //switch for crystal behavior
@@ -198,6 +206,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         case 0: NukePlatforms(); break;
                         case 1: CrystalCage(); break;
                         case 2: CrystalSmash(); break;
+                        case 3: RandomSpikes(); break;
                     }
                     if(npc.ai[2] == 1) //during the cage attack
                     {
@@ -208,10 +217,36 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                             Main.projectile[index].rotation = (npc.Center - Main.player[npc.target].Center).ToRotation() + Main.rand.NextFloat(-0.5f, 0.5f);
                         }
                     }
+                    //TODO: rework this. It needs to be better.
+                    /*if(npc.ai[2] != 1 && npc.ai[0] % 90 == 0 && Main.rand.Next(2) == 0) //summon crystal spikes when not using the cage attack, every 90 seconds half the time on a player thats standing on the ground
+                    {
+                        List<int> players = new List<int>();
+                        foreach (Player player in Main.player.Where(n => n.active && n.statLife > 0 && n.velocity.Y == 0 && Vector2.Distance(n.Center, npc.Center) <= 1000))
+                        {
+                            players.Add(player.whoAmI);
+                        }
+                        if(players.Count != 0)
+                        {
+                            Player player = Main.player[players[Main.rand.Next(players.Count)]];
+                            Projectile.NewProjectile(player.Center + new Vector2(-24, player.height / 2 - 64), Vector2.Zero, ModContent.ProjectileType<BossSpike>(), 10, 0);
+                        }
+                    }*/
                     break;
 
                 case (int)AIStates.Anger: //the short anger phase attack when the boss loses a crystal
                     AngerAttack();
+                    break;
+
+                case (int)AIStates.FirstToSecond:
+                    Main.NewText("SECOND PHASE");
+                    break;
+
+                case (int)AIStates.Leaving:
+                    npc.position.Y += 3;
+                    if (npc.ai[0] > 120)
+                    {
+                        npc.active = false;
+                    }
                     break;
 
             }
@@ -228,10 +263,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             FavoriteCrystal = reader.ReadInt32();
         }
         #endregion
-        public void DrawOnMap(SpriteBatch spriteBatch, Vector2 center, float scale)
+
+        int IconFrame = 0;
+        int IconFrameCounter = 0;
+        public void DrawOnMap(SpriteBatch spriteBatch, Vector2 center, float scale, Color color)
         {
+            if (IconFrameCounter++ >= 5) {IconFrame++; IconFrameCounter = 0; }
+            if (IconFrame > 3) IconFrame = 0;
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBoss_Head_Boss");
-            spriteBatch.Draw(tex, center, tex.Frame(), Color.White, npc.rotation, tex.Frame().Size() / 2, scale, 0, 0);
+            spriteBatch.Draw(tex, center, new Rectangle(0, IconFrame * 30, 30, 30), color, npc.rotation, Vector2.One * 15, scale, 0, 0); 
         }
     }
 }

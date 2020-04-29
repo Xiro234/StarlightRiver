@@ -12,6 +12,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public Vector2 StartPos;
         public Vector2 TargetPos;
         public VitricBoss Parent;
+
+        public override bool CheckActive() => npc.ai[2] == 4;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resonant Crystal");
@@ -21,7 +23,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             npc.aiStyle = -1;
             npc.lifeMax = 2;
-            npc.damage = 20;
+            npc.damage = 35;
             npc.defense = 0;
             npc.knockBackResist = 0f;
             npc.width = 32;
@@ -145,6 +147,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         npc.velocity *= 0;
                         npc.ai[2] = 0; //turn it idle
                     }
+                    break;
+                case 4: //fleeing
+                    npc.velocity.Y += 0.7f;
+                    if (npc.ai[1] >= 120) npc.active = false;
                     break;
 
 

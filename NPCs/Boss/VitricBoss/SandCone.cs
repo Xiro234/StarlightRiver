@@ -32,13 +32,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 for(int k = 0; k < 100; k++) Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Sand>(), new Vector2(Main.rand.NextFloat(-20f, 0), 0).RotatedBy(projectile.rotation + Main.rand.NextFloat(-0.2f, 0.2f)), Main.rand.Next(50, 150));
                 foreach (Player player in Main.player.Where(n => Helper.CheckConicalCollision(projectile.Center, 500, projectile.rotation, 0.2f, n.Hitbox)))
                 {
-                    player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " bit the dust..."), Main.rand.Next(20, 30), 0); //hurt em
+                    player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " bit the dust..."), Main.rand.Next(30, 45), 0); //hurt em
                     if (Main.rand.Next(2) == 0) player.AddBuff(BuffID.Obstructed, 180); //blind em
                 }
                 projectile.Kill(); //self-destruct
             }
-
-
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
