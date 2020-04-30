@@ -4,16 +4,16 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Waters
 {
-    public class WaterJungleCorrupt : ModWaterStyle
+    public class WaterJungleBloody : ModWaterStyle
     {
         public override bool ChooseWaterStyle()
         {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
+            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody;
         }
 
         public override int ChooseWaterfallStyle()
         {
-            return mod.GetWaterfallStyleSlot<WaterfallJungleCorrupt>();
+            return mod.GetWaterfallStyleSlot<WaterfallJungleBloody>();
         }
 
         public override int GetSplashDust()
@@ -23,21 +23,21 @@ namespace StarlightRiver.Waters
 
         public override int GetDropletGore()
         {
-            return mod.GetGoreSlot("Gores/DropJungleCorrupt");
+            return mod.GetGoreSlot("Gores/DropJungleBloody");
         }
 
         public override void LightColorMultiplier(ref float r, ref float g, ref float b)
         {
             r = 0.95f;
-            g = 0.75f;
-            b = 0.95f;
+            g = 0.95f;
+            b = 0.75f;
         }
 
         public override Color BiomeHairColor()
         {
-            return Color.DarkViolet;
+            return Color.DarkRed;
         }
     }
 
-    public class WaterfallJungleCorrupt : ModWaterfallStyle { }
+    public class WaterfallJungleBloody : ModWaterfallStyle { }
 }

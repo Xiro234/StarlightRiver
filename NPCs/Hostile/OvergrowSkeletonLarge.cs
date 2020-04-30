@@ -183,7 +183,7 @@ namespace StarlightRiver.NPCs.Hostile
 
                     if (npc.velocity.Y == 0)//jumping. note: (the could be moved to just before it sets the velocity high in MoveVertical())
                     {
-                        Helper.NpcVertical(this.npc, true, jumpheight);
+                        Helper.NpcVertical(this.npc, true, default, jumpheight);
                     }
 
                     Move(walkSpeedMax);
@@ -199,8 +199,6 @@ namespace StarlightRiver.NPCs.Hostile
                             Dust.NewDustPerfect(new Vector2(npc.Center.X, npc.position.Y + npc.height), 16, new Vector2((Main.rand.Next(-20, 20) * 0.02f), Main.rand.Next(-20, 20) * 0.02f), 0, default, 1.2f);
                         }
                     }
-
-                    Move(dashSpeedMax);
 
                     if (npc.collideX && npc.position.X == npc.oldPosition.X && npc.velocity.X == 0)//note: npc.velocity.X == 0 seemed to fix catching on half blocks
                     {
@@ -226,6 +224,9 @@ namespace StarlightRiver.NPCs.Hostile
                         npc.ai[0] = 2;//turns out this case is the exact same for both
                         break;
                     }
+
+                    Move(dashSpeedMax);
+
                     break;
 
                 case 2:
