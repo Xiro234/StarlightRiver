@@ -40,7 +40,7 @@ namespace StarlightRiver.Items
         }
         public override float UseTimeMultiplier(Player player)
         {
-            return crit ? 1f + (60 - ammo) / 30f : 1f+ (30 - ammo) / 30f;
+            return 1f + ((crit ? 60 : 30) - ammo) / 30f;
         }
         public override bool CanUseItem(Player player)
         {

@@ -12,7 +12,7 @@ namespace StarlightRiver.Items
             item.useStyle = 5;
             item.useAnimation = 24;
             item.useTime = 24;
-            item.shootSpeed = 2.5f;
+            item.shootSpeed = 10f;
             item.knockBack = 2f;
             item.width = 60;
             item.height = 72;

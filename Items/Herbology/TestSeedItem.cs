@@ -5,6 +5,7 @@ namespace StarlightRiver.Items.Herbology
 
     public class TestSeedItem : ModItem
     {
+        public override string Texture => "StarlightRiver/Invisible";
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("wip");
