@@ -9,19 +9,20 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
     sealed partial class VitricBoss : ModNPC
     {
-        private void ResetAttack()
+        public void ResetAttack()
         {
             npc.ai[3] = 0;
         }
         private void RandomizeTarget()
         {
             List<int> players = new List<int>();
-            foreach(Player player in Main.player.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) <= 500))
+            foreach(Player player in Main.player.Where(n => n.active))
             {
                 players.Add(player.whoAmI);
             }
             npc.target = players[Main.rand.Next(players.Count)];
         }
+
         private void NukePlatforms()
         {
             if (npc.ai[3] == 1)
@@ -82,7 +83,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     //the chosen "favorite" or master crystal is the one where our opening should be
                     if (k != FavoriteCrystal) for (int i = 0; i < 5; i++)
                         {
-                            Dust d = Dust.NewDustPerfect(npc.Center + (crystal.Center - npc.Center).RotatedBy(Main.rand.NextFloat(1.57f)), ModContent.DustType<Dusts.Stamina>(), Vector2.Zero);
+                            Dust d = Dust.NewDustPerfect(npc.Center + (crystal.Center - npc.Center).RotatedBy(Main.rand.NextFloat(1.57f)), ModContent.DustType<Dusts.Starlight>(), Vector2.Zero);
                         }
                 }
 
@@ -109,7 +110,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     // if the player's distance from the boss is within 2 player widths of the ring and if the player isnt in the gab where they would be safe
                     if ((dist <= crystalDist + player.width && dist >= crystalDist - player.width) && !(angleOff >= (crystal.Center - npc.Center).ToRotation() && angleOff <= (crystal.Center - npc.Center).ToRotation() + 1.57f))
                     {
-                        player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByNPC(npc.whoAmI), 50, 0); //do big damag
+                        player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByNPC(npc.whoAmI), 65, 0); //do big damag
                         player.velocity += Vector2.Normalize(player.Center - npc.Center) * -5; //knock into boss
                     }
                 }
@@ -142,6 +143,39 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 }
             }
             if (npc.ai[3] > 360) ResetAttack();
+        }
+        private void RandomSpikes()
+        {
+            List<Vector2> points = new List<Vector2>();
+            CrystalLocations.ForEach(n => points.Add(n + new Vector2(Main.rand.NextFloat(-40, 40), -20)));
+            points.OrderBy(n => Main.rand.Next(50));
+            for(int k = 0; k < 1 + Crystals.Count(n => n.ai[0] == 3); k++)
+            {
+                Projectile.NewProjectile(points[k], Vector2.Zero, ModContent.ProjectileType<BossSpike>(), 5, 0);
+            }
+            ResetAttack();
+        }
+
+        private void AngerAttack()
+        {
+            if(Crystals.Count(n => n.ai[0] == 2) == 0)
+            {
+                npc.ai[1] = (int)AIStates.FirstToSecond; //this is where we phase the boss
+            }
+            if(npc.ai[3] == 180)
+            {
+                for(float k = 0; k < 6.28f; k += 6.28f / 12) //ring of glass spikes
+                {
+                    Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k) * 2.5f, ModContent.ProjectileType<Projectiles.GlassSpike>(), 15, 0.2f);
+                }
+            }
+            if (npc.ai[3] >= 200)
+            {
+                Crystals.FirstOrDefault(n => n.ai[0] == 1).ai[0] = 3;
+                npc.ai[1] = (int)AIStates.FirstPhase; //go back to normal attacks after this is all over
+                npc.immortal = false;
+                ResetAttack();
+            }
         }
     }
 }

@@ -235,11 +235,100 @@ namespace StarlightRiver
             IL.Terraria.Main.DoDraw += DrawMoonlordLayer;
             IL.Terraria.Main.DrawMenu += DragonMenuAttach;
             IL.Terraria.UI.ChestUI.DepositAll += PreventSoulboundStack;
+            IL.Terraria.Main.DrawMap += DynamicBossIcon;
         }
 
 
 
         #region IL edits
+        private void DynamicBossIcon(ILContext il)
+        {
+            //Hillariously repetitive IL edit to draw custom icons dynamically. Funny. Fuck vanilla.
+            ILCursor c = new ILCursor(il);
+            //the overlay map comes first
+            c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex")); //only gonna break down one of these, finds a point in vanilla where we can reasonably draw boss icons
+
+            c.EmitDelegate<DynamicIconDelegate>(EmitDynamicIconDelegateOverlay);
+
+            c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex"));
+            c.Index++;
+            c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex"));
+            c.Index++;
+            c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex"));
+
+            c.EmitDelegate<DynamicIconDelegate>(EmitDynamicIconDelegateMinimap); 
+
+            c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex"));
+            c.Index++;
+            c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex"));
+            c.Index++;
+            c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex"));
+
+            c.EmitDelegate<DynamicIconDelegate>(EmitDynamicIconDelegateFullmap); 
+
+        }
+        private delegate NPC DynamicIconDelegate(NPC npc);
+        private NPC EmitDynamicIconDelegateOverlay(NPC npc)
+        {
+            if (npc != null && npc.active && npc.modNPC is NPCs.IDynamicMapIcon)
+            {
+                Vector2 npcPos = npc.Center;
+                Vector2 framePos = (Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2));
+                Vector2 target = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + (npcPos - framePos) / 16 * Main.mapOverlayScale;
+
+                float scale = (Main.mapMinimapScale * 0.25f * 2f + 1f) / 3f;
+
+                (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale, Color.White * Main.mapOverlayAlpha);
+            }
+            return npc;
+        }
+        private NPC EmitDynamicIconDelegateMinimap(NPC npc)
+        {
+            if (npc != null && npc.active && npc.modNPC is NPCs.IDynamicMapIcon)
+            {
+                Vector2 mapPos = new Vector2(Main.miniMapX, Main.miniMapY);
+                Vector2 npcPos = npc.Center;
+                Vector2 framePos = (Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2));
+                Vector2 target = mapPos + Vector2.One * 117 + (npcPos - framePos) / 16 * Main.mapMinimapScale;
+
+                if (target.X > Main.miniMapX + 15 && target.Y > Main.miniMapY + 15 && target.X < Main.miniMapX + 235 && target.Y < Main.miniMapY + 235) //only draw on the minimap
+                {
+                    float scale = (Main.mapMinimapScale * 0.25f * 2f + 1f) / 3f;
+
+                    (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale, Color.White);
+                    if (new Rectangle((int)target.X - (int)(15 * scale), (int)target.Y - (int)(15 * scale), (int)(30 * scale), (int)(30 * scale)).Contains(Main.MouseScreen.ToPoint()))
+                    {
+                        Utils.DrawBorderString(Main.spriteBatch, npc.GivenOrTypeName, Main.MouseScreen + Vector2.One * 15, Main.mouseTextColorReal);
+                    }
+                }
+            }
+            return npc;
+        }
+        private NPC EmitDynamicIconDelegateFullmap(NPC npc)
+        {
+            if (npc != null && npc.active && npc.modNPC is NPCs.IDynamicMapIcon)
+            {
+                float mapScale = Main.mapFullscreenScale / Main.UIScale;
+
+                float mapFullscrX = Main.mapFullscreenPos.X * mapScale;
+                float mapFullscrY = Main.mapFullscreenPos.Y * mapScale;
+                float mapX = -mapFullscrX + (Main.screenWidth / 2f);
+                float mapY = -mapFullscrY + (Main.screenHeight / 2f);
+
+                Vector2 mapPos = new Vector2(mapX, mapY);
+                Vector2 npcPos = npc.Center;
+                Vector2 target = mapPos + npcPos / 16 * Main.mapFullscreenScale;
+
+                float scale = Main.UIScale;
+
+                (npc.modNPC as NPCs.IDynamicMapIcon).DrawOnMap(Main.spriteBatch, target, scale, Color.White);
+                if (new Rectangle((int)target.X - (int)(15 * scale), (int)target.Y - (int)(15 * scale), (int)(30 * scale), (int)(30 * scale)).Contains(Main.MouseScreen.ToPoint()))
+                {
+                    Utils.DrawBorderString(Main.spriteBatch, npc.GivenOrTypeName, Main.MouseScreen + Vector2.One * 15, Main.mouseTextColorReal);
+                }
+            }
+            return npc;
+        }
         private void PreventSoulboundStack(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -783,17 +872,20 @@ namespace StarlightRiver
             if (player != null && LegendWorld.VitricBiome.Contains((player.Center / 16).ToPoint()))
             {
                 Vector2 basepoint = (LegendWorld.VitricBiome != null) ? LegendWorld.VitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
-                for (int k = 5; k >= 0; k--)
+
+                DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass5"), 0, 0); //the background
+
+                DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5, -330, new Color(150, 175, 190)); //the back sand
+                DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5.5f, 200, new Color(120, 150, 170), true); //the back sand on top
+
+
+                VitricBackgroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch)); //back particles
+                for (int k = 4; k >= 0; k--)
                 {
-                    DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1);
-                    if (k == 5)
-                    {
-                        VitricBackgroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch));
-                    }
-                    if (k == 2)
-                    {
-                        VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch));
-                    }
+                    DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1, -80); //the crystal layers and front sand
+                    if (k == 4) DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 4.5f, 0, new Color(180, 220, 235), true); //the sand on top
+                    if (k == 2) VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch)); //front particles
+                    
                 }
 
                 for (int k = (int)(player.position.X - basepoint.X) - (int)(Main.screenWidth * 1.5f); k <= (int)(player.position.X - basepoint.X) + (int)(Main.screenWidth * 1.5f); k += 30)
@@ -824,18 +916,26 @@ namespace StarlightRiver
                 }
             }
         }
-        public void DrawLayer(Vector2 basepoint, Texture2D texture, int parallax)
+        public void DrawLayer(Vector2 basepoint, Texture2D texture, float parallax, int offY = 0, Color color = default, bool flip = false)
         {
+            if (color == default) color = Color.White;
             for (int k = 0; k <= 5; k++)
             {
                 Main.spriteBatch.Draw(texture,
-                    new Vector2(basepoint.X + (k * 739 * 4) + GetParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, basepoint.Y - (int)Main.screenPosition.Y),
-                    new Rectangle(0, 0, 2956, 1528), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                    new Vector2(basepoint.X + (k * 739 * 4) + GetParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, 
+                    basepoint.Y + offY - (int)Main.screenPosition.Y + GetParallaxOffsetY(basepoint.Y + LegendWorld.VitricBiome.Height * 8, parallax * 0.04f)),
+                    new Rectangle(0, 0, 2956, 1528), color, 0f, Vector2.Zero, 1f, flip ? SpriteEffects.FlipVertically : 0, 0);
             }
         }
         public int GetParallaxOffset(float startpoint, float factor)
         {
-            return (int)((Main.screenPosition.X + Main.screenWidth / 2 - startpoint) * factor);
+            float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
+            return (int)((Main.screenPosition.X + Main.screenWidth / 2 - startpoint) * factor * vanillaParallax);
+        }
+        public int GetParallaxOffsetY(float startpoint, float factor)
+        {
+            float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
+            return (int)((Main.screenPosition.Y + Main.screenHeight / 2 - startpoint) * factor * vanillaParallax);
         }
         private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, UICharacterListItem self, SpriteBatch spriteBatch)
         {

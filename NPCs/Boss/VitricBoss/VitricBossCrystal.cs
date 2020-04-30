@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using static StarlightRiver.NPCs.Boss.VitricBoss.VitricBoss;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -11,6 +12,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public Vector2 StartPos;
         public Vector2 TargetPos;
         public VitricBoss Parent;
+
+        public override bool CheckActive() => npc.ai[2] == 4;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resonant Crystal");
@@ -20,7 +23,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             npc.aiStyle = -1;
             npc.lifeMax = 2;
-            npc.damage = 20;
+            npc.damage = 35;
             npc.defense = 0;
             npc.knockBackResist = 0f;
             npc.width = 32;
@@ -46,15 +49,23 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.ai[1]++; //ticks the timers
             npc.ai[3]++;
 
-            foreach(Player player in Main.player)
-            if(npc.ai[0] == 0 && Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
-                {
-                    npc.ai[0] = 1; //It's all broken and on the floor!
-                    npc.ai[2] = 0; //go back to doing nothing
-                    npc.ai[1] = 0; //reset timer
+            if (npc.ai[0] == 0)
+            {
+                foreach (Player player in Main.player)
+                    if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
+                    {
+                        npc.ai[0] = 1; //It's all broken and on the floor!
+                        npc.ai[2] = 0; //go back to doing nothing
+                        npc.ai[1] = 0; //reset timer
 
-                    Parent.npc.ai[2] = 1; //boss should go into it's angery phase
-                }
+                        Parent.npc.ai[1] = (int)AIStates.Anger; //boss should go into it's angery phase
+                        (Parent.npc.modNPC as VitricBoss).ResetAttack();
+                        foreach(NPC npc in (Parent.npc.modNPC as VitricBoss).Crystals) //reset all our crystals to idle mode
+                        {
+                            npc.ai[2] = 0;
+                        }
+                    }
+            }
 
             switch (npc.ai[2])
             {
@@ -80,7 +91,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case 1: //nuke attack
-                    if(npc.ai[1] > 60 && npc.ai[1] <= 180)
+
+                    if (npc.rotation != 0) //normalize rotation
+                    {
+                        npc.rotation += 0.5f;
+                        if (npc.rotation >= 5f) npc.rotation = 0;
+                    }
+
+                    if (npc.ai[1] > 60 && npc.ai[1] <= 180)
                     {
                         npc.Center = Vector2.SmoothStep(StartPos, TargetPos, (npc.ai[1] - 60) / 120f); //go to the platform
                     }
@@ -124,11 +142,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                             npc.ai[2] = 0; //turn it idle
                         }
                     }
-                    if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).active()) //tile collision
+                    if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).collisionType == 1 && npc.Center.Y > LegendWorld.VitricBiome.Y * 16) //tile collision
                     {
                         npc.velocity *= 0;
                         npc.ai[2] = 0; //turn it idle
                     }
+                    break;
+                case 4: //fleeing
+                    npc.velocity.Y += 0.7f;
+                    if (npc.ai[1] >= 120) npc.active = false;
                     break;
 
 
