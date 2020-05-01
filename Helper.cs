@@ -166,22 +166,22 @@ namespace StarlightRiver
             for (int k = 3; k < 7 + player.extraAccessorySlots; k++) if (player.armor[k].type == ItemID) return true;
             return false;
         }
-		public static void NpcVertical(NPC npc, bool jump, int jumpheight = 2) //idea: could be seperated farther
+        public static void NpcVertical(NPC npc, bool jump, int slot = 1, int jumpheight = 2) //idea: could be seperated farther
         {
-            npc.ai[1] = 0;//reset jump counter
+            npc.ai[slot] = 0;//reset jump counter
             for (int y = 0; y < jumpheight; y++)//idea: this should have diminishing results for output jump height
             {
                 Tile tileType = Framing.GetTileSafely((int)(npc.position.X / 16) + (npc.direction * 2) + 1, (int)((npc.position.Y + npc.height + 8) / 16) - y - 1);
                 if ((Main.tileSolid[tileType.type] || Main.tileSolidTop[tileType.type]) && tileType.active()) //how tall the wall is
                 {
-                    npc.ai[1] = (y + 1);
+                    npc.ai[slot] = (y + 1);
                 }
-                if (y >= npc.ai[1] + (npc.height / 16) || (!jump && y >= 2)) //stops counting if there is room for the npc to walk under //((int)((npc.position.Y - target.position.Y) / 16) + 1)
+                if (y >= npc.ai[slot] + (npc.height / 16) || (!jump && y >= 2)) //stops counting if there is room for the npc to walk under //((int)((npc.position.Y - target.position.Y) / 16) + 1)
                 {
                     if (npc.HasValidTarget && jump)
                     {
                         Player target = Main.player[npc.target];
-                        if (npc.ai[1] >= ((int)((npc.position.Y - target.position.Y) / 16) + 1) - ((int)(npc.height / 16) - 1))
+                        if (npc.ai[slot] >= ((int)((npc.position.Y - target.position.Y) / 16) + 1) - ((int)(npc.height / 16) - 1))
                         {
                             break;
                         }
@@ -192,10 +192,10 @@ namespace StarlightRiver
                     }
                 }
             }
-            if (npc.ai[1] > 0)//jump and step up
+            if (npc.ai[slot] > 0)//jump and step up
             {
                 Tile tileType = Framing.GetTileSafely((int)(npc.position.X / 16) + (npc.direction * 2) + 1, (int)((npc.position.Y + npc.height + 8) / 16) - 1);
-                if (npc.ai[1] == 1 && npc.collideX)
+                if (npc.ai[slot] == 1 && npc.collideX)
                 {
                     if (tileType.halfBrick() || (Main.tileSolid[tileType.type] && (npc.position.Y % 16 + 8) == 0))
                     {
@@ -208,7 +208,7 @@ namespace StarlightRiver
                         npc.velocity.X = npc.oldVelocity.X;
                     }
                 }
-                else if (npc.ai[1] == 2 && (npc.position.Y % 16) == 0 && Framing.GetTileSafely((int)(npc.position.X / 16) + (npc.direction * 2) + 1, (int)((npc.position.Y + npc.height) / 16) - 1).halfBrick())
+                else if (npc.ai[slot] == 2 && (npc.position.Y % 16) == 0 && Framing.GetTileSafely((int)(npc.position.X / 16) + (npc.direction * 2) + 1, (int)((npc.position.Y + npc.height) / 16) - 1).halfBrick())
                 {//note: I dislike this extra check, but couldn't find a way to avoid it
                     if (npc.collideX)
                     {
@@ -216,10 +216,10 @@ namespace StarlightRiver
                         npc.velocity.X = npc.oldVelocity.X;
                     }
                 }
-                else if (npc.ai[1] > 1 && jump == true)
+                else if (npc.ai[slot] > 1 && jump == true)
                 {
 
-                    npc.velocity.Y = -(3 + npc.ai[1]);
+                    npc.velocity.Y = -(3 + npc.ai[slot]);
                     if (!npc.HasValidTarget && npc.velocity.X == 0)
                     {
                         npc.ai[3]++;

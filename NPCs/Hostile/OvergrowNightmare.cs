@@ -18,15 +18,16 @@ namespace StarlightRiver.NPCs.Hostile
         }
 
         const int runFramesLoop = 11;
+        int maxSpeed = 10;
 
         public override void SetDefaults()
         {
             npc.height = 42;
-            npc.width = 48;
+            npc.width = 44;
             npc.lifeMax = 110;
             npc.damage = 40;
             npc.aiStyle = -1;
-            npc.noGravity = false;
+            npc.immortal = true;
             npc.direction = Main.rand.Next(2) == 0 ? 1 : -1;
             npc.spriteDirection = -npc.direction;
         }
@@ -41,7 +42,7 @@ namespace StarlightRiver.NPCs.Hostile
             switch (npc.ai[0])
             {          
                 case 0://waiting
-                    npc.immortal = true;
+                    //npc.immortal = true;
                     if (Main.player.Any(n => Vector2.Distance(n.Center, npc.Center) <= 100))
                     {
                         npc.ai[0] = 1;
@@ -55,24 +56,27 @@ namespace StarlightRiver.NPCs.Hostile
                     break;
 
                 case 2://oh god oh fuck
-                    if (npc.velocity.Y == 0)//jumping. note: (the could be moved to just before it sets the velocity high in MoveVertical())
+                    if (npc.velocity.Y == 0)
                     {
-                        Helper.NpcVertical(this.npc, false);
+                        Helper.NpcVertical(this.npc, true, 2, 6);
                     }
 
-                    npc.velocity.X += npc.position.X - target.Center.X > 0 ? -0.2f : 0.2f;
-                    if (Math.Abs(npc.velocity.X) >= 10) npc.velocity.X = (npc.velocity.X > 0) ? 10 : -10;
+                    npc.velocity.X += npc.Center.X - target.Center.X > 0 ? -0.2f : 0.2f;
+                    if (Math.Abs(npc.velocity.X) >= maxSpeed) npc.velocity.X = (npc.velocity.X > 0) ? maxSpeed : -maxSpeed;
 
                     npc.direction = npc.velocity.X > 0 ? 1 : -1;
                     npc.spriteDirection = -npc.direction;
 
-                    int x = (int)npc.Center.X / 16;
-                    int y = (int)npc.Center.Y / 16;
 
                     //cross gaps/jump over obstacles
-                    if ((!WorldGen.TileEmpty(x + 1, y - 1) || WorldGen.TileEmpty(x + 1, y + 1)) && npc.velocity.Y == 0) npc.velocity.Y -= 10;
+                    if (npc.velocity.Y == 0 && 
+                        (Main.player[npc.target].Bottom.Y <= npc.Bottom.Y || Main.rand.Next(5) == 0) && 
+                        (npc.velocity.X > 0 ? 1 : -1) == ((Main.player[npc.target].Center.X - npc.Center.X < 0) ? -1 : 1) && 
+                        WorldGen.TileEmpty((int)((npc.Center.X + ((npc.width * 0.5f) * npc.direction)) / 16), (int)((npc.position.Y + npc.height) / 16)) )
+                        npc.velocity.Y -= 10;
+
                     //lunge at the player
-                    if (Main.player.Any(n => n.Hitbox.Contains(new Point((int)npc.Center.X + 64, (int)npc.Center.Y))) && npc.velocity.Y == 0) npc.velocity.Y -= 6;
+                    if (npc.velocity.Y == 0 && Main.player.Any(n => n.Hitbox.Contains(new Point((int)npc.Center.X + (64 * npc.direction), (int)npc.Center.Y)))) npc.velocity.Y -= 5;
 
                     break;
             }
@@ -80,7 +84,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            npc.velocity *= 0.1f;
+            npc.velocity.X *= 0.8f;
         }
 
         public override void FindFrame(int frameHeight)
@@ -97,9 +101,9 @@ namespace StarlightRiver.NPCs.Hostile
 
                 case 2:
                     npc.frameCounter += Math.Abs(npc.velocity.X);
-                    if ((int)(npc.frameCounter * 0.1) >= Main.npcFrameCount[npc.type])//replace the 0.1 with a float to control animation speed
-                        npc.frameCounter = (Main.npcFrameCount[npc.type] - runFramesLoop) * 10;//accounting for the offset makes this a bit jank, might be able to optimize this.
-                    npc.frame.Y = (int)(npc.frameCounter * 0.1) * frameHeight;
+                    if ((int)(npc.frameCounter * 0.1) >= runFramesLoop)//replace the 0.1 with a float to control animation speed
+                        npc.frameCounter = 0;//accounting for the offset makes this a bit jank, might be able to optimize this.
+                    npc.frame.Y = (int)((npc.frameCounter * 0.1) + (Main.npcFrameCount[npc.type] - runFramesLoop)) * frameHeight;
                     break;
             }
         }

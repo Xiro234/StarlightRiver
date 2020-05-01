@@ -188,7 +188,7 @@ namespace StarlightRiver.Items.Debug
     public class DebugPlacer3 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<VitricSpike>(), 0) { }
+        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<Tiles.Fountains.JungleCorruptFountain>(), 0) { }
     }
 
     public class DebugPotion : ModItem

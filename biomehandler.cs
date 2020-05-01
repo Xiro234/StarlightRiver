@@ -19,6 +19,11 @@ namespace StarlightRiver
         public bool ZoneJungleBloody = false;
         public bool ZoneJungleHoly = false;
         public bool ZoneOvergrow = false;
+
+        public bool FountainJungleCorrupt = false;
+        public bool FountainJungleBloody = false;
+        public bool FountainJungleHoly = false;
+
         public override void UpdateBiomes()
         {
             ZoneGlass = LegendWorld.glassTiles > 50 || LegendWorld.VitricBiome.Contains((player.position / 16).ToPoint());
@@ -141,6 +146,13 @@ namespace StarlightRiver
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
             bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];
             holyJungleTiles = tileCounts[mod.TileType("GrassJungleHoly")];
+        }
+
+        public override void ResetNearbyTileEffects()
+        {
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleCorrupt = false;
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleBloody = false;
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleHoly = false;
         }
     }
 
