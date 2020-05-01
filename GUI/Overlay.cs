@@ -71,9 +71,9 @@ namespace StarlightRiver.GUI
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
-                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1500) == 0)
+                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1000) == 0)
                         {
-                            BloodDust dus = new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Blood"), new Vector2(k, 0), new Vector2(0, 2f));
+                            BloodDust dus = new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Blood"), new Vector2(k, 0), new Vector2(0, 2f), Main.rand.NextFloat(0.8f, 1.1f), Main.rand.NextFloat(0.06f, 0.08f));
                             Bootlegdust.Add(dus);
                         }
                     }
@@ -140,9 +140,11 @@ namespace StarlightRiver.GUI
     }
     public class BloodDust : BootlegDust
     {
-        public BloodDust(Texture2D texture, Vector2 position, Vector2 velocity) :
-            base(texture, position, velocity, Color.White, 2.5f, 600)
+        private readonly float Acceleration;
+        public BloodDust(Texture2D texture, Vector2 position, Vector2 velocity, float scale, float acceleration) :
+            base(texture, position, velocity, Color.White, scale, 600)
         {
+            Acceleration = acceleration;
         }
 
         public override void Update()
@@ -150,8 +152,9 @@ namespace StarlightRiver.GUI
 
             col *= 0.99999948f;
             pos += vel;
-            vel += new Vector2(0, 0.07f);
+            vel += new Vector2(0, Acceleration);
             scl *= 0.987f;
+            rot += 0.05f;
 
             time--;
             pos.X += (float)Math.Sin((float)(time / 550f * 31.4f)) * 0.25f;

@@ -9,9 +9,7 @@ namespace StarlightRiver.Waters
         public override bool ChooseWaterStyle()
         {
             BiomeHandler modPlayer = Main.LocalPlayer.GetModPlayer<BiomeHandler>();
-            if (modPlayer.ZoneJungleBloody || modPlayer.FountainJungleBloody) { return true; }
-            else { return false; }
-            //return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody;
+            return (modPlayer.ZoneJungleBloody || modPlayer.FountainJungleBloody);
         }
 
         public override int ChooseWaterfallStyle()
@@ -31,9 +29,9 @@ namespace StarlightRiver.Waters
 
         public override void LightColorMultiplier(ref float r, ref float g, ref float b)
         {
-            r = 0.95f;
-            g = 0.95f;
-            b = 0.75f;
+            r = 1;
+            g = 1;
+            b = 0.8f;
         }
 
         public override Color BiomeHairColor()

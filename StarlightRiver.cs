@@ -595,7 +595,7 @@ namespace StarlightRiver
                 return;
             }
             // If the tile is in the vitric biome and doesn't block light, emit light.
-            bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type];
+            bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type] && !(Main.tile[i, j].slope() != 0 || Main.tile[i, j].halfBrick());
             bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
             if (LegendWorld.VitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
             {
@@ -609,9 +609,31 @@ namespace StarlightRiver
             {
                 r = 0;
                 g = 0;
-
                 b = (1500 / Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) - 1) / 2;
                 if (b >= 0.8f) b = 0.8f;
+            }
+
+            //ichor water for crimson jungle
+            if ((Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody || Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleBloody) && !tileBlock && Main.tile[i, j].liquid != 0 && Main.tile[i, j].liquidType() == 0) 
+            {
+                if (Main.tile[i, j - 1].liquid != 0 || Main.tile[i, j - 1].active())
+                {
+                    r = 0.25f;
+                    g = 0.14f;
+                    b = 0.0f;
+
+                    if (Main.rand.Next(40) == 0)
+                        Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 + Main.rand.Next(16)), ModContent.DustType<Dusts.Stamina>(), new Vector2(0, Main.rand.NextFloat(-0.8f, -0.6f)), 0, default, 0.6f);
+                }
+                else
+                {
+                    r = 0.4f;
+                    g = 0.32f;
+                    b = 0.0f;
+                    if (Main.rand.Next(5) == 0)
+                        Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 + Main.rand.Next(16)), ModContent.DustType<Dusts.Gold2>(), new Vector2(0, Main.rand.NextFloat(-1.4f, -1.2f)), 0, default, 0.3f);
+                }
+
             }
         }
         #endregion

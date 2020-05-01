@@ -204,6 +204,7 @@ namespace StarlightRiver.GUI
         public Vector2 vel;
         public Color col;
         public float scl;
+        public float rot = 0;
         public int time;
 
         public BootlegDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int timeleft)
@@ -218,7 +219,7 @@ namespace StarlightRiver.GUI
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(tex, pos, default, col, 0, default, scl, default, 0);
+            spriteBatch.Draw(tex, pos, default, col, rot, tex.Size() / 2, scl, default, 0);
         }
 
         public virtual void Update()
