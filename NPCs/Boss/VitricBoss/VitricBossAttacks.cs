@@ -151,7 +151,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             points.OrderBy(n => Main.rand.Next(50));
             for(int k = 0; k < 1 + Crystals.Count(n => n.ai[0] == 3); k++)
             {
-                Projectile.NewProjectile(points[k], Vector2.Zero, ModContent.ProjectileType<BossSpike>(), 5, 0);
+                Projectile.NewProjectile(points[k], Vector2.Zero, ModContent.ProjectileType<BossSpike>(), 25, 0);
             }
             ResetAttack();
         }

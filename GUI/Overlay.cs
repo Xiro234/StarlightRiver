@@ -190,7 +190,7 @@ namespace StarlightRiver.GUI
         float Velocity;
         float rot = Main.rand.NextFloat(6.28f);
         public VitricDust(Texture2D texture, Vector2 basepos, int offset, float scale, float alpha, float parallax) :
-            base(texture, basepos, new Vector2(0, -1), new Color(130, 205, 215) * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
+            base(texture, basepos, new Vector2(0, -1), new Color(70, 155, 175) * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
         {
             Basepos = basepos;
             Offset = offset;

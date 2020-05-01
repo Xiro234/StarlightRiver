@@ -105,7 +105,7 @@ namespace StarlightRiver
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleBloody");
                     priority = MusicPriority.BiomeHigh;
                 }
 
@@ -892,13 +892,13 @@ namespace StarlightRiver
                 {
                     if (Main.rand.Next(600) == 0)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.5f, 0.2f, 0.1f);
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.65f, 0.2f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
                     if (Main.rand.Next(500) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.75f, 0.5f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.85f, 0.5f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }

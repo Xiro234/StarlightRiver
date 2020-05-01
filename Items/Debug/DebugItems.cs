@@ -216,6 +216,18 @@ namespace StarlightRiver.Items.Debug
             LegendWorld.OvergrowBossOpen = false;
             LegendWorld.GlassBossOpen = false;
             LegendWorld.DesertOpen = false;
+
+            for(int k = (int)player.Center.X / 16 - 200; k <= (int)player.Center.X / 16 + 200; k++)
+                for (int i = (int)player.Center.Y / 16 - 200; i <= (int)player.Center.Y / 16 + 200; i++)
+                {
+                    WorldGen.PlaceTile(k, i, ModContent.TileType<Tiles.Debug.GreenScreen>(), true, true);
+                }
+
+            for (int k = (int)player.Center.X / 16 - 200; k <= (int)player.Center.X / 16 + 200; k++)
+                for (int i = (int)player.Center.Y / 16 - 200; i <= (int)player.Center.Y / 16 - 199; i++)
+                {
+                    WorldGen.PlaceTile(k, i, ModContent.TileType<Tiles.JungleBloody.GrassJungleBloody>(), true, true);
+                }
             return true;
         }
     }

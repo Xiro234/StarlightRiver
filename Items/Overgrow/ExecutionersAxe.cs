@@ -24,7 +24,6 @@ namespace StarlightRiver.Items.Overgrow
             item.useTime = 30;
             item.channel = true;
         }
-
         public override bool CanUseItem(Player player)
         {
             return true;
