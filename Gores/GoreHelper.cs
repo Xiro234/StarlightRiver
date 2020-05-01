@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Gores
 {
-    public class QuickDrop : ModGore
+    public abstract class QuickDrop : ModGore
     {
         public override void OnSpawn(Gore gore)
         {

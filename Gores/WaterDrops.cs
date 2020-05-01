@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Gores
 {
-    public class DropJungleCorrupt : QuickDrop {}
-    public class DropJungleBloody : QuickDrop {}
-	public class DropJungleHoly : QuickDrop {}
+    public sealed class DropJungleCorrupt : QuickDrop {}
+    public sealed class DropJungleBloody : QuickDrop {}
+	public sealed class DropJungleHoly : QuickDrop {}
 }

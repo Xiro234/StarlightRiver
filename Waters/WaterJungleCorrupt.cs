@@ -8,7 +8,9 @@ namespace StarlightRiver.Waters
     {
         public override bool ChooseWaterStyle()
         {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
+            BiomeHandler modPlayer = Main.LocalPlayer.GetModPlayer<BiomeHandler>();
+            if (modPlayer.ZoneJungleCorrupt || modPlayer.FountainJungleCorrupt) { return true; }
+            else { return false; }
         }
 
         public override int ChooseWaterfallStyle()
@@ -18,7 +20,7 @@ namespace StarlightRiver.Waters
 
         public override int GetSplashDust()
         {
-            return mod.DustType("Corrupt");
+            return ModContent.DustType<Dusts.CorruptJungleSplash>();
         }
 
         public override int GetDropletGore()
@@ -28,8 +30,8 @@ namespace StarlightRiver.Waters
 
         public override void LightColorMultiplier(ref float r, ref float g, ref float b)
         {
-            r = 0.95f;
-            g = 0.75f;
+            r = 0.75f;
+            g = 0.85f;
             b = 0.95f;
         }
 
