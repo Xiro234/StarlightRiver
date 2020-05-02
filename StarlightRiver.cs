@@ -105,13 +105,13 @@ namespace StarlightRiver
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleBloody");
                     priority = MusicPriority.BiomeHigh;
                 }
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/WhipAndNaenae");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starlight");
                     priority = MusicPriority.BiomeHigh;
                 }
 
@@ -595,7 +595,7 @@ namespace StarlightRiver
                 return;
             }
             // If the tile is in the vitric biome and doesn't block light, emit light.
-            bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type];
+            bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type] && !(Main.tile[i, j].slope() != 0 || Main.tile[i, j].halfBrick());
             bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
             if (LegendWorld.VitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
             {
@@ -609,9 +609,72 @@ namespace StarlightRiver
             {
                 r = 0;
                 g = 0;
-
                 b = (1500 / Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) - 1) / 2;
                 if (b >= 0.8f) b = 0.8f;
+            }
+
+            //waters, probably not the most amazing place to do this but it works and dosent melt people's PCs
+            if (!tileBlock && Main.tile[i, j].liquid != 0 && Main.tile[i, j].liquidType() == 0)
+            {
+                //the crimson
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody || Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleBloody)
+                {
+                    if (Main.tile[i, j - 1].liquid != 0 || Main.tile[i, j - 1].active())
+                    {
+                        r = 0.25f;
+                        g = 0.14f;
+                        b = 0.0f;
+
+                        if (Main.rand.Next(40) == 0)
+                            Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 + Main.rand.Next(16)), ModContent.DustType<Dusts.Stamina>(), new Vector2(0, Main.rand.NextFloat(-0.8f, -0.6f)), 0, default, 0.6f);
+                    }
+                    else
+                    {
+                        r = 0.4f;
+                        g = 0.32f;
+                        b = 0.0f;
+                        if (Main.rand.Next(5) == 0)
+                            Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 + Main.rand.Next(16)), ModContent.DustType<Dusts.Gold2>(), new Vector2(0, Main.rand.NextFloat(-1.4f, -1.2f)), 0, default, 0.3f);
+                    }
+                }
+                // the corruption
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt || Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleCorrupt)
+                {
+                    if (Main.tile[i, j - 1].liquid != 0 || Main.tile[i, j - 1].active())
+                    {
+                        if (Main.rand.Next(80) == 0)
+                            Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 + Main.rand.Next(16)), 186, new Vector2(0, Main.rand.NextFloat(0.6f, 0.8f)), 0, default, 1f);
+                    }
+                    else
+                    {
+                        r = 0.1f;
+                        g = 0.1f;
+                        b = 0.3f;
+                        if (Main.rand.Next(10) == 0)
+                            Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 - Main.rand.Next(-20, 20)), 112, new Vector2(0, Main.rand.NextFloat(1.2f, 1.4f)), 120, new Color(100, 100, 200) * 0.6f, 0.6f);
+                    }
+                }
+                //the hallow
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly || Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleHoly)
+                {
+                    if (Main.tile[i, j - 1].liquid != 0 || Main.tile[i, j - 1].active())
+                    {
+                        r = 0.1f;
+                        g = 0.3f;
+                        b = 0.3f;
+                        if (Main.rand.Next(80) == 0)
+                            Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 + Main.rand.Next(16)), ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedByRandom(6.28f) * 10, 0, default, 0.5f);
+                    }
+                    else
+                    {
+                        r = 0.1f;
+                        g = 0.5f;
+                        b = 0.3f;
+                        if (Main.rand.Next(100) == 0)
+                            Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 + Main.rand.Next(-1, 20)), ModContent.DustType<Dusts.AirDash>(), new Vector2(0, Main.rand.NextFloat(-1, -0.1f)), 120, default, Main.rand.NextFloat(1.1f, 2.4f));
+                    }
+                }
+
             }
         }
         #endregion
@@ -892,13 +955,13 @@ namespace StarlightRiver
                 {
                     if (Main.rand.Next(600) == 0)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.5f, 0.2f, 0.1f);
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.65f, 0.2f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
                     if (Main.rand.Next(500) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.75f, 0.5f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.85f, 0.5f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }

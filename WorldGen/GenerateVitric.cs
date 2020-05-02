@@ -57,13 +57,7 @@ namespace StarlightRiver
                     Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
-                if (xRel == 0 || xRel == 79)
-                {
-                    for (int y = biomeTarget.Y; y < biomeTarget.Y + biomeTarget.Height - 30; y++)
-                    {
-                        WorldGen.PlaceTile(x + xRel == 79 ? 1 : 0, y, ModContent.TileType<Tiles.Vitric.VitricBossBarrier>(), false, true);
-                    }
-                }
+
                 if (xRel == 38)
                 {
                     Helper.PlaceMultitile(new Terraria.DataStructures.Point16(x, biomeTarget.Y + 57), ModContent.TileType<Tiles.Vitric.VitricBossAltar>());
@@ -126,12 +120,36 @@ namespace StarlightRiver
                 }
             }
 
-            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 30; x <= biomeTarget.X + biomeTarget.Width / 2 + 30; x++) //entrance hole 
+            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 35; x <= biomeTarget.X + biomeTarget.Width / 2 + 36; x++) //entrance hole 
             {
                 for (int y = biomeTarget.Y; y < biomeTarget.Y + 20; y++)
                 {
                     WorldGen.KillTile(x, y);
                 }
+            }
+
+            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 51; x <= biomeTarget.X + biomeTarget.Width / 2 + 52; x++) //sandstone cubes
+            {
+                int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 51);
+                if (xRel < 16 || xRel > 87)
+                {
+                    for (int y = biomeTarget.Y + biomeTarget.Height - 31; y < biomeTarget.Y + biomeTarget.Height - 21; y++) //bottom
+                    {
+                        Tile tile = Framing.GetTileSafely(x, y);
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
+                    }
+                    for (int y = biomeTarget.Y - 1; y < biomeTarget.Y + 9; y++) // top
+                    {
+                        Tile tile = Framing.GetTileSafely(x, y);
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
+                    }
+                }
+            }
+
+            for (int y = biomeTarget.Y + 9; y < biomeTarget.Y + biomeTarget.Height - 31; y++) //collision for pillars
+            {
+                WorldGen.PlaceTile(biomeTarget.X + biomeTarget.Width / 2 - 40, y, ModContent.TileType<Tiles.Vitric.VitricBossBarrier>(), false, false);
+                WorldGen.PlaceTile(biomeTarget.X + biomeTarget.Width / 2 + 41, y, ModContent.TileType<Tiles.Vitric.VitricBossBarrier>(), false, false);
             }
         }
     }

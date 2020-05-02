@@ -6,13 +6,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
 {
     class TreeJungleCorrupt : ModTree
     {
-        private Mod mod
-        {
-            get
-            {
-                return ModLoader.GetMod("StarlightRiver");
-            }
-        }
+        private Mod mod { get => ModLoader.GetMod("StarlightRiver"); }
 
         public override int CreateDust()
         {

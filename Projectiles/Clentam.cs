@@ -63,6 +63,7 @@ namespace StarlightRiver.Projectiles
                     Tile target = Main.tile[x + (int)projectile.Center.X / 16, y + (int)projectile.Center.Y / 16];
 
                     if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleBloody"); }
+                    if (target.wall == WallID.JungleUnsafe) { target.wall = (ushort)ModContent.WallType<Tiles.JungleBloody.WallJungleBloody>(); }
                 }
             }
         }

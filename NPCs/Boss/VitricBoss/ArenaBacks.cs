@@ -65,7 +65,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 int targetHeight = (int)(npc.ai[0] / Risetime * tex.Height);
                 Rectangle target = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - targetHeight - Main.screenPosition.Y), tex.Width, targetHeight);
                 Rectangle source = new Rectangle(0, 0, tex.Width, targetHeight);
-                spriteBatch.Draw(tex, target, source, Color.White, 0, Vector2.Zero, 0, 0);
+                Color color = new Color(180, 225, 255);
+
+                spriteBatch.Draw(tex, target, source, color, 0, Vector2.Zero, 0, 0);
             }
             else ScrollDraw(spriteBatch);
         }
@@ -74,13 +76,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             Texture2D tex = ModContent.GetTexture(Texture);
             int height1 = (int)(npc.ai[2] / Scrolltime * tex.Height);
             int height2 = tex.Height - height1;
+            Color color = new Color(180, 225, 255);
+
             Rectangle target1 = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - height1 - Main.screenPosition.Y), tex.Width, height1);
             Rectangle target2 = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - height1 - height2 - Main.screenPosition.Y), tex.Width, height2);
             Rectangle source1 = new Rectangle(0, 0, tex.Width, height1);
             Rectangle source2 = new Rectangle(0, tex.Height - height2, tex.Width, height2);
 
-            sb.Draw(tex, target1, source1, Color.White, 0, Vector2.Zero, 0, 0);
-            sb.Draw(tex, target2, source2, Color.White, 0, Vector2.Zero, 0, 0);
+            sb.Draw(tex, target1, source1, color, 0, Vector2.Zero, 0, 0);
+            sb.Draw(tex, target2, source2, color, 0, Vector2.Zero, 0, 0);
         }
         public virtual void SpawnPlatforms(bool rising = true)
         {
@@ -106,13 +110,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             Texture2D tex = ModContent.GetTexture(Texture);
             int height1 = (int)(npc.ai[2] / Scrolltime * tex.Height);
             int height2 = tex.Height - height1;
+            Color color = new Color(180, 225, 255);
+
             Rectangle target1 = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - tex.Height * 2 + height1 + height2 - Main.screenPosition.Y), tex.Width, height1);
             Rectangle target2 = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - tex.Height + height1 - Main.screenPosition.Y), tex.Width, height2);
             Rectangle source2 = new Rectangle(0, 0, tex.Width, height2);
             Rectangle source1 = new Rectangle(0, tex.Height - height1, tex.Width, height1);
 
-            sb.Draw(tex, target1, source1, Color.White, 0, Vector2.Zero, 0, 0);
-            sb.Draw(tex, target2, source2, Color.White, 0, Vector2.Zero, 0, 0);
+            sb.Draw(tex, target1, source1, color, 0, Vector2.Zero, 0, 0);
+            sb.Draw(tex, target2, source2, color, 0, Vector2.Zero, 0, 0);
         }
 
         public override void SpawnPlatforms(bool rising = true)

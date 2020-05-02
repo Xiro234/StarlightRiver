@@ -19,6 +19,11 @@ namespace StarlightRiver
         public bool ZoneJungleBloody = false;
         public bool ZoneJungleHoly = false;
         public bool ZoneOvergrow = false;
+
+        public bool FountainJungleCorrupt = false;
+        public bool FountainJungleBloody = false;
+        public bool FountainJungleHoly = false;
+
         public override void UpdateBiomes()
         {
             ZoneGlass = LegendWorld.glassTiles > 50 || LegendWorld.VitricBiome.Contains((player.position / 16).ToPoint());
@@ -93,19 +98,26 @@ namespace StarlightRiver
             if (ZoneVoidPre)
             {
                 Overlay.state = 1;
-
-                if (player.GetModPlayer<AbilityHandler>().pure.Locked)
-                {
-                    player.AddBuff(mod.BuffType("DarkSlow"), 5);
-                }
             }
             else if (ZoneJungleCorrupt)
             {
                 Overlay.state = 2;
+                if (player.wet)
+                {
+                    player.maxFallSpeed = 999f;
+                    if(player.breath != player.breathMax)
+                    {
+                        player.breath--;
+                    }
+                }
             }
             else if (ZoneJungleBloody)
             {
                 Overlay.state = 3;
+                if (player.wet)
+                {
+                    player.AddBuff(Terraria.ID.BuffID.Ichor, 600);
+                }
             }
             else if (ZoneJungleHoly)
             {
@@ -141,6 +153,13 @@ namespace StarlightRiver
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
             bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];
             holyJungleTiles = tileCounts[mod.TileType("GrassJungleHoly")];
+        }
+
+        public override void ResetNearbyTileEffects()
+        {
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleCorrupt = false;
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleBloody = false;
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleHoly = false;
         }
     }
 

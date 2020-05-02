@@ -21,6 +21,7 @@ namespace StarlightRiver.Tiles.JungleBloody
             TileID.Sets.Grass[Type] = true;
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
+            SetModTree(new TreeJungleBloody());
             drop = ItemID.MudBlock;
             AddMapEntry(new Color(143, 45, 45));
             soundType = 0;

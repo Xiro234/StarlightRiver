@@ -15,7 +15,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override bool CheckActive() => npc.ai[1] == (int)AIStates.Leaving;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Shit, Piss, Cock, Balls.");
+            DisplayName.SetDefault("Scalie's Monster Cock");
         }
 
         public override void SetDefaults()
@@ -112,6 +112,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void AI()
         {
+            return;
             /*
              * AI slots:
              * 0: Timer

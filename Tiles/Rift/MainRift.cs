@@ -224,7 +224,6 @@ namespace StarlightRiver.Tiles.Rift
             crafted = false;
             return base.OnPickup(item, player);
         }
-
         public override void PostUpdate(Item item)
         {
             Color color = new Color(220 + (int)(Math.Sin(LegendWorld.rottime * 3) * 25), 140, 255) * 0.5f;

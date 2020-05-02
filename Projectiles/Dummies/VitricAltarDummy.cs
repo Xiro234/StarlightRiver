@@ -76,10 +76,17 @@ namespace StarlightRiver.Projectiles.Dummies
             }
 
             //controls the drawing of the barriers
-            if (Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>())) projectile.ai[0]++;
-            else projectile.ai[0] = 0;
-
-            if (projectile.ai[0] >= 120) projectile.ai[0] = 120;
+            if (projectile.ai[0] < 120 && Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>()))
+            {
+                projectile.ai[0]++;
+                if(projectile.ai[0] % 3 == 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 2; //screenshake
+                if (projectile.ai[0] == 119) //hitting the top
+                {
+                    Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 25;
+                    for(int k = 0; k < 5; k++) Main.PlaySound(Terraria.ID.SoundID.Tink);
+                }
+            }
+            else if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>()))projectile.ai[0] = 0; //TODO fix this later
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor) //actually drawing the barriers and item indicator
         {
@@ -91,14 +98,15 @@ namespace StarlightRiver.Projectiles.Dummies
                 Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition, new Color(150, 220, 250));
             }
 
-            Vector2 center = projectile.Center + new Vector2(0, 60);
+            Vector2 center = projectile.Center + new Vector2(0, 56);
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBossBarrier");
+            Color color = new Color(180, 225, 255);
             int off = (int)(projectile.ai[0] / 120f * 880);
-            spriteBatch.Draw(tex, new Rectangle((int)center.X - 732 - (int)Main.screenPosition.X, (int)center.Y - off - (int)Main.screenPosition.Y, tex.Width, off),
-                new Rectangle(0, 0, tex.Width, (int)(projectile.ai[0] / 120f * 880)), Color.White);
+            spriteBatch.Draw(tex, new Rectangle((int)center.X - 790 - (int)Main.screenPosition.X, (int)center.Y - off - (int)Main.screenPosition.Y, tex.Width, off),
+                new Rectangle(0, 0, tex.Width, (int)(projectile.ai[0] / 120f * 880)), color);
 
-            spriteBatch.Draw(tex, new Rectangle((int)center.X + 616 - (int)Main.screenPosition.X, (int)center.Y - off - (int)Main.screenPosition.Y, tex.Width, off),
-                new Rectangle(0, 0, tex.Width, (int)(projectile.ai[0] / 120f * 880)), Color.White);
+            spriteBatch.Draw(tex, new Rectangle((int)center.X + 606 - (int)Main.screenPosition.X, (int)center.Y - off - (int)Main.screenPosition.Y, tex.Width, off),
+                new Rectangle(0, 0, tex.Width, (int)(projectile.ai[0] / 120f * 880)), color);
         }
         public void SpawnBoss()
         {
