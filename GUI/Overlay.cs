@@ -59,7 +59,7 @@ namespace StarlightRiver.GUI
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
-                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1000) == 0)
+                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1200) == 0)
                         {
                             EvilDust dus = new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Corrupt"), new Vector2(k, Main.screenHeight), new Vector2(0, -1.4f));
                             Bootlegdust.Add(dus);
@@ -125,7 +125,7 @@ namespace StarlightRiver.GUI
     public class EvilDust : BootlegDust
     {
         public EvilDust(Texture2D texture, Vector2 position, Vector2 velocity) :
-            base(texture, position, velocity, Color.White * 0.9f, 1.5f, 550)
+            base(texture, position, velocity, Color.White * 0.6f, 1.5f, 550)
         {
         }
 
@@ -136,6 +136,7 @@ namespace StarlightRiver.GUI
             scl *= 0.996f;
             time--;
             pos.X += (float)Math.Sin((float)(time / 550f * 12.56f));
+            rot += 0.1f;
         }
     }
     public class BloodDust : BootlegDust

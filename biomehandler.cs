@@ -98,19 +98,26 @@ namespace StarlightRiver
             if (ZoneVoidPre)
             {
                 Overlay.state = 1;
-
-                if (player.GetModPlayer<AbilityHandler>().pure.Locked)
-                {
-                    player.AddBuff(mod.BuffType("DarkSlow"), 5);
-                }
             }
             else if (ZoneJungleCorrupt)
             {
                 Overlay.state = 2;
+                if (player.wet)
+                {
+                    player.maxFallSpeed = 999f;
+                    if(player.breath != player.breathMax)
+                    {
+                        player.breath--;
+                    }
+                }
             }
             else if (ZoneJungleBloody)
             {
                 Overlay.state = 3;
+                if (player.wet)
+                {
+                    player.AddBuff(Terraria.ID.BuffID.Ichor, 600);
+                }
             }
             else if (ZoneJungleHoly)
             {
