@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.NPCs.Boss.VitricBoss;
+using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -95,7 +96,7 @@ namespace StarlightRiver.Projectiles.Dummies
 
             if (parent.frameX >= 90)
             {
-                Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition, new Color(150, 220, 250));
+                Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5 - 20), new Color(150, 220, 250));
             }
 
             Vector2 center = projectile.Center + new Vector2(0, 56);

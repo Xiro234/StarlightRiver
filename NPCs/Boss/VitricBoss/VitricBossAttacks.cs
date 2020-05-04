@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -78,7 +79,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 if (npc.ai[3] >= 360 && npc.ai[3] < 840) //come back in
                 {
-                    crystal.Center = npc.Center + (Vector2.SmoothStep(crystalModNPC.TargetPos, crystalModNPC.StartPos, (npc.ai[3] - 360) / 480) - npc.Center).RotatedBy(-(npc.ai[3] - 360) / 480 * 3.14f);
+                    crystal.Center = npc.Center + (Vector2.SmoothStep(crystalModNPC.TargetPos, crystalModNPC.StartPos, (npc.ai[3] - 360) / 480) - npc.Center).RotatedBy(-(npc.ai[3] - 360) / 480 * 4.72f);
 
                     //the chosen "favorite" or master crystal is the one where our opening should be
                     if (k != FavoriteCrystal) for (int i = 0; i < 5; i++)
@@ -118,6 +119,22 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         private void CrystalSmash()
         {
+            //boss during the attack
+            if (npc.ai[3] == 1) endPos = npc.Center; //set the ending point to the center of the arena so we can come back later
+
+            //actual movement
+            if (npc.ai[3] < 270)
+            {
+                npc.position.Y += (float)Math.Sin(npc.ai[3] / 90 * 6.28f) * 2;
+                npc.position.X += (float)Math.Sin(npc.ai[3] / 270 * 6.28f) * 6f;
+            }
+
+
+            if (npc.ai[3] == 270) { startPos = npc.Center; npc.velocity *= 0; } //where we start our return trip
+            if (npc.ai[3] > 270) npc.Center = Vector2.SmoothStep(startPos, endPos, (npc.ai[3] - 270) / 90); //smoothstep back to the center
+
+
+            //Crystals during the attack
             for(int k = 0; k < 4; k++)
             {
                 NPC crystal = Crystals[k];
@@ -129,7 +146,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     Player player = Main.player[npc.target]; 
                     crystal.ai[2] = 0; //set the crystal into normal mode
                     crystalModNPC.StartPos = crystal.Center;
-                    crystalModNPC.TargetPos = new Vector2(player.Center.X + player.velocity.X * 50, player.Center.Y - 400); //endpoint is above the player
+                    crystalModNPC.TargetPos = new Vector2(player.Center.X + player.velocity.X * 50, player.Center.Y - 250); //endpoint is above the player
                 }
                 if(npc.ai[3] >= 60 + k * 60 && npc.ai[3] <= 60 + (k + 1) * 60) //move the crystal there
                 {
@@ -142,6 +159,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     crystalModNPC.TargetPos = player.Center;
                 }
             }
+
+            //ending the attack
             if (npc.ai[3] > 360) ResetAttack();
         }
         private void RandomSpikes()
@@ -161,6 +180,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if(Crystals.Count(n => n.ai[0] == 2) == 0)
             {
                 npc.ai[1] = (int)AIStates.FirstToSecond; //this is where we phase the boss
+                npc.ai[0] = 0;
             }
             if(npc.ai[3] == 180)
             {

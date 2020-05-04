@@ -18,14 +18,14 @@ namespace StarlightRiver
 
         public static void OvergrowGen(GenerationProgress progress)
         {
-            progress.Message = "fuck my ass.";
+            progress.Message = "Generating The Overgrowth...";
             Rectangle firstRoom = new Rectangle(Main.dungeonX, (int)Main.worldSurface + 50, 38, 23);
             while (!CheckDungeon(firstRoom))
             {
                 if (Math.Abs(firstRoom.X - Main.dungeonX) > 100) firstRoom.Y += 5;
                 else firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
             }
-            Helper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
+            if(ModLoader.GetMod("StructureHelper") != null) StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
             WormFromRoom(firstRoom);
             while (Rooms.Count <= 10) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
 
