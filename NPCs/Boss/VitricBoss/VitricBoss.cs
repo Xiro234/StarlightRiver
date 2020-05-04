@@ -15,7 +15,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override bool CheckActive() => npc.ai[1] == (int)AIStates.Leaving;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scalie's Monster Cock");
+            DisplayName.SetDefault("Ceiros");
         }
 
         public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.scale = 0.5f;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss1");
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -60,6 +60,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             spriteBatch.Draw(ModContent.GetTexture(Texture), npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, 0, 0);
 
             //debug drawing
+            /*
             Utils.DrawBorderString(spriteBatch, "AI: " + npc.ai[0] + " / " + npc.ai[1] + " / " + npc.ai[2] + " / " + npc.ai[3], new Vector2(40, Main.screenHeight - 100), Color.Red);
             Utils.DrawBorderString(spriteBatch, "Vel: " + npc.velocity, new Vector2(40, Main.screenHeight - 120), Color.Red);
             Utils.DrawBorderString(spriteBatch, "Pos: " + npc.position, new Vector2(40, Main.screenHeight - 140), Color.Red);
@@ -68,6 +69,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             {
                 if(Crystals.Count == 4) Utils.DrawBorderString(spriteBatch, "Crystal " + k + " Distance: " + Vector2.Distance(Crystals[k].Center, npc.Center) + " State: " + Crystals[k].ai[2], new Vector2(40, Main.screenHeight - 180 - k * 20), Color.Yellow);
             }
+            */
             return false;
         }
         #endregion
@@ -96,7 +98,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         #endregion
 
         #region AI
-
+        public Vector2 startPos;
+        public Vector2 endPos;
         public List<NPC> Crystals = new List<NPC>();
         public List<Vector2> CrystalLocations = new List<Vector2>();
         public enum AIStates
@@ -112,7 +115,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void AI()
         {
-            return;
             /*
              * AI slots:
              * 0: Timer
@@ -179,6 +181,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     {
                         npc.immortal = false;
                         npc.friendly = false;
+                        int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<ArenaBottom>());
+                        (Main.npc[index].modNPC as ArenaBottom).Parent = this;
                         ChangePhase(AIStates.FirstPhase, true);
                     }
                     break;
@@ -239,7 +243,50 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case (int)AIStates.FirstToSecond:
-                    Main.NewText("SECOND PHASE");
+                    if (npc.ai[0] == 2)
+                    {
+                        foreach (NPC crystal in Crystals)
+                        {
+                            crystal.ai[0] = 0;
+                            crystal.ai[2] = 5; //turn the crystals to transform mode
+                        }
+                    }
+                    if(npc.ai[0] == 120)
+                    {
+                        foreach (NPC crystal in Crystals) //kill all the crystals
+                        {
+                            crystal.Kill();
+                        }
+                        npc.friendly = true; //so we wont get contact damage
+                    }
+                    if(npc.ai[0] > 120)
+                    {
+                        foreach(Player player in Main.player)
+                        {
+                            if(Abilities.AbilityHelper.CheckDash(player, npc.Hitbox)) //boss should be dashable now, when dashed:
+                            {
+                                ChangePhase(AIStates.SecondPhase, true); //go on to the next phase
+                                ResetAttack(); //reset attack
+                                foreach (NPC wall in Main.npc.Where(n => n.modNPC is VitricBackdropLeft)) wall.ai[1] = 3; //make the walls scroll
+                                foreach (NPC plat in Main.npc.Where(n => n.modNPC is VitricBossPlatformUp)) plat.ai[0] = 1; //make the platforms scroll
+                                
+                                break;
+                            }
+                        }
+                    }
+                    if (npc.ai[0] > 900) //after waiting too long, wipe all players
+                    {
+                        foreach (Player player in Main.player.Where(n => Vector2.Distance(n.Center, npc.Center) < 1000))
+                        {
+                            player.KillMe(Terraria.DataStructures.PlayerDeathReason.ByCustomReason(player.name + " was shattered..."), double.MaxValue, 0);
+                        }
+                        ChangePhase(AIStates.Leaving, true);
+                    }
+                    break;
+
+                case (int)AIStates.SecondPhase:
+                    if (npc.ai[0] == 1) music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy");
+                    if (npc.ai[0] == 2) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
                     break;
 
                 case (int)AIStates.Leaving:

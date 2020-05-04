@@ -181,8 +181,8 @@ namespace StarlightRiver
 
             if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
             {
-                tileColor = tileColor.MultiplyRGB(new Color(70, 150, 165));
-                backgroundColor = backgroundColor.MultiplyRGB(new Color(70, 150, 165));
+                tileColor = tileColor.MultiplyRGB(new Color(30, 60, 65));
+                backgroundColor = backgroundColor.MultiplyRGB(new Color(30, 60, 65));
             }
 
             if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)

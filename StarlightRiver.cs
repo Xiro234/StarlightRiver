@@ -22,6 +22,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 
@@ -111,7 +112,7 @@ namespace StarlightRiver
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starlight");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleHoly");
                     priority = MusicPriority.BiomeHigh;
                 }
 
@@ -228,19 +229,99 @@ namespace StarlightRiver
             On.Terraria.Player.dropItemCheck += SoulboundPriority;
             On.Terraria.Player.ItemFitsItemFrame += NoSoulboundFrame;
             On.Terraria.Player.ItemFitsWeaponRack += NoSoulboundRack;
+            //jungle grass
 
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
             //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
+            //moonlord draw layer
             IL.Terraria.Main.DoDraw += DrawMoonlordLayer;
+            //dragons
             IL.Terraria.Main.DrawMenu += DragonMenuAttach;
+            //soulbound items
             IL.Terraria.UI.ChestUI.DepositAll += PreventSoulboundStack;
+            //dynamic map icons
             IL.Terraria.Main.DrawMap += DynamicBossIcon;
+            //jungle grass
+            IL.Terraria.WorldGen.Convert += JungleGrassConvert;
+            IL.Terraria.WorldGen.hardUpdateWorld += JungleGrassSpread;
+
+
         }
 
 
 
         #region IL edits
+        private void JungleGrassSpread(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            for (int k = 0; k < 3; k++)
+            {
+                int type;
+                switch (k)
+                {
+                    case 0: type = ModContent.TileType<Tiles.JungleBloody.GrassJungleBloody>(); break;
+                    case 2: type = ModContent.TileType<Tiles.JungleCorrupt.GrassJungleCorrupt>(); break;
+                    case 1: type = ModContent.TileType<Tiles.JungleHoly.GrassJungleHoly>(); break;
+                    default: type = 2; break;
+                }
+
+                for (int n = 0; n < 2; n++)
+                {
+                    c.TryGotoNext(i => i.MatchLdcI4(0), i => i.MatchStfld<Tile>("type"));
+                    c.Index--;
+                    c.Emit(OpCodes.Pop);
+                    c.Emit(OpCodes.Ldc_I4, type);
+                }
+            }
+        }
+        private void JungleGrassConvert(ILContext il) //IL only. Fun stuff.
+        {
+            ILCursor c = new ILCursor(il);
+            for (int k = 0; k < 3; k++)
+            {
+                int type;
+                int index;
+                switch (k)
+                {
+                    case 0: type = ModContent.TileType<Tiles.JungleBloody.GrassJungleBloody>(); break;
+                    case 2: type = ModContent.TileType<Tiles.JungleCorrupt.GrassJungleCorrupt>(); break;
+                    case 1: type = ModContent.TileType<Tiles.JungleHoly.GrassJungleHoly>(); break;
+                    default: type = 2; break;
+                }
+                c.TryGotoNext(i => i.MatchLdsfld(typeof(TileID.Sets.Conversion).GetField("Grass")));
+                c.TryGotoNext(i => i.MatchLdsfld(typeof(TileID.Sets.Conversion).GetField("Ice")));
+                index = c.Index--;
+                c.TryGotoPrev(i => i.MatchLdsfld(typeof(TileID.Sets.Conversion).GetField("Grass")));
+                c.Index++;
+                c.Emit(OpCodes.Pop);
+                c.Emit(OpCodes.Ldc_I4, type);
+                c.Emit(OpCodes.Ldloc_0);
+                c.Emit(OpCodes.Ldloc_1);
+                c.EmitDelegate<GrassConvertDelegate>(EmitGrassConvertDelegate);
+                c.Emit(OpCodes.Brtrue, il.Instrs[index]);
+                c.Emit(OpCodes.Ldsfld, typeof(TileID.Sets.Conversion).GetField("Grass"));
+            }
+            c.TryGotoNext(i => i.MatchLdfld<Tile>("wall"), i => i.MatchLdcI4(69));
+            c.TryGotoPrev(i => i.MatchLdsfld<Main>("tile"));
+            c.Index++;
+            c.Emit(OpCodes.Ldc_I4, TileID.JungleGrass);
+            c.Emit(OpCodes.Ldloc_0);
+            c.Emit(OpCodes.Ldloc_1);
+            c.EmitDelegate<GrassConvertDelegate>(EmitGrassConvertDelegate);
+            c.Emit(OpCodes.Pop);
+        }
+        private delegate bool GrassConvertDelegate(int type, int x, int y);
+        private bool EmitGrassConvertDelegate(int type, int x, int y)
+        {
+            Tile tile = Main.tile[x, y];
+            if(tile.type == TileID.JungleGrass || tile.type == ModContent.TileType<Tiles.JungleBloody.GrassJungleBloody>() || tile.type == ModContent.TileType<Tiles.JungleCorrupt.GrassJungleCorrupt>() || tile.type == ModContent.TileType<Tiles.JungleHoly.GrassJungleHoly>())
+            {
+                tile.type = (ushort)type;
+                return true;
+            }
+            return false;
+        }
         private void DynamicBossIcon(ILContext il)
         {
             //Hillariously repetitive IL edit to draw custom icons dynamically. Funny. Fuck vanilla.
@@ -676,6 +757,28 @@ namespace StarlightRiver
                 }
 
             }
+
+            //trees, 100% not the right place to do this. I should probably move this later. I wont. Kill me.
+            if(Main.tile[i, j].type == Terraria.ID.TileID.Trees && Main.tile[i, j - 1].type != Terraria.ID.TileID.Trees && Main.tile[i, j + 1].type == Terraria.ID.TileID.Trees 
+                && Helper.ScanForTypeDown(i, j, ModContent.TileType<Tiles.JungleHoly.GrassJungleHoly>())) //at the top of trees in the holy jungle
+            {
+                Color color = new Color();
+                switch (i % 3)
+                {
+                    case 0: color = new Color(150, 255, 230); break;
+                    case 1: color = new Color(255, 180, 255); break;
+                    case 2: color = new Color(200, 150, 255); break;
+                }
+
+                if (Main.rand.Next(5) == 0)
+                {
+                    Dust d = Dust.NewDustPerfect(new Vector2(i, j - 3) * 16 + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(32), ModContent.DustType<Dusts.BioLumen>(), new Vector2(0.9f, 0.3f), 0, color, 1);
+                    d.fadeIn = Main.rand.NextFloat(3.14f);
+                }
+                r = color.R / 555f; //lazy value tuning
+                g = color.G / 555f;
+                b = color.B / 555f;
+            }
         }
         #endregion
 
@@ -724,6 +827,7 @@ namespace StarlightRiver
         }
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
         {
+            if (self.controlDown) { orig(self); return; }
             foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC != null && n.modNPC is NPCs.MovingPlatform))
             {
                 if (new Rectangle((int)self.position.X, (int)self.position.Y + (self.height - 2), self.width, 4).Intersects

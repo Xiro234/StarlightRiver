@@ -120,7 +120,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case 3: //falling for smash attack
-                    npc.velocity.Y += 0.7f;
+                    npc.velocity.Y += 0.9f;
 
                     if (npc.rotation != 0) //normalize rotation
                     {
@@ -151,6 +151,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 case 4: //fleeing
                     npc.velocity.Y += 0.7f;
                     if (npc.ai[1] >= 120) npc.active = false;
+                    break;
+                case 5: //transforming the boss
+                    for(float k = 0; k < 1; k+= 0.03f)
+                    {
+                        Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), ModContent.DustType<Dusts.Air>());
+                    }
                     break;
 
 

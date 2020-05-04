@@ -22,6 +22,7 @@ namespace StarlightRiver.Tiles.JungleHoly
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
             drop = ItemID.MudBlock;
+            SetModTree(new TreeJungleHoly());
             AddMapEntry(new Color(64, 193, 147));
             soundType = 0;
             dustType = 125;
