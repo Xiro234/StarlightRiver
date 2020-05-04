@@ -198,10 +198,10 @@ namespace StarlightRiver.Items.Ultrashark
                 }
                 return false;
             }
-            Gore.NewGore(position, (-perturbedSpeed + new Vector2(Main.rand.NextFloat(3f) - 1.5f, -2)) * 0.25f, mod.GetGoreSlot("Gores/UltrasharkCasing"));
             Vector2 perturbedSpeedAgain = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(8));
             speedX = perturbedSpeedAgain.X;
             speedY = perturbedSpeedAgain.Y;
+            Gore.NewGore(position, (-perturbedSpeedAgain + new Vector2(Main.rand.NextFloat(3f) - 1.5f, -2)) * 0.25f, mod.GetGoreSlot("Gores/UltrasharkCasing"));
             return true;
         }
         #endregion
