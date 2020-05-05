@@ -84,7 +84,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (npc.ai[0] == (int)OvergrowBossPhase.Setup)
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
+                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/OvergrowBoss");
 
                 int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<OvergrowBossFlail>()); //spawn the flail after intro
                 (Main.npc[index].modNPC as OvergrowBossFlail).parent = this; //set the flail's parent

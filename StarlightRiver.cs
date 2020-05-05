@@ -1046,24 +1046,28 @@ namespace StarlightRiver
                 DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5.5f, 200, new Color(120, 150, 170), true); //the back sand on top
 
 
-                VitricBackgroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch)); //back particles
+                foreach(BootlegDust dust in VitricBackgroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
+                    dust.Draw(Main.spriteBatch); //back particles
+
                 for (int k = 4; k >= 0; k--)
                 {
                     DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1, -80); //the crystal layers and front sand
                     if (k == 4) DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 4.5f, 0, new Color(180, 220, 235), true); //the sand on top
-                    if (k == 2) VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Draw(Main.spriteBatch)); //front particles
-                    
+                    if (k == 2)
+                        foreach (BootlegDust dust in VitricForegroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
+                            dust.Draw(Main.spriteBatch); //front particles
+
                 }
 
                 for (int k = (int)(player.position.X - basepoint.X) - (int)(Main.screenWidth * 1.5f); k <= (int)(player.position.X - basepoint.X) + (int)(Main.screenWidth * 1.5f); k += 30)
                 {
-                    if (Main.rand.Next(600) == 0)
+                    if (Main.rand.Next(800) == 0)
                     {
                         BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.65f, 0.2f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
-                    if (Main.rand.Next(500) == 0)
+                    if (Main.rand.Next(700) == 0)
                     {
                         BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1000), k, 0.85f, 0.5f, 0.4f);
                         VitricForegroundDust.Add(dus2);
@@ -1088,10 +1092,12 @@ namespace StarlightRiver
             if (color == default) color = Color.White;
             for (int k = 0; k <= 5; k++)
             {
-                Main.spriteBatch.Draw(texture,
-                    new Vector2(basepoint.X + (k * 739 * 4) + GetParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X, 
-                    basepoint.Y + offY - (int)Main.screenPosition.Y + GetParallaxOffsetY(basepoint.Y + LegendWorld.VitricBiome.Height * 8, parallax * 0.04f)),
-                    new Rectangle(0, 0, 2956, 1528), color, 0f, Vector2.Zero, 1f, flip ? SpriteEffects.FlipVertically : 0, 0);
+                float x = basepoint.X + (k * 739 * 4) + GetParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X;
+                float y = basepoint.Y + offY - (int)Main.screenPosition.Y + GetParallaxOffsetY(basepoint.Y + LegendWorld.VitricBiome.Height * 8, parallax * 0.04f);
+                if (x > -texture.Width && x < Main.screenWidth + 30)
+                {
+                    Main.spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(0, 0, 2956, 1528), color, 0f, Vector2.Zero, 1f, flip ? SpriteEffects.FlipVertically : 0, 0);
+                }
             }
         }
         public int GetParallaxOffset(float startpoint, float factor)

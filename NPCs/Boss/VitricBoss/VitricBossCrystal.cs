@@ -54,6 +54,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 foreach (Player player in Main.player)
                     if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
                     {
+                        Main.PlaySound(Terraria.ID.SoundID.DD2_WitherBeastCrystalImpact);
+                        for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8), 0, default, 2.2f);
                         npc.ai[0] = 1; //It's all broken and on the floor!
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
@@ -63,6 +65,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         foreach(NPC npc in (Parent.npc.modNPC as VitricBoss).Crystals) //reset all our crystals to idle mode
                         {
                             npc.ai[2] = 0;
+                            npc.friendly = false; //damaging again
                         }
                     }
             }
@@ -91,22 +94,23 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case 1: //nuke attack
-
+                    if (npc.ai[0] == 0) npc.friendly = true; //vulnerable crystal shouldnt do damage
                     if (npc.rotation != 0) //normalize rotation
                     {
                         npc.rotation += 0.5f;
                         if (npc.rotation >= 5f) npc.rotation = 0;
                     }
 
-                    if (npc.ai[1] > 60 && npc.ai[1] <= 180)
+                    if (npc.ai[1] > 60 && npc.ai[1] <= 120)
                     {
-                        npc.Center = Vector2.SmoothStep(StartPos, TargetPos, (npc.ai[1] - 60) / 120f); //go to the platform
+                        npc.Center = Vector2.SmoothStep(StartPos, TargetPos, (npc.ai[1] - 60) / 60f); //go to the platform
                     }
                     if (npc.ai[1] >= 720) //when time is up... uh oh
                     {
-                        npc.ai[0] = 2; //make invulnerable again
+                        if(npc.ai[0] == 0) npc.ai[0] = 2; //make invulnerable again
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
+                        npc.friendly = false; //damaging again
                     }
                     break;
 

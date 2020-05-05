@@ -126,7 +126,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (npc.ai[3] < 270)
             {
                 npc.position.Y += (float)Math.Sin(npc.ai[3] / 90 * 6.28f) * 2;
-                npc.position.X += (float)Math.Sin(npc.ai[3] / 270 * 6.28f) * 6f;
+                float vel = ((npc.ai[3] % 68) / 17 - (float)Math.Pow(npc.ai[3] % 68, 2) / 1156) * 9;
+                npc.position.X += (npc.ai[3] < 68 || npc.ai[3] > 68*3) ? vel : -vel ;
             }
 
 
@@ -182,14 +183,17 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 npc.ai[1] = (int)AIStates.FirstToSecond; //this is where we phase the boss
                 npc.ai[0] = 0;
             }
-            if(npc.ai[3] == 180)
+            for (int i = 0; i < Crystals.Count(n => n.ai[0] == 1 || n.ai[0] == 3); i++)
             {
-                for(float k = 0; k < 6.28f; k += 6.28f / 12) //ring of glass spikes
+                if (npc.ai[3] == 30 + i * 45)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k) * 2.5f, ModContent.ProjectileType<Projectiles.GlassSpike>(), 15, 0.2f);
+                    for (float k = 0; k < 6.28f; k += 6.28f / 12) //ring of glass spikes
+                    {
+                        Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k + (i % 2 == 0 ? 6.28f / 24 : 0)) * 3.5f, ModContent.ProjectileType<Projectiles.GlassSpike>(), 15, 0.2f);
+                    }
                 }
             }
-            if (npc.ai[3] >= 200)
+            if (npc.ai[3] >= 240)
             {
                 Crystals.FirstOrDefault(n => n.ai[0] == 1).ai[0] = 3;
                 npc.ai[1] = (int)AIStates.FirstPhase; //go back to normal attacks after this is all over

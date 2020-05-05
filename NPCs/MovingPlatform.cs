@@ -7,6 +7,10 @@ namespace StarlightRiver.NPCs
     abstract class MovingPlatform : ModNPC
     {
         public virtual void SafeSetDefaults() { }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("");
+        }
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();
@@ -35,5 +39,7 @@ namespace StarlightRiver.NPCs
                 }
             }
         }
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
     }
 }

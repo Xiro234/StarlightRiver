@@ -11,6 +11,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public const int Scrolltime = 1000;
         public const int Risetime = 360;
         public override bool CheckActive() => false;
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("");
+        }
         public override void SetDefaults()
         {
             npc.height = 1;
