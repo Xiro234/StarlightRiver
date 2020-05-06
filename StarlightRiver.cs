@@ -217,7 +217,7 @@ namespace StarlightRiver
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
             //Menu themes
-            //On.Terraria.Main.DrawMenu += TestMenu;
+            On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
@@ -915,10 +915,9 @@ namespace StarlightRiver
         private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
-            if (ModLoader.GetMod("StarlightRiver") == null) return;
+            if (Main.menuMode != 0) return;
 
             Main.spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
-            Main.spriteBatch.DrawString(Main.fontMouseText, "Menu Mode: " + Main.menuMode, Vector2.One * 200, Color.White);
 
             switch (GetInstance<TitleScreenConfig>().Style)
             {
@@ -926,34 +925,36 @@ namespace StarlightRiver
                     break;
 
                 case TitleScreenStyle.Starlight:
-                    if (Main.rand.Next(2) == 0)
+                    if (Main.rand.Next(3) >= 1)
                     {
-                        MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -Main.rand.NextFloat(0.8f))));
+                        MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -Main.rand.NextFloat(1.4f))));
                     }
                     Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 160, 190) * 0.75f);
+                    break;
+
+                case TitleScreenStyle.Vitric:
+                    if (Main.rand.Next(10) == 0)
+                        MenuDust.Add(new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), 0, 0.35f, 0.4f, 0));
+                    Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 180, 180) * 0.75f);
                     break;
 
                 case TitleScreenStyle.Overgrow:
                     if (Main.rand.Next(1) == 0)
                     {
-                        MenuDust.Add(new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Holy"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight - Main.rand.Next(Main.screenHeight / 4)), Vector2.Zero));
+                        MenuDust.Add(new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Holy"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight - Main.rand.Next(Main.screenHeight / 3)), Vector2.Zero));
                     }
                     Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(180, 170, 100) * 0.75f);
                     break;
 
-                case TitleScreenStyle.Rift:
+                /*case TitleScreenStyle.Rift:
                     if (Main.rand.Next(1) == 0)
                     {
                         MenuDust.Add(new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 10), new Vector2(0, -Main.rand.NextFloat(0.6f, 1f))));
                     }
                     Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(180, 50, 240) * 0.9f);
-                    break;
+                    break;*/
 
-                case TitleScreenStyle.Mario:
 
-                    MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/MarioCumming"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -10)));
-
-                    break;
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();

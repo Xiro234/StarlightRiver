@@ -105,9 +105,20 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     {
                         npc.Center = Vector2.SmoothStep(StartPos, TargetPos, (npc.ai[1] - 60) / 60f); //go to the platform
                     }
-                    if (npc.ai[1] >= 720) //when time is up... uh oh
+                    if (npc.ai[1] >= 719) //when time is up... uh oh
                     {
-                        if(npc.ai[0] == 0) npc.ai[0] = 2; //make invulnerable again
+                        if (npc.ai[0] == 0) //only the vulnerable crystal
+                        {
+                            npc.ai[0] = 2; //make invulnerable again
+                            Parent.npc.life += 250; //heal the boss
+                            Parent.npc.HealEffect(250, true);
+                            Parent.npc.immortal = false; //make the boss vulnerable again so you can take that new 250 HP back off
+
+                            for (float k = 0; k < 1; k += 0.03f) //dust visuals
+                            {
+                                Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), ModContent.DustType<Dusts.Starlight>());
+                            }
+                        }
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
                         npc.friendly = false; //damaging again
@@ -134,22 +145,24 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                     Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>());
 
-                    if(npc.Center.Y > TargetPos.Y)
-                    foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
-                    {
-                        Rectangle hitbox = new Rectangle((int)point.X - 110, (int)point.Y + 48, 220, 16); //grabs the platform hitbox
-                        Rectangle myHitbx = new Rectangle((int)npc.position.X, (int)npc.position.Y + 40, npc.width, 20);
-                        if (npc.Hitbox.Intersects(hitbox))
+                    if (npc.Center.Y > TargetPos.Y)
+                        foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
                         {
-                            npc.velocity *= 0;
-                            npc.position.Y = hitbox.Y - 40; //embed into the platform
-                            npc.ai[2] = 0; //turn it idle
+                            Rectangle hitbox = new Rectangle((int)point.X - 110, (int)point.Y + 48, 220, 16); //grabs the platform hitbox
+                            Rectangle myHitbx = new Rectangle((int)npc.position.X, (int)npc.position.Y + 40, npc.width, 20);
+                            if (npc.Hitbox.Intersects(hitbox))
+                            {
+                                npc.velocity *= 0;
+                                npc.position.Y = hitbox.Y - 40; //embed into the platform
+                                npc.ai[2] = 0; //turn it idle
+                                Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
+                            }
                         }
-                    }
                     if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).collisionType == 1 && npc.Center.Y > LegendWorld.VitricBiome.Y * 16) //tile collision
                     {
                         npc.velocity *= 0;
                         npc.ai[2] = 0; //turn it idle
+                        Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
                     }
                     break;
                 case 4: //fleeing

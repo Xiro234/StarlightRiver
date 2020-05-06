@@ -33,6 +33,8 @@ namespace StarlightRiver.Projectiles.Dummies
 
             if (parent.frameX == 0 && Main.player.Any(n => Abilities.AbilityHelper.CheckDash(n, projectile.Hitbox)))
             {
+                Main.PlaySound(Terraria.ID.SoundID.Shatter);
+                for (int k = 0; k < 100; k++) Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Glass2>(), 0, 0,  0, default, 1.2f);
                 for (int x = parentPos.X; x < parentPos.X + 5; x++)
                 {
                     for (int y = parentPos.Y; y < parentPos.Y + 7; y++)
@@ -97,6 +99,11 @@ namespace StarlightRiver.Projectiles.Dummies
             if (parent.frameX >= 90)
             {
                 Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5 - 20), new Color(150, 220, 250));
+            }
+            else
+            {
+                Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricBossAltarGlow");
+                spriteBatch.Draw(glow, projectile.position - Main.screenPosition + new Vector2(0, -9), glow.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime), 0, Vector2.Zero, 1, 0, 0);
             }
 
             Vector2 center = projectile.Center + new Vector2(0, 56);

@@ -82,9 +82,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     crystal.Center = npc.Center + (Vector2.SmoothStep(crystalModNPC.TargetPos, crystalModNPC.StartPos, (npc.ai[3] - 360) / 480) - npc.Center).RotatedBy(-(npc.ai[3] - 360) / 480 * 4.72f);
 
                     //the chosen "favorite" or master crystal is the one where our opening should be
-                    if (k != FavoriteCrystal) for (int i = 0; i < 5; i++)
+                    if (k != FavoriteCrystal) for (int i = 0; i < 8; i++)
                         {
-                            Dust d = Dust.NewDustPerfect(npc.Center + (crystal.Center - npc.Center).RotatedBy(Main.rand.NextFloat(1.57f)), ModContent.DustType<Dusts.Starlight>(), Vector2.Zero);
+                            Dust d = Dust.NewDustPerfect(npc.Center + (crystal.Center - npc.Center).RotatedBy(Main.rand.NextFloat(1.57f)), ModContent.DustType<Dusts.Electric>(), Vector2.Zero, 0, default, 2);
                         }
                 }
 
@@ -107,12 +107,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     float angleOff = (player.Center - npc.Center).ToRotation() % 6.28f; //where the player is versus the boss angularly. used to check if the player is in the opening
                     NPC crystal = Crystals[FavoriteCrystal]; 
                     float crystalDist = Vector2.Distance(crystal.Center, npc.Center); //distance from the boss to the ring
+                    float crystalOff = (crystal.Center - npc.Center).ToRotation() % 6.28f; //crystal's rotation
+                    float crystal2Off = ((crystal.Center - npc.Center).ToRotation() + 1.57f) % 6.28f; //second crystals rotation to calculate the opening
 
                     // if the player's distance from the boss is within 2 player widths of the ring and if the player isnt in the gab where they would be safe
-                    if ((dist <= crystalDist + player.width && dist >= crystalDist - player.width) && !(angleOff >= (crystal.Center - npc.Center).ToRotation() && angleOff <= (crystal.Center - npc.Center).ToRotation() + 1.57f))
+                    if ((dist <= crystalDist + player.width && dist >= crystalDist - player.width) && !(angleOff >= crystalOff  && angleOff <= crystal2Off))
                     {
                         player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByNPC(npc.whoAmI), 65, 0); //do big damag
                         player.velocity += Vector2.Normalize(player.Center - npc.Center) * -5; //knock into boss
+                        Main.PlaySound(Terraria.ID.SoundID.DD2_LightningAuraZap); //bzzt!
                     }
                 }
             }
@@ -174,6 +177,47 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 Projectile.NewProjectile(points[k], Vector2.Zero, ModContent.ProjectileType<BossSpike>(), 25, 0);
             }
             ResetAttack();
+        }
+        private void PlatformDash()
+        {
+            if(npc.ai[3] == 1) CrystalLocations.OrderBy(n => n.Y); //orders the points the boss should go to by height off the ground
+            for (int k = 0; k < CrystalLocations.Count; k++)
+            {
+                if (npc.ai[3] >= 120 + k * 120 && npc.ai[3] < 120 + (k + 1) * 120) //move between each platform
+                {
+                    int timer = (int)npc.ai[3] - (120 + k * 120); //0 to 240, grabs the relative timer for ease of writing code
+                    if (timer == 0) { startPos = npc.Center; endPos = CrystalLocations[k] + new Vector2(0, -30); RandomizeTarget(); } //set positions and randomize the target
+                    if (timer < 60)
+                    {
+                        npc.Center = Vector2.SmoothStep(startPos, endPos, timer / 60f); //move our big sandy boi into the position of a platform
+                    }
+
+                    if (k % 2 == 0) //pick one of these 2 projectile-based attacks, alternating every other platform
+                    {
+                        if (timer >= 80 && timer % 10 == 0) //burst of 4 spikes
+                        {
+                            Main.PlaySound(Terraria.ID.SoundID.DD2_WitherBeastCrystalImpact);
+                            Projectile.NewProjectile(npc.Center, Vector2.Normalize(npc.Center - Main.player[npc.target].Center) * -8, ModContent.ProjectileType<Projectiles.GlassSpike>(), 15, 0);
+                        }
+                    }
+                    else
+                    {
+                        if(timer == 60) //sand cone
+                        {
+                            int index = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandCone>(), 1, 0);
+                            Main.projectile[index].rotation = (npc.Center - Main.player[npc.target].Center).ToRotation(); //sand cones always need their rotation set on spawn
+                        }
+                    }
+                }
+            }
+            if (npc.ai[3] == 120 + 120 * 6) startPos = npc.Center; //set where we are to the start
+            if (npc.ai[3] > 120 + 120 * 6) //going home
+            {
+                int timer = (int)npc.ai[3] - (120 + 6 * 120);
+                npc.Center = Vector2.SmoothStep(startPos, homePos, timer / 120f);
+                if (timer == 121) ResetAttack(); //reset attack
+            }
+            
         }
 
         private void AngerAttack()

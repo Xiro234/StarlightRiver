@@ -209,12 +209,19 @@ namespace StarlightRiver.GUI
         public override void Update()
         {
             col *= 0.9999999994f;
-            //pos += vel;
-            float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
-            float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
-            float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax * vanillaParallax * (Main.screenPosition.X + Main.screenWidth / 2 - Basepos.X));
-            pos.X = (off) - Main.screenPosition.X;
-            pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
+            if (Parallax > 0)
+            {
+                float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
+                float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
+                float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax * vanillaParallax * (Main.screenPosition.X + Main.screenWidth / 2 - Basepos.X));
+                pos.X = (off) - Main.screenPosition.X;
+                pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
+            }
+            else
+            {
+                pos.X = Basepos.X;
+                pos.Y = ((Basepos.Y) - (1500 * Velocity - time * Velocity) * 0.15f);
+            }
             scl *= (Parallax > 0.2) ? 0.997f : 0.999f;
             rot += 0.015f;
             time--;
