@@ -50,6 +50,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         private void CrystalCage()
         {
+            if (npc.ai[3] % 110 == 0 && npc.ai[3] != 0) //the sand cones the boss fires
+            {
+                RandomizeTarget();
+                int index = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandCone>(), 1, 0); //spawn a sand cone attack
+                Main.projectile[index].rotation = (npc.Center - Main.player[npc.target].Center).ToRotation() + Main.rand.NextFloat(-0.5f, 0.5f);
+            }
+
             for (int k = 0; k < 4; k++) //each crystal
             {
                 NPC crystal = Crystals[k];
@@ -113,7 +120,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     // if the player's distance from the boss is within 2 player widths of the ring and if the player isnt in the gab where they would be safe
                     if ((dist <= crystalDist + player.width && dist >= crystalDist - player.width) && !(angleOff >= crystalOff  && angleOff <= crystal2Off))
                     {
-                        player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByNPC(npc.whoAmI), 65, 0); //do big damag
+                        player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByNPC(npc.whoAmI), Main.expertMode ? 90 : 65, 0); //do big damag
                         player.velocity += Vector2.Normalize(player.Center - npc.Center) * -5; //knock into boss
                         Main.PlaySound(Terraria.ID.SoundID.DD2_LightningAuraZap); //bzzt!
                     }
@@ -147,7 +154,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 {
                     RandomizeTarget(); //pick a random target to smash a crystal down
 
-                    Player player = Main.player[npc.target]; 
+                    Player player = Main.player[npc.target];
                     crystal.ai[2] = 0; //set the crystal into normal mode
                     crystalModNPC.StartPos = crystal.Center;
                     crystalModNPC.TargetPos = new Vector2(player.Center.X + player.velocity.X * 50, player.Center.Y - 250); //endpoint is above the player
@@ -241,7 +248,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             {
                 Crystals.FirstOrDefault(n => n.ai[0] == 1).ai[0] = 3;
                 npc.ai[1] = (int)AIStates.FirstPhase; //go back to normal attacks after this is all over
-                npc.immortal = false;
+                npc.dontTakeDamage = false;
                 ResetAttack();
             }
         }

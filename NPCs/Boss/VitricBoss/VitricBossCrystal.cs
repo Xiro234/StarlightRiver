@@ -14,6 +14,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public VitricBoss Parent;
 
         public override bool CheckActive() => npc.ai[2] == 4;
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resonant Crystal");
@@ -23,7 +25,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             npc.aiStyle = -1;
             npc.lifeMax = 2;
-            npc.damage = 35;
+            npc.damage = 40;
             npc.defense = 0;
             npc.knockBackResist = 0f;
             npc.width = 32;
@@ -33,8 +35,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.immortal = true;
+            npc.dontTakeDamage = true;
+            npc.dontTakeDamageFromHostiles = true;
         }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.damage = 50;
+        }
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => !(npc.ai[0] == 0 || npc.ai[0] == 1); //too tired of dealing with this sheeeet
+
         public override void AI()
         {
             /* AI fields:
@@ -112,7 +121,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                             npc.ai[0] = 2; //make invulnerable again
                             Parent.npc.life += 250; //heal the boss
                             Parent.npc.HealEffect(250, true);
-                            Parent.npc.immortal = false; //make the boss vulnerable again so you can take that new 250 HP back off
+                            Parent.npc.dontTakeDamage = false; //make the boss vulnerable again so you can take that new 250 HP back off
 
                             for (float k = 0; k < 1; k += 0.03f) //dust visuals
                             {

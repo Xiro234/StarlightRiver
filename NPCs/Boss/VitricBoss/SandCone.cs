@@ -27,13 +27,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.timeLeft = 2;
             projectile.ai[0]++; //ticks up the timer
 
-            if (projectile.ai[0] >= 66) //when this projectile goes off
+            if (projectile.ai[0] >= 70) //when this projectile goes off
             {
                 for(int k = 0; k < 100; k++) Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Sand>(), new Vector2(Main.rand.NextFloat(-20f, 0), 0).RotatedBy(projectile.rotation + Main.rand.NextFloat(-0.2f, 0.2f)), Main.rand.Next(50, 150));
                 foreach (Player player in Main.player.Where(n => Helper.CheckConicalCollision(projectile.Center, 700, projectile.rotation, 0.2f, n.Hitbox)))
                 {
-                    player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " bit the dust..."), Main.rand.Next(35, 45), 0); //hurt em
-                    if (Main.rand.Next(2) == 0) player.AddBuff(BuffID.Obstructed, 180); //blind em
+                    player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " bit the dust..."), Main.expertMode ? 50 : 35, 0); //hurt em
+                    if (Main.rand.Next(Main.expertMode ? 1 : 2) == 0) player.AddBuff(BuffID.Obstructed, 180); //blind em
                 }
                 Main.PlaySound(SoundID.DD2_BookStaffCast); //sound
                 projectile.Kill(); //self-destruct
@@ -44,7 +44,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.Additive);
 
-            if(projectile.ai[0] <= 66) //draws the proejctile's tell 1 second before it goes off
+            if(projectile.ai[0] <= 66) //draws the proejctile's tell ~1 second before it goes off
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/ConeTell");
                 float alpha = ((projectile.ai[0] * 2 / 33) - ((float)Math.Pow(projectile.ai[0], 2) / 1086)) * 0.5f;

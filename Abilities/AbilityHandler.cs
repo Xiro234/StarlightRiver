@@ -148,6 +148,8 @@ namespace StarlightRiver.Abilities
                 player.wingTime = 0;
                 player.rocketTime = 0;
                 player.rocketRelease = true;
+                player.fallStart = (int)player.Center.Y;
+                player.fallStart2 = (int)player.Center.Y;
             }
 
             //This restores the player's wings or rocket boots after the ability is over.

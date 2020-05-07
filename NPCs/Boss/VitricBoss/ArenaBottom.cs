@@ -24,7 +24,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override void SetDefaults()
         {
             npc.height = 16;
-            npc.width = 1200;
+            npc.width = 1260;
             npc.aiStyle = -1;
             npc.lifeMax = 2;
             npc.knockBackResist = 0f;

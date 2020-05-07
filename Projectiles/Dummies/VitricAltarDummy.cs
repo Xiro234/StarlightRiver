@@ -96,14 +96,14 @@ namespace StarlightRiver.Projectiles.Dummies
             Point16 parentPos = new Point16((int)projectile.position.X / 16, (int)projectile.position.Y / 16);
             Tile parent = Framing.GetTileSafely(parentPos.X, parentPos.Y);
 
-            if (parent.frameX >= 90)
+            if (parent.frameX >= 90 && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>()))
             {
                 Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5 - 20), new Color(150, 220, 250));
             }
-            else
+            else if (parent.frameX < 90)
             {
                 Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricBossAltarGlow");
-                spriteBatch.Draw(glow, projectile.position - Main.screenPosition + new Vector2(0, -9), glow.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime), 0, Vector2.Zero, 1, 0, 0);
+                spriteBatch.Draw(glow, projectile.position - Main.screenPosition + new Vector2(3, -9), glow.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime), 0, Vector2.Zero, 1, 0, 0);
             }
 
             Vector2 center = projectile.Center + new Vector2(0, 56);

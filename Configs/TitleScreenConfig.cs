@@ -7,7 +7,10 @@ namespace StarlightRiver.Configs
         Starlight = 0,
         Vitric = 1,
         Overgrow = 2,
-        None = 3
+        CorruptJungle = 3,
+        CrimsonJungle = 4,
+        HallowJungle = 5,
+        None = 6
     }
     public class TitleScreenConfig : ModConfig
     {
