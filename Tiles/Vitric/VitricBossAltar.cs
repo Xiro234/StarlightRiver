@@ -26,6 +26,7 @@ namespace StarlightRiver.Tiles.Vitric
             TileObjectData.addTile(Type);
             dustType = DustID.Stone;
             disableSmartCursor = true;
+            minPick = int.MaxValue;
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Vitric Altar");
@@ -68,7 +69,7 @@ namespace StarlightRiver.Tiles.Vitric
                 return true;
             }
             //end debug
-            if (Main.tile[i, j].frameX >= 90 && Dummy.modProjectile is VitricAltarDummy)
+            if (LegendWorld.GlassBossOpen && Dummy.modProjectile is VitricAltarDummy)
             {
                 (Dummy.modProjectile as VitricAltarDummy).SpawnBoss();
             }

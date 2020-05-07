@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,8 +26,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.damage = 30;
             npc.defense = 25;
             npc.knockBackResist = 0f;
-            npc.width = 124;
-            npc.height = 110;
+            npc.width = 248;
+            npc.height = 220;
             npc.value = Item.buyPrice(0, 20, 0, 0);
             npc.npcSlots = 15f;
             npc.immortal = true;
@@ -72,6 +73,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             */
             return false;
         }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            if (npc.ai[1] == (int)AIStates.FirstPhase && npc.immortal) //draws the npc's shield when immune and in the first phase
+            {
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/Shield");
+                spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (0.55f + ((float)Math.Sin(LegendWorld.rottime * 2) * 0.15f)), 0, tex.Size() / 2, 1, 0, 0);
+            }
+        }
         #endregion
 
         #region helper methods
@@ -100,6 +110,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         #region AI
         public Vector2 startPos;
         public Vector2 endPos;
+        public Vector2 homePos;
         public List<NPC> Crystals = new List<NPC>();
         public List<Vector2> CrystalLocations = new List<Vector2>();
         public enum AIStates
@@ -127,7 +138,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.ai[0]++;
             npc.ai[3]++;
 
-            if(!Main.player.Any(n => n.active && n.statLife > 0 && Vector2.Distance(n.Center, npc.Center) <= 1000)) //if no valid players are detected
+            if(!Main.player.Any(n => n.active && n.statLife > 0 && Vector2.Distance(n.Center, npc.Center) <= 1500)) //if no valid players are detected
             {
                 npc.ai[0] = 0;
                 npc.ai[1] = (int)AIStates.Leaving; //begone thot!
@@ -179,8 +190,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     }
                     if (npc.ai[0] > 460) //start the fight
                     {
-                        npc.immortal = false;
-                        npc.friendly = false;
+                        npc.immortal = false; //make him vulnerable
+                        npc.friendly = false; //and hurt when touched
+                        homePos = npc.Center; //set the NPCs home so it can return here after attacks
                         int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<ArenaBottom>());
                         (Main.npc[index].modNPC as ArenaBottom).Parent = this;
                         ChangePhase(AIStates.FirstPhase, true);
@@ -203,7 +215,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         else //otherwise proceed with attacking pattern
                         {
                             npc.ai[2]++;
-                            if (npc.ai[2] > 3) npc.ai[2] = 1;
+                            if (npc.ai[2] > 4) npc.ai[2] = 1;
                         }
                     }
                     switch (npc.ai[2]) //switch for crystal behavior
@@ -212,6 +224,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         case 1: CrystalCage(); break;
                         case 2: CrystalSmash(); break;
                         case 3: RandomSpikes(); break;
+                        case 4: PlatformDash(); break;
                     }
                     if(npc.ai[2] == 1) //during the cage attack
                     {
