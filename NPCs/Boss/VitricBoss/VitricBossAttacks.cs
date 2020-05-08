@@ -248,6 +248,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             {
                 Crystals.FirstOrDefault(n => n.ai[0] == 1).ai[0] = 3;
                 npc.ai[1] = (int)AIStates.FirstPhase; //go back to normal attacks after this is all over
+                npc.ai[2] = Crystals.Count(n => n.ai[0] != 2); //unique first attack each to, so at the very least players see all of phase 1's attacks
                 npc.dontTakeDamage = false;
                 ResetAttack();
             }
