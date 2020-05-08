@@ -318,7 +318,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     npc.dontTakeDamage = false;
                     npc.friendly = false;
                     if (npc.ai[0] == 1) music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy");
-                    if (npc.ai[0] == 2) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
+                    if (npc.ai[0] == 2) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBossTransition");
+
+                    if (npc.ai[0] == 701) music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy");
+                    if (npc.ai[0] == 702) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
                     break;
 
                 case (int)AIStates.Leaving:

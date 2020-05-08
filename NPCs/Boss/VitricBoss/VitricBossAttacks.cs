@@ -50,7 +50,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         private void CrystalCage()
         {
-            if (npc.ai[3] % 110 == 0 && npc.ai[3] != 0) //the sand cones the boss fires
+            if (npc.ai[3] % 110 == 0 && npc.ai[3] != 0 && npc.ai[3] < 800) //the sand cones the boss fires
             {
                 RandomizeTarget();
                 int index = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandCone>(), 1, 0); //spawn a sand cone attack
