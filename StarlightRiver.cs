@@ -286,10 +286,18 @@ namespace StarlightRiver
         private delegate void UngrapplePlatformDelegate(Projectile proj);
         private void EmitUngrapplePlatformDelegate(Projectile proj)
         {
-            string s = "Slots: ";
-            for (int k = 0; k < Main.LocalPlayer.grappling.Length; k++) s += Main.LocalPlayer.grappling[k] + ", ";
-            Main.NewText(s);
-            if (!Main.player[proj.owner].grappling.Contains(proj.whoAmI)) proj.ai[0] = 1;
+            Player player = Main.player[proj.owner];
+            int numHooks = 3;
+            //time to replicate retarded vanilla hardcoding, wheee
+            if (proj.type == 165) numHooks = 8;          
+            if (proj.type == 256) numHooks = 2;          
+            if (proj.type == 372) numHooks = 2;       
+            if (proj.type == 652) numHooks = 1;       
+            if (proj.type >= 646 && proj.type <= 649) numHooks = 4;
+            //end vanilla zoink
+            
+            ProjectileLoader.NumGrappleHooks(proj, player, ref numHooks);
+            if (player.grapCount > numHooks) Main.projectile[player.grappling.OrderBy(n => (Main.projectile[n].active ? 0 : 999999) + Main.projectile[n].timeLeft).ToArray()[0]].Kill();
         }
         private void DrawTitleScreen(ILContext il)
         {
@@ -893,7 +901,7 @@ namespace StarlightRiver
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
         {
             if (self.controlDown) self.GetModPlayer<StarlightPlayer>().platformTimer = 5;
-            if (self.controlDown || self.GetModPlayer<StarlightPlayer>().platformTimer > 0) { orig(self); return; }
+            if (self.controlDown || self.GetModPlayer<StarlightPlayer>().platformTimer > 0 || self.GoingDownWithGrapple) { orig(self); return; }
             foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC != null && n.modNPC is NPCs.MovingPlatform))
             {
                 if (new Rectangle((int)self.position.X, (int)self.position.Y + (self.height), self.width, 1).Intersects
