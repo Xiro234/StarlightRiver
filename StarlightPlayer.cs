@@ -27,6 +27,7 @@ namespace StarlightRiver
         private int ScreenMoveTimer = 0;
 
         public int InvertGrav = 0;
+        public int platformTimer = 0;
 
         public override void PreUpdateBuffs()
         {
@@ -48,6 +49,7 @@ namespace StarlightRiver
             Stamina.visible = false;
             Infusion.visible = false;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            platformTimer--;
 
             if (mp.Abilities.Any(a => !a.Locked))
             {

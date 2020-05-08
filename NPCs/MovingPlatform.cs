@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -38,6 +39,12 @@ namespace StarlightRiver.NPCs
                 {
                     player.position += npc.velocity;
                 }
+            }
+
+            foreach(Projectile proj in Main.projectile.Where(n => n.active && n.aiStyle == 7 && n.ai[0] != 1 && n.timeLeft <36000 - 3 && n.Hitbox.Intersects(npc.Hitbox)))
+            {
+                proj.ai[0] = 2;
+                proj.netUpdate = true;
             }
         }
         public override bool? CanBeHitByProjectile(Projectile projectile) => false;

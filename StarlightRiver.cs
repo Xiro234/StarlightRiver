@@ -247,11 +247,50 @@ namespace StarlightRiver
             IL.Terraria.WorldGen.hardUpdateWorld += JungleGrassSpread;
             //title screen BGs
             IL.Terraria.Main.DrawBG += DrawTitleScreen;
+            //grappling hooks on moving platforms
+            IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
 
 
         }
 
+        private void GrapplePlatforms(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(i => i.MatchLdfld<Projectile>("aiStyle"), i => i.MatchLdcI4(7));
+            c.TryGotoNext(i => i.MatchLdfld<Projectile>("ai"), i => i.MatchLdcI4(0), i => i.MatchLdelemR4(), i => i.MatchLdcR4(2));
+            c.TryGotoNext(i => i.MatchLdloc(126)); //flag2 in source code
+            c.Index++;
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<GrapplePlatformDelegate>(EmitGrapplePlatformDelegate);
+            c.TryGotoNext(i => i.MatchStfld<Player>("grapCount"));
+            c.Index++;
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<UngrapplePlatformDelegate>(EmitUngrapplePlatformDelegate);
 
+        }
+        private delegate bool GrapplePlatformDelegate(bool fail, Projectile proj);
+        private bool EmitGrapplePlatformDelegate(bool fail, Projectile proj)
+        {
+            if (proj.timeLeft < 36000 - 3)
+                for (int k = 0; k < Main.maxNPCs; k++)
+                {
+                    NPC n = Main.npc[k];
+                    if (n.active && n.modNPC is NPCs.MovingPlatform && n.Hitbox.Intersects(proj.Hitbox))
+                    {
+                        proj.position += n.velocity;
+                        return false;
+                    }
+                }          
+            return fail;
+        }
+        private delegate void UngrapplePlatformDelegate(Projectile proj);
+        private void EmitUngrapplePlatformDelegate(Projectile proj)
+        {
+            string s = "Slots: ";
+            for (int k = 0; k < Main.LocalPlayer.grappling.Length; k++) s += Main.LocalPlayer.grappling[k] + ", ";
+            Main.NewText(s);
+            if (!Main.player[proj.owner].grappling.Contains(proj.whoAmI)) proj.ai[0] = 1;
+        }
         private void DrawTitleScreen(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -853,10 +892,11 @@ namespace StarlightRiver
         }
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
         {
-            if (self.controlDown) { orig(self); return; }
+            if (self.controlDown) self.GetModPlayer<StarlightPlayer>().platformTimer = 5;
+            if (self.controlDown || self.GetModPlayer<StarlightPlayer>().platformTimer > 0) { orig(self); return; }
             foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC != null && n.modNPC is NPCs.MovingPlatform))
             {
-                if (new Rectangle((int)self.position.X, (int)self.position.Y + (self.height - 2), self.width, 4).Intersects
+                if (new Rectangle((int)self.position.X, (int)self.position.Y + (self.height), self.width, 1).Intersects
                 (new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, 8 + (self.velocity.Y > 0 ? (int)self.velocity.Y : 0))) && self.position.Y <= npc.position.Y)
                 {
                     if (!self.justJumped && self.velocity.Y >= 0)
