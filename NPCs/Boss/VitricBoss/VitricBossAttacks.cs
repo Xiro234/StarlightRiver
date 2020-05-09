@@ -23,7 +23,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             npc.target = players[Main.rand.Next(players.Count)];
         }
-
+        #region phase 1
         private void NukePlatforms()
         {
             if (npc.ai[3] == 1)
@@ -121,7 +121,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if ((dist <= crystalDist + player.width && dist >= crystalDist - player.width) && !(angleOff >= crystalOff  && angleOff <= crystal2Off))
                     {
                         player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByNPC(npc.whoAmI), Main.expertMode ? 90 : 65, 0); //do big damag
-                        player.velocity += Vector2.Normalize(player.Center - npc.Center) * -5; //knock into boss
+                        player.velocity += Vector2.Normalize(player.Center - npc.Center) * -3; //knock into boss
                         Main.PlaySound(Terraria.ID.SoundID.DD2_LightningAuraZap); //bzzt!
                     }
                 }
@@ -226,7 +226,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             
         }
+        #endregion
 
+        #region phase 2
+        private void Volley()
+        {
+
+        }
+        #endregion
         private void AngerAttack()
         {
             if(Crystals.Count(n => n.ai[0] == 2) == 0)
