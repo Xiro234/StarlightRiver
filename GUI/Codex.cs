@@ -361,13 +361,12 @@ namespace StarlightRiver.GUI
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/EntryButton"), new Rectangle((int)pos.X, (int)pos.Y, 120, 27), col * 0.8f);
 
                 spriteBatch.Draw(Entry.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Entry.Icon,
-                    new Rectangle((int)pos.X + 5, (int)pos.Y + 5, 16, 16), new Rectangle(0, 0, 32, 32), Color.White);
+                    new Rectangle((int)pos.X + 5, (int)pos.Y + 5, 16, 16), Entry.Icon.Frame(), Color.White);
 
                 Utils.DrawBorderString(spriteBatch, Entry.Locked ? "???" : Entry.Title, pos + new Vector2(24, 7), (Parent as Codex).ActiveEntry == Entry ? Color.Yellow : Color.White, 0.6f);
             }
         }
     }
-
     public class CategoryButton : UIElement
     {
         int Category = 0;
@@ -413,7 +412,6 @@ namespace StarlightRiver.GUI
             }
         }
     }
-
     public class RecipeButton : UIElement
     {
         public RiftRecipe Recipe;
@@ -451,7 +449,6 @@ namespace StarlightRiver.GUI
             codex.Dust.Clear();
         }
     }
-
     public class QuerySlot : UIElement
     {
         public Item item = null;

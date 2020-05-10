@@ -14,13 +14,10 @@ namespace StarlightRiver.Codex
 
         public override TagCompound Save()
         {
-            List<bool> UnlockStates = new List<bool>();
-            foreach (CodexEntry entry in Entries) { UnlockStates.Add(entry.Locked); }
-
             return new TagCompound
             {
                 [nameof(CodexState)] = CodexState,
-                [nameof(Entries)] = UnlockStates
+                [nameof(Entries)] = Entries
             };
         }
 
@@ -29,14 +26,15 @@ namespace StarlightRiver.Codex
             CodexState = tag.GetInt(nameof(CodexState));
 
             Entries = new List<CodexEntry>();
-            List<bool> UnlockStates = (List<bool>)tag.GetList<bool>(nameof(Entries));
+            List<TagCompound> entriesToLoad = (List<TagCompound>)tag.GetList<TagCompound>(nameof(Entries));
 
-            foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry))))
+            foreach (TagCompound tagc in entriesToLoad) Entries.Add(CodexEntry.DeserializeData(tagc));
+            foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry)) && !Entries.Any(n => n.GetType() == t)))
             {
-                CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);
-                ThisEntry.Locked = (UnlockStates.Count > Entries.Count && UnlockStates.Count != 0) ? UnlockStates.ElementAt(Entries.Count) : true;
+                CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);               
                 Entries.Add(ThisEntry);
             }
+
         }
 
         public override void OnEnterWorld(Player player)

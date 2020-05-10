@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
+using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Codex
 {
-    public class CodexEntry
+    public class CodexEntry : TagSerializable
     {
         public bool Locked = true;
         public bool New = false;
@@ -32,6 +34,22 @@ namespace StarlightRiver.Codex
             spriteBatch.Draw(Icon, pos + new Vector2(-38, -5), Color.White);
             Utils.DrawBorderString(spriteBatch, Title, pos, Color.White, 1.2f);
             Utils.DrawBorderString(spriteBatch, Helper.WrapString(Body, 550, Main.fontDeathText, 0.8f), pos + new Vector2(-30, 50 + Image.Height), Color.White, 0.8f);
+        }
+
+        public TagCompound SerializeData()
+        {
+            return new TagCompound()
+            {
+                ["Name"] = this.GetType().ToString(),
+                ["Locked"] = Locked
+            };
+        }
+        public static CodexEntry DeserializeData(TagCompound tag)
+        {
+            Type t = Type.GetType(tag.GetString("Name"));
+            CodexEntry entry = (CodexEntry)Activator.CreateInstance(t);
+            entry.Locked = tag.GetBool("Locked");
+            return entry;
         }
     }
 }
