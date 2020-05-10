@@ -20,13 +20,15 @@ namespace StarlightRiver.GUI
         public static bool Visible;
         public static bool Open;
         public static bool Crafting;
-        public static bool NewEntry;
         public CodexEntry ActiveEntry;
         public RiftRecipe ActiveRecipe;
+        public Vector2 Basepos = new Vector2(Main.screenWidth, Main.screenHeight) / 2;
 
+        public UIImage DragButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/DragButton"));
         public UIImageButton BookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed"));
         public UIImageButton CraftButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/RiftButton"));
         public UIImageButton BackButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/BackButton"));
+        public UIImageButton ExitButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/ExitButton"));
         public QuerySlot QuerySlot = new QuerySlot();
         public List<EntryButton> Buttons = new List<EntryButton>();
         public List<EntryButton> ShownButtons = new List<EntryButton>();
@@ -37,31 +39,46 @@ namespace StarlightRiver.GUI
 
         public override void OnInitialize()
         {
+            DragButton.Left.Set(-210, 0);
+            DragButton.Top.Set(-210, 0);
+            DragButton.Width.Set(38, 0);
+            DragButton.Height.Set(38, 0);
+            Append(DragButton);
+
+            ExitButton.Left.Set(150, 0);
+            ExitButton.Top.Set(-200, 0);
+            ExitButton.Width.Set(28, 0);
+            ExitButton.Height.Set(28, 0);
+            ExitButton.OnClick += Exit;
+            ExitButton.SetVisibility(0.8f, 0.8f);
+            Append(ExitButton);
+
             BookButton.Left.Set(502, 0);
             BookButton.Top.Set(276, 0);
             BookButton.Width.Set(26, 0);
             BookButton.Height.Set(32, 0);
             BookButton.OnClick += OpenCodex;
+            BookButton.SetVisibility(1, 1);
             Append(BookButton);
 
-            CraftButton.Left.Set(-160, 0.5f);
-            CraftButton.Top.Set(-235, 0.5f);
+            CraftButton.Left.Set(-160, 0);
+            CraftButton.Top.Set(-235, 0);
             CraftButton.Width.Set(76, 0);
             CraftButton.Height.Set(28, 0);
             CraftButton.OnClick += OpenCrafting;
             CraftButton.SetVisibility(0.8f, 0.8f);
             Append(CraftButton);
 
-            BackButton.Left.Set(-210, 0.5f);
-            BackButton.Top.Set(-150, 0.5f);
+            BackButton.Left.Set(-210, 0);
+            BackButton.Top.Set(-150, 0);
             BackButton.Width.Set(32, 0);
             BackButton.Height.Set(32, 0);
             BackButton.OnClick += CloseCrafting;
             BackButton.SetVisibility(0.8f, 0.8f);
             Append(BackButton);
 
-            QuerySlot.Left.Set(160, 0.5f);
-            QuerySlot.Top.Set(-150, 0.5f);
+            QuerySlot.Left.Set(160, 0);
+            QuerySlot.Top.Set(-150, 0);
             QuerySlot.Width.Set(48, 0);
             QuerySlot.Height.Set(48, 0);
             Append(QuerySlot);
@@ -69,39 +86,67 @@ namespace StarlightRiver.GUI
             for (int k = 0; k < 5; k++)
             {
                 CategoryButton button = new CategoryButton(k);
-                button.Left.Set(k * 60 - 160, 0.5f);
-                button.Top.Set(-200, 0.5f);
+                button.Left.Set(k * 60 - 160, 0);
+                button.Top.Set(-200, 0);
                 button.Width.Set(50, 0);
                 button.Height.Set(24, 0);
                 Append(button);
             }
         }
 
+        private void Exit(UIMouseEvent evt, UIElement listeningElement)
+        {
+            Open = false;
+            Crafting = false;
+        }
+
+        private bool Moving = false;
+        public override void Update(GameTime gameTime)
+        {
+            if (DragButton.IsMouseHovering && Main.mouseLeft) Moving = true;
+            if (!Main.mouseLeft) Moving = false;
+
+            if (Moving) Basepos = Main.MouseScreen + Vector2.One * 200;
+            if (Basepos.X < 20) Basepos.X = 20;
+            if (Basepos.Y < 270) Basepos.Y = 270;
+            if (Basepos.X > Main.screenWidth - 20 - 260) Basepos.X = Main.screenWidth - 20 - 260;
+            if (Basepos.Y > Main.screenHeight - 20 - 200) Basepos.Y = Main.screenHeight - 20 - 200;
+
+            foreach(UIElement element in Elements.Where(n => n != BookButton && n.Left.Percent != 2))
+            {
+                element.Left.Percent = Basepos.X / Main.screenWidth;
+                element.Top.Percent = Basepos.Y / Main.screenHeight;
+            }
+
+            base.Update(gameTime);
+        }
         public override void Draw(SpriteBatch spriteBatch)
         {
             //regular codex open
             if (Open)
             {
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/CodexBack"), new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(170, 168), Color.White * 0.8f);
-                if (ActiveEntry != null) { ActiveEntry.Draw(new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(120, 150), spriteBatch); }
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/CodexBack"), Basepos - new Vector2(170, 168), Color.White * 0.8f);
+                if (ActiveEntry != null) { ActiveEntry.Draw(Basepos - new Vector2(120, 150), spriteBatch); }
 
                 BackButton.Left.Set(0, 2);
-                CraftButton.Left.Set(-160, 0.5f);
+                CraftButton.Left.Set(-160, Basepos.X / Main.screenWidth);
                 QuerySlot.Left.Set(0, 2);
             }
             //RC open
             else if (Crafting)
             {
                 Texture2D tex = (ActiveRecipe == null) ? ModContent.GetTexture("StarlightRiver/GUI/RecipeBack") : ModContent.GetTexture("StarlightRiver/GUI/RecipeBackDark");
-                spriteBatch.Draw(tex, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) - new Vector2(170, 168), Color.White * 0.8f);
+                spriteBatch.Draw(tex, Basepos - new Vector2(170, 168), Color.White * 0.8f);
 
                 CraftButton.Left.Set(0, 2);
-                BackButton.Left.Set(-210, 0.5f);
-                QuerySlot.Left.Set(160, 0.5f);
+                BackButton.Left.Set(-210, Basepos.X / Main.screenWidth);
+                QuerySlot.Left.Set(160, Basepos.X / Main.screenWidth);
             }
             //Nothing open
             else
             {
+                DragButton.Left.Set(0, 2);
+                ExitButton.Left.Set(0, 2);
                 CraftButton.Left.Set(0, 2);
                 BackButton.Left.Set(0, 2);
                 QuerySlot.Left.Set(0, 2);
@@ -123,7 +168,7 @@ namespace StarlightRiver.GUI
             else { BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed")); }
 
             //Glow for new entry
-            if (NewEntry)
+            if (Main.LocalPlayer.GetModPlayer<CodexHandler>().Entries.Any(n => n.New))
             {
                 spriteBatch.Draw((BookButton.IsMouseHovering || Open || Crafting) ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed"),
                     BookButton.GetDimensions().ToRectangle().TopLeft() + new Vector2(-1, 0), Color.White * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.25f));
@@ -135,7 +180,7 @@ namespace StarlightRiver.GUI
             //bootlegdust for crafing 
             if (Crafting && ShownRecipes.Count > 0 && ActiveRecipe == null)
             {
-                Vector2 pos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + new Vector2(-10, -10);
+                Vector2 pos = Basepos + new Vector2(-10, -10);
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Light");
                 Dust.Add(new HolyDust(tex, pos + Vector2.One.RotatedByRandom(6.28f) * 80, Vector2.Zero));
             }
@@ -143,7 +188,7 @@ namespace StarlightRiver.GUI
             if (Crafting && ActiveRecipe != null)
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Holy");
-                Vector2 pos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + new Vector2(-15, -15);
+                Vector2 pos = Basepos + new Vector2(-15, -15);
                 DrawItem(spriteBatch, pos, ActiveRecipe.Result);
 
                 List<int> DrawnItems = new List<int>();
@@ -194,7 +239,8 @@ namespace StarlightRiver.GUI
             if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState != 0)
             {
                 Open = true;
-                NewEntry = false;
+                DragButton.Left.Set(-210, 0);
+                ExitButton.Left.Set(150, 0);
                 Main.PlaySound(SoundID.MenuOpen);
             }
 
@@ -232,8 +278,8 @@ namespace StarlightRiver.GUI
             for (int k = 0; k < ShownButtons.Count; k++)
             {
                 EntryButton button = ShownButtons.ElementAt(k);
-                button.Left.Set(140, 0.5f);
-                button.Top.Set(k * 30 - 150, 0.5f);
+                button.Left.Set(140, 0);
+                button.Top.Set(k * 30 - 150, 0);
                 button.Width.Set(120, 0);
                 button.Height.Set(24, 0);
                 button.Visible = true;
@@ -252,8 +298,8 @@ namespace StarlightRiver.GUI
             {
                 RecipeButton button = ShownRecipes.ElementAt(k);
                 Vector2 offset = new Vector2(0, -110).RotatedBy(k / (float)ShownRecipes.Count * 6.28f);
-                button.Left.Set(offset.X - 40, 0.5f);
-                button.Top.Set(offset.Y - 40, 0.5f);
+                button.Left.Set(offset.X - 40, 0);
+                button.Top.Set(offset.Y - 40, 0);
                 button.Width.Set(48, 0);
                 button.Height.Set(48, 0);
                 button.Visible = true;
@@ -297,6 +343,7 @@ namespace StarlightRiver.GUI
             if (!Entry.Locked)
             {
                 (Parent as Codex).ActiveEntry = Entry;
+                Entry.New = false;
             }
             Main.PlaySound(SoundID.MenuTick);
         }
@@ -305,8 +352,13 @@ namespace StarlightRiver.GUI
         {
             if (Codex.Open && Visible)
             {
+                Color col = Color.White;
                 Vector2 pos = GetDimensions().ToRectangle().TopLeft();
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/EntryButton"), new Rectangle((int)pos.X, (int)pos.Y, 120, 27), Color.White * 0.8f);
+                if (Entry.New)
+                {
+                    col = new Color(255, 255, 127 + (int)((float)Math.Sin(LegendWorld.rottime * 2) * 127f));
+                }
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/EntryButton"), new Rectangle((int)pos.X, (int)pos.Y, 120, 27), col * 0.8f);
 
                 spriteBatch.Draw(Entry.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Entry.Icon,
                     new Rectangle((int)pos.X + 5, (int)pos.Y + 5, 16, 16), new Rectangle(0, 0, 32, 32), Color.White);
@@ -340,6 +392,7 @@ namespace StarlightRiver.GUI
         {
             if (Codex.Open)
             {
+                Color col = Color.White;
                 Vector2 pos = GetDimensions().ToRectangle().TopLeft();
                 String name = "";
                 switch (Category)
@@ -350,8 +403,12 @@ namespace StarlightRiver.GUI
                     case 3: name = "Bosses"; break;
                     case 4: name = " Misc"; break;
                 }
+                if (Main.LocalPlayer.GetModPlayer<CodexHandler>().Entries.Any(n => n.New && n.Category == Category))
+                {
+                    col = new Color(255, 255, 127 + (int)((float)Math.Sin(LegendWorld.rottime * 2) * 127f));
+                }
 
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/CategoryButton"), new Rectangle((int)pos.X, (int)pos.Y, 50, 27), Color.White * 0.8f);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/CategoryButton"), new Rectangle((int)pos.X, (int)pos.Y, 50, 27), col * 0.8f);
                 Utils.DrawBorderString(spriteBatch, name, pos + new Vector2(7, 7), (Parent as Codex).ShownButtons.Any(button => button.Entry.Category == Category) ? Color.Yellow : Color.White, 0.6f);
             }
         }

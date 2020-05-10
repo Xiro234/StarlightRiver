@@ -25,6 +25,7 @@ using Terraria.UI;
 using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
+using StarlightRiver.Codex;
 
 namespace StarlightRiver
 {
@@ -1207,7 +1208,6 @@ namespace StarlightRiver
         {
             orig(self, spriteBatch);
             Vector2 origin = new Vector2(self.GetDimensions().X, self.GetDimensions().Y);
-            Rectangle box = new Rectangle((int)(origin + new Vector2(86, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 80, 25);
             int playerStamina = 0;
 
             //horray double reflection, fuck you vanilla
@@ -1219,8 +1219,9 @@ namespace StarlightRiver
             FieldInfo playerInfo2 = typ2.GetField("_player", BindingFlags.NonPublic | BindingFlags.Instance);
             Player player = (Player)playerInfo2.GetValue(character);
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            CodexHandler mp2 = player.GetModPlayer<CodexHandler>();
 
-            if (mp == null) { return; }
+            if (mp == null || mp2 == null) { return; }
 
             playerStamina = mp.StatStaminaMax;
 
@@ -1230,9 +1231,13 @@ namespace StarlightRiver
             Texture2D smash = !mp.smash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash0");
             Texture2D shadow = !mp.sdash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0");
 
+            Rectangle box = new Rectangle((int)(origin + new Vector2(86, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 80, 25);
+            Rectangle box2 = new Rectangle((int)(origin + new Vector2(172, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 104, 25);
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/box"), box, Color.White); //Stamina box
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/box"), box2, Color.White); //Codex box
 
             mp.SetList();//update ability list
+
             if (mp.Abilities.Any(a => !a.Locked))//Draw stamina if any unlocked
             {
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Stamina"), origin + new Vector2(91, 68), Color.White);
@@ -1243,6 +1248,19 @@ namespace StarlightRiver
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Stamina3"), origin + new Vector2(91, 68), Color.White);
                 Utils.DrawBorderString(spriteBatch, "???", origin + new Vector2(118, 68), Color.White);
             }
+
+            if(mp2.CodexState != 0)//Draw codex percentage if unlocked
+            {
+                int percent = (int)(mp2.Entries.Count(n => !n.Locked) / (float)mp2.Entries.Count * 100f);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed"), origin + new Vector2(178, 60), Color.White);
+                Utils.DrawBorderString(spriteBatch, percent + "%", origin + new Vector2(212, 68), percent >= 100 ? new Color(255, 205 + (int)(Math.Sin(Main.time / 50000 * 100) * 40), 50) : Color.White);
+            }
+            else//Mysterious if locked
+            {
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/BookLocked"), origin + new Vector2(178, 60), Color.White * 0.4f);
+                Utils.DrawBorderString(spriteBatch, "???", origin + new Vector2(212, 68), Color.White);
+            }
+
 
             //Draw ability Icons
             spriteBatch.Draw(wind, origin + new Vector2(390, 62), Color.White);

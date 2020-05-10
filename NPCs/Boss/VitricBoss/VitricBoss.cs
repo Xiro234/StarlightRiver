@@ -156,7 +156,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.ai[0]++;
             npc.ai[3]++;
 
-            if(!Main.player.Any(n => n.active && n.statLife > 0 && Vector2.Distance(n.Center, npc.Center) <= 1500)) //if no valid players are detected
+            if(npc.ai[1] != (int)AIStates.Leaving && !Main.player.Any(n => n.active && n.statLife > 0 && Vector2.Distance(n.Center, npc.Center) <= 1500)) //if no valid players are detected
             {
                 npc.ai[0] = 0;
                 npc.ai[1] = (int)AIStates.Leaving; //begone thot!
@@ -179,6 +179,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     }
 
                     ChangePhase(AIStates.SpawnAnimation, true);
+                    if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 1500) Helper.UnlockEntry<Codex.Entries.CeirosEntry>(Main.LocalPlayer); //unlocks the entry if the local player is close enough. codex is clientside so this is fine.
                     break;
 
                 case (int)AIStates.SpawnAnimation: //the animation that plays while the boss is spawning and the title card is shown
@@ -223,7 +224,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case (int)AIStates.FirstPhase:
-
                     int healthGateAmount = npc.lifeMax / 7;
                     if(npc.life <= npc.lifeMax - (1 + Crystals.Count(n => n.ai[0] == 3 || n.ai[0] == 1)) * healthGateAmount && !npc.dontTakeDamage)
                     {
@@ -323,7 +323,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.ai[0] == 701) music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy");
                     if (npc.ai[0] == 702) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
 
-
+                    Volley();
                     break;
 
                 case (int)AIStates.Leaving:

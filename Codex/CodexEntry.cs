@@ -7,6 +7,7 @@ namespace StarlightRiver.Codex
     public class CodexEntry
     {
         public bool Locked = true;
+        public bool New = false;
         public bool RequiresUpgradedBook = false;
         public int Category;
 
@@ -23,7 +24,6 @@ namespace StarlightRiver.Codex
             Bosses = 3,
             Misc = 4,
             RiftCrafting = 5
-
         }
 
         public virtual void Draw(Vector2 pos, SpriteBatch spriteBatch)

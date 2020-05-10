@@ -115,10 +115,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     NPC crystal = Crystals[FavoriteCrystal]; 
                     float crystalDist = Vector2.Distance(crystal.Center, npc.Center); //distance from the boss to the ring
                     float crystalOff = (crystal.Center - npc.Center).ToRotation() % 6.28f; //crystal's rotation
-                    float crystal2Off = ((crystal.Center - npc.Center).ToRotation() + 1.57f) % 6.28f; //second crystals rotation to calculate the opening
+                    float angleDiff = Helper.CompareAngle(angleOff, crystalOff);
 
                     // if the player's distance from the boss is within 2 player widths of the ring and if the player isnt in the gab where they would be safe
-                    if ((dist <= crystalDist + player.width && dist >= crystalDist - player.width) && !(angleOff >= crystalOff  && angleOff <= crystal2Off))
+                    if ((dist <= crystalDist + player.width && dist >= crystalDist - player.width) && !(angleDiff > 0 && angleDiff < 1.57f))
                     {
                         player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByNPC(npc.whoAmI), Main.expertMode ? 90 : 65, 0); //do big damag
                         player.velocity += Vector2.Normalize(player.Center - npc.Center) * -3; //knock into boss
@@ -231,7 +231,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         #region phase 2
         private void Volley()
         {
-
+            if(npc.ai[3] == 1) RandomizeTarget();
+            if(npc.ai[3] % 120 == 0)
+            {
+                int index = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<GlassVolley>(), 0, 0);
+                Main.projectile[index].rotation = (npc.Center - Main.player[npc.target].Center).ToRotation();
+            }
+            if (npc.ai[3] >= 120 * 4 - 1) ResetAttack(); //end after the third volley is fired
         }
         #endregion
         private void AngerAttack()
