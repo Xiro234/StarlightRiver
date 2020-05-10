@@ -14,9 +14,7 @@ namespace StarlightRiver.Codex.Entries
         {
             Category = (int)Categories.Bosses;
             Title = "Ceiros";
-            Body = Helper.WrapString("Ceiros is a boss. Ceiros is a cool boss. This is a codex entry for the boss named Ceiros. Cerios' title is `shattered sentinel`. Sometimes it's glass tax returns instead.",
-                500, Main.fontDeathText, 0.8f);
-
+            Body = "Ceiros is a boss. Ceiros is a cool boss. This is a codex entry for the boss named Ceiros. Cerios' title is `shattered sentinel`. Sometimes it's glass tax returns instead.";
             Image = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBoss2");
             Icon = ModContent.GetTexture("StarlightRiver/Codex/Entries/BossIconCeiros");
         }
