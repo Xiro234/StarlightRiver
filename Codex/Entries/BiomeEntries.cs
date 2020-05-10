@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Codex.Entries
 {
@@ -8,7 +9,9 @@ namespace StarlightRiver.Codex.Entries
         {
             Category = (int)Categories.Biomes;
             Title = "Vitric Desert";
-            Body = "Dual make a fucking sunlight IL\nHaha\nfor real tho please";
+            Body = Helper.WrapString("NO TEXT", 
+                500, Main.fontDeathText, 0.8f);
+
             Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/BiomeImageVitric");
             Icon = ModContent.GetTexture("StarlightRiver/Codex/Entries/BiomeIconVitric");
         }

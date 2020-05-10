@@ -116,7 +116,7 @@ namespace StarlightRiver.Abilities
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
             //Activates one of the player's abilities on the appropriate keystroke.
-            if (StarlightRiver.Dash.JustPressed) { dash.StartAbility(player); }
+            if (StarlightRiver.Dash.JustPressed) { triggersSet.Jump = false; dash.StartAbility(player); }
             if (StarlightRiver.Wisp.JustPressed) { wisp.StartAbility(player); }
             if (StarlightRiver.Purify.JustPressed) { pure.StartAbility(player); }
             if (StarlightRiver.Smash.JustPressed) { smash.StartAbility(player); }
@@ -148,6 +148,8 @@ namespace StarlightRiver.Abilities
                 player.wingTime = 0;
                 player.rocketTime = 0;
                 player.rocketRelease = true;
+                player.fallStart = (int)player.Center.Y;
+                player.fallStart2 = (int)player.Center.Y;
             }
 
             //This restores the player's wings or rocket boots after the ability is over.

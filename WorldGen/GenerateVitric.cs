@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Structures;
 using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 
@@ -11,8 +13,8 @@ namespace StarlightRiver
     {
         public static void VitricGen(GenerationProgress progress)
         {
-            int vitricHeight = 94;
-            Rectangle biomeTarget = new Rectangle(WorldGen.UndergroundDesertLocation.X - 40, WorldGen.UndergroundDesertLocation.Y + WorldGen.UndergroundDesertLocation.Height, WorldGen.UndergroundDesertLocation.Width + 80, vitricHeight);
+            int vitricHeight = 140;
+            Rectangle biomeTarget = new Rectangle(WorldGen.UndergroundDesertLocation.X - 80, WorldGen.UndergroundDesertLocation.Y + WorldGen.UndergroundDesertLocation.Height, WorldGen.UndergroundDesertLocation.Width + 160, vitricHeight);
             LegendWorld.VitricBiome = biomeTarget;
 
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++)
@@ -24,11 +26,13 @@ namespace StarlightRiver
                 }
             }
 
+            #region Main shape
+            int row = WorldGen.genRand.Next(512);
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++) //base sand + spikes
             {
-                int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 40);
-                int off = (int)((float)Math.Sin(xRel * 0.2f) * 4) + 8;
-                for (int y = biomeTarget.Y + biomeTarget.Height - off; y < biomeTarget.Y + biomeTarget.Height + 12; y++)
+                int xRel = x - (biomeTarget.X);
+                int off = Helper.SamplePerlin2D(xRel, row, 10, 24);
+                for (int y = biomeTarget.Y + biomeTarget.Height - off; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
                     int yRel = y - (biomeTarget.Y + biomeTarget.Height - off);
                     WorldGen.PlaceTile(x, y, yRel <= WorldGen.genRand.Next(1, 4) ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
@@ -38,7 +42,7 @@ namespace StarlightRiver
                     if (xRel % 25 == 0) //the big crystals!
                     {
                         int xShift = WorldGen.genRand.Next(-3, 3);
-                        int thisOff = (int)((float)Math.Sin((xRel + xShift) * 0.2f) * 4) + 8;
+                        int thisOff = Helper.SamplePerlin2D(xRel + xShift, row, 10, 24);
                         GenHelper.CrystalGen(new Vector2(x + xShift, biomeTarget.Y + biomeTarget.Height + WorldGen.genRand.Next(3, 6) - 19 - thisOff));
                     }
                     if (xRel % 10 == 0) //fog makers
@@ -52,7 +56,7 @@ namespace StarlightRiver
             for (int x = biomeTarget.X + biomeTarget.Width / 2 - 40; x < biomeTarget.X + biomeTarget.Width / 2 + 40; x++) //flat part of center dune
             {
                 int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 40);
-                for (int y = biomeTarget.Y + biomeTarget.Height - 30; y < biomeTarget.Y + biomeTarget.Height; y++)
+                for (int y = biomeTarget.Y + biomeTarget.Height - 76; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
                     Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
@@ -86,23 +90,26 @@ namespace StarlightRiver
                 }
             }
 
+            row = WorldGen.genRand.Next(512); //re-randomize the seed for perlin sampling
             for (int y = biomeTarget.Y; y < biomeTarget.Y + biomeTarget.Height; y++) //left end
             {
                 int yRel = y - biomeTarget.Y;
                 int off = (5 * yRel) / 6 - (5 * yRel * yRel) / 576;
-                for (int x = biomeTarget.X; x <= biomeTarget.X - off + 28; x++)
+                off += Helper.SamplePerlin2D(y, row, 0, 5);
+                for (int x = biomeTarget.X - off / 2; x <= biomeTarget.X - off + 28; x++)
                 {
                     int xRel = x - (biomeTarget.X - off + 20);
                     WorldGen.PlaceTile(x, y, xRel >= WorldGen.genRand.Next(4, 7) ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
             }
 
-
+            row = WorldGen.genRand.Next(512); //re-randomize the seed for perlin sampling
             for (int y = biomeTarget.Y; y < biomeTarget.Y + biomeTarget.Height; y++) //right end
             {
                 int yRel = y - biomeTarget.Y;
                 int off = (5 * yRel) / 6 - (5 * yRel * yRel) / 576;
-                for (int x = biomeTarget.X + biomeTarget.Width + off - 28; x <= biomeTarget.X + biomeTarget.Width; x++)
+                off += Helper.SamplePerlin2D(y, row, 0, 5);
+                for (int x = biomeTarget.X + biomeTarget.Width + off - 28; x <= biomeTarget.X + biomeTarget.Width + off / 2; x++)
                 {
                     int xRel = x - (biomeTarget.X + biomeTarget.Width + off - 28);
                     WorldGen.PlaceTile(x, y, xRel <= WorldGen.genRand.Next(1, 4) ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
@@ -113,7 +120,7 @@ namespace StarlightRiver
             {
                 int xRel = x - biomeTarget.X;
                 int amp = (int)(Math.Abs(xRel - biomeTarget.Width / 2) / (float)(biomeTarget.Width / 2) * 8);
-                int off = (int)((float)Math.Sin(xRel * 0.2f) * amp) + 5;
+                int off = Helper.SamplePerlin2D(xRel, row, amp, 8);
                 for (int y = biomeTarget.Y; y < biomeTarget.Y + off + 4; y++)
                 {
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
@@ -133,7 +140,7 @@ namespace StarlightRiver
                 int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 51);
                 if (xRel < 16 || xRel > 87)
                 {
-                    for (int y = biomeTarget.Y + biomeTarget.Height - 31; y < biomeTarget.Y + biomeTarget.Height - 21; y++) //bottom
+                    for (int y = biomeTarget.Y + biomeTarget.Height - 77; y < biomeTarget.Y + biomeTarget.Height - 67; y++) //bottom
                     {
                         Tile tile = Framing.GetTileSafely(x, y);
                         WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
@@ -146,11 +153,89 @@ namespace StarlightRiver
                 }
             }
 
-            for (int y = biomeTarget.Y + 9; y < biomeTarget.Y + biomeTarget.Height - 31; y++) //collision for pillars
+            for (int y = biomeTarget.Y + 9; y < biomeTarget.Y + biomeTarget.Height - 77; y++) //collision for pillars
             {
                 WorldGen.PlaceTile(biomeTarget.X + biomeTarget.Width / 2 - 40, y, ModContent.TileType<Tiles.Vitric.VitricBossBarrier>(), false, false);
                 WorldGen.PlaceTile(biomeTarget.X + biomeTarget.Width / 2 + 41, y, ModContent.TileType<Tiles.Vitric.VitricBossBarrier>(), false, false);
             }
+            #endregion
+            #region Floating islands
+
+            WormFromIsland(VitricBiome.TopLeft().ToPoint16(), 60);
+
+            void WormFromIsland(Point16 start, int startRad)
+            {
+                int width = WorldGen.genRand.Next(10, 55);
+                int height = width / 3;
+                float rot = WorldGen.genRand.NextFloat(6.28f);
+                int rad = 0;
+                int tries = 0;
+
+                while (true)
+                {
+                    Point16 end = (start.ToVector2() + Vector2.One.RotatedBy(rot) * (startRad + rad)).ToPoint16();
+                    if (CheckIsland(end, width, height * 2))
+                    {
+                        GenerateIsland(end, width, height);
+                        WormFromIsland(start + new Point16(width / 2, 0), (int)(width * (1 + WorldGen.genRand.NextFloat())));
+                        return;
+                    }
+                    else
+                    {
+                        rad += WorldGen.genRand.Next(10);
+                        if (rad >= 50)
+                        {
+                            rot++;
+                            rad = 0;
+                            tries++;
+                        }
+                    }
+                    if (tries >= 6)
+                    {
+                        width -= WorldGen.genRand.Next(5);
+                        tries = 0;
+                    }
+                    if(width < 10)
+                    {
+                        return;
+                    }
+                }              
+            }
+
+            void GenerateIsland(Point16 topLeft, int width, int height)
+            {
+                row = WorldGen.genRand.Next(512);
+                for (int x = topLeft.X; x < topLeft.X + width; x++)
+                {
+                    WorldGen.PlaceTile(x, topLeft.Y, ModContent.TileType<Tiles.Vitric.VitricSand>());
+
+                    int xRel = x - topLeft.X;
+                    int off = xRel < width / 2 ? (int)(xRel / (float)(width) * height) : (int)((width - xRel) / (float)(width) * height);
+                    off += Helper.SamplePerlin2D(xRel, row, 2, 4);
+
+                    for(int y = topLeft.Y; y < topLeft.Y + off; y++)
+                    {
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>());
+                    }
+                }
+
+            }
+
+            bool CheckIsland(Point16 topLeft, int width, int height)
+            {
+                if (topLeft.Y < VitricBiome.TopLeft().Y + 30 || topLeft.Y > VitricBiome.TopLeft().Y + VitricBiome.Height - 60) return false; //padding at the top and bottom
+                if (topLeft.X > VitricBiome.TopLeft().X + VitricBiome.Width / 2 - 40 && topLeft.X < VitricBiome.TopLeft().X + VitricBiome.Width / 2 + 40) return false; //dont spawn in the boss arena
+
+                Rectangle rect = new Rectangle(topLeft.X - 5, topLeft.Y - 5, width + 10, height + 10);
+                for(int x = rect.X; x < rect.X + rect.Width; x++)
+                    for (int y = rect.Y; y < rect.Y + rect.Height; y++)
+                    {
+                        if (Framing.GetTileSafely(x, y).active()) return false;
+                        if(!VitricBiome.Contains(new Point(x, y))) return false;
+                    }
+                return true;
+            }
+            #endregion
         }
     }
 }

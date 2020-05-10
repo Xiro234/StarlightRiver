@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Projectiles.Dummies;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,6 +27,7 @@ namespace StarlightRiver.Tiles.Vitric
             TileObjectData.addTile(Type);
             dustType = DustID.Stone;
             disableSmartCursor = true;
+            minPick = int.MaxValue;
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Vitric Altar");
@@ -36,7 +38,7 @@ namespace StarlightRiver.Tiles.Vitric
             Tile tile = Framing.GetTileSafely(i, j);
             if (tile.frameX % 90 == 0 && tile.frameY == 0)
             {
-                if (!(Dummy.modProjectile is VitricAltarDummy && Dummy.active && Dummy.Hitbox.Contains(new Point(i * 16 + 30, j * 16 + 30))))
+                if (!(Dummy.modProjectile is VitricAltarDummy && Main.projectile.Any(n => n == Dummy) && Dummy.active && Dummy.Hitbox.Contains(new Point(i * 16 + 30, j * 16 + 30))))
                 {
                     Dummy = Main.projectile[Projectile.NewProjectile(new Vector2(i, j) * 16 + new Vector2(40, 56), Vector2.Zero, ModContent.ProjectileType<VitricAltarDummy>(), 0, 0)];
                 }
@@ -68,7 +70,7 @@ namespace StarlightRiver.Tiles.Vitric
                 return true;
             }
             //end debug
-            if (Main.tile[i, j].frameX >= 90 && Dummy.modProjectile is VitricAltarDummy)
+            if (LegendWorld.GlassBossOpen && Dummy.modProjectile is VitricAltarDummy)
             {
                 (Dummy.modProjectile as VitricAltarDummy).SpawnBoss();
             }

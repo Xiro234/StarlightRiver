@@ -1,3 +1,4 @@
+using StarlightRiver.Configs;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -54,7 +55,8 @@ namespace StarlightRiver.Backgrounds
     {
         public override bool ChooseBgStyle()
         {
-            return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
+            return (!Main.gameMenu && Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt) ||
+                (Main.gameMenu && ModContent.GetInstance<TitleScreenConfig>().Style == TitleScreenStyle.CorruptJungle);
         }
 
         // Use this to keep far Backgrounds like the mountains.

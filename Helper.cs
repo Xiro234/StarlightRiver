@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using StarlightRiver.Codex;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
@@ -80,7 +82,7 @@ namespace StarlightRiver
         public static void UnlockEntry<type>(Player player)
         {
             player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(entry => entry is type).Locked = false;
-            GUI.Codex.NewEntry = true;
+            player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(entry => entry is type).New = true;
         }
         public static void SpawnGem(int ID, Vector2 position)
         {
@@ -235,6 +237,40 @@ namespace StarlightRiver
                 if (k > maxDown || startY + k >= Main.maxTilesY) break;
             }
             return false;
+        }
+        public static int SamplePerlin2D(int x, int y, int min, int max)
+        {
+            Texture2D perlin = TextureManager.Load("Images/Misc/Perlin");
+
+            Color[] rawData = new Color[perlin.Width]; //array of colors
+            Rectangle row = new Rectangle(0, y, perlin.Width, 1); //one row of the image
+            perlin.GetData<Color>(0, row, rawData, 0, perlin.Width); //put the color data from the image into the array
+            return (int)(min + rawData[x % 512].R / 255f * max);
+        }
+        public static float CompareAngle(float baseAngle, float targetAngle)
+        {
+            return (baseAngle - targetAngle + (float)Math.PI * 3) % MathHelper.TwoPi - (float)Math.PI;
+        }
+        public static string WrapString(string input, int length, DynamicSpriteFont font, float scale)
+        {
+            string output = "";
+            string[] words = input.Split();
+
+            string line = "";
+            foreach (string str in words)
+            {
+                if(font.MeasureString(line).X * scale < length)
+                {
+                    output += (" " + str);
+                    line += (" " + str);
+                }
+                else
+                {
+                    output += ("\n" + str);
+                    line = (str);
+                }
+            }
+            return output;
         }
     }
 }

@@ -14,11 +14,17 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public VitricBoss Parent;
         public override string Texture => "StarlightRiver/Invisible";
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
         public override bool CheckActive() => false;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("");
+        }
         public override void SetDefaults()
         {
             npc.height = 16;
-            npc.width = 1200;
+            npc.width = 1260;
             npc.aiStyle = -1;
             npc.lifeMax = 2;
             npc.knockBackResist = 0f;

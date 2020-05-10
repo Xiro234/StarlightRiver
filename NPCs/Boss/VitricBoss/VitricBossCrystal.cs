@@ -14,6 +14,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public VitricBoss Parent;
 
         public override bool CheckActive() => npc.ai[2] == 4;
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resonant Crystal");
@@ -23,7 +25,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             npc.aiStyle = -1;
             npc.lifeMax = 2;
-            npc.damage = 35;
+            npc.damage = 40;
             npc.defense = 0;
             npc.knockBackResist = 0f;
             npc.width = 32;
@@ -33,8 +35,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.lavaImmune = true;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.immortal = true;
+            npc.dontTakeDamage = true;
+            npc.dontTakeDamageFromHostiles = true;
         }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.damage = 50;
+        }
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => !(npc.ai[0] == 0 || npc.ai[0] == 1); //too tired of dealing with this sheeeet
+
         public override void AI()
         {
             /* AI fields:
@@ -54,6 +63,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 foreach (Player player in Main.player)
                     if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
                     {
+                        Main.PlaySound(Terraria.ID.SoundID.DD2_WitherBeastCrystalImpact);
+                        for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8), 0, default, 2.2f);
                         npc.ai[0] = 1; //It's all broken and on the floor!
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
@@ -63,6 +74,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         foreach(NPC npc in (Parent.npc.modNPC as VitricBoss).Crystals) //reset all our crystals to idle mode
                         {
                             npc.ai[2] = 0;
+                            npc.friendly = false; //damaging again
                         }
                     }
             }
@@ -91,22 +103,34 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case 1: //nuke attack
-
+                    if (npc.ai[0] == 0) npc.friendly = true; //vulnerable crystal shouldnt do damage
                     if (npc.rotation != 0) //normalize rotation
                     {
                         npc.rotation += 0.5f;
                         if (npc.rotation >= 5f) npc.rotation = 0;
                     }
 
-                    if (npc.ai[1] > 60 && npc.ai[1] <= 180)
+                    if (npc.ai[1] > 60 && npc.ai[1] <= 120)
                     {
-                        npc.Center = Vector2.SmoothStep(StartPos, TargetPos, (npc.ai[1] - 60) / 120f); //go to the platform
+                        npc.Center = Vector2.SmoothStep(StartPos, TargetPos, (npc.ai[1] - 60) / 60f); //go to the platform
                     }
-                    if (npc.ai[1] >= 720) //when time is up... uh oh
+                    if (npc.ai[1] >= 719) //when time is up... uh oh
                     {
-                        npc.ai[0] = 2; //make invulnerable again
+                        if (npc.ai[0] == 0) //only the vulnerable crystal
+                        {
+                            npc.ai[0] = 2; //make invulnerable again
+                            Parent.npc.life += 250; //heal the boss
+                            Parent.npc.HealEffect(250, true);
+                            Parent.npc.dontTakeDamage = false; //make the boss vulnerable again so you can take that new 250 HP back off
+
+                            for (float k = 0; k < 1; k += 0.03f) //dust visuals
+                            {
+                                Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), ModContent.DustType<Dusts.Starlight>());
+                            }
+                        }
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
+                        npc.friendly = false; //damaging again
                     }
                     break;
 
@@ -130,22 +154,24 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                     Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>());
 
-                    if(npc.Center.Y > TargetPos.Y)
-                    foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
-                    {
-                        Rectangle hitbox = new Rectangle((int)point.X - 110, (int)point.Y + 48, 220, 16); //grabs the platform hitbox
-                        Rectangle myHitbx = new Rectangle((int)npc.position.X, (int)npc.position.Y + 40, npc.width, 20);
-                        if (npc.Hitbox.Intersects(hitbox))
+                    if (npc.Center.Y > TargetPos.Y)
+                        foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
                         {
-                            npc.velocity *= 0;
-                            npc.position.Y = hitbox.Y - 40; //embed into the platform
-                            npc.ai[2] = 0; //turn it idle
+                            Rectangle hitbox = new Rectangle((int)point.X - 110, (int)point.Y + 48, 220, 16); //grabs the platform hitbox
+                            Rectangle myHitbx = new Rectangle((int)npc.position.X, (int)npc.position.Y + 40, npc.width, 20);
+                            if (npc.Hitbox.Intersects(hitbox))
+                            {
+                                npc.velocity *= 0;
+                                npc.position.Y = hitbox.Y - 40; //embed into the platform
+                                npc.ai[2] = 0; //turn it idle
+                                Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
+                            }
                         }
-                    }
                     if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).collisionType == 1 && npc.Center.Y > LegendWorld.VitricBiome.Y * 16) //tile collision
                     {
                         npc.velocity *= 0;
                         npc.ai[2] = 0; //turn it idle
+                        Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
                     }
                     break;
                 case 4: //fleeing

@@ -38,6 +38,8 @@ namespace StarlightRiver.NPCs.Pickups
                 {
                     Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedBy(k) * Main.rand.NextFloat(8), 0, default, 2);
                 }
+                StarlightRiver.Instance.abilitytext.Display("Starlight Codex", "Open the codex from your inventory to learn about the world around you", null, 300);
+                Helper.UnlockEntry<Codex.Entries.LoreEntry>(player);
             }
         }
 

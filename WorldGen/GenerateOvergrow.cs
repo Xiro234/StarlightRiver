@@ -25,7 +25,8 @@ namespace StarlightRiver
                 if (Math.Abs(firstRoom.X - Main.dungeonX) > 100) firstRoom.Y += 5;
                 else firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
             }
-            if(ModLoader.GetMod("StructureHelper") != null) StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
+            //TODO: fix modrefference and un-comment this
+            //if(ModLoader.GetMod("StructureHelper") != null) StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
             WormFromRoom(firstRoom);
             while (Rooms.Count <= 10) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
 

@@ -254,6 +254,8 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
+            foreach (Codex.CodexEntry entry in mp.Entries) entry.Locked = false;
             LegendWorld.GlassBossOpen = true;
             LegendWorld.OvergrowBossOpen = true;
             foreach (NPC n in Main.npc.Where(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropLeft>() || n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropRight>()))

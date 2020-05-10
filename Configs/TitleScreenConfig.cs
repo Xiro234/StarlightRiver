@@ -4,11 +4,13 @@ namespace StarlightRiver.Configs
 {
     public enum TitleScreenStyle
     {
-        None = 0,
-        Starlight = 1,
+        Starlight = 0,
+        Vitric = 1,
         Overgrow = 2,
-        Rift = 3,
-        Mario = 4
+        CorruptJungle = 3,
+        CrimsonJungle = 4,
+        HallowJungle = 5,
+        None = 6
     }
     public class TitleScreenConfig : ModConfig
     {
