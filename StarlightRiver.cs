@@ -39,6 +39,7 @@ namespace StarlightRiver
         public KeyInventory keyinventory;
         public AbilityText abilitytext;
         public GUI.Codex codex;
+        public CodexPopup codexpopup;
 
         public UserInterface customResources;
         public UserInterface customResources2;
@@ -48,6 +49,7 @@ namespace StarlightRiver
         public UserInterface customResources6;
         public UserInterface customResources7;
         public UserInterface customResources8;
+        public UserInterface customResources9;
 
         public static ModHotKey Dash;
         public static ModHotKey Superdash;
@@ -177,6 +179,7 @@ namespace StarlightRiver
                 customResources6 = new UserInterface();
                 customResources7 = new UserInterface();
                 customResources8 = new UserInterface();
+                customResources9 = new UserInterface();
 
                 stamina = new Stamina();
                 collection = new Collection();
@@ -186,6 +189,7 @@ namespace StarlightRiver
                 keyinventory = new KeyInventory();
                 abilitytext = new AbilityText();
                 codex = new GUI.Codex();
+                codexpopup = new CodexPopup();
 
                 customResources.SetState(stamina);
                 customResources2.SetState(collection);
@@ -195,8 +199,9 @@ namespace StarlightRiver
                 customResources6.SetState(keyinventory);
                 customResources7.SetState(abilitytext);
                 customResources8.SetState(codex);
+                customResources9.SetState(codexpopup);
             }
-
+            #region hooking
             // Cursed Accessory Control Override
             On.Terraria.UI.ItemSlot.LeftClick_ItemArray_int_int += HandleSpecialItemInteractions;
             On.Terraria.UI.ItemSlot.Draw_SpriteBatch_ItemArray_int_int_Vector2_Color += DrawSpecial;
@@ -252,10 +257,12 @@ namespace StarlightRiver
             IL.Terraria.Main.DrawBG += DrawTitleScreen;
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
-
+            #endregion
 
         }
 
+
+        #region IL edits
         private void GrapplePlatforms(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -283,7 +290,7 @@ namespace StarlightRiver
                         proj.position += n.velocity;
                         return false;
                     }
-                }          
+                }
             return fail;
         }
         private delegate void UngrapplePlatformDelegate(Projectile proj);
@@ -292,13 +299,13 @@ namespace StarlightRiver
             Player player = Main.player[proj.owner];
             int numHooks = 3;
             //time to replicate retarded vanilla hardcoding, wheee
-            if (proj.type == 165) numHooks = 8;          
-            if (proj.type == 256) numHooks = 2;          
-            if (proj.type == 372) numHooks = 2;       
-            if (proj.type == 652) numHooks = 1;       
+            if (proj.type == 165) numHooks = 8;
+            if (proj.type == 256) numHooks = 2;
+            if (proj.type == 372) numHooks = 2;
+            if (proj.type == 652) numHooks = 1;
             if (proj.type >= 646 && proj.type <= 649) numHooks = 4;
             //end vanilla zoink
-            
+
             ProjectileLoader.NumGrappleHooks(proj, player, ref numHooks);
             if (player.grapCount > numHooks) Main.projectile[player.grappling.OrderBy(n => (Main.projectile[n].active ? 0 : 999999) + Main.projectile[n].timeLeft).ToArray()[0]].Kill();
         }
@@ -327,7 +334,6 @@ namespace StarlightRiver
                 Main.spriteBatch.DrawString(Main.fontItemStack, ModContent.GetModBackgroundSlot("StarlightRiver/Backgrounds/CorruptJungleSurface1").ToString(), Vector2.One * 200, Color.White);
             }
         }
-        #region IL edits
         private void JungleGrassSpread(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -1474,10 +1480,22 @@ namespace StarlightRiver
                 layers.Insert(MouseTextIndex + 6, new LegacyGameInterfaceLayer("StarlightRiver: Codex",
                 delegate
                 {
-                    if (GUI.Codex.Visible)
+                    if (GUI.Codex.ButtonVisible)
                     {
                         customResources8.Update(Main._drawInterfaceGameTime);
                         codex.Draw(Main.spriteBatch);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI));
+
+                layers.Insert(0, new LegacyGameInterfaceLayer("StarlightRiver: Popup",
+                delegate
+                {
+                    if (codexpopup.Timer > 0)
+                    {
+                        customResources9.Update(Main._drawInterfaceGameTime);
+                        codexpopup.Draw(Main.spriteBatch);
                     }
 
                     return true;

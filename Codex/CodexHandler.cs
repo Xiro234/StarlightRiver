@@ -34,7 +34,6 @@ namespace StarlightRiver.Codex
                 CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);               
                 Entries.Add(ThisEntry);
             }
-
         }
 
         public override void OnEnterWorld(Player player)

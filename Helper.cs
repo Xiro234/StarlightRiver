@@ -9,6 +9,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
@@ -81,8 +82,11 @@ namespace StarlightRiver
         }
         public static void UnlockEntry<type>(Player player)
         {
-            player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(entry => entry is type).Locked = false;
-            player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(entry => entry is type).New = true;
+            CodexEntry entry = player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(n => n is type);
+            entry.Locked = false;
+            entry.New = true;
+            StarlightRiver.Instance.codexpopup.TripEntry(entry.Title);
+            Main.PlaySound(SoundID.Item30);
         }
         public static void SpawnGem(int ID, Vector2 position)
         {

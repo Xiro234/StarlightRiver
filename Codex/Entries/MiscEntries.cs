@@ -6,7 +6,7 @@ namespace StarlightRiver.Codex.Entries
     {
         public StaminaEntry()
         {
-            Category = (int)Categories.Misc;
+            Category = Categories.Misc;
             Title = "Stamina";
             Body =
                 "All of your abilities utilize stamina, represtented\n" +
@@ -23,7 +23,7 @@ namespace StarlightRiver.Codex.Entries
     {
         public InfusionEntry()
         {
-            Category = (int)Categories.Misc;
+            Category = Categories.Misc;
             Title = "Infusions";
             Body =
                 "Infusions are special upgrades which, when slotted\n" +

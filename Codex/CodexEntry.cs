@@ -11,7 +11,7 @@ namespace StarlightRiver.Codex
         public bool Locked = true;
         public bool New = false;
         public bool RequiresUpgradedBook = false;
-        public int Category;
+        public Categories Category;
 
         public string Title;
         public string Body;
@@ -25,7 +25,7 @@ namespace StarlightRiver.Codex
             Relics = 2,
             Bosses = 3,
             Misc = 4,
-            RiftCrafting = 5
+            None = 5
         }
 
         public virtual void Draw(Vector2 pos, SpriteBatch spriteBatch)
@@ -40,7 +40,7 @@ namespace StarlightRiver.Codex
         {
             return new TagCompound()
             {
-                ["Name"] = this.GetType().ToString(),
+                ["Name"] = GetType().ToString(),
                 ["Locked"] = Locked
             };
         }
