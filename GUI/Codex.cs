@@ -360,8 +360,10 @@ namespace StarlightRiver.GUI
                 }
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/EntryButton"), new Rectangle((int)pos.X, (int)pos.Y, 120, 27), col * 0.8f);
 
-                spriteBatch.Draw(Entry.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Entry.Icon,
-                    new Rectangle((int)pos.X + 5, (int)pos.Y + 5, 16, 16), Entry.Icon.Frame(), Color.White);
+                Texture2D blanktex = ModContent.GetTexture("StarlightRiver/GUI/blank");
+                int x = Entry.Locked ? 16 : Entry.Icon.Width / 2;
+                int y = Entry.Locked ? 16 : Entry.Icon.Height / 2;
+                spriteBatch.Draw(Entry.Locked ? blanktex : Entry.Icon, new Rectangle((int)pos.X + 5, (int)pos.Y + 5, x, y), Entry.Locked ? blanktex.Frame() : Entry.Icon.Frame(), Color.White);
 
                 Utils.DrawBorderString(spriteBatch, Entry.Locked ? "???" : Entry.Title, pos + new Vector2(24, 7), (Parent as Codex).ActiveEntry == Entry ? Color.Yellow : Color.White, 0.6f);
             }
