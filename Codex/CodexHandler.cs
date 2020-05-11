@@ -34,6 +34,7 @@ namespace StarlightRiver.Codex
                 Entries.Add(ThisEntry);
             }
 
+            if (entriesToLoad == null || entriesToLoad.Count == 0) return;
             foreach (TagCompound tagc in entriesToLoad)
             {
                 CodexEntry entry = CodexEntry.DeserializeData(tagc);
@@ -47,6 +48,14 @@ namespace StarlightRiver.Codex
 
         public override void OnEnterWorld(Player player)
         {
+            if(Entries.Count == 0) //failsafe incase the player dosent load for some reason
+            {
+                foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry))))
+                {
+                    CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);
+                    Entries.Add(ThisEntry);
+                }
+            }
             (mod as StarlightRiver).codex = new GUI.Codex();
             (mod as StarlightRiver).customResources8.SetState((mod as StarlightRiver).codex);
         }

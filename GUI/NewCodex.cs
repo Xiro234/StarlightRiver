@@ -70,7 +70,7 @@ namespace StarlightRiver.GUI
 
         private void OpenCodex(UIMouseEvent evt, UIElement listeningElement)
         {
-            Open = true;
+            if(Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState != 0) Open = true;
         }
 
         private void Exit(UIMouseEvent evt, UIElement listeningElement)
@@ -90,7 +90,7 @@ namespace StarlightRiver.GUI
                     Texture2D tex = BookButton.IsMouseHovering ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed");
                     spriteBatch.Draw(tex, BookButton.GetDimensions().Position() + new Vector2(-1, 0), Color.White * (float)Math.Sin(LegendWorld.rottime));
                 }
-                if (BookButton.IsMouseHovering) Utils.DrawBorderString(spriteBatch, "Starlight Codex", Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.95f);
+                if (BookButton.IsMouseHovering) Utils.DrawBorderString(spriteBatch, player.CodexState == 0 ? "Found in the desert..." : "Starlight Codex", Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.95f);
             }
 
             if(Open) base.Draw(spriteBatch);
@@ -164,6 +164,7 @@ namespace StarlightRiver.GUI
             spriteBatch.Draw(Main.magicPixel, GetDimensions().ToRectangle(), Main.magicPixel.Frame(), Color.White * 0.1f);
             Vector2 pos = GetDimensions().ToRectangle().TopLeft() + new Vector2(20, 50);
             Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack");
+            if(ActiveEntry != null && ActiveEntry.RequiresUpgradedBook) backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack2"); //use a purple back for rift entries
             spriteBatch.Draw(backTex, pos, Color.White * 0.8f);
             if(ActiveEntry != null) ActiveEntry.Draw(pos + new Vector2(50, 16), spriteBatch); //draws the text of the active entry
             base.Draw(spriteBatch);
