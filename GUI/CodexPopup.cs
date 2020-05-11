@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.UI;
 using Terraria.ModLoader;
-
+using StarlightRiver.Codex;
 
 namespace StarlightRiver.GUI
 {
@@ -18,7 +18,8 @@ namespace StarlightRiver.GUI
         public int Timer;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
+            CodexHandler mp = Main.LocalPlayer.GetModPlayer<CodexHandler>();
+            Texture2D tex = mp.CodexState == 1 ? ModContent.GetTexture("StarlightRiver/GUI/Book1Closed") : ModContent.GetTexture("StarlightRiver/GUI/Book2Closed");
             string str = "New Entry: " + Text;
             float xOff = Main.screenWidth / 2 - Main.fontDeathText.MeasureString(str).X / 4;
 

@@ -1257,8 +1257,9 @@ namespace StarlightRiver
 
             if(mp2.CodexState != 0)//Draw codex percentage if unlocked
             {
+                Texture2D bookTex = mp2.CodexState == 2 ? ModContent.GetTexture("StarlightRiver/GUI/Book2Closed") : ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
                 int percent = (int)(mp2.Entries.Count(n => !n.Locked) / (float)mp2.Entries.Count * 100f);
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed"), origin + new Vector2(178, 60), Color.White);
+                spriteBatch.Draw(bookTex, origin + new Vector2(178, 60), Color.White);
                 Utils.DrawBorderString(spriteBatch, percent + "%", origin + new Vector2(212, 68), percent >= 100 ? new Color(255, 205 + (int)(Math.Sin(Main.time / 50000 * 100) * 40), 50) : Color.White);
             }
             else//Mysterious if locked
@@ -1489,7 +1490,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
 
-                layers.Insert(0, new LegacyGameInterfaceLayer("StarlightRiver: Popup",
+                layers.Insert(MouseTextIndex + 7, new LegacyGameInterfaceLayer("StarlightRiver: Popup",
                 delegate
                 {
                     if (codexpopup.Timer > 0)

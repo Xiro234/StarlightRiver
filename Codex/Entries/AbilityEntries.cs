@@ -57,6 +57,18 @@ namespace StarlightRiver.Codex.Entries
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         }
     }
+    class LoreEntry2 : CodexEntry
+    {
+        public LoreEntry2()
+        {
+            Category = Categories.Abilities;
+            Title = "Rift Codex";
+            Body = "NO TEXT";
+            Image = ModContent.GetTexture("StarlightRiver/GUI/Book2Closed");
+            Icon = ModContent.GetTexture("StarlightRiver/GUI/Book2Closed");
+            RequiresUpgradedBook = true;
+        }
+    }
     class CloakEntry : CodexEntry
     {
         public CloakEntry()
@@ -66,6 +78,7 @@ namespace StarlightRiver.Codex.Entries
             Body = "NO TEXT";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+            RequiresUpgradedBook = true;
         }
     }
 }

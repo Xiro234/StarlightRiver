@@ -82,7 +82,10 @@ namespace StarlightRiver
         }
         public static void UnlockEntry<type>(Player player)
         {
-            CodexEntry entry = player.GetModPlayer<CodexHandler>().Entries.FirstOrDefault(n => n is type);
+            CodexHandler mp = player.GetModPlayer<CodexHandler>();
+            CodexEntry entry = mp.Entries.FirstOrDefault(n => n is type);
+
+            if (entry.RequiresUpgradedBook && mp.CodexState != 2) return; //dont give the player void entries if they dont have the void book
             entry.Locked = false;
             entry.New = true;
             StarlightRiver.Instance.codexpopup.TripEntry(entry.Title);

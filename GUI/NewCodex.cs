@@ -35,6 +35,8 @@ namespace StarlightRiver.GUI
             BookButton.SetVisibility(1, 1);
 
             AddElement(Back, Main.screenWidth / 2 - 250, Main.screenHeight / 2 - 225, 500, 450, this);
+            Back.OnScrollWheel += ScrollEntry;
+
             AddElement(new CategoryButton(CodexEntry.Categories.Abilities, "Abilities"), 30, 10, 50, 28, Back);
             AddElement(new CategoryButton(CodexEntry.Categories.Biomes, "Biomes"), 90, 10, 50, 28, Back);
             AddElement(new CategoryButton(CodexEntry.Categories.Bosses, "Bosses"), 150, 10, 50, 28, Back);
@@ -51,6 +53,15 @@ namespace StarlightRiver.GUI
             AddElement(DragButton, 410, 4, 38, 38, Back);
             AddElement(ExitButton, 454, 4, 38, 38, Back);
             ExitButton.OnClick += Exit;
+        }
+
+        private void ScrollEntry(UIScrollWheelEvent evt, UIElement listeningElement)
+        {
+            CodexBack element = listeningElement as CodexBack;
+            if(element.ActiveEntry != null)
+            {
+                element.ActiveEntry.LinePos += evt.ScrollWheelValue > 0 ? -1 : 1;
+            }
         }
 
         private void OpenCodex(UIMouseEvent evt, UIElement listeningElement)
@@ -97,8 +108,8 @@ namespace StarlightRiver.GUI
                     break;
 
                 case 2: //tier 2
-                    //if (BookButton.IsMouseHovering) BookButton.SetImage(ModContent.GetTexture("Book2Open"));
-                    //else BookButton.SetImage(ModContent.GetTexture("Book2Closed"));
+                    if (BookButton.IsMouseHovering) BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book2Open"));
+                    else BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book2Closed"));
                     break;
             }
 
@@ -164,11 +175,10 @@ namespace StarlightRiver.GUI
             parent.ClickableEntries.Clear();
 
             int offY = 0;
-            foreach (CodexEntry entry in player.Entries.Where(n => n.Category == category))
+            foreach (CodexEntry entry in player.Entries.Where(n => n.Category == category && (!n.RequiresUpgradedBook || player.CodexState == 2)))
             {
                 EntryButton button = new EntryButton(entry);
                 parent.AddEntryButton(button, offY);
-                //offY += 32;
             }
         }
     }
@@ -215,7 +225,7 @@ namespace StarlightRiver.GUI
 
             Vector2 pos = GetDimensions().ToRectangle().TopLeft();
             Color backColor = Entry.New ? new Color(255, 255, 127 + (int)((float)Math.Sin(LegendWorld.rottime * 2) * 127f)) : Color.White; //yellow flashing background for new entries
-            Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/EntryButton");
+            Texture2D backTex = Entry.RequiresUpgradedBook ? ModContent.GetTexture("StarlightRiver/GUI/EntryButton2") : ModContent.GetTexture("StarlightRiver/GUI/EntryButton");
             spriteBatch.Draw(backTex, pos, backColor * 0.8f);
 
             Vector2 iconPos = pos + new Vector2(10, 14);

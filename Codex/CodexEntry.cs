@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Codex
@@ -18,6 +21,8 @@ namespace StarlightRiver.Codex
         public Texture2D Image;
         public Texture2D Icon;
 
+        public int LinePos;
+
         public enum Categories
         {
             Abilities = 0,
@@ -33,7 +38,30 @@ namespace StarlightRiver.Codex
             spriteBatch.Draw(Image, pos + new Vector2(-50 + (310 - Image.Width) / 2, 36), Color.White);
             spriteBatch.Draw(Icon, pos + new Vector2(-38, -5), Color.White);
             Utils.DrawBorderString(spriteBatch, Title, pos, Color.White, 1.2f);
-            Utils.DrawBorderString(spriteBatch, Helper.WrapString(Body, 550, Main.fontDeathText, 0.8f), pos + new Vector2(-30, 50 + Image.Height), Color.White, 0.8f);
+
+            List<string> lines = Helper.WrapString(Body, 480, Main.fontDeathText, 0.7f).Split('\n').ToList();
+            int maxLines = (int)(342 - (50 + Image.Height)) / 18; //grabs the max amount of lines that could feasibly be displated
+            int linePosEnd = LinePos + maxLines;
+            int lastLine = lines.Count < maxLines ? lines.Count : linePosEnd;
+
+            if (LinePos < 0) LinePos = 0;
+            if (lines.Count < maxLines) LinePos = 0;
+            else if (linePosEnd > lines.Count) LinePos = lines.Count - maxLines;
+
+            for (int k = LinePos; k < lastLine; k++)
+            {
+                int yRel = (k - LinePos) * 16;
+                if(k < lines.Count) Utils.DrawBorderString(spriteBatch, lines[k], pos + new Vector2(-30, 50 + Image.Height + yRel), Color.White, 0.7f);
+            }
+
+            if (lines.Count > maxLines)
+            {
+                spriteBatch.Draw(Main.magicPixel, new Rectangle((int)pos.X + 236, (int)pos.Y + 50 + Image.Height, 8, 300 - (50 + Image.Height)), new Rectangle(0, 0, 1, 1), Color.Gray, 0, Vector2.Zero, 0, 0);
+
+                Texture2D arrow = ModContent.GetTexture("StarlightRiver/GUI/Arrow");
+                float posY = LinePos / (float)(lines.Count - maxLines) * (300 - (50 + Image.Height));
+                spriteBatch.Draw(arrow, pos + new Vector2(234, 50 + Image.Height + posY - arrow.Height / 2), arrow.Frame(), Color.White, 0, Vector2.Zero, 1, 0, 0);
+            }
         }
 
         public TagCompound SerializeData()
