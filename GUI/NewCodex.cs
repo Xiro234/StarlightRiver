@@ -57,6 +57,10 @@ namespace StarlightRiver.GUI
 
         private void ScrollEntry(UIScrollWheelEvent evt, UIElement listeningElement)
         {
+            Vector2 pos = listeningElement.GetDimensions().ToRectangle().TopLeft();
+            Rectangle entryWindow = new Rectangle((int)pos.X + 20, (int)pos.Y + 50, 310, 342);
+            if (!entryWindow.Contains(Main.MouseScreen.ToPoint())) return; //makes sure were in the entry window to scroll. I shouldnt have hardcoded the entries to draw to the back element but oh well.
+
             CodexBack element = listeningElement as CodexBack;
             if(element.ActiveEntry != null)
             {
@@ -157,7 +161,7 @@ namespace StarlightRiver.GUI
         internal CodexEntry.Categories ActiveCategory = CodexEntry.Categories.None;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Main.magicPixel, GetDimensions().ToRectangle(), Main.magicPixel.Frame(), Color.White * 0.2f);
+            spriteBatch.Draw(Main.magicPixel, GetDimensions().ToRectangle(), Main.magicPixel.Frame(), Color.White * 0.1f);
             Vector2 pos = GetDimensions().ToRectangle().TopLeft() + new Vector2(20, 50);
             Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack");
             spriteBatch.Draw(backTex, pos, Color.White * 0.8f);

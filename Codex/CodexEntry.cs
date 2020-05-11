@@ -35,6 +35,8 @@ namespace StarlightRiver.Codex
 
         public virtual void Draw(Vector2 pos, SpriteBatch spriteBatch)
         {
+            if (LinePos < 0) LinePos = 0;
+
             spriteBatch.Draw(Image, pos + new Vector2(-50 + (310 - Image.Width) / 2, 36), Color.White);
             spriteBatch.Draw(Icon, pos + new Vector2(-38, -5), Color.White);
             Utils.DrawBorderString(spriteBatch, Title, pos, Color.White, 1.2f);
@@ -44,7 +46,6 @@ namespace StarlightRiver.Codex
             int linePosEnd = LinePos + maxLines;
             int lastLine = lines.Count < maxLines ? lines.Count : linePosEnd;
 
-            if (LinePos < 0) LinePos = 0;
             if (lines.Count < maxLines) LinePos = 0;
             else if (linePosEnd > lines.Count) LinePos = lines.Count - maxLines;
 
@@ -56,7 +57,7 @@ namespace StarlightRiver.Codex
 
             if (lines.Count > maxLines)
             {
-                spriteBatch.Draw(Main.magicPixel, new Rectangle((int)pos.X + 236, (int)pos.Y + 50 + Image.Height, 8, 300 - (50 + Image.Height)), new Rectangle(0, 0, 1, 1), Color.Gray, 0, Vector2.Zero, 0, 0);
+                spriteBatch.Draw(Main.magicPixel, new Rectangle((int)pos.X + 236, (int)pos.Y + 50 + Image.Height, 8, 300 - (50 + Image.Height)), new Rectangle(0, 0, 1, 1), new Color(30, 30, 70), 0, Vector2.Zero, 0, 0);
 
                 Texture2D arrow = ModContent.GetTexture("StarlightRiver/GUI/Arrow");
                 float posY = LinePos / (float)(lines.Count - maxLines) * (300 - (50 + Image.Height));
