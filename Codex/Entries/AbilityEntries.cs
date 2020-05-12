@@ -9,7 +9,7 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Starlight Codex";
             Body = "A mysterious compendium containing lost knowledge, it seems to write itself as you travel. Click the codex icon in your inventory to view the codex.";
-            Image = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
+            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/AbilityImageLore");
             Icon = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
         }
     }

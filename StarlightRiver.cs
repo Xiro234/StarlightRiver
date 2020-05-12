@@ -328,10 +328,9 @@ namespace StarlightRiver
                         Main.bgStyle = 4;
                         break;
                     case TitleScreenStyle.CorruptJungle:
-                        Main.bgStyle = GetModBackgroundSlot("StarlightRiver/Backgrounds/CorruptJungleSurface1");
+                        Main.bgStyle = GetSurfaceBgStyleSlot<Backgrounds.JungleCorruptBgStyle>();
                         break;
                 }
-                Main.spriteBatch.DrawString(Main.fontItemStack, ModContent.GetModBackgroundSlot("StarlightRiver/Backgrounds/CorruptJungleSurface1").ToString(), Vector2.One * 200, Color.White);
             }
         }
         private void JungleGrassSpread(ILContext il)
@@ -998,68 +997,76 @@ namespace StarlightRiver
         private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
-            bool canDraw = Main.menuMode == 0;
-
-            if(canDraw) Main.spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
-
-            switch (GetInstance<TitleScreenConfig>().Style)
+            try
             {
-                case TitleScreenStyle.None:
-                    break;
+                bool canDraw = Main.menuMode == 0;
 
-                case TitleScreenStyle.Starlight:
-                    Main.time = 0;
-                    if (Main.rand.Next(3) >= 1 && canDraw)
+                if (canDraw)
+                {
+                    Main.spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
+
+                    switch (GetInstance<TitleScreenConfig>().Style)
                     {
-                        MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -Main.rand.NextFloat(1.4f))));
+                        case TitleScreenStyle.None:
+                            break;
+
+                        case TitleScreenStyle.Starlight:
+                            Main.time = 0;
+                            if (Main.rand.Next(3) >= 1 && canDraw)
+                            {
+                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -Main.rand.NextFloat(1.4f))));
+                            }
+                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 160, 190) * 0.75f);
+                            break;
+
+                        case TitleScreenStyle.Vitric:
+                            if (Main.rand.Next(10) == 0 && canDraw)
+                                MenuDust.Add(new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), 0, 0.35f, 0.4f, 0));
+                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 180, 180) * 0.75f);
+                            break;
+
+                        case TitleScreenStyle.Overgrow:
+                            if (Main.rand.Next(3) >= 1 && canDraw)
+                            {
+                                MenuDust.Add(new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Holy"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight - Main.rand.Next(Main.screenHeight / 3)), Vector2.Zero));
+                            }
+                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(180, 170, 100) * 0.75f);
+                            break;
+
+                        case TitleScreenStyle.CorruptJungle:
+                            Main.time = 51000;
+                            if (Main.rand.Next(2) == 0 && canDraw)
+                            {
+                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Corrupt"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight), new Vector2(0, -1.4f)));
+                            }
+                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(160, 110, 220) * 0.75f);
+                            break;
+
+                        case TitleScreenStyle.CrimsonJungle:
+                            Main.time = 51000;
+                            if (Main.rand.Next(2) == 0 && canDraw)
+                            {
+                                MenuDust.Add(new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Blood"), new Vector2(Main.rand.Next(Main.screenWidth), -40), new Vector2(0, -1.4f), Main.rand.NextFloat(1, 2), Main.rand.NextFloat(0.2f)));
+                            }
+                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, -220, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(200, 70, 70) * 0.75f, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
+                            break;
+
                     }
-                    if(canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 160, 190) * 0.75f);
-                    break;
 
-                case TitleScreenStyle.Vitric:
-                    if (Main.rand.Next(10) == 0 && canDraw)
-                        MenuDust.Add(new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), 0, 0.35f, 0.4f, 0));
-                    if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 180, 180) * 0.75f);
-                    break;
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin();
+                    foreach (BootlegDust dus in MenuDust) dus.Draw(Main.spriteBatch);
+                    foreach (BootlegDust dus in MenuDust) dus.Update();
 
-                case TitleScreenStyle.Overgrow:
-                    if (Main.rand.Next(3) >= 1 && canDraw)
-                    {
-                        MenuDust.Add(new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Holy"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight - Main.rand.Next(Main.screenHeight / 3)), Vector2.Zero));
-                    }
-                    if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(180, 170, 100) * 0.75f);
-                    break;
-
-                case TitleScreenStyle.CorruptJungle:
-                    Main.time = 51000;
-                    if (Main.rand.Next(2) == 0 && canDraw)
-                    {
-                        MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Corrupt"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight), new Vector2(0, -1.4f)));
-                    }
-                    if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(160, 110, 220) * 0.75f);
-                    break;
-
-                    /*case TitleScreenStyle.Rift:
-                        if (Main.rand.Next(1) == 0)
-                        {
-                            MenuDust.Add(new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 10), new Vector2(0, -Main.rand.NextFloat(0.6f, 1f))));
-                        }
-                        Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(180, 50, 240) * 0.9f);
-                        break;*/
-
-
+                    List<BootlegDust> Removals = new List<BootlegDust>();
+                    foreach (BootlegDust dus in MenuDust.Where(dus => dus.time <= 0)) Removals.Add(dus);
+                    foreach (BootlegDust dus in Removals) MenuDust.Remove(dus);
+                    Main.spriteBatch.End();
+                }
             }
-            if (canDraw)
+            catch
             {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin();
-                foreach (BootlegDust dus in MenuDust) dus.Draw(Main.spriteBatch);
-                foreach (BootlegDust dus in MenuDust) dus.Update();
 
-                List<BootlegDust> Removals = new List<BootlegDust>();
-                foreach (BootlegDust dus in MenuDust.Where(dus => dus.time <= 0)) Removals.Add(dus);
-                foreach (BootlegDust dus in Removals) MenuDust.Remove(dus);
-                Main.spriteBatch.End();
             }
         }
         private void DrawProto(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_refItem_int_Vector2_Color orig, SpriteBatch spriteBatch, ref Item inv, int context, Vector2 position, Color lightColor)
@@ -1124,6 +1131,9 @@ namespace StarlightRiver
         private void DrawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Main self)
         {
             orig(self);
+
+            if (Main.gameMenu) return;
+
             Player player = null;
             if (Main.playerLoaded) { player = Main.LocalPlayer; }
 

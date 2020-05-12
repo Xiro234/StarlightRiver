@@ -52,6 +52,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override bool CheckDead()
         {
+            if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 1500) Helper.UnlockEntry<Codex.Entries.CeirosEntry>(Main.LocalPlayer); //unlocks the entry if the local player is close enough. codex is clientside so this is fine.
             foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp)) npc.active = false; //reset arena
             LegendWorld.GlassBossDowned = true;
             return true;
@@ -178,8 +179,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         if (npc != null && npc.active && (npc.type == ModContent.NPCType<VitricBossPlatformUp>() || npc.type == ModContent.NPCType<VitricBossPlatformDown>())) CrystalLocations.Add(npc.Center + new Vector2(0, -48));
                     }
 
-                    ChangePhase(AIStates.SpawnAnimation, true);
-                    if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 1500) Helper.UnlockEntry<Codex.Entries.CeirosEntry>(Main.LocalPlayer); //unlocks the entry if the local player is close enough. codex is clientside so this is fine.
+                    ChangePhase(AIStates.SpawnAnimation, true);                 
                     break;
 
                 case (int)AIStates.SpawnAnimation: //the animation that plays while the boss is spawning and the title card is shown

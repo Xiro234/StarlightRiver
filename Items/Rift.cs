@@ -1,4 +1,4 @@
-﻿using StarlightRiver.Tiles.Rift;
+﻿/*using StarlightRiver.Tiles.Rift;
 
 namespace StarlightRiver.Items
 {
@@ -27,4 +27,4 @@ namespace StarlightRiver.Items
         public RiftCore5() : base("Chaotic Rift Catalyst", "", 999, 200, 6) { }
         public override void SetDefaults() { item.GetGlobalItem<RiftItem>().tier = 5; }
     }
-}
+}*/
