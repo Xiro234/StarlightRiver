@@ -14,16 +14,16 @@ namespace StarlightRiver.Items.Vitric
             item.height = 34;
             item.useStyle = 5;
             Item.staff[item.type] = true;
-            item.useAnimation = 8;
-            item.useTime = 8;
+            item.useAnimation = 9;
+            item.useTime = 3;
+            item.reuseDelay = 27;
             item.autoReuse = true;
-            item.shootSpeed = 16f;
+            item.shootSpeed = 12f;
             item.knockBack = 2f;
             item.damage = 12;
             item.shoot = ModContent.ProjectileType<VitricStaffProjectile>();
             item.rare = 2;
             item.noMelee = true;
-            item.UseSound = SoundID.Item13;
             item.magic = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -33,6 +33,7 @@ namespace StarlightRiver.Items.Vitric
             {
                 position += muzzleOffset;
             }
+            Main.PlaySound(2, -1, -1, 8, 1);
             Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(20));
             Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, item.shoot, damage, knockBack, player.whoAmI);
             return false;

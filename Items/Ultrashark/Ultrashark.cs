@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections;
-using System.Collections.Specialized;
-using System.ComponentModel.Design;
+using StarlightRiver.Gores;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -14,12 +11,14 @@ namespace StarlightRiver.Items.Ultrashark
     public class Ultrashark : ModItem, IGlowingItem
     {
         #region values
-        public bool turretDeployed = false;
-        public bool turretSetup = false;
+        public float spinup;
 
-        public int turretDirection = 0;
-        public float sharkRotation = 0;
-        public int sharkFrame = 1;
+        public bool turretDeployed = false; //true after the player pressed RMB
+        public bool turretSetup = false; //true after the turret setup animation is complete, the player can now shoot
+
+        public int turretDirection = 0; //set to player direction upon pressing RMB
+        public float sharkRotation = 0; //cached rotation, thats about it
+        public int sharkFrame = 1; //self explanitory
         public int sharkFrameCount = 10;
 
         public int standFrame = 1;
@@ -27,24 +26,22 @@ namespace StarlightRiver.Items.Ultrashark
         #endregion
 
         #region methods
-        public Vector2 GetSharkPos(Player player)
+        public Vector2 GetSharkPos(Player player) //pos infront of player pretty much
         {
             return player.Center + new Vector2(turretDirection * player.width, -10);
         }
-        public Vector2 GetStandPos(Player player)
+        public Vector2 GetStandPos(Player player) //pos where we draw the stand
         {
             return GetSharkPos(player) + new Vector2(0, 17);
         }
-        public Vector2 GetMousePos()
+        public Vector2 GetMousePos() //player's mouse position
         {
             return new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y);
         }
-        public float GetSharkRotation(Player player)
+        public float GetSharkRotation(Player player) //used to set sharkRotation
         {
             float rotation = Vector2.Normalize(GetMousePos() - GetSharkPos(player)).ToRotation();
             float anglediff = ((turretDirection == 1 ? 0 : 3.14f) - rotation + 9.42f) % 6.28f - 3.14f;
-            Main.NewText(turretDirection);
-            Main.NewText(anglediff);
             float f = 1.256f;
             if (anglediff <= f && anglediff >= -f)
             {
@@ -54,24 +51,24 @@ namespace StarlightRiver.Items.Ultrashark
         }
         public void completeSetup(Player player)
         {
-            //put some completion vfx here
+            //put some completion vfx here idk
             turretSetup = true;
         }
         #endregion
 
         #region drawing
-        public void DrawStand(PlayerDrawInfo info)
+        public void DrawStand(PlayerDrawInfo info) //should all be obivous
         {
             Texture2D standTexture = mod.GetTexture("Items/Ultrashark/StandDelpoyAnimation");
             int frameHeight = standTexture.Height / standFrameCount;
             int frame = frameHeight * standFrame;
             Player player = info.drawPlayer;
-            Vector2 standPos = GetStandPos(player);
+            Vector2 standPos = GetStandPos(player) - Main.screenPosition + new Vector2(0f, player.gfxOffY);
             Main.playerDrawData.Add(new DrawData(
                 standTexture,
-                standPos - Main.screenPosition + new Vector2(0f, info.drawPlayer.gfxOffY),  //position
+                standPos,  //position
                 new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frame, standTexture.Width, frameHeight)), //source
-                Color.Ivory, //color
+                Lighting.GetColor((int)GetStandPos(player).X / 16, (int)GetStandPos(player).Y / 16), //color
                 0, //rotation
                 new Vector2(standTexture.Width / 2f, frameHeight / 2f), //origin
                 1f, //scale
@@ -83,13 +80,13 @@ namespace StarlightRiver.Items.Ultrashark
             int frameHeight = sharkTexture.Height / sharkFrameCount;
             int frame = frameHeight * sharkFrame;
             Player player = info.drawPlayer;
-            Vector2 sharkPos = GetSharkPos(player);
+            Vector2 sharkPos = GetSharkPos(player) - Main.screenPosition + new Vector2(0f, player.gfxOffY);
             sharkRotation = GetSharkRotation(player);
             Main.playerDrawData.Add(new DrawData(
                 sharkTexture,
-                sharkPos - Main.screenPosition + new Vector2(0f, info.drawPlayer.gfxOffY),  //position
+                sharkPos,  //position
                 new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frame, sharkTexture.Width, frameHeight)), //source
-                Color.Ivory, //color
+                Lighting.GetColor((int)GetSharkPos(player).X / 16, (int)GetSharkPos(player).Y / 16), //color
                 sharkRotation, //rotation
                 new Vector2(sharkTexture.Width / 2f, frameHeight / 2f), //origin
                 1f, //scale
@@ -137,16 +134,16 @@ namespace StarlightRiver.Items.Ultrashark
         }
         public override bool CanUseItem(Player player)
         {
-            if (turretDeployed && player.altFunctionUse == 2)
+            if (turretDeployed && player.altFunctionUse == 2) //only use right click if turret aint deployed
             {
                 return false;
             }
-            if (turretDeployed && !turretSetup)
+            if (turretDeployed && !turretSetup) //cant use right click if turret isnt setup
             {
                 return false;
             }
 
-            if (player.altFunctionUse == 2 || turretDeployed)
+            if (player.altFunctionUse == 2 || turretDeployed) //dont draw the gun
             {
                 item.noUseGraphic = true;
             }
@@ -160,7 +157,6 @@ namespace StarlightRiver.Items.Ultrashark
         {
             return new Vector2(-10, 0);
         }
-        public float spinup;
 
         public override float UseTimeMultiplier(Player player)
         {
@@ -218,7 +214,7 @@ namespace StarlightRiver.Items.Ultrashark
                 {
                     if (item.turretDirection != 0) //no turn
                     {
-                        player.direction = item.turretDirection;
+                        player.direction = item.turretDirection; 
                     }
                 }
             }
@@ -246,7 +242,7 @@ namespace StarlightRiver.Items.Ultrashark
                 #region animation and setup
                 if (item.turretDeployed)
                 {
-                    if (Main.time % 6 == 0)
+                    if (Main.time % 6 == 0) //animate stand
                     {
                         if (item.standFrame < item.standFrameCount - 1)
                         {
@@ -257,7 +253,7 @@ namespace StarlightRiver.Items.Ultrashark
                             item.completeSetup(player);
                         }
                     }
-                    if (Main.time % 20 - item.spinup * 6f == 0)
+                    if (Main.time % 20 - item.spinup * 6f == 0) //animate gun
                     {
                         if (item.sharkFrame < item.sharkFrameCount - 1)
                         {
@@ -267,7 +263,6 @@ namespace StarlightRiver.Items.Ultrashark
                 }
                 #endregion
             }
-            base.PostUpdate();
         }
         #endregion
     }
