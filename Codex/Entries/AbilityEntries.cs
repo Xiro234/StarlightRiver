@@ -6,10 +6,10 @@ namespace StarlightRiver.Codex.Entries
     {
         public LoreEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Starlight Codex";
             Body = "A mysterious compendium containing lost knowledge, it seems to write itself as you travel. Click the codex icon in your inventory to view the codex.";
-            Image = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
+            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/AbilityImageLore");
             Icon = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
         }
     }
@@ -17,7 +17,7 @@ namespace StarlightRiver.Codex.Entries
     {
         public WindsEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Forbidden Winds";
             Body = "A collection of strange energies found deeep within a tomb buried in the vitric desert. These 'winds' hold the power to shatter certain objects on touch and propel you forward at great speeds.";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOn");
@@ -28,10 +28,10 @@ namespace StarlightRiver.Codex.Entries
     {
         public FaeEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Faeflame";
             Body = "NO TEXT";
-            Image = ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOn");
+            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/AbilityImageWisp");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
         }
     }
@@ -39,7 +39,7 @@ namespace StarlightRiver.Codex.Entries
     {
         public PureEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Corona of Purity";
             Body = "NO TEXT";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
@@ -50,22 +50,35 @@ namespace StarlightRiver.Codex.Entries
     {
         public SmashEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Gaia's Fist";
             Body = "NO TEXT";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         }
     }
+    class LoreEntry2 : CodexEntry
+    {
+        public LoreEntry2()
+        {
+            Category = Categories.Abilities;
+            Title = "Rift Codex";
+            Body = "NO TEXT";
+            Image = ModContent.GetTexture("StarlightRiver/GUI/Book2Closed");
+            Icon = ModContent.GetTexture("StarlightRiver/GUI/Book2Closed");
+            RequiresUpgradedBook = true;
+        }
+    }
     class CloakEntry : CodexEntry
     {
         public CloakEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Zzelera's Cloak";
             Body = "NO TEXT";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+            RequiresUpgradedBook = true;
         }
     }
 }

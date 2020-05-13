@@ -25,6 +25,7 @@ namespace StarlightRiver.Projectiles.Dummies
             npc.immortal = true;
             npc.noGravity = true;
             npc.behindTiles = true;
+            npc.dontCountMe = true;
         }
 
         public override void AI()

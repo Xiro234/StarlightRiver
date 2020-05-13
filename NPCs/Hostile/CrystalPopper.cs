@@ -103,7 +103,8 @@ namespace StarlightRiver.NPCs.Hostile
         }
         /*public override int SpawnNPC(int tileX, int tileY)
         {
-            return NPC.NewNPC(tileX, tileY + 1, ModContent.NPCType<CrystalPopper>());
+            return 
+            (tileX, tileY + 1, ModContent.NPCType<CrystalPopper>());
         }*/
 
         public override void NPCLoot()

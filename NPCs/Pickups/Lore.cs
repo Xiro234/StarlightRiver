@@ -24,7 +24,7 @@ namespace StarlightRiver.NPCs.Pickups
             npc.knockBackResist = 0;
             npc.noGravity = true;
         }
-        public override bool CheckActive() { return true; }
+        public override bool CheckActive() { return false; }
         public override void AI()
         {
             npc.TargetClosest(true);

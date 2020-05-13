@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.RiftCrafting;
 using System;
@@ -352,4 +352,4 @@ namespace StarlightRiver.Tiles.Rift
             base.PostDraw(npc, spriteBatch, drawColor);
         }
     }
-}
+}*/

@@ -157,7 +157,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.useStyle = 1;
             item.consumable = true;
-            item.createTile = ModContent.TileType<Tiles.Rift.MainRift>();
+            //item.createTile = ModContent.TileType<Tiles.Rift.MainRift>();
         }
 
         public override bool UseItem(Player player)
@@ -217,17 +217,9 @@ namespace StarlightRiver.Items.Debug
             LegendWorld.GlassBossOpen = false;
             LegendWorld.DesertOpen = false;
 
-            for(int k = (int)player.Center.X / 16 - 200; k <= (int)player.Center.X / 16 + 200; k++)
-                for (int i = (int)player.Center.Y / 16 - 200; i <= (int)player.Center.Y / 16 + 200; i++)
-                {
-                    WorldGen.PlaceTile(k, i, ModContent.TileType<Tiles.Debug.GreenScreen>(), true, true);
-                }
+            Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
+            mp.CodexState = 2;
 
-            for (int k = (int)player.Center.X / 16 - 200; k <= (int)player.Center.X / 16 + 200; k++)
-                for (int i = (int)player.Center.Y / 16 - 200; i <= (int)player.Center.Y / 16 - 199; i++)
-                {
-                    WorldGen.PlaceTile(k, i, ModContent.TileType<Tiles.JungleBloody.GrassJungleBloody>(), true, true);
-                }
             return true;
         }
     }
@@ -256,16 +248,9 @@ namespace StarlightRiver.Items.Debug
         {
             Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
             foreach (Codex.CodexEntry entry in mp.Entries) entry.Locked = false;
-            LegendWorld.GlassBossOpen = true;
-            LegendWorld.OvergrowBossOpen = true;
-            foreach (NPC n in Main.npc.Where(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropLeft>() || n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBackdropRight>()))
-            {
-                n.ai[1] = 3;
-            }
-            foreach (NPC n in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBossPlatformUp))
-            {
-                n.ai[0] = 1;
-            }
+
+            Main.heartTexture = Terraria.ModLoader.ModContent.GetTexture("Terraria/Mana");
+            Main.manaTexture = Terraria.ModLoader.ModContent.GetTexture("Terraria/Heart");
             return true;
         }
         public override void HoldItem(Player player)

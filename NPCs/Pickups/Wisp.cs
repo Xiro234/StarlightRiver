@@ -25,7 +25,7 @@ namespace StarlightRiver.NPCs.Pickups
             npc.knockBackResist = 0;
             npc.noGravity = true;
         }
-        public override bool CheckActive() { return true; }
+        public override bool CheckActive() { return false; }
 
         int animate = 0;
         float rot = 0;

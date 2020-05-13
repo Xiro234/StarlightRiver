@@ -28,17 +28,34 @@ namespace StarlightRiver.Codex
             Entries = new List<CodexEntry>();
             List<TagCompound> entriesToLoad = (List<TagCompound>)tag.GetList<TagCompound>(nameof(Entries));
 
-            foreach (TagCompound tagc in entriesToLoad) Entries.Add(CodexEntry.DeserializeData(tagc));
-            foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry)) && !Entries.Any(n => n.GetType() == t)))
+            foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry))))
             {
-                CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);               
+                CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);
                 Entries.Add(ThisEntry);
             }
 
+            if (entriesToLoad == null || entriesToLoad.Count == 0) return;
+            foreach (TagCompound tagc in entriesToLoad)
+            {
+                CodexEntry entry = CodexEntry.DeserializeData(tagc);
+                if(Entries.FirstOrDefault(n => n.GetType() == entry.GetType()) != null) //find and replace needed entries with save data
+                {
+                    int index = Entries.IndexOf(Entries.FirstOrDefault(n => n.GetType() == entry.GetType()));
+                    Entries[index] = entry;
+                }
+            }
         }
 
         public override void OnEnterWorld(Player player)
         {
+            if(Entries.Count == 0) //failsafe incase the player dosent load for some reason
+            {
+                foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry))))
+                {
+                    CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);
+                    Entries.Add(ThisEntry);
+                }
+            }
             (mod as StarlightRiver).codex = new GUI.Codex();
             (mod as StarlightRiver).customResources8.SetState((mod as StarlightRiver).codex);
         }

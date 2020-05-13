@@ -68,6 +68,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
+            return 0;
             Player player = spawnInfo.player;
             Vector2 spawnPos = new Vector2(spawnInfo.spawnTileX * 16, spawnInfo.spawnTileY * 16);
 

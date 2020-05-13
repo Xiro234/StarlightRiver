@@ -132,10 +132,12 @@ namespace StarlightRiver
             }
 
             //Codex Unlocks
-            if (ZoneGlass && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is VitricEntry && entry.Locked))
-            {
+            if (ZoneGlass && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is VitricEntry && entry.Locked))           
                 Helper.UnlockEntry<VitricEntry>(player);
-            }
+            
+            if (ZoneOvergrow && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is OvergrowEntry && entry.Locked))        
+                Helper.UnlockEntry<OvergrowEntry>(player);
+            
         }
     }
 
