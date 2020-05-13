@@ -237,7 +237,8 @@ namespace StarlightRiver
             On.Terraria.Player.dropItemCheck += SoulboundPriority;
             On.Terraria.Player.ItemFitsItemFrame += NoSoulboundFrame;
             On.Terraria.Player.ItemFitsWeaponRack += NoSoulboundRack;
-            //jungle grass
+            //Debugging
+            On.Terraria.NPC.NewNPC += DebugSpawn;
 
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
@@ -259,6 +260,13 @@ namespace StarlightRiver
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
             #endregion
 
+        }
+
+        private int DebugSpawn(On.Terraria.NPC.orig_NewNPC orig, int X, int Y, int Type, int Start, float ai0, float ai1, float ai2, float ai3, int Target)
+        {
+            int i = orig(X, Y, Type, Start, ai0, ai1, ai2, ai3, Target);
+            Main.NewText("Attempted to spawn an NPC with type: " + Main.npc[i].FullName + " at (" + X + ", " + Y + ")");
+            return i;
         }
 
 
