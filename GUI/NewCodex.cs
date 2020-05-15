@@ -168,6 +168,12 @@ namespace StarlightRiver.GUI
             spriteBatch.Draw(backTex, pos, Color.White * 0.8f);
             if(ActiveEntry != null) ActiveEntry.Draw(pos + new Vector2(50, 16), spriteBatch); //draws the text of the active entry
             base.Draw(spriteBatch);
+
+            foreach (EntryButton button in (Parent as Codex).ClickableEntries._items)
+                if (button.IsMouseHovering && button.Entry.Locked && button.Entry.Hint != null)
+                {
+                    Utils.DrawBorderString(spriteBatch, Helper.WrapString(button.Entry.Hint, 300, Main.fontDeathText, 0.8f), Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.8f);
+                }
         }
         internal void ChangeCategory(CodexEntry.Categories category) //swaps out all of the entry buttons based on the category
         {
@@ -221,7 +227,7 @@ namespace StarlightRiver.GUI
 
     class EntryButton : UIElement
     {
-        CodexEntry Entry;
+        public CodexEntry Entry;
         public EntryButton(CodexEntry entry) { Entry = entry; }
         public override void Draw(SpriteBatch spriteBatch)
         {

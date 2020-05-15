@@ -238,7 +238,6 @@ namespace StarlightRiver
             On.Terraria.Player.ItemFitsItemFrame += NoSoulboundFrame;
             On.Terraria.Player.ItemFitsWeaponRack += NoSoulboundRack;
             //Debugging
-            On.Terraria.NPC.NewNPC += DebugSpawn;
 
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
@@ -261,14 +260,6 @@ namespace StarlightRiver
             #endregion
 
         }
-
-        private int DebugSpawn(On.Terraria.NPC.orig_NewNPC orig, int X, int Y, int Type, int Start, float ai0, float ai1, float ai2, float ai3, int Target)
-        {
-            int i = orig(X, Y, Type, Start, ai0, ai1, ai2, ai3, Target);
-            Main.NewText("Attempted to spawn an NPC with type: " + Main.npc[i].FullName + " at (" + X + ", " + Y + ")");
-            return i;
-        }
-
 
         #region IL edits
         private void GrapplePlatforms(ILContext il)
@@ -364,7 +355,7 @@ namespace StarlightRiver
                 }
             }
         }
-        private void JungleGrassConvert(ILContext il) //IL only. Fun stuff.
+        private void JungleGrassConvert(ILContext il) //Fun stuff.
         {
             ILCursor c = new ILCursor(il);
             for (int k = 0; k < 3; k++)
@@ -1160,9 +1151,17 @@ namespace StarlightRiver
                 DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5, 170, new Color(150, 175, 190)); //the back sand
                 DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5.5f, 400, new Color(120, 150, 170), true); //the back sand on top
 
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Texture, default);
 
-                foreach(BootlegDust dust in VitricBackgroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
+                foreach (BootlegDust dust in VitricBackgroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
+                {
                     dust.Draw(Main.spriteBatch); //back particles
+                }
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin();
+
 
                 for (int k = 4; k >= 0; k--)
                 {
@@ -1171,8 +1170,18 @@ namespace StarlightRiver
                     DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1, off); //the crystal layers and front sand
                     if (k == 0) DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 0.5f, 100, new Color(180, 220, 235), true); //the sand on top
                     if (k == 2)
+                    {
+                        Main.spriteBatch.End();
+                        Main.spriteBatch.Begin(SpriteSortMode.Texture, default);
+
                         foreach (BootlegDust dust in VitricForegroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
+                        {
                             dust.Draw(Main.spriteBatch); //front particles
+                        }
+
+                        Main.spriteBatch.End();
+                        Main.spriteBatch.Begin();
+                    }
 
                 }
 
@@ -1181,13 +1190,13 @@ namespace StarlightRiver
                 {
                     if (Main.rand.Next(800) == 0)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1500), k, 0.65f, 0.2f, 0.1f);
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1550), k, 0.65f, 0.2f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
                     if (Main.rand.Next(700) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1500), k, 0.85f, 0.5f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1550), k, 0.85f, 0.5f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }

@@ -88,7 +88,7 @@ namespace StarlightRiver
             if (entry.RequiresUpgradedBook && mp.CodexState != 2) return; //dont give the player void entries if they dont have the void book
             entry.Locked = false;
             entry.New = true;
-            StarlightRiver.Instance.codexpopup.TripEntry(entry.Title);
+            if(mp.CodexState != 0) StarlightRiver.Instance.codexpopup.TripEntry(entry.Title);
             Main.PlaySound(SoundID.Item30);
         }
         public static void SpawnGem(int ID, Vector2 position)

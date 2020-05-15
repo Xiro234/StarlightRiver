@@ -101,7 +101,7 @@ namespace StarlightRiver.Abilities
             //Resets the player's stamina to prevent issues with gaining infinite stamina or stamina regeneration.
             StatStaminaMax = StatStaminaMaxTemp + StatStaminaMaxPerm;
             StatStaminaMaxTemp = 0;
-            StatStaminaRegenMax = 210;
+            StatStaminaRegenMax = 240;
 
             if (Abilities.Any(ability => ability.Active))
             {

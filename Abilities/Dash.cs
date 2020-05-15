@@ -109,11 +109,13 @@ namespace StarlightRiver.Abilities
 
         public override void OffCooldownEffects()
         {
-            for (int k = 0; k <= 25; k++)
+            for (int k = 0; k <= 60; k++)
             {
-                Dust.NewDust(player.Center, 1, 1, ModContent.DustType<Air>());
+                Dust dus = Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(k / 60f * 6.28f) * Main.rand.NextFloat(50), ModContent.DustType<Air2>(), Vector2.Zero);
+                dus.customData = player;
             }
-            Main.PlaySound(SoundID.MaxMana);
+            Main.PlaySound(SoundID.Item45, player.Center);
+            Main.PlaySound(SoundID.Item25, player.Center);
         }
 
         public override void OnExit()
