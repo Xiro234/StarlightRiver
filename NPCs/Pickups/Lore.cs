@@ -8,52 +8,40 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Lore : ModNPC
+    class Lore : AbilityPickup
     {
+        public override string Texture => "StarlightRiver/GUI/Book1Closed";
+        public override Color GlowColor => new Color(200, 130, 40);
+        public override bool CanPickup(Player player) => player.GetModPlayer<CodexHandler>().CodexState == 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starlight Codex");
         }
-        public override void SetDefaults()
-        {
-            npc.width = 32;
-            npc.height = 32;
-            npc.aiStyle = -1;
-            npc.immortal = true;
-            npc.lifeMax = 1;
-            npc.knockBackResist = 0;
-            npc.noGravity = true;
-        }
-        public override bool CheckActive() { return false; }
-        public override void AI()
-        {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && player.GetModPlayer<CodexHandler>().CodexState == 0)
+        public override void Visuals()
+        {
+            float rot = Main.rand.NextFloat(6.28f);
+            Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(rot) * 20, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedBy(rot) * -1);
+
+            Lighting.AddLight(npc.Center, new Vector3(1, 0.5f, 0));
+        }
+        public override void PickupVisuals(int timer)
+        {
+           if(timer == 119)
             {
-                player.GetModPlayer<CodexHandler>().CodexState = 1;
-                Main.PlaySound(SoundID.NPCDeath7);
-                for (float k = 0; k <= 6.28f; k += 0.1f)
-                {
-                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedBy(k) * Main.rand.NextFloat(8), 0, default, 2);
-                }
-                StarlightRiver.Instance.abilitytext.Display("Starlight Codex", "Open the codex from your inventory to learn about the world around you", null, 300);
-                Helper.UnlockEntry<Codex.Entries.LoreEntry>(player);
+                string message = "Open the codex from your inventory to learn about the world.";
+
+                StarlightRiver.Instance.abilitytext.Display("Starlight Codex", message, null, 240);
+                Helper.UnlockEntry<Codex.CodexEntry>(Main.LocalPlayer);
             }
         }
-
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PickupEffects(Player player)
         {
-            Texture2D book = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
-            if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState == 0)
-            {
-                Lighting.AddLight(npc.Center, new Vector3(1, 0.5f, 0));
+            CodexHandler mp = player.GetModPlayer<CodexHandler>();
+            mp.CodexState = 1;
 
-                spriteBatch.Draw(book, npc.position - Main.screenPosition + new Vector2(4, (float)Math.Sin(LegendWorld.rottime) * 4), Color.White);
-                float rot = Main.rand.NextFloat(6.28f);
-                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(rot) * 20, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedBy(rot) * -1);
-            }
+            player.GetModPlayer<StarlightPlayer>().MaxPickupTimer = 120;
+            player.AddBuff(BuffID.Featherfall, 130);
         }
     }
 }

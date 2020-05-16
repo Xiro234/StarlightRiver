@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
@@ -50,11 +51,33 @@ namespace StarlightRiver.NPCs.Pickups
         /// if the player should be able to pick this up or not
         /// </summary>
         public virtual bool CanPickup(Player player) { return false; }
+        public virtual Color GlowColor { get => Color.White; }
 
         public sealed override void AI()
         {
             StarlightPlayer mp = Main.LocalPlayer.GetModPlayer<StarlightPlayer>(); //the local player since ability pickup visuals are clientside
-            if (Visible) Visuals();
+            if (Visible)
+            {
+                Visuals();
+
+                if (Vector2.Distance(Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center) <= Main.screenWidth / 2 + 100) //shader
+                {
+                    float timer = Math.Abs((float)Math.Sin(LegendWorld.rottime));
+                    Filters.Scene.Activate("ShockwaveFilter", npc.Center).GetShader().UseProgress(2f).UseIntensity(300).UseDirection(new Vector2(0.005f + timer * 0.03f, 1 * 0.004f - timer * 0.004f));
+                }
+
+                if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 200f) //music handling
+                {
+                    for (int k = 0; k < Main.musicFade.Length; k++)
+                    {
+                        if (k == Main.curMusic)
+                        {
+                            Main.musicFade[k] = Vector2.Distance(Main.LocalPlayer.Center, npc.Center) / 200f;
+                        }
+                    }
+                }
+            }
+
             if (mp.PickupTarget == npc) //if the player is picking this up, clientside only also
             {
                 PickupVisuals(mp.PickupTimer);
@@ -70,6 +93,34 @@ namespace StarlightRiver.NPCs.Pickups
             }
             return false;
         }
-        public sealed override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => Visible;
+        public sealed override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            if (Visible)
+            {
+                Texture2D tex = ModContent.GetTexture(Texture);
+                Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5);
+                spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
+            }
+            return false;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            if (Visible)
+            {
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/RiftCrafting/Glow0");
+                Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5);
+
+                spriteBatch.End();
+                spriteBatch.Begin(default, BlendState.Additive);
+
+
+                spriteBatch.Draw(tex, pos, tex.Frame(), GlowColor * 0.3f, 0, tex.Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex, pos, tex.Frame(), GlowColor * 0.5f, 0, tex.Size() / 2, 0.6f, 0, 0);
+
+
+                spriteBatch.End();
+                spriteBatch.Begin();
+            }
+        }
     }
 }

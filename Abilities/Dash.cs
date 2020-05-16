@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dusts;
 using System;
 using System.Runtime.Serialization;
@@ -16,8 +17,9 @@ namespace StarlightRiver.Abilities
 
         public Dash(Player player) : base(1, player)
         {
-
+            
         }
+        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         public override bool CanUse => Main.LocalPlayer.controlLeft || Main.LocalPlayer.controlRight || Main.LocalPlayer.controlUp || Main.LocalPlayer.controlDown || player.GetModPlayer<Dragons.DragonHandler>().DragonMounted;
 
         public override void OnCast()

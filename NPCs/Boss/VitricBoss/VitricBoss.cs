@@ -321,7 +321,21 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.ai[0] == 2) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBossTransition");
 
                     if (npc.ai[0] == 701) music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy");
-                    if (npc.ai[0] == 702) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
+                    if (npc.ai[0] == 702)
+                    {
+                        music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
+                    }
+
+                    if(npc.ai[0] > 702 && npc.ai[0] < 760) //no fadein
+                    {
+                        for (int k = 0; k < Main.musicFade.Length; k++) 
+                        {
+                            if (k == Main.curMusic)
+                            {
+                                Main.musicFade[k] = 1;
+                            }
+                        }
+                    }
 
                     Volley();
                     break;

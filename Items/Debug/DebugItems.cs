@@ -213,8 +213,10 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 0;
+            player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 1;
             foreach (Abilities.Ability ab in player.GetModPlayer<Abilities.AbilityHandler>().Abilities) ab.Locked = true;
+
+            player.GetModPlayer<Codex.CodexHandler>().CodexState = 0;
 
             LegendWorld.OvergrowBossOpen = true;
             LegendWorld.GlassBossOpen = false;

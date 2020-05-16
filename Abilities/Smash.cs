@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dusts;
 using System;
 using System.Runtime.Serialization;
@@ -13,6 +14,7 @@ namespace StarlightRiver.Abilities
     {
         public Smash(Player player) : base(2, player) { }
         public override bool CanUse => player.velocity.Y != 0;
+        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
 
         public override void OnCast()
         {

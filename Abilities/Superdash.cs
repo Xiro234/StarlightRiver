@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dusts;
 using System;
 using System.Runtime.Serialization;
@@ -19,6 +20,7 @@ namespace StarlightRiver.Abilities
         {
 
         }
+        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
 
         public override void OnCast()
         {

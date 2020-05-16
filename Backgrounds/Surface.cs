@@ -55,8 +55,7 @@ namespace StarlightRiver.Backgrounds
     {
         public override bool ChooseBgStyle()
         {
-            return (!Main.gameMenu && Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt) ||
-                (Main.gameMenu && ModContent.GetInstance<TitleScreenConfig>().Style == TitleScreenStyle.CorruptJungle);
+            return (!Main.gameMenu && Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt);
         }
 
         // Use this to keep far Backgrounds like the mountains.

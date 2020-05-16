@@ -61,6 +61,8 @@ namespace StarlightRiver
 
         public static float Rotation;
 
+        public const string PatchString = "Starlight River Nightly Build #20     5/15/2020 - 12:20 AM EST";
+
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
 
         public static StarlightRiver Instance { get; set; }
@@ -146,6 +148,10 @@ namespace StarlightRiver
 
             //Shaders
             GameShaders.Misc["StarlightRiver:Distort"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Distort")), "Distort");
+
+            Ref<Effect> screenRef4 = new Ref<Effect>(GetEffect("Effects/Shockwave"));
+            Terraria.Graphics.Effects.Filters.Scene["ShockwaveFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef4, "ShockwavePass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
+            Terraria.Graphics.Effects.Filters.Scene["ShockwaveFilter"].Load();
 
             Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/WaterEffect"));
             Terraria.Graphics.Effects.Filters.Scene["WaterFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef3, "WaterPass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
@@ -257,6 +263,8 @@ namespace StarlightRiver
             IL.Terraria.Main.DrawBG += DrawTitleScreen;
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
+
+
             #endregion
 
         }
@@ -321,7 +329,7 @@ namespace StarlightRiver
         {
             if (Main.menuMode == 0)
             {
-                switch (GetInstance<TitleScreenConfig>().Style)
+                switch (GetInstance<Config>().Style)
                 {
                     case TitleScreenStyle.Starlight:
                         Main.bgStyle = 4;
@@ -604,7 +612,7 @@ namespace StarlightRiver
                     // Update + draw dusts
                     foreach (BootlegDust dust in WindowDust)
                     {
-                        dust.Draw(spriteBatch);
+                        dust.SafeDraw(spriteBatch);
                         dust.Update();
                     }
                     WindowDust.RemoveAll(n => n.time == 0);
@@ -969,7 +977,7 @@ namespace StarlightRiver
 
             foreach (BootlegDust dus in foregroundDusts)
             {
-                dus.Draw(Main.spriteBatch);
+                dus.SafeDraw(Main.spriteBatch);
                 dus.Update();
                 if (dus.time <= 0) removals.Add(dus);
             }
@@ -990,12 +998,26 @@ namespace StarlightRiver
             else foreach (BootlegDust dus in foregroundDusts) (dus as OvergrowForegroundDust).fadein = 101;
             Main.spriteBatch.End();
             orig(self, gameTime);
+
+            if (!Main.playerInventory)
+            {
+                Main.spriteBatch.Begin();
+                Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 120), Color.White);
+                Main.spriteBatch.DrawString(Main.fontItemStack, "Thank you for testing <3", new Vector2(20, 140), Color.White);
+                Main.spriteBatch.End();
+            }
         }
 
         internal static readonly List<BootlegDust> MenuDust = new List<BootlegDust>();
         private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
+
+            Main.spriteBatch.Begin();
+            Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 20), Color.White);
+            Main.spriteBatch.DrawString(Main.fontItemStack, "Thank you for testing <3", new Vector2(20, 40), Color.White);
+            Main.spriteBatch.End();
+
             try
             {
                 bool canDraw = Main.menuMode == 0;
@@ -1004,7 +1026,7 @@ namespace StarlightRiver
                 {
                     Main.spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
 
-                    switch (GetInstance<TitleScreenConfig>().Style)
+                    switch (GetInstance<Config>().Style)
                     {
                         case TitleScreenStyle.None:
                             break;
@@ -1054,7 +1076,8 @@ namespace StarlightRiver
 
                     Main.spriteBatch.End();
                     Main.spriteBatch.Begin();
-                    foreach (BootlegDust dus in MenuDust) dus.Draw(Main.spriteBatch);
+
+                    foreach (BootlegDust dus in MenuDust) dus.SafeDraw(Main.spriteBatch);
                     foreach (BootlegDust dus in MenuDust) dus.Update();
 
                     List<BootlegDust> Removals = new List<BootlegDust>();
@@ -1151,17 +1174,10 @@ namespace StarlightRiver
                 DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5, 170, new Color(150, 175, 190)); //the back sand
                 DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5.5f, 400, new Color(120, 150, 170), true); //the back sand on top
 
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Texture, default);
-
                 foreach (BootlegDust dust in VitricBackgroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
                 {
-                    dust.Draw(Main.spriteBatch); //back particles
+                    dust.SafeDraw(Main.spriteBatch); //back particles
                 }
-
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin();
-
 
                 for (int k = 4; k >= 0; k--)
                 {
@@ -1171,16 +1187,10 @@ namespace StarlightRiver
                     if (k == 0) DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 0.5f, 100, new Color(180, 220, 235), true); //the sand on top
                     if (k == 2)
                     {
-                        Main.spriteBatch.End();
-                        Main.spriteBatch.Begin(SpriteSortMode.Texture, default);
-
                         foreach (BootlegDust dust in VitricForegroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
                         {
-                            dust.Draw(Main.spriteBatch); //front particles
+                            dust.SafeDraw(Main.spriteBatch); //front particles
                         }
-
-                        Main.spriteBatch.End();
-                        Main.spriteBatch.Begin();
                     }
 
                 }
@@ -1258,11 +1268,14 @@ namespace StarlightRiver
 
             playerStamina = mp.StatStaminaMax;
 
-            Texture2D wind = !mp.dash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind0");
-            Texture2D wisp = !mp.wisp.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp0");
-            Texture2D pure = !mp.pure.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity0");
-            Texture2D smash = !mp.smash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash0");
-            Texture2D shadow = !mp.sdash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0");
+            List<Texture2D> textures = new List<Texture2D>()
+                {
+                    !mp.dash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind0"),
+                    !mp.wisp.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp0"),
+                    //!mp.pure.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity0"),
+                    //!mp.smash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash0"),
+                    //!mp.sdash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0"),
+                };
 
             Rectangle box = new Rectangle((int)(origin + new Vector2(86, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 80, 25);
             Rectangle box2 = new Rectangle((int)(origin + new Vector2(172, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 104, 25);
@@ -1297,11 +1310,11 @@ namespace StarlightRiver
 
 
             //Draw ability Icons
-            spriteBatch.Draw(wind, origin + new Vector2(390, 62), Color.White);
-            spriteBatch.Draw(wisp, origin + new Vector2(426, 62), Color.White);
-            spriteBatch.Draw(pure, origin + new Vector2(462, 62), Color.White);
-            spriteBatch.Draw(smash, origin + new Vector2(498, 62), Color.White);
-            spriteBatch.Draw(shadow, origin + new Vector2(534, 62), Color.White);
+            for(int k = 0; k < textures.Count; k++)
+            {
+                spriteBatch.Draw(textures[(textures.Count - 1) - k], origin + new Vector2(536 - k * 32, 62), Color.White);
+            }
+
 
             if (player.statLifeMax > 400) //why vanilla dosent do this I dont know
             {
@@ -1325,7 +1338,6 @@ namespace StarlightRiver
             //Main.NewText(context);
             orig(inv, context, slot);
         }
-
         private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
             Player player = Main.player[Main.myPlayer];
@@ -1558,7 +1570,6 @@ namespace StarlightRiver
                 CursedAccessory.Bootlegdust.Clear();
                 BlessedAccessory.Bootlegdust.Clear();
                 BlessedAccessory.Bootlegdust2.Clear();
-                Collection.Bootlegdust.Clear();
                 Overlay.Bootlegdust.Clear();
 
                 Instance = null;

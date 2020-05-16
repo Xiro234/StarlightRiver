@@ -1,4 +1,5 @@
-﻿using StarlightRiver.Dragons;
+﻿using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Dragons;
 using System.Linq;
 using Terraria;
 
@@ -11,6 +12,7 @@ namespace StarlightRiver.Abilities
         public int Timer;
         public int Cooldown;
         public bool Locked = true;
+        public virtual Texture2D texture { get; }
         public Player player;
         public virtual bool CanUse { get => true; }
 
