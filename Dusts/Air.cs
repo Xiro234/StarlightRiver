@@ -19,7 +19,7 @@ namespace StarlightRiver.Dusts
         }
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
-            return dust.color;
+            return dust.color * (1 - dust.fadeIn);
         }
         public override bool Update(Dust dust)
         {
@@ -58,24 +58,28 @@ namespace StarlightRiver.Dusts
         }
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
+            if(dust.customData is Player)
+            {
+                Player player = (Player)dust.customData;
+                return dust.color * (1 - Vector2.Distance(dust.position, player.Center) / 50f);
+            }
             return dust.color;
         }
 
         public override bool Update(Dust dust)
         {
-            Player player = Main.LocalPlayer;
-            dust.rotation = Vector2.Distance(dust.position, player.Center) * 0.1f;
-
-            if (dust.customData is int) { dust.customData = (int)dust.customData - 1; }
-            dust.position += dust.velocity;
-
-
-            if ((int)dust.customData <= 0)
+            Player player;
+            if (dust.customData is Player)
             {
-                dust.velocity = Vector2.Normalize(dust.position - player.Center) * (Main.rand.Next(10, 35) * -0.1f);
+                player = (Player)dust.customData;
+
+                dust.rotation = Vector2.Distance(dust.position, player.Center) * 0.1f;
+                dust.position += dust.velocity;
+
+                dust.velocity = Vector2.Normalize(dust.position - player.Center) * -4;
                 dust.scale *= 0.95f;
                 timer--;
-                if (timer == 0)
+                if (timer == 0 || Vector2.Distance(dust.position, player.Center) < 1)
                 {
                     dust.active = false;
                 }

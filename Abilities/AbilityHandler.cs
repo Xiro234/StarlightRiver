@@ -65,15 +65,15 @@ namespace StarlightRiver.Abilities
             //pure
             pure = new Pure(player);
             pure.Locked = tag.GetBool(nameof(pure));
-            Abilities.Add(pure);
+            //Abilities.Add(pure);
             //smash
             smash = new Smash(player);
             smash.Locked = tag.GetBool(nameof(smash));
-            Abilities.Add(smash);
+            //Abilities.Add(smash);
             //shadow dash
             sdash = new Superdash(player);
             sdash.Locked = tag.GetBool(nameof(sdash));
-            Abilities.Add(sdash);
+            //Abilities.Add(sdash);
 
 
             //loads the player's maximum stamina.
@@ -91,9 +91,9 @@ namespace StarlightRiver.Abilities
             Abilities.Clear();
             Abilities.Add(dash);
             Abilities.Add(wisp);
-            Abilities.Add(pure);
-            Abilities.Add(smash);
-            Abilities.Add(sdash);
+            //Abilities.Add(pure);
+            //Abilities.Add(smash);
+            //Abilities.Add(sdash);
         }
 
         public override void ResetEffects()
@@ -101,7 +101,7 @@ namespace StarlightRiver.Abilities
             //Resets the player's stamina to prevent issues with gaining infinite stamina or stamina regeneration.
             StatStaminaMax = StatStaminaMaxTemp + StatStaminaMaxPerm;
             StatStaminaMaxTemp = 0;
-            StatStaminaRegenMax = 210;
+            StatStaminaRegenMax = 240;
 
             if (Abilities.Any(ability => ability.Active))
             {

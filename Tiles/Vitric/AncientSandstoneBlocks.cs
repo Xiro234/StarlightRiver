@@ -26,4 +26,13 @@ namespace StarlightRiver.Tiles.Vitric
             AddMapEntry(new Color(150, 105, 65));
         }
     }
+    class AncientSandstoneWall : ModWall
+    {
+        public override void SetDefaults()
+        {
+            Main.wallHouse[Type] = false;
+            dustType = ModContent.DustType<Dusts.Stone>();
+            AddMapEntry(new Color(62, 68, 55));
+        }
+    }
 }

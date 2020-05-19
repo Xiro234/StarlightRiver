@@ -20,6 +20,7 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Forbidden Winds";
             Body = "A collection of strange energies found deeep within a tomb buried in the vitric desert. These 'winds' hold the power to shatter certain objects on touch and propel you forward at great speeds.";
+            Hint = "Sealed away in an ancient glass temple";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOn");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         }
@@ -31,6 +32,7 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Faeflame";
             Body = "NO TEXT";
+            Hint = "Found upon an altar in an overgrown dungeon";
             Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/AbilityImageWisp");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
         }

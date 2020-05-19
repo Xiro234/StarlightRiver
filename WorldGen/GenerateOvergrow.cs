@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using StructureHelper;
 
 namespace StarlightRiver
 {
@@ -18,22 +19,29 @@ namespace StarlightRiver
 
         public static void OvergrowGen(GenerationProgress progress)
         {
+            Rooms = new List<Rectangle>();
+
             progress.Message = "Generating The Overgrowth...";
             Rectangle firstRoom = new Rectangle(Main.dungeonX, (int)Main.worldSurface + 50, 38, 23);
+
             while (!CheckDungeon(firstRoom))
             {
                 if (Math.Abs(firstRoom.X - Main.dungeonX) > 100) firstRoom.Y += 5;
                 else firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
             }
-            //TODO: fix modrefference and un-comment this
-            //if(ModLoader.GetMod("StructureHelper") != null) StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
-            WormFromRoom(firstRoom);
-            while (Rooms.Count <= 10) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
 
-            //TODO: Room self-identifier (where am I connected to?)
+            if(ModLoader.GetMod("StructureHelper") != null) StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
+            WispSP = firstRoom.Center() * 16 + new Vector2(0, 56); //sets faeflame spawnpoint
+            WormFromRoom(firstRoom);
+
+            while (Rooms.Count <= 7) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
+
+            Rooms.ForEach(n => PopulateRoom(n));
+
+            //TODO: 
             //      Generate that room's insides based on that from file
             //      hallway prefabs
-            //      boss room + special rooms, wisp room should be first!
+            //      boss room + special rooms
 
         }
         private static void WormFromRoom(Rectangle parent, byte initialDirection = 5)
@@ -108,7 +116,7 @@ namespace StarlightRiver
                     tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
                     if (y - target.Y <= HallThickness || y - target.Y >= HallWidth - HallThickness)
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.GrassOvergrow>();
+                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>();
                         tile.active(true);
                     }
                     if (y - target.Y == HallWidth / 2 && (x == target.X + 1 || x == target.X + target.Width - 1))
@@ -130,7 +138,7 @@ namespace StarlightRiver
                     tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
                     if (x - target.X <= HallThickness || x - target.X >= HallWidth - HallThickness)
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.GrassOvergrow>();
+                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>();
                         tile.active(true);
                     }
                     if (x - target.X == HallWidth / 2 && (y == target.Y + 1 || y == target.Y + target.Height - 1))
@@ -158,6 +166,8 @@ namespace StarlightRiver
         }
         private static bool CheckDungeon(Rectangle rect)
         {
+            if (Rooms.Count > 20) return false; //limit to 20 rooms
+
             for (int x = rect.X; x <= rect.X + rect.Width; x++)
             {
                 for (int y = rect.Y; y <= rect.Y + rect.Height; y++)
@@ -188,10 +198,10 @@ namespace StarlightRiver
         private static void PopulateRoom(Rectangle room)
         {
             //this will determine what kind of room this is based on it's openings.
-            bool up;
-            bool down;
-            bool left;
-            bool right;
+            bool up = false;
+            bool down = false;
+            bool left = false;
+            bool right = false;
             bool isLong = room.Width > 20;
             int type = ModContent.TileType<Tiles.Overgrow.MarkerGem>();
 
@@ -199,6 +209,49 @@ namespace StarlightRiver
             for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y + room.Height + 2).type == type) down = true;
             for (int y = room.Y; y <= room.Y + room.Height; y++) if (Framing.GetTileSafely(room.X - 2, y).type == type) left = true;
             for (int y = room.Y; y <= room.Y + room.Height; y++) if (Framing.GetTileSafely(room.X + room.Width + 2, y).type == type) right = true;
+
+            for(int x = room.X; x <= room.X + room.Width; x++)
+            {
+                int xRel = x - room.X;
+                for (int y = room.Y; y <= room.Y + room.Height; y++)
+                {
+                    int yRel = y - room.Y;
+                    #region openings
+                    if (up)
+                    {
+                        if(xRel > (room.Width / 2) - HallWidth / 2 && xRel < (room.Width / 2) + HallWidth / 2 && yRel < 3)
+                        {
+                            WorldGen.KillTile(x, y);
+                        }
+                    }
+                    if (down)
+                    {
+                        if (xRel > (room.Width / 2) - HallWidth / 2 && xRel < (room.Width / 2) + HallWidth / 2 && yRel > room.Height - 3)
+                        {
+                            WorldGen.KillTile(x, y);
+                        }
+                    }
+                    if (left)
+                    {
+                        if (yRel > (room.Height / 2) - HallWidth / 2 && yRel < (room.Height / 2) + HallWidth / 2 && xRel < 3)
+                        {
+                            WorldGen.KillTile(x, y);
+                        }
+                    }
+                    if (right)
+                    {
+                        if (yRel > (room.Height / 2) - HallWidth / 2 && yRel < (room.Height / 2) + HallWidth / 2 && xRel > room.Width - 3)
+                        {
+                            WorldGen.KillTile(x, y);
+                        }
+                    }
+                    #endregion
+                    if(xRel > 2 && xRel < room.Width - 2 && yRel > 2 && yRel < room.Height - 2) //clear out
+                    {
+                        WorldGen.KillTile(x, y);
+                    }
+                }
+            }
             //lots left to do here
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dusts;
 using System;
 using System.Runtime.Serialization;
@@ -16,8 +17,9 @@ namespace StarlightRiver.Abilities
 
         public Dash(Player player) : base(1, player)
         {
-
+            
         }
+        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         public override bool CanUse => Main.LocalPlayer.controlLeft || Main.LocalPlayer.controlRight || Main.LocalPlayer.controlUp || Main.LocalPlayer.controlDown || player.GetModPlayer<Dragons.DragonHandler>().DragonMounted;
 
         public override void OnCast()
@@ -109,11 +111,13 @@ namespace StarlightRiver.Abilities
 
         public override void OffCooldownEffects()
         {
-            for (int k = 0; k <= 25; k++)
+            for (int k = 0; k <= 60; k++)
             {
-                Dust.NewDust(player.Center, 1, 1, ModContent.DustType<Air>());
+                Dust dus = Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(k / 60f * 6.28f) * Main.rand.NextFloat(50), ModContent.DustType<Air2>(), Vector2.Zero);
+                dus.customData = player;
             }
-            Main.PlaySound(SoundID.MaxMana);
+            Main.PlaySound(SoundID.Item45, player.Center);
+            Main.PlaySound(SoundID.Item25, player.Center);
         }
 
         public override void OnExit()

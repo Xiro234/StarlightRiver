@@ -239,6 +239,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             if (npc.ai[3] >= 120 * 4 - 1) ResetAttack(); //end after the third volley is fired
         }
+        private void ReverseCage()
+        {
+
+        }
         #endregion
         private void AngerAttack()
         {

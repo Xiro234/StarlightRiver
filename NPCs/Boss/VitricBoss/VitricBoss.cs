@@ -65,7 +65,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             spriteBatch.Draw(ModContent.GetTexture(Texture), npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, 0, 0);
 
             //debug drawing
-            /*
+            
             Utils.DrawBorderString(spriteBatch, "AI: " + npc.ai[0] + " / " + npc.ai[1] + " / " + npc.ai[2] + " / " + npc.ai[3], new Vector2(40, Main.screenHeight - 100), Color.Red);
             Utils.DrawBorderString(spriteBatch, "Vel: " + npc.velocity, new Vector2(40, Main.screenHeight - 120), Color.Red);
             Utils.DrawBorderString(spriteBatch, "Pos: " + npc.position, new Vector2(40, Main.screenHeight - 140), Color.Red);
@@ -74,7 +74,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             {
                 if(Crystals.Count == 4) Utils.DrawBorderString(spriteBatch, "Crystal " + k + " Distance: " + Vector2.Distance(Crystals[k].Center, npc.Center) + " State: " + Crystals[k].ai[2], new Vector2(40, Main.screenHeight - 180 - k * 20), Color.Yellow);
             }
-            */
+            
             return false;
         }
         private readonly List<VitricBossEye> Eyes = new List<VitricBossEye>()
@@ -321,7 +321,21 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.ai[0] == 2) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBossTransition");
 
                     if (npc.ai[0] == 701) music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy");
-                    if (npc.ai[0] == 702) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
+                    if (npc.ai[0] == 702)
+                    {
+                        music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
+                    }
+
+                    if(npc.ai[0] > 702 && npc.ai[0] < 760) //no fadein
+                    {
+                        for (int k = 0; k < Main.musicFade.Length; k++) 
+                        {
+                            if (k == Main.curMusic)
+                            {
+                                Main.musicFade[k] = 1;
+                            }
+                        }
+                    }
 
                     Volley();
                     break;
