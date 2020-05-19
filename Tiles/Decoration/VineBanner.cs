@@ -13,33 +13,39 @@ using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Tiles.Decoration
 {
-    class VineBannerItem : Items.QuickTileItem
+    class VineBannerItem : ModItem
     {
         bool SecondPoint;
         VineBannerEntity target;
-        public VineBannerItem() : base("Vine Banner", "Places a vine banner", ModContent.TileType<VineBanner>(), 0){}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Vine Banner");
+            Tooltip.SetDefault("Click 2 points to place a swaying vine");
+        }
+        public override void SetDefaults()
+        {
+            item.useTime = 10;
+            item.useAnimation = 10;
+            item.useStyle = 1;
+        }
         public override void HoldItem(Player player)
         {
             base.HoldItem(player);
         }
         public override bool UseItem(Player player)
         {
-            if (Vector2.Distance(player.Center, Main.MouseWorld) < 160)
+            if (SecondPoint && Main.tile[(Main.MouseWorld / 16).ToPoint16().X, (Main.MouseWorld / 16).ToPoint16().Y].active())
             {
-                if (SecondPoint)
-                {
-                    target.Endpoint = (Main.MouseWorld / 16).ToPoint16() - target.Position;
-                    target.Set = true;
-                    item.createTile = ModContent.TileType<VineBanner>();
-                    SecondPoint = false;
-                }
-                else
-                {
-                    TileEntity.PlaceEntityNet((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16), ModContent.TileEntityType<VineBannerEntity>());
-                    if(TileEntity.ByPosition.ContainsKey((Main.MouseWorld / 16).ToPoint16())) target = (VineBannerEntity)TileEntity.ByPosition[(Main.MouseWorld / 16).ToPoint16()];
-                    item.createTile = 0;
-                    SecondPoint = true;
-                }
+                target.Endpoint = (Main.MouseWorld / 16).ToPoint16() - target.Position;
+                target.Set = true;
+                SecondPoint = false;
+            }
+            else
+            {
+                WorldGen.PlaceTile((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16), ModContent.TileType<VineBanner>());
+                TileEntity.PlaceEntityNet((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16), ModContent.TileEntityType<VineBannerEntity>());
+                if (TileEntity.ByPosition.ContainsKey((Main.MouseWorld / 16).ToPoint16())) target = (VineBannerEntity)TileEntity.ByPosition[(Main.MouseWorld / 16).ToPoint16()];
+                SecondPoint = true;
             }
             return true;
         }
@@ -73,6 +79,7 @@ namespace StarlightRiver.Tiles.Decoration
                     float sin = (float)Math.Sin(LegendWorld.rottime + i % 6);
                     Vector2 pos = Vector2.CatmullRom(new Vector2(i + sin, j + off) * 16, end, new Vector2(i, j) * 16, new Vector2(i - sin, j + off) * 16, k / max);
                     Color color = Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16);
+                    if (!entity.Set) color *= 0.2f;
                     pos += Helper.TileAdj * 16;
 
                     spriteBatch.Draw(tex2, pos - Main.screenPosition, new Rectangle(k % 3 * 16, 0, 16, 16), color, (pos - oldPos).ToRotation() + 1.57f, tex2.Size() / 2, 1, 0, 0);
@@ -93,6 +100,13 @@ namespace StarlightRiver.Tiles.Decoration
         public override void Update()
         {
             if(!Set) Endpoint = (Main.MouseWorld / 16).ToPoint16() - Position;
+            if(!ValidTile(Position.X, Position.Y)) Kill(Position.X, Position.Y);
+
+            if (Set && !Main.tile[Position.X + Endpoint.X, Position.Y + Endpoint.Y].active())
+            {
+                Kill(Position.X, Position.Y);
+                WorldGen.KillTile(Position.X, Position.Y);
+            }
         }
         public override bool ValidTile(int i, int j)
         {
