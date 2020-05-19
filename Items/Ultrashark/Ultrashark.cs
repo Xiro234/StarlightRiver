@@ -26,6 +26,10 @@ namespace StarlightRiver.Items.Ultrashark
         #endregion
 
         #region methods
+        public void SpawnCasing(Player player, Vector2 velocity) //pos infront of player pretty much
+        {
+            Gore.NewGore(GetSharkPos(player), (-velocity + new Vector2(0, -1) + new Vector2(Main.rand.NextFloat(3f) - 1.5f, -2)) * 0.25f, mod.GetGoreSlot("Gores/UltrasharkCasing"));
+        }
         public Vector2 GetSharkPos(Player player) //pos infront of player pretty much
         {
             return player.Center + new Vector2(turretDirection * player.width, -10);
@@ -182,7 +186,7 @@ namespace StarlightRiver.Items.Ultrashark
                 speedX = perturbedSpeed.X;
                 speedY = perturbedSpeed.Y;
                 position = GetSharkPos(player);
-                Gore.NewGore(position, (-perturbedSpeed + new Vector2(Main.rand.NextFloat(3f) - 1.5f, -2)) * 0.25f, mod.GetGoreSlot("Gores/UltrasharkCasing"));
+                SpawnCasing(player, perturbedSpeed);
                 return true;
             }
             else if (player.altFunctionUse == 2) //summon stand
@@ -197,7 +201,7 @@ namespace StarlightRiver.Items.Ultrashark
             Vector2 perturbedSpeedAgain = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(8));
             speedX = perturbedSpeedAgain.X;
             speedY = perturbedSpeedAgain.Y;
-            Gore.NewGore(position, (-perturbedSpeedAgain + new Vector2(Main.rand.NextFloat(3f) - 1.5f, -2)) * 0.25f, mod.GetGoreSlot("Gores/UltrasharkCasing"));
+            SpawnCasing(player, perturbedSpeedAgain);
             return true;
         }
         #endregion

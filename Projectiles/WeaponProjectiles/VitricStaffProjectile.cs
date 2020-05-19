@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dusts;
 using StarlightRiver.Items.Vitric;
 using Terraria;
@@ -15,7 +16,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.width = 28;
             projectile.height = 28;
             projectile.friendly = true;
-            projectile.penetrate = 2;
+            projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
@@ -23,11 +24,21 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Glass");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
-        public override void Kill(int timeLeft)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.PlaySound(SoundID.Item27);
+            Vector2 drawOrigin = new Vector2(projectile.width / 2, projectile.height / 2);
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / projectile.oldPos.Length);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale - (k * 0.15f), SpriteEffects.None, 0f);
+            }
+            return true;
         }
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             for (int k = 0; k < Main.projectile.Length; k++)
@@ -43,9 +54,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     }
                 }
             }
+            projectile.penetrate = -1;
             projectile.timeLeft = 180;
             projectile.ai[0] = 1;
             projectile.ai[1] = target.whoAmI;
+            offset = target.position - projectile.position;
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
         }
         public override bool? CanHitNPC(NPC target)
@@ -56,6 +69,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             }
             return base.CanHitNPC(target);
         }
+        Vector2 offset;
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
@@ -66,11 +80,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 NPC stuckTarget = Main.npc[(int)projectile.ai[1]];
                 if (stuckTarget.active && !stuckTarget.dontTakeDamage)
                 {
-                    projectile.Center = stuckTarget.Center - projectile.velocity * 1.7f;
+                    projectile.position = stuckTarget.position - offset;
                     projectile.gfxOffY = stuckTarget.gfxOffY;
                 }
             }
-            Dust.NewDust(projectile.Center, 20, 20, ModContent.DustType<Air>(), 0,0);
         }
     }
 }
