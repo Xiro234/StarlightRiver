@@ -74,7 +74,7 @@ namespace StarlightRiver
 
             bool clear = true;
 
-            for (int k = 0; k <= MaxScan; k++)
+            for (int k = 1; k <= MaxScan; k++)
             {
                 if (Main.tile[(int)start.X, (int)start.Y - k].active()) { clear = false; }
             }

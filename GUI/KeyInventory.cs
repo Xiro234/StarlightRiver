@@ -18,7 +18,7 @@ namespace StarlightRiver.GUI
         {
             foreach (KeyIcon key in keys)
             {
-                key.DrawKey(spriteBatch, new Vector2(Main.screenWidth - 324, 110 + keys.IndexOf(key) * 40));
+                key.DrawKey(spriteBatch, new Vector2(Main.screenWidth - (Main.LocalPlayer.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMax > 7 ? 344 : 324), 110 + keys.IndexOf(key) * 40));
             }
         }
         public override void Draw(SpriteBatch spriteBatch)

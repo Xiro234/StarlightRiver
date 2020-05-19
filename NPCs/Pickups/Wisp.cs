@@ -29,7 +29,11 @@ namespace StarlightRiver.NPCs.Pickups
 
         public override void PickupVisuals(int timer)
         {
-            base.PickupVisuals(timer);
+            if(timer == 1)
+            {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get")); //start the SFX
+                Filters.Scene.Deactivate("ShockwaveFilter");
+            }
         }
 
         public override void PickupEffects(Player player)

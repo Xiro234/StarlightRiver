@@ -61,7 +61,8 @@ namespace StarlightRiver
 
         public static float Rotation;
 
-        public const string PatchString = "Starlight River Nightly Build #20     5/15/2020 - 12:20 AM EST";
+        public const string PatchString = "Starlight River Nightly Build #21     5/17/2020 - 11:10 AM EST";
+        public const string MessageString = "Please start a new 'mage' class playthrough, explore the desert area\nand find the codex temple. Mine the sparkling books to obtain the 'sand scripts'\ntell me how the balance feels on this item. Around post EoW/BoC tier spawn in the 'focusing gem'\nand test that for balance. you'll need a new world.";
 
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
 
@@ -1003,7 +1004,7 @@ namespace StarlightRiver
             {
                 Main.spriteBatch.Begin();
                 Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 120), Color.White);
-                Main.spriteBatch.DrawString(Main.fontItemStack, "Thank you for testing <3", new Vector2(20, 140), Color.White);
+                Main.spriteBatch.DrawString(Main.fontItemStack, MessageString, new Vector2(20, 140), Color.White);
                 Main.spriteBatch.End();
             }
         }
@@ -1015,7 +1016,7 @@ namespace StarlightRiver
 
             Main.spriteBatch.Begin();
             Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 20), Color.White);
-            Main.spriteBatch.DrawString(Main.fontItemStack, "Thank you for testing <3", new Vector2(20, 40), Color.White);
+            Main.spriteBatch.DrawString(Main.fontItemStack, MessageString, new Vector2(20, 40), Color.White);
             Main.spriteBatch.End();
 
             try

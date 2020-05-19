@@ -178,7 +178,7 @@ namespace StarlightRiver.Items.Debug
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.Overgrow.SetpieceAltar>(), 0) { }
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.Tank>(), 0) { }
     }
     public class DebugPlacer2 : QuickTileItem
     {
@@ -202,7 +202,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.rare = 2;
             item.autoReuse = true;
-            item.createTile = ModContent.TileType<Tiles.Overgrow.BossPit>();
+            item.createTile = ModContent.TileType<Tiles.Misc.SandscriptTile>();
         }
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()
@@ -217,10 +217,6 @@ namespace StarlightRiver.Items.Debug
             foreach (Abilities.Ability ab in player.GetModPlayer<Abilities.AbilityHandler>().Abilities) ab.Locked = true;
 
             player.GetModPlayer<Codex.CodexHandler>().CodexState = 0;
-
-            LegendWorld.OvergrowBossOpen = true;
-            LegendWorld.GlassBossOpen = false;
-            LegendWorld.DesertOpen = false;
 
             return true;
         }
@@ -250,8 +246,8 @@ namespace StarlightRiver.Items.Debug
             Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
             foreach (Codex.CodexEntry entry in mp.Entries) entry.Locked = true;
 
-            player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 99999;
-            player.GetModPlayer<Abilities.AbilityHandler>().StatStamina = 99999;
+            player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 12;
+            player.GetModPlayer<Abilities.AbilityHandler>().StatStamina = 12;
 
             return true;
         }

@@ -201,5 +201,9 @@ namespace StarlightRiver
                 if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem) (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
             }
         }
+        public override void OnEnterWorld(Player player)
+        {
+            Collection.ShouldReset = true;
+        }
     }
 }

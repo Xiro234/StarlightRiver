@@ -92,8 +92,8 @@ namespace StarlightRiver.GUI
                 }
                 if(mp.StatStamina == k)
                 {
-                    float time = 1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax);
-                    spriteBatch.Draw(fillTex, pos + Vector2.One * 4 + fillTex.Size() / 2, fillTex.Frame(), Color.White * time, 0, fillTex.Size() / 2, time, 0, 0);
+                    float scale = 1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax);
+                    spriteBatch.Draw(fillTex, pos + Vector2.One * 4 + fillTex.Size() / 2, fillTex.Frame(), Color.White, 0, fillTex.Size() / 2, scale, 0, 0);
                 }
             }
 

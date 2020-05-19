@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
 
 namespace StarlightRiver.NPCs.Pickups
 {
@@ -27,7 +28,18 @@ namespace StarlightRiver.NPCs.Pickups
         }
         public override void PickupVisuals(int timer)
         {
-           if(timer == 119)
+            if(timer == 1)
+            {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get")); //start the SFX
+                Filters.Scene.Deactivate("ShockwaveFilter");
+            }
+
+            if(timer < 119)
+            {
+
+            }
+
+            if (timer == 119)
             {
                 string message = "Open the codex from your inventory to learn about the world.";
 

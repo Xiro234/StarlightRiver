@@ -16,6 +16,7 @@ namespace StarlightRiver.GUI
         public static bool visible = false;
         public static List<BootlegDust> dust = new List<BootlegDust>();
         public static Ability ActiveAbility;
+        public static bool ShouldReset = false;
         public override void OnInitialize()
         {
         }
@@ -40,7 +41,7 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            if (!Main.gameMenu && Elements.Count == 0 && Main.LocalPlayer.GetModPlayer<AbilityHandler>() != null)
+            if ((!Main.gameMenu && Elements.Count == 0 && Main.LocalPlayer.GetModPlayer<AbilityHandler>() != null) || ShouldReset)
             {
                 AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
 
@@ -50,6 +51,7 @@ namespace StarlightRiver.GUI
                     Vector2 pos = new Vector2(100, 300) + new Vector2(-50, 0).RotatedBy(-k / (float)(mp.Abilities.Count - 1) * 3.14f);
                     AddAbility(ability, pos);
                 }
+                ShouldReset = false;
             }
         }
     }

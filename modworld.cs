@@ -131,6 +131,7 @@ namespace StarlightRiver
         }
         public override void PostUpdate()
         {
+
             if (!Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
             {
                 PureTiles.Clear();

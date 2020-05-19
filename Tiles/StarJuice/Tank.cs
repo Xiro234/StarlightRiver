@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.StarJuice
@@ -140,6 +141,18 @@ namespace StarlightRiver.Tiles.StarJuice
             }
 
             if (charge > maxCharge) charge = maxCharge;
+        }
+
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                ["Charge"] = charge
+            };
+        }
+        public override void Load(TagCompound tag)
+        {
+            charge = tag.GetInt("Charge");
         }
     }
 }
