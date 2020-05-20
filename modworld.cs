@@ -131,12 +131,13 @@ namespace StarlightRiver
         }
         public override void PostUpdate()
         {
+
             if (!Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
             {
                 PureTiles.Clear();
             }
 
-            /*
+            
             if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wind>() && n.active == true))
             {
                 NPC.NewNPC((int)DashSP.X, (int)DashSP.Y, ModContent.NPCType<NPCs.Pickups.Wind>());
@@ -150,7 +151,7 @@ namespace StarlightRiver
             if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wisp>() && n.active == true))
             {
                 NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, ModContent.NPCType<NPCs.Pickups.Wisp>());
-            }*/
+            }
 
             //Keys
             foreach (Key key in Keys)

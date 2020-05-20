@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.NPCs.Pickups;
 
 namespace StarlightRiver
 {
@@ -29,6 +30,10 @@ namespace StarlightRiver
         public int InvertGrav = 0;
         public int platformTimer = 0;
 
+        public int PickupTimer = 0;
+        public int MaxPickupTimer = 0;
+        public NPC PickupTarget;
+
         public override void PreUpdateBuffs()
         {
 
@@ -46,6 +51,19 @@ namespace StarlightRiver
 
         public override void PreUpdate()
         {
+            if (PickupTarget != null)
+            {
+                PickupTimer++;
+
+                player.immune = true;
+                player.immuneTime = 5;
+                player.immuneNoBlink = true;
+
+                player.Center = PickupTarget.Center;
+                if (PickupTimer >= MaxPickupTimer) PickupTarget = null;
+            }
+            else PickupTimer = 0;
+
             Stamina.visible = false;
             Infusion.visible = false;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
@@ -58,13 +76,16 @@ namespace StarlightRiver
 
             if (Main.playerInventory)
             {
-                Collection.visible = true;
+                if (player.chest == -1 && Main.npcShop == 0) Collection.visible = true;
+                else Collection.visible = false;
+
                 GUI.Codex.ButtonVisible = true;
-                if (mp.Abilities.Any(a => !a.Locked)) { Infusion.visible = true; }
+                if(mp.Abilities.Any(a => !a.Locked)) Infusion.visible = true; 
             }
             else
             {
                 Collection.visible = false;
+                Collection.ActiveAbility = null;
                 GUI.Codex.ButtonVisible = false;
                 GUI.Codex.Open = false;
                 Infusion.visible = false;
@@ -179,6 +200,10 @@ namespace StarlightRiver
             {
                 if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem) (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
             }
+        }
+        public override void OnEnterWorld(Player player)
+        {
+            Collection.ShouldReset = true;
         }
     }
 }

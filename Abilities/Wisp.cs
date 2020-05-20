@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dusts;
 using System.Runtime.Serialization;
 using Terraria;
@@ -15,7 +16,7 @@ namespace StarlightRiver.Abilities
         {
 
         }
-
+        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
         public override void OnCast()
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();

@@ -178,7 +178,7 @@ namespace StarlightRiver.Items.Debug
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.Overgrow.SetpieceAltar>(), 0) { }
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.Tank>(), 0) { }
     }
     public class DebugPlacer2 : QuickTileItem
     {
@@ -202,7 +202,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.rare = 2;
             item.autoReuse = true;
-            item.createTile = ModContent.TileType<Tiles.Vitric.VitricBossAltar>();
+            item.createTile = ModContent.TileType<Tiles.Misc.SandscriptTile>();
         }
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()
@@ -213,12 +213,10 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            LegendWorld.OvergrowBossOpen = false;
-            LegendWorld.GlassBossOpen = false;
-            LegendWorld.DesertOpen = false;
+            player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 1;
+            foreach (Abilities.Ability ab in player.GetModPlayer<Abilities.AbilityHandler>().Abilities) ab.Locked = true;
 
-            Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
-            mp.CodexState = 2;
+            player.GetModPlayer<Codex.CodexHandler>().CodexState = 0;
 
             return true;
         }
@@ -234,7 +232,6 @@ namespace StarlightRiver.Items.Debug
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = 2;
-            item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>();
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -247,10 +244,11 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
-            foreach (Codex.CodexEntry entry in mp.Entries) entry.Locked = false;
+            foreach (Codex.CodexEntry entry in mp.Entries) entry.Locked = true;
 
-            Main.heartTexture = Terraria.ModLoader.ModContent.GetTexture("Terraria/Mana");
-            Main.manaTexture = Terraria.ModLoader.ModContent.GetTexture("Terraria/Heart");
+            player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 12;
+            player.GetModPlayer<Abilities.AbilityHandler>().StatStamina = 12;
+
             return true;
         }
         public override void HoldItem(Player player)

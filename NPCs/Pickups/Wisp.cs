@@ -4,114 +4,46 @@ using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
 using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Wisp : ModNPC
+    class Wisp : AbilityPickup
     {
+        public override string Texture => "StarlightRiver/NPCs/Pickups/Wisp1";
+        public override Color GlowColor => new Color(255, 255, 130);
+        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().wisp.Locked;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Faeflame");
         }
-        public override void SetDefaults()
-        {
-            npc.width = 32;
-            npc.height = 32;
-            npc.aiStyle = -1;
-            npc.immortal = true;
-            npc.lifeMax = 1;
-            npc.knockBackResist = 0;
-            npc.noGravity = true;
-        }
-        public override bool CheckActive() { return false; }
 
-        int animate = 0;
-        float rot = 0;
-        public override void AI()
+        public override void Visuals()
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(LegendWorld.rottime), (float)Math.Sin(LegendWorld.rottime)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(LegendWorld.rottime + 3) / 2, (float)Math.Sin(LegendWorld.rottime + 3)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(LegendWorld.rottime + 2), (float)Math.Sin(LegendWorld.rottime + 2) / 2) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+        }
+
+        public override void PickupVisuals(int timer)
+        {
+            if(timer == 1)
+            {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get")); //start the SFX
+                Filters.Scene.Deactivate("ShockwaveFilter");
+            }
+        }
+
+        public override void PickupEffects(Player player)
+        {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            mp.wisp.Locked = false;
+            mp.StatStaminaMaxPerm++;
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.wisp.Locked)
-            {
-                mp.wisp.Locked = false;
-                mp.StatStaminaMaxPerm += 1;
-                animate = 300;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get"));
-                rot = (float)(Math.PI * 2);
-            }
-
-            if (animate >= 1)
-            {
-                player.position = new Vector2(npc.position.X, npc.position.Y - 16);
-                player.immune = true;
-                player.immuneTime = 5;
-                player.immuneNoBlink = true;
-                if (animate > 100 && animate < 290)
-                {
-                    if (animate % 10 == 0)
-                    {
-                        Dust dus = Dust.NewDustPerfect(player.Center, mod.DustType("Gold3"), new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * 10);
-                        dus.customData = animate - 50;
-                        rot -= (float)(Math.PI * 2) / 18;
-                    }
-                }
-                if (animate == 1)
-                {
-                    player.AddBuff(BuffID.Featherfall, 120);
-                    Achievements.Achievements.QuickGive("Faerie Blaze", player);
-
-                    StarlightRiver.Instance.abilitytext.Display("Faeflame", "Hold " + StarlightRiver.Wisp.GetAssignedKeys()[0] + " to shrink and fly through the air", mp.wisp);
-                    Helper.UnlockEntry<FaeEntry>(player);
-                }
-
-                for (int k = 0; k <= 6000; k++)
-                {
-                    if (Main.dust[k].type == mod.DustType("Gold3"))
-                    {
-                        Dust.NewDustPerfect(Main.dust[k].position, mod.DustType("Gold"), null, 0, default, 0.5f);
-                    }
-                }
-            }
-
-            if (animate > 0)
-            {
-                animate--;
-            }
-
-        }
-
-        public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
-
-        float timer = 0;
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-
-            timer += (float)(Math.PI * 2) / 120;
-            if (timer >= Math.PI * 2)
-            {
-                timer = 0;
-            }
-
-            if (mp.wisp.Locked)
-            {
-                spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 4), Color.White);
-                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, mod.DustType("Gold2"), 0, 0, 0, default, 0.5f);
-            }
-        }
-        public override void DrawEffects(ref Color drawColor)
-        {
-            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-            if (mp.wisp.Locked)
-            {
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer), (float)Math.Sin(timer)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 3) / 2, (float)Math.Sin(timer + 3)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer + 2), (float)Math.Sin(timer + 2) / 2) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
-            }
+            player.GetModPlayer<StarlightPlayer>().MaxPickupTimer = 570;
+            player.AddBuff(BuffID.Featherfall, 580);
         }
     }
 }
