@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using System;
+using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
@@ -64,6 +66,18 @@ namespace StarlightRiver.Items.Accessories
                 doubleJumped = true;
                 player.velocity.Y = -8; //base upward jump
                 Main.PlaySound(SoundID.Item61, player.Center);
+
+                for(float k = 0; k < 6.28f; k += 0.1f)
+                {
+                    float rand = Main.rand.NextFloat(-0.05f, 0.05f);
+                    float x = (float)Math.Cos(k + rand) * 30;
+                    float y = (float)Math.Sin(k + rand) * 10;
+                    float rot = (!player.controlLeft ? (player.controlRight ? 1 : 0) : -1);
+                    Dust.NewDustPerfect(player.Center + new Vector2(0, 16), ModContent.DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.07f, 0, default, 1.6f);
+                    Dust.NewDustPerfect(player.Center + new Vector2(0, 32), ModContent.DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.09f, 0, default, 1.2f);
+                    Dust.NewDustPerfect(player.Center + new Vector2(0, 48), ModContent.DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.11f, 0, default, 0.8f);
+                }
+                Main.PlaySound(Terraria.ID.SoundID.DD2_BetsyFireballShot);
 
                 if ((player.controlLeft && player.controlRight) || (!player.controlLeft && !player.controlRight))
                 {

@@ -31,25 +31,11 @@ namespace StarlightRiver
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++) //base sand + spikes
             {
                 int xRel = x - (biomeTarget.X);
-                int off = Helper.SamplePerlin2D(xRel, row, 10, 24);
+                int off = Helper.SamplePerlin2D(xRel, row, 10, 55);
                 for (int y = biomeTarget.Y + biomeTarget.Height - off; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
                     int yRel = y - (biomeTarget.Y + biomeTarget.Height - off);
                     WorldGen.PlaceTile(x, y, yRel <= WorldGen.genRand.Next(1, 4) ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
-                }
-                if ((x > biomeTarget.X + 25 && x < biomeTarget.X + biomeTarget.Width / 2 - 70) || (x < biomeTarget.X + biomeTarget.Width - 25 && x > biomeTarget.X + biomeTarget.Width / 2 + 70)) //lay out the crystal pits
-                {
-                    if (xRel % 25 == 0) //the big crystals!
-                    {
-                        int xShift = WorldGen.genRand.Next(-3, 3);
-                        int thisOff = Helper.SamplePerlin2D(xRel + xShift, row, 10, 24);
-                        GenHelper.CrystalGen(new Vector2(x + xShift, biomeTarget.Y + biomeTarget.Height + WorldGen.genRand.Next(3, 6) - 19 - thisOff));
-                    }
-                    if (xRel % 10 == 0) //fog makers
-                    {
-                        int y = biomeTarget.Y + biomeTarget.Height - off - 1;
-                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.DenialAura>());
-                    }
                 }
             }
 
@@ -64,7 +50,7 @@ namespace StarlightRiver
 
                 if (xRel == 38)
                 {
-                    Helper.PlaceMultitile(new Terraria.DataStructures.Point16(x, biomeTarget.Y + 57), ModContent.TileType<Tiles.Vitric.VitricBossAltar>());
+                    Helper.PlaceMultitile(new Point16(x, biomeTarget.Y + 57), ModContent.TileType<Tiles.Vitric.VitricBossAltar>());
                 }
             }
 

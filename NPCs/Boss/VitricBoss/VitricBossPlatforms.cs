@@ -32,7 +32,7 @@
             if (npc.ai[0] == 1)
             {
                 npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Scrolltime;
-                if (npc.position.Y <= LegendWorld.VitricBiome.Y * 16 + 8 * 16)
+                if (npc.position.Y <= LegendWorld.VitricBiome.Y * 16 + 8 * 16 + 2)
                 {
                     npc.position.Y += MaxHeight;
                 }
