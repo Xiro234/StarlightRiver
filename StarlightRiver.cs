@@ -61,8 +61,8 @@ namespace StarlightRiver
 
         public static float Rotation;
 
-        public const string PatchString = "Starlight River Nightly Build #21     5/17/2020 - 11:10 AM EST";
-        public const string MessageString = "Please start a new 'mage' class playthrough, explore the desert area\nand find the codex temple. Mine the sparkling books to obtain the 'sand scripts'\ntell me how the balance feels on this item. Around post EoW/BoC tier spawn in the 'focusing gem'\nand test that for balance. you'll need a new world.";
+        public const string PatchString = "Starlight River Nightly Build #22     5/19/2020 - 23:35 EST";
+        public const string MessageString = "Please generate a new world and check for any world generation freezes (logs please!) \nand check out the new world generation in the forest and jungle biomes. \nthe sand scripts and focusing gem have both recieved small updates also\nmore balance test on those would be nice.";
 
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
 
@@ -276,7 +276,7 @@ namespace StarlightRiver
             ILCursor c = new ILCursor(il);
             c.TryGotoNext(i => i.MatchLdfld<Projectile>("aiStyle"), i => i.MatchLdcI4(7));
             c.TryGotoNext(i => i.MatchLdfld<Projectile>("ai"), i => i.MatchLdcI4(0), i => i.MatchLdelemR4(), i => i.MatchLdcR4(2));
-            c.TryGotoNext(i => i.MatchLdloc(126)); //flag2 in source code
+            c.TryGotoNext(i => i.MatchLdloc(143)); //flag2 in source code
             c.Index++;
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<GrapplePlatformDelegate>(EmitGrapplePlatformDelegate);
@@ -284,7 +284,6 @@ namespace StarlightRiver
             c.Index++;
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<UngrapplePlatformDelegate>(EmitUngrapplePlatformDelegate);
-
         }
         private delegate bool GrapplePlatformDelegate(bool fail, Projectile proj);
         private bool EmitGrapplePlatformDelegate(bool fail, Projectile proj)
@@ -1201,13 +1200,13 @@ namespace StarlightRiver
                 {
                     if (Main.rand.Next(800) == 0)
                     {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1550), k, 0.65f, 0.2f, 0.1f);
+                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1550), k, 0.75f, 0.2f, 0.1f);
                         VitricBackgroundDust.Add(dus);
                     }
 
                     if (Main.rand.Next(700) == 0)
                     {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1550), k, 0.85f, 0.5f, 0.4f);
+                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1550), k, 0.95f, 0.5f, 0.4f);
                         VitricForegroundDust.Add(dus2);
                     }
                 }

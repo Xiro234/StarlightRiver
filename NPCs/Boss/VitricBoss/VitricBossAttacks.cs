@@ -177,9 +177,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         private void RandomSpikes()
         {
             List<Vector2> points = new List<Vector2>();
-            CrystalLocations.ForEach(n => points.Add(n + new Vector2(Main.rand.NextFloat(-40, 40), -20)));
-            points.OrderBy(n => Main.rand.Next(50));
-            for(int k = 0; k < 1 + Crystals.Count(n => n.ai[0] == 3); k++)
+            CrystalLocations.ForEach(n => points.Add(n + new Vector2(0, -20)));
+            Helper.RandomizeList<Vector2>(points);
+            for(int k = 0; k < 1 + Crystals.Count(n => n.ai[0] == 3) + (Main.expertMode ? 1 : 0); k++)
             {
                 Projectile.NewProjectile(points[k], Vector2.Zero, ModContent.ProjectileType<BossSpike>(), 25, 0);
             }
@@ -241,7 +241,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         private void ReverseCage()
         {
-
+            if(npc.ai[3] == 1)
+            {
+                FavoriteCrystal = Main.rand.Next(4); //not actually a crystal but is used to sync randomization here
+                for(int k = 0; k < 4; k++)
+                {
+                    int i = Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k * 1.57f), ModContent.ProjectileType<GrowingCageMaster>(), 10, 0, 255, k == FavoriteCrystal ? 1 : 0);
+                    (Main.projectile[i].modProjectile as GrowingCageMaster).Parent = this;
+                }
+            }
         }
         #endregion
         private void AngerAttack()
@@ -251,7 +259,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 npc.ai[1] = (int)AIStates.FirstToSecond; //this is where we phase the boss
                 npc.ai[0] = 0;
             }
-            for (int i = 0; i < Crystals.Count(n => n.ai[0] == 1 || n.ai[0] == 3); i++)
+            for (int i = 0; i < Crystals.Count(n => n.ai[0] == 1 || n.ai[0] == 3) + (Main.expertMode ? 1 : 0); i++)
             {
                 if (npc.ai[3] == 30 + i * 45)
                 {
