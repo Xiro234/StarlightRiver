@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using Terraria.ModLoader;
+using StarlightRiver.Abilities;
+using Terraria;
 
 namespace StarlightRiver
 {
@@ -13,7 +15,15 @@ namespace StarlightRiver
         {
             switch (reader.ReadByte())
             {
-                case 0: break;
+                case (byte)SLRPacketType.ability:
+                    Player player = Main.player[reader.ReadInt32()];
+                    AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+                    Ability ab = mp.Abilities[reader.ReadInt32()];
+
+                    if (player != Main.LocalPlayer) ab.OnCast();
+                    ab.Active = reader.ReadBoolean();
+                    ab.Timer = reader.ReadInt32();
+                    break;
             }
         }
     }

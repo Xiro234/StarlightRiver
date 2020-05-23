@@ -148,23 +148,26 @@ namespace StarlightRiver
             Achievements.Achievements.CallAchievements(this);
 
             //Shaders
-            GameShaders.Misc["StarlightRiver:Distort"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Distort")), "Distort");
+            if (!Main.dedServ)
+            {
+                GameShaders.Misc["StarlightRiver:Distort"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Distort")), "Distort");
 
-            Ref<Effect> screenRef4 = new Ref<Effect>(GetEffect("Effects/Shockwave"));
-            Terraria.Graphics.Effects.Filters.Scene["ShockwaveFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef4, "ShockwavePass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
-            Terraria.Graphics.Effects.Filters.Scene["ShockwaveFilter"].Load();
+                Ref<Effect> screenRef4 = new Ref<Effect>(GetEffect("Effects/Shockwave"));
+                Terraria.Graphics.Effects.Filters.Scene["ShockwaveFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef4, "ShockwavePass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
+                Terraria.Graphics.Effects.Filters.Scene["ShockwaveFilter"].Load();
 
-            Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/WaterEffect"));
-            Terraria.Graphics.Effects.Filters.Scene["WaterFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef3, "WaterPass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
-            Terraria.Graphics.Effects.Filters.Scene["WaterFilter"].Load();
+                Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/WaterEffect"));
+                Terraria.Graphics.Effects.Filters.Scene["WaterFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef3, "WaterPass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
+                Terraria.Graphics.Effects.Filters.Scene["WaterFilter"].Load();
 
-            Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/AuraEffect"));
-            Terraria.Graphics.Effects.Filters.Scene["AuraFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef2, "AuraPass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
-            Terraria.Graphics.Effects.Filters.Scene["AuraFilter"].Load();
+                Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/AuraEffect"));
+                Terraria.Graphics.Effects.Filters.Scene["AuraFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef2, "AuraPass"), Terraria.Graphics.Effects.EffectPriority.VeryHigh);
+                Terraria.Graphics.Effects.Filters.Scene["AuraFilter"].Load();
 
-            Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/BlurEffect"));
-            Terraria.Graphics.Effects.Filters.Scene["BlurFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef, "BlurPass"), Terraria.Graphics.Effects.EffectPriority.High);
-            Terraria.Graphics.Effects.Filters.Scene["BlurFilter"].Load();
+                Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/BlurEffect"));
+                Terraria.Graphics.Effects.Filters.Scene["BlurFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef, "BlurPass"), Terraria.Graphics.Effects.EffectPriority.High);
+                Terraria.Graphics.Effects.Filters.Scene["BlurFilter"].Load();
+            }
 
 
             RiftRecipes = new List<RiftRecipe>();
