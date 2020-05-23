@@ -3,92 +3,61 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Fist : ModNPC
+    class Fist : AbilityPickup
     {
+        public override string Texture => "StarlightRiver/NPCs/Pickups/Smash1";
+        public override Color GlowColor => new Color(180, 220, 140);
+        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().smash.Locked;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gaia's Fist");
-        }
-        public override void SetDefaults()
-        {
-            npc.width = 32;
-            npc.height = 32;
-            npc.aiStyle = -1;
-            npc.immortal = true;
-            npc.lifeMax = 1;
-            npc.knockBackResist = 0;
-            npc.noGravity = true;
+            DisplayName.SetDefault("Gaia's Fish");
         }
 
-        public override bool CheckActive() { return false; }
-
-        int animate = 0;
-        public override void AI()
+        public override void Visuals()
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+            float timer = LegendWorld.rottime;
+            Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 4);
+
+            Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * (23 + (float)Math.Sin(timer * 10) * 4), ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
+            Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * 18, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
+            Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * 28, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
+
+            for (int k = 0; k < 2; k++)
+            {
+                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(-timer + k * 0.02f) * (43 + (float)Math.Sin(timer * 10) * 4), ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
+                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(-timer + k * 0.02f) * 38, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
+                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(-timer + k * 0.02f) * 48, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
+            }
+
+        }
+
+        public override void PickupVisuals(int timer)
+        {
+            if (timer == 1)
+            {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get")); //start the SFX
+                Filters.Scene.Deactivate("ShockwaveFilter");
+            }
+        }
+
+        public override void PickupEffects(Player player)
+        {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            mp.smash.Locked = false;
+            mp.StatStaminaMaxPerm++;
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.smash.Locked)
-            {
-                mp.smash.Locked = false;
-                mp.StatStaminaMaxPerm += 1;
-                animate = 300;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get"));
-            }
-
-            if (animate >= 1)
-            {
-                player.position = new Vector2(npc.position.X, npc.position.Y - 16);
-                player.immune = true;
-                player.immuneTime = 5;
-                player.immuneNoBlink = true;
-                if (animate > 100 && animate < 290)
-                {
-                    float rot = (animate - 100) / 190f * 6.28f;
-                }
-
-                if (animate == 1)
-                {
-                    player.AddBuff(BuffID.Featherfall, 120);
-                    Achievements.Achievements.QuickGive("Shatterer", player);
-
-                    StarlightRiver.Instance.abilitytext.Display("Gaia's Fist", "Press " + StarlightRiver.Smash.GetAssignedKeys()[0] + " in the air to dive downwards", mp.smash);
-                }
-            }
-
-            if (animate > 0)
-            {
-                animate--;
-            }
-
-        }
-        float timer = 0;
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-
-            timer += (float)(Math.PI * 2) / 120;
-            if (timer >= Math.PI * 2)
-            {
-                timer = 0;
-            }
-
-            if (mp.smash.Locked)
-            {
-                Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 4);
-
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1"), npc.position + new Vector2(0, (float)Math.Sin(timer) * 4) - Main.screenPosition, Color.White);
-
-                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * (23 + (float)Math.Sin(timer * 10) * 4), ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 0, default, 0.8f);
-                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * 18, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 0, default, 0.8f);
-                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * 28, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 0, default, 0.8f);
-            }
+            player.GetModPlayer<StarlightPlayer>().MaxPickupTimer = 570;
+            player.AddBuff(BuffID.Featherfall, 580);
         }
     }
+   
+            
+        
+    
 }

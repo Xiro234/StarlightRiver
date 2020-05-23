@@ -33,4 +33,9 @@ namespace StarlightRiver.Dusts
         }
     }
 
+    public class GreenLeaf : Leaf
+    {
+
+    }
+
 }

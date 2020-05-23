@@ -42,14 +42,20 @@ namespace StarlightRiver
             if (position.X + data.Width > Main.maxTilesX || position.X < 0) return; //make sure we dont spawn outside of the world!
             if (position.Y + data.Height > Main.maxTilesY || position.Y < 0) return;
 
+            int xVariants = 0;
+            int yVariants = 0;
+            if (data.StyleHorizontal) xVariants = Main.rand.Next(data.RandomStyleRange);
+            else yVariants = Main.rand.Next(data.RandomStyleRange);
+
             for (int x = 0; x < data.Width; x++) //generate each column
             {
                 for (int y = 0; y < data.Height; y++) //generate each row
                 {
                     Tile tile = Framing.GetTileSafely(position.X + x, position.Y + y); //get the targeted tile
                     tile.type = (ushort)type; //set the type of the tile to our multitile
-                    tile.frameX = (short)(x * (data.CoordinateWidth + data.CoordinatePadding)); //set the X frame appropriately
-                    tile.frameY = (short)(y * (data.CoordinateHeights[y] + data.CoordinatePadding)); //set the Y frame appropriately
+
+                    tile.frameX = (short)((x + data.Width * xVariants) * (data.CoordinateWidth + data.CoordinatePadding)); //set the X frame appropriately
+                    tile.frameY = (short)((y + data.Height * yVariants) * (data.CoordinateHeights[y] + data.CoordinatePadding)); //set the Y frame appropriately
                     tile.active(true); //activate the tile
                 }
             }
@@ -278,6 +284,19 @@ namespace StarlightRiver
                 }
             }
             return output;
+        }
+        public static List<T> RandomizeList<T> (List<T> input)
+        {
+            int n = input.Count();
+            while (n > 1)
+            {
+                n--;
+                int k = Main.rand.Next(n + 1);
+                T value = input[k];
+                input[k] = input[n];
+                input[n] = value;
+            }
+            return input;
         }
     }
 }

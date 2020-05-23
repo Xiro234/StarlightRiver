@@ -2,6 +2,8 @@
 using StarlightRiver.Dragons;
 using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
+using static StarlightRiver.StarlightRiver;
 
 namespace StarlightRiver.Abilities
 {
@@ -30,9 +32,12 @@ namespace StarlightRiver.Abilities
             if (CanUse && handler.StatStamina >= StaminaCost && !Locked && Cooldown == 0 && !handler.Abilities.Any(a => a.Active))
             {
                 handler.StatStamina -= StaminaCost; //Consume the stamina
-                if (dragon.DragonMounted) OnCastDragon(); //Do what the ability should do when it starts
-                else OnCast();
+                                                    //if (dragon.DragonMounted) OnCastDragon(); //Do what the ability should do when it starts
+                                                    /*else*/
+                OnCast();
                 Active = true; //Ability is activated
+
+                SendPacket();
             }
         }
 
@@ -49,5 +54,20 @@ namespace StarlightRiver.Abilities
 
         public virtual void OnExit() { }
 
+        public virtual void SendPacket(int toWho = -1, int fromWho = -1)
+        {
+            Player player2;
+            if (fromWho != -1) player2 = Main.player[fromWho];
+            else player2 = player;
+            AbilityHandler handler = player2.GetModPlayer<AbilityHandler>();
+
+            ModPacket packet = StarlightRiver.Instance.GetPacket();
+            packet.Write((byte)SLRPacketType.ability);
+            packet.Write(player2.whoAmI);
+            packet.Write(handler.Abilities.IndexOf( handler.Abilities.FirstOrDefault(n => n.GetType() == this.GetType() ) ) );
+            packet.Write(Active);
+            packet.Write(Timer);
+            packet.Send(toWho, fromWho);
+        }
     }
 }

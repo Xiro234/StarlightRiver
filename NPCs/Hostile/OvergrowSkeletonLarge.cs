@@ -121,7 +121,7 @@ namespace StarlightRiver.NPCs.Hostile
                         npc.direction = Math.Min(Math.Max((int)(target.Center.X - npc.Center.X), -1), 1);
                         npc.spriteDirection = npc.direction;
 
-                        if (npc.position.X == npc.oldPosition.X)//note: may have to change this to if new pos is within range of old pos
+                        if (npc.position.X == npc.oldPosition.X)//note: may have to change this to 'if new pos is within range of old pos'
                         {
                             npc.ai[2]++; //losing intrest because npc is stuck
                         }

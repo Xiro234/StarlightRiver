@@ -91,8 +91,8 @@ namespace StarlightRiver.Abilities
             Abilities.Clear();
             Abilities.Add(dash);
             Abilities.Add(wisp);
-            //Abilities.Add(pure);
-            //Abilities.Add(smash);
+            Abilities.Add(pure);
+            Abilities.Add(smash);
             //Abilities.Add(sdash);
         }
 
