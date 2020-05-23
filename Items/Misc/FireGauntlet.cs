@@ -3,7 +3,7 @@ using StarlightRiver.Projectiles;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items
+namespace StarlightRiver.Items.Misc
 {
     public class FireGauntlet : ModItem
     {

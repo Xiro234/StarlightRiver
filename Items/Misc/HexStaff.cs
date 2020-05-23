@@ -5,7 +5,7 @@ using StarlightRiver.Projectiles.WeaponProjectiles.HexStaff;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items
+namespace StarlightRiver.Items.Misc
 {
     public class HexStaff : ModItem
     {

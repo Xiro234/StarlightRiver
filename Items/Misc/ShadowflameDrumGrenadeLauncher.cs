@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items
+namespace StarlightRiver.Items.Misc
 {
     public class ShadowflameDrumGrenadeLauncher : ModItem
     {
