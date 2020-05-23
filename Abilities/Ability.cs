@@ -54,16 +54,20 @@ namespace StarlightRiver.Abilities
 
         public virtual void OnExit() { }
 
-        public virtual void SendPacket()
+        public virtual void SendPacket(int toWho = -1, int fromWho = -1)
         {
-            AbilityHandler handler = player.GetModPlayer<AbilityHandler>();
+            Player player2;
+            if (fromWho != -1) player2 = Main.player[fromWho];
+            else player2 = player;
+            AbilityHandler handler = player2.GetModPlayer<AbilityHandler>();
 
-            ModPacket packet = StarlightRiver.Instance.GetPacket(14);
-            packet.Write(handler.Abilities.IndexOf(this));
-            packet.Write(player.whoAmI);
+            ModPacket packet = StarlightRiver.Instance.GetPacket();
+            packet.Write((byte)SLRPacketType.ability);
+            packet.Write(player2.whoAmI);
+            packet.Write(handler.Abilities.IndexOf( handler.Abilities.FirstOrDefault(n => n.GetType() == this.GetType() ) ) );
             packet.Write(Active);
             packet.Write(Timer);
-            packet.Send();
+            packet.Send(toWho, fromWho);
         }
     }
 }

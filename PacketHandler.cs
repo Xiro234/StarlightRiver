@@ -17,12 +17,14 @@ namespace StarlightRiver
             {
                 case (byte)SLRPacketType.ability:
                     Player player = Main.player[reader.ReadInt32()];
+
                     AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
                     Ability ab = mp.Abilities[reader.ReadInt32()];
 
-                    if (player != Main.LocalPlayer) ab.OnCast();
+                    ab.OnCast();
                     ab.Active = reader.ReadBoolean();
                     ab.Timer = reader.ReadInt32();
+                    if(Main.netMode == Terraria.ID.NetmodeID.Server)ab.SendPacket(-1, player.whoAmI);
                     break;
             }
         }

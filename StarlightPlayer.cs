@@ -64,31 +64,36 @@ namespace StarlightRiver
             }
             else PickupTimer = 0;
 
-            Stamina.visible = false;
-            Infusion.visible = false;
-            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             platformTimer--;
 
-            if (mp.Abilities.Any(a => !a.Locked))
+            if (player.whoAmI == Main.myPlayer)
             {
-                Stamina.visible = true;
-            }
+                AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            if (Main.playerInventory)
-            {
-                if (player.chest == -1 && Main.npcShop == 0) Collection.visible = true;
-                else Collection.visible = false;
-
-                GUI.Codex.ButtonVisible = true;
-                if(mp.Abilities.Any(a => !a.Locked)) Infusion.visible = true; 
-            }
-            else
-            {
-                Collection.visible = false;
-                Collection.ActiveAbility = null;
-                GUI.Codex.ButtonVisible = false;
-                GUI.Codex.Open = false;
+                Stamina.visible = false;
                 Infusion.visible = false;
+
+                if (mp.Abilities.Any(a => !a.Locked))
+                {
+                    Stamina.visible = true;
+                }
+
+                if (Main.playerInventory)
+                {
+                    if (player.chest == -1 && Main.npcShop == 0) Collection.visible = true;
+                    else Collection.visible = false;
+
+                    GUI.Codex.ButtonVisible = true;
+                    if (mp.Abilities.Any(a => !a.Locked)) Infusion.visible = true;
+                }
+                else
+                {
+                    Collection.visible = false;
+                    Collection.ActiveAbility = null;
+                    GUI.Codex.ButtonVisible = false;
+                    GUI.Codex.Open = false;
+                    Infusion.visible = false;
+                }
             }
 
             if (DarkSlow)
@@ -148,7 +153,7 @@ namespace StarlightRiver
                 --InvertGrav;
             }
 
-            if (Main.netMode == 1) { LegendWorld.rottime += (float)Math.PI / 60; }
+            if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) { LegendWorld.rottime += (float)Math.PI / 60; }
         }
 
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
