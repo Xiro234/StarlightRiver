@@ -1135,7 +1135,7 @@ namespace StarlightRiver
         #region NetEasy
         public override void PostSetupContent()
         {
-            NetEasy.NetEasy.Load(this);
+            NetEasy.NetEasy.Register(this);
         }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)

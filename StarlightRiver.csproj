@@ -12,7 +12,7 @@
   </Target>
   <ItemGroup>
     <Reference Include="NetEasy">
-      <HintPath>lib\NetEasy_v0.1.4.dll</HintPath>
+      <HintPath>lib\NetEasy_v0.1.5.dll</HintPath>
     </Reference>
     <Reference Include="SubworldLibrary">
       <HintPath>D:\Downloads\SubworldLibrary.dll</HintPath>
