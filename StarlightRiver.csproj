@@ -11,6 +11,9 @@
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
   <ItemGroup>
+    <Reference Include="NetEasy">
+      <HintPath>lib\NetEasy_v0.1.5.dll</HintPath>
+    </Reference>
     <Reference Include="SubworldLibrary">
       <HintPath>D:\Downloads\SubworldLibrary.dll</HintPath>
     </Reference>

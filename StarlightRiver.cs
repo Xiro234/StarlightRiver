@@ -1131,5 +1131,17 @@ namespace StarlightRiver
             }
             IL.Terraria.Lighting.PreRenderPhase -= VitricLighting;
         }
+
+        #region NetEasy
+        public override void PostSetupContent()
+        {
+            NetEasy.NetEasy.Register(this);
+        }
+
+        public override void HandlePacket(BinaryReader reader, int whoAmI)
+        {
+            NetEasy.NetEasy.HandleModule(reader, whoAmI);
+        }
+        #endregion
     }
 }	
