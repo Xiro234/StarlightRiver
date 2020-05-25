@@ -14,7 +14,10 @@ namespace StarlightRiver
 {
     public partial class StarlightPlayer : ModPlayer
     {
+        public int Timer { get; private set; }
+
         public bool JustHit = false;
+        public int LastHit = 0;
 
         public bool DarkSlow = false;
 
@@ -154,11 +157,14 @@ namespace StarlightRiver
             }
 
             if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) { LegendWorld.rottime += (float)Math.PI / 60; }
+
+            Timer++;
         }
 
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             JustHit = true;
+            LastHit = Timer;
         }
         public override void PostUpdateEquips()
         {
