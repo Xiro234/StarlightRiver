@@ -1,9 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
 
 namespace StarlightRiver.Projectiles.Ability
 {
@@ -32,7 +33,7 @@ namespace StarlightRiver.Projectiles.Ability
 
         public override void AI()
         {
-            if(projectile.timeLeft >= 500)
+            if (projectile.timeLeft >= 500)
             {
                 projectile.ai[0] += 5;
             }
@@ -40,6 +41,13 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 projectile.ai[0]--;
             }
+            Filters.Scene["AuraFilter"].GetShader().UseProgress(((projectile.ai[0] - 6) / (255 - 6))
+          * (0.15f - -0.1f) + -0.1f).UseIntensity(-0.02f * (projectile.ai[0] * 0.01f + 0.5f))
+          .UseOpacity(projectile.ai[0] * 0.01f * 0.5f)
+          .UseColor(new Vector3(0.4f, 0.4f, 0.4f) * (projectile.ai[0] * 0.01f * 0.5f)); //to update the shader //1.3
+
+                Main.NewText(((projectile.ai[0] - 6) / (255 - 6))
+          * (0.15f - -0.1f) + -0.1f);
             for (int x = 0; x < 30; x++)
             {
                 Dust.NewDustPerfect(projectile.Center + (Vector2.One * (projectile.ai[0] * 0.72f)).RotatedByRandom(6.28f) - Vector2.One * 16, ModContent.DustType<Dusts.Purify>());
@@ -53,16 +61,16 @@ namespace StarlightRiver.Projectiles.Ability
                     Vector2 check = (projectile.Center / 16) + new Vector2(x, y);
                     if (Vector2.Distance((check * 16) + Vector2.One * 8, projectile.Center) <= projectile.ai[0])
                     {
-                        TransformTile((int)check.X, (int)check.Y);                        
+                        TransformTile((int)check.X, (int)check.Y);
                     }
                     else
                     {
                         RevertTile((int)check.X, (int)check.Y);
-                    }                 
+                    }
                 }
-            } 
-            
-            if(projectile.timeLeft == 1)
+            }
+
+            if (projectile.timeLeft == 1)
             {
                 for (int k = 0; k <= 50; k++)
                 {
@@ -70,6 +78,10 @@ namespace StarlightRiver.Projectiles.Ability
                 }
                 Projectile.NewProjectile(projectile.Center - Vector2.One * 16, Vector2.Normalize((projectile.Center - Vector2.One * 16) - Main.player[projectile.owner].Center).RotatedBy(0.3f) * 6,
                     ModContent.ProjectileType<PurifierReturn>(), 0, 0, projectile.owner);
+                if (Filters.Scene["AuraFilter"].IsActive())
+                {
+                    Filters.Scene.Deactivate("AuraFilter");
+                }
             }
         }
 
@@ -94,7 +106,7 @@ namespace StarlightRiver.Projectiles.Ability
 
         private void SpawnDust(int x, int y)
         {
-            for(int k = 0; k <= 4; k++)
+            for (int k = 0; k <= 4; k++)
             {
                 Dust.NewDustPerfect(new Vector2(x, y) * 16 + Vector2.One * 8, ModContent.DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1));
             }
@@ -106,7 +118,7 @@ namespace StarlightRiver.Projectiles.Ability
             spriteBatch.Draw(tex, projectile.Center + new Vector2(-16, -16 + (float)Math.Sin(LegendWorld.rottime) * 2) - Main.screenPosition, tex.Frame(),
                 Color.White * ((projectile.timeLeft < 500) ? 1 : (projectile.ai[0] / 250f)), 0, tex.Size() / 2, 1, 0, 0);
 
-            for(float k = 0; k <= 6.28f; k += 0.1f)
+            for (float k = 0; k <= 6.28f; k += 0.1f)
             {
                 Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/WhiteLine");
                 spriteBatch.Draw(tex2, projectile.Center + (Vector2.One * (projectile.ai[0] * 0.72f)).RotatedBy(k) - Vector2.One * 16 - Main.screenPosition, tex2.Frame(),
@@ -147,7 +159,7 @@ namespace StarlightRiver.Projectiles.Ability
             Vector2 target = player.Center + new Vector2(0, -16);
             projectile.velocity += Vector2.Normalize(projectile.Center - target) * -0.8f;
 
-            if(projectile.velocity.Length() >= 6)
+            if (projectile.velocity.Length() >= 6)
             {
                 projectile.velocity = Vector2.Normalize(projectile.velocity) * 6f;
             }
@@ -158,7 +170,7 @@ namespace StarlightRiver.Projectiles.Ability
                 {
                     Dust.NewDustPerfect(player.Center + new Vector2(0, -16), ModContent.DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1.4f));
                 }
-                for(int k = 0; k <= Vector2.Distance(player.Center + new Vector2(0, -16), projectile.position); k++)
+                for (int k = 0; k <= Vector2.Distance(player.Center + new Vector2(0, -16), projectile.position); k++)
                 {
                     Dust.NewDustPerfect(Vector2.Lerp(player.Center + new Vector2(0, -16), projectile.Center, k / Vector2.Distance(player.Center + new Vector2(0, -16), projectile.position))
                         , ModContent.DustType<Dusts.Purify>());

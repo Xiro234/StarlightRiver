@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,7 +36,7 @@ namespace StarlightRiver.Structures
                         case 20: placeType = (ushort)ModContent.TileType<Tiles.Void.Void1>(); break;
                         case 30: placeType = (ushort)ModContent.TileType<Tiles.Void.Void2>(); break;
                         case 40: placeType = TileID.Platforms; break;
-                        case 50: placeType = (ushort)ModContent.TileType<Tiles.Rift.MainRift>(); break;
+                        //case 50: placeType = (ushort)ModContent.TileType<Tiles.Rift.MainRift>(); break;
                     }
                     switch (rawData[x].B) //select wall
                     {

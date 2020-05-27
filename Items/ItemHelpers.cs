@@ -1,6 +1,4 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
@@ -24,7 +22,7 @@ namespace StarlightRiver.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(Matname);
-            Tooltip.SetDefault(Mattooltip); 
+            Tooltip.SetDefault(Mattooltip);
         }
         public override void SetDefaults()
         {

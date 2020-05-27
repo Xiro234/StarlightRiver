@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.Enums;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.DataStructures;
 
 namespace StarlightRiver.Tiles.JungleCorrupt
 {
@@ -111,7 +105,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
 
             if (Main.rand.Next(600) == 0 && !Main.tile[i, j + 1].active() && Main.tile[i, j].slope() == 0)
             {
-                Dust.NewDustPerfect(new Vector2(i, j) * 16, mod.DustType("Corrupt2"), new Vector2(0, 0.6f) );
+                Dust.NewDustPerfect(new Vector2(i, j) * 16, mod.DustType("Corrupt2"), new Vector2(0, 0.6f));
             }
 
             if (!Main.tile[i, j - 1].active() && Main.tile[i, j].slope() == 0 && !Main.tile[i, j].halfBrick())//grass quickly if nearby
@@ -179,7 +173,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
         }
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            if(!Main.tile[i, j - 1].active())
+            if (!Main.tile[i, j - 1].active())
             {
                 WorldGen.KillTile(i, j, false, false, false);
                 WorldGen.SquareTileFrame(i, j, true);
@@ -248,7 +242,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
 
         public override void RandomUpdate(int i, int j)
         {
-            for(int x = i - 4; x <= i+4; x++)
+            for (int x = i - 4; x <= i + 4; x++)
             {
                 for (int y = j - 4; y <= j + 4; y++)
                 {

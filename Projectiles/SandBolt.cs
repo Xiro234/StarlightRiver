@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +33,7 @@ namespace StarlightRiver.Projectiles
             projectile.position.X += (float)Math.Sin(rot) * ((float)Math.Sin(projectile.localAI[0]) * -4);
             projectile.position.Y += (float)Math.Cos(rot) * ((float)Math.Sin(projectile.localAI[0]) * 4);
 
-            Dust.NewDust(projectile.position, 8, 8, DustID.Sandstorm,0,0,0,new Color(237, 213, 149),1.5f);
+            Dust.NewDust(projectile.position, 8, 8, DustID.Sandstorm, 0, 0, 0, new Color(237, 213, 149), 1.5f);
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {

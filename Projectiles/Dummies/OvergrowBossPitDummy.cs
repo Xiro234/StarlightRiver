@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -30,12 +27,12 @@ namespace StarlightRiver.Projectiles.Dummies
         {
             projectile.timeLeft = 2;
 
-            if(projectile.ai[1] == 1) //opening
+            if (projectile.ai[1] == 1) //opening
             {
                 if (projectile.ai[0] < 88) projectile.ai[0] += 4;
             }
 
-            if(projectile.ai[1] == 2) //closing
+            if (projectile.ai[1] == 2) //closing
             {
                 projectile.ai[0] -= 4;
                 if (projectile.ai[0] <= 0) projectile.ai[1] = 0;
@@ -43,13 +40,13 @@ namespace StarlightRiver.Projectiles.Dummies
             if (projectile.ai[1] == 1 && !Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>())) projectile.ai[1] = 2;
 
             Lighting.AddLight(projectile.position + new Vector2(88, 0), new Vector3(1, 1, 0.4f) * (projectile.ai[0] / 88f));
-            if(projectile.ai[0] > 0)
+            if (projectile.ai[0] > 0)
             {
                 Dust.NewDustPerfect(new Vector2(projectile.position.X + (88 - projectile.ai[0] + Main.rand.NextFloat(projectile.ai[0] * 2)), projectile.position.Y + 56), ModContent.DustType<Dusts.Gold2>(), new Vector2(0, Main.rand.NextFloat(-3, -1)));
             }
 
             //lightning
-            if(projectile.ai[0] == 88 && Main.rand.Next(8) == 0)
+            if (projectile.ai[0] == 88 && Main.rand.Next(8) == 0)
             {
                 Helper.DrawElectricity(projectile.position + new Vector2(Main.rand.Next(176), 60), projectile.position + new Vector2(Main.rand.Next(2) == 0 ? 0 : 176, 0), ModContent.DustType<Dusts.Gold>(), 0.5f);
             }
@@ -96,7 +93,7 @@ namespace StarlightRiver.Projectiles.Dummies
             if (projectile.ai[0] > 0)
             {
                 Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Exclamation");
-                spriteBatch.Draw(tex2, pos + new Vector2(88, -100 + (float)Math.Sin(LegendWorld.rottime) * 12), tex2.Frame(), 
+                spriteBatch.Draw(tex2, pos + new Vector2(88, -100 + (float)Math.Sin(LegendWorld.rottime) * 12), tex2.Frame(),
                     Color.White * (projectile.ai[0] / 88f) * 0.2f, 0, tex2.Frame().Size() / 2, 0.5f + (float)Math.Sin(LegendWorld.rottime * 3) * 0.05f, 0, 0);
             }
         }

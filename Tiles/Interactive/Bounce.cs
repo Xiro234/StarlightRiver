@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using System;
 using System.Linq;
 using Terraria;
@@ -23,7 +22,7 @@ namespace StarlightRiver.Tiles.Interactive
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -11);
-            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i*16 + 4, j*16 + 4, 1,1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.BouncerDummy>() && proj.active ))
+            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.BouncerDummy>() && proj.active))
             {
                 Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.BouncerDummy>(), 0, 0);
             }

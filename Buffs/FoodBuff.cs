@@ -1,4 +1,5 @@
 ﻿using StarlightRiver.Food;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -9,33 +10,25 @@ namespace StarlightRiver.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Nourished");
-            Description.SetDefault("Erroneous Buff! Please report me to the devs!");
+            Description.SetDefault("Nourised by rich food, granting:\n");
             Main.debuff[Type] = true;
         }
 
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
-            int[] Powers = Main.LocalPlayer.GetModPlayer<FoodBuffHandler>().Powers;
-            int[] Buffs = Main.LocalPlayer.GetModPlayer<FoodBuffHandler>().Buffs;
-
-            tip = ("+ " + Powers[0] + getBuffName(Buffs[0]) +
-                  ((Buffs[1] != 0) ? "\n+ " + Powers[1] + getBuffName(Buffs[1]) : "") +
-                  ((Buffs[2] != 0) ? "\n+ " + Powers[2] + getBuffName(Buffs[2]) : "")
-                   );
+            FoodBuffHandler mp = Main.LocalPlayer.GetModPlayer<FoodBuffHandler>();
+            foreach (Item item in mp.Consumed.Where(n => n.modItem is Ingredient))
+            {
+                tip += (item.modItem as Ingredient).ItemTooltip + "\n";
+            }
         }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<FoodBuffHandler>().Fed = true;
-        }
-
-        public string getBuffName(int ID)
-        {
-            switch (ID)
+            FoodBuffHandler mp = player.GetModPlayer<FoodBuffHandler>();
+            foreach (Item item in mp.Consumed.Where(n => n.modItem is Ingredient))
             {
-                case 1: return "% Damage";
-                case 6: return " Defense";
+                (item.modItem as Ingredient).BuffEffects(player, mp.Multiplier);
             }
-            return "ERROR";
         }
     }
 
@@ -44,13 +37,13 @@ namespace StarlightRiver.Buffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Full");
-            Description.SetDefault("Cannot consume anymore rich food");
+            Description.SetDefault("Cannot consume any more rich food");
             Main.debuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<FoodBuffHandler>().Full = true;
+
         }
     }
 }

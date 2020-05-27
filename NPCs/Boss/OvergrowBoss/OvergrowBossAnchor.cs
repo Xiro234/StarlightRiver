@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -39,13 +35,13 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 for (int k = 0; k < 5; k++)
                 {
                     Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedByRandom(6.28f));
-                    if(Main.rand.Next(2) == 0) Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Stone>(), Vector2.One.RotatedByRandom(6.28f));
+                    if (Main.rand.Next(2) == 0) Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Stone>(), Vector2.One.RotatedByRandom(6.28f));
                 }
-                if(npc.ai[0] % 3 == 0) Gore.NewGore(pos, new Vector2(0, 1), mod.GetGoreSlot("Gores/ChainGore"));
+                if (npc.ai[0] % 3 == 0) Gore.NewGore(pos, new Vector2(0, 1), mod.GetGoreSlot("Gores/ChainGore"));
                 if (npc.ai[0] % 8 == 0) Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ChainHit").WithPitchVariance(0.4f), pos);
-                
+
             }
-            if(npc.ai[0] == 1)
+            if (npc.ai[0] == 1)
             {
 
             }
@@ -57,7 +53,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             NPC boss = Main.npc.FirstOrDefault(n => n.active && n.type == ModContent.NPCType<OvergrowBoss>());
 
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/OvergrowBoss/Chain");
-            for(float k = 0; k < 1; k +=  tex.Height / Vector2.Distance(npc.Center, boss.Center + Vector2.Normalize(npc.Center - boss.Center) * 80))
+            for (float k = 0; k < 1; k += tex.Height / Vector2.Distance(npc.Center, boss.Center + Vector2.Normalize(npc.Center - boss.Center) * 80))
             {
                 if (k > npc.ai[0] / 30f)
                 {

@@ -1,21 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -40,6 +24,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.CoordinatePadding = 2; //spacing between each frame in pixels
             TileObjectData.newTile.Origin = new Point16(0, 0); //where the tile is placed from for the purpose of createTile in items. (1, 1) would make the tile place from the top left of the bottom right tile instead
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type); //Adds the data to this type of tile. Make sure you call this after setting everything else.
 
             AddMapEntry(new Color(255, 255, 0)); //the color of your tile on the map.
@@ -52,7 +37,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData data = TileObjectData.GetTileData(tile); //grabs the TileObjectData associated with our tile. So we dont have to use as many magic numbers
             int fullFrameWidth = data.Width * (data.CoordinateWidth + data.CoordinatePadding); //the width of a full frame of our multitile in pixels. We get this by multiplying the size of 1 full frame with padding by the width of our tile in tiles.
 
-            if (tile.frameY == 0 && tile.frameX % fullFrameWidth == 0) //this checks to make sure this is only the top-left tile. We only want one tile to do all the growing for us, and top-left is the standard. otherwise each tile in the multitile ticks on its own due to stupid poopoo redcode.
+            if (tile.frameY % 2 == 0 && tile.frameX % fullFrameWidth == 0) //this checks to make sure this is only the top-left tile. We only want one tile to do all the growing for us, and top-left is the standard. otherwise each tile in the multitile ticks on its own due to stupid poopoo redcode.
             {
                 if (Main.rand.Next(2) == 0 && tile.frameX == 0) //a random check here can slow growing as much as you want.
                 {
@@ -71,7 +56,7 @@ namespace StarlightRiver.Tiles.Herbology
         public override bool NewRightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            TileObjectData data = TileObjectData.GetTileData(tile); 
+            TileObjectData data = TileObjectData.GetTileData(tile);
             int fullFrameWidth = data.Width * (data.CoordinateWidth + data.CoordinatePadding);
 
             if (tile.frameX >= fullFrameWidth)
@@ -79,12 +64,12 @@ namespace StarlightRiver.Tiles.Herbology
                 int offX = (tile.frameX - fullFrameWidth) / 10;
                 int offY = tile.frameY / 10;
 
-                for (int x = -offX; x < data.Width; x++) 
+                for (int x = -offX; x < data.Width; x++)
                 {
-                    for (int y = -offY; y < data.Height; y++) 
+                    for (int y = -offY; y < data.Height; y++)
                     {
-                        Tile targetTile = Main.tile[i + x, j + y]; 
-                        targetTile.frameX -= (short)fullFrameWidth; 
+                        Tile targetTile = Main.tile[i + x, j + y];
+                        targetTile.frameX -= (short)fullFrameWidth;
                     }
                 }
                 Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.ForestBerries>());

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
@@ -37,7 +31,7 @@ namespace StarlightRiver.Items.Overgrow
         {
             if (item.healLife > 0 && item.potion)
             {
-                if(Helper.HasEquipped(player, ModContent.ItemType<MossSalve>())) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
+                if (Helper.HasEquipped(player, ModContent.ItemType<MossSalve>())) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
             }
         }
     }

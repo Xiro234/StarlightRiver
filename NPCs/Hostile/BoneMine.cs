@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -64,7 +61,7 @@ namespace StarlightRiver.NPCs.Hostile
             else
             {
                 npc.ai[2]++;
-                if(npc.ai[2] % 10 == 0) Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
+                if (npc.ai[2] % 10 == 0) Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
                 if (npc.ai[2] >= 45) Helper.Kill(npc); //detonate
             }
         }
@@ -74,8 +71,9 @@ namespace StarlightRiver.NPCs.Hostile
             Player player = spawnInfo.player;
             Vector2 spawnPos = new Vector2(spawnInfo.spawnTileX * 16, spawnInfo.spawnTileY * 16);
 
-            return (player.position.Y >= Main.maxTilesY - 200 && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].lava() && 
-                !Main.npc.Any(npc => npc.active && npc.type == ModContent.NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)) ? 5 : 0;
+            if (player.position.Y >= Main.maxTilesY - 200 && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].liquid != 0 &&
+                !Main.npc.Any(npc => npc.active && npc.type == ModContent.NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)) { return 1; }
+            return 0;
         }
     }
 }

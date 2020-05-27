@@ -1,19 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace StarlightRiver.Codex.Entries
 {
+    class LoreEntry : CodexEntry
+    {
+        public LoreEntry()
+        {
+            Category = Categories.Abilities;
+            Title = "Starlight Codex";
+            Body = "A mysterious compendium containing lost knowledge, it seems to write itself as you travel. Click the codex icon in your inventory to view the codex.";
+            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/AbilityImageLore");
+            Icon = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
+        }
+    }
     class WindsEntry : CodexEntry
     {
         public WindsEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Forbidden Winds";
-            Body = "Wow this is such an amzing test entry\nYes dont you thing wow wow\nhahaha\nDont you just love multiline strings?";
+            Body = "A collection of strange energies found deeep within a tomb buried in the vitric desert. These 'winds' hold the power to shatter certain objects on touch and propel you forward at great speeds.";
+            Hint = "Sealed away in an ancient glass temple";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOn");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         }
@@ -22,10 +29,11 @@ namespace StarlightRiver.Codex.Entries
     {
         public FaeEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Faeflame";
-            Body = "Shoop de poop loob";
-            Image = ModContent.GetTexture("StarlightRiver/Achievements/WispAchievementOn");
+            Body = "NO TEXT";
+            Hint = "Found upon an altar in an overgrown dungeon";
+            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/AbilityImageWisp");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
         }
     }
@@ -33,9 +41,9 @@ namespace StarlightRiver.Codex.Entries
     {
         public PureEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Corona of Purity";
-            Body = "T\nT\nT\nT\nT\nT";
+            Body = "NO TEXT";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
         }
@@ -44,22 +52,35 @@ namespace StarlightRiver.Codex.Entries
     {
         public SmashEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Gaia's Fist";
-            Body = "T\nT\nT\nT\nT\nT";
+            Body = "NO TEXT";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
+        }
+    }
+    class LoreEntry2 : CodexEntry
+    {
+        public LoreEntry2()
+        {
+            Category = Categories.Abilities;
+            Title = "Rift Codex";
+            Body = "NO TEXT";
+            Image = ModContent.GetTexture("StarlightRiver/GUI/Book2Closed");
+            Icon = ModContent.GetTexture("StarlightRiver/GUI/Book2Closed");
+            RequiresUpgradedBook = true;
         }
     }
     class CloakEntry : CodexEntry
     {
         public CloakEntry()
         {
-            Category = (int)Categories.Abilities;
+            Category = Categories.Abilities;
             Title = "Zzelera's Cloak";
-            Body = "T\nT\nT\nT\nT\nT";
+            Body = "NO TEXT";
             Image = ModContent.GetTexture("StarlightRiver/Achievements/WindsAchievementOff");
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+            RequiresUpgradedBook = true;
         }
     }
 }

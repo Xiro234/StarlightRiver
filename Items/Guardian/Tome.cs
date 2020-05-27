@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -20,7 +18,7 @@ namespace StarlightRiver.Items.Guardian
             Radius = rad;
             ProjectileType = projType;
             HealthCost = hpcost;
-        }      
+        }
         public virtual void EffectTooltip(List<TooltipLine> tooltips) { }
         public sealed override void ModifyTooltips(List<TooltipLine> tooltips)
         {
@@ -61,7 +59,7 @@ namespace StarlightRiver.Items.Guardian
         public virtual void SafeAI() { }
         public override void AI()
         {
-            foreach(Player player in Main.player.Where(player => Helper.CheckCircularCollision(projectile.Center, (int)(projectile.ai[1] * 1.3f), player.Hitbox)))
+            foreach (Player player in Main.player.Where(player => Helper.CheckCircularCollision(projectile.Center, (int)(projectile.ai[1] * 1.3f), player.Hitbox)))
             {
                 BoostPlayer(player);
             }
@@ -72,11 +70,11 @@ namespace StarlightRiver.Items.Guardian
             SafeAI();
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        { 
+        {
             Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
 
-            foreach(Player player in Main.player.Where(player => Helper.CheckCircularCollision(projectile.Center, (int)(projectile.ai[1] * 1.3f), player.Hitbox)))
+            foreach (Player player in Main.player.Where(player => Helper.CheckCircularCollision(projectile.Center, (int)(projectile.ai[1] * 1.3f), player.Hitbox)))
             {
                 Rectangle target = new Rectangle((int)(player.Center.X - 8 - Main.screenPosition.X), (int)(player.Center.Y - 48 - Main.screenPosition.Y), 16, 16);
                 spriteBatch.Draw(tex, target, tex.Frame(), Color.White * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.5f), 0, Vector2.Zero, 0, 0);

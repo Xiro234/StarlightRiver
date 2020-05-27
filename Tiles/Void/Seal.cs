@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -41,7 +38,7 @@ namespace StarlightRiver.Tiles.Void
                 Projectile.NewProjectile(new Vector2(i + 5.5f, j) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.SealDummy>(), 0, 0);
             }
             if (LegendWorld.SealOpen)
-            { 
+            {
                 Main.tileSolid[Type] = false;
                 Main.tileSolidTop[Type] = true;
             }
@@ -49,7 +46,7 @@ namespace StarlightRiver.Tiles.Void
             {
                 Main.tileSolid[Type] = true;
             }
-        }        
+        }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)

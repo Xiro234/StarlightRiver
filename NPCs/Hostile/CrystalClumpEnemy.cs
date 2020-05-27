@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Utilities;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -62,11 +59,11 @@ namespace StarlightRiver.NPCs.Hostile
         public override void AI()
         {
             npc.velocity *= 0.94f;
-            void SpawnDust(float speed)           
+            void SpawnDust(float speed)
             {
                 Vector2 dustPos = npc.Center + Main.rand.NextVector2CircularEdge(120, 120);
-                Dust.NewDustPerfect(dustPos, mod.DustType("Air"), 
-                    (dustPos - npc.Center).SafeNormalize(Vector2.Zero) /* Use SafeNormalize to prevent nasty DB0 errors. */ * -speed, 
+                Dust.NewDustPerfect(dustPos, mod.DustType("Air"),
+                    (dustPos - npc.Center).SafeNormalize(Vector2.Zero) /* Use SafeNormalize to prevent nasty DB0 errors. */ * -speed,
                     0, default, 0.6f);
             }
 
@@ -94,7 +91,7 @@ namespace StarlightRiver.NPCs.Hostile
             for (int k = 0; k <= 200; k += 1)
             {
                 NPC wisp = Main.npc[k];
-                
+
                 if (wisp.type == mod.NPCType("DesertWisp") || wisp.type == mod.NPCType("DesertWisp2"))
                 {
                     Vector2 wispDistance = wisp.Center - npc.Center;
@@ -216,7 +213,7 @@ namespace StarlightRiver.NPCs.Hostile
             for (int k = 0; k <= 200; k += 1)
             {
                 NPC wisp = Main.npc[k];
-                
+
                 if (wisp.type == mod.NPCType("DesertWisp") || wisp.type == mod.NPCType("DesertWisp2"))
                 {
                     Vector2 wispDistance = wisp.Center - npc.Center;

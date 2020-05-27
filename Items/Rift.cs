@@ -1,11 +1,4 @@
-﻿using StarlightRiver.Tiles.Rift;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
+﻿/*using StarlightRiver.Tiles.Rift;
 
 namespace StarlightRiver.Items
 {
@@ -34,4 +27,4 @@ namespace StarlightRiver.Items
         public RiftCore5() : base("Chaotic Rift Catalyst", "", 999, 200, 6) { }
         public override void SetDefaults() { item.GetGlobalItem<RiftItem>().tier = 5; }
     }
-}
+}*/

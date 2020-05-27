@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -27,7 +23,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                TileID.Grass 
+                TileID.Grass
             };
             TileObjectData.addTile(Type);
             soundType = 6;
@@ -44,7 +40,7 @@ namespace StarlightRiver.Tiles.Herbology
             Vector2 drawPos = (new Vector2(i, j) + Helper.TileAdj) * 16 + new Vector2(4, 20) - Main.screenPosition;
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Herbology/ForestIvyWild");
 
-            spriteBatch.Draw(tex, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), drawColor, 
+            spriteBatch.Draw(tex, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), drawColor,
                 (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.2f, new Vector2(8, 16), 1, SpriteEffects.FlipHorizontally, 0);
         }
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

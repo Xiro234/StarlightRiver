@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
+using System;
+using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
@@ -28,7 +25,7 @@ namespace StarlightRiver.Projectiles.Dummies
         public override void AI()
         {
             projectile.timeLeft = 2;
-            if(Main.rand.Next(8) == 0)
+            if (Main.rand.Next(8) == 0)
             {
                 float rot = Main.rand.NextFloat(-0.5f, 0.5f);
                 Dust.NewDustPerfect(projectile.Center + new Vector2(0, 10).RotatedBy(rot), 244, new Vector2(0, 1).RotatedBy(rot), 0, default, 0.7f);

@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +8,7 @@ namespace StarlightRiver.Items.Vitric
 {
     class VitricSword : ModItem
     {
-        bool Broken = false;
+        public bool Broken = false;
         public override void SetDefaults()
         {
             item.damage = 25;
@@ -67,7 +63,7 @@ namespace StarlightRiver.Items.Vitric
                 Broken = false;
             }
             return true;
-            
+
         }
 
         public override void AddRecipes()
@@ -78,23 +74,6 @@ namespace StarlightRiver.Items.Vitric
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-    }
-
-    public class LayerHandler : ModPlayer
-    {
-        public override void ModifyDrawLayers(List<PlayerLayer> layers)
-        {
-            if (Main.projectile.Any(projectile => (projectile.type == mod.ProjectileType("VitricSwordProjectile") && projectile.owner == player.whoAmI && projectile.active)))
-            {
-                foreach(PlayerLayer layer in layers)
-                {
-                    if(layer == PlayerLayer.HeldItem)
-                    {
-                        layer.visible = false;
-                    }
-                }
-            }
         }
     }
 }

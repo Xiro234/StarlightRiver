@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -31,7 +27,7 @@ namespace StarlightRiver.Tiles.Overgrow
             if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == (int)NPCs.Boss.OvergrowBoss.OvergrowBoss.OvergrowBossPhase.FirstGuard))
                 Main.tile[i, j].frameX = 0;
 
-            if(Main.tile[i, j].frameX == 20)
+            if (Main.tile[i, j].frameX == 20)
             {
                 Main.tileSolid[Type] = true;
             }

@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles
 {
@@ -40,7 +36,7 @@ namespace StarlightRiver.Tiles
             AddMapEntry(new Color(245, 245, 230), name);
         }
     }
-	class OreCelumite : ModTile
+    class OreCelumite : ModTile
     {
         public override void SetDefaults()
         {

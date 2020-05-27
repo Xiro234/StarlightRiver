@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +11,7 @@ namespace StarlightRiver.NPCs.Hostile
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Jungle Rotter");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 3;
         }
         public override void SetDefaults()
         {
@@ -28,11 +26,13 @@ namespace StarlightRiver.NPCs.Hostile
             npc.aiStyle = -1;
         }
 
+        float AnimSpeedMult = 0.5f;//speed
+
         public override void AI()
         {
             npc.TargetClosest(true);
 
-            if(npc.localAI[1] == 0)
+            if (npc.localAI[1] == 0)
             {
                 float r = npc.localAI[0] / 60 * 6.28f;
                 if (Vector2.Distance(npc.Center, Main.player[npc.target].Center + new Vector2(0, -32)) >= 100)
@@ -51,12 +51,12 @@ namespace StarlightRiver.NPCs.Hostile
                 npc.localAI[1] = 1;
                 npc.localAI[0] = 180;
             }
-            else if(npc.localAI[0] >= 240 && npc.localAI[1] == 0)
+            else if (npc.localAI[0] >= 240 && npc.localAI[1] == 0)
             {
                 npc.localAI[1] = 0;
             }
 
-            if(npc.localAI[1] == 1)
+            if (npc.localAI[1] == 1)
             {
                 npc.velocity *= 0;
                 if (npc.localAI[0] % 10 == 0)
@@ -77,22 +77,15 @@ namespace StarlightRiver.NPCs.Hostile
             return (spawnInfo.player.ZoneRockLayerHeight && !Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt) ? 1f : 0f;
         }
 
-        public int Framecounter = 0;
-        public int Gameframecounter = 0;
         public override void FindFrame(int frameHeight)
         {
-            if (Gameframecounter++ == 6)
-            {
-                Framecounter++;
-                Gameframecounter = 0;
-            }
-            npc.frame.Y = 36 * Framecounter;
-            if (Framecounter >= 3)
-            {
-                Framecounter = 0;
-            }
+            npc.frameCounter++;//skele frame-code
+            if ((int)(npc.frameCounter * AnimSpeedMult) >= Main.npcFrameCount[npc.type])
+                npc.frameCounter = 0;
+            npc.frame.Y = (int)(npc.frameCounter * AnimSpeedMult) * frameHeight;
         }
     }
+
     public class GasCurse : ModProjectile
     {
         public override void SetDefaults()
@@ -119,7 +112,7 @@ namespace StarlightRiver.NPCs.Hostile
             if (projectile.localAI[1] >= 10)
             {
                 projectile.localAI[0]++;
-                projectile.localAI[1]=0;
+                projectile.localAI[1] = 0;
             }
             projectile.velocity.Y += 0.05f;
         }

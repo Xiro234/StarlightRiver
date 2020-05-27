@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,7 +25,7 @@ namespace StarlightRiver.Projectiles
         {
             for (int k = 0; k <= 1; k++)
             {
-                Dust.NewDustPerfect(projectile.Center + projectile.velocity * 3, ModContent.DustType<Dusts.Air>(), (projectile.velocity * (Main.rand.NextFloat(-0.25f, -0.05f))).RotatedBy((k == 0) ? 0.4f : - 0.4f), 0, default, 0.5f);
+                Dust.NewDustPerfect(projectile.Center + projectile.velocity * 3, ModContent.DustType<Dusts.Air>(), (projectile.velocity * (Main.rand.NextFloat(-0.25f, -0.1f))).RotatedBy((k == 0) ? 0.4f : -0.4f), 0, default, 0.45f);
             }
             projectile.rotation = projectile.velocity.ToRotation() + (3.14f / 4);
         }

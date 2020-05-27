@@ -1,230 +1,186 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using StarlightRiver.Abilities;
+using ReLogic.Graphics;
 using StarlightRiver.Food;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace StarlightRiver.GUI
 {
     public class Cooking : UIState
     {
-        public UIPanel back;
-        public UIPanel statback;
-        public IngredientSlot mainSlot;
-        public IngredientSlot side1Slot;
-        public IngredientSlot side2Slot;
-        public IngredientSlot seasoningSlot;
-        public UIImageButton cookButton;
-        public static bool visible = false;
+        public static bool Visible = false;
+        private static bool Moving = false;
+        CookingSlot MainSlot = new CookingSlot(IngredientType.Main);
+        CookingSlot SideSlot0 = new CookingSlot(IngredientType.Side);
+        CookingSlot SideSlot1 = new CookingSlot(IngredientType.Side);
+        CookingSlot SeasonSlot = new CookingSlot(IngredientType.Seasoning);
+        UIImageButton CookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/CookPrep"));
+        UIImageButton ExitButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/CookExit"));
+        UIImage StatBack = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookStatWindow"));
+        UIImage TopBar = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookTop"));
 
+        Vector2 Basepos = new Vector2(Main.screenWidth / 2 - 173, Main.screenHeight / 2 - 122);
         public override void OnInitialize()
         {
-            back = new UIPanel();
-            statback = new UIPanel();
-            mainSlot = new IngredientSlot();
-            side1Slot = new IngredientSlot();
-            side2Slot = new IngredientSlot();
-            seasoningSlot = new IngredientSlot();
-            cookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/Cook"));
-
-            back.Left.Set(-172, 0.5f);
-            back.Top.Set(-100, 0.5f);
-            back.Width.Set(144, 0);
-            back.Height.Set(250, 0);
-            base.Append(back);
-
-            statback.Left.Set(149 - 172, 0.5f);
-            statback.Top.Set(-100, 0.5f);
-            statback.Width.Set(166, 0);
-            statback.Height.Set(100, 0);
-            base.Append(statback);
-
-            mainSlot.Left.Set(34, 0);
-            mainSlot.Top.Set(31, 0);
-            mainSlot.Width.Set(64, 0);
-            mainSlot.Height.Set(64, 0);
-            mainSlot.OnClick += new MouseEvent(mainSlot.CheckInsertMains);
-            back.Append(mainSlot);
-
-            side1Slot.Left.Set(0, 0);
-            side1Slot.Top.Set(105, 0);
-            side1Slot.Width.Set(64, 0);
-            side1Slot.Height.Set(64, 0);
-            side1Slot.OnClick += new MouseEvent(side1Slot.CheckInsertSide);
-            back.Append(side1Slot);
-
-            side2Slot.Left.Set(69, 0);
-            side2Slot.Top.Set(105, 0);
-            side2Slot.Width.Set(64, 0);
-            side2Slot.Height.Set(64, 0);
-            side2Slot.OnClick += new MouseEvent(side2Slot.CheckInsertSide);
-            back.Append(side2Slot);
-
-            seasoningSlot.Left.Set(34, 0);
-            seasoningSlot.Top.Set(179, 0);
-            seasoningSlot.Width.Set(64, 0);
-            seasoningSlot.Height.Set(64, 0);
-            seasoningSlot.OnClick += new MouseEvent(seasoningSlot.CheckInsertSeasoning);
-            back.Append(seasoningSlot);
-
-            cookButton.Left.Set(149 - 172, 0.5f);
-            cookButton.Top.Set(5, 0.5f);
-            cookButton.Width.Set(166, 0);
-            cookButton.Height.Set(32, 0);
-            cookButton.OnClick += new MouseEvent(Cook);
-            base.Append(cookButton);
+            CookButton.OnClick += CookFood;
+            CookButton.SetVisibility(1, 1);
+            ExitButton.OnClick += Exit;
+            ExitButton.SetVisibility(1, 1);
         }
-
-        protected override void DrawSelf(SpriteBatch spriteBatch)
+        public override void Update(GameTime gameTime)
         {
+            if (TopBar.IsMouseHovering && Main.mouseLeft) Moving = true;
+            if (!Main.mouseLeft) Moving = false;
 
+            if (Moving) Basepos = Main.MouseScreen;
+            if (Basepos.X < 20) Basepos.X = 20;
+            if (Basepos.Y < 20) Basepos.Y = 20;
+            if (Basepos.X > Main.screenWidth - 20 - 346) Basepos.X = Main.screenWidth - 20 - 346;
+            if (Basepos.Y > Main.screenHeight - 20 - 244) Basepos.Y = Main.screenHeight - 20 - 244;
+
+            Main.isMouseLeftConsumedByUI = true;
+            SetPosition(MainSlot, 44, 44);
+            SetPosition(SideSlot0, 10, 112);
+            SetPosition(SideSlot1, 78, 112);
+            SetPosition(SeasonSlot, 44, 180);
+            SetPosition(StatBack, 170, 40);
+            SetPosition(CookButton, 170, 202);
+            SetPosition(ExitButton, 314, 0);
+            SetPosition(TopBar, 0, 2);
+
+            Append(MainSlot);
+            Append(SideSlot0);
+            Append(SideSlot1);
+            Append(SeasonSlot);
+            Append(CookButton);
+            Append(ExitButton);
+            Append(StatBack);
+            Append(TopBar);
+            base.Update(gameTime);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+            Utils.DrawBorderString(spriteBatch, "Ingredients", Basepos + new Vector2(38, 8), Color.White, 0.8f);
+            Utils.DrawBorderString(spriteBatch, "Info/Stats", Basepos + new Vector2(202, 8), Color.White, 0.8f);
+            Utils.DrawBorderString(spriteBatch, "Prepare", Basepos + new Vector2(212, 210), Color.White, 1.1f);
 
-            Vector2 origin = back.GetDimensions().Position();
-            Utils.DrawBorderString(spriteBatch, "Main Course", origin + new Vector2(20, 21), Color.White);
-            Utils.DrawBorderString(spriteBatch, "Side Courses", origin + new Vector2(18, 95), Color.White);
-            Utils.DrawBorderString(spriteBatch, "Seasoning", origin + new Vector2(32, 169), Color.White);
-
-            float strmod = (seasoningSlot.Item != null) ? (seasoningSlot.Item.modItem as Seasoning).StrengthMod : 1;
-            string boost1 = (mainSlot.Item != null) ? "+ " + (int)((mainSlot.Item.modItem as MainCourse).Strength * strmod) + (mainSlot.Item.modItem as MainCourse).ITooltip : "";
-            string boost2 = (side1Slot.Item != null) ? "+ " + (int)((side1Slot.Item.modItem as SideCourse).Strength * strmod) + (side1Slot.Item.modItem as SideCourse).ITooltip : "";
-            string boost3 = (side2Slot.Item != null) ? "+ " + (int)((side2Slot.Item.modItem as SideCourse).Strength * strmod) + (side2Slot.Item.modItem as SideCourse).ITooltip : "";
-            string durboost = "Duration: " + (300 + ((seasoningSlot.Item != null) ? (seasoningSlot.Item.modItem as Seasoning).Modifier / 60 : 0)) + " Seconds";
-
-            string fill = (mainSlot.Item != null) ? ("Fullness: " + (((mainSlot.Item.modItem as MainCourse).Fill) + 
-                ((side1Slot.Item != null) ? (side1Slot.Item.modItem as SideCourse).Fill : 0) + 
-                ((side2Slot.Item != null) ? (side2Slot.Item.modItem as SideCourse).Fill : 0) + 
-                ((seasoningSlot.Item != null) ? (seasoningSlot.Item.modItem as Seasoning).Fill : 0)
-                )/60) + " Seconds" : "";
-
-            if (mainSlot.Item != null)
+            int drawY = 0;
+            if (!Elements.Any(n => n is CookingSlot && !(n as CookingSlot).Item.IsAir && ((n as CookingSlot).Item.modItem as Ingredient).ThisType == IngredientType.Main))
             {
-                Utils.DrawBorderString(spriteBatch, boost1, origin + new Vector2(155, 10), new Color(255, 220, 140), 0.75f);
-                Utils.DrawBorderString(spriteBatch, boost2, origin + new Vector2(155, 25), new Color(140, 255, 140), 0.75f);
-                Utils.DrawBorderString(spriteBatch, boost3, origin + new Vector2(155, 40), new Color(140, 255, 140), 0.75f);
-                Utils.DrawBorderString(spriteBatch, durboost, origin + new Vector2(155, 65), (seasoningSlot.Item != null) ? new Color(140, 200, 255) : Color.White, 0.75f);
-                Utils.DrawBorderString(spriteBatch, fill, origin + new Vector2(155, 80), new Color(255, 163, 153), 0.75f);
+                Utils.DrawBorderString(spriteBatch, "Place a Main Course in\nthe top slot to start\ncooking", Basepos + new Vector2(186, 54 + drawY), Color.White, 0.7f);
+            }
+            else
+            {
+                int duration = 0;
+                int cooldown = 0;
+                foreach (UIElement element in Elements.Where(n => n is CookingSlot && !(n as CookingSlot).Item.IsAir))
+                {
+                    Ingredient ingredient = (element as CookingSlot).Item.modItem as Ingredient;
+                    Utils.DrawBorderString(spriteBatch, ingredient.ItemTooltip, Basepos + new Vector2(186, 54 + drawY), ingredient.GetColor(), 0.7f);
+                    duration += ingredient.Fill;
+                    cooldown += (int)(ingredient.Fill * 1.5f);
+                    drawY += 16;
+                }
+                Utils.DrawBorderString(spriteBatch, duration / 60 + " seconds duration", Basepos + new Vector2(186, 150), new Color(110, 235, 255), 0.65f);
+                Utils.DrawBorderString(spriteBatch, cooldown / 60 + " seconds fullness", Basepos + new Vector2(186, 164), new Color(255, 170, 120), 0.65f);
             }
 
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Line"), new Rectangle((int)origin.X + 154, (int)origin.Y + 60, 156, 4), Color.White * 0.25f);
-            Utils.DrawBorderString(spriteBatch, "Prepare", origin + new Vector2(190, 106), Color.White, 1.1f);
-
-            Recalculate();
         }
-
-        public void Cook(UIMouseEvent evt, UIElement listeningElement)
+        private void SetPosition(UIElement element, int x, int y)
         {
-            if (mainSlot.Item != null)
+            element.Left.Set(Basepos.X + x, 0);
+            element.Top.Set(Basepos.Y + y, 0);
+        }
+        private void CookFood(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (!MainSlot.Item.IsAir) //make sure were cooking SOMETHING!
             {
-                Player player = Main.LocalPlayer;
-                int item = Item.NewItem(player.Center, ModContent.ItemType<Meal>());
-                Meal meal = Main.item[item].modItem as Meal;
-
-                meal.mains = mainSlot.Item.modItem as MainCourse; mainSlot.Item = null;
-                if (side1Slot.Item != null) { meal.side1 = side1Slot.Item.modItem as SideCourse; side1Slot.Item = null; }
-                if (side2Slot.Item != null) { meal.side2 = side2Slot.Item.modItem as SideCourse; side2Slot.Item = null; }
-                if (seasoningSlot.Item != null) { meal.seasoning = seasoningSlot.Item.modItem as Seasoning; seasoningSlot.Item = null; }
+                Item item = new Item();
+                item.SetDefaults(ModContent.ItemType<Meal>()); //let TML hanlde making the item properly
+                (item.modItem as Meal).Ingredients = new List<Item>();
+                CookIngredient(item, MainSlot);
+                CookIngredient(item, SideSlot0);
+                CookIngredient(item, SideSlot1);
+                CookIngredient(item, SeasonSlot);
+                item.position = Main.LocalPlayer.Center;
+                Main.LocalPlayer.QuickSpawnClonedItem(item);
             }
         }
-
+        private void CookIngredient(Item target, CookingSlot source)
+        {
+            if (!source.Item.IsAir && source.Item.modItem is Ingredient)
+            {
+                (target.modItem as Meal).Ingredients.Add(source.Item.Clone());
+                (target.modItem as Meal).Fullness += (source.Item.modItem as Ingredient).Fill;
+                if (source.Item.stack == 1) source.Item.TurnToAir();
+                else source.Item.stack--;
+            }
+        }
+        private void Exit(UIMouseEvent evt, UIElement listeningElement)
+        {
+            Visible = false;
+            Main.PlaySound(SoundID.MenuClose);
+        }
     }
-
-    public class IngredientSlot : UIElement
+    public class CookingSlot : UIElement
     {
-        public Item Item;
-
-        protected override void DrawSelf(SpriteBatch spriteBatch)
+        public Item Item = new Item();
+        IngredientType Type;
+        public CookingSlot(IngredientType type) { Type = type; }
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            CalculatedStyle dimensions = GetDimensions();
-            spriteBatch.Draw(Main.inventoryBackTexture, dimensions.Position(), Color.White * 0.6f);
-            if (Item != null && Item.modItem != null)
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotY");
+            switch (Type)
             {
-                Texture2D tex = ModContent.GetTexture(Item.modItem.Texture);
-                spriteBatch.Draw(tex, dimensions.Center() - (tex.Size() * 0.75f), Color.White);
+                case IngredientType.Main: tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotY"); break;
+                case IngredientType.Side: tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotG"); break;
+                case IngredientType.Seasoning: tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotB"); break;
+            }
+
+            spriteBatch.Draw(tex, GetDimensions().Position(), tex.Frame(), Color.White, 0, Vector2.Zero, 1, 0, 0);
+            if (!Item.IsAir)
+            {
+                Texture2D tex2 = ModContent.GetTexture(Item.modItem.Texture);
+                spriteBatch.Draw(tex2, new Rectangle((int)GetDimensions().X + 16, (int)GetDimensions().Y + 16, 28, 28), tex2.Frame(), Color.White);
+                if (Item.stack > 1) spriteBatch.DrawString(Main.fontItemStack, Item.stack.ToString(), GetDimensions().Position() + Vector2.One * 28, Color.White);
             }
         }
-        public void CheckInsertMains(UIMouseEvent evt, UIElement listeningElement)
+        public override void Click(UIMouseEvent evt)
         {
             Player player = Main.LocalPlayer;
-            if (player.HeldItem.modItem != null && player.HeldItem.modItem is MainCourse && Item == null)
-            {             
-                Item = player.HeldItem.Clone();
-                Item.stack = 1;
-                if (player.HeldItem.stack > 1) { player.HeldItem.stack--; } else { player.HeldItem.TurnToAir(); }
-            }
 
-            else if (Item != null)
+            if (Main.mouseItem.IsAir && !Item.IsAir) //if the cursor is empty and there is something in the slot, take the item out
             {
-                for (int i = 0; i < 400; i++)
-                {
-                    if (!Main.item[i].active)
-                    {
-                        Main.item[i] = Item;
-                        Main.item[i].position = player.Center;
-                        break;
-                    }
-                }
-                Item = null;
+                Main.mouseItem = Item.Clone();
+                Item.TurnToAir();
+                Main.PlaySound(SoundID.Grab);
             }
+            if (Item.IsAir && player.HeldItem.type == Item.type) //if the cursor is the same type as the item already in the slot, add to the slot
+            {
+                Item.stack += player.HeldItem.stack;
+                player.HeldItem.TurnToAir();
+                Main.PlaySound(SoundID.Grab);
+            }
+            if (player.HeldItem.modItem is Ingredient && (player.HeldItem.modItem as Ingredient).ThisType == Type && Item.IsAir) //if the slot is empty and the cursor has an item, put it in the slot
+            {
+                Item = player.HeldItem.Clone();
+                player.HeldItem.TurnToAir();
+                Main.PlaySound(SoundID.Grab);
+            }
+            Main.isMouseLeftConsumedByUI = true;
         }
-
-        public void CheckInsertSide(UIMouseEvent evt, UIElement listeningElement)
+        public override void Update(GameTime gameTime)
         {
-            Player player = Main.LocalPlayer;
-            if (player.HeldItem.modItem != null && player.HeldItem.modItem is SideCourse && Item == null)
-            {
-                Item = player.HeldItem.Clone();
-                Item.stack = 1;
-                if (player.HeldItem.stack > 1) { player.HeldItem.stack--; } else { player.HeldItem.TurnToAir(); }
-            }
-
-            else if (Item != null)
-            {
-                for (int i = 0; i < 400; i++)
-                {
-                    if (!Main.item[i].active)
-                    {
-                        Main.item[i] = Item;
-                        Main.item[i].position = player.Center;
-                        break;
-                    }
-                }
-                Item = null;
-            }
-        }
-
-        public void CheckInsertSeasoning(UIMouseEvent evt, UIElement listeningElement)
-        {
-            Player player = Main.LocalPlayer;
-            if (player.HeldItem.modItem != null && player.HeldItem.modItem is Seasoning && Item == null)
-            {
-                Item = player.HeldItem.Clone();
-                Item.stack = 1;
-                if (player.HeldItem.stack > 1) { player.HeldItem.stack--; } else { player.HeldItem.TurnToAir(); }
-            }
-
-            else if (Item != null)
-            {
-                for (int i = 0; i < 400; i++)
-                {
-                    if (!Main.item[i].active)
-                    {
-                        Main.item[i] = Item;
-                        Main.item[i].position = player.Center;
-                        break;
-                    }
-                }
-                Item = null;
-            }
+            if (Item.type == 0 || Item.stack <= 0) Item.TurnToAir();
+            Width.Set(60, 0);
+            Height.Set(60, 0);
         }
     }
 

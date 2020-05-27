@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
 using StarlightRiver.Abilities;
+using System;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace StarlightRiver.GUI
 {
@@ -16,31 +14,19 @@ namespace StarlightRiver.GUI
         public UIPanel abicon;
         public static bool visible = false;
 
-        Stam Stam1 = new Stam(ModContent.GetTexture("StarlightRiver/GUI/Stamina2"));
-        Stam Stam2 = new Stam(ModContent.GetTexture("StarlightRiver/GUI/Stamina"));
+        Stam Stam1 = new Stam();
         public override void OnInitialize()
         {
             Stam1.Left.Set(-303, 1);
             Stam1.Top.Set(110, 0);
-            Stam1.Width.Set(22, 0f);
-            Stam1.Height.Set(22, 0f);
-            Stam1.color = Color.White * 0.75f;
+            Stam1.Width.Set(30, 0f);
             base.Append(Stam1);
-
-            Stam2.Left.Set(0, 0);
-            Stam2.Top.Set(0, 0);
-            Stam2.Width.Set(22, 0f);
-            Stam2.Height.Set(22, 0f);
-            Stam2.color = Color.White;
-            Stam1.Append(Stam2);
         }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            Stam1.Copies = mp.StatStaminaMax;
-            Stam2.Copies = mp.StatStamina;
 
             if (Main.mapStyle != 1)
             {
@@ -51,60 +37,66 @@ namespace StarlightRiver.GUI
                 }
                 else
                 {
-                    Stam1.Left.Set(-66, 1);
+                    Stam1.Left.Set(-70, 1);
                     Stam1.Top.Set(90, 0);
                 }
             }
             else
             {
-                Stam1.Left.Set(-303, 1);
+                Stam1.Left.Set(-306, 1);
                 Stam1.Top.Set(110, 0);
             }
+            int height = 30 * mp.StatStaminaMax; if (height > 30 * 7) height = 30 * 7;
+
+            Stam1.Height.Set(height, 0f);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+
+            if (Stam1.IsMouseHovering)
+            {
+                AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
+                Utils.DrawBorderString(spriteBatch, "Stamina: " + mp.StatStamina + "/" + mp.StatStaminaMax, Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal);
+            }
+
             Recalculate();
         }
-        
+
     }
 
     class Stam : UIElement
     {
-        public int Copies;
-        public Texture2D Texture;
-        public Color color;
-
-        public Stam(Texture2D texture)
-        {
-            Texture = texture;
-        }
-
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             CalculatedStyle dimensions = GetDimensions();
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            for (int k = 0; k < Copies; k++)
+            Texture2D emptyTex = ModContent.GetTexture("StarlightRiver/GUI/StaminaEmpty");
+            Texture2D fillTex = ModContent.GetTexture("StarlightRiver/GUI/Stamina");
+
+            int row = 0;
+            for (int k = 0; k < mp.StatStaminaMax; k++)
             {
-                if (k == Copies - 1 && color == Color.White)
+                if (k % 7 == 0 && k != 0) row++;
+
+                Vector2 pos = row % 2 == 0 ? dimensions.ToRectangle().TopLeft() + new Vector2(row * -18, (k % 7) * 28) :
+                    dimensions.ToRectangle().TopLeft() + new Vector2(row * -18, 14 + (k % 7) * 28);
+
+                spriteBatch.Draw(emptyTex, pos, emptyTex.Frame(), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+
+                if(mp.StatStamina > k)
                 {
-                    spriteBatch.Draw(Texture, new Vector2((int)dimensions.X, (int)dimensions.Y + k * 24) + new Vector2(dimensions.Width / 2, dimensions.Height / 2), null, color, 0f, new Vector2(dimensions.Width / 2, dimensions.Height / 2), 1f + ((float)Math.Sin(LegendWorld.rottime * 2) / 8), SpriteEffects.None, 0f);
-                    spriteBatch.Draw(Texture, new Vector2((int)dimensions.X, (int)dimensions.Y + (k + 1) * 24) + new Vector2(dimensions.Width / 2, dimensions.Height / 2), null, Color.White * (1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax)), 0f, new Vector2(dimensions.Width / 2, dimensions.Height / 2), (1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax)), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(fillTex, pos + Vector2.One * 4, Color.White);
                 }
-                else
+                if(mp.StatStamina == k)
                 {
-                    spriteBatch.Draw(Texture, new Rectangle((int)dimensions.X, (int)dimensions.Y + k * 24, (int)dimensions.Width, (int)dimensions.Height), color);
+                    float scale = 1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax);
+                    spriteBatch.Draw(fillTex, pos + Vector2.One * 4 + fillTex.Size() / 2, fillTex.Frame(), Color.White, 0, fillTex.Size() / 2, scale, 0, 0);
                 }
-            }
-            //special case to draw the first crystal regenerating
-            if(color == Color.White && mp.StatStamina == 0)
-            {
-                spriteBatch.Draw(Texture, new Vector2((int)dimensions.X, (int)dimensions.Y) + new Vector2(dimensions.Width / 2, dimensions.Height / 2), null, Color.White * (1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax)), 0f, new Vector2(dimensions.Width / 2, dimensions.Height / 2), (1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax)), SpriteEffects.None, 0f);
             }
 
         }
     }
 }
-  

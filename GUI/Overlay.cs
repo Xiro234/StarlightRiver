@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -40,7 +36,7 @@ namespace StarlightRiver.GUI
 
             if (visible)
             {
-                if(!(player.ZoneVoidPre || player.ZoneJungleCorrupt || player.ZoneJungleBloody || player.ZoneJungleHoly || player.ZoneOvergrow))
+                if (!(player.ZoneVoidPre || player.ZoneJungleCorrupt || player.ZoneJungleBloody || player.ZoneJungleHoly || player.ZoneOvergrow))
                 {
                     state = 0;
                 }
@@ -63,7 +59,7 @@ namespace StarlightRiver.GUI
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
-                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1000) == 0)
+                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1200) == 0)
                         {
                             EvilDust dus = new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Corrupt"), new Vector2(k, Main.screenHeight), new Vector2(0, -1.4f));
                             Bootlegdust.Add(dus);
@@ -75,9 +71,9 @@ namespace StarlightRiver.GUI
                 {
                     for (int k = 0; k <= Main.screenWidth; k++)
                     {
-                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1500) == 0)
+                        if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1000) == 0)
                         {
-                            BloodDust dus = new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Blood"), new Vector2(k, 0), new Vector2(0, 2f));
+                            BloodDust dus = new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Blood"), new Vector2(k, 0), new Vector2(0, 2f), Main.rand.NextFloat(0.8f, 1.1f), Main.rand.NextFloat(0.06f, 0.08f));
                             Bootlegdust.Add(dus);
                         }
                     }
@@ -129,7 +125,7 @@ namespace StarlightRiver.GUI
     public class EvilDust : BootlegDust
     {
         public EvilDust(Texture2D texture, Vector2 position, Vector2 velocity) :
-            base(texture, position, velocity, Color.White * 0.9f, 1.5f, 550)
+            base(texture, position, velocity, Color.White * 0.6f, 1.5f, 550)
         {
         }
 
@@ -140,13 +136,16 @@ namespace StarlightRiver.GUI
             scl *= 0.996f;
             time--;
             pos.X += (float)Math.Sin((float)(time / 550f * 12.56f));
+            rot += 0.1f;
         }
     }
     public class BloodDust : BootlegDust
     {
-        public BloodDust(Texture2D texture, Vector2 position, Vector2 velocity) :
-            base(texture, position, velocity, Color.White, 2.5f, 600)
+        private readonly float Acceleration;
+        public BloodDust(Texture2D texture, Vector2 position, Vector2 velocity, float scale, float acceleration) :
+            base(texture, position, velocity, Color.White, scale, 600)
         {
+            Acceleration = acceleration;
         }
 
         public override void Update()
@@ -154,8 +153,9 @@ namespace StarlightRiver.GUI
 
             col *= 0.99999948f;
             pos += vel;
-            vel += new Vector2(0, 0.07f);
+            vel += new Vector2(0, Acceleration);
             scl *= 0.987f;
+            rot += 0.05f;
 
             time--;
             pos.X += (float)Math.Sin((float)(time / 550f * 31.4f)) * 0.25f;
@@ -170,7 +170,7 @@ namespace StarlightRiver.GUI
 
         public override void Update()
         {
-            if(time >= 100)
+            if (time >= 100)
             {
                 col *= 1.05f;
                 scl *= 1.025f;
@@ -192,24 +192,38 @@ namespace StarlightRiver.GUI
         int Offset = 0;
         float Parallax;
         float Velocity;
+        float rot = Main.rand.NextFloat(6.28f);
         public VitricDust(Texture2D texture, Vector2 basepos, int offset, float scale, float alpha, float parallax) :
-            base(texture, basepos, new Vector2(0, -1), Color.White * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
+            base(texture, basepos, new Vector2(0, -1), new Color(70, 155, 175) * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
         {
             Basepos = basepos;
             Offset = offset;
             Parallax = parallax;
             Velocity = Main.rand.NextFloat(3.4f, 6.2f);
         }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(tex, pos, new Rectangle(0, 0, 32, 22), col, rot, default, scl, default, 0);
+        }
 
         public override void Update()
         {
-            col *= 0.9999999995f;
-            //pos += vel;
-            float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
-            float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax*(Main.LocalPlayer.position.X - Basepos.X));
-            pos.X = (off) - Main.screenPosition.X;
-            pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
+            col *= 0.9999999994f;
+            if (Parallax > 0)
+            {
+                float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
+                float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
+                float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax * vanillaParallax * (Main.screenPosition.X + Main.screenWidth / 2 - Basepos.X));
+                pos.X = (off) - Main.screenPosition.X;
+                pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
+            }
+            else
+            {
+                pos.X = Basepos.X;
+                pos.Y = ((Basepos.Y) - (1500 * Velocity - time * Velocity) * 0.15f);
+            }
             scl *= (Parallax > 0.2) ? 0.997f : 0.999f;
+            rot += 0.015f;
             time--;
         }
     }

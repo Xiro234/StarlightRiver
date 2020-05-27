@@ -1,55 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Food
 {
     class FoodBuffHandler : ModPlayer
     {
-        public int[] Buffs = new int[] { 0, 0, 0 };
-        public int[] Powers = new int[] { 0, 0, 0 };
-        public bool Fed = false;
-        public bool Full = false;
+        public List<Item> Consumed { get; set; } = new List<Item>(); //all of the ingredients in the food the player ate
+        public float Multiplier { get; set; } = 1; //the multipler that should be applied to those ingredients
 
         public override void PostUpdateBuffs()
         {
-            for(int slot = 0; slot <= 2; slot++)
-            {
-                if(Buffs[slot] != 0 && Fed)
-                {
-                    switch (Buffs[slot])
-                    {
-                        case 1: player.allDamage += Powers[slot] / 100f; break; // 1, universal damage
-                        case 6: player.statDefense += Powers[slot]; break; // 6, defense damage
-                    }
-                }
-            }
+
         }
 
         public override void ResetEffects()
         {
-            Fed = false;
-            Full = false;
-        }
-
-        public override TagCompound Save()
-        {
-            return new TagCompound
+            if (!player.HasBuff(ModContent.BuffType<Buffs.FoodBuff>()) && Consumed.Count > 0) { Consumed.Clear(); Multiplier = 1; } //clears the player's "belly" if they're not under the effects of food anymore, also resets the multiplier just in case.
+            foreach (Item item in Consumed.Where(n => n.modItem is Ingredient))
             {
-                [nameof(Buffs)] = Buffs,
-                [nameof(Powers)] = Powers,
-            };
-        }
-
-        public override void Load(TagCompound tag)
-        {
-            Buffs = tag.GetIntArray(nameof(Buffs));
-            Powers = tag.GetIntArray(nameof(Powers));
+                (item.modItem as Ingredient).ResetBuffEffects(player, Multiplier);
+            }
         }
     }
 }

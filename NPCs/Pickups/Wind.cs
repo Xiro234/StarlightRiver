@@ -1,99 +1,107 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
+using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Wind : ModNPC
+    class Wind : AbilityPickup
     {
+        public override string Texture => "StarlightRiver/NPCs/Pickups/Wind1";
+        public override Color GlowColor => new Color(160, 230, 255);
+        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().dash.Locked;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Forbidden Winds");
         }
-        public override void SetDefaults()
+
+        public override void Visuals()
         {
-            npc.width = 32;
-            npc.height = 32;
-            npc.aiStyle = -1;
-            npc.immortal = true;
-            npc.lifeMax = 1;
-            npc.knockBackResist = 0;
-            npc.noGravity = true;
+            Dust dus = Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Sin(LegendWorld.rottime) * 30, npc.Center.Y - 20), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
+            dus.fadeIn = Math.Abs((float)Math.Sin(LegendWorld.rottime));
+
+            Dust dus2 = Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Cos(LegendWorld.rottime) * 15, npc.Center.Y), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
+            dus2.fadeIn = Math.Abs((float)Math.Cos(LegendWorld.rottime));
         }
-
-        public override bool CheckActive() { return true; }
-
-        int animate = 0;
-        public override void AI()
+        public override void PickupVisuals(int timer)
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+            Player player = Main.LocalPlayer;
+
+            if (timer == 1)
+            {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get")); //start the SFX
+                Filters.Scene.Deactivate("ShockwaveFilter");
+            }
+
+            if (timer < 300) //spiraling out
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    float scale = timer < 50 ? timer / 50f : 1;
+                    float rot = timer / 80f * 6.28f + k * 2;
+                    Vector2 pos = player.Center + new Vector2(0, 30) + new Vector2((float)Math.Sin(rot) * (timer / 570f * 80f), -timer / 300f * 80 + k * 10);
+                    Dust dus = Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Air>(), Vector2.Zero, 0, default, scale);
+                    dus.fadeIn = rot > 3.14f ? 1 - Math.Abs((float)Math.Sin(timer / 100f * 6.28f + k * 2)) : 1;
+                    dus.fadeIn = Math.Abs((float)Math.Sin(timer / 80f * 6.28f + k * 2));
+                }
+            }
+
+            if(timer > 300 && timer < 420) //coming in
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    Vector2 startPos = player.Center + new Vector2(0, 30) + new Vector2((float)Math.Sin(timer / 80f * 6.28f + k * 2) * (300 / 570f * 80f), -80 + k * 10);
+                    Vector2 endPos = player.Center;
+                    Dust dus = Dust.NewDustPerfect(Vector2.Lerp(startPos, endPos, (timer - 300) / 120f), ModContent.DustType<Dusts.Air>(), Vector2.Zero, 0, default, 1.2f - (timer - 300) / 120f);
+                    dus.fadeIn = Math.Abs((float)Math.Sin(timer / 80f * 6.28f + k * 2));
+                }
+            }
+
+            if (timer == 420)
+            {
+                Main.PlaySound(SoundID.Item104);
+                Main.PlaySound(SoundID.Item45);
+            }
+
+            if(timer > 420)
+            {
+                float timeRel = (timer - 420) / 150f;
+                Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<Dusts.Air>(), 0,  0, 0, default, 0.3f);
+                Filters.Scene.Activate("ShockwaveFilter", player.Center).GetShader().UseProgress(2f).UseIntensity(100).UseDirection(new Vector2(0.005f + timeRel * 0.5f, 1 * 0.02f - timeRel * 0.02f));
+            }
+
+            if (timer == 569) //popup + codex entry
+            {
+                string message = StarlightRiver.Dash.GetAssignedKeys().Count > 0 ?
+                    "Press " + StarlightRiver.Dash.GetAssignedKeys()[0] + " + A/W/S/D to dash." :
+                    "Press " + "[Please bind a key]" + " + A/W/S/D to dash.";
+
+                StarlightRiver.Instance.abilitytext.Display("Forbidden Winds", message, Main.LocalPlayer.GetModPlayer<AbilityHandler>().dash);
+                Helper.UnlockEntry<WindsEntry>(Main.LocalPlayer);
+            }
+             // audio fade shenanigans
+
+            for (int k = 0; k < Main.musicFade.Length; k++)
+            {
+                if (k == Main.curMusic)
+                {
+                    Main.musicFade[k] = timer < 500 ? 0 : (timer - 500) / 70f;
+                }
+            }
+        }
+        public override void PickupEffects(Player player)
+        {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+            mp.dash.Locked = false;
+            mp.StatStaminaMaxPerm++;
 
-            if (npc.Hitbox.Intersects(player.Hitbox) && mp.dash.Locked)
-            {
-                mp.dash.Locked = false;
-                mp.StatStaminaMaxPerm += 1;
-                animate = 300;
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Pickups/get"));
-            }
-
-            if (animate >= 1)
-            {
-                player.position = new Vector2(npc.position.X, npc.position.Y - 16);
-                player.immune = true;
-                player.immuneTime = 5;
-                player.immuneNoBlink = true;
-                if (animate > 100 && animate < 290)
-                {
-                    float rot = Main.rand.NextFloat(0, (float)Math.PI * 2);
-                    Dust dus = Dust.NewDustPerfect(player.Center, mod.DustType("Air2"), new Vector2((float)Math.Cos(rot) * 5, (float)Math.Sin(rot) * 5));
-                    dus.customData = animate - 50;
-                }
-                if(animate == 1)
-                {
-                    player.AddBuff(BuffID.Featherfall, 120);
-                    Achievements.Achievements.QuickGive("Stormcaller", player);
-
-                    StarlightRiver.Instance.abilitytext.Display("Forbidden Winds", "Press " + StarlightRiver.Dash.GetAssignedKeys()[0] + " + A/W/S/D to dash", mp.dash);
-                    Helper.UnlockEntry<WindsEntry>(player);
-                }
-            }
-
-            if(animate > 0)
-            {
-                animate--;
-            }
-            
-        }
-        float timer = 0;
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
-
-            timer += (float)(Math.PI * 2) / 120;
-            if(timer >= Math.PI * 2)
-            {
-                timer = 0;
-            }
-
-            if (mp.dash.Locked)
-            {
-                Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 4);
-
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1"), npc.position + new Vector2(0, (float)Math.Sin(timer) * 4) - Main.screenPosition, Color.White);
-
-                Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Sin(timer) * 30, npc.Center.Y - 20), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
-                Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Cos(timer) * 15, npc.Center.Y), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
-
-                if (Main.rand.Next(5) == 0) { Dust.NewDust(npc.Center, 1, 1, ModContent.DustType<Dusts.Air>()); }
-            }           
+            player.GetModPlayer<StarlightPlayer>().MaxPickupTimer = 570;
+            player.AddBuff(BuffID.Featherfall, 580);
         }
     }
 }

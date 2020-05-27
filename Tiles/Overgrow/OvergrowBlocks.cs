@@ -1,13 +1,13 @@
-﻿using Terraria.ID;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
 using System;
-using Terraria.ObjectData;
+using System.Linq;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
-using System.Linq;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -33,13 +33,16 @@ namespace StarlightRiver.Tiles.Overgrow
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Random rand = new Random(i * j * j);
-            Tile tile = Main.tile[i, j];
-            if (rand.Next(30) == 0 && i != 1 && j != 1 && tile.frameX > 10 && tile.frameX < 70 && tile.frameY == 18)
+            if (i > Main.screenPosition.X / 16 && i < Main.screenPosition.X / 16 + Main.screenWidth / 16 && j > Main.screenPosition.Y / 16 && j < Main.screenPosition.Y / 16 + Main.screenHeight / 16)
             {
-                Main.specX[nextSpecialDrawIndex] = i;
-                Main.specY[nextSpecialDrawIndex] = j;
-                nextSpecialDrawIndex++;
+                Random rand = new Random(i * j * j);
+                Tile tile = Main.tile[i, j];
+                if (rand.Next(60) == 0 && i != 1 && j != 1 && tile.frameX > 10 && tile.frameX < 70 && tile.frameY == 18)
+                {
+                    Main.specX[nextSpecialDrawIndex] = i;
+                    Main.specY[nextSpecialDrawIndex] = j;
+                    nextSpecialDrawIndex++;
+                }
             }
         }
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
@@ -80,7 +83,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            frameYOffset = 270 * (( j + Main.tileFrame[type]) % 6);   
+            frameYOffset = 270 * ((j + Main.tileFrame[type]) % 6);
         }
     }
     class LeafOvergrow : ModTile
@@ -119,7 +122,7 @@ namespace StarlightRiver.Tiles.Overgrow
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
-            if ((tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0) )
+            if ((tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0))
             {
                 Main.specX[nextSpecialDrawIndex] = i;
                 Main.specY[nextSpecialDrawIndex] = j;
@@ -134,34 +137,32 @@ namespace StarlightRiver.Tiles.Overgrow
             Color color = Lighting.GetColor(i, j);
 
             Vector2 crunch = new Vector2(0, -5);
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 - 8, j * 16 - 1, 16, 1)))) crunch.Y += 1;
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 8, 1)))) crunch.Y += 2;
-
-            Vector2 crunch2 = new Vector2(0, -4);
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 16, 1)))) crunch2.Y += 1;
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16 + 8, j * 16 - 1, 8, 1)))) crunch2.Y += 2;
-
+            foreach (Player player in Main.player.Where(n => n.active))
+            {
+                if (player.Hitbox.Intersects(new Rectangle(i * 16 - 8, j * 16 - 1, 16, 1))) crunch.Y += 1;
+                if (player.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 8, 1))) crunch.Y += 2;
+            }
 
             if (tile.frameX >= 10 && tile.frameX < 70 && tile.frameY == 0)
             {
-                if(Main.tile[i - 1, j].type == Type)
-                    spriteBatch.Draw(tex, new Vector2(i, j) * 16 + crunch - Main.screenPosition, source, color);
-                if (Main.tile[i + 1, j].type == Type)
-                    spriteBatch.Draw(tex, new Vector2(i + 0.5f, j) * 16 + crunch2 - Main.screenPosition, source, color);
+                spriteBatch.Draw(tex, new Vector2(i, j) * 16 + crunch - Main.screenPosition, source, color);
+                spriteBatch.Draw(tex, new Vector2(i + 0.5f, j) * 16 + crunch * 0.5f - Main.screenPosition, source, color);
+            }
+        }
+        public override void FloorVisuals(Player player)
+        {
+            Vector2 playerFeet = player.Center + new Vector2(-8, player.height / 2);
+            if (player.velocity.X != 0)
+            {
+                if (Main.rand.Next(3) == 0) Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Stamina>(), 0, -2);
+                if (Main.rand.Next(10) == 0) Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, 0.6f);
             }
 
-            if (Main.player.Any(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 16, 1)) && n.velocity.X != 0))
+            if (player.GetModPlayer<Abilities.AbilityHandler>().dash.Cooldown == 90)
             {
-                Player player = Main.player.FirstOrDefault(n => n.Hitbox.Intersects(new Rectangle(i * 16, j * 16 - 1, 16, 1)) && n.velocity.X != 0);
-                if (Main.rand.Next(3) == 0)Dust.NewDust(new Vector2(i, j - 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Stamina>(), -player.velocity.X * 0.5f, -2);
-                if(Main.rand.Next(10) == 0)Dust.NewDust(new Vector2(i, j + 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, 0.6f);
-
-                if (player.GetModPlayer<Abilities.AbilityHandler>().dash.Cooldown == 90)
+                for (int k = 0; k < 20; k++)
                 {
-                    for (int k = 0; k < 20; k++)
-                    {
-                        Dust.NewDust(new Vector2(i, j + 0.5f) * 16, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, -2);
-                    }
+                    Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, -2);
                 }
             }
         }
@@ -202,13 +203,13 @@ namespace StarlightRiver.Tiles.Overgrow
         {
             float sway = 0;
             float rot = LegendWorld.rottime + (i % 4) * 0.3f;
-            for(int k = 1; k > 0; k++)
+            for (int k = 1; k > 0; k++)
             {
                 if (Main.tile[i, j - k].type == Type && sway <= 2.4f) { sway += 0.3f; }
                 else { break; }
             }
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow"), 
-                (new Vector2(i, j)  + Helper.TileAdj) * 16 - Main.screenPosition + new Vector2((float) (1 + Math.Cos(rot * 2) + Math.Sin(rot)) * sway * sway, 0),
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow"),
+                (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition + new Vector2((float)(1 + Math.Cos(rot * 2) + Math.Sin(rot)) * sway * sway, 0),
                 new Rectangle(Main.tile[i, j + 1].type != ModContent.TileType<VineOvergrow>() ? 32 : j % 2 * 16, 0, 16, 16), Lighting.GetColor(i, j));
             return false;
         }
@@ -239,8 +240,8 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle(((i + (int)Helper.TileAdj.X) * 16) - (int)Main.screenPosition.X + 8, 
-                ((j + (int)Helper.TileAdj.Y + 1) * 16) - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle((i % 2) * 16, 0, 16, 16), drawColor, (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.25f, 
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle(((i + (int)Helper.TileAdj.X) * 16) - (int)Main.screenPosition.X + 8,
+                ((j + (int)Helper.TileAdj.Y + 1) * 16) - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle((i % 2) * 16, 0, 16, 16), drawColor, (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.25f,
                 new Vector2(8, 16), 0, 0);
         }
     }

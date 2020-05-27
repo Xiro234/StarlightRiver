@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Tiles.Vitric;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using StarlightRiver.Tiles;
-using System.Collections.Generic;
-using StarlightRiver.Tiles.Vitric;
 
 namespace StarlightRiver.Structures
 {
@@ -43,7 +41,7 @@ namespace StarlightRiver.Structures
             GenerateCrystals(centre); //I wonder what this does
             GenerateFloatingOre(centre, 30, (int)(size * 0.7f));
 
-            LegendWorld.vitricBiome = new Rectangle(centre.X - size, centre.Y - TotalHeight / 2, size * 2, 96);
+            LegendWorld.VitricBiome = new Rectangle(centre.X - size, centre.Y - TotalHeight / 2, size * 2, 96);
         }
 
         private static void DigVitricCave(Point centre, int size)
@@ -195,7 +193,8 @@ namespace StarlightRiver.Structures
         /// <summary>
         /// Returns the world size difference, adjusted: 1 for small, 2 for medium, 3 for large.
         /// </summary>
-        public static int WorldSizeAdj() {
+        public static int WorldSizeAdj()
+        {
             float siz = WorldSize();
             switch (siz)
             {

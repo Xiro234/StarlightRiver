@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -17,33 +14,48 @@ namespace StarlightRiver.Codex
 
         public override TagCompound Save()
         {
-            List<bool> UnlockStates = new List<bool>();
-            foreach (CodexEntry entry in Entries) { UnlockStates.Add(entry.Locked); }
-
             return new TagCompound
             {
                 [nameof(CodexState)] = CodexState,
-                [nameof(Entries)] = UnlockStates
+                [nameof(Entries)] = Entries
             };
         }
 
         public override void Load(TagCompound tag)
-        {           
+        {
             CodexState = tag.GetInt(nameof(CodexState));
 
             Entries = new List<CodexEntry>();
-            List<bool> UnlockStates = (List<bool>)tag.GetList<bool>(nameof(Entries));
+            List<TagCompound> entriesToLoad = (List<TagCompound>)tag.GetList<TagCompound>(nameof(Entries));
 
             foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry))))
             {
                 CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);
-                ThisEntry.Locked = (UnlockStates.Count > Entries.Count && UnlockStates.Count != 0) ? UnlockStates.ElementAt(Entries.Count) : true;
                 Entries.Add(ThisEntry);
+            }
+
+            if (entriesToLoad == null || entriesToLoad.Count == 0) return;
+            foreach (TagCompound tagc in entriesToLoad)
+            {
+                CodexEntry entry = CodexEntry.DeserializeData(tagc);
+                if(Entries.FirstOrDefault(n => n.GetType() == entry.GetType()) != null) //find and replace needed entries with save data
+                {
+                    int index = Entries.IndexOf(Entries.FirstOrDefault(n => n.GetType() == entry.GetType()));
+                    Entries[index] = entry;
+                }
             }
         }
 
         public override void OnEnterWorld(Player player)
         {
+            if(Entries.Count == 0) //failsafe incase the player dosent load for some reason
+            {
+                foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry))))
+                {
+                    CodexEntry ThisEntry = (CodexEntry)Activator.CreateInstance(type);
+                    Entries.Add(ThisEntry);
+                }
+            }
             (mod as StarlightRiver).codex = new GUI.Codex();
             (mod as StarlightRiver).customResources8.SetState((mod as StarlightRiver).codex);
         }

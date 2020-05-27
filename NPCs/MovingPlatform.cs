@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.NPCs
 {
-    class MovingPlatform : ModNPC
+    abstract class MovingPlatform : ModNPC
     {
-        public override bool Autoload(ref string name)
-        {
-            return GetType().IsSubclassOf(typeof(MovingPlatform));
-        }
         public virtual void SafeSetDefaults() { }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("");
+        }
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();
 
             npc.lifeMax = 1;
             npc.immortal = true;
+            npc.dontTakeDamage = true;
             npc.noGravity = true;
+            npc.knockBackResist = 0; //very very important!! 
             npc.aiStyle = -1;
         }
         public override bool CheckActive()
@@ -42,6 +40,14 @@ namespace StarlightRiver.NPCs
                     player.position += npc.velocity;
                 }
             }
+
+            foreach(Projectile proj in Main.projectile.Where(n => n.active && n.aiStyle == 7 && n.ai[0] != 1 && n.timeLeft <36000 - 3 && n.Hitbox.Intersects(npc.Hitbox)))
+            {
+                proj.ai[0] = 2;
+                proj.netUpdate = true;
+            }
         }
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
     }
 }

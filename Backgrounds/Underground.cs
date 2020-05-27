@@ -20,20 +20,20 @@ namespace StarlightRiver.Backgrounds
     }
 
     public class JungleCorruptBG : ModUgBgStyle
-	{
-		public override bool ChooseBgStyle()
-		{
-			return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
-		}
+    {
+        public override bool ChooseBgStyle()
+        {
+            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
+        }
 
-		public override void FillTextureArray(int[] textureSlots)
-		{
+        public override void FillTextureArray(int[] textureSlots)
+        {
             for (int k = 0; k <= 5; k++)
             {
                 textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
             }
         }
-	}
+    }
     public class JungleBloodyBG : ModUgBgStyle
     {
         public override bool ChooseBgStyle()
@@ -43,12 +43,10 @@ namespace StarlightRiver.Backgrounds
 
         public override void FillTextureArray(int[] textureSlots)
         {
-            textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[1] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[2] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[3] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[4] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            for (int k = 0; k <= 5; k++)
+            {
+                textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/bloodyjunglebackground");
+            }
         }
     }
     public class JungleHolyBG : ModUgBgStyle

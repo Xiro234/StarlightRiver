@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dusts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,9 +17,10 @@ namespace StarlightRiver.Abilities
 
         public Dash(Player player) : base(1, player)
         {
-
+            
         }
-        public override bool CanUse => Main.LocalPlayer.controlLeft || Main.LocalPlayer.controlRight || Main.LocalPlayer.controlUp || Main.LocalPlayer.controlDown || player.GetModPlayer<Dragons.DragonHandler>().DragonMounted;
+        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
+        public override bool CanUse => player.controlLeft || player.controlRight || player.controlUp || player.controlDown;
 
         public override void OnCast()
         {
@@ -41,24 +39,27 @@ namespace StarlightRiver.Abilities
             Timer--;
             if (X != 0 || Y != 0) { player.velocity = Vector2.Normalize(new Vector2(X, Y)) * 28; }
 
-            if(Vector2.Distance(player.position, player.oldPosition) < 5 && Timer < 4)
+            if (Vector2.Distance(player.position, player.oldPosition) < 5 && Timer < 4)
             {
                 Timer = 0;
-                player.velocity *= -0.2f;                
+                player.velocity *= -0.2f;
             }
 
             if (Timer <= 0)
             {
                 Active = false;
-                OnExit();               
+                OnExit();
             }
         }
         public override void UseEffects()
         {
-            for (int k = 0; k <= 10; k++)
+            Vector2 prevPos = player.Center + Vector2.Normalize(player.velocity) * 10;
+            int direction = Timer % 2 == 0 ? -1 : 1;
+            for (int k = 0; k < 60; k++)
             {
-                Dust.NewDustPerfect(player.Center + player.velocity * Main.rand.NextFloat(0, 2), ModContent.DustType<Air>(), 
-                    player.velocity.RotatedBy((Main.rand.Next(2) == 0) ? 2.8f : 3.48f) * Main.rand.NextFloat(0, 0.05f), 0, default, 0.95f);
+                float rot = (0.1f * k) * direction;
+                Dust dus = Dust.NewDustPerfect(prevPos + Vector2.Normalize(player.velocity).RotatedBy(rot) * (k / 2) * (0.5f + Timer / 8f), ModContent.DustType<AirDash>());
+                dus.fadeIn = k - Timer * 3;
             }
         }
         public override void OnCastDragon()
@@ -79,7 +80,7 @@ namespace StarlightRiver.Abilities
         public override void InUseDragon()
         {
             Timer--;
-            if(Math.Abs(X) > 1) //the normalized X should never be greater than 1, so this should be a valid check for the pounce
+            if (Math.Abs(X) > 1) //the normalized X should never be greater than 1, so this should be a valid check for the pounce
             {
                 player.velocity.X = X * 6;
                 if (Timer == 19) player.velocity.Y -= 4;
@@ -103,18 +104,20 @@ namespace StarlightRiver.Abilities
                 for (int k = 0; k <= 10; k++)
                 {
                     float rot = ((Timer - k / 10f) / 10f * 6.28f) + new Vector2(X, Y).ToRotation();
-                Dust.NewDustPerfect(Vector2.Lerp(player.Center, player.Center + player.velocity, k / 10f) + Vector2.One.RotatedBy(rot) * 30, ModContent.DustType<Air>(), Vector2.Zero);
+                    Dust.NewDustPerfect(Vector2.Lerp(player.Center, player.Center + player.velocity, k / 10f) + Vector2.One.RotatedBy(rot) * 30, ModContent.DustType<Air>(), Vector2.Zero);
                 }
             }
         }
 
         public override void OffCooldownEffects()
         {
-            for(int k = 0; k <= 25; k++)
+            for (int k = 0; k <= 60; k++)
             {
-                Dust.NewDust(player.Center, 1, 1, ModContent.DustType<Air>());           
+                Dust dus = Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(k / 60f * 6.28f) * Main.rand.NextFloat(50), ModContent.DustType<Air2>(), Vector2.Zero);
+                dus.customData = player;
             }
-            Main.PlaySound(SoundID.MaxMana);
+            Main.PlaySound(SoundID.Item45, player.Center);
+            Main.PlaySound(SoundID.Item25, player.Center);
         }
 
         public override void OnExit()

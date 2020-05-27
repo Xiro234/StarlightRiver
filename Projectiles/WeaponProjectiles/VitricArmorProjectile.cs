@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,7 +34,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             int pos = (int)projectile.localAI[0];
             Player player = Main.player[projectile.owner];
 
-            
+
             Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Air>(), 0, 0, 0, default, 0.35f);
             if (((float)player.statLife / player.statLifeMax2) > 0.2f * pos)
             {
@@ -49,10 +49,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             else
             {
                 projectile.timeLeft = 30;
-                timer += (0.05f - pos * 0.005f) * (pos % 2 == 0 ? -1: 1);
+                timer += (0.05f - pos * 0.005f) * (pos % 2 == 0 ? -1 : 1);
                 if (timer >= 6.28) { timer = 0; }
-                projectile.position = player.position + new Vector2((float)Math.Cos(timer), (float)Math.Sin(timer)) * (5-pos) * 32;
-                projectile.rotation = timer * 3;               
+                projectile.position = player.position + new Vector2((float)Math.Cos(timer), (float)Math.Sin(timer)) * (5 - pos) * 32;
+                projectile.rotation = timer * 3;
             }
         }
     }

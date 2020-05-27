@@ -5,39 +5,39 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Dusts
 {
-	public class Air : ModDust
-	{
-		public override void OnSpawn(Dust dust)
-		{
-			dust.velocity *= 0.3f;
-			dust.noGravity = true;
-			dust.noLight = false;
-			dust.scale *= 1.4f;
+    public class Air : ModDust
+    {
+        public override void OnSpawn(Dust dust)
+        {
+            dust.velocity *= 0.3f;
+            dust.noGravity = true;
+            dust.noLight = false;
+            dust.scale *= 1.4f;
             dust.color.R = 160;
             dust.color.G = 235;
             dust.color.B = 255;
         }
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
-            return dust.color;
+            return dust.color * (1 - dust.fadeIn);
         }
         public override bool Update(Dust dust)
-		{
+        {
             dust.position.Y += dust.velocity.Y * 2;
             dust.velocity.Y += 0.01f;
-			dust.position.X += dust.velocity.X * 2;
+            dust.position.X += dust.velocity.X * 2;
             dust.rotation += 0.06f;
 
             dust.scale *= 0.97f;
             dust.color *= 0.995f;
 
-                                     
-			if (dust.scale < 0.4f)
-			{
-				dust.active = false;
-			}
-			return false;
-		}
+
+            if (dust.scale < 0.4f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
     }
     public class Air2 : ModDust
     {
@@ -58,24 +58,28 @@ namespace StarlightRiver.Dusts
         }
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
+            if(dust.customData is Player)
+            {
+                Player player = (Player)dust.customData;
+                return dust.color * (1 - Vector2.Distance(dust.position, player.Center) / 50f);
+            }
             return dust.color;
         }
 
         public override bool Update(Dust dust)
         {
-            Player player = Main.LocalPlayer;
-            dust.rotation = Vector2.Distance(dust.position, player.Center) * 0.1f;
-
-            if (dust.customData is int) { dust.customData = (int)dust.customData - 1; }
-            dust.position += dust.velocity;
-            
-
-            if ((int)dust.customData <= 0)
+            Player player;
+            if (dust.customData is Player)
             {
-                dust.velocity = Vector2.Normalize(dust.position - player.Center) * (Main.rand.Next(10, 35) * -0.1f);
+                player = (Player)dust.customData;
+
+                dust.rotation = Vector2.Distance(dust.position, player.Center) * 0.1f;
+                dust.position += dust.velocity;
+
+                dust.velocity = Vector2.Normalize(dust.position - player.Center) * -4;
                 dust.scale *= 0.95f;
                 timer--;
-                if(timer == 0)
+                if (timer == 0 || Vector2.Distance(dust.position, player.Center) < 1)
                 {
                     dust.active = false;
                 }
@@ -158,6 +162,33 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+    public class AirDash : ModDust
+    {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Dusts/Air";
+            return base.Autoload(ref name, ref texture);
+        }
+        public override void OnSpawn(Dust dust)
+        {
+            dust.noGravity = true;
+            dust.noLight = false;
+        }
+        public override Color? GetAlpha(Dust dust, Color lightColor)
+        {
+            return dust.fadeIn <= 0 ? new Color(170, 255, 255) * (dust.alpha / 255f) : Color.Transparent;
+        }
+
+        public override bool Update(Dust dust)
+        {
+            dust.fadeIn -= 3;
+            dust.scale = 2f - Math.Abs(dust.fadeIn) / 30f;
+            dust.alpha = 150 - (int)(Math.Abs(dust.fadeIn) / 60f * 150);
+
+            if (dust.fadeIn <= -60) dust.active = false;
+            return false;
+        }
+    }
 
     public class Gold : ModDust
     {
@@ -231,7 +262,7 @@ namespace StarlightRiver.Dusts
         }
 
         public override bool Update(Dust dust)
-        {                 
+        {
             Player player = Main.LocalPlayer;
             dust.rotation = Vector2.Distance(dust.position, player.Center) * 0.1f;
 
@@ -244,7 +275,7 @@ namespace StarlightRiver.Dusts
             {
 
                 rot += (float)(Math.PI * 2) / (20 * 18);
-                if(rot >= (float)Math.PI * 2)
+                if (rot >= (float)Math.PI * 2)
                 {
                     rot = 0;
                 }
@@ -265,7 +296,7 @@ namespace StarlightRiver.Dusts
             }
             else
             {
-                dust.velocity *= 0.95f;            
+                dust.velocity *= 0.95f;
             }
             return false;
         }
@@ -339,7 +370,7 @@ namespace StarlightRiver.Dusts
         public override bool Update(Dust dust)
         {
             Player player = Main.LocalPlayer;
-            dust.velocity = (player.Center - dust.position ) / 30;
+            dust.velocity = (player.Center - dust.position) / 30;
             dust.position += dust.velocity;
             dust.rotation += 0.05f;
 
@@ -374,7 +405,7 @@ namespace StarlightRiver.Dusts
     {
         public override bool Update(Dust dust)
         {
-            if(dust.customData is Player)
+            if (dust.customData is Player)
             {
                 dust.position += (dust.customData as Player).velocity + dust.velocity;
                 dust.rotation += 0.05f;

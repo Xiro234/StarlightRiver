@@ -1,13 +1,9 @@
-﻿
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Dusts
-    {
+{
     public class Corrupt : ModDust
     {
         public override void OnSpawn(Dust dust)
@@ -34,11 +30,11 @@ namespace StarlightRiver.Dusts
             float light = 0.2f * dust.scale;
             if (dust.scale <= 2.5 + .55)
             {
-                Lighting.AddLight(dust.position, new Vector3(1.49f,1.32f,1.59f) * light);
+                Lighting.AddLight(dust.position, new Vector3(1.49f, 1.32f, 1.59f) * light);
             }
             return false;
         }
-   
+
     }
     public class Corrupt2 : Corrupt
     {

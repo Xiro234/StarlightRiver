@@ -1,10 +1,7 @@
 ﻿
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Dusts
 {
@@ -34,6 +31,11 @@ namespace StarlightRiver.Dusts
             }
             return false;
         }
+    }
+
+    public class GreenLeaf : Leaf
+    {
+
     }
 
 }

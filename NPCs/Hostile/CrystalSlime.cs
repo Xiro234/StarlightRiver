@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +26,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.DeathSound = SoundID.NPCDeath1;
             npc.value = 10f;
             npc.knockBackResist = 0.6f;
-            npc.aiStyle = 1;   
+            npc.aiStyle = 1;
         }
         public override Color? GetAlpha(Color drawColor)
         {
@@ -52,14 +52,14 @@ namespace StarlightRiver.NPCs.Hostile
                     player.immuneTime = 10;
 
                     Main.PlaySound(SoundID.Shatter, npc.Center);
-                    for(int k = 0; k <= 20; k++)
+                    for (int k = 0; k <= 20; k++)
                     {
-                        Dust.NewDust(npc.position, 48, 32, mod.DustType("Glass2"),Main.rand.Next(-3, 2),-3,0,default,1.7f);
+                        Dust.NewDust(npc.position, 48, 32, mod.DustType("Glass2"), Main.rand.Next(-3, 2), -3, 0, default, 1.7f);
                     }
                 }
             }
 
-            if(shielded)
+            if (shielded)
             {
                 npc.immortal = true;
                 npc.HitSound = SoundID.NPCHit42;
@@ -88,7 +88,7 @@ namespace StarlightRiver.NPCs.Hostile
         public override void NPCLoot()
         {
             if (Main.rand.NextFloat() < 0.50f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(4, 5)); }
-            Item.NewItem(npc.getRect(), ItemID.Gel, Main.rand.Next(5, 6)); 
+            Item.NewItem(npc.getRect(), ItemID.Gel, Main.rand.Next(5, 6));
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

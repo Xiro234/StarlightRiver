@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -37,7 +32,7 @@ namespace StarlightRiver.NPCs.Hostile
             {
                 case 0:
                     npc.TargetClosest();
-                    if(Vector2.Distance(npc.Center, target.Center) <= 1200)
+                    if (Vector2.Distance(npc.Center, target.Center) <= 1200)
                     {
 
                     }

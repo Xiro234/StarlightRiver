@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Items.Overgrow
 {
@@ -30,7 +24,6 @@ namespace StarlightRiver.Items.Overgrow
             item.useTime = 30;
             item.channel = true;
         }
-
         public override bool CanUseItem(Player player)
         {
             return true;

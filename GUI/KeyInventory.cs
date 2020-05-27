@@ -1,15 +1,11 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Keys;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using System;
-using Terraria.ID;
-using System.Linq;
-using System.Collections.Generic;
-using StarlightRiver.Keys;
 
 namespace StarlightRiver.GUI
 {
@@ -22,7 +18,7 @@ namespace StarlightRiver.GUI
         {
             foreach (KeyIcon key in keys)
             {
-                key.DrawKey(spriteBatch, new Vector2(Main.screenWidth - 324, 110 + keys.IndexOf(key) * 40));
+                key.DrawKey(spriteBatch, new Vector2(Main.screenWidth - (Main.LocalPlayer.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMax > 7 ? 344 : 324), 110 + keys.IndexOf(key) * 40));
             }
         }
         public override void Draw(SpriteBatch spriteBatch)

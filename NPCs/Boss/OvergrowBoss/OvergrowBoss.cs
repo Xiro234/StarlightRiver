@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics;
+using System;
+using System.Linq;
+using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -60,7 +56,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (npc.ai[0] == (int)OvergrowBossPhase.Struggle)
             {
-                if(spawnPoint == Vector2.Zero) spawnPoint = npc.Center; //sets the boss' home
+                if (spawnPoint == Vector2.Zero) spawnPoint = npc.Center; //sets the boss' home
 
                 npc.velocity.Y = (float)Math.Sin((npc.ai[1] % 120) / 120f * 6.28f) * 0.6f;
 
@@ -81,14 +77,14 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 }
 
             }
-            if(npc.ai[0] == (int)OvergrowBossPhase.spawnAnimation)
+            if (npc.ai[0] == (int)OvergrowBossPhase.spawnAnimation)
             {
                 if (npc.ai[1] >= 500) npc.ai[0] = (int)OvergrowBossPhase.Setup;
             }
 
-            if(npc.ai[0] == (int)OvergrowBossPhase.Setup)
+            if (npc.ai[0] == (int)OvergrowBossPhase.Setup)
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
+                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/OvergrowBoss");
 
                 int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<OvergrowBossFlail>()); //spawn the flail after intro
                 (Main.npc[index].modNPC as OvergrowBossFlail).parent = this; //set the flail's parent
@@ -139,12 +135,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 }
             }
 
-            if(npc.ai[0] == (int)OvergrowBossPhase.FirstToss)
+            if (npc.ai[0] == (int)OvergrowBossPhase.FirstToss)
             {
                 RapidToss();
             }
 
-            if(npc.ai[0] == (int)OvergrowBossPhase.FirstStun)
+            if (npc.ai[0] == (int)OvergrowBossPhase.FirstStun)
             {
                 foreach (Player player in Main.player)
                     if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
@@ -157,12 +153,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     }
             }
 
-            if (npc.ai[0]  == (int)OvergrowBossPhase.FirstBurn)
+            if (npc.ai[0] == (int)OvergrowBossPhase.FirstBurn)
             {
 
             }
 
-            if(npc.ai[0] == (int)OvergrowBossPhase.FirstGuard)
+            if (npc.ai[0] == (int)OvergrowBossPhase.FirstGuard)
             {
                 if (npc.ai[1] == 0) //at the start of the phase, spawn in our mechanics!
                 {
@@ -197,7 +193,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     npc.ai[0] = 7;
                     ResetIntermission();
                 }
-                
+
 
             }
         }
@@ -256,7 +252,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         public override bool CheckDead()
         {
             LegendWorld.OvergrowBossDowned = true;
-            LegendWorld.AnyBossDowned = true;
             return true;
         }
     }

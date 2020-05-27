@@ -1,21 +1,12 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Abilities;
+using StarlightRiver.Codex;
+using StarlightRiver.Codex.Entries;
+using StarlightRiver.GUI;
+using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
-using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using StarlightRiver.GUI;
-using StarlightRiver.Abilities;
-using StarlightRiver.Codex.Entries;
-using StarlightRiver.Codex;
 
 namespace StarlightRiver
 {
@@ -28,10 +19,15 @@ namespace StarlightRiver
         public bool ZoneJungleBloody = false;
         public bool ZoneJungleHoly = false;
         public bool ZoneOvergrow = false;
+
+        public bool FountainJungleCorrupt = false;
+        public bool FountainJungleBloody = false;
+        public bool FountainJungleHoly = false;
+
         public override void UpdateBiomes()
         {
-            ZoneGlass = (LegendWorld.glassTiles > 50);
-            GlassBG = LegendWorld.vitricBiome.Contains((player.Center / 16).ToPoint()) && ZoneGlass;
+            ZoneGlass = LegendWorld.glassTiles > 50 || LegendWorld.VitricBiome.Contains((player.position / 16).ToPoint());
+            GlassBG = LegendWorld.VitricBiome.Contains((player.Center / 16).ToPoint()) && ZoneGlass;
             ZoneVoidPre = (LegendWorld.voidTiles > 50);
             ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
             ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);
@@ -102,19 +98,26 @@ namespace StarlightRiver
             if (ZoneVoidPre)
             {
                 Overlay.state = 1;
-
-                if (player.GetModPlayer<AbilityHandler>().pure.Locked)
-                {
-                    player.AddBuff(mod.BuffType("DarkSlow"), 5);
-                }
             }
             else if (ZoneJungleCorrupt)
             {
                 Overlay.state = 2;
+                if (player.wet)
+                {
+                    player.maxFallSpeed = 999f;
+                    if(player.breath != player.breathMax)
+                    {
+                        player.breath--;
+                    }
+                }
             }
             else if (ZoneJungleBloody)
             {
                 Overlay.state = 3;
+                if (player.wet)
+                {
+                    player.AddBuff(Terraria.ID.BuffID.Ichor, 600);
+                }
             }
             else if (ZoneJungleHoly)
             {
@@ -129,10 +132,12 @@ namespace StarlightRiver
             }
 
             //Codex Unlocks
-            if (ZoneGlass && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is VitricEntry && entry.Locked))
-            {
+            if (ZoneGlass && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is VitricEntry && entry.Locked))           
                 Helper.UnlockEntry<VitricEntry>(player);
-            }
+            
+            if (ZoneOvergrow && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is OvergrowEntry && entry.Locked))        
+                Helper.UnlockEntry<OvergrowEntry>(player);
+            
         }
     }
 
@@ -145,11 +150,18 @@ namespace StarlightRiver
         public static int holyJungleTiles;
         public override void TileCountsAvailable(int[] tileCounts)
         {
-			glassTiles = tileCounts[mod.TileType("VitricSand")];
+            glassTiles = tileCounts[mod.TileType("VitricSand")];
             voidTiles = tileCounts[mod.TileType("Void1")] + tileCounts[mod.TileType("Void2")];
             evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
             bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];
             holyJungleTiles = tileCounts[mod.TileType("GrassJungleHoly")];
+        }
+
+        public override void ResetNearbyTileEffects()
+        {
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleCorrupt = false;
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleBloody = false;
+            Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleHoly = false;
         }
     }
 
@@ -171,8 +183,8 @@ namespace StarlightRiver
 
             if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
             {
-                tileColor = tileColor.MultiplyRGB(new Color(70, 150, 165));
-                backgroundColor = backgroundColor.MultiplyRGB(new Color(70, 150, 165));
+                tileColor = tileColor.MultiplyRGB(new Color(30, 60, 65));
+                backgroundColor = backgroundColor.MultiplyRGB(new Color(30, 60, 65));
             }
 
             if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -19,6 +15,7 @@ namespace StarlightRiver.Tiles.Vitric
             minPick = int.MaxValue;
             soundStyle = SoundID.CoinPickup;
             dustType = ModContent.DustType<Dusts.Air>();
+            AddMapEntry(new Color(95, 162, 138));
 
             Main.tileMerge[Type][ModContent.TileType<VitricSand>()] = true;
         }

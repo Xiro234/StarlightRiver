@@ -1,9 +1,5 @@
-﻿using StarlightRiver.Abilities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ModLoader;
@@ -69,15 +65,15 @@ namespace StarlightRiver.Abilities
             //pure
             pure = new Pure(player);
             pure.Locked = tag.GetBool(nameof(pure));
-            Abilities.Add(pure);
+            //Abilities.Add(pure);
             //smash
             smash = new Smash(player);
             smash.Locked = tag.GetBool(nameof(smash));
-            Abilities.Add(smash);
+            //Abilities.Add(smash);
             //shadow dash
             sdash = new Superdash(player);
             sdash.Locked = tag.GetBool(nameof(sdash));
-            Abilities.Add(sdash);
+            //Abilities.Add(sdash);
 
 
             //loads the player's maximum stamina.
@@ -97,7 +93,7 @@ namespace StarlightRiver.Abilities
             Abilities.Add(wisp);
             Abilities.Add(pure);
             Abilities.Add(smash);
-            Abilities.Add(sdash);
+            //Abilities.Add(sdash);
         }
 
         public override void ResetEffects()
@@ -105,7 +101,7 @@ namespace StarlightRiver.Abilities
             //Resets the player's stamina to prevent issues with gaining infinite stamina or stamina regeneration.
             StatStaminaMax = StatStaminaMaxTemp + StatStaminaMaxPerm;
             StatStaminaMaxTemp = 0;
-            StatStaminaRegenMax = 210;
+            StatStaminaRegenMax = 240;
 
             if (Abilities.Any(ability => ability.Active))
             {
@@ -119,8 +115,11 @@ namespace StarlightRiver.Abilities
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
+            //Dismounts player from mount if any ability (apart from Purify) is used
+            if (StarlightRiver.Dash.JustPressed || StarlightRiver.Wisp.JustPressed || StarlightRiver.Smash.JustPressed || StarlightRiver.Superdash.JustPressed)
+                player.mount.Dismount(player);
             //Activates one of the player's abilities on the appropriate keystroke.
-            if (StarlightRiver.Dash.JustPressed) { dash.StartAbility(player); }
+            if (StarlightRiver.Dash.JustPressed) { triggersSet.Jump = false; dash.StartAbility(player); }
             if (StarlightRiver.Wisp.JustPressed) { wisp.StartAbility(player); }
             if (StarlightRiver.Purify.JustPressed) { pure.StartAbility(player); }
             if (StarlightRiver.Smash.JustPressed) { smash.StartAbility(player); }
@@ -131,10 +130,10 @@ namespace StarlightRiver.Abilities
         {
 
             //Executes the ability's use code while it's active.
-            if(player.GetModPlayer<Dragons.DragonHandler>().DragonMounted)
-            foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUseDragon(); ability.UseEffectsDragon(); }
+            if (player.GetModPlayer<Dragons.DragonHandler>().DragonMounted)
+                foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUseDragon(); ability.UseEffectsDragon(); }
             else
-            foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
+                foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
 
             //Decrements internal cooldowns of abilities.
             foreach (Ability ability in Abilities.Where(ability => ability.Cooldown > 0)) { ability.Cooldown--; }
@@ -144,7 +143,7 @@ namespace StarlightRiver.Abilities
 
             //Physics fuckery due to redcode being retarded
             if (Abilities.Any(ability => ability.Active))
-            {   
+            {
                 player.velocity.Y += 0.01f; //Required to ensure that the game never thinks we hit the ground when using an ability. Thanks redcode!
 
                 // We need to store the player's wing or rocket boot time and set the effective time to zero while an ability is active to move upwards correctly. Thanks redcode!
@@ -152,6 +151,8 @@ namespace StarlightRiver.Abilities
                 player.wingTime = 0;
                 player.rocketTime = 0;
                 player.rocketRelease = true;
+                player.fallStart = (int)player.Center.Y;
+                player.fallStart2 = (int)player.Center.Y;
             }
 
             //This restores the player's wings or rocket boots after the ability is over.
@@ -166,7 +167,7 @@ namespace StarlightRiver.Abilities
             }
 
             //Dont exceed max stamina or regenerate stamina when full.
-            if(StatStamina >= StatStaminaMax)
+            if (StatStamina >= StatStaminaMax)
             {
                 StatStamina = StatStaminaMax;
                 StatStaminaRegen = StatStaminaRegenMax;
@@ -194,7 +195,7 @@ namespace StarlightRiver.Abilities
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            if(wisp.Active || sdash.Active)
+            if (wisp.Active || sdash.Active)
             {
                 foreach (PlayerLayer layer in layers) { layer.visible = false; }
             }

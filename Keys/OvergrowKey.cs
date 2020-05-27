@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -20,7 +16,7 @@ namespace StarlightRiver.Keys
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
 
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
-            spriteBatch.Draw(tex, Position + Vector2.One * 16 - Main.screenPosition, tex.Frame(), new Color(255, 255, 200) * 0.3f, LegendWorld.rottime, tex.Frame().Size() / 2, 1 + (float)Math.Cos(LegendWorld.rottime) * 0.25f, 0, 0 );
+            spriteBatch.Draw(tex, Position + Vector2.One * 16 - Main.screenPosition, tex.Frame(), new Color(255, 255, 200) * 0.3f, LegendWorld.rottime, tex.Frame().Size() / 2, 1 + (float)Math.Cos(LegendWorld.rottime) * 0.25f, 0, 0);
             spriteBatch.Draw(tex, Position + Vector2.One * 16 - Main.screenPosition, tex.Frame(), new Color(255, 255, 200) * 0.5f, LegendWorld.rottime, tex.Frame().Size() / 2, 0.7f + (float)Math.Cos(LegendWorld.rottime + 0.5f) * 0.15f, 0, 0);
             spriteBatch.Draw(tex, Position + Vector2.One * 16 - Main.screenPosition, tex.Frame(), new Color(255, 255, 200) * 0.7f, LegendWorld.rottime, tex.Frame().Size() / 2, 0.5f + (float)Math.Cos(LegendWorld.rottime + 1) * 0.1f, 0, 0);
 
@@ -29,8 +25,8 @@ namespace StarlightRiver.Keys
         }
         public override void PreUpdate()
         {
-            if(Main.rand.Next(4) == 0)
-            Dust.NewDust(Position + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5), 32, 32, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
+            if (Main.rand.Next(4) == 0)
+                Dust.NewDust(Position + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5), 32, 32, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
             Lighting.AddLight(Position, new Vector3(1, 1, 0.8f) * 0.6f);
         }
         public override void OnPickup()
