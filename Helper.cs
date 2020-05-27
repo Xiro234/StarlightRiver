@@ -35,6 +35,12 @@ namespace StarlightRiver
             npc.HitEffect();
             npc.active = false;
         }
+        /// <summary>
+        /// Checks if a target is valid
+        /// </summary>
+        /// <param name="npc"></param>
+        public static bool IsTargetValid(this NPC npc) => npc.active && !npc.friendly && !npc.dontTakeDamage && !npc.immortal; //mostly used for summoner like stuff
+        
         public static void PlaceMultitile(Point16 position, int type, int style = 0)
         {
             TileObjectData data = TileObjectData.GetTileData(type, style); //magic numbers and uneccisary params begone!

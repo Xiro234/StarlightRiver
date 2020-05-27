@@ -4,7 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items.Armor
+namespace StarlightRiver.Items.Armor.Overgrow
 {
     [AutoloadEquip(EquipType.Head)]
     public class OvergrowHead : ModItem

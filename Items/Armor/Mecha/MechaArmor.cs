@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items.Armor
+namespace StarlightRiver.Items.Armor.Mecha
 {
     [AutoloadEquip(EquipType.Head)]
     public class MechaHead : ModItem
