@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,6 +50,7 @@ namespace StarlightRiver.Projectiles.Ammo
                 projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.06f;
             }
             projectile.velocity = Vector2.Normalize(projectile.velocity) * 5;
+
         }
     }
 }
