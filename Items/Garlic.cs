@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
@@ -9,7 +10,7 @@ namespace StarlightRiver.Items
         {
             item.width = 38;
             item.height = 34;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             Item.staff[item.type] = true;
             item.useAnimation = 5;
             item.useTime = 5;
@@ -17,7 +18,7 @@ namespace StarlightRiver.Items
             item.knockBack = 2f;
             item.damage = 18;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/WhipAndNaenae");
-            item.rare = 9;
+            item.rare = ItemRarityID.Cyan;
             item.noMelee = true;
             item.magic = true;
             item.autoReuse = true;

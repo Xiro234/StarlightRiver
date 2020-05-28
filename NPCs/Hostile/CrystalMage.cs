@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class CrystalMage : ModNPC
+    internal class CrystalMage : ModNPC
     {
         public override void SetStaticDefaults()
         {

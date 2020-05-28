@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Passive
 {
-    class DesertWisp : ModNPC
+    internal class DesertWisp : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +27,7 @@ namespace StarlightRiver.NPCs.Passive
             npc.aiStyle = 65;
         }
 
-        bool fleeing = false;
+        private bool fleeing = false;
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -66,7 +66,7 @@ namespace StarlightRiver.NPCs.Passive
         }
     }
 
-    class DesertWisp2 : ModNPC
+    internal class DesertWisp2 : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -86,7 +86,8 @@ namespace StarlightRiver.NPCs.Passive
             npc.knockBackResist = 0f;
             npc.aiStyle = 65;
         }
-        bool fleeing = false;
+
+        private bool fleeing = false;
         public override void AI()
         {
             npc.TargetClosest(true);

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class VitricStaffProjectile : ModProjectile
+    internal class VitricStaffProjectile : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -66,7 +66,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             }
             return base.CanHitNPC(target);
         }
-        Vector2 offset;
+
+        private Vector2 offset;
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;

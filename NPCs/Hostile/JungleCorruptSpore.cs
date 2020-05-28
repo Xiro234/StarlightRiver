@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class JungleCorruptSpore : ModNPC
+    internal class JungleCorruptSpore : ModNPC
     {
         public override void SetStaticDefaults()
         {

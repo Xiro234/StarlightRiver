@@ -33,9 +33,11 @@ namespace StarlightRiver.Items.Infusions
         public override void Unequip(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            mp.dash = new Dash(player);
-            mp.dash.Locked = false;
-            mp.dash.Cooldown = 90;
+            mp.dash = new Dash(player)
+            {
+                Locked = false,
+                Cooldown = 90
+            };
         }
     }
 }

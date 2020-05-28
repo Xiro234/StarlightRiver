@@ -5,13 +5,11 @@ using StarlightRiver.Codex;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
 namespace StarlightRiver
@@ -23,12 +21,14 @@ namespace StarlightRiver
         /// </summary>
         /// <param name="npc"></param>
 
-        public static Vector2 TileAdj { get => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; }
+        public static Vector2 TileAdj => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12;
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC != null && !npc.modNPC.CheckDead();
             if (modNPCDontDie)
+            {
                 return;
+            }
 
             npc.life = 0;
             npc.checkDead();
@@ -45,13 +45,26 @@ namespace StarlightRiver
         {
             TileObjectData data = TileObjectData.GetTileData(type, style); //magic numbers and uneccisary params begone!
 
-            if (position.X + data.Width > Main.maxTilesX || position.X < 0) return; //make sure we dont spawn outside of the world!
-            if (position.Y + data.Height > Main.maxTilesY || position.Y < 0) return;
+            if (position.X + data.Width > Main.maxTilesX || position.X < 0)
+            {
+                return; //make sure we dont spawn outside of the world!
+            }
+
+            if (position.Y + data.Height > Main.maxTilesY || position.Y < 0)
+            {
+                return;
+            }
 
             int xVariants = 0;
             int yVariants = 0;
-            if (data.StyleHorizontal) xVariants = Main.rand.Next(data.RandomStyleRange);
-            else yVariants = Main.rand.Next(data.RandomStyleRange);
+            if (data.StyleHorizontal)
+            {
+                xVariants = Main.rand.Next(data.RandomStyleRange);
+            }
+            else
+            {
+                yVariants = Main.rand.Next(data.RandomStyleRange);
+            }
 
             for (int x = 0; x < data.Width; x++) //generate each column
             {
@@ -68,14 +81,24 @@ namespace StarlightRiver
         }
         public static bool CheckAirRectangle(Point16 position, Point16 size)
         {
-            if (position.X + size.X > Main.maxTilesX || position.X < 0) return false; //make sure we dont check outside of the world!
-            if (position.Y + size.Y > Main.maxTilesY || position.Y < 0) return false;
+            if (position.X + size.X > Main.maxTilesX || position.X < 0)
+            {
+                return false; //make sure we dont check outside of the world!
+            }
+
+            if (position.Y + size.Y > Main.maxTilesY || position.Y < 0)
+            {
+                return false;
+            }
 
             for (int x = position.X; x < position.X + size.X; x++)
             {
                 for (int y = position.Y; y < position.Y + size.Y; y++)
                 {
-                    if (Main.tile[x, y].active()) return false; //if any tiles there are active, return false!
+                    if (Main.tile[x, y].active())
+                    {
+                        return false; //if any tiles there are active, return false!
+                    }
                 }
             }
             return true;
@@ -97,10 +120,18 @@ namespace StarlightRiver
             CodexHandler mp = player.GetModPlayer<CodexHandler>();
             CodexEntry entry = mp.Entries.FirstOrDefault(n => n is type);
 
-            if (entry.RequiresUpgradedBook && mp.CodexState != 2) return; //dont give the player void entries if they dont have the void book
+            if (entry.RequiresUpgradedBook && mp.CodexState != 2)
+            {
+                return; //dont give the player void entries if they dont have the void book
+            }
+
             entry.Locked = false;
             entry.New = true;
-            if(mp.CodexState != 0) StarlightRiver.Instance.codexpopup.TripEntry(entry.Title);
+            if (mp.CodexState != 0)
+            {
+                StarlightRiver.Instance.codexpopup.TripEntry(entry.Title);
+            }
+
             Main.PlaySound(SoundID.Item30);
         }
         public static void SpawnGem(int ID, Vector2 position)
@@ -120,18 +151,50 @@ namespace StarlightRiver
         }
         public static bool CheckCircularCollision(Vector2 center, int radius, Rectangle hitbox)
         {
-            if (Vector2.Distance(center, hitbox.TopLeft()) <= radius) return true;
-            if (Vector2.Distance(center, hitbox.TopRight()) <= radius) return true;
-            if (Vector2.Distance(center, hitbox.BottomLeft()) <= radius) return true;
-            if (Vector2.Distance(center, hitbox.BottomRight()) <= radius) return true;
+            if (Vector2.Distance(center, hitbox.TopLeft()) <= radius)
+            {
+                return true;
+            }
+
+            if (Vector2.Distance(center, hitbox.TopRight()) <= radius)
+            {
+                return true;
+            }
+
+            if (Vector2.Distance(center, hitbox.BottomLeft()) <= radius)
+            {
+                return true;
+            }
+
+            if (Vector2.Distance(center, hitbox.BottomRight()) <= radius)
+            {
+                return true;
+            }
+
             return false;
         }
         public static bool CheckConicalCollision(Vector2 center, int radius, float angle, float width, Rectangle hitbox)
         {
-            if (CheckPoint(center, radius, hitbox.TopLeft(), angle, width)) return true;
-            if (CheckPoint(center, radius, hitbox.TopRight(), angle, width)) return true;
-            if (CheckPoint(center, radius, hitbox.BottomLeft(), angle, width)) return true;
-            if (CheckPoint(center, radius, hitbox.BottomRight(), angle, width)) return true;
+            if (CheckPoint(center, radius, hitbox.TopLeft(), angle, width))
+            {
+                return true;
+            }
+
+            if (CheckPoint(center, radius, hitbox.TopRight(), angle, width))
+            {
+                return true;
+            }
+
+            if (CheckPoint(center, radius, hitbox.BottomLeft(), angle, width))
+            {
+                return true;
+            }
+
+            if (CheckPoint(center, radius, hitbox.BottomRight(), angle, width))
+            {
+                return true;
+            }
+
             return false;
         }
         private static bool CheckPoint(Vector2 center, int radius, Vector2 check, float angle, float width)
@@ -184,7 +247,14 @@ namespace StarlightRiver
         }
         public static bool HasEquipped(Player player, int ItemID)
         {
-            for (int k = 3; k < 7 + player.extraAccessorySlots; k++) if (player.armor[k].type == ItemID) return true;
+            for (int k = 3; k < 7 + player.extraAccessorySlots; k++)
+            {
+                if (player.armor[k].type == ItemID)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
         public static void NpcVertical(NPC npc, bool jump, int slot = 1, int jumpheight = 2) //idea: could be seperated farther
@@ -202,7 +272,7 @@ namespace StarlightRiver
                     if (npc.HasValidTarget && jump)
                     {
                         Player target = Main.player[npc.target];
-                        if (npc.ai[slot] >= ((int)((npc.position.Y - target.position.Y) / 16) + 1) - ((int)(npc.height / 16) - 1))
+                        if (npc.ai[slot] >= ((int)((npc.position.Y - target.position.Y) / 16) + 1) - (npc.height / 16 - 1))
                         {
                             break;
                         }
@@ -247,13 +317,20 @@ namespace StarlightRiver
                     }
                 }
             }
-        }       
+        }
         public static bool ScanForTypeDown(int startX, int startY, int type, int maxDown = 50)
         {
-            for(int k = 0; k >= 0; k++)
+            for (int k = 0; k >= 0; k++)
             {
-                if (Main.tile[startX, startY + k].type == type) return true;
-                if (k > maxDown || startY + k >= Main.maxTilesY) break;
+                if (Main.tile[startX, startY + k].type == type)
+                {
+                    return true;
+                }
+
+                if (k > maxDown || startY + k >= Main.maxTilesY)
+                {
+                    break;
+                }
             }
             return false;
         }
@@ -278,7 +355,7 @@ namespace StarlightRiver
             string line = "";
             foreach (string str in words)
             {
-                if(font.MeasureString(line).X * scale < length)
+                if (font.MeasureString(line).X * scale < length)
                 {
                     output += (" " + str);
                     line += (" " + str);
@@ -291,7 +368,7 @@ namespace StarlightRiver
             }
             return output;
         }
-        public static List<T> RandomizeList<T> (List<T> input)
+        public static List<T> RandomizeList<T>(List<T> input)
         {
             int n = input.Count();
             while (n > 1)

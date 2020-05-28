@@ -17,13 +17,13 @@ namespace StarlightRiver.Items.EbonyIvory
         {
             item.mana = 10;
             item.damage = 8;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 26;
             item.height = 28;
             item.UseSound = SoundID.Item77;
             item.useAnimation = 36;
             item.useTime = 36;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = 10000;
@@ -57,7 +57,7 @@ namespace StarlightRiver.Items.EbonyIvory
                 }
                 return false;
             }
-            Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI,0,0);
+            Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0, 0);
             return false;
         }
     }

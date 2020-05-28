@@ -41,7 +41,7 @@ namespace StarlightRiver.Dusts
     }
     public class Air2 : ModDust
     {
-        int timer = 0;
+        private int timer = 0;
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Dusts/Air";
@@ -58,9 +58,8 @@ namespace StarlightRiver.Dusts
         }
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
-            if(dust.customData is Player)
+            if (dust.customData is Player player)
             {
-                Player player = (Player)dust.customData;
                 return dust.color * (1 - Vector2.Distance(dust.position, player.Center) / 50f);
             }
             return dust.color;
@@ -185,7 +184,11 @@ namespace StarlightRiver.Dusts
             dust.scale = 2f - Math.Abs(dust.fadeIn) / 30f;
             dust.alpha = 150 - (int)(Math.Abs(dust.fadeIn) / 60f * 150);
 
-            if (dust.fadeIn <= -60) dust.active = false;
+            if (dust.fadeIn <= -60)
+            {
+                dust.active = false;
+            }
+
             return false;
         }
     }
@@ -245,7 +248,8 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Gold";
             return base.Autoload(ref name, ref texture);
         }
-        int timer = 0;
+
+        private int timer = 0;
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

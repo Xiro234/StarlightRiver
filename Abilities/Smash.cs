@@ -14,7 +14,7 @@ namespace StarlightRiver.Abilities
     {
         public Smash(Player player) : base(2, player) { }
         public override bool CanUse => player.velocity.Y != 0;
-        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
+        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         public const int ChargeTime = 30;
 
         public override void OnCast()
@@ -31,7 +31,10 @@ namespace StarlightRiver.Abilities
                     player.frozen = true;
                     player.maxFallSpeed = 0.8f;
                     Timer++;
-                    if(Timer == ChargeTime) Main.PlaySound(SoundID.MaxMana, player.Center);
+                    if (Timer == ChargeTime)
+                    {
+                        Main.PlaySound(SoundID.MaxMana, player.Center);
+                    }
                 }
                 else
                 {
@@ -39,7 +42,7 @@ namespace StarlightRiver.Abilities
                 }
             }
 
-            if(Timer == ChargeTime)
+            if (Timer == ChargeTime)
             {
                 if (!StarlightRiver.Smash.Current)
                 {
@@ -59,9 +62,14 @@ namespace StarlightRiver.Abilities
 
                 player.maxFallSpeed = 999;
                 //player.velocity.X = 0;
-                if (player.velocity.Y < 35) player.velocity.Y += 2;
-                else player.velocity.Y = 35;
-
+                if (player.velocity.Y < 35)
+                {
+                    player.velocity.Y += 2;
+                }
+                else
+                {
+                    player.velocity.Y = 35;
+                }
 
                 if (Timer % 10 == 0)
                 {
@@ -117,7 +125,7 @@ namespace StarlightRiver.Abilities
             }
             else
             {
-                float rot = Main.rand.NextFloat(6.28f);
+                //float rot = Main.rand.NextFloat(6.28f);
                 //Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(rot) * 40, ModContent.DustType<JungleEnergy>(), Vector2.One.RotatedBy(rot) * -2f, 0, default, 0.3f);
             }
         }

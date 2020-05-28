@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Abilities;
 using StarlightRiver.Codex;
 using StarlightRiver.Codex.Entries;
 using StarlightRiver.GUI;
@@ -90,8 +89,16 @@ namespace StarlightRiver
             if (distance <= 1500)
             {
                 float val = (1500 / distance - 1) * 2;
-                if (val <= 1) val = 1;
-                if (val >= 2.5f) val = 2.5f;
+                if (val <= 1)
+                {
+                    val = 1;
+                }
+
+                if (val >= 2.5f)
+                {
+                    val = 2.5f;
+                }
+
                 Lighting.brightness = 1 / val;
             }
 
@@ -105,7 +112,7 @@ namespace StarlightRiver
                 if (player.wet)
                 {
                     player.maxFallSpeed = 999f;
-                    if(player.breath != player.breathMax)
+                    if (player.breath != player.breathMax)
                     {
                         player.breath--;
                     }
@@ -132,12 +139,15 @@ namespace StarlightRiver
             }
 
             //Codex Unlocks
-            if (ZoneGlass && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is VitricEntry && entry.Locked))           
+            if (ZoneGlass && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is VitricEntry && entry.Locked))
+            {
                 Helper.UnlockEntry<VitricEntry>(player);
-            
-            if (ZoneOvergrow && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is OvergrowEntry && entry.Locked))        
+            }
+
+            if (ZoneOvergrow && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is OvergrowEntry && entry.Locked))
+            {
                 Helper.UnlockEntry<OvergrowEntry>(player);
-            
+            }
         }
     }
 

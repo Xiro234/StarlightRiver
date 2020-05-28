@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
@@ -16,7 +12,7 @@ namespace StarlightRiver.NPCs.Pickups
         /// <summary>
         /// Indicates if the pickup should be visible in-world. Should be controlled using clientside vars.
         /// </summary>
-        private bool Visible { get => CanPickup(Main.LocalPlayer); }
+        private bool Visible => CanPickup(Main.LocalPlayer);
         public sealed override void SetDefaults()
         {
             npc.width = 32;
@@ -30,9 +26,21 @@ namespace StarlightRiver.NPCs.Pickups
             npc.aiStyle = -1;
             npc.friendly = false;
         }
-        public override bool CheckActive() => false;
-        public sealed override bool? CanBeHitByItem(Player player, Item item) => false;
-        public sealed override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
+        public sealed override bool? CanBeHitByItem(Player player, Item item)
+        {
+            return false;
+        }
+
+        public sealed override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            return false;
+        }
+
         /// <summary>
         /// The clientside visual dust that this pickup makes when in-world
         /// </summary>
@@ -51,7 +59,7 @@ namespace StarlightRiver.NPCs.Pickups
         /// if the player should be able to pick this up or not
         /// </summary>
         public virtual bool CanPickup(Player player) { return false; }
-        public virtual Color GlowColor { get => Color.White; }
+        public virtual Color GlowColor => Color.White;
 
         public sealed override void AI()
         {
@@ -63,7 +71,7 @@ namespace StarlightRiver.NPCs.Pickups
                 if (Vector2.Distance(Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center) <= Main.screenWidth / 2 + 100) //shader
                 {
                     float timer = Math.Abs((float)Math.Sin(LegendWorld.rottime));
-                    Filters.Scene.Activate("ShockwaveFilter", npc.Center).GetShader().UseProgress(Main.screenWidth / (float) Main.screenHeight).UseIntensity(300).UseDirection(new Vector2(0.005f + timer * 0.03f, 1 * 0.004f - timer * 0.004f));
+                    Filters.Scene.Activate("ShockwaveFilter", npc.Center).GetShader().UseProgress(Main.screenWidth / (float)Main.screenHeight).UseIntensity(300).UseDirection(new Vector2(0.005f + timer * 0.03f, 1 * 0.004f - timer * 0.004f));
                 }
 
                 if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 200f) //music handling
@@ -81,7 +89,7 @@ namespace StarlightRiver.NPCs.Pickups
             if (mp.PickupTarget == npc) //if the player is picking this up, clientside only also
             {
                 PickupVisuals(mp.PickupTimer);
-            }              
+            }
         }
         public sealed override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {

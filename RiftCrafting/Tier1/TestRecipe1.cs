@@ -4,15 +4,14 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.RiftCrafting.Tier1
 {
-    class TestRecipe1 : RiftRecipe
+    internal class TestRecipe1 : RiftRecipe
     {
-        static List<RiftIngredient> ingredients = new List<RiftIngredient>()
+        private static readonly List<RiftIngredient> ingredients = new List<RiftIngredient>()
         {
             new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 4 ),
             new RiftIngredient(ItemID.IronHammer, 1 )
         };
-
-        static List<int> pool = new List<int>()
+        private static readonly List<int> pool = new List<int>()
         {
             NPCID.Mummy,
             NPCID.Unicorn
@@ -20,15 +19,14 @@ namespace StarlightRiver.RiftCrafting.Tier1
         public TestRecipe1() : base(ingredients, pool, 1, ModContent.ItemType<Items.Vitric.VitricHammer>()) { }
     }
 
-    class TestRecipe2 : RiftRecipe
+    internal class TestRecipe2 : RiftRecipe
     {
-        static List<RiftIngredient> ingredients = new List<RiftIngredient>()
+        private static readonly List<RiftIngredient> ingredients = new List<RiftIngredient>()
         {
             new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 3 ),
             new RiftIngredient(ItemID.IronPickaxe, 1 )
         };
-
-        static List<int> pool = new List<int>()
+        private static readonly List<int> pool = new List<int>()
         {
             NPCID.Mummy,
             NPCID.Unicorn
@@ -36,15 +34,14 @@ namespace StarlightRiver.RiftCrafting.Tier1
         public TestRecipe2() : base(ingredients, pool, 1, ModContent.ItemType<Items.Vitric.VitricPick>()) { }
     }
 
-    class TestRecipe3 : RiftRecipe
+    internal class TestRecipe3 : RiftRecipe
     {
-        static List<RiftIngredient> ingredients = new List<RiftIngredient>()
+        private static readonly List<RiftIngredient> ingredients = new List<RiftIngredient>()
         {
             new RiftIngredient(ModContent.ItemType<Items.Vitric.VitricOre>(), 100 ),
             new RiftIngredient(ItemID.IronAxe, 1 ),
         };
-
-        static List<int> pool = new List<int>()
+        private static readonly List<int> pool = new List<int>()
         {
             NPCID.Mummy,
             NPCID.Unicorn

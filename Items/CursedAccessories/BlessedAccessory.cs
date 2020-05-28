@@ -11,8 +11,8 @@ namespace StarlightRiver.Items.CursedAccessories
 {
     public class BlessedAccessory : ModItem
     {
-        Texture2D Glow = null;
-        Vector2 drawpos = Vector2.Zero;
+        private readonly Texture2D Glow = null;
+        private Vector2 drawpos = Vector2.Zero;
         public BlessedAccessory(Texture2D glow)
         {
             Glow = glow;

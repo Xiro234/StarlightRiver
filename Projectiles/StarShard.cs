@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles
 {
-    class StarShard : ModProjectile
+    internal class StarShard : ModProjectile
     {
         public override void SetDefaults()
         {

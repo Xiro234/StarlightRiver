@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
 using System;
@@ -10,11 +9,15 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Wind : AbilityPickup
+    internal class Wind : AbilityPickup
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Wind1";
         public override Color GlowColor => new Color(160, 230, 255);
-        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().dash.Locked;
+        public override bool CanPickup(Player player)
+        {
+            return player.GetModPlayer<AbilityHandler>().dash.Locked;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Forbidden Winds");
@@ -51,7 +54,7 @@ namespace StarlightRiver.NPCs.Pickups
                 }
             }
 
-            if(timer > 300 && timer < 420) //coming in
+            if (timer > 300 && timer < 420) //coming in
             {
                 for (int k = 0; k < 3; k++)
                 {
@@ -68,10 +71,10 @@ namespace StarlightRiver.NPCs.Pickups
                 Main.PlaySound(SoundID.Item45);
             }
 
-            if(timer > 420)
+            if (timer > 420)
             {
                 float timeRel = (timer - 420) / 150f;
-                Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<Dusts.Air>(), 0,  0, 0, default, 0.3f);
+                Dust.NewDust(player.position, player.width, player.height, ModContent.DustType<Dusts.Air>(), 0, 0, 0, default, 0.3f);
                 Filters.Scene.Activate("ShockwaveFilter", player.Center).GetShader().UseProgress(2f).UseIntensity(100).UseDirection(new Vector2(0.005f + timeRel * 0.5f, 1 * 0.02f - timeRel * 0.02f));
             }
 
@@ -84,7 +87,7 @@ namespace StarlightRiver.NPCs.Pickups
                 StarlightRiver.Instance.abilitytext.Display("Forbidden Winds", message, Main.LocalPlayer.GetModPlayer<AbilityHandler>().dash);
                 Helper.UnlockEntry<WindsEntry>(Main.LocalPlayer);
             }
-             // audio fade shenanigans
+            // audio fade shenanigans
 
             for (int k = 0; k < Main.musicFade.Length; k++)
             {

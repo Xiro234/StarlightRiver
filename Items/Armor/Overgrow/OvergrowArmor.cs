@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Armor.Overgrow
@@ -20,7 +21,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.defense = 2;
         }
 
@@ -51,7 +52,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.defense = 5;
         }
 
@@ -129,7 +130,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.defense = 5;
         }
 
@@ -187,7 +188,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.defense = 3;
         }
 

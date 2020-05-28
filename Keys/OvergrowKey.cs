@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Keys
 {
-    class OvergrowKey : Key
+    internal class OvergrowKey : Key
     {
         public OvergrowKey() : base("Overgrowth Key", "StarlightRiver/Keys/OvergrowKey") { }
         public override bool ShowCondition => Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow;
@@ -26,7 +26,10 @@ namespace StarlightRiver.Keys
         public override void PreUpdate()
         {
             if (Main.rand.Next(4) == 0)
+            {
                 Dust.NewDust(Position + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5), 32, 32, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
+            }
+
             Lighting.AddLight(Position, new Vector3(1, 1, 0.8f) * 0.6f);
         }
         public override void OnPickup()

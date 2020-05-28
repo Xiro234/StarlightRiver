@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
@@ -11,18 +12,18 @@ namespace StarlightRiver.Items
         {
             item.width = 30;
             item.height = 42;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 8;
             item.useTime = 8;
             item.shootSpeed = 8f;
             item.shoot = mod.ProjectileType("WispSuck");
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.noMelee = true;
             item.autoReuse = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 34); //
+            Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 34); //
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 50f;
             for (int k = 0; k < item.shootSpeed; k++)
             {
@@ -52,8 +53,8 @@ namespace StarlightRiver.Items
         {
             item.width = 16;
             item.height = 16;
-            item.useStyle = 1;
-            item.rare = 3;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.rare = ItemRarityID.Orange;
             item.autoReuse = false;
             item.noUseGraphic = true;
         }

@@ -11,15 +11,15 @@ namespace StarlightRiver.Items.Vitric
         {
             item.width = 38;
             item.height = 34;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 28;
             item.useTime = 28;
             item.shootSpeed = 8f;
-            item.shoot = 1;
+            item.shoot = ProjectileID.WoodenArrowFriendly;
             item.knockBack = 2f;
             item.damage = 12;
             item.useAmmo = AmmoID.Arrow;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item5;
             item.noMelee = true;
             item.ranged = true;

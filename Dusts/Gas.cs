@@ -6,7 +6,7 @@ namespace StarlightRiver.Dusts
 {
     public class Gas : ModDust
     {
-        float mult;
+        //private readonly float mult;
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

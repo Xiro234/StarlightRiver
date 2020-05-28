@@ -4,9 +4,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.JungleBloody
 {
-    class TreeJungleBloody : ModTree
+    internal class TreeJungleBloody : ModTree
     {
-        private Mod mod { get => ModLoader.GetMod("StarlightRiver"); }
+        private static Mod mod => ModLoader.GetMod("StarlightRiver");
 
         public override int CreateDust()
         {
