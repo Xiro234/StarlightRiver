@@ -9,9 +9,9 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    class VitricBossAltar : ModTile
+    internal class VitricBossAltar : ModTile
     {
-        Projectile Dummy = new Projectile();
+        private Projectile Dummy = new Projectile();
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = false;
@@ -56,7 +56,7 @@ namespace StarlightRiver.Tiles.Vitric
         public override bool NewRightClick(int i, int j)
         {
             //debug stuff
-            if(Main.LocalPlayer.HeldItem.modItem is Items.Debug.DebugPotion && Main.tile[i, j].frameX >= 90)
+            if (Main.LocalPlayer.HeldItem.modItem is Items.Debug.DebugPotion && Main.tile[i, j].frameX >= 90)
             {
                 Tile tile = Framing.GetTileSafely(i, j);
                 for (int x = i - tile.frameX % 90 / 16; x < (i - tile.frameX % 90 / 16) + 5; x++)

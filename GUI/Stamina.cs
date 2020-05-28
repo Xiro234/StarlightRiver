@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
-using System;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
@@ -13,8 +12,7 @@ namespace StarlightRiver.GUI
     {
         public UIPanel abicon;
         public static bool visible = false;
-
-        Stam Stam1 = new Stam();
+        private readonly Stam Stam1 = new Stam();
         public override void OnInitialize()
         {
             Stam1.Left.Set(-303, 1);
@@ -46,7 +44,10 @@ namespace StarlightRiver.GUI
                 Stam1.Left.Set(-306, 1);
                 Stam1.Top.Set(110, 0);
             }
-            int height = 30 * mp.StatStaminaMax; if (height > 30 * 7) height = 30 * 7;
+            int height = 30 * mp.StatStaminaMax; if (height > 30 * 7)
+            {
+                height = 30 * 7;
+            }
 
             Stam1.Height.Set(height, 0f);
         }
@@ -65,7 +66,7 @@ namespace StarlightRiver.GUI
 
     }
 
-    class Stam : UIElement
+    internal class Stam : UIElement
     {
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
@@ -79,18 +80,21 @@ namespace StarlightRiver.GUI
             int row = 0;
             for (int k = 0; k < mp.StatStaminaMax; k++)
             {
-                if (k % 7 == 0 && k != 0) row++;
+                if (k % 7 == 0 && k != 0)
+                {
+                    row++;
+                }
 
                 Vector2 pos = row % 2 == 0 ? dimensions.ToRectangle().TopLeft() + new Vector2(row * -18, (k % 7) * 28) :
                     dimensions.ToRectangle().TopLeft() + new Vector2(row * -18, 14 + (k % 7) * 28);
 
                 spriteBatch.Draw(emptyTex, pos, emptyTex.Frame(), Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
-                if(mp.StatStamina > k)
+                if (mp.StatStamina > k)
                 {
                     spriteBatch.Draw(fillTex, pos + Vector2.One * 4, Color.White);
                 }
-                if(mp.StatStamina == k)
+                if (mp.StatStamina == k)
                 {
                     float scale = 1 - (mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax);
                     spriteBatch.Draw(fillTex, pos + Vector2.One * 4 + fillTex.Size() / 2, fillTex.Frame(), Color.White, 0, fillTex.Size() / 2, scale, 0, 0);

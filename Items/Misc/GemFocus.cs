@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Misc
 {
-    class GemFocus : ModItem
+    internal class GemFocus : ModItem
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetStaticDefaults()
@@ -22,12 +20,12 @@ namespace StarlightRiver.Items.Misc
         {
             item.width = 28;
             item.height = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 10;
             item.useTime = 10;
             item.knockBack = 1f;
             item.damage = 17;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.noMelee = true;
             item.magic = true;
             item.mana = 4;
@@ -51,7 +49,7 @@ namespace StarlightRiver.Items.Misc
             spriteBatch.Draw(under, position + frame.Size() / 2 * scale, under.Frame(), Color.White, 0, under.Size() / 2, scale, 0, 0);
 
             float timer = (float)Math.Sin(LegendWorld.rottime) * 0.1f;
-            spriteBatch.Draw(under, position + frame.Size() / 2 * scale, under.Frame(), Main.DiscoColor * (0.4f + timer) , 0, under.Size() / 2, scale * 1.3f + timer, 0, 0);
+            spriteBatch.Draw(under, position + frame.Size() / 2 * scale, under.Frame(), Main.DiscoColor * (0.4f + timer), 0, under.Size() / 2, scale * 1.3f + timer, 0, 0);
 
             spriteBatch.Draw(over, position + frame.Size() / 2 * scale, over.Frame(), Color.White, 0, over.Size() / 2, scale, 0, 0);
 

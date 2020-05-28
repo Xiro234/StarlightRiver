@@ -73,7 +73,7 @@ namespace StarlightRiver.NPCs.Town
             }
         }
 
-        int chatstate = 0;
+        private int chatstate = 0;
         public override string GetChat()
         {
             switch (chatstate)

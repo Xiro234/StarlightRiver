@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.World.Generation;
 
 namespace StarlightRiver.Structures
@@ -31,7 +29,10 @@ namespace StarlightRiver.Structures
                         {
                             return new Vector2(i, j - 30);
                         }
-                        else break;
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
             }

@@ -3,20 +3,30 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    class ArenaBottom : ModNPC
+    internal class ArenaBottom : ModNPC
     {
         public VitricBoss Parent;
         public override string Texture => "StarlightRiver/Invisible";
-        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
-        public override bool? CanBeHitByItem(Player player, Item item) => false;
-        public override bool CheckActive() => false;
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            return false;
+        }
+
+        public override bool? CanBeHitByItem(Player player, Item item)
+        {
+            return false;
+        }
+
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
@@ -41,11 +51,19 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
              * 1: state
              */
             if (Parent == null || !Parent.npc.active) { npc.active = false; return; }
-            if (Parent.npc.ai[1] == (int)VitricBoss.AIStates.FirstToSecond) npc.ai[1] = 2;
+            if (Parent.npc.ai[1] == (int)VitricBoss.AIStates.FirstToSecond)
+            {
+                npc.ai[1] = 2;
+            }
+
             switch (npc.ai[1])
             {
                 case 0:
-                    if (Main.player.Any(n => n.Hitbox.Intersects(npc.Hitbox))) npc.ai[0]++; //ticks the enrage timer when players are standing on the ground. Naughty boys.
+                    if (Main.player.Any(n => n.Hitbox.Intersects(npc.Hitbox)))
+                    {
+                        npc.ai[0]++; //ticks the enrage timer when players are standing on the ground. Naughty boys.
+                    }
+
                     if (npc.ai[0] > 120) //after standing there for too long a wave comes by to fuck em up.
                     {
                         npc.ai[1] = 1; //wave mode
@@ -67,7 +85,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case 2: //only happens when the boss goes into phase 2
-                    if(npc.ai[0] < 120) npc.ai[0]++; //cap timer at 120
+                    if (npc.ai[0] < 120)
+                    {
+                        npc.ai[0]++; //cap timer at 120
+                    }
+
                     if (npc.ai[0] < 90) //dust before rising
                     {
                         Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Air>());
@@ -82,10 +104,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if(npc.ai[1] == 2 && npc.ai[0] > 90) //in the second phase after the crystals have risen
+            if (npc.ai[1] == 2 && npc.ai[0] > 90) //in the second phase after the crystals have risen
             {
                 float off = (npc.ai[0] - 90) / 30 * 32;
-                for(int k = 0; k < npc.width; k += 16)
+                for (int k = 0; k < npc.width; k += 16)
                 {
                     Vector2 pos = npc.position + new Vector2(k, 32 - off) - Main.screenPosition; //actually draw the crystals lol
                     Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalWave");
@@ -95,7 +117,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
     }
 
-    class CrystalWave : ModProjectile
+    internal class CrystalWave : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -105,7 +127,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.timeLeft = 30;
             projectile.hide = true;
         }
-        float startY;
+
+        private float startY;
         public override void AI()
         {
             float off = 128 * projectile.timeLeft / 15 - 64 * (float)Math.Pow(projectile.timeLeft, 2) / 225;

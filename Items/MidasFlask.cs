@@ -9,13 +9,13 @@ namespace StarlightRiver.Items
     {
         public override void SetDefaults()
         {
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 28;
             item.useTime = 28;
             item.maxStack = 999;
             item.width = 60;
             item.height = 30;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.value = Item.sellPrice(0, 10, 0, 0);
             item.noMelee = true;
             item.autoReuse = false;

@@ -1,9 +1,10 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
 {
-    class ExecutionersAxe : ModItem
+    internal class ExecutionersAxe : ModItem
     {
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()
@@ -18,8 +19,8 @@ namespace StarlightRiver.Items.Overgrow
             item.melee = true;
             item.noUseGraphic = true;
             item.noMelee = true;
-            item.rare = 4;
-            item.useStyle = 5;
+            item.rare = ItemRarityID.LightRed;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 30;
             item.useTime = 30;
             item.channel = true;

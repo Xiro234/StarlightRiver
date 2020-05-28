@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles.Nanocomposite
 {
-    class NanocompositeArrow : ModProjectile
+    internal class NanocompositeArrow : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -31,7 +31,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Nanocomposite
             Dust.NewDustPerfect(projectile.Center, ModContent.DustType<NanocompositeDust>(), Vector2.Zero, 0, default, 1.8f);
             projectile.velocity += Vector2.Normalize(target.Center - projectile.Center);
             projectile.velocity = Vector2.Normalize(projectile.velocity) * 12;
-            
+
         }
     }
 }

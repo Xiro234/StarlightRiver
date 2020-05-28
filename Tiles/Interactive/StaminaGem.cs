@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    class StaminaGem : ModTile
+    internal class StaminaGem : ModTile
     {
         public override void SetDefaults()
         {

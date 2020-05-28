@@ -1,17 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    class BossSpike : ModProjectile
+    internal class BossSpike : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -40,7 +34,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             projectile.ai[0]++; //ticks up the timer
 
-            if(projectile.ai[0] < 60 && projectile.ai[0] > 10)
+            if (projectile.ai[0] < 60 && projectile.ai[0] > 10)
             {
                 Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, ModContent.DustType<Dusts.Glass2>());
                 int i = Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, ModContent.DustType<Dusts.AirDash>(), 0, -5);

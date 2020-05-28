@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    class BossPit : ModTile
+    internal class BossPit : ModTile
     {
         public override bool Autoload(ref string name, ref string texture)
         {
@@ -46,7 +46,10 @@ namespace StarlightRiver.Tiles.Overgrow
                 }
             }
             Projectile dummy = Main.projectile.FirstOrDefault(proj => proj.active && proj.type == dummyType && proj.Hitbox.Contains(i * 16, j * 16));
-            if (dummy == null) return;
+            if (dummy == null)
+            {
+                return;
+            }
 
             Main.tileSolid[Type] = dummy.ai[1] == 0;
         }

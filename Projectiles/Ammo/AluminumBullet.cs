@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Ammo
 {
-    class AluminumBullet : ModProjectile
+    internal class AluminumBullet : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -27,9 +26,9 @@ namespace StarlightRiver.Projectiles.Ammo
             DisplayName.SetDefault("Astral Tracer");
         }
 
-        bool picked = false;
-        float anglediff;
-        NPC target = Main.npc[0];
+        private bool picked = false;
+        private float anglediff;
+        private NPC target = Main.npc[0];
         public override void AI()
         {
             if (!picked)

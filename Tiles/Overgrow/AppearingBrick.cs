@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    class AppearingBrick : ModTile
+    internal class AppearingBrick : ModTile
     {
         public override void SetDefaults()
         {
@@ -25,13 +25,18 @@ namespace StarlightRiver.Tiles.Overgrow
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == (int)NPCs.Boss.OvergrowBoss.OvergrowBoss.OvergrowBossPhase.FirstGuard))
+            {
                 Main.tile[i, j].frameX = 0;
+            }
 
             if (Main.tile[i, j].frameX == 20)
             {
                 Main.tileSolid[Type] = true;
             }
-            else Main.tileSolid[Type] = false;
+            else
+            {
+                Main.tileSolid[Type] = false;
+            }
         }
     }
 }

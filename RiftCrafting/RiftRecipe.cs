@@ -23,7 +23,10 @@ namespace StarlightRiver.RiftCrafting
         {
             foreach (RiftIngredient ingredient in Ingredients)
             {
-                if (items.Count(item => item.type == ingredient.type) < ingredient.count) return false;
+                if (items.Count(item => item.type == ingredient.type) < ingredient.count)
+                {
+                    return false;
+                }
             }
             return true;
         }

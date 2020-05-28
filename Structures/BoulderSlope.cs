@@ -75,7 +75,7 @@ namespace StarlightRiver.Structures
 
                         for (int x = 0; x < BoulderSlope.Width; x++) //every entry in the row
                         {
-                            ushort currentTileType = Main.tile[(int)spawn.X + x, (int)spawn.Y + y].type;
+                            //ushort currentTileType = Main.tile[(int)spawn.X + x, (int)spawn.Y + y].type;
                             ushort placeType = 0;
                             //ushort wallType = 0;
                             byte slopeType = 0;
@@ -106,7 +106,9 @@ namespace StarlightRiver.Structures
                             }
 
                             if (placeType != 0 && placeType <= 250) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //used for tiles that dont change between structures
-                            else switch (placeType) //place types
+                            else
+                            {
+                                switch (placeType) //place types
                                 {
                                     case 255:
                                         Main.tile[(int)spawn.X + x, (int)spawn.Y + y].ClearEverything();
@@ -201,6 +203,7 @@ namespace StarlightRiver.Structures
                                         WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, spawnTileType, true, true);
                                         break;
                                 }
+                            }
 
                             //if (wallType != 0 && wallType != 255) { WorldGen.PlaceWall((int)spawn.X + x, (int)spawn.Y + y, wallType, true); } //place wall
 

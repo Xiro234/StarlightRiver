@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    class StaminaGemDummy : ModProjectile
+    internal class StaminaGemDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

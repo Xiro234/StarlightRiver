@@ -13,19 +13,19 @@ namespace StarlightRiver.Items.Misc
         public bool crit = false;
         public override void SetDefaults()
         {
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 6;
             item.useTime = 6;
             item.knockBack = 2f;
             item.width = 60;
             item.height = 30;
             item.damage = 11;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.value = Item.sellPrice(0, 10, 0, 0);
             item.noMelee = true;
             item.autoReuse = true;
             item.ranged = true;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Bullet;
         }
@@ -56,13 +56,13 @@ namespace StarlightRiver.Items.Misc
             }
             return ammo > 0f;
         }
-        public void reload(bool crit)
+        public void Reload(bool crit)
         {
             cooldown = 120;
             this.crit = crit;
             ammo = crit ? 60 : 30;
-            Main.PlaySound(2, -1, -1, 99, 1);
-            Main.PlaySound(2, -1, -1, 98, 1);
+            Main.PlaySound(SoundID.Item, -1, -1, 99, 1);
+            Main.PlaySound(SoundID.Item, -1, -1, 98, 1);
         }
         public override void HoldItem(Player player)
         {
@@ -71,7 +71,7 @@ namespace StarlightRiver.Items.Misc
                 cooldown--;
                 if (cooldown <= 0)
                 {
-                    reload(false);
+                    Reload(false);
                 }
             }
             base.HoldItem(player);
@@ -90,13 +90,13 @@ namespace StarlightRiver.Items.Misc
             }
             if (ammo <= 0)
             {
-                Main.PlaySound(2, -1, -1, 1, 1);
+                Main.PlaySound(SoundID.Item, -1, -1, 1, 1);
                 Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ThrowawayJokeProjectile>(), damage * 8, knockBack, player.whoAmI);
                 return false;
             }
             else
             {
-                Main.PlaySound(2, -1, -1, 11, 1);
+                Main.PlaySound(SoundID.Item, -1, -1, 11, 1);
             }
             Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(6));
             speedX = perturbedSpeed.X;

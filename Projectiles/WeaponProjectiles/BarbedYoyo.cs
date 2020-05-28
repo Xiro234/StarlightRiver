@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class BarbedYoyo : ModProjectile
+    internal class BarbedYoyo : ModProjectile
     {
-        List<NPC> targets = new List<NPC>();
+        private readonly List<NPC> targets = new List<NPC>();
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -28,7 +28,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             Player player = Main.player[projectile.owner];
 
-            if (player.channel) projectile.timeLeft = 2;
+            if (player.channel)
+            {
+                projectile.timeLeft = 2;
+            }
+
             projectile.rotation += 0.2f;
 
             Vector2 basepos;
@@ -49,7 +53,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             foreach (NPC npc in targets)
             {
                 //npc.StrikeNPC(projectile.damage / 2, 0, 0);
-                if (!npc.active) removals.Add(npc);
+                if (!npc.active)
+                {
+                    removals.Add(npc);
+                }
             }
 
             foreach (NPC npc in removals)
@@ -71,7 +78,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Player player = Main.player[projectile.owner];
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/BarbedYoyoChain");
 
-            if (targets.Count == 0) DrawBetween(spriteBatch, tex, player.Center, projectile.Center, lightColor);
+            if (targets.Count == 0)
+            {
+                DrawBetween(spriteBatch, tex, player.Center, projectile.Center, lightColor);
+            }
             else
             {
                 DrawBetween(spriteBatch, tex, player.Center, targets.First().Center, lightColor);

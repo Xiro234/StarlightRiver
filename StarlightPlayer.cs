@@ -8,7 +8,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.NPCs.Pickups;
 
 namespace StarlightRiver
 {
@@ -63,9 +62,15 @@ namespace StarlightRiver
                 player.immuneNoBlink = true;
 
                 player.Center = PickupTarget.Center;
-                if (PickupTimer >= MaxPickupTimer) PickupTarget = null;
+                if (PickupTimer >= MaxPickupTimer)
+                {
+                    PickupTarget = null;
+                }
             }
-            else PickupTimer = 0;
+            else
+            {
+                PickupTimer = 0;
+            }
 
             platformTimer--;
 
@@ -83,11 +88,20 @@ namespace StarlightRiver
 
                 if (Main.playerInventory)
                 {
-                    if (player.chest == -1 && Main.npcShop == 0) Collection.visible = true;
-                    else Collection.visible = false;
+                    if (player.chest == -1 && Main.npcShop == 0)
+                    {
+                        Collection.visible = true;
+                    }
+                    else
+                    {
+                        Collection.visible = false;
+                    }
 
                     GUI.Codex.ButtonVisible = true;
-                    if (mp.Abilities.Any(a => !a.Locked)) Infusion.visible = true;
+                    if (mp.Abilities.Any(a => !a.Locked))
+                    {
+                        Infusion.visible = true;
+                    }
                 }
                 else
                 {
@@ -186,9 +200,18 @@ namespace StarlightRiver
                 }
                 else
                 {
-                    if (ScreenMovePan == Vector2.Zero) Main.screenPosition = ScreenMoveTarget + off; //stay on target
-                    else if (ScreenMoveTimer <= ScreenMoveTime - 150) Main.screenPosition = Vector2.Lerp(ScreenMoveTarget + off, ScreenMovePan + off, ScreenMoveTimer / (float)(ScreenMoveTime - 150));
-                    else Main.screenPosition = ScreenMovePan + off;
+                    if (ScreenMovePan == Vector2.Zero)
+                    {
+                        Main.screenPosition = ScreenMoveTarget + off; //stay on target
+                    }
+                    else if (ScreenMoveTimer <= ScreenMoveTime - 150)
+                    {
+                        Main.screenPosition = Vector2.Lerp(ScreenMoveTarget + off, ScreenMovePan + off, ScreenMoveTimer / (float)(ScreenMoveTime - 150));
+                    }
+                    else
+                    {
+                        Main.screenPosition = ScreenMovePan + off;
+                    }
                 }
 
                 if (ScreenMoveTimer == ScreenMoveTime) { ScreenMoveTime = 0; ScreenMoveTimer = 0; ScreenMoveTarget = Vector2.Zero; ScreenMovePan = Vector2.Zero; }
@@ -201,15 +224,25 @@ namespace StarlightRiver
         }
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
-            if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;
+            if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken)
+            {
+                PlayerLayer.HeldItem.visible = false;
+            }
 
-            Action<PlayerDrawInfo> layerTarget = s => DrawGlowmasks(s); //the Action<T> of our layer. This is the delegate which will actually do the drawing of the layer.
+            void layerTarget(PlayerDrawInfo s)
+            {
+                DrawGlowmasks(s); //the Action<T> of our layer. This is the delegate which will actually do the drawing of the layer.
+            }
+
             PlayerLayer layer = new PlayerLayer("ExampleSwordLayer", "Sword Glowmask", layerTarget); //Instantiate a new instance of PlayerLayer to insert into the list
             layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Arms")), layer); //Insert the layer at the appropriate index. 
-            
+
             void DrawGlowmasks(PlayerDrawInfo info)
             {
-                if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem) (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
+                if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem)
+                {
+                    (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
+                }
             }
         }
         public override void OnEnterWorld(Player player)

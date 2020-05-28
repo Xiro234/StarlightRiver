@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Items.Misc
 {
-    class Sandscript : ModItem
+    internal class Sandscript : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -20,14 +16,14 @@ namespace StarlightRiver.Items.Misc
         {
             item.width = 28;
             item.height = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 43;
             item.useTime = 43;
             item.shootSpeed = 1f;
             item.knockBack = 7f;
             item.damage = 12;
             item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.SandSlash>();
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
             item.noMelee = true;
             item.magic = true;
             item.mana = 10;

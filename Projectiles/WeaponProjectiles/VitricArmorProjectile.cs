@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class VitricArmorProjectile : ModProjectile
+    internal class VitricArmorProjectile : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -27,8 +27,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Main.PlaySound(SoundID.Item27);
         }
 
-
-        float timer = 0;
+        private float timer = 0;
         public override void AI()
         {
             int pos = (int)projectile.localAI[0];

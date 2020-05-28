@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Void
 {
-    class Seal : ModTile
+    internal class Seal : ModTile
     {
         public override void SetDefaults()
         {
