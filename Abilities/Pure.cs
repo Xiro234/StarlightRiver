@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Projectiles.Ability;
 using System.Linq;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.Abilities
 {
@@ -16,7 +16,7 @@ namespace StarlightRiver.Abilities
         {
 
         }
-        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
+        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
         public override bool CanUse => !Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.active && (proj.type == ModContent.ProjectileType<Purifier>() || proj.type == ModContent.ProjectileType<PurifierReturn>()));
 
         public override void OnCast()

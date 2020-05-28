@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Misc
 {
-    class SandscriptTile : ModTile
+    internal class SandscriptTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -21,7 +16,10 @@ namespace StarlightRiver.Tiles.Misc
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.rand.Next(2) == 0) Dust.NewDustPerfect(new Vector2(i + Main.rand.NextFloat(), j + Main.rand.NextFloat()) * 16, 204, new Vector2(0, Main.rand.NextFloat(1, 1.6f)), 0, default, 0.5f);
+            if (Main.rand.Next(2) == 0)
+            {
+                Dust.NewDustPerfect(new Vector2(i + Main.rand.NextFloat(), j + Main.rand.NextFloat()) * 16, 204, new Vector2(0, Main.rand.NextFloat(1, 1.6f)), 0, default, 0.5f);
+            }
         }
     }
 }

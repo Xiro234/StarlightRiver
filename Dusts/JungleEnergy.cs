@@ -24,10 +24,19 @@ namespace StarlightRiver.Dusts
             dust.rotation += 0.05f;
             dust.color.R--;
 
-            if (dust.fadeIn == 0) dust.alpha -= 2;
-            else dust.alpha += 2;
+            if (dust.fadeIn == 0)
+            {
+                dust.alpha -= 2;
+            }
+            else
+            {
+                dust.alpha += 2;
+            }
 
-            if (dust.alpha <= 175) dust.fadeIn = 1;
+            if (dust.alpha <= 175)
+            {
+                dust.fadeIn = 1;
+            }
 
             if (dust.alpha > 255)
             {
@@ -67,12 +76,26 @@ namespace StarlightRiver.Dusts
                 dust.position = player.Center + dust.velocity;
                 dust.rotation += 6.28f / Abilities.Smash.ChargeTime;
 
-                if (mp.smash.Active && mp.smash.Timer <= Abilities.Smash.ChargeTime) dust.alpha = (int)(mp.smash.Timer / (float)Abilities.Smash.ChargeTime * 255f);
+                if (mp.smash.Active && mp.smash.Timer <= Abilities.Smash.ChargeTime)
+                {
+                    dust.alpha = (int)(mp.smash.Timer / (float)Abilities.Smash.ChargeTime * 255f);
+                }
 
-                if (mp.smash.Timer > Abilities.Smash.ChargeTime || !mp.smash.Active) dust.alpha -= 10;
-                if (dust.alpha <= 0) dust.active = false;
+                if (mp.smash.Timer > Abilities.Smash.ChargeTime || !mp.smash.Active)
+                {
+                    dust.alpha -= 10;
+                }
+
+                if (dust.alpha <= 0)
+                {
+                    dust.active = false;
+                }
             }
-            else dust.active = false;
+            else
+            {
+                dust.active = false;
+            }
+
             return false;
         }
     }

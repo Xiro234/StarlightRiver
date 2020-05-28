@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class CrystalSlime : ModNPC
+    internal class CrystalSlime : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -33,7 +33,7 @@ namespace StarlightRiver.NPCs.Hostile
             return Lighting.GetColor((int)npc.position.X / 16, (int)npc.position.Y / 16) * 0.75f;
         }
 
-        bool shielded = true;
+        private bool shielded = true;
         public override void AI()
         {
             npc.TargetClosest(true);

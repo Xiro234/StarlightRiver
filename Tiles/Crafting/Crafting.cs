@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Crafting
 {
-    class Oven : ModTile
+    internal class Oven : ModTile
     {
         public override void SetDefaults()
         {
@@ -36,7 +36,7 @@ namespace StarlightRiver.Tiles.Crafting
         }
     }
 
-    class OvenAstral : ModTile
+    internal class OvenAstral : ModTile
     {
         public override void SetDefaults()
         {
@@ -65,7 +65,7 @@ namespace StarlightRiver.Tiles.Crafting
         }
     }
 
-    class HerbStation : ModTile
+    internal class HerbStation : ModTile
     {
         public override void SetDefaults()
         {
@@ -87,7 +87,7 @@ namespace StarlightRiver.Tiles.Crafting
         }
     }
 
-    class CookStation : ModTile
+    internal class CookStation : ModTile
     {
         public override void SetDefaults()
         {
@@ -96,7 +96,7 @@ namespace StarlightRiver.Tiles.Crafting
 
             TileObjectData.newTile.Width = 6;
             TileObjectData.newTile.Height = 4;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16};
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;

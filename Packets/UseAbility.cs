@@ -1,10 +1,7 @@
 ﻿using NetEasy;
 using StarlightRiver.Abilities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 
 namespace StarlightRiver.Packets
@@ -13,7 +10,7 @@ namespace StarlightRiver.Packets
     public class UseAbility : Module
     {
         public UseAbility() { }
-        
+
         public UseAbility(int fromWho, Ability ability)
         {
             this.fromWho = fromWho;
@@ -28,6 +25,7 @@ namespace StarlightRiver.Packets
 
         protected override void Receive()
         {
+            // TODO: Scalie, review this method please.
             AbilityHandler mp = Main.player[fromWho].GetModPlayer<AbilityHandler>();
             Ability ab = mp.Abilities.Single(a => a.GetType() == abType);
 
@@ -45,6 +43,3 @@ namespace StarlightRiver.Packets
         }
     }
 }
-
-// boilerplate code that i wrote at 1:30 am
-// goodnight

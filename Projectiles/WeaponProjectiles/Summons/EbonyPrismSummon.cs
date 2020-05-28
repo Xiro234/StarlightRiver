@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +17,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
         {
             DisplayName.SetDefault("Ebony Prism");
         }
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
+        }
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -39,7 +42,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             int frameHeight = glowmask.Height;
             for (int i = 0; i < (projectile.minionSlots * prismsPerSlot); i++)
             {
-                Main.spriteBatch.Draw(glowmask, getPrismPosition(i + 1) - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, glowmask.Width, frameHeight)), projectile.GetAlpha(Color.White), projectile.rotation, new Vector2(glowmask.Width / 2f, frameHeight / 2f), projectile.scale, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                Main.spriteBatch.Draw(glowmask, GetPrismPosition(i + 1) - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, glowmask.Width, frameHeight)), projectile.GetAlpha(Color.White), projectile.rotation, new Vector2(glowmask.Width / 2f, frameHeight / 2f), projectile.scale, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             }
             base.PostDraw(spriteBatch, lightColor);
         }
@@ -50,7 +53,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
         #endregion
 
         #region helper methods
-        public Vector2 getPrismPosition(int currentPrism)
+        public Vector2 GetPrismPosition(int currentPrism)
         {
             float speed = 80;
             float dist = 60;
@@ -74,8 +77,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             Charging = 0,
             Shooting = 1
         }
-        NPC target = Main.npc[0];
-        int lastShot;
+
+        private NPC target = Main.npc[0];
+        private int lastShot;
         public override void AI()
         {
 
@@ -120,7 +124,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
                     {
                         if (Collision.CanHitLine(projectile.Center, 2, 2, target.Center, 2, 2))
                         {
-                            Projectile.NewProjectile(getPrismPosition(lastShot), Vector2.Normalize(target.Center - getPrismPosition(lastShot)) * 20f, ModContent.ProjectileType<EbonyPrismProjectile>(), projectile.damage, projectile.knockBack, projectile.owner);
+                            Projectile.NewProjectile(GetPrismPosition(lastShot), Vector2.Normalize(target.Center - GetPrismPosition(lastShot)) * 20f, ModContent.ProjectileType<EbonyPrismProjectile>(), projectile.damage, projectile.knockBack, projectile.owner);
                         }
                         lastShot++;
                         projectile.ai[1] = 0;

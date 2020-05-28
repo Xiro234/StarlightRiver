@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Dusts
 {
-    class BioLumen : ModDust
+    internal class BioLumen : ModDust
     {
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
@@ -21,7 +17,11 @@ namespace StarlightRiver.Dusts
             dust.position += dust.velocity;
             dust.scale *= 0.994f;
             //Lighting.AddLight(dust.position, dust.color.ToVector3() * dust.scale);
-            if (dust.scale <= 0.2f) dust.active = false;
+            if (dust.scale <= 0.2f)
+            {
+                dust.active = false;
+            }
+
             return false;
         }
     }

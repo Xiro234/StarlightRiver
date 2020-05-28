@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Vitric
 {
-    class VitricAxe : ModItem
+    internal class VitricAxe : ModItem
     {
         public override void SetDefaults()
         {
@@ -17,10 +17,10 @@ namespace StarlightRiver.Items.Vitric
             item.useTime = 25;
             item.useAnimation = 25;
             item.axe = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.value = 1000;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.autoReuse = true;
             item.UseSound = SoundID.Item18;
             item.useTurn = true;

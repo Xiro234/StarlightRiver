@@ -4,7 +4,7 @@ using Terraria;
 namespace StarlightRiver.Abilities
 {
     //This class serves to simplify implementing ability interactions
-    class AbilityHelper
+    internal class AbilityHelper
     {
         public static bool CheckDash(Player player, Rectangle hitbox)
         {

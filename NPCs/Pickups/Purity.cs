@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Purity : ModNPC
+    internal class Purity : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +28,7 @@ namespace StarlightRiver.NPCs.Pickups
         }
         public override bool CheckActive() { return false; }
 
-        int animate = 0;
+        private int animate = 0;
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -85,8 +85,7 @@ namespace StarlightRiver.NPCs.Pickups
         }
 
         public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
-
-        float timer = 0;
+        private float timer = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (Main.LocalPlayer == Main.player[npc.target])

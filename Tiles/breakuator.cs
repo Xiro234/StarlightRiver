@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles
 {
-    class Breakuator : GlobalTile
+    internal class Breakuator : GlobalTile
     {
         public static List<Point16> breakuator = new List<Point16>();
         public override void HitWire(int i, int j, int type)

@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    class SandstoneDoor : ModTile
+    internal class SandstoneDoor : ModTile
     {
         public override bool Autoload(ref string name, ref string texture)
         {

@@ -1,22 +1,21 @@
 
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class CrystalPopper : ModNPC
+    internal class CrystalPopper : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandbat");
             Main.npcFrameCount[npc.type] = 7;
         }
-        const int animFramesLoop = 6; //amount of frames in the main loop
+
+        private const int animFramesLoop = 6; //amount of frames in the main loop
 
         public override void SetDefaults()
         {
@@ -35,7 +34,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.spriteDirection = npc.direction;
         }
 
-        float AnimSpeedMult = 0.3f;
+        private readonly float AnimSpeedMult = 0.3f;
 
         public override void AI()
         {
@@ -43,7 +42,7 @@ namespace StarlightRiver.NPCs.Hostile
             switch (npc.ai[0])
             {
                 case 0://in ground checking for player
-                    if(Vector2.Distance(Main.player[npc.target].Center, npc.Center)<= 180)
+                    if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) <= 180)
                     {
                         npc.ai[0] = 1;
                         npc.noGravity = true;
@@ -53,7 +52,7 @@ namespace StarlightRiver.NPCs.Hostile
                 case 1://shoot out of ground and attack
                     npc.ai[1]++;
 
-                    if(npc.ai[1] == 1)
+                    if (npc.ai[1] == 1)
                     {
                         npc.velocity.Y = -20;
                     }
@@ -66,7 +65,7 @@ namespace StarlightRiver.NPCs.Hostile
                     {
                         npc.noTileCollide = false;
                     }*/
-                    if(npc.ai[1] >= 30)
+                    if (npc.ai[1] >= 30)
                     {
                         npc.velocity.Y = 0;
                         npc.ai[1] = 0;
@@ -122,7 +121,10 @@ namespace StarlightRiver.NPCs.Hostile
                 case 2:
                     npc.frameCounter++;//skele frame-code
                     if ((int)(npc.frameCounter * AnimSpeedMult) >= animFramesLoop)
+                    {
                         npc.frameCounter = 0;
+                    }
+
                     npc.frame.Y = (int)(npc.frameCounter * AnimSpeedMult) * frameHeight; break;
             }
         }

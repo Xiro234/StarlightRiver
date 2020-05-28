@@ -7,7 +7,7 @@ using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Codex
 {
-    class CodexHandler : ModPlayer
+    internal class CodexHandler : ModPlayer
     {
         public int CodexState = 0; //0 = none, 1 = normal, 2 = void
         public List<CodexEntry> Entries = new List<CodexEntry>();
@@ -34,11 +34,15 @@ namespace StarlightRiver.Codex
                 Entries.Add(ThisEntry);
             }
 
-            if (entriesToLoad == null || entriesToLoad.Count == 0) return;
+            if (entriesToLoad == null || entriesToLoad.Count == 0)
+            {
+                return;
+            }
+
             foreach (TagCompound tagc in entriesToLoad)
             {
                 CodexEntry entry = CodexEntry.DeserializeData(tagc);
-                if(Entries.FirstOrDefault(n => n.GetType() == entry.GetType()) != null) //find and replace needed entries with save data
+                if (Entries.FirstOrDefault(n => n.GetType() == entry.GetType()) != null) //find and replace needed entries with save data
                 {
                     int index = Entries.IndexOf(Entries.FirstOrDefault(n => n.GetType() == entry.GetType()));
                     Entries[index] = entry;
@@ -48,7 +52,7 @@ namespace StarlightRiver.Codex
 
         public override void OnEnterWorld(Player player)
         {
-            if(Entries.Count == 0) //failsafe incase the player dosent load for some reason
+            if (Entries.Count == 0) //failsafe incase the player dosent load for some reason
             {
                 foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(CodexEntry))))
                 {

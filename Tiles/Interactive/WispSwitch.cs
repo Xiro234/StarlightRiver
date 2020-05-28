@@ -5,12 +5,13 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    class WispSwitch : ModTile
+    internal class WispSwitch : ModTile
     {
         public override void SetDefaults()
         {
@@ -82,10 +83,10 @@ namespace StarlightRiver.Tiles.Interactive
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
-            if (Main.netMode == 1)
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(Main.myPlayer, i, j, 3);
-                NetMessage.SendData(87, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
             return Place(i, j);
