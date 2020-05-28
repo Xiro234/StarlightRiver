@@ -11,7 +11,9 @@ namespace StarlightRiver.Abilities
     // Combo Infusion to be made
     public class WispCombo : WispHoming
     {
-        [DataMember] bool exit = false;
+#pragma warning disable CS0108 // 'WispCombo.exit' hides inherited member 'Wisp.exit'. Use the new keyword if hiding was intended.
+        [DataMember] private bool exit = false;
+#pragma warning restore CS0108 // 'WispCombo.exit' hides inherited member 'Wisp.exit'. Use the new keyword if hiding was intended.
         public WispCombo(Player player) : base(player)
         {
 
@@ -51,7 +53,7 @@ namespace StarlightRiver.Abilities
                 Main.screenPosition.Y + Main.mouseY - player.Hitbox.Center.Y
                 )) * 5 + new Vector2(0.25f, 0.25f);
 
-            player.Hitbox = new Rectangle((int)player.Hitbox.X - 7 + 7, (int)player.Hitbox.Y + 21 + 7, 14, 14);
+            player.Hitbox = new Rectangle(player.Hitbox.X - 7 + 7, player.Hitbox.Y + 21 + 7, 14, 14);
 
             Lighting.AddLight(player.Center, new Vector3(0.15f, 0.15f, 0f));
 
@@ -118,7 +120,9 @@ namespace StarlightRiver.Abilities
             }
         }
 
+#pragma warning disable CS0108 // 'WispCombo.TestExit()' hides inherited member 'Wisp.TestExit()'. Use the new keyword if hiding was intended.
         public bool TestExit()
+#pragma warning restore CS0108 // 'WispCombo.TestExit()' hides inherited member 'Wisp.TestExit()'. Use the new keyword if hiding was intended.
         {
             int cleartiles = 0;
             for (int x2 = (int)(player.position.X / 16); x2 <= (int)(player.position.X / 16) + 1; x2++)

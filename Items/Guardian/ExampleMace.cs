@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Guardian
 {
-    class ExampleMace : Mace
+    internal class ExampleMace : Mace
     {
         public ExampleMace() : base(10, 6, 48, 4) { }
         public override void SetStaticDefaults()
@@ -17,7 +17,7 @@ namespace StarlightRiver.Items.Guardian
             item.useTime = 15;
             item.useAnimation = 15;
             item.noUseGraphic = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
         }
@@ -27,7 +27,8 @@ namespace StarlightRiver.Items.Guardian
             return true;
         }
     }
-    class ExampleMaceProjectile : MaceProjectile
+
+    internal class ExampleMaceProjectile : MaceProjectile
     {
         public override void SafeSetDefaults()
         {

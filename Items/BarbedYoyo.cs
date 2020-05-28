@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
@@ -10,12 +11,12 @@ namespace StarlightRiver.Items
         {
             item.width = 16;
             item.height = 16;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 30;
             item.useTime = 30;
             item.autoReuse = false;
             item.damage = 18;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.noUseGraphic = true;
             item.noMelee = true;
             item.melee = true;

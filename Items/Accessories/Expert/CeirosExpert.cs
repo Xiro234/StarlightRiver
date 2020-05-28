@@ -1,15 +1,10 @@
 ﻿using StarlightRiver.Abilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Accessories.Expert
 {
-    class CeirosExpert : ModItem
+    internal class CeirosExpert : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +22,7 @@ namespace StarlightRiver.Items.Accessories.Expert
         public override void UpdateEquip(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
-            if(mp.dash.Cooldown == 90)
+            if (mp.dash.Cooldown == 90)
             {
                 mp.dash.Cooldown = 74;
             }

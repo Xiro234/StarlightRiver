@@ -2,7 +2,7 @@
 
 namespace StarlightRiver.Items.CursedAccessories
 {
-    class TestInfectedAccessory : InfectedAccessory
+    internal class TestInfectedAccessory : InfectedAccessory
     {
         public override string Texture => "StarlightRiver/Items/CursedAccessories/TestBlessedAccessory";
         public override bool Autoload(ref string name) { return true; }

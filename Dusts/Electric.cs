@@ -27,7 +27,10 @@ namespace StarlightRiver.Dusts
         {
             dust.rotation += Main.rand.NextFloat(2f);
             dust.color *= 0.92f;
-            if (dust.color.G > 80) dust.color.G -= 4;
+            if (dust.color.G > 80)
+            {
+                dust.color.G -= 4;
+            }
 
             dust.scale *= 0.92f;
             if (dust.scale < 0.2f)

@@ -36,24 +36,36 @@ namespace StarlightRiver.Codex
 
         public virtual void Draw(Vector2 pos, SpriteBatch spriteBatch)
         {
-            if (LinePos < 0) LinePos = 0;
+            if (LinePos < 0)
+            {
+                LinePos = 0;
+            }
 
             spriteBatch.Draw(Image, pos + new Vector2(-50 + (310 - Image.Width) / 2, 36), Color.White);
             spriteBatch.Draw(Icon, pos + new Vector2(-38, -5), Color.White);
             Utils.DrawBorderString(spriteBatch, Title, pos, Color.White, 1.2f);
 
             List<string> lines = Helper.WrapString(Body, 480, Main.fontDeathText, 0.7f).Split('\n').ToList();
-            int maxLines = (int)(342 - (50 + Image.Height)) / 18; //grabs the max amount of lines that could feasibly be displated
+            int maxLines = (342 - (50 + Image.Height)) / 18; //grabs the max amount of lines that could feasibly be displated
             int linePosEnd = LinePos + maxLines;
             int lastLine = lines.Count < maxLines ? lines.Count : linePosEnd;
 
-            if (lines.Count < maxLines) LinePos = 0;
-            else if (linePosEnd > lines.Count) LinePos = lines.Count - maxLines;
+            if (lines.Count < maxLines)
+            {
+                LinePos = 0;
+            }
+            else if (linePosEnd > lines.Count)
+            {
+                LinePos = lines.Count - maxLines;
+            }
 
             for (int k = LinePos; k < lastLine; k++)
             {
                 int yRel = (k - LinePos) * 16;
-                if(k < lines.Count) Utils.DrawBorderString(spriteBatch, lines[k], pos + new Vector2(-30, 50 + Image.Height + yRel), Color.White, 0.7f);
+                if (k < lines.Count)
+                {
+                    Utils.DrawBorderString(spriteBatch, lines[k], pos + new Vector2(-30, 50 + Image.Height + yRel), Color.White, 0.7f);
+                }
             }
 
             if (lines.Count > maxLines)

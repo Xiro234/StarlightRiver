@@ -1,7 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Dusts;
-using System;
-using System.Xml.Serialization;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,8 +31,9 @@ namespace StarlightRiver.Projectiles
         {
             target.AddBuff(BuffID.ShadowFlame, 200);
         }
-        float rand1 = Main.rand.NextFloat(0.1f) - 0.05f;
-        float rand2 = 5f + Main.rand.NextFloat(6f);
+
+        private readonly float rand1 = Main.rand.NextFloat(0.1f) - 0.05f;
+        private readonly float rand2 = 5f + Main.rand.NextFloat(6f);
         public override void AI()
         {
             projectile.velocity = Vector2.Normalize(projectile.velocity).RotatedBy(rand1) * rand2;

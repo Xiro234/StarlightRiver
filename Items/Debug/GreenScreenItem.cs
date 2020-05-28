@@ -7,8 +7,8 @@ namespace StarlightRiver.Items.Debug
     {
         public GreenScreenItem() : base("Green Screen", "For all your movie making needs", ModContent.TileType<Tiles.Debug.GreenScreen>(), 1) { }
     }
-	
-	public class GreenScreenWallItem : ModItem
+
+    public class GreenScreenWallItem : ModItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/GreenScreenItem";
         public override void SetStaticDefaults()
@@ -25,7 +25,7 @@ namespace StarlightRiver.Items.Debug
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createWall = ModContent.WallType<Tiles.Debug.GreenScreenWall>();
         }

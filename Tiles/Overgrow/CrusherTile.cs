@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    class CrusherTile : ModTile
+    internal class CrusherTile : ModTile
     {
         public override void SetDefaults()
         {

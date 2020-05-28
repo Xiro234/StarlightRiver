@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    class Fluff : ModTile
+    internal class Fluff : ModTile
     {
         public override void SetDefaults()
         {

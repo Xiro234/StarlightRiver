@@ -5,9 +5,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Guardian
 {
-    class ExampleTome : Tome
+    internal class ExampleTome : Tome
     {
-        public ExampleTome() : base(ModContent.ProjectileType<ExampleTomeProjectile>(), 1, 128, 75) { }
+        public ExampleTome() : base(ModContent.ProjectileType<ExampleTomeProjectile>(), 128, 75) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ent's Tome");
@@ -17,7 +17,8 @@ namespace StarlightRiver.Items.Guardian
             tooltips.Insert(1, new TooltipLine(mod, "Effect", "+" + 5 * Main.LocalPlayer.GetModPlayer<StarlightPlayer>().GuardDamage + "% damage, x2 for guardian damage"));
         }
     }
-    class ExampleTomeProjectile : TomeProjectile
+
+    internal class ExampleTomeProjectile : TomeProjectile
     {
         public override void SetDefaults()
         {
@@ -31,7 +32,10 @@ namespace StarlightRiver.Items.Guardian
         }
         public override void SafeAI()
         {
-            if (Main.rand.Next(3) == 0) Dust.NewDustPerfect(projectile.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(projectile.ai[1]), ModContent.DustType<Dusts.Starlight>(), new Vector2(0, -4));
+            if (Main.rand.Next(3) == 0)
+            {
+                Dust.NewDustPerfect(projectile.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(projectile.ai[1]), ModContent.DustType<Dusts.Starlight>(), new Vector2(0, -4));
+            }
         }
     }
 }

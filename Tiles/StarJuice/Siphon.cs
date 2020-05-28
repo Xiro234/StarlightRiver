@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.StarJuice
 {
-    sealed class Siphon : ModTile
+    internal sealed class Siphon : ModTile
     {
         public override void SetDefaults()
         {
@@ -36,7 +36,8 @@ namespace StarlightRiver.Tiles.StarJuice
             }
         }
     }
-    sealed class SiphonEntity : ModTileEntity
+
+    internal sealed class SiphonEntity : ModTileEntity
     {
         private TankEntity tank = null;
         private int timer = 0;
@@ -49,10 +50,10 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
-            if (Main.netMode == 1)
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(Main.myPlayer, i, j, 3);
-                NetMessage.SendData(87, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
             return Place(i, j);
@@ -60,7 +61,10 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override void Update()
         {
-            if (!Main.tile[Position.X, Position.Y].active()) Kill(Position.X, Position.Y);
+            if (!Main.tile[Position.X, Position.Y].active())
+            {
+                Kill(Position.X, Position.Y);
+            }
 
             if (tank == null)
             {

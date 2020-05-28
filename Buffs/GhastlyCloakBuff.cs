@@ -1,7 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Projectiles;
-using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Buffs

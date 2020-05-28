@@ -11,7 +11,7 @@ namespace StarlightRiver.Items
         {
             item.width = 38;
             item.height = 34;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             Item.staff[item.type] = true;
             item.useAnimation = 40;
             item.useTime = 40;
@@ -20,7 +20,7 @@ namespace StarlightRiver.Items
             item.damage = 18;
             item.UseSound = SoundID.Item43;
             item.shoot = mod.ProjectileType("Diver");
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.noMelee = true;
             item.magic = true;
             item.autoReuse = true;

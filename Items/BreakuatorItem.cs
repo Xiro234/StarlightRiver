@@ -2,20 +2,21 @@
 using StarlightRiver.Tiles;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    class BreakuatorItem : ModItem
+    internal class BreakuatorItem : ModItem
     {
         public override void SetDefaults()
         {
             item.width = 16;
             item.height = 16;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
         public override void SetStaticDefaults()
         {

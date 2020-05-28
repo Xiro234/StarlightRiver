@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
 
 namespace StarlightRiver.Projectiles.Ability
 {
-    class Purifier : ModProjectile
+    internal class Purifier : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -46,8 +46,8 @@ namespace StarlightRiver.Projectiles.Ability
           .UseOpacity(projectile.ai[0] * 0.01f * 0.5f)
           .UseColor(new Vector3(0.4f, 0.4f, 0.4f) * (projectile.ai[0] * 0.01f * 0.5f)); //to update the shader //1.3
 
-                Main.NewText(((projectile.ai[0] - 6) / (255 - 6))
-          * (0.15f - -0.1f) + -0.1f);
+            Main.NewText(((projectile.ai[0] - 6) / (255 - 6))
+      * (0.15f - -0.1f) + -0.1f);
             for (int x = 0; x < 30; x++)
             {
                 Dust.NewDustPerfect(projectile.Center + (Vector2.One * (projectile.ai[0] * 0.72f)).RotatedByRandom(6.28f) - Vector2.One * 16, ModContent.DustType<Dusts.Purify>());
@@ -104,7 +104,7 @@ namespace StarlightRiver.Projectiles.Ability
             }
         }
 
-        private void SpawnDust(int x, int y)
+        private static void SpawnDust(int x, int y)
         {
             for (int k = 0; k <= 4; k++)
             {
@@ -127,7 +127,7 @@ namespace StarlightRiver.Projectiles.Ability
         }
     }
 
-    class PurifierReturn : ModProjectile
+    internal class PurifierReturn : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()

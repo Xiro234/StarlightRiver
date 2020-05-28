@@ -2,8 +2,6 @@
 using StarlightRiver.Dragons;
 using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
-using static StarlightRiver.StarlightRiver;
 
 namespace StarlightRiver.Abilities
 {
@@ -14,9 +12,9 @@ namespace StarlightRiver.Abilities
         public int Timer;
         public int Cooldown;
         public bool Locked = true;
-        public virtual Texture2D texture { get; }
+        public virtual Texture2D Texture { get; }
         public Player player;
-        public virtual bool CanUse { get => true; }
+        public virtual bool CanUse => true;
 
         public Ability(int staminaCost, Player Player)
         {
@@ -33,7 +31,7 @@ namespace StarlightRiver.Abilities
             {
                 handler.StatStamina -= StaminaCost; //Consume the stamina
                                                     //if (dragon.DragonMounted) OnCastDragon(); //Do what the ability should do when it starts
-                                                    /*else*/
+                /*else*/
                 OnCast();
                 Active = true; //Ability is activated
 
@@ -56,18 +54,7 @@ namespace StarlightRiver.Abilities
 
         public virtual void SendPacket(int toWho = -1, int fromWho = -1)
         {
-            Player player2;
-            if (fromWho != -1) player2 = Main.player[fromWho];
-            else player2 = player;
-            AbilityHandler handler = player2.GetModPlayer<AbilityHandler>();
-
-            ModPacket packet = StarlightRiver.Instance.GetPacket();
-            packet.Write((byte)SLRPacketType.ability);
-            packet.Write(player2.whoAmI);
-            packet.Write(handler.Abilities.IndexOf( handler.Abilities.FirstOrDefault(n => n.GetType() == this.GetType() ) ) );
-            packet.Write(Active);
-            packet.Write(Timer);
-            packet.Send(toWho, fromWho);
+            new Packets.UseAbility(fromWho, this); // TOOD: Scalie, review the UseAbility Receive() method please.
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace StarlightRiver.Codex.Entries
 {
-    class LoreEntry : CodexEntry
+    internal class LoreEntry : CodexEntry
     {
         public LoreEntry()
         {
@@ -13,7 +13,8 @@ namespace StarlightRiver.Codex.Entries
             Icon = ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
         }
     }
-    class WindsEntry : CodexEntry
+
+    internal class WindsEntry : CodexEntry
     {
         public WindsEntry()
         {
@@ -25,7 +26,8 @@ namespace StarlightRiver.Codex.Entries
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         }
     }
-    class FaeEntry : CodexEntry
+
+    internal class FaeEntry : CodexEntry
     {
         public FaeEntry()
         {
@@ -37,7 +39,8 @@ namespace StarlightRiver.Codex.Entries
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
         }
     }
-    class PureEntry : CodexEntry
+
+    internal class PureEntry : CodexEntry
     {
         public PureEntry()
         {
@@ -48,7 +51,8 @@ namespace StarlightRiver.Codex.Entries
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
         }
     }
-    class SmashEntry : CodexEntry
+
+    internal class SmashEntry : CodexEntry
     {
         public SmashEntry()
         {
@@ -59,7 +63,8 @@ namespace StarlightRiver.Codex.Entries
             Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         }
     }
-    class LoreEntry2 : CodexEntry
+
+    internal class LoreEntry2 : CodexEntry
     {
         public LoreEntry2()
         {
@@ -71,7 +76,8 @@ namespace StarlightRiver.Codex.Entries
             RequiresUpgradedBook = true;
         }
     }
-    class CloakEntry : CodexEntry
+
+    internal class CloakEntry : CodexEntry
     {
         public CloakEntry()
         {

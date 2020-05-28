@@ -1,5 +1,6 @@
 ﻿using StarlightRiver.Abilities;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Infusions
@@ -10,10 +11,10 @@ namespace StarlightRiver.Items.Infusions
         {
             item.width = 32;
             item.height = 32;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 30;
             item.useTime = 30;
-            item.rare = 7;
+            item.rare = ItemRarityID.Lime;
         }
         public override void SetStaticDefaults()
         {

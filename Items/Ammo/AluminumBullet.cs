@@ -22,7 +22,7 @@ namespace StarlightRiver.Items.Ammo
             item.consumable = true;
             item.knockBack = 0.5f;
             item.value = 10;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.shoot = ModContent.ProjectileType<Projectiles.Ammo.AluminumBullet>();
             item.shootSpeed = 0.01f;
             item.ammo = AmmoID.Bullet;

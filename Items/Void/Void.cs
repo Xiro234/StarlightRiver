@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Void
@@ -27,7 +28,7 @@ namespace StarlightRiver.Items.Void
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createWall = ModContent.WallType<Tiles.Void.VoidWall>();
         }
@@ -48,13 +49,15 @@ namespace StarlightRiver.Items.Void
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createWall = ModContent.WallType<Tiles.Void.VoidWallPillar>();
         }
     }
     public class VoidWallPillarSItem : ModItem
     {
+        private const int V = 10;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Short Eldritch Pillar Wall");
@@ -68,8 +71,9 @@ namespace StarlightRiver.Items.Void
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = 1;
+            item.useTime = V;
+            item.useStyle =
+                ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createWall = ModContent.WallType<Tiles.Void.VoidWallPillarS>();
         }

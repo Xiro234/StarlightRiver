@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    class StaminaOrb : ModTile
+    internal class StaminaOrb : ModTile
     {
         public override void SetDefaults()
         {

@@ -7,7 +7,7 @@ using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Items
 {
-    class StarlightGem : ModItem
+    internal class StarlightGem : ModItem
     {
         public int gemID = 0;
         public override bool CloneNewInstances => true;
@@ -51,7 +51,7 @@ namespace StarlightRiver.Items
         }
     }
 
-    class GemHandler : ModPlayer
+    internal class GemHandler : ModPlayer
     {
         public byte[] gems = new byte[100];
 

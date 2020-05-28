@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    class BigHatchDummy : ModProjectile
+    internal class BigHatchDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +26,11 @@ namespace StarlightRiver.Projectiles.Dummies
         {
             projectile.timeLeft = 2;
             projectile.ai[0] += 0.01f;
-            if (projectile.ai[0] >= 6.28f) projectile.ai[0] = 0;
+            if (projectile.ai[0] >= 6.28f)
+            {
+                projectile.ai[0] = 0;
+            }
+
             if (Main.rand.Next(5) == 0)
             {
                 float rot = Main.rand.NextFloat(-0.7f, 0.7f);
