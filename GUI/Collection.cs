@@ -1,13 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
 using StarlightRiver.Configs;
-using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
-using Terraria.UI;
 
 namespace StarlightRiver.GUI
 {
@@ -32,7 +27,10 @@ namespace StarlightRiver.GUI
         }
         public void SafeDraw(SpriteBatch spriteBatch)
         {
-            if (ModContent.GetInstance<Config>().Active) Draw(spriteBatch);
+            if (ModContent.GetInstance<Config>().Active)
+            {
+                Draw(spriteBatch);
+            }
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {

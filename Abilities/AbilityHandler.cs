@@ -80,8 +80,8 @@ namespace StarlightRiver.Abilities
             StatStaminaMaxPerm = tag.GetInt(nameof(StatStaminaMaxPerm));
 
             //loads infusion data.
-            slot1 = tag.Get<Item>(nameof(slot1)); if (slot1.Name == "") { slot1 = null; }
-            slot2 = tag.Get<Item>(nameof(slot2)); if (slot2.Name == "") { slot2 = null; }
+            slot1 = tag.Get<Item>(nameof(slot1)); if (string.IsNullOrEmpty(slot1.Name)) { slot1 = null; }
+            slot2 = tag.Get<Item>(nameof(slot2)); if (string.IsNullOrEmpty(slot2.Name)) { slot2 = null; }
             HasSecondSlot = tag.GetBool(nameof(HasSecondSlot));
         }
 
@@ -115,9 +115,12 @@ namespace StarlightRiver.Abilities
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            //Dismounts player from mount if any ability (apart from Purify) is used
-            if (StarlightRiver.Dash.JustPressed || StarlightRiver.Wisp.JustPressed || StarlightRiver.Smash.JustPressed || StarlightRiver.Superdash.JustPressed)
+            //Dismounts player from mount if any ability (apart from Purify) is used and can be used
+            if ((StarlightRiver.Dash.JustPressed || StarlightRiver.Wisp.JustPressed || StarlightRiver.Smash.JustPressed || StarlightRiver.Superdash.JustPressed) &&
+                (dash.CanUse || wisp.CanUse || smash.CanUse || sdash.CanUse))
+            {
                 player.mount.Dismount(player);
+            }
             //Activates one of the player's abilities on the appropriate keystroke.
             if (StarlightRiver.Dash.JustPressed) { triggersSet.Jump = false; dash.StartAbility(player); }
             if (StarlightRiver.Wisp.JustPressed) { wisp.StartAbility(player); }
@@ -131,9 +134,13 @@ namespace StarlightRiver.Abilities
 
             //Executes the ability's use code while it's active.
             if (player.GetModPlayer<Dragons.DragonHandler>().DragonMounted)
+            {
                 foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUseDragon(); ability.UseEffectsDragon(); }
+            }
             else
+            {
                 foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
+            }
 
             //Decrements internal cooldowns of abilities.
             foreach (Ability ability in Abilities.Where(ability => ability.Cooldown > 0)) { ability.Cooldown--; }

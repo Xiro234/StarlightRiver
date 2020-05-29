@@ -3,13 +3,16 @@ using StarlightRiver.Buffs;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Food
 {
-    class Meal : ModItem
+    internal class Meal : ModItem
     {
+        private const int V = 30;
+
         public List<Item> Ingredients { get; set; } = new List<Item>();
         public int Fullness { get; set; }
         public override bool CloneNewInstances => true;
@@ -24,8 +27,8 @@ namespace StarlightRiver.Food
         {
             item.consumable = true;
             item.useAnimation = 30;
-            item.useTime = 30;
-            item.useStyle = 1;
+            item.useTime = V;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 32;
             item.height = 32;
         }
@@ -45,7 +48,10 @@ namespace StarlightRiver.Food
 
                 player.AddBuff(ModContent.BuffType<Full>(), (int)(Fullness * 1.5f));
             }
-            else Main.NewText("Bad food! Please report me to the mod devs.", Color.Red);
+            else
+            {
+                Main.NewText("Bad food! Please report me to the mod devs.", Color.Red);
+            }
 
             item.stack--;
             return true;
@@ -57,26 +63,39 @@ namespace StarlightRiver.Food
             {
                 List<Item> sides = Ingredients.FindAll(n => (n.modItem as Ingredient).ThisType == IngredientType.Side);
                 sidesName += " with " + sides[0].Name;
-                if (sides.Count == 2) sidesName += " and " + sides[1].Name;
+                if (sides.Count == 2)
+                {
+                    sidesName += " and " + sides[1].Name;
+                }
             }
             string mainName = "";
-            if (Ingredients.Any(n => (n.modItem as Ingredient).ThisType == IngredientType.Main)) mainName = Ingredients.FirstOrDefault(n => (n.modItem as Ingredient).ThisType == IngredientType.Main).Name;
+            if (Ingredients.Any(n => (n.modItem as Ingredient).ThisType == IngredientType.Main))
+            {
+                mainName = Ingredients.FirstOrDefault(n => (n.modItem as Ingredient).ThisType == IngredientType.Main).Name;
+            }
+
             string fullName = mainName + sidesName;
             tooltips.FirstOrDefault(n => n.Name == "ItemName" && n.mod == "Terraria").text = fullName;
 
             foreach (Item item in Ingredients.Where(n => n.modItem is Ingredient))
             {
-                TooltipLine line = new TooltipLine(mod, "StarlightRiver: Ingredient", (item.modItem as Ingredient).ItemTooltip);
-                line.overrideColor = (item.modItem as Ingredient).GetColor();
+                TooltipLine line = new TooltipLine(mod, "StarlightRiver: Ingredient", (item.modItem as Ingredient).ItemTooltip)
+                {
+                    overrideColor = (item.modItem as Ingredient).GetColor()
+                };
                 tooltips.Add(line);
             }
 
-            TooltipLine durationLine = new TooltipLine(mod, "StarlightRiver: Duration", Fullness / 60 + " seconds duration");
-            durationLine.overrideColor = new Color(110, 235, 255);
+            TooltipLine durationLine = new TooltipLine(mod, "StarlightRiver: Duration", Fullness / 60 + " seconds duration")
+            {
+                overrideColor = new Color(110, 235, 255)
+            };
             tooltips.Add(durationLine);
 
-            TooltipLine cooldownLine = new TooltipLine(mod, "StarlightRiver: Cooldown", (int)(Fullness * 1.5f) / 60 + " seconds fullness");
-            cooldownLine.overrideColor = new Color(255, 170, 120);
+            TooltipLine cooldownLine = new TooltipLine(mod, "StarlightRiver: Cooldown", (int)(Fullness * 1.5f) / 60 + " seconds fullness")
+            {
+                overrideColor = new Color(255, 170, 120)
+            };
             tooltips.Add(cooldownLine);
         }
         public override TagCompound Save()

@@ -1,4 +1,6 @@
-﻿namespace StarlightRiver.Items.Salvage
+﻿using Terraria.ID;
+
+namespace StarlightRiver.Items.Salvage
 {
     public class EyeOfCthuluSalvage : SalvageItem
     {
@@ -9,7 +11,7 @@
         public override void SetDefaults()
         {
             item.melee = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             RollStats();
             SetStats();
         }

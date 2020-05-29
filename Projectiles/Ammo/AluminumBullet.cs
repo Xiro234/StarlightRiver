@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Ammo
 {
-    class AluminumBullet : ModProjectile
+    internal class AluminumBullet : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -26,9 +26,9 @@ namespace StarlightRiver.Projectiles.Ammo
             DisplayName.SetDefault("Astral Tracer");
         }
 
-        bool picked = false;
-        float anglediff;
-        NPC target = Main.npc[0];
+        private bool picked = false;
+        private float anglediff;
+        private NPC target = Main.npc[0];
         public override void AI()
         {
             if (!picked)
@@ -49,6 +49,7 @@ namespace StarlightRiver.Projectiles.Ammo
                 projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.06f;
             }
             projectile.velocity = Vector2.Normalize(projectile.velocity) * 5;
+
         }
     }
 }

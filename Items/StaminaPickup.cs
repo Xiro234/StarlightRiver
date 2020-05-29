@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    class StaminaPickup : ModItem
+    internal class StaminaPickup : ModItem
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override bool OnPickup(Player player)
@@ -33,7 +33,7 @@ namespace StarlightRiver.Items
         }
     }
 
-    class StaminaDrop : GlobalNPC
+    internal class StaminaDrop : GlobalNPC
     {
         public bool DropStamina = false;
         public override bool InstancePerEntity => true;

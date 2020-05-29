@@ -17,7 +17,7 @@ namespace StarlightRiver.Items.Herbology
             item.width = 16;
             item.height = 16;
             item.maxStack = 250;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
     }
 

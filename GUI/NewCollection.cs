@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
-using StarlightRiver.Configs;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -58,19 +56,22 @@ namespace StarlightRiver.GUI
 
     public class AbilityDisplay : UIElement
     {
-        Ability Ability;
+        private readonly Ability Ability;
         public AbilityDisplay(Ability ability)
         {
             Ability = ability;
         }
         public override void Click(UIMouseEvent evt)
         {
-            if(!Ability.Locked) Collection.ActiveAbility = Ability;
+            if (!Ability.Locked)
+            {
+                Collection.ActiveAbility = Ability;
+            }
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 pos = GetDimensions().Center() - Vector2.One;
-            Texture2D tex = Ability.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Ability.texture;
+            Texture2D tex = Ability.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Ability.Texture;
 
             spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
 
@@ -87,7 +88,7 @@ namespace StarlightRiver.GUI
                         Collection.dust.Add(new ExpertDust(dustex, duspos, Vector2.Zero, new Color(200, 240, 255), 1.8f, 30));
                     }
                 }
-                if(Ability is Wisp)
+                if (Ability is Wisp)
                 {
                     Texture2D dustex = ModContent.GetTexture("StarlightRiver/GUI/Fire");
 

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class GemFocusProjectile : ModProjectile
+    internal class GemFocusProjectile : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -25,7 +21,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.penetrate = -1;
             projectile.netSpam = 1;
         }
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
+        }
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
@@ -40,13 +40,24 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override void AI()
         {
-            if(projectile.ai[1] > 0) projectile.ai[1]--;
+            if (projectile.ai[1] > 0)
+            {
+                projectile.ai[1]--;
+            }
+
             if (Main.player[projectile.owner].channel && Main.player[projectile.owner].statMana > 0)
             {
                 projectile.timeLeft = 30;
-                if (projectile.ai[0] < 30) projectile.ai[0]++;
+                if (projectile.ai[0] < 30)
+                {
+                    projectile.ai[0]++;
+                }
+
                 projectile.velocity += Vector2.Normalize(Main.MouseWorld - projectile.Center) * 0.3f;
-                if(projectile.velocity.Length() > 5) projectile.velocity = Vector2.Normalize(projectile.velocity) * 5;
+                if (projectile.velocity.Length() > 5)
+                {
+                    projectile.velocity = Vector2.Normalize(projectile.velocity) * 5;
+                }
 
                 projectile.rotation = projectile.velocity.X * 0.1f;
             }
@@ -89,9 +100,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             float scale = projectile.scale;
             float fade = (projectile.alpha / 255f);
             float pulse = 1 - projectile.ai[1] / 15f;
-            Rectangle frame = under.Frame();
-
-
 
             spriteBatch.Draw(under, position + projectile.Size / 2 * scale, under.Frame(), Color.White * fade, projectile.rotation, under.Size() / 2, scale, 0, 0);
 
@@ -106,7 +114,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             spriteBatch.Draw(glow, position + projectile.Size / 2 * scale, glow.Frame(), Main.DiscoColor * 0.5f * fade, projectile.rotation, glow.Size() / 2, scale, 0, 0);
 
             if (projectile.ai[1] > 0)
+            {
                 spriteBatch.Draw(glow, position + projectile.Size / 2 * scale, glow.Frame(), Main.DiscoColor * (1 - pulse) * fade, projectile.rotation, glow.Size() / 2, scale * (1 + pulse * 2), 0, 0);
+            }
 
             spriteBatch.End();
             spriteBatch.Begin();

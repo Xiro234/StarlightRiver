@@ -1,14 +1,12 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class OvergrowSkeletonLarge : ModNPC
+    internal class OvergrowSkeletonLarge : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -46,7 +44,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             if (npc.HasValidTarget)
             {
-                if(damage >= changeAgroDamage)
+                if (damage >= changeAgroDamage)
                 {
                     npc.target = player.whoAmI;
                 }
@@ -75,18 +73,17 @@ namespace StarlightRiver.NPCs.Hostile
             }
         }
 
+        private const int intrestTime = 800; //time before gained intrest
+        private const int loseIntrestTime = 300; //time before lost intrest
 
-        const int intrestTime = 800; //time before gained intrest
-        const int loseIntrestTime = 300; //time before lost intrest
-
-        const int changeAgroDamage = 5; //how much damage minimum from another player changes the agro
-        const int countdownSpeed = 2; //how fast the charge timer counts down then target is not in range
-        const int maxRangeTimer = 250; //how long the charge timer lasts
-        const float walkSpeedMax = 1.5f;
-        const float dashSpeedMax = 4f;
-        const int distancePastPlayer = 75; //if npc is past the player, how long should it go before it stops and turns around
-        const int jumpheight = 6; //not max jumpheight in blocks, max of blocks checked, this increases jumpheight in blocks exponentially. real jump height is 3 more than this (3 is the minimum for 1 block)
-        Vector2 detectRange = new Vector2(400, 100); //detect range for dash
+        private const int changeAgroDamage = 5; //how much damage minimum from another player changes the agro
+        private const int countdownSpeed = 2; //how fast the charge timer counts down then target is not in range
+        private const int maxRangeTimer = 250; //how long the charge timer lasts
+        private const float walkSpeedMax = 1.5f;
+        private const float dashSpeedMax = 4f;
+        private const int distancePastPlayer = 75; //if npc is past the player, how long should it go before it stops and turns around
+        private const int jumpheight = 6; //not max jumpheight in blocks, max of blocks checked, this increases jumpheight in blocks exponentially. real jump height is 3 more than this (3 is the minimum for 1 block)
+        private Vector2 detectRange = new Vector2(400, 100); //detect range for dash
 
         public override void AI()
         {
@@ -183,7 +180,7 @@ namespace StarlightRiver.NPCs.Hostile
 
                     if (npc.velocity.Y == 0)//jumping. note: (the could be moved to just before it sets the velocity high in MoveVertical())
                     {
-                        Helper.NpcVertical(this.npc, true, default, jumpheight);
+                        Helper.NpcVertical(npc, true, default, jumpheight);
                     }
 
                     Move(walkSpeedMax);
@@ -193,7 +190,7 @@ namespace StarlightRiver.NPCs.Hostile
                 case 1: //start dash
                     if (npc.velocity.Y == 0)//jumping. note: (the could be moved to just before it sets the velocity high in MoveVertical())
                     {
-                        Helper.NpcVertical(this.npc, false);
+                        Helper.NpcVertical(npc, false);
                         if (Main.rand.Next(4) == 0)//placeholder dash
                         {
                             Dust.NewDustPerfect(new Vector2(npc.Center.X, npc.position.Y + npc.height), 16, new Vector2((Main.rand.Next(-20, 20) * 0.02f), Main.rand.Next(-20, 20) * 0.02f), 0, default, 1.2f);
@@ -232,12 +229,12 @@ namespace StarlightRiver.NPCs.Hostile
                 case 2:
                     npc.ai[3]++;
                     npc.velocity.X *= 0.95f;
-                    if(npc.ai[2] == 1)//this checks if this is for hitting a wall or slowing down
+                    if (npc.ai[2] == 1)//this checks if this is for hitting a wall or slowing down
                     {
-                        
+
                     }
 
-                    if(npc.ai[3] >= 50)
+                    if (npc.ai[3] >= 50)
                     {
                         npc.ai[3] = 0;
                         npc.ai[2] = 0;
@@ -248,7 +245,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         }
 
-        void Move(float speed) //note: seperated for simplicity //note: decide if this can be replaced with nightmare's version
+        private void Move(float speed) //note: seperated for simplicity //note: decide if this can be replaced with nightmare's version
         {
             if ((npc.velocity.X * npc.direction) <= speed)//getting up to max speed
             {
@@ -260,7 +257,7 @@ namespace StarlightRiver.NPCs.Hostile
             }
         }
 
-        void Collide() //bonk
+        private void Collide() //bonk
         {
             //note: if this is effected by player's dash, move dusts to where this is called, or add a check
             for (int y = 0; y < 12; y++)
@@ -276,7 +273,10 @@ namespace StarlightRiver.NPCs.Hostile
         {
             npc.frameCounter += Math.Abs(npc.velocity.X);//note: slightly jank, but best I could come up with
             if ((int)(npc.frameCounter * 0.1) >= Main.npcFrameCount[npc.type])//replace the 0.1 with a float to control animation speed
+            {
                 npc.frameCounter = 0;
+            }
+
             npc.frame.Y = (int)(npc.frameCounter * 0.1) * frameHeight;
             //Main.NewText(npc.frame.Y / frameHeight); //debug
         }
@@ -289,7 +289,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void NPCLoot()
         {
-            
+
         }
     }
 }

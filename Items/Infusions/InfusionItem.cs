@@ -5,7 +5,7 @@ namespace StarlightRiver.Items.Infusions
 {
     public class InfusionItem : ModItem
     {
-        int Rarity;
+        private readonly int Rarity;
         public InfusionItem(int rarity)
         {
             Rarity = rarity;

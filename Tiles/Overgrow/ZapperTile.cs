@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    class ZapperTile : ModTile
+    internal class ZapperTile : ModTile
     {
         public override void SetDefaults()
         {

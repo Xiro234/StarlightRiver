@@ -32,16 +32,23 @@ namespace StarlightRiver
                             if (Main.tile[k, y].type == TileID.Grass)
                             {
                                 int width = WorldGen.genRand.Next(4, 8);
-                                for(int x = k; x < k + width; x++)
+                                for (int x = k; x < k + width; x++)
                                 {
                                     int xRel = x - k;
-                                    int xSqr = (int)((-1 * xRel * xRel) / 8 + xRel + 1);
-                                    for(int y2 = y - xSqr; y2 < y + xSqr; y2++)
+                                    int xSqr = (-1 * xRel * xRel) / 8 + xRel + 1;
+                                    for (int y2 = y - xSqr; y2 < y + xSqr; y2++)
                                     {
                                         WorldGen.PlaceTile(x, y2, ModContent.TileType<Tiles.Forest.Palestone>(), true, true);
                                         WorldGen.SlopeTile(x, y2);
-                                        if(y2 == y - xSqr && xRel < width / 2 && WorldGen.genRand.Next(2) == 0) WorldGen.SlopeTile(x, y2, 2);
-                                        if (y2 == y - xSqr && xRel > width / 2 && WorldGen.genRand.Next(2) == 0) WorldGen.SlopeTile(x, y2, 1);
+                                        if (y2 == y - xSqr && xRel < width / 2 && WorldGen.genRand.Next(2) == 0)
+                                        {
+                                            WorldGen.SlopeTile(x, y2, 2);
+                                        }
+
+                                        if (y2 == y - xSqr && xRel > width / 2 && WorldGen.genRand.Next(2) == 0)
+                                        {
+                                            WorldGen.SlopeTile(x, y2, 1);
+                                        }
                                     }
                                 }
                                 break;
@@ -57,9 +64,9 @@ namespace StarlightRiver
                     {
                         int size = WorldGen.genRand.Next(6, 15);
 
-                        for (int x = k - (int)(size / 2); x < k + (int)(size / 2); x++)
+                        for (int x = k - size / 2; x < k + size / 2; x++)
                         {
-                            for (int y = j - (int)(size / 2); y < j + (int)(size / 2); y++)
+                            for (int y = j - size / 2; y < j + size / 2; y++)
                             {
                                 if (Main.tile[x, y].active() && Main.tile[x, y].type == TileID.Grass && Main.tile[x, y - 1].collisionType != 1 && Main.tile[x, y].slope() == 0) //!Main.tileSolid[Main.tile[x, y - 1].type] may be redundant
                                 {
@@ -85,17 +92,23 @@ namespace StarlightRiver
                         for (int y = surface - (xOff / 2 + WorldGen.genRand.Next(2)) - 3; true; y++)
                         {
                             WorldGen.PlaceWall(k + x, y, ModContent.WallType<Tiles.Forest.LeafWall>());
-                            if (y - surface > 20 || !WorldGen.InWorld(k + x, y + 1) || Main.tile[k + x, y + 1].wall != 0) break;
+                            if (y - surface > 20 || !WorldGen.InWorld(k + x, y + 1) || Main.tile[k + x, y + 1].wall != 0)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
-        private bool AnyGrass(int x)
+        private static bool AnyGrass(int x)
         {
-            for(int y = 10; y < Main.maxTilesY; y++)
+            for (int y = 10; y < Main.maxTilesY; y++)
             {
-                if (Main.tile[x, y].type == TileID.Grass) return true;
+                if (Main.tile[x, y].type == TileID.Grass)
+                {
+                    return true;
+                }
             }
             return false;
         }

@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Dolomite
 {
-    class Dolomite : ModTile
+    internal class Dolomite : ModTile
     {
         public override void SetDefaults()
         {
