@@ -7,9 +7,19 @@ namespace StarlightRiver.NPCs
     public class DebuffHandler : GlobalNPC
     {
         public override bool InstancePerEntity => true;
+        public bool snared = false;
+        public bool ivy = false;
         public int frozenTime = 0;
+        public override void ResetEffects(NPC npc)
+        {
+            snared = false;
+            ivy = false;
+            frozenTime = 0;
+        }
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
+            //Weird debuff code, seems to be a test for something.
+            //It's modifies the color and velocity of the NPC.
             if (frozenTime != 0)
             {
                 frozenTime -= 1;
@@ -25,11 +35,22 @@ namespace StarlightRiver.NPCs
                 }
                 npc.velocity *= 0.2f;
             }
+            if (snared)
+            {
+                npc.position = npc.oldPosition;
+            }
+            if (ivy)
+            {
+                int lR = 4;
+                if (npc.boss)
+                { lR = 8; }
+                else
+                { lR = 4; }
+                npc.lifeRegen -= lR;
+            }
         }
-        public override void ResetEffects(NPC npc)
-        {
-            base.ResetEffects(npc);
-        }
+        //This also seems to be used to for the weird debuff code.
+        //...I got no idea why it's spawning dust but whatever.
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
             if (frozenTime != 0)
