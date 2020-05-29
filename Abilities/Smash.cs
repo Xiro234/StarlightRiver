@@ -13,7 +13,7 @@ namespace StarlightRiver.Abilities
     public class Smash : Ability
     {
         public Smash(Player player) : base(2, player) { }
-        public override bool CanUse => player.velocity.Y != 0;
+        public override bool CanUse => player.velocity.Y != 0 && !player.mount.Active;
         public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         public const int ChargeTime = 30;
 

@@ -16,6 +16,8 @@ namespace StarlightRiver.Abilities
         {
 
         }
+
+        public override bool CanUse => !player.mount.Active;
         public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
         public override void OnCast()
         {
