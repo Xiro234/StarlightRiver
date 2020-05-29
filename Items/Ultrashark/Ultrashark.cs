@@ -131,7 +131,7 @@ namespace StarlightRiver.Items.Ultrashark
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ultrashark");
-            Tooltip.SetDefault("Okay so like it goes like pew... pew... pewpew... pewpew... pewpewpew... pewpewpewpew... pewpewpewpewpepwepwpewpepwpewepwepwpewpepwepwepwpewp\nAnd like, its innacurate\nBut like, you can right click it to like mount it and it like a turret\nWhile a turret exist you can like, shoot, way more accurately, faster, and spin up faster too damn");
+            Tooltip.SetDefault("'Overwhelming firepower' \nRight click to deploy a turret stand, drastically increasing accuracy and damage output \nUnable to move while the turret stand is deployed");
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -199,7 +199,7 @@ namespace StarlightRiver.Items.Ultrashark
                 }
                 return false;
             }
-            Vector2 perturbedSpeedAgain = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(8));
+            Vector2 perturbedSpeedAgain = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(16));
             speedX = perturbedSpeedAgain.X;
             speedY = perturbedSpeedAgain.Y;
             SpawnCasing(player, perturbedSpeedAgain);
