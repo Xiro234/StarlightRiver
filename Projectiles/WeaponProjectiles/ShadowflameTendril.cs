@@ -22,8 +22,7 @@ namespace StarlightRiver.Projectiles
             projectile.friendly = true;
             projectile.aiStyle = -1;
             projectile.ranged = true;
-            projectile.aiStyle = 91;
-            aiType = 496;
+            projectile.aiStyle = -1;
             projectile.penetrate = -1;
             projectile.extraUpdates = 2;
             projectile.timeLeft = 120;
@@ -60,7 +59,35 @@ namespace StarlightRiver.Projectiles
                 projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.7f;
             }
             projectile.velocity = Vector2.Normalize(projectile.velocity).RotatedBy(randomRotation) * randomSpeed;
-
+            projectile.width = (int)(20f * projectile.scale);
+            projectile.height = projectile.width;
+            projectile.position.X = projectile.Center.X - (projectile.width / 2);
+            projectile.position.Y = projectile.Center.Y - (projectile.height / 2);
+            if (projectile.scale > 0.9)
+            {
+                projectile.scale -= 0.01f;
+            }
+            else
+            {
+                projectile.scale -= 0.025f;
+            }
+            if (projectile.scale <= 0f)
+            {
+                projectile.Kill();
+            }
+            if (projectile.scale < 1f)
+            {
+                for (int k = 0; k < projectile.scale * 5f; k++)
+                {
+                    Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, ModContent.DustType<Shadowflame>(), projectile.velocity.X, projectile.velocity.Y, 0, default, 2f)];
+                    dust.position = (dust.position + projectile.Center) / 2f;
+                    dust.velocity *= 0.1f;
+                    dust.velocity -= projectile.velocity * (1.3f - projectile.scale);
+                    dust.fadeIn = 100 + projectile.owner;
+                    dust.scale += projectile.scale * 1.25f;
+                }
+                return;
+            }
         }
     }
 }

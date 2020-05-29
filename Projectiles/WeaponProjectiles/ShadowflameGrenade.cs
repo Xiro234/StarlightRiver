@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -32,21 +33,20 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public void makeSpirals(int spiralCount, float length, float angleIntensity,float rotationOffset, Dust dust)
         {
             Vector2 cachedPos = dust.position;
-            for (float currentSpiral = 0; currentSpiral <= spiralCount; currentSpiral++)
+            for (float k = 0; k <= spiralCount; k++)
             {
-                for (float progress = 0; progress < length; progress++)
+                for (float i = 0; i < length; i++)
                 {
-                    float rotation = 6.28f * (progress / length) * angleIntensity + rotationOffset;
-                    float rot = currentSpiral / spiralCount * 6.28f + rotation * 6.28f;
+                    float rotation = 6.28f * (i / length) * angleIntensity + rotationOffset;
+                    float rot = k / spiralCount * 6.28f + rotation * 6.28f;
 
-                    float posX = cachedPos.X + (float)(Math.Cos(rot) * progress);
-                    float posY = cachedPos.Y + (float)(Math.Sin(rot) * progress);
+                    float posX = cachedPos.X + (float)(Math.Cos(rot) * i);
+                    float posY = cachedPos.Y + (float)(Math.Sin(rot) * i);
 
-                    Vector2 pos = new Vector2(posX + (float)(Math.Cos(rot) * progress), posY + (float)(Math.Sin(rot) * progress));
+                    Vector2 pos = new Vector2(posX + (float)(Math.Cos(rot) * i), posY + (float)(Math.Sin(rot) * i));
                     Dust newDust = Dust.NewDustPerfect(pos, dust.type, Vector2.Zero, dust.alpha, default, dust.scale);
-                    newDust.velocity = Vector2.Normalize(pos - projectile.Center) * 5 * (progress / length);
-                    newDust.fadeIn -= progress / length * dust.scale * 2;
-                    newDust.scale -= progress / length * dust.scale;
+                    newDust.velocity = Vector2.Normalize(pos - projectile.Center) * 5 * (i / length);
+                    newDust.scale -= i / length * dust.scale;
                 }
             }
             dust.active = false;
@@ -60,22 +60,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             {
                 spawnShadowflame((360 / max) * i);
             }
-            makeSpirals(5, 40, 0.05f + Main.rand.NextFloat(0.03f), Main.rand.NextFloat(6.28f), Dust.NewDustPerfect(projectile.Center, 27, Vector2.Zero, 100, default, 3.6f));
-            for (int i = 0; i < 24; i++)
-            {
-                int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default(Color), 1.6f);
-                Main.dust[dust].velocity *= Main.rand.NextFloat(0.8f) + 1.6f;
-            }
+            //makeSpirals(5, 40, 0.04f + Main.rand.NextFloat(0.03f), Main.rand.NextFloat(6.28f), Dust.NewDustPerfect(projectile.Center, Main.rand.Next(59, 65), Vector2.Zero, 0, default, 4));
         }
         public override void AI()
         {
-            Vector2 dustOffset = (Vector2.One * projectile.height / 2).RotatedBy(Main.time / 3);
-            Dust dust1 = Dust.NewDustPerfect(projectile.Center + dustOffset, 27, Vector2.Zero, 100);
-            dust1.fadeIn = 100;
-            dust1.scale = 1.6f;
-            Dust dust2 = Dust.NewDustPerfect(projectile.Center - dustOffset, 27, Vector2.Zero, 100);
-            dust2.fadeIn = 100;
-            dust2.scale = 1.6f;
             if (projectile.timeLeft <= 565)
             {
                 projectile.velocity.Y += 0.04f;
@@ -84,8 +72,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame Grenade");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 40;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
     }
 }
