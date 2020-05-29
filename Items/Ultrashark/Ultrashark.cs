@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Dusts;
 using StarlightRiver.Gores;
 using Terraria;
 using Terraria.DataStructures;
@@ -243,10 +244,11 @@ namespace StarlightRiver.Items.Ultrashark
                         item.spinup = 0;
                     }
                 }
+                StarlightPlayer sPlayer = player.GetModPlayer<StarlightPlayer>();
                 #region animation and setup
                 if (item.turretDeployed)
                 {
-                    if (Main.time % 6 == 0) //animate stand
+                    if (sPlayer.Timer % 6 == 0) //animate stand
                     {
                         if (item.standFrame < item.standFrameCount - 1)
                         {
@@ -257,7 +259,7 @@ namespace StarlightRiver.Items.Ultrashark
                             item.completeSetup(player);
                         }
                     }
-                    if (Main.time % 20 - item.spinup * 6f == 0) //animate gun
+                    if (sPlayer.Timer - item.spinup * 6f == 0) //animate gun
                     {
                         if (item.sharkFrame < item.sharkFrameCount - 1)
                         {

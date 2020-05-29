@@ -58,7 +58,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             {
                 dist += (projectile.minionSlots - 2) * 18;
             }
-            float rot = currentPrism / (projectile.minionSlots * prismsPerSlot) * 6.28f + (float)Main.time % speed / speed * 6.28f;
+            StarlightPlayer sPlayer = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
+            float rot = currentPrism / (projectile.minionSlots * prismsPerSlot) * 6.28f + sPlayer.Timer % speed / speed * 6.28f;
 
             float posX = projectile.Center.X + (float)(Math.Cos(rot) * dist) * 0.25f;
             float posY = projectile.Center.Y - 10 + (float)(Math.Sin(rot) * dist) * 0.6f;
