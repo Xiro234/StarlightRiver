@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    internal class VitricBossBarrier : ModTile
+    class VitricBossBarrier : ModTile
     {
         public override bool Autoload(ref string name, ref string texture)
         {

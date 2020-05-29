@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Gores;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -37,7 +38,7 @@ namespace StarlightRiver.Items.Ultrashark
         {
             return GetSharkPos(player) + new Vector2(0, 17);
         }
-        private static Vector2 GetMousePos() //player's mouse position
+        public Vector2 GetMousePos() //player's mouse position
         {
             return new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y);
         }
@@ -52,11 +53,9 @@ namespace StarlightRiver.Items.Ultrashark
             }
             return sharkRotation;
         }
-#pragma warning disable IDE0060 // Remove unused parameter
-        public void CompleteSetup(Player player)
-#pragma warning restore IDE0060 // Remove unused parameter
+        public void completeSetup(Player player)
         {
-            //TODO: put some completion vfx here idk
+            //put some completion vfx here idk
             turretSetup = true;
         }
         #endregion
@@ -110,7 +109,7 @@ namespace StarlightRiver.Items.Ultrashark
         #region item
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = 5;
             item.useAnimation = 24;
             item.useTime = 24;
             item.shootSpeed = 20f;
@@ -119,14 +118,14 @@ namespace StarlightRiver.Items.Ultrashark
             item.width = 64;
             item.height = 24;
             item.damage = 28;
-            item.rare = ItemRarityID.LightRed;
+            item.rare = 4;
             item.value = Item.sellPrice(0, 10, 0, 0);
             item.noMelee = true;
             item.autoReuse = true;
             item.useTurn = false;
             item.useAmmo = AmmoID.Bullet;
             item.ranged = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = 10;
         }
         public override void SetStaticDefaults()
         {
@@ -255,7 +254,7 @@ namespace StarlightRiver.Items.Ultrashark
                         }
                         else if (!item.turretSetup)
                         {
-                            item.CompleteSetup(player);
+                            item.completeSetup(player);
                         }
                     }
                     if (Main.time % 20 - item.spinup * 6f == 0) //animate gun

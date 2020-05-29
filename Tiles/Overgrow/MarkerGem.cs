@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class MarkerGem : ModTile
+    class MarkerGem : ModTile
     {
         public override void SetDefaults()
         {

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs
 {
-    internal abstract class MovingPlatform : ModNPC
+    abstract class MovingPlatform : ModNPC
     {
         public virtual void SafeSetDefaults() { }
         public override void SetStaticDefaults()
@@ -47,14 +47,7 @@ namespace StarlightRiver.NPCs
                 proj.netUpdate = true;
             }
         }
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            return false;
-        }
-
-        public override bool? CanBeHitByItem(Player player, Item item)
-        {
-            return false;
-        }
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
     }
 }

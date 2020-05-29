@@ -1,13 +1,12 @@
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using System;
 
 namespace StarlightRiver.Projectiles
 {
     public class ImperfectLaser : ModProjectile
     {
-        public override string Texture => "StarlightRiver/Invisible";
         public const short LaserFocusDist = 80;
         public override void SetDefaults()
         {
@@ -40,7 +39,7 @@ namespace StarlightRiver.Projectiles
         // pos is the upper-leftmost position of the triangle hitbox
         // making w negative will make the hitbox point left, and make pos the upper-rightmost position
 
-        public static bool? TriangleCollision(int w, float theta, Vector2 pos, Rectangle hitbox, float rotation)
+        public bool? TriangleCollision(int w, float theta, Vector2 pos, Rectangle hitbox, float rotation)
         {
             float h = (float)(Math.Abs(w) * Math.Tan(theta / 2));
             Vector2 vertex1 = RotatePoint(new Vector2(pos.X + w, pos.Y + h), pos, rotation);
@@ -48,7 +47,7 @@ namespace StarlightRiver.Projectiles
 
             Vector2 centroid = GetCentroid(pos, vertex1, vertex2);
 
-            Vector2 hitboxCenter = new Vector2(hitbox.Y + hitbox.Height / 2, hitbox.X + hitbox.Width / 2);
+            Vector2 hitboxCenter = new Vector2((float)(hitbox.Y + hitbox.Height / 2), (float)(hitbox.X + hitbox.Width / 2));
             Vector2 intersectionPoint = GetIntersectionPoint(centroid, hitboxCenter, pos, vertex1);
 
             float angleToHitbox = (float)Math.Atan2(hitbox.X - hitboxCenter.X, hitbox.Y - hitboxCenter.Y);
@@ -63,7 +62,7 @@ namespace StarlightRiver.Projectiles
             return false;
         }
 
-        public static Vector2 GetIntersectionPoint(Vector2 p1, Vector2 p2, Vector2 q1, Vector2 q2)
+        public Vector2 GetIntersectionPoint(Vector2 p1, Vector2 p2, Vector2 q1, Vector2 q2)
         {
             float A1 = p2.Y - p1.Y;
             float B1 = p2.X - p1.X;
@@ -80,17 +79,11 @@ namespace StarlightRiver.Projectiles
             return new Vector2(x, y);
         }
 
-        public static Vector2 GetCentroid(Vector2 p1, Vector2 p2, Vector2 p3)
-        {
-            return new Vector2((p1.X + p2.X + p3.X) / 3f, (p1.Y + p2.Y + p3.Y) / 3f);
-        }
+        public Vector2 GetCentroid(Vector2 p1, Vector2 p2, Vector2 p3) => new Vector2((p1.X + p2.X + p3.X) / 3f, (p1.Y + p2.Y + p3.Y) / 3f);
 
-        public static float GetDistance(Vector2 p1, Vector2 p2)
-        {
-            return (float)(Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2)));
-        }
+        public float GetDistance(Vector2 p1, Vector2 p2) => (float)(Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2)));
 
-        public static Vector2 RotatePoint(Vector2 p1, Vector2 p2, float theta)
+        public Vector2 RotatePoint(Vector2 p1, Vector2 p2, float theta)
         {
             float s = (float)Math.Sin(theta);
             float c = (float)Math.Cos(theta);

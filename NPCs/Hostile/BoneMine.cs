@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    internal class BoneMine : ModNPC
+    class BoneMine : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -44,10 +44,7 @@ namespace StarlightRiver.NPCs.Hostile
         public override void AI()
         {
             npc.ai[0] += 0.02f;
-            if (npc.ai[0] >= 6.28f)
-            {
-                npc.ai[0] = 0;
-            }
+            if (npc.ai[0] >= 6.28f) npc.ai[0] = 0;
 
             if (npc.ai[1] == 0)
             {
@@ -64,15 +61,8 @@ namespace StarlightRiver.NPCs.Hostile
             else
             {
                 npc.ai[2]++;
-                if (npc.ai[2] % 10 == 0)
-                {
-                    Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
-                }
-
-                if (npc.ai[2] >= 45)
-                {
-                    Helper.Kill(npc); //detonate
-                }
+                if (npc.ai[2] % 10 == 0) Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
+                if (npc.ai[2] >= 45) Helper.Kill(npc); //detonate
             }
         }
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Food
@@ -18,7 +17,7 @@ namespace StarlightRiver.Food
         public int Fill = 0;
         public IngredientType ThisType { get; set; }
 
-        protected Ingredient(string tooltip, int filling, IngredientType type)
+        public Ingredient(string tooltip, int filling, IngredientType type)
         {
             Fill = filling;
             ItemTooltip = tooltip;
@@ -48,7 +47,7 @@ namespace StarlightRiver.Food
             item.maxStack = 99;
             item.width = 32;
             item.height = 32;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.useTime = 30;
             item.useAnimation = 30;
         }
@@ -70,10 +69,8 @@ namespace StarlightRiver.Food
                 if (line.mod == "Terraria" && line.Name == "Tooltip0") { line.text = description; line.overrideColor = nameColor; }
                 if (line.mod == "Terraria" && line.Name == "Tooltip1") { line.text = ItemTooltip; line.overrideColor = descriptionColor; }
             }
-            TooltipLine fullLine = new TooltipLine(mod, "StarlightRiver: Fullness", "adds " + Fill / 60 + " seconds duration to food")
-            {
-                overrideColor = new Color(110, 235, 255)
-            };
+            TooltipLine fullLine = new TooltipLine(mod, "StarlightRiver: Fullness", "adds " + Fill / 60 + " seconds duration to food");
+            fullLine.overrideColor = new Color(110, 235, 255);
             tooltips.Add(fullLine);
         }
 

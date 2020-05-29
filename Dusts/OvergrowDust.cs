@@ -5,9 +5,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Dusts
 {
-    internal class OvergrowDust : ModDust
+    class OvergrowDust : ModDust
     {
-        //private readonly int time = 0;
+        int time = 0;
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Dusts/DragonFire";
@@ -29,18 +29,10 @@ namespace StarlightRiver.Dusts
             if (dust.customData is int)
             {
                 dust.customData = (int)dust.customData - 1;
-                if ((int)dust.customData == 0)
-                {
-                    dust.active = false;
-                }
-
+                if ((int)dust.customData == 0) dust.active = false;
                 if ((int)dust.customData >= 100)
                 {
-                    if (dust.color.R < 100)
-                    {
-                        dust.color *= 1.53f;
-                    }
-
+                    if (dust.color.R < 100) dust.color *= 1.53f;
                     dust.scale *= 1.025f;
                 }
                 else

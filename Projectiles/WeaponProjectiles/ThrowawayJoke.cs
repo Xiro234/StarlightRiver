@@ -7,7 +7,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     public class ThrowawayJokeProjectile : ModProjectile
     {
-        private bool crit = false;
+        bool crit = false;
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -45,7 +45,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     if (player.HeldItem.type.Equals(ModContent.ItemType<ThrowawayJoke>()))
                     {
                         ThrowawayJoke joke = (ThrowawayJoke)player.HeldItem.modItem;
-                        joke.Reload(crit);
+                        joke.reload(crit);
                     }
                 }
             }

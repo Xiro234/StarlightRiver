@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using System;
 using Terraria;
@@ -8,15 +9,11 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    internal class Fist : AbilityPickup
+    class Fist : AbilityPickup
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Smash1";
         public override Color GlowColor => new Color(180, 220, 140);
-        public override bool CanPickup(Player player)
-        {
-            return player.GetModPlayer<AbilityHandler>().smash.Locked;
-        }
-
+        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().smash.Locked;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gaia's Fish");
@@ -25,7 +22,7 @@ namespace StarlightRiver.NPCs.Pickups
         public override void Visuals()
         {
             float timer = LegendWorld.rottime;
-            //Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 4);
+            Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 4);
 
             Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * (23 + (float)Math.Sin(timer * 10) * 4), ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
             Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * 18, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);

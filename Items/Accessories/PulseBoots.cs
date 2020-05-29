@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace StarlightRiver.Items.Accessories
 {
@@ -11,7 +11,7 @@ namespace StarlightRiver.Items.Accessories
     { //needs sound / particles and number tweaking
         private bool doubleJumped = false;
         private bool releaseJump = false;
-        private const int maxSpeed = 15;
+        static int maxSpeed = 15;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse Boots");

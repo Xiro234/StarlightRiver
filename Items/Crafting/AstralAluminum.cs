@@ -36,7 +36,7 @@ namespace StarlightRiver.Items.Crafting
             item.height = 14;
             item.maxStack = 999;
             item.value = 100;
-            item.rare = ItemRarityID.Blue;
+            item.rare = 1;
         }
         public override void PostUpdate()
         {

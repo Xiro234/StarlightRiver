@@ -7,17 +7,14 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Guardian
 {
-    internal class Mace : GuardianWeapon
+    class Mace : GuardianWeapon
     {
-        private int Timer { get; set; }
+        int Timer { get; set; }
         public Mace(int HPcost, int lifesteal, int healrad, int heal) : base(HPcost, lifesteal, healrad, heal) { }
         public override void HoldItem(Player player)
         {
             Timer++; //the timing ticker
-            if (Timer > item.useTime * 2)
-            {
-                Timer = -(item.useTime * 2);
-            }
+            if (Timer > item.useTime * 2) Timer = -(item.useTime * 2);
             //Main.NewText(Timer);
         }
         public virtual void SpawnProjectile(int type, Player player) //virtual to allow custom timing gimicks on individual maces
@@ -33,7 +30,7 @@ namespace StarlightRiver.Items.Guardian
         }
     }
 
-    internal class MaceProjectile : ModProjectile
+    class MaceProjectile : ModProjectile
     {
         public int LifeSteal { get; set; }
         public int HealRadius { get; set; }

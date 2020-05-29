@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    internal class Leaf : ModProjectile
+    class Leaf : ModProjectile
     {
         public override void SetDefaults()
         {

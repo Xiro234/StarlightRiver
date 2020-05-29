@@ -5,7 +5,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class SetpieceAltar : ModTile
+    class SetpieceAltar : ModTile
     {
         public override void SetDefaults()
         {

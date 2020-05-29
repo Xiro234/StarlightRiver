@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    internal class WhipSegment1 : ModProjectile
+    class WhipSegment1 : ModProjectile
     {
         public override void SetDefaults()
         {

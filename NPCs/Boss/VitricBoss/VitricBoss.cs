@@ -10,14 +10,10 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    internal sealed partial class VitricBoss : ModNPC, IDynamicMapIcon
+    sealed partial class VitricBoss : ModNPC, IDynamicMapIcon
     {
         #region tml hooks
-        public override bool CheckActive()
-        {
-            return npc.ai[1] == (int)AIStates.Leaving;
-        }
-
+        public override bool CheckActive() => npc.ai[1] == (int)AIStates.Leaving;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ceiros");
@@ -56,16 +52,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override bool CheckDead()
         {
-            if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 1500)
-            {
-                Helper.UnlockEntry<Codex.Entries.CeirosEntry>(Main.LocalPlayer); //unlocks the entry if the local player is close enough. codex is clientside so this is fine.
-            }
-
-            foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp))
-            {
-                npc.active = false; //reset arena
-            }
-
+            if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 1500) Helper.UnlockEntry<Codex.Entries.CeirosEntry>(Main.LocalPlayer); //unlocks the entry if the local player is close enough. codex is clientside so this is fine.
+            foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp)) npc.active = false; //reset arena
             LegendWorld.GlassBossDowned = true;
             return true;
         }
@@ -84,10 +72,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             Utils.DrawBorderString(spriteBatch, "Next Health Gate: " + (npc.lifeMax - (1 + Crystals.Count(n => n.ai[0] == 3)) * 500), new Vector2(40, Main.screenHeight - 160), Color.Red);
             for (int k = 0; k < 4; k++)
             {
-                if (Crystals.Count == 4)
-                {
-                    Utils.DrawBorderString(spriteBatch, "Crystal " + k + " Distance: " + Vector2.Distance(Crystals[k].Center, npc.Center) + " State: " + Crystals[k].ai[2], new Vector2(40, Main.screenHeight - 180 - k * 20), Color.Yellow);
-                }
+                if (Crystals.Count == 4) Utils.DrawBorderString(spriteBatch, "Crystal " + k + " Distance: " + Vector2.Distance(Crystals[k].Center, npc.Center) + " State: " + Crystals[k].ai[2], new Vector2(40, Main.screenHeight - 180 - k * 20), Color.Yellow);
             }
 
             return false;
@@ -107,15 +92,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         };
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (Eyes.Any(n => n.Parent == null))
-            {
-                Eyes.ForEach(n => n.Parent = this);
-            }
-
-            if (npc.frame.X == 0)
-            {
-                Eyes.ForEach(n => n.Draw(spriteBatch));
-            }
+            if (Eyes.Any(n => n.Parent == null)) Eyes.ForEach(n => n.Parent = this);
+            if (npc.frame.X == 0) Eyes.ForEach(n => n.Draw(spriteBatch));
 
             if (npc.ai[1] == (int)AIStates.FirstPhase && npc.dontTakeDamage) //draws the npc's shield when immune and in the first phase
             {
@@ -133,21 +111,18 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
 
         //Easily animate a phase with custom framerate and frame quantity
-        //private void Animate(int ticksPerFrame, int maxFrames)
-        //{
-        //    if (npc.frameCounter++ >= ticksPerFrame) { npc.frame.Y += npc.height; npc.frameCounter = 0; }
-        //    if ((npc.frame.Y / npc.height) > maxFrames - 1) npc.frame.Y = 0;
-        //}
+        private void Animate(int ticksPerFrame, int maxFrames)
+        {
+            if (npc.frameCounter++ >= ticksPerFrame) { npc.frame.Y += npc.height; npc.frameCounter = 0; }
+            if ((npc.frame.Y / npc.height) > maxFrames - 1) npc.frame.Y = 0;
+        }
 
         //resets animation and changes phase
         private void ChangePhase(AIStates phase, bool resetTime = false)
         {
             npc.frame.Y = 0;
             npc.ai[1] = (int)phase;
-            if (resetTime)
-            {
-                npc.ai[0] = 0;
-            }
+            if (resetTime) npc.ai[0] = 0;
         }
         #endregion
 
@@ -201,10 +176,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     for (int k = 0; k < Main.maxNPCs; k++) //finds all the large platforms to add them to the list of possible locations for the nuke attack
                     {
                         NPC npc = Main.npc[k];
-                        if (npc != null && npc.active && (npc.type == ModContent.NPCType<VitricBossPlatformUp>() || npc.type == ModContent.NPCType<VitricBossPlatformDown>()))
-                        {
-                            CrystalLocations.Add(npc.Center + new Vector2(0, -48));
-                        }
+                        if (npc != null && npc.active && (npc.type == ModContent.NPCType<VitricBossPlatformUp>() || npc.type == ModContent.NPCType<VitricBossPlatformDown>())) CrystalLocations.Add(npc.Center + new Vector2(0, -48));
                     }
 
                     ChangePhase(AIStates.SpawnAnimation, true);
@@ -262,17 +234,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                     if (npc.ai[3] == 1) //switching out attacks
                     {
-                        if (npc.dontTakeDamage)
-                        {
-                            npc.ai[2] = 0; //nuke attack once the boss turns immortal for a chance to break a crystal
-                        }
+                        if (npc.dontTakeDamage) npc.ai[2] = 0; //nuke attack once the boss turns immortal for a chance to break a crystal
+
                         else //otherwise proceed with attacking pattern
                         {
                             npc.ai[2]++;
-                            if (npc.ai[2] > 4)
-                            {
-                                npc.ai[2] = 1;
-                            }
+                            if (npc.ai[2] > 4) npc.ai[2] = 1;
                         }
                     }
                     switch (npc.ai[2]) //switch for crystal behavior
@@ -330,15 +297,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                                 SetFrameX(2);
                                 ChangePhase(AIStates.SecondPhase, true); //go on to the next phase
                                 ResetAttack(); //reset attack
-                                foreach (NPC wall in Main.npc.Where(n => n.modNPC is VitricBackdropLeft))
-                                {
-                                    wall.ai[1] = 3; //make the walls scroll
-                                }
-
-                                foreach (NPC plat in Main.npc.Where(n => n.modNPC is VitricBossPlatformUp))
-                                {
-                                    plat.ai[0] = 1; //make the platforms scroll
-                                }
+                                foreach (NPC wall in Main.npc.Where(n => n.modNPC is VitricBackdropLeft)) wall.ai[1] = 3; //make the walls scroll
+                                foreach (NPC plat in Main.npc.Where(n => n.modNPC is VitricBossPlatformUp)) plat.ai[0] = 1; //make the platforms scroll
 
                                 break;
                             }
@@ -357,21 +317,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 case (int)AIStates.SecondPhase:
                     npc.dontTakeDamage = false; //damagable again
                     npc.friendly = false;
-                    if (npc.ai[0] == 1)
-                    {
-                        music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy"); //handles the music transition
-                    }
+                    if (npc.ai[0] == 1) music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy"); //handles the music transition
+                    if (npc.ai[0] == 2) music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBossTransition");
 
-                    if (npc.ai[0] == 2)
-                    {
-                        music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBossTransition");
-                    }
-
-                    if (npc.ai[0] == 701)
-                    {
-                        music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy");
-                    }
-
+                    if (npc.ai[0] == 701) music = mod.GetSoundSlot(SoundType.Music, "VortexHasASmallPussy");
                     if (npc.ai[0] == 702)
                     {
                         music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss2");
@@ -396,10 +345,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.ai[0] >= 180)
                     {
                         npc.active = false; //leave
-                        foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp))
-                        {
-                            npc.active = false; //arena reset
-                        }
+                        foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp)) npc.active = false; //arena reset
                     }
                     break;
 
@@ -407,7 +353,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         #endregion
         #region Networking
-        private int FavoriteCrystal = 0;
+        int FavoriteCrystal = 0;
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(FavoriteCrystal);
@@ -418,16 +364,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         #endregion
 
-        private int IconFrame = 0;
-        private int IconFrameCounter = 0;
+        int IconFrame = 0;
+        int IconFrameCounter = 0;
         public void DrawOnMap(SpriteBatch spriteBatch, Vector2 center, float scale, Color color)
         {
             if (IconFrameCounter++ >= 5) { IconFrame++; IconFrameCounter = 0; }
-            if (IconFrame > 3)
-            {
-                IconFrame = 0;
-            }
-
+            if (IconFrame > 3) IconFrame = 0;
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBoss_Head_Boss");
             spriteBatch.Draw(tex, center, new Rectangle(0, IconFrame * 30, 30, 30), color, npc.rotation, Vector2.One * 15, scale, 0, 0);
         }

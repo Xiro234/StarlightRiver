@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Effects;
 
 namespace StarlightRiver.Projectiles.Ability
 {
-    internal class Purifier : ModProjectile
+    class Purifier : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -104,7 +104,7 @@ namespace StarlightRiver.Projectiles.Ability
             }
         }
 
-        private static void SpawnDust(int x, int y)
+        private void SpawnDust(int x, int y)
         {
             for (int k = 0; k <= 4; k++)
             {
@@ -127,7 +127,7 @@ namespace StarlightRiver.Projectiles.Ability
         }
     }
 
-    internal class PurifierReturn : ModProjectile
+    class PurifierReturn : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    internal class VitricCrystalBig : ModWall
+    class VitricCrystalBig : ModWall
     {
         public override bool Autoload(ref string name, ref string texture)
         {
@@ -29,8 +29,7 @@ namespace StarlightRiver.Tiles.Vitric
             spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, tex.Frame(), Color.White * (0.7f + (float)Math.Sin(LegendWorld.rottime + (i * 0.06f)) * 0.2f), 0, Vector2.Zero, 1, 0, 0);
         }
     }
-
-    internal class VitricCrystalCollision : ModTile
+    class VitricCrystalCollision : ModTile
     {
         public override bool Autoload(ref string name, ref string texture)
         {

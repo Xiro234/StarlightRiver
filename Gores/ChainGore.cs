@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Gores
 {
-    internal class ChainGore : ModGore
+    class ChainGore : ModGore
     {
         public override void OnSpawn(Gore gore)
         {

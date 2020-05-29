@@ -21,12 +21,12 @@ namespace StarlightRiver.Items.Overgrow
             item.height = 20;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 4;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.UseSound = SoundID.Item5;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = 10;
             item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Arrow;
         }
@@ -34,7 +34,7 @@ namespace StarlightRiver.Items.Overgrow
         {
             int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<LeafSpawner>(), damage, knockBack, player.whoAmI);
             LeafSpawner spawner = Main.projectile[proj].modProjectile as LeafSpawner;
-            spawner.Proj = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            spawner.proj = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             return false;
         }
     }

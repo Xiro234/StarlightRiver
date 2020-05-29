@@ -17,13 +17,13 @@ namespace StarlightRiver.Items.EbonyIvory
         {
             item.mana = 10;
             item.damage = 8;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.width = 26;
             item.height = 28;
             item.UseSound = SoundID.Item77;
             item.useAnimation = 36;
             item.useTime = 36;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = 10000;

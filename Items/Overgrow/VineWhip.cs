@@ -2,12 +2,11 @@
 using StarlightRiver.Projectiles.WeaponProjectiles;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
 {
-    internal class VineWhip : ModItem
+    class VineWhip : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,12 +20,12 @@ namespace StarlightRiver.Items.Overgrow
             item.melee = true;
             item.noUseGraphic = true;
             item.noMelee = true;
-            item.rare = ItemRarityID.LightRed;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.rare = 4;
+            item.useStyle = 5;
             item.useAnimation = 30;
             item.useTime = 30;
             item.channel = true;
-            item.shoot = ProjectileID.WoodenArrowFriendly;
+            item.shoot = 1;
         }
 
         public override bool CanUseItem(Player player)

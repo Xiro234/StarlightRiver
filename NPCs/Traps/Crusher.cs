@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Traps
 {
-    internal class Crusher : ModNPC
+    class Crusher : ModNPC
     {
         public Tile Parent;
         public override void SetStaticDefaults()

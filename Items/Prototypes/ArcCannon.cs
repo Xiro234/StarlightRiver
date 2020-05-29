@@ -1,12 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Prototypes
 {
-    internal class ArcCannon : PrototypeWeapon
+    class ArcCannon : PrototypeWeapon
     {
         public ArcCannon() : base(500, BreakType.MaxUses) { }
         public override void SetStaticDefaults()
@@ -17,7 +16,7 @@ namespace StarlightRiver.Items.Prototypes
         public override void SetDefaults()
         {
             item.damage = 50;
-            item.useStyle = ItemUseStyleID.HoldingUp;
+            item.useStyle = 4;
             item.useTime = 2;
             item.useAnimation = 8;
             item.autoReuse = true;

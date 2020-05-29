@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    internal class EntangleThorn : ModProjectile
+    class EntangleThorn : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -17,27 +17,15 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override void AI()
         {
-            if (projectile.timeLeft == 90)
-            {
-                projectile.velocity *= -1;
-            }
-
+            if (projectile.timeLeft == 90) projectile.velocity *= -1;
             Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Gold>());
             projectile.velocity = Vector2.Normalize(projectile.velocity) * 10;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.velocity.X != projectile.oldVelocity.X)
-            {
-                projectile.velocity.X *= -1;
-            }
-
-            if (projectile.velocity.Y != projectile.oldVelocity.Y)
-            {
-                projectile.velocity.Y *= -1;
-            }
-
+            if (projectile.velocity.X != projectile.oldVelocity.X) projectile.velocity.X *= -1;
+            if (projectile.velocity.Y != projectile.oldVelocity.Y) projectile.velocity.Y *= -1;
             return false;
         }
     }

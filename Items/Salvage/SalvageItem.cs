@@ -59,10 +59,8 @@ namespace StarlightRiver.Items.Salvage
             float percent2 = (Speed.maximum - Speed.value) / (float)(Speed.maximum - Speed.minimum);
             float percent3 = (Crit.value - Crit.minimum) / (float)(Crit.maximum - Crit.minimum);
 
-            TooltipLine tip0 = new TooltipLine(mod, "Salvage", "Salvaged Item (" + (int)((percent1 + percent2 + percent3) / 3 * 100) + "% intact)")
-            {
-                overrideColor = new Color(150, 200, 255)
-            };
+            TooltipLine tip0 = new TooltipLine(mod, "Salvage", "Salvaged Item (" + (int)((percent1 + percent2 + percent3) / 3 * 100) + "% intact)");
+            tip0.overrideColor = new Color(150, 200, 255);
             tooltips.Insert(1, tip0);
 
             TooltipLine tip1 = tooltips.FirstOrDefault(tooltip => tooltip.Name == "Damage" && tooltip.mod == "Terraria");

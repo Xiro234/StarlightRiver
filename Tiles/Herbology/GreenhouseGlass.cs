@@ -17,7 +17,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileID.Sets.DrawsWalls[Type] = true;
             drop = mod.ItemType("GreenhouseGlassItem");
             dustType = 13;
-            soundType = SoundID.Shatter;
+            soundType = 13;
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Greenhouse Glass");

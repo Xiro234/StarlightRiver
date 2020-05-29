@@ -21,7 +21,7 @@ namespace StarlightRiver.Items.Ammo
             item.consumable = true;
             item.knockBack = 0.5f;
             item.value = 10;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.shoot = ModContent.ProjectileType<Projectiles.Ammo.VitricArrow>();
             item.shootSpeed = 1f;
             item.ammo = AmmoID.Arrow;

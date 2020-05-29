@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    internal class VitricOreDummy : ModProjectile
+    class VitricOreDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

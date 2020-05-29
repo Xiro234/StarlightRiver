@@ -1,5 +1,4 @@
-﻿using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
 {
@@ -31,7 +30,7 @@ namespace StarlightRiver.Items.Overgrow
             item.autoReuse = true;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.consumable = true;
             item.createTile = mod.TileType("GrassOvergrow");
         }

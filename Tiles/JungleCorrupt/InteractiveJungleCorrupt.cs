@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.JungleCorrupt
 {
-    internal class SporeJungleCorrupt : ModTile
+    class SporeJungleCorrupt : ModTile
     {
         public override void SetDefaults()
         {
@@ -52,7 +52,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
         {
             Main.tileCut[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            soundType = SoundID.Grass;
+            soundType = 6;
             dustType = 14;
 
             ModTranslation name = CreateMapEntryName();

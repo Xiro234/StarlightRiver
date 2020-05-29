@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class HatchOvergrow : ModTile
+    class HatchOvergrow : ModTile
     {
         public override void SetDefaults()
         {
@@ -38,8 +38,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Lighting.AddLight(new Vector2(i, j + 2) * 16, new Vector3(0.6f, 0.6f, 0.5f));
         }
     }
-
-    internal class BigHatchOvergrow : ModTile
+    class BigHatchOvergrow : ModTile
     {
         public override void SetDefaults()
         {

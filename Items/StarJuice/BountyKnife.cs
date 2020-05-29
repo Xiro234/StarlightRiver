@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.StarJuice
 {
-    internal class BountyKnife : StarjuiceStoringItem
+    class BountyKnife : StarjuiceStoringItem
     {
         public BountyKnife() : base(2500) { }
         public override void SetStaticDefaults()
@@ -17,10 +16,10 @@ namespace StarlightRiver.Items.StarJuice
         {
             item.width = 16;
             item.height = 16;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.rare = ItemRarityID.Orange;
+            item.rare = 3;
             item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.BountyKnife>();
             item.shootSpeed = 2;
             item.damage = 1;

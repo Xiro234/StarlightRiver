@@ -3,12 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Dragons
 {
-    internal class YoungDragon : ModMountData
+    class YoungDragon : ModMountData
     {
         public override void SetDefaults()
         {
@@ -34,7 +33,7 @@ namespace StarlightRiver.Dragons
             mountData.bodyFrame = 3;
             mountData.yOffset = 6;
             mountData.playerHeadOffset = 22;
-            if (Main.netMode != NetmodeID.Server)
+            if (Main.netMode != 2)
             {
                 mountData.textureWidth = mountData.backTexture.Width + 20;
                 mountData.textureHeight = mountData.backTexture.Height;
@@ -57,10 +56,7 @@ namespace StarlightRiver.Dragons
             {
                 player.maxFallSpeed = 1.5f;
             }
-            if (player.velocity.Y == 0)
-            {
-                player.GetModPlayer<DragonHandler>().jumpAgainDragon = true;
-            }
+            if (player.velocity.Y == 0) player.GetModPlayer<DragonHandler>().jumpAgainDragon = true;
         }
         public override bool Draw(List<DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
         {

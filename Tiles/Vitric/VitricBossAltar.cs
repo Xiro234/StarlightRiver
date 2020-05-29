@@ -9,9 +9,9 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    internal class VitricBossAltar : ModTile
+    class VitricBossAltar : ModTile
     {
-        private Projectile Dummy = new Projectile();
+        Projectile Dummy = new Projectile();
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = false;

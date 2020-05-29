@@ -1,14 +1,10 @@
 ﻿namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    internal class VitricBossPlatformUp : MovingPlatform
+    class VitricBossPlatformUp : MovingPlatform
     {
         public const int MaxHeight = 880;
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatform";
-        public override bool CheckActive()
-        {
-            return false;
-        }
-
+        public override bool CheckActive() => false;
         public override void SafeSetDefaults()
         {
             npc.width = 220;
@@ -30,10 +26,7 @@
                     npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Risetime;
                     npc.ai[1]--;
                 }
-                else
-                {
-                    npc.velocity.Y = 0;
-                }
+                else npc.velocity.Y = 0;
             }
 
             if (npc.ai[0] == 1)
@@ -47,7 +40,7 @@
         }
     }
 
-    internal class VitricBossPlatformDown : VitricBossPlatformUp
+    class VitricBossPlatformDown : VitricBossPlatformUp
     {
         public override void SafeAI()
         {
@@ -63,10 +56,7 @@
                     npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Risetime;
                     npc.ai[1]--;
                 }
-                else
-                {
-                    npc.velocity.Y = 0;
-                }
+                else npc.velocity.Y = 0;
             }
 
             if (npc.ai[0] == 1)
@@ -80,7 +70,7 @@
         }
     }
 
-    internal class VitricBossPlatformUpSmall : VitricBossPlatformUp
+    class VitricBossPlatformUpSmall : VitricBossPlatformUp
     {
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatformSmall";
         public override void SafeSetDefaults()
@@ -92,7 +82,7 @@
         }
     }
 
-    internal class VitricBossPlatformDownSmall : VitricBossPlatformDown
+    class VitricBossPlatformDownSmall : VitricBossPlatformDown
     {
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatformSmall";
         public override void SafeSetDefaults()

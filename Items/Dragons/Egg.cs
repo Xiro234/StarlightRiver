@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Dragons
 {
-    internal class Egg : SoulboundItem
+    class Egg : SoulboundItem
     {
         public override void SetStaticDefaults()
         {
@@ -37,10 +37,8 @@ namespace StarlightRiver.Items.Dragons
             nameline.text = Main.LocalPlayer.name + "`s Dragon Egg";
             nameline.overrideColor = new Color(255, 220, 50);
 
-            TooltipLine line = new TooltipLine(mod, "n", "Perhaps it would hatch if it had a nest...")
-            {
-                overrideColor = new Color(255, 255, 200)
-            };
+            TooltipLine line = new TooltipLine(mod, "n", "Perhaps it would hatch if it had a nest...");
+            line.overrideColor = new Color(255, 255, 200);
             tooltips.Add(line);
         }
     }

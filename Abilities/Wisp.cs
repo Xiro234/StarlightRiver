@@ -16,7 +16,7 @@ namespace StarlightRiver.Abilities
         {
 
         }
-        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
+        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
         public override void OnCast()
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
@@ -43,7 +43,7 @@ namespace StarlightRiver.Abilities
                 Main.screenPosition.Y + Main.mouseY - player.Hitbox.Center.Y
                 )) * 5 + new Vector2(0.25f, 0.25f);
 
-            player.Hitbox = new Rectangle(player.Hitbox.X - 7 + 7, player.Hitbox.Y + 21 + 7, 14, 14);
+            player.Hitbox = new Rectangle((int)player.Hitbox.X - 7 + 7, (int)player.Hitbox.Y + 21 + 7, 14, 14);
 
             Lighting.AddLight(player.Center, new Vector3(0.15f, 0.15f, 0f));
 

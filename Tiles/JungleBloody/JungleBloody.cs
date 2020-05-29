@@ -24,7 +24,7 @@ namespace StarlightRiver.Tiles.JungleBloody
             SetModTree(new TreeJungleBloody());
             drop = ItemID.MudBlock;
             AddMapEntry(new Color(143, 45, 45));
-            soundType = SoundID.Dig;
+            soundType = 0;
             dustType = 125;
         }
         public override void RandomUpdate(int i, int j)//grappling hook breaks the grass, its running killtile for some reason?
@@ -111,7 +111,7 @@ namespace StarlightRiver.Tiles.JungleBloody
                 ModContent.TileType<VineJungleBloody>()
             };
             TileObjectData.addTile(Type);
-            soundType = SoundID.Grass;
+            soundType = 6;
             dustType = 14;
             AddMapEntry(new Color(122, 38, 38));
         }
@@ -158,7 +158,7 @@ namespace StarlightRiver.Tiles.JungleBloody
                 ModContent.TileType<GrassJungleBloody>()
             };
             TileObjectData.addTile(Type);
-            soundType = SoundID.Grass;
+            soundType = 6;
             dustType = 14;
             AddMapEntry(new Color(122, 38, 38));
         }

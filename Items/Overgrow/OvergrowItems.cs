@@ -24,7 +24,7 @@ namespace StarlightRiver.Items.Overgrow
             item.height = 16;
             item.maxStack = 999;
             item.value = 100;
-            item.rare = ItemRarityID.Blue;
+            item.rare = 1;
         }
         public override void PostUpdate()
         {

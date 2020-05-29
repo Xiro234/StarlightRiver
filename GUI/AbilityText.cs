@@ -71,11 +71,7 @@ namespace StarlightRiver.GUI
 
             else
             {
-                if (tempTime < tempTimeMax)
-                {
-                    tempTime++;
-                }
-
+                if (tempTime < tempTimeMax) tempTime++;
                 if (tempTime >= tempTimeMax) { Timer--; }
                 else if (Timer < 120) { Timer++; }
 

@@ -2,7 +2,7 @@
 
 namespace StarlightRiver.Codex.Entries
 {
-    internal class StaminaEntry : CodexEntry
+    class StaminaEntry : CodexEntry
     {
         public StaminaEntry()
         {
@@ -19,7 +19,7 @@ namespace StarlightRiver.Codex.Entries
         }
     }
 
-    internal class InfusionEntry : CodexEntry
+    class InfusionEntry : CodexEntry
     {
         public InfusionEntry()
         {

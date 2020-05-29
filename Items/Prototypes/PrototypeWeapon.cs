@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Prototypes
 {
-    internal enum BreakType : int
+    enum BreakType : int
     {
         MaxUses = 0, //the weapon can only be used as many times as durability it has
         Time = 1, //the weapon can only be used for as many ticks as durability it has
         MaxDamage = 2 //the weapon can only be used before it has delt the amount of damage as durability it has
     }
 
-    internal class PrototypeWeapon : ModItem
+    class PrototypeWeapon : ModItem
     {
         public int Durability { get; set; } //how many on the appropriate degradation factor the prototype can withstand before breaking
         public int MaxDurability { get; set; } //the maximum durability, for the purpose of calculting durability bars
@@ -35,53 +35,28 @@ namespace StarlightRiver.Items.Prototypes
                 case (BreakType.Time): text += " Left"; break;
                 case (BreakType.MaxDamage): text += " Damage Left"; break;
             }
-            TooltipLine line = new TooltipLine(mod, "PrototypeInfo", text)
-            {
-                overrideColor = new Color(255, 200, 100)
-            };
+            TooltipLine line = new TooltipLine(mod, "PrototypeInfo", text);
+            line.overrideColor = new Color(255, 200, 100);
             tooltips.Add(line);
         }
         public virtual bool SafeUseItem(Player player) { return true; } //allows on-use effects without breaking the prototype behavior
         public sealed override bool UseItem(Player player) //reduces durability on use if the breaking method of the prototype is limited uses
         {
-            if (Breaktype == BreakType.MaxUses)
-            {
-                Durability--;
-            }
-
-            if (Durability == 0)
-            {
-                BreakItem(player.Center); //destroys the item on it's last use
-            }
-
+            if (Breaktype == BreakType.MaxUses) Durability--;
+            if (Durability == 0) BreakItem(player.Center); //destroys the item on it's last use
             return SafeUseItem(player);
         }
         public virtual void SafeUpdateInventory(Player player) { } //allows in-inventory effects without breaking the prototype behavior
         public sealed override void UpdateInventory(Player player) //reduces durability every tick in the player's inventory if of the appropriate breaking method
         {
-            if (Breaktype == BreakType.Time)
-            {
-                Durability--;
-            }
-
-            if (Durability == 0)
-            {
-                BreakItem(player.Center); //destroys the item when time is up, if in the inventory
-            }
-
+            if (Breaktype == BreakType.Time) Durability--;
+            if (Durability == 0) BreakItem(player.Center); //destroys the item when time is up, if in the inventory
             SafeUpdateInventory(player);
         }
         public sealed override void PostUpdate() //reduces durability every tick in the world if of the appropriate breaking method
         {
-            if (Breaktype == BreakType.Time)
-            {
-                Durability--;
-            }
-
-            if (Durability == 0)
-            {
-                BreakItem(item.Center); //destroys the item when time is up, if on the ground
-            }
+            if (Breaktype == BreakType.Time) Durability--;
+            if (Durability == 0) BreakItem(item.Center); //destroys the item when time is up, if on the ground
         }
 
         public void BreakItem(Vector2 spawnpos)

@@ -1,7 +1,10 @@
 ﻿using NetEasy;
 using StarlightRiver.Abilities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 
 namespace StarlightRiver.Packets
@@ -9,8 +12,6 @@ namespace StarlightRiver.Packets
     [Serializable]
     public class UseAbility : Module
     {
-        public UseAbility() { }
-
         public UseAbility(int fromWho, Ability ability)
         {
             this.fromWho = fromWho;
@@ -25,21 +26,13 @@ namespace StarlightRiver.Packets
 
         protected override void Receive()
         {
-            // TODO: Scalie, review this method please.
             AbilityHandler mp = Main.player[fromWho].GetModPlayer<AbilityHandler>();
             Ability ab = mp.Abilities.Single(a => a.GetType() == abType);
 
             ab.OnCast();
             (ab.Active, ab.Timer) = (abActive, abTimer);
-        }
 
-        protected override bool PreSend(Node? ignoreClient, Node? toClient)
-        {
-            if (abType == null)
-            {
-                throw new ArgumentException("Specify the ability to sync.");
-            }
-            return base.PreSend(ignoreClient, toClient);
+            if (Main.netMode == Terraria.ID.NetmodeID.Server) ab.SendPacket(-1, fromWho);
         }
     }
 }

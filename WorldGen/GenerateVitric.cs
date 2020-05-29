@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Structures;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -42,6 +44,7 @@ namespace StarlightRiver
                 int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 40);
                 for (int y = biomeTarget.Y + biomeTarget.Height - 76; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
+                    Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
 
@@ -57,6 +60,7 @@ namespace StarlightRiver
                 int off = (int)(xRel * 2 - xRel * xRel / 30f);
                 for (int y = biomeTarget.Y + biomeTarget.Height - off; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
+                    Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
             }
@@ -67,6 +71,7 @@ namespace StarlightRiver
                 int off = (int)(30 - xRel * xRel / 30f);
                 for (int y = biomeTarget.Y + biomeTarget.Height - off; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
+                    Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
             }
@@ -123,10 +128,12 @@ namespace StarlightRiver
                 {
                     for (int y = biomeTarget.Y + biomeTarget.Height - 77; y < biomeTarget.Y + biomeTarget.Height - 67; y++) //bottom
                     {
+                        Tile tile = Framing.GetTileSafely(x, y);
                         WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
                     }
                     for (int y = biomeTarget.Y - 1; y < biomeTarget.Y + 9; y++) // top
                     {
+                        Tile tile = Framing.GetTileSafely(x, y);
                         WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
                     }
                 }
@@ -202,33 +209,16 @@ namespace StarlightRiver
 
             bool CheckIsland(Point16 topLeft, int width, int height)
             {
-                if (topLeft.Y < VitricBiome.TopLeft().Y + 30 || topLeft.Y > VitricBiome.TopLeft().Y + VitricBiome.Height - 60)
-                {
-                    return false; //padding at the top and bottom
-                }
-
-                if (topLeft.X > VitricBiome.TopLeft().X + VitricBiome.Width / 2 - 40 && topLeft.X < VitricBiome.TopLeft().X + VitricBiome.Width / 2 + 40)
-                {
-                    return false; //dont spawn in the boss arena
-                }
+                if (topLeft.Y < VitricBiome.TopLeft().Y + 30 || topLeft.Y > VitricBiome.TopLeft().Y + VitricBiome.Height - 60) return false; //padding at the top and bottom
+                if (topLeft.X > VitricBiome.TopLeft().X + VitricBiome.Width / 2 - 40 && topLeft.X < VitricBiome.TopLeft().X + VitricBiome.Width / 2 + 40) return false; //dont spawn in the boss arena
 
                 Rectangle rect = new Rectangle(topLeft.X - 5, topLeft.Y - 5, width + 10, height + 10);
                 for (int x = rect.X; x < rect.X + rect.Width; x++)
-                {
                     for (int y = rect.Y; y < rect.Y + rect.Height; y++)
                     {
-                        if (Framing.GetTileSafely(x, y).active())
-                        {
-                            return false;
-                        }
-
-                        if (!VitricBiome.Contains(new Point(x, y)))
-                        {
-                            return false;
-                        }
+                        if (Framing.GetTileSafely(x, y).active()) return false;
+                        if (!VitricBiome.Contains(new Point(x, y))) return false;
                     }
-                }
-
                 return true;
             }
             #endregion

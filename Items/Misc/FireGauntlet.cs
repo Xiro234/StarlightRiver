@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Misc
@@ -10,7 +9,7 @@ namespace StarlightRiver.Items.Misc
     {
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = 5;
             item.useAnimation = 24;
             item.useTime = 24;
             item.shootSpeed = 10f;
@@ -19,7 +18,7 @@ namespace StarlightRiver.Items.Misc
             item.height = 72;
             item.damage = 72;
             Item.staff[item.type] = true;
-            item.rare = ItemRarityID.LightRed;
+            item.rare = 4;
             item.value = Item.sellPrice(0, 10, 0, 0);
             item.noMelee = true;
             item.autoReuse = true;

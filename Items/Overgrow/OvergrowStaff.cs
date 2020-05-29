@@ -1,5 +1,4 @@
 ﻿using StarlightRiver.Projectiles.WeaponProjectiles;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
@@ -19,10 +18,10 @@ namespace StarlightRiver.Items.Overgrow
             item.height = 20;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 4;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.shoot = ModContent.ProjectileType<EntangleThorn>();
             item.shootSpeed = 5;
         }

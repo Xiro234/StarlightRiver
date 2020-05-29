@@ -1,15 +1,18 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    internal class SandCone : ModProjectile
+    class SandCone : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -26,18 +29,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             if (projectile.ai[0] >= 70) //when this projectile goes off
             {
-                for (int k = 0; k < 100; k++)
-                {
-                    Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Sand>(), new Vector2(Main.rand.NextFloat(-20f, 0), 0).RotatedBy(projectile.rotation + Main.rand.NextFloat(-0.2f, 0.2f)), Main.rand.Next(50, 150));
-                }
-
+                for (int k = 0; k < 100; k++) Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Sand>(), new Vector2(Main.rand.NextFloat(-20f, 0), 0).RotatedBy(projectile.rotation + Main.rand.NextFloat(-0.2f, 0.2f)), Main.rand.Next(50, 150));
                 foreach (Player player in Main.player.Where(n => Helper.CheckConicalCollision(projectile.Center, 700, projectile.rotation, 0.2f, n.Hitbox)))
                 {
                     player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " bit the dust..."), Main.expertMode ? 50 : 35, 0); //hurt em
-                    if (Main.rand.Next(Main.expertMode ? 1 : 2) == 0)
-                    {
-                        player.AddBuff(BuffID.Obstructed, 180); //blind em
-                    }
+                    if (Main.rand.Next(Main.expertMode ? 1 : 2) == 0) player.AddBuff(BuffID.Obstructed, 180); //blind em
                 }
                 Main.PlaySound(SoundID.DD2_BookStaffCast); //sound
                 projectile.Kill(); //self-destruct

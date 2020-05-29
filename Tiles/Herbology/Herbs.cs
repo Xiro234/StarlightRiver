@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    internal class HangingPlant : ModTile
+    class HangingPlant : ModTile
     {
         private readonly string ItemDrop;
         public HangingPlant(string drop) { ItemDrop = drop; }
@@ -40,8 +40,7 @@ namespace StarlightRiver.Tiles.Herbology
             }
         }
     }
-
-    internal class TallPlant : ModTile
+    class TallPlant : ModTile
     {
         private readonly string ItemDrop;
         public TallPlant(string drop) { ItemDrop = drop; }

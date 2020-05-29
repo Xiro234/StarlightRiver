@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    internal class VitricSand : ModTile
+    class VitricSand : ModTile
     {
         public override void SetDefaults()
         {
@@ -32,11 +32,11 @@ namespace StarlightRiver.Tiles.Vitric
         }
     }
 
-    internal class VitricTile : ModTile
+    class VitricTile : ModTile
     {
-        private new readonly int Drop = 0;
-        private readonly int Chance = 0;
-        private readonly int Pick = 0;
+        new int Drop = 0;
+        int Chance = 0;
+        int Pick = 0;
         public VitricTile(int drop, int chance, int pick)
         {
             Drop = drop;

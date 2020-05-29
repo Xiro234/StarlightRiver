@@ -1,5 +1,4 @@
-﻿using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Herbology
 {
@@ -21,12 +20,12 @@ namespace StarlightRiver.Items.Herbology
             item.width = 16;
             item.height = 16;
             item.maxStack = 999;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.consumable = true;
             item.createTile = mod.TileType("Deathstalk");
         }

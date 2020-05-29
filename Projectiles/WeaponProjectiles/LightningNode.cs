@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    internal class LightningNode : ModProjectile
+    class LightningNode : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -27,11 +27,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             {
                 possibleTargets.Add(npc); //This grabs all possible targets, which includes all NPCs in the appropriate raidus which are alive and vulnerable, excluding the hit NPC
             }
-            if (possibleTargets.Count == 0)
-            {
-                return; //kill if no targets are available
-            }
-
+            if (possibleTargets.Count == 0) return; //kill if no targets are available
             NPC chosenTarget = possibleTargets[Main.rand.Next(possibleTargets.Count)];
 
             if (projectile.ai[0] > 0 && chosenTarget != null) //spawns the next node and VFX if more nodes are available and a target is also available

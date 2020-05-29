@@ -18,17 +18,13 @@ namespace StarlightRiver.Items.Infusions
             {
                 if (mp.wisp is WispWIP)
                 {
-                    mp.wisp = new WispCombo(player)
-                    {
-                        Locked = false
-                    };
+                    mp.wisp = new WispCombo(player);
+                    mp.wisp.Locked = false;
                 }
                 else
                 {
-                    mp.wisp = new WispHoming(player)
-                    {
-                        Locked = false
-                    };
+                    mp.wisp = new WispHoming(player);
+                    mp.wisp.Locked = false;
                 }
             }
         }
@@ -41,10 +37,8 @@ namespace StarlightRiver.Items.Infusions
 
         public override void Unequip(Player player)
         {
-            player.GetModPlayer<AbilityHandler>().wisp = new Abilities.Wisp(player)
-            {
-                Locked = false
-            };
+            player.GetModPlayer<AbilityHandler>().wisp = new Abilities.Wisp(player);
+            player.GetModPlayer<AbilityHandler>().wisp.Locked = false;
         }
     }
 }

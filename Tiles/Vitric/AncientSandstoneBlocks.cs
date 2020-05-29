@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    internal class AncientSandstone : ModTile
+    class AncientSandstone : ModTile
     {
         public override void SetDefaults()
         {
@@ -16,8 +16,7 @@ namespace StarlightRiver.Tiles.Vitric
             Main.tileMerge[Type][ModContent.TileType<VitricSand>()] = true;
         }
     }
-
-    internal class AncientSandstonePlatform : ModTile
+    class AncientSandstonePlatform : ModTile
     {
         public override void SetDefaults()
         {
@@ -27,8 +26,7 @@ namespace StarlightRiver.Tiles.Vitric
             AddMapEntry(new Color(150, 105, 65));
         }
     }
-
-    internal class AncientSandstoneWall : ModWall
+    class AncientSandstoneWall : ModWall
     {
         public override void SetDefaults()
         {

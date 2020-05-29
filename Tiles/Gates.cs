@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles
 {
-    internal class HellGate : ModTile
+    class HellGate : ModTile
     {
         public override void SetDefaults()
         {

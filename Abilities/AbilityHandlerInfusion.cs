@@ -9,15 +9,8 @@ namespace StarlightRiver.Abilities
         public bool HasSecondSlot;
         public override void PostUpdate()
         {
-            if (slot1 != null)
-            {
-                slot1.modItem.UpdateEquip(player);
-            }
-
-            if (slot2 != null)
-            {
-                slot2.modItem.UpdateEquip(player);
-            }
+            if (slot1 != null) slot1.modItem.UpdateEquip(player);
+            if (slot2 != null) slot2.modItem.UpdateEquip(player);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.extraUpdates = 2;
             projectile.ignoreWater = true;
         }
-        public void SpawnShadowflame(int angle)
+        public void spawnShadowflame(int angle)
         {
             Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.ToRadians((angle + Main.rand.Next(40) - 20)));
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ShadowflameTendril>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
@@ -34,11 +34,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             int max = 4 + Main.rand.Next(2);
             for (int i = 0; i <= 4 + Main.rand.Next(2); i++)
             {
-                SpawnShadowflame((360 / max) * i);
+                spawnShadowflame((360 / max) * i);
             }
             for (int i = 0; i < 24; i++)
             {
-                int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default, 1.6f);
+                int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default(Color), 1.6f);
                 Main.dust[dust].velocity *= Main.rand.NextFloat(0.8f) + 1.6f;
             }
             //make it actually do the thing

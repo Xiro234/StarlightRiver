@@ -7,14 +7,11 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Food
 {
-    internal class DoesThisModAddAnyDropsToOGRE : GlobalNPC
+    class DoesThisModAddAnyDropsToOGRE : GlobalNPC
     {
         public override void NPCLoot(NPC npc)
         {
-            if (npc.type == NPCID.DD2OgreT3 || npc.type == NPCID.DD2OgreT2)
-            {
-                Item.NewItem(npc.Center, ModContent.ItemType<Onion>());
-            }
+            if (npc.type == NPCID.DD2OgreT3 || npc.type == NPCID.DD2OgreT2) Item.NewItem(npc.Center, ModContent.ItemType<Onion>());
         }
     }
     public class Onion : QuickMaterial { public Onion() : base("Onion", "Does this mod add any drops to ogre?", 69420, 69420, -12) { } }

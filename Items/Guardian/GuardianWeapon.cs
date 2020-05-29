@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Guardian
 {
-    internal class GuardianWeapon : ModItem
+    class GuardianWeapon : ModItem
     {
         public int HealthCost { get; set; }
         public int LifeSteal { get; set; }

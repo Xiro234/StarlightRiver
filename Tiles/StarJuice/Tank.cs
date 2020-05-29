@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.StarJuice
 {
-    internal sealed class Tank : ModTile
+    sealed class Tank : ModTile
     {
         public override void SetDefaults()
         {
@@ -41,11 +41,7 @@ namespace StarlightRiver.Tiles.StarJuice
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
             int index = ModContent.GetInstance<TankEntity>().Find(i - tile.frameX / 18 * 16, j - tile.frameY / 18 * 16);
-            if (index == -1)
-            {
-                return true;
-            }
-
+            if (index == -1) return true;
             TankEntity entity = (TankEntity)TileEntity.ByID[index];
 
             if (player.HeldItem.modItem is StarjuiceStoringItem)
@@ -65,11 +61,7 @@ namespace StarlightRiver.Tiles.StarJuice
         {
             Tile tile = Main.tile[i, j];
             int index = ModContent.GetInstance<TankEntity>().Find(i, j);
-            if (index == -1)
-            {
-                return true;
-            }
-
+            if (index == -1) return true;
             TankEntity entity = (TankEntity)TileEntity.ByID[index];
 
             if (tile.frameX == 0 && tile.frameY == 0)
@@ -103,7 +95,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
     }
 
-    internal sealed class TankEntity : ModTileEntity
+    sealed class TankEntity : ModTileEntity
     {
         public int charge = 0;
         public int maxCharge = 5000;
@@ -116,10 +108,10 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            if (Main.netMode == 1)
             {
                 NetMessage.SendTileSquare(Main.myPlayer, i, j, 3);
-                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+                NetMessage.SendData(87, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
             return Place(i, j);
@@ -127,10 +119,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override void Update()
         {
-            if (!Main.tile[Position.X, Position.Y].active())
-            {
-                Kill(Position.X, Position.Y);
-            }
+            if (!Main.tile[Position.X, Position.Y].active()) Kill(Position.X, Position.Y);
 
             Vector2 pos = Position.ToVector2() * 16 + new Vector2(24, -12);
             Lighting.AddLight(pos, new Vector3(1.2f, 1.6f, 2) * (charge / (float)maxCharge) * 0.5f);
@@ -140,10 +129,7 @@ namespace StarlightRiver.Tiles.StarJuice
                 float rot = Main.rand.NextFloat(6.28f);
                 Dust.NewDustPerfect(pos + Vector2.One.RotatedBy(rot) * 20, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(rot) * -10, 0, default, 0.5f);
 
-                if (Main.time % 10 == 0 && !Main.fastForwardTime)
-                {
-                    charge++;
-                }
+                if (Main.time % 10 == 0 && !Main.fastForwardTime) charge++;
             }
 
             if (charge == maxCharge)
@@ -154,10 +140,7 @@ namespace StarlightRiver.Tiles.StarJuice
                 }
             }
 
-            if (charge > maxCharge)
-            {
-                charge = maxCharge;
-            }
+            if (charge > maxCharge) charge = maxCharge;
         }
 
         public override TagCompound Save()

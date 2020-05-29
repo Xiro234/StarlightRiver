@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class TorchOvergrow : ModTile
+    class TorchOvergrow : ModTile
     {
         public override void SetDefaults()
         {

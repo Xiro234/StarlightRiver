@@ -1,13 +1,17 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    internal class GlassVolley : ModProjectile
+    class GlassVolley : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -34,10 +38,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     }
                 }
             }
-            if (projectile.ai[0] == 65)
-            {
-                projectile.Kill(); //kill it when it expires
-            }
+            if (projectile.ai[0] == 65) projectile.Kill(); //kill it when it expires
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {

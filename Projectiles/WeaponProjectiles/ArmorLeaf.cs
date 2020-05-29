@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    internal class ArmorLeaf : ModProjectile
+    class ArmorLeaf : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -23,8 +23,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             DisplayName.SetDefault("Leaf");
         }
 
-        private bool picked = false;
-        private NPC target = Main.npc[0];
+        bool picked = false;
+        NPC target = Main.npc[0];
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;

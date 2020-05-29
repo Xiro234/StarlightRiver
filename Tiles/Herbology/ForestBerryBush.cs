@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -8,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    internal class ForestBerryBush : ModTile
+    class ForestBerryBush : ModTile
     {
         public override void SetDefaults()
         {

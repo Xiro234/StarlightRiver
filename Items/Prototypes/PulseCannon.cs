@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Prototypes
 {
-    internal class PulseCannon : PrototypeWeapon
+    class PulseCannon : PrototypeWeapon
     {
         public PulseCannon() : base(10, BreakType.MaxUses) { }
         public override void SetStaticDefaults()
@@ -18,7 +18,7 @@ namespace StarlightRiver.Items.Prototypes
         public override void SetDefaults()
         {
             item.damage = 0;
-            item.useStyle = ItemUseStyleID.HoldingUp;
+            item.useStyle = 4;
             item.useTime = 90;
             item.useAnimation = 90;
         }

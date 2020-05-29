@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace StarlightRiver.Gases
 {
-    internal class GasWorld : ModWorld
+    class GasWorld : ModWorld
     {
         public static ModGas[,] Gas;
         public override void Initialize()
@@ -58,8 +58,7 @@ namespace StarlightRiver.Gases
 
         }
     }
-
-    internal class ModGas
+    class ModGas
     {
         public int maxStrength = 0;
         public int Strength = 0;

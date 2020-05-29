@@ -1,7 +1,6 @@
 ﻿using StarlightRiver.Tiles.Vitric;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Debug
@@ -13,10 +12,10 @@ namespace StarlightRiver.Items.Debug
             item.width = 512;
             item.height = 512;
             item.damage = 1000;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.rare = ItemRarityID.Blue;
+            item.rare = 1;
         }
         public override bool AltFunctionUse(Player player)
         {
@@ -66,7 +65,7 @@ namespace StarlightRiver.Items.Debug
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 5;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.consumable = false;
             item.shoot = mod.ProjectileType("Clentam");
             item.shootSpeed = 8f;
@@ -89,7 +88,7 @@ namespace StarlightRiver.Items.Debug
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 5;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.consumable = false;
             item.shoot = mod.ProjectileType("Clentam2");
             item.shootSpeed = 8f;
@@ -112,7 +111,7 @@ namespace StarlightRiver.Items.Debug
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 5;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.consumable = false;
             item.shoot = mod.ProjectileType("Clentam3");
             item.shootSpeed = 8f;
@@ -134,7 +133,7 @@ namespace StarlightRiver.Items.Debug
             item.autoReuse = true;
             item.useAnimation = 2;
             item.useTime = 1;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             //item.consumable = true;
             item.autoReuse = true;
             item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
@@ -156,7 +155,7 @@ namespace StarlightRiver.Items.Debug
             item.autoReuse = false;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.consumable = true;
             //item.createTile = ModContent.TileType<Tiles.Rift.MainRift>();
         }
@@ -165,7 +164,7 @@ namespace StarlightRiver.Items.Debug
         {
             int i = 0;
             string types = "Types: ";
-            foreach (NPC npc in Main.npc.Where(npc => npc.type != NPCID.None)) { i++; types += npc.type + ", "; }
+            foreach (NPC npc in Main.npc.Where(npc => npc.type != 0)) { i++; types += npc.type + ", "; }
 
             int j = 0;
             foreach (NPC npc in Main.npc.Where(npc => npc.active)) { j++; }
@@ -198,10 +197,10 @@ namespace StarlightRiver.Items.Debug
         {
             item.width = 64;
             item.height = 64;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = 5;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.autoReuse = true;
             item.createTile = ModContent.TileType<Tiles.Misc.SandscriptTile>();
         }
@@ -215,10 +214,7 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 1;
-            foreach (Abilities.Ability ab in player.GetModPlayer<Abilities.AbilityHandler>().Abilities)
-            {
-                ab.Locked = true;
-            }
+            foreach (Abilities.Ability ab in player.GetModPlayer<Abilities.AbilityHandler>().Abilities) ab.Locked = true;
 
             player.GetModPlayer<Codex.CodexHandler>().CodexState = 0;
 
@@ -232,10 +228,10 @@ namespace StarlightRiver.Items.Debug
         {
             item.width = 64;
             item.height = 64;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = 5;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.noUseGraphic = true;
         }
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -248,10 +244,7 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
-            foreach (Codex.CodexEntry entry in mp.Entries)
-            {
-                entry.Locked = true;
-            }
+            foreach (Codex.CodexEntry entry in mp.Entries) entry.Locked = true;
 
             player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 12;
             player.GetModPlayer<Abilities.AbilityHandler>().StatStamina = 12;
@@ -270,10 +263,10 @@ namespace StarlightRiver.Items.Debug
             item.width = 32;
             item.height = 32;
             item.damage = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.rare = ItemRarityID.Lime;
+            item.rare = 7;
             item.GetGlobalItem<ShieldBreakingItem>().RedHurting = true;
         }
         public override void SetStaticDefaults()

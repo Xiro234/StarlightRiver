@@ -188,7 +188,7 @@ namespace StarlightRiver.GUI
 
     public class TextButton : UIElement
     {
-        private readonly string Text;
+        private string Text;
         private int Fade;
         public TextButton(string text) { Text = text; }
         public override void OnInitialize()
@@ -199,15 +199,8 @@ namespace StarlightRiver.GUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             bool hover = GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint());
-            if (!hover && Fade > 0)
-            {
-                Fade--;
-            }
-
-            if (hover && Fade < 10)
-            {
-                Fade++;
-            }
+            if (!hover && Fade > 0) Fade--;
+            if (hover && Fade < 10) Fade++;
 
             int basecol = 140;
             int intensity = basecol + Fade * 11;
@@ -237,8 +230,8 @@ namespace StarlightRiver.GUI
     public class ColorSlider : UIElement
     {
         public int sliderPos = 0;
-        private readonly ColorChannel Channel;
-        private Rectangle SliderBox => new Rectangle((int)GetDimensions().X + sliderPos - 9, (int)GetDimensions().Y + 2, 18, 28);
+        private ColorChannel Channel;
+        private Rectangle sliderBox { get => new Rectangle((int)GetDimensions().X + sliderPos - 9, (int)GetDimensions().Y + 2, 18, 28); }
 
         public ColorSlider(ColorChannel channel) { Channel = channel; }
         public override void Draw(SpriteBatch spriteBatch)
@@ -249,20 +242,9 @@ namespace StarlightRiver.GUI
             Texture2D tex3 = ModContent.GetTexture("StarlightRiver/GUI/SliderOver");
 
             Color backColor = (Parent as DragonMenu).currentColor;
-            if (Channel == ColorChannel.r)
-            {
-                backColor.R = 0;
-            }
-
-            if (Channel == ColorChannel.g)
-            {
-                backColor.G = 0;
-            }
-
-            if (Channel == ColorChannel.b)
-            {
-                backColor.B = 0;
-            }
+            if (Channel == ColorChannel.r) backColor.R = 0;
+            if (Channel == ColorChannel.g) backColor.G = 0;
+            if (Channel == ColorChannel.b) backColor.B = 0;
 
             int off = (int)Channel * 2;
 
@@ -277,7 +259,7 @@ namespace StarlightRiver.GUI
             spriteBatch.Begin();
 
             spriteBatch.Draw(tex2, GetDimensions().ToRectangle(), tex2.Frame(), Color.White);
-            spriteBatch.Draw(tex3, SliderBox, tex3.Frame(), Color.White);
+            spriteBatch.Draw(tex3, sliderBox, tex3.Frame(), Color.White);
         }
         public override void Update(GameTime gameTime)
         {
@@ -286,30 +268,12 @@ namespace StarlightRiver.GUI
                 sliderPos = (int)(Main.MouseScreen.ToPoint().X - GetDimensions().X);
             }
 
-            if (sliderPos < 0)
-            {
-                sliderPos = 0;
-            }
+            if (sliderPos < 0) sliderPos = 0;
+            if (sliderPos > 255) sliderPos = 255;
 
-            if (sliderPos > 255)
-            {
-                sliderPos = 255;
-            }
-
-            if (Channel == ColorChannel.r)
-            {
-                (Parent as DragonMenu).currentColor.R = (byte)sliderPos;
-            }
-
-            if (Channel == ColorChannel.g)
-            {
-                (Parent as DragonMenu).currentColor.G = (byte)sliderPos;
-            }
-
-            if (Channel == ColorChannel.b)
-            {
-                (Parent as DragonMenu).currentColor.B = (byte)sliderPos;
-            }
+            if (Channel == ColorChannel.r) (Parent as DragonMenu).currentColor.R = (byte)sliderPos;
+            if (Channel == ColorChannel.g) (Parent as DragonMenu).currentColor.G = (byte)sliderPos;
+            if (Channel == ColorChannel.b) (Parent as DragonMenu).currentColor.B = (byte)sliderPos;
         }
     }
 }

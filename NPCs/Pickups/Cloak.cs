@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    internal class Cloak : ModNPC
+    class Cloak : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +26,7 @@ namespace StarlightRiver.NPCs.Pickups
         }
         public override bool CheckActive() { return false; }
 
-        private int animate = 0;
+        int animate = 0;
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -74,7 +74,8 @@ namespace StarlightRiver.NPCs.Pickups
         }
 
         public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
-        private float timer = 0;
+
+        float timer = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();

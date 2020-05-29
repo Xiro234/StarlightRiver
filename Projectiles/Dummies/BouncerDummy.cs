@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    internal class BouncerDummy : ModProjectile
+    class BouncerDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

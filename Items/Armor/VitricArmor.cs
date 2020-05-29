@@ -21,7 +21,7 @@ namespace StarlightRiver.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.defense = 4;
         }
 
@@ -86,7 +86,7 @@ namespace StarlightRiver.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.defense = 6;
         }
 
@@ -122,7 +122,7 @@ namespace StarlightRiver.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.defense = 5;
         }
 

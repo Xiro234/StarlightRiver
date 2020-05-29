@@ -1,10 +1,9 @@
 ﻿using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
 {
-    internal class MossSalve : ModItem
+    class MossSalve : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,7 +15,7 @@ namespace StarlightRiver.Items.Overgrow
         {
             item.width = 16;
             item.height = 16;
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.value = 10000;
             item.accessory = true;
         }
@@ -26,16 +25,13 @@ namespace StarlightRiver.Items.Overgrow
         }
     }
 
-    internal class OnHealItem : GlobalItem
+    class OnHealItem : GlobalItem
     {
         public override void OnConsumeItem(Item item, Player player)
         {
             if (item.healLife > 0 && item.potion)
             {
-                if (Helper.HasEquipped(player, ModContent.ItemType<MossSalve>()))
-                {
-                    player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
-                }
+                if (Helper.HasEquipped(player, ModContent.ItemType<MossSalve>())) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
             }
         }
     }

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    internal class GravTile1 : ModTile
+    class GravTile1 : ModTile
     {
         public override void SetDefaults()
         {

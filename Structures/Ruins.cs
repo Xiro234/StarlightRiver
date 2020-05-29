@@ -8,7 +8,7 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver.Structures
 {
-    public static partial class GenHelper
+    public partial class GenHelper
     {
         public static void RuinsGen(GenerationProgress progress)
         {

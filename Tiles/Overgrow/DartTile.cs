@@ -25,10 +25,7 @@ namespace StarlightRiver.Tiles.Overgrow
             AddMapEntry(new Color(81, 77, 71));
         }
 
-        public override bool Dangersense(int i, int j, Player player)
-        {
-            return true;
-        }
+        public override bool Dangersense(int i, int j, Player player) => true;
 
         public override void PlaceInWorld(int i, int j, Item item)
         {
@@ -37,19 +34,19 @@ namespace StarlightRiver.Tiles.Overgrow
             {
                 tile.frameX += 18;
             }
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            if (Main.netMode == 1)
             {
                 NetMessage.SendTileSquare(-1, Player.tileTargetX, Player.tileTargetY, 1, TileChangeType.None);
             }
         }
 
-        private static readonly int[] frameXCycle = { 2, 3, 1, 0 };
+        static int[] frameXCycle = { 2, 3, 1, 0 };
         public override bool Slope(int i, int j)
         {
             Tile tile = Main.tile[i, j];
             int nextFrameX = frameXCycle[tile.frameX / 18];
             tile.frameX = (short)(nextFrameX * 18);
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            if (Main.netMode == 1)
             {
                 NetMessage.SendTileSquare(-1, Player.tileTargetX, Player.tileTargetY, 1, TileChangeType.None);
             }

@@ -56,10 +56,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (npc.ai[0] == (int)OvergrowBossPhase.Struggle)
             {
-                if (spawnPoint == Vector2.Zero)
-                {
-                    spawnPoint = npc.Center; //sets the boss' home
-                }
+                if (spawnPoint == Vector2.Zero) spawnPoint = npc.Center; //sets the boss' home
 
                 npc.velocity.Y = (float)Math.Sin((npc.ai[1] % 120) / 120f * 6.28f) * 0.6f;
 
@@ -82,10 +79,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
             if (npc.ai[0] == (int)OvergrowBossPhase.spawnAnimation)
             {
-                if (npc.ai[1] >= 500)
-                {
-                    npc.ai[0] = (int)OvergrowBossPhase.Setup;
-                }
+                if (npc.ai[1] >= 500) npc.ai[0] = (int)OvergrowBossPhase.Setup;
             }
 
             if (npc.ai[0] == (int)OvergrowBossPhase.Setup)
@@ -101,10 +95,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 npc.ai[3] = 0; //reset our attack timer
             }
 
-            if (flail == null)
-            {
-                return; //at this point, our boss should have her flail. if for some reason she dosent, this is a safety check
-            }
+            if (flail == null) return; //at this point, our boss should have her flail. if for some reason she dosent, this is a safety check
 
             Main.NewText(npc.ai[0] + "/" + npc.ai[1] + "/" + npc.ai[2] + "/" + npc.ai[3] + "/" + usedBolts + "/" + usedPendulum + "/" + Vector2.Distance(spawnPoint, Main.player[npc.target].Center));
             if (npc.ai[0] == (int)OvergrowBossPhase.FirstAttack)
@@ -113,41 +104,19 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 if (npc.ai[2] == 0)
                 {
                     RandomTarget(); //pendulum attack is based on a RANDOM target's position
-                    if ((Math.Abs(spawnPoint.X - Main.player[npc.target].Center.X) > 500 || Main.rand.Next(3) == 0) && !usedPendulum)
-                    {
-                        npc.ai[2] = 5; //if the player is near the edge or randomly
-                    }
+                    if ((Math.Abs(spawnPoint.X - Main.player[npc.target].Center.X) > 500 || Main.rand.Next(3) == 0) && !usedPendulum) npc.ai[2] = 5; //if the player is near the edge or randomly
 
                     if (npc.ai[2] == 0) //if the random checks fail to pick an attack
                     {
                         npc.TargetClosest();
-                        if (usedBolts && Vector2.Distance(spawnPoint, Main.player[npc.target].Center) < 500)
-                        {
-                            npc.ai[2] = 1; //if the player is near the center, use a swing if bolts has been used, else move on
-                        }
-                        else if (!usedBolts && Main.rand.Next(2) == 0)
-                        {
-                            npc.ai[2] = 2; //otherwise use another attack, even though bolts takes a random target, the logic dictating the chance of this attack does not
-                        }
-                        else if (Main.rand.Next(2) == 0)
-                        {
-                            npc.ai[2] = 3;
-                        }
-                        else
-                        {
-                            npc.ai[2] = 4;
-                        }
+                        if (usedBolts && Vector2.Distance(spawnPoint, Main.player[npc.target].Center) < 500) npc.ai[2] = 1; //if the player is near the center, use a swing if bolts has been used, else move on
+                        else if (!usedBolts && Main.rand.Next(2) == 0) npc.ai[2] = 2; //otherwise use another attack, even though bolts takes a random target, the logic dictating the chance of this attack does not
+                        else if (Main.rand.Next(2) == 0) npc.ai[2] = 3;
+                        else npc.ai[2] = 4;
                     }
 
-                    if (npc.ai[2] != 2)
-                    {
-                        usedBolts = false; //reset bolt restriction
-                    }
-
-                    if (npc.ai[2] == 1)
-                    {
-                        usedPendulum = false; //reset pendulum restriction after being spun
-                    }
+                    if (npc.ai[2] != 2) usedBolts = false; //reset bolt restriction
+                    if (npc.ai[2] == 1) usedPendulum = false; //reset pendulum restriction after being spun
                 }
                 switch (npc.ai[2])
                 {
@@ -162,10 +131,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     npc.ai[0] = (int)OvergrowBossPhase.FirstToss; //move to next phase once the flail is depleated
                     ResetAttack();
-                    foreach (Projectile proj in Main.projectile.Where(p => p.type == ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>()))
-                    {
-                        proj.ai[1] = 1; //opens the pits
-                    }
+                    foreach (Projectile proj in Main.projectile.Where(p => p.type == ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>())) proj.ai[1] = 1; //opens the pits
                 }
             }
 
@@ -177,7 +143,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (npc.ai[0] == (int)OvergrowBossPhase.FirstStun)
             {
                 foreach (Player player in Main.player)
-                {
                     if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
                     {
                         npc.ai[0] = (int)OvergrowBossPhase.FirstGuard;
@@ -186,7 +151,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                         flail.npc.ai[0] = 1; //turn the flail into a pick-upable thing
                         flail.npc.noGravity = false; //obey the laws of physics!
                     }
-                }
             }
 
             if (npc.ai[0] == (int)OvergrowBossPhase.FirstBurn)
@@ -257,14 +221,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[3] > 60 && npc.ai[3] < 120 && (npc.ai[2] == 3 || npc.ai[0] == (int)OvergrowBossPhase.FirstToss)) //if the boss is using a flail toss 
-            {
                 DrawTossTell(spriteBatch);
-            }
 
-            if (npc.ai[2] == 4)
-            {
-                DrawTrapTell(spriteBatch);
-            }
+            if (npc.ai[2] == 4) DrawTrapTell(spriteBatch);
 
             return npc.ai[0] != (int)OvergrowBossPhase.FirstGuard;
         }

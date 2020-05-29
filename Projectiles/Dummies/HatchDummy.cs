@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    internal class HatchDummy : ModProjectile
+    class HatchDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

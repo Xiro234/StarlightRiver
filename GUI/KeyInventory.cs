@@ -48,10 +48,7 @@ namespace StarlightRiver.GUI
             Color color = parent.ShowCondition ? Color.White : Color.White * 0.2f;
             spriteBatch.Draw(tex, Vector2.SmoothStep(pos, center, timer / 60f), tex.Frame(), color, 0, tex.Frame().Size() / 2, scale, 0, 0);
 
-            if (timer > 0)
-            {
-                timer--;
-            }
+            if (timer > 0) timer--;
         }
     }
 }

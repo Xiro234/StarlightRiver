@@ -1,9 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.ID;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -12,8 +16,7 @@ namespace StarlightRiver.Tiles.Vitric
         public AncientSandstoneTorchItem() : base("Ancient Vitric Illuminator", "It has an entrancing glow", ModContent.TileType<AncientSandstoneTorch>(), 0) { }
         public override string Texture => "StarlightRiver/MarioCumming";
     }
-
-    internal class AncientSandstoneTorch : ModTile
+    class AncientSandstoneTorch : ModTile
     {
         public override void SetDefaults()
         {

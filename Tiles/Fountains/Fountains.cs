@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -11,13 +12,12 @@ namespace StarlightRiver.Tiles.Fountains
     // Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleCorrupt
     public abstract class BiomeFountain : ModTile
     {
-        private readonly int ItemType;
+        int ItemType;
 
-        protected BiomeFountain(int item)
+        public BiomeFountain(int item)
         {
             ItemType = item;
         }
-
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -55,7 +55,7 @@ namespace StarlightRiver.Tiles.Fountains
             Texture2D texture;
             if (Main.canDrawColorTile(i, j))
             {
-                texture = Main.tileAltTexture[Type, tile.color()];
+                texture = Main.tileAltTexture[Type, (int)tile.color()];
             }
             else
             {
@@ -71,7 +71,7 @@ namespace StarlightRiver.Tiles.Fountains
             {
                 animate = Main.tileFrame[Type] * animationFrameHeight;
             }
-            Main.spriteBatch.Draw(texture, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY + animate, 16, 16), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY + animate, 16, 16), Lighting.GetColor(i, j), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
             return false;
         }
 

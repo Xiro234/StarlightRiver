@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.StarJuice
 {
-    internal class StarjuiceStoringItem : ModItem
+    class StarjuiceStoringItem : ModItem
     {
         public int maxCharge = 100;
         public int charge = 0;
@@ -38,10 +38,8 @@ namespace StarlightRiver.Items.StarJuice
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            TooltipLine line = new TooltipLine(mod, "Starlight", "Starlight: " + charge + "/" + maxCharge)
-            {
-                overrideColor = new Color(140, 220, 255)
-            };
+            TooltipLine line = new TooltipLine(mod, "Starlight", "Starlight: " + charge + "/" + maxCharge);
+            line.overrideColor = new Color(140, 220, 255);
             tooltips.Add(line);
         }
     }

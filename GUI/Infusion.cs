@@ -14,8 +14,8 @@ namespace StarlightRiver.GUI
     public class Infusion : UIState
     {
         public static bool visible = false;
-        private readonly InfusionSlot slot0 = new InfusionSlot();
-        private readonly InfusionSlot slot1 = new InfusionSlot();
+        InfusionSlot slot0 = new InfusionSlot();
+        InfusionSlot slot1 = new InfusionSlot();
         public override void OnInitialize()
         {
             slot0.Width.Set(32, 0);
@@ -61,8 +61,8 @@ namespace StarlightRiver.GUI
 
     public class InfusionSlot : UIElement
     {
-        private Item Equipped;
-        private Item SwapCache;
+        Item Equipped;
+        Item SwapCache;
         public int TargetSlot;
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -95,7 +95,7 @@ namespace StarlightRiver.GUI
             }
         }
 
-        public static void SetSlot(Player player, Item item, int slot)
+        public void SetSlot(Player player, Item item, int slot)
         {
             if (slot == 0) { player.GetModPlayer<AbilityHandler>().slot1 = item; }
             else { player.GetModPlayer<AbilityHandler>().slot2 = item; }

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
-    internal class AnthemDagger : CursedAccessory
+    class AnthemDagger : CursedAccessory
     {
         public AnthemDagger() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow"))
         {

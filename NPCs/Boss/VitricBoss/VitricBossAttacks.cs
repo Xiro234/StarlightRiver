@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    internal sealed partial class VitricBoss : ModNPC
+    sealed partial class VitricBoss : ModNPC
     {
         public void ResetAttack()
         {
@@ -42,11 +42,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     npc.ai[2] = 1; //set them into this attack's mode
                 }
             }
-            if (npc.ai[3] == 180)
-            {
-                Crystals.FirstOrDefault(n => n.ai[0] == 2).ai[0] = 0;
-            }
-
+            if (npc.ai[3] == 180) Crystals.FirstOrDefault(n => n.ai[0] == 2).ai[0] = 0;
             if (npc.ai[3] >= 720)
             {
                 ResetAttack();
@@ -93,13 +89,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     crystal.Center = npc.Center + (Vector2.SmoothStep(crystalModNPC.TargetPos, crystalModNPC.StartPos, (npc.ai[3] - 360) / 480) - npc.Center).RotatedBy(-(npc.ai[3] - 360) / 480 * 4.72f);
 
                     //the chosen "favorite" or master crystal is the one where our opening should be
-                    if (k != FavoriteCrystal)
-                    {
-                        for (int i = 0; i < 8; i++)
+                    if (k != FavoriteCrystal) for (int i = 0; i < 8; i++)
                         {
                             Dust d = Dust.NewDustPerfect(npc.Center + (crystal.Center - npc.Center).RotatedBy(Main.rand.NextFloat(1.57f)), ModContent.DustType<Dusts.Electric>(), Vector2.Zero, 0, default, 2);
                         }
-                    }
                 }
 
                 if (npc.ai[3] >= 840 && npc.ai[3] < 880) //reset to ready position
@@ -137,10 +130,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         private void CrystalSmash()
         {
             //boss during the attack
-            if (npc.ai[3] == 1)
-            {
-                endPos = npc.Center; //set the ending point to the center of the arena so we can come back later
-            }
+            if (npc.ai[3] == 1) endPos = npc.Center; //set the ending point to the center of the arena so we can come back later
 
             //actual movement
             if (npc.ai[3] < 270)
@@ -152,10 +142,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
 
             if (npc.ai[3] == 270) { startPos = npc.Center; npc.velocity *= 0; } //where we start our return trip
-            if (npc.ai[3] > 270)
-            {
-                npc.Center = Vector2.SmoothStep(startPos, endPos, (npc.ai[3] - 270) / 90); //smoothstep back to the center
-            }
+            if (npc.ai[3] > 270) npc.Center = Vector2.SmoothStep(startPos, endPos, (npc.ai[3] - 270) / 90); //smoothstep back to the center
 
 
             //Crystals during the attack
@@ -185,10 +172,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
 
             //ending the attack
-            if (npc.ai[3] > 360)
-            {
-                ResetAttack();
-            }
+            if (npc.ai[3] > 360) ResetAttack();
         }
         private void RandomSpikes()
         {
@@ -203,11 +187,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         private void PlatformDash()
         {
-            if (npc.ai[3] == 1)
-            {
-                CrystalLocations.OrderBy(n => n.Y); //orders the points the boss should go to by height off the ground
-            }
-
+            if (npc.ai[3] == 1) CrystalLocations.OrderBy(n => n.Y); //orders the points the boss should go to by height off the ground
             for (int k = 0; k < CrystalLocations.Count; k++)
             {
                 if (npc.ai[3] >= 120 + k * 120 && npc.ai[3] < 120 + (k + 1) * 120) //move between each platform
@@ -237,19 +217,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     }
                 }
             }
-            if (npc.ai[3] == 120 + 120 * 6)
-            {
-                startPos = npc.Center; //set where we are to the start
-            }
-
+            if (npc.ai[3] == 120 + 120 * 6) startPos = npc.Center; //set where we are to the start
             if (npc.ai[3] > 120 + 120 * 6) //going home
             {
                 int timer = (int)npc.ai[3] - (120 + 6 * 120);
                 npc.Center = Vector2.SmoothStep(startPos, homePos, timer / 120f);
-                if (timer == 121)
-                {
-                    ResetAttack(); //reset attack
-                }
+                if (timer == 121) ResetAttack(); //reset attack
             }
 
         }
@@ -258,33 +231,26 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         #region phase 2
         private void Volley()
         {
-            if (npc.ai[3] == 1)
-            {
-                RandomizeTarget();
-            }
-
+            if (npc.ai[3] == 1) RandomizeTarget();
             if (npc.ai[3] % 120 == 0)
             {
                 int index = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<GlassVolley>(), 0, 0);
                 Main.projectile[index].rotation = (npc.Center - Main.player[npc.target].Center).ToRotation();
             }
-            if (npc.ai[3] >= 120 * 4 - 1)
+            if (npc.ai[3] >= 120 * 4 - 1) ResetAttack(); //end after the third volley is fired
+        }
+        private void ReverseCage()
+        {
+            if (npc.ai[3] == 1)
             {
-                ResetAttack(); //end after the third volley is fired
+                FavoriteCrystal = Main.rand.Next(4); //not actually a crystal but is used to sync randomization here
+                for (int k = 0; k < 4; k++)
+                {
+                    int i = Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k * 1.57f), ModContent.ProjectileType<GrowingCageMaster>(), 10, 0, 255, k == FavoriteCrystal ? 1 : 0);
+                    (Main.projectile[i].modProjectile as GrowingCageMaster).Parent = this;
+                }
             }
         }
-        //private void ReverseCage()
-        //{
-        //    if (npc.ai[3] == 1)
-        //    {
-        //        FavoriteCrystal = Main.rand.Next(4); //not actually a crystal but is used to sync randomization here
-        //        for (int k = 0; k < 4; k++)
-        //        {
-        //            int i = Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k * 1.57f), ModContent.ProjectileType<GrowingCageMaster>(), 10, 0, 255, k == FavoriteCrystal ? 1 : 0);
-        //            (Main.projectile[i].modProjectile as GrowingCageMaster).Parent = this;
-        //        }
-        //    }
-        //}
         #endregion
         private void AngerAttack()
         {

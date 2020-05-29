@@ -7,18 +7,18 @@ namespace StarlightRiver.Items.EbonyIvory
 {
     public class IvorySword : ModItem
     {
-        private int combostate = 0;
+        int combostate = 0;
         public override void SetDefaults()
         {
             item.width = 44;
             item.height = 44;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = 5;
             item.useAnimation = 16;
             item.useTime = 16;
             item.knockBack = 2f;
             item.damage = 46;
             item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.IvorySwordProjectile>();
-            item.rare = ItemRarityID.LightRed;
+            item.rare = 4;
             item.autoReuse = false;
             item.useTurn = true;
             item.noMelee = true;

@@ -58,13 +58,11 @@ namespace StarlightRiver
 
                 if (Main.tile[x, y].type == TileID.Dirt && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6)
                 {
-                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 11), 1, ModContent.TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
+                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(10, 11), 1, ModContent.TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
                 }
             }
         }
-#pragma warning disable IDE0051 // Remove unused private members
         private void DolomiteGen(GenerationProgress progress)
-#pragma warning restore IDE0051 // Remove unused private members
         {
             progress.Message = "Shifting Tectonic Plates...";
             ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite.Dolomite>();
@@ -94,7 +92,7 @@ namespace StarlightRiver
             }
         }
 
-        private static void GenerateBeam(int x, int y)
+        private void GenerateBeam(int x, int y)
         {
             for (int j = y - 1; j >= y - 100; j--)
             {

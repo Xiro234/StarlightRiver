@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class BossWindow : ModTile
+    class BossWindow : ModTile
     {
         public override bool Autoload(ref string name, ref string texture)
         {

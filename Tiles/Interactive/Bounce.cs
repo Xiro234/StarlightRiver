@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    internal class Bounce : ModTile
+    class Bounce : ModTile
     {
         public override void SetDefaults()
         {

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    internal class BountyKnife : ModProjectile
+    class BountyKnife : ModProjectile
     {
         public override void SetDefaults()
         {

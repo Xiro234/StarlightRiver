@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    internal class VitricSpike : ModTile
+    class VitricSpike : ModTile
     {
         public override void SetDefaults()
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
+using System;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
@@ -12,7 +13,8 @@ namespace StarlightRiver.GUI
     {
         public UIPanel abicon;
         public static bool visible = false;
-        private readonly Stam Stam1 = new Stam();
+
+        Stam Stam1 = new Stam();
         public override void OnInitialize()
         {
             Stam1.Left.Set(-303, 1);
@@ -44,10 +46,7 @@ namespace StarlightRiver.GUI
                 Stam1.Left.Set(-306, 1);
                 Stam1.Top.Set(110, 0);
             }
-            int height = 30 * mp.StatStaminaMax; if (height > 30 * 7)
-            {
-                height = 30 * 7;
-            }
+            int height = 30 * mp.StatStaminaMax; if (height > 30 * 7) height = 30 * 7;
 
             Stam1.Height.Set(height, 0f);
         }
@@ -66,7 +65,7 @@ namespace StarlightRiver.GUI
 
     }
 
-    internal class Stam : UIElement
+    class Stam : UIElement
     {
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
@@ -80,10 +79,7 @@ namespace StarlightRiver.GUI
             int row = 0;
             for (int k = 0; k < mp.StatStaminaMax; k++)
             {
-                if (k % 7 == 0 && k != 0)
-                {
-                    row++;
-                }
+                if (k % 7 == 0 && k != 0) row++;
 
                 Vector2 pos = row % 2 == 0 ? dimensions.ToRectangle().TopLeft() + new Vector2(row * -18, (k % 7) * 28) :
                     dimensions.ToRectangle().TopLeft() + new Vector2(row * -18, 14 + (k % 7) * 28);

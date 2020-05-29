@@ -11,7 +11,7 @@ namespace StarlightRiver.Items
         {
             item.width = 38;
             item.height = 34;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = 5;
             Item.staff[item.type] = true;
             item.useAnimation = 5;
             item.useTime = 5;
@@ -20,7 +20,7 @@ namespace StarlightRiver.Items
             item.damage = 50;
             item.UseSound = SoundID.Item43;
             item.shoot = mod.ProjectileType("ArmorLeaf");
-            item.rare = ItemRarityID.Green;
+            item.rare = 2;
             item.noMelee = true;
             item.magic = true;
             item.autoReuse = true;

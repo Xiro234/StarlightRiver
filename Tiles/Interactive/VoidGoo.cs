@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    internal class VoidGoo : ModTile
+    class VoidGoo : ModTile
     {
-        private int Frame = 0;
+        int Frame = 0;
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;

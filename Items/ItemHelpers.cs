@@ -1,15 +1,14 @@
-﻿using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
     public class QuickMaterial : ModItem
     {
-        private readonly string Matname;
-        private readonly string Mattooltip;
-        private readonly int Maxstack;
-        private readonly int Value;
-        private readonly int Rare;
+        string Matname;
+        string Mattooltip;
+        int Maxstack;
+        int Value;
+        int Rare;
 
         public QuickMaterial(string name, string tooltip, int maxstack, int value, int rare)
         {
@@ -39,8 +38,8 @@ namespace StarlightRiver.Items
     {
         public string Itemname;
         public string Itemtooltip;
-        private readonly int Tiletype;
-        private readonly int Rare;
+        int Tiletype;
+        int Rare;
         public QuickTileItem(string name, string tooltip, int placetype, int rare)
         {
             Itemname = name;
@@ -63,10 +62,10 @@ namespace StarlightRiver.Items
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useStyle = 1;
             item.consumable = true;
             item.createTile = Tiletype;
-            item.rare = Rare;
+
         }
     }
 }

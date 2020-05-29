@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Food
 {
-    internal class FoodBuffHandler : ModPlayer
+    class FoodBuffHandler : ModPlayer
     {
         public List<Item> Consumed { get; set; } = new List<Item>(); //all of the ingredients in the food the player ate
         public float Multiplier { get; set; } = 1; //the multipler that should be applied to those ingredients

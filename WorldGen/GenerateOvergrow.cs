@@ -6,15 +6,16 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using StructureHelper;
 
 namespace StarlightRiver
 {
     public partial class LegendWorld
     {
-        private const int RoomHeight = 32;
-        private const int HallWidth = 16;
-        private const int HallThickness = 2;
-        private static List<Rectangle> Rooms = new List<Rectangle>();
+        const int RoomHeight = 32;
+        const int HallWidth = 16;
+        const int HallThickness = 2;
+        static List<Rectangle> Rooms = new List<Rectangle>();
 
         public static void OvergrowGen(GenerationProgress progress)
         {
@@ -25,30 +26,17 @@ namespace StarlightRiver
 
             while (!CheckDungeon(firstRoom))
             {
-                if (Math.Abs(firstRoom.X - Main.dungeonX) > 100)
-                {
-                    firstRoom.Y += 5;
-                }
-                else
-                {
-                    firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
-                }
+                if (Math.Abs(firstRoom.X - Main.dungeonX) > 100) firstRoom.Y += 5;
+                else firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
             }
 
-            if (ModLoader.GetMod("StructureHelper") != null)
-            {
-                StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
-            }
-
+            if (ModLoader.GetMod("StructureHelper") != null) StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
             WispSP = firstRoom.Center() * 16 + new Vector2(0, 56); //sets faeflame spawnpoint
             WormFromRoom(firstRoom);
 
-            while (Rooms.Count <= 7)
-            {
-                WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
-            }
+            while (Rooms.Count <= 7) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
 
-            Rooms.ForEach(n => PopulateRoom(n));
+            Rooms.ForEach(PopulateRoom);
 
             //TODO: 
             //      Generate that room's insides based on that from file
@@ -94,22 +82,13 @@ namespace StarlightRiver
                 if (CheckDungeon(hall) && CheckDungeon(room)) //all clear!
                 {
                     MakeRoom(room); //get a room
-                    if (direction % 2 == 0)
-                    {
-                        MakeHallTall(hall);  //should we make a sideways or longways hall?
-                    }
-                    else
-                    {
-                        MakeHallLong(hall);
-                    }
+                    if (direction % 2 == 0) MakeHallTall(hall);  //should we make a sideways or longways hall?
+                    else MakeHallLong(hall);
 
                     Debug.WriteLine("Successfully wormed");
 
                     WormFromRoom(room);
-                    if (WorldGen.genRand.Next(3) >= 1)
-                    {
-                        WormFromRoom(room); //chance to worm in an additional direciton
-                    }
+                    if (WorldGen.genRand.Next(3) >= 1) WormFromRoom(room); //chance to worm in an additional direciton
 
                     break;
                 }
@@ -187,10 +166,7 @@ namespace StarlightRiver
         }
         private static bool CheckDungeon(Rectangle rect)
         {
-            if (Rooms.Count > 20)
-            {
-                return false; //limit to 20 rooms
-            }
+            if (Rooms.Count > 20) return false; //limit to 20 rooms
 
             for (int x = rect.X; x <= rect.X + rect.Width; x++)
             {
@@ -226,39 +202,13 @@ namespace StarlightRiver
             bool down = false;
             bool left = false;
             bool right = false;
+            bool isLong = room.Width > 20;
             int type = ModContent.TileType<Tiles.Overgrow.MarkerGem>();
 
-            for (int x = room.X; x <= room.X + room.Width; x++)
-            {
-                if (Framing.GetTileSafely(x, room.Y - 2).type == type)
-                {
-                    up = true;
-                }
-            }
-
-            for (int x = room.X; x <= room.X + room.Width; x++)
-            {
-                if (Framing.GetTileSafely(x, room.Y + room.Height + 2).type == type)
-                {
-                    down = true;
-                }
-            }
-
-            for (int y = room.Y; y <= room.Y + room.Height; y++)
-            {
-                if (Framing.GetTileSafely(room.X - 2, y).type == type)
-                {
-                    left = true;
-                }
-            }
-
-            for (int y = room.Y; y <= room.Y + room.Height; y++)
-            {
-                if (Framing.GetTileSafely(room.X + room.Width + 2, y).type == type)
-                {
-                    right = true;
-                }
-            }
+            for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y - 2).type == type) up = true;
+            for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y + room.Height + 2).type == type) down = true;
+            for (int y = room.Y; y <= room.Y + room.Height; y++) if (Framing.GetTileSafely(room.X - 2, y).type == type) left = true;
+            for (int y = room.Y; y <= room.Y + room.Height; y++) if (Framing.GetTileSafely(room.X + room.Width + 2, y).type == type) right = true;
 
             for (int x = room.X; x <= room.X + room.Width; x++)
             {

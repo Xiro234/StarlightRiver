@@ -1,13 +1,17 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Codex;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
-using Terraria.ID;
+using Terraria.Graphics;
 using Terraria.ModLoader;
 using Terraria.UI;
+using StarlightRiver.Codex;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.ID;
+using Terraria.GameContent.UI.Elements;
 
 namespace StarlightRiver.GUI
 {
@@ -17,13 +21,13 @@ namespace StarlightRiver.GUI
         public static bool Open = false;
         private static bool Dragging = false;
 
-        private readonly CodexBack Back = new CodexBack();
-        private readonly UIImage DragButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/DragButton"));
-        private readonly UIImage ExitButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/ExitButton"));
-        private readonly UIImageButton BookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/BookLocked"));
-        private readonly UIElement EntryBack = new UIElement();
+        private CodexBack Back = new CodexBack();
+        private UIImage DragButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/DragButton"));
+        private UIImage ExitButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/ExitButton"));
+        private UIImageButton BookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/BookLocked"));
+        private UIElement EntryBack = new UIElement();
         internal UIList ClickableEntries = new UIList();
-        private readonly UIScrollbar EntryScroll = new UIScrollbar();
+        private UIScrollbar EntryScroll = new UIScrollbar();
         public override void OnInitialize()
         {
             AddElement(BookButton, 300, 100, 26, 32, this);
@@ -55,10 +59,7 @@ namespace StarlightRiver.GUI
         {
             Vector2 pos = listeningElement.GetDimensions().ToRectangle().TopLeft();
             Rectangle entryWindow = new Rectangle((int)pos.X + 20, (int)pos.Y + 50, 310, 342);
-            if (!entryWindow.Contains(Main.MouseScreen.ToPoint()))
-            {
-                return; //makes sure were in the entry window to scroll. I shouldnt have hardcoded the entries to draw to the back element but oh well.
-            }
+            if (!entryWindow.Contains(Main.MouseScreen.ToPoint())) return; //makes sure were in the entry window to scroll. I shouldnt have hardcoded the entries to draw to the back element but oh well.
 
             CodexBack element = listeningElement as CodexBack;
             if (element.ActiveEntry != null)
@@ -69,10 +70,7 @@ namespace StarlightRiver.GUI
 
         private void OpenCodex(UIMouseEvent evt, UIElement listeningElement)
         {
-            if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState != 0)
-            {
-                Open = true;
-            }
+            if (Main.LocalPlayer.GetModPlayer<CodexHandler>().CodexState != 0) Open = true;
         }
 
         private void Exit(UIMouseEvent evt, UIElement listeningElement)
@@ -92,16 +90,10 @@ namespace StarlightRiver.GUI
                     Texture2D tex = BookButton.IsMouseHovering ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed");
                     spriteBatch.Draw(tex, BookButton.GetDimensions().Position() + new Vector2(-1, 0), Color.White * (float)Math.Sin(LegendWorld.rottime));
                 }
-                if (BookButton.IsMouseHovering)
-                {
-                    Utils.DrawBorderString(spriteBatch, player.CodexState == 0 ? "Found in the desert..." : "Starlight Codex", Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.95f);
-                }
+                if (BookButton.IsMouseHovering) Utils.DrawBorderString(spriteBatch, player.CodexState == 0 ? "Found in the desert..." : "Starlight Codex", Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.95f);
             }
 
-            if (Open)
-            {
-                base.Draw(spriteBatch);
-            }
+            if (Open) base.Draw(spriteBatch);
         }
         public override void Update(GameTime gameTime)
         {
@@ -115,65 +107,24 @@ namespace StarlightRiver.GUI
                     break;
 
                 case 1: //tier 1
-                    if (BookButton.IsMouseHovering)
-                    {
-                        BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Open"));
-                    }
-                    else
-                    {
-                        BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed"));
-                    }
-
+                    if (BookButton.IsMouseHovering) BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Open"));
+                    else BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed"));
                     break;
 
                 case 2: //tier 2
-                    if (BookButton.IsMouseHovering)
-                    {
-                        BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book2Open"));
-                    }
-                    else
-                    {
-                        BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book2Closed"));
-                    }
-
+                    if (BookButton.IsMouseHovering) BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book2Open"));
+                    else BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book2Closed"));
                     break;
             }
 
-            if (DragButton.IsMouseHovering && Main.mouseLeft)
-            {
-                Dragging = true;
-            }
+            if (DragButton.IsMouseHovering && Main.mouseLeft) Dragging = true;
+            if (!Main.mouseLeft) Dragging = false;
 
-            if (!Main.mouseLeft)
-            {
-                Dragging = false;
-            }
-
-            if (Dragging)
-            {
-                SetPos(Back, Main.MouseScreen + new Vector2(-429, -19));
-            }
-
-            if (Back.Left.Pixels < 20)
-            {
-                Back.Left.Set(20, 0);
-            }
-
-            if (Back.Top.Pixels < 20)
-            {
-                Back.Top.Set(20, 0);
-            }
-
-            if (Back.Left.Pixels > Main.screenWidth - Back.Width.Pixels)
-            {
-                Back.Left.Set(Main.screenWidth - Back.Width.Pixels, 0);
-            }
-
-            if (Back.Top.Pixels > Main.screenHeight - Back.Height.Pixels)
-            {
-                Back.Top.Set(Main.screenHeight - Back.Height.Pixels, 0);
-            }
-
+            if (Dragging) SetPos(Back, Main.MouseScreen + new Vector2(-429, -19));
+            if (Back.Left.Pixels < 20) Back.Left.Set(20, 0);
+            if (Back.Top.Pixels < 20) Back.Top.Set(20, 0);
+            if (Back.Left.Pixels > Main.screenWidth - Back.Width.Pixels) Back.Left.Set(Main.screenWidth - Back.Width.Pixels, 0);
+            if (Back.Top.Pixels > Main.screenHeight - Back.Height.Pixels) Back.Top.Set(Main.screenHeight - Back.Height.Pixels, 0);
             Recalculate();
             base.Update(gameTime);
         }
@@ -204,8 +155,7 @@ namespace StarlightRiver.GUI
             element.Top.Set(pos.Y, 0);
         }
     }
-
-    internal class CodexBack : UIElement
+    class CodexBack : UIElement
     {
         internal CodexEntry ActiveEntry;
         internal CodexEntry.Categories ActiveCategory = CodexEntry.Categories.None;
@@ -214,34 +164,20 @@ namespace StarlightRiver.GUI
             spriteBatch.Draw(Main.magicPixel, GetDimensions().ToRectangle(), Main.magicPixel.Frame(), Color.White * 0.1f);
             Vector2 pos = GetDimensions().ToRectangle().TopLeft() + new Vector2(20, 50);
             Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack");
-            if (ActiveEntry != null && ActiveEntry.RequiresUpgradedBook)
-            {
-                backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack2"); //use a purple back for rift entries
-            }
-
+            if (ActiveEntry != null && ActiveEntry.RequiresUpgradedBook) backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack2"); //use a purple back for rift entries
             spriteBatch.Draw(backTex, pos, Color.White * 0.8f);
-            if (ActiveEntry != null)
-            {
-                ActiveEntry.Draw(pos + new Vector2(50, 16), spriteBatch); //draws the text of the active entry
-            }
-
+            if (ActiveEntry != null) ActiveEntry.Draw(pos + new Vector2(50, 16), spriteBatch); //draws the text of the active entry
             base.Draw(spriteBatch);
 
             foreach (EntryButton button in (Parent as Codex).ClickableEntries._items)
-            {
                 if (button.IsMouseHovering && button.Entry.Locked && button.Entry.Hint != null)
                 {
                     Utils.DrawBorderString(spriteBatch, Helper.WrapString(button.Entry.Hint, 300, Main.fontDeathText, 0.8f), Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.8f);
                 }
-            }
         }
         internal void ChangeCategory(CodexEntry.Categories category) //swaps out all of the entry buttons based on the category
         {
-            if (!(Parent is Codex))
-            {
-                return;
-            }
-
+            if (!(Parent is Codex)) return;
             Codex parent = Parent as Codex;
 
             ActiveCategory = category;
@@ -257,19 +193,14 @@ namespace StarlightRiver.GUI
             }
         }
     }
-
-    internal class CategoryButton : UIElement
+    class CategoryButton : UIElement
     {
-        private readonly CodexEntry.Categories Category;
-        private readonly string Text = "";
+        CodexEntry.Categories Category;
+        string Text = "";
         public CategoryButton(CodexEntry.Categories category, string text) { Category = category; Text = text; }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!(Parent is CodexBack))
-            {
-                return;
-            }
-
+            if (!(Parent is CodexBack)) return;
             CodexBack parent = Parent as CodexBack;
             CodexHandler player = Main.LocalPlayer.GetModPlayer<CodexHandler>();
 
@@ -288,27 +219,19 @@ namespace StarlightRiver.GUI
         {
             Main.PlaySound(SoundID.MenuTick);
 
-            if (!(Parent is CodexBack))
-            {
-                return;
-            }
-
+            if (!(Parent is CodexBack)) return;
             CodexBack parent = Parent as CodexBack;
             parent.ChangeCategory(Category);
         }
     }
 
-    internal class EntryButton : UIElement
+    class EntryButton : UIElement
     {
         public CodexEntry Entry;
         public EntryButton(CodexEntry entry) { Entry = entry; }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (!(Parent.Parent.Parent.Parent is CodexBack))
-            {
-                return; //way too many parents >.<
-            }
-
+            if (!(Parent.Parent.Parent.Parent is CodexBack)) return; //way too many parents >.<
             CodexBack parent = Parent.Parent.Parent.Parent as CodexBack;
 
             Vector2 pos = GetDimensions().ToRectangle().TopLeft();
@@ -333,11 +256,7 @@ namespace StarlightRiver.GUI
         {
             Main.PlaySound(SoundID.MenuTick);
 
-            if (!(Parent.Parent.Parent.Parent is CodexBack) || Entry.Locked)
-            {
-                return; //way too many parents >.<
-            }
-
+            if (!(Parent.Parent.Parent.Parent is CodexBack) || Entry.Locked) return; //way too many parents >.<
             CodexBack parent = Parent.Parent.Parent.Parent as CodexBack;
             parent.ActiveEntry = Entry;
             Entry.New = false;

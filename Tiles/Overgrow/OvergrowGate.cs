@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class OvergrowGate : ModTile
+    class OvergrowGate : ModTile
     {
         public override void SetDefaults()
         {

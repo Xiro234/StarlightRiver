@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    internal class RoyalSlime : ModNPC
+    class RoyalSlime : ModNPC
     {
         public override void SetStaticDefaults()
         {

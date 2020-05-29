@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles
 {
-    internal class OreEbony : ModTile
+    class OreEbony : ModTile
     {
         public override void SetDefaults()
         {
@@ -20,8 +20,7 @@ namespace StarlightRiver.Tiles
             AddMapEntry(new Color(80, 80, 90), name);
         }
     }
-
-    internal class OreIvory : ModTile
+    class OreIvory : ModTile
     {
         public override void SetDefaults()
         {
@@ -37,8 +36,7 @@ namespace StarlightRiver.Tiles
             AddMapEntry(new Color(245, 245, 230), name);
         }
     }
-
-    internal class OreCelumite : ModTile
+    class OreCelumite : ModTile
     {
         public override void SetDefaults()
         {

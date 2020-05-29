@@ -19,7 +19,7 @@ namespace StarlightRiver.Abilities
         {
 
         }
-        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
+        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         public override bool CanUse => player.controlLeft || player.controlRight || player.controlUp || player.controlDown;
 
         public override void OnCast()
@@ -83,10 +83,7 @@ namespace StarlightRiver.Abilities
             if (Math.Abs(X) > 1) //the normalized X should never be greater than 1, so this should be a valid check for the pounce
             {
                 player.velocity.X = X * 6;
-                if (Timer == 19)
-                {
-                    player.velocity.Y -= 4;
-                }
+                if (Timer == 19) player.velocity.Y -= 4;
             }
             else //otherwise, barrelroll
             {

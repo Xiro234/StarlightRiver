@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Codex.Entries
 {
-    internal class VitricEntry : CodexEntry
+    class VitricEntry : CodexEntry
     {
         public VitricEntry()
         {
@@ -17,8 +17,7 @@ namespace StarlightRiver.Codex.Entries
             Icon = ModContent.GetTexture("StarlightRiver/Codex/Entries/BiomeIconVitric");
         }
     }
-
-    internal class OvergrowEntry : CodexEntry
+    class OvergrowEntry : CodexEntry
     {
         public OvergrowEntry()
         {

@@ -4,13 +4,12 @@ using ReLogic.Graphics;
 using StarlightRiver.Dragons;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Dragons
 {
-    internal class Nest : ModTile
+    class Nest : ModTile
     {
         public override void SetDefaults()
         {
@@ -37,17 +36,14 @@ namespace StarlightRiver.Tiles.Dragons
         public override bool NewRightClick(int i, int j)
         {
             NestEntity entity = GetTE(i, j);
-            if (entity == null)
-            {
-                return false;
-            }
+            if (entity == null) return false;
 
             Item item = Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
 
             if (entity.owner == null && item.type == ModContent.ItemType<Items.Dragons.Egg>())
             {
                 entity.owner = Main.LocalPlayer; //Sets the ID if the nest has not yet been claimed
-                entity.Dragon.data.stage = GrowthStage.baby;
+                entity.dragon.data.stage = GrowthStage.baby;
                 int index = NPC.NewNPC(entity.Position.X * 16 + 27, entity.Position.Y * 16, ModContent.NPCType<DragonEgg>());
                 (Main.npc[index].modNPC as DragonEgg).nest = entity;
                 item.TurnToAir(); //Absorbs the egg
@@ -60,15 +56,12 @@ namespace StarlightRiver.Tiles.Dragons
         {
             Tile tile = Main.tile[i, j];
             NestEntity entity = GetTE(i, j);
-            if (entity == null || entity.owner == null)
-            {
-                return;
-            }
+            if (entity == null || entity.owner == null) return;
 
             if (tile.frameX == 0 && tile.frameY == 0)
             {
                 Vector2 center = (new Vector2(i + 1, j - 1) + Helper.TileAdj) * 16 + new Vector2(8, 0);
-                spriteBatch.DrawString(Main.fontItemStack, entity.owner.name + "'s dragon\n" + entity.Dragon.data.name, center + new Vector2(0, -64) - Main.screenPosition - Main.fontItemStack.MeasureString(entity.Dragon.data.name) / 2, Color.White);
+                spriteBatch.DrawString(Main.fontItemStack, entity.owner.name + "'s dragon\n" + entity.dragon.data.name, center + new Vector2(0, -64) - Main.screenPosition - Main.fontItemStack.MeasureString(entity.dragon.data.name) / 2, Color.White);
             }
         }
 
@@ -79,19 +72,14 @@ namespace StarlightRiver.Tiles.Dragons
             int top = j - (tile.frameY / 18);
             int index = ModContent.GetInstance<NestEntity>().Find(left, top);
 
-            if (index == -1)
-            {
-                return null;
-            }
-
+            if (index == -1) return null;
             return (NestEntity)TileEntity.ByID[index];
         }
     }
-
-    internal class NestEntity : ModTileEntity
+    class NestEntity : ModTileEntity
     {
         public Player owner;
-        public DragonHandler Dragon => owner.GetModPlayer<DragonHandler>();
+        public DragonHandler dragon { get => owner.GetModPlayer<DragonHandler>(); }
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
@@ -99,17 +87,17 @@ namespace StarlightRiver.Tiles.Dragons
         }
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient)
+            if (Main.netMode == 1)
             {
                 NetMessage.SendTileSquare(Main.myPlayer, i, j, 3);
-                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+                NetMessage.SendData(87, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
             return Place(i, j);
         }
         public override void Update()
         {
-            owner.GetModPlayer<DragonHandler>().data = Dragon.data;
+            owner.GetModPlayer<DragonHandler>().data = dragon.data;
         }
     }
 

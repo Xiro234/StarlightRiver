@@ -1,11 +1,15 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    internal class SandSlash : ModProjectile
+    class SandSlash : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -22,16 +26,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             projectile.ai[0]++;
 
-            if (projectile.ai[0] == 30)
-            {
-                projectile.knockBack *= 0;
-            }
+            if (projectile.ai[0] == 30) projectile.knockBack *= 0;
 
-            Vector2 relativeRot = new Vector2
-            {
-                X = (float)Math.Cos(projectile.ai[0] / 60 * 6.28f) * 3f,
-                Y = (float)Math.Sin(projectile.ai[0] / 60 * 6.28f) * 10f
-            };
+            Vector2 relativeRot = new Vector2();
+            relativeRot.X = (float)Math.Cos(projectile.ai[0] / 60 * 6.28f) * 3f;
+            relativeRot.Y = (float)Math.Sin(projectile.ai[0] / 60 * 6.28f) * 10f;
             projectile.velocity = relativeRot.RotatedBy(projectile.rotation - 1.57f);
 
             Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Stamina>(), projectile.velocity * Main.rand.NextFloat(0.2f, 1.1f), 0, default, 1f);

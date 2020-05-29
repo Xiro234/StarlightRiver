@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class GasVent : ModTile
+    class GasVent : ModTile
     {
         public override void SetDefaults()
         {

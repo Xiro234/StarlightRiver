@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    internal class VitricRock : ModTile
+    class VitricRock : ModTile
     {
         public override void SetDefaults()
         {

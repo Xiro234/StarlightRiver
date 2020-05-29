@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    internal class OvergrowSkeletonBig : ModNPC
+    class OvergrowSkeletonBig : ModNPC
     {
         public override string Texture => "StarlightRiver/MarioCumming";
         public override void SetStaticDefaults()

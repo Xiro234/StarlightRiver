@@ -1,4 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -6,7 +11,7 @@ namespace StarlightRiver.Dusts
 {
     public class Sand : ModDust
     {
-        //private readonly float mult;
+        float mult;
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

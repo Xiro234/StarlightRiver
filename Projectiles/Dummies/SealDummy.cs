@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    internal class SealDummy : ModProjectile
+    class SealDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

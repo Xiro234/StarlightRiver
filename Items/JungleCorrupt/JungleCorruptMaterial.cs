@@ -21,7 +21,7 @@ namespace StarlightRiver.Items.JungleCorrupt
             item.alpha = 0;
             item.width = 14;
             item.height = 14;
-            item.rare = ItemRarityID.LightRed;
+            item.rare = 4;
             item.maxStack = 999;
 
         }
