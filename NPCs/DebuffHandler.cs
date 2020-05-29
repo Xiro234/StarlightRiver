@@ -23,8 +23,7 @@ namespace StarlightRiver.NPCs
             }
             if (ivy)
             {
-                int lifeRegen = npc.boss ? 8 : 4;
-                npc.lifeRegen -= lifeRegen;
+                npc.lifeRegen -= npc.boss ? 8 : 4; 
             }   
         }
     }
