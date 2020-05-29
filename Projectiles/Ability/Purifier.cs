@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Tiles.Purified;
 using System;
 using Terraria;
 using Terraria.Graphics.Effects;
@@ -74,7 +75,7 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 for (int k = 0; k <= 50; k++)
                 {
-                    Dust.NewDustPerfect(projectile.Center - Vector2.One * 16, ModContent.DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2.4f), 0, default, 1.2f);
+                    Dust.NewDustPerfect(projectile.Center - Vector2.One * 8, ModContent.DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2.4f), 0, default, 1.2f);
                 }
                 Projectile.NewProjectile(projectile.Center - Vector2.One * 16, Vector2.Normalize((projectile.Center - Vector2.One * 16) - Main.player[projectile.owner].Center).RotatedBy(0.3f) * 6,
                     ModContent.ProjectileType<PurifierReturn>(), 0, 0, projectile.owner);
@@ -89,7 +90,8 @@ namespace StarlightRiver.Projectiles.Ability
         {
             Tile target = Main.tile[x, y];
             {
-                if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)mod.TileType("StonePure"); }
+                if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)ModContent.TileType<StonePure>(); }
+                if (target.type == TileID.Grass || target.type == TileID.CorruptGrass || target.type == TileID.FleshGrass || target.type == TileID.HallowedGrass) { target.type = (ushort)ModContent.TileType<GrassPure>(); }
                 if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); }
                 if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }
             }
@@ -98,7 +100,8 @@ namespace StarlightRiver.Projectiles.Ability
         {
             Tile target = Main.tile[x, y];
             {
-                if (target.type == (ushort)mod.TileType("StonePure")) { target.type = TileID.Stone; SpawnDust(x, y); }
+                if (target.type == (ushort)ModContent.TileType<StonePure>()) { target.type = TileID.Stone; SpawnDust(x, y); }
+                if (target.type == (ushort)ModContent.TileType<GrassPure>()) { target.type = TileID.Grass; SpawnDust(x, y); }
                 if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); SpawnDust(x, y); }
                 if (target.type == (ushort)mod.TileType("VoidDoorOff")) { target.type = (ushort)mod.TileType("VoidDoorOn"); SpawnDust(x, y); }
             }

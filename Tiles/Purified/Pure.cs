@@ -38,6 +38,7 @@ namespace StarlightRiver.Tiles.Purified
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             TileID.Sets.Grass[Type] = true;
+            SetModTree(new TreePure());
             dustType = mod.DustType("Purify");
             AddMapEntry(new Color(208, 201, 199));
         }
