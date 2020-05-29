@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Purified
@@ -26,6 +27,19 @@ namespace StarlightRiver.Tiles.Purified
             name = "StonePure2";
             texture = "StarlightRiver/Tiles/Purified/StonePure";
             return true;
+        }
+    }
+    internal class GrassPure : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileLighted[Type] = true;
+            TileID.Sets.Grass[Type] = true;
+            dustType = mod.DustType("Purify");
+            AddMapEntry(new Color(208, 201, 199));
         }
     }
 }

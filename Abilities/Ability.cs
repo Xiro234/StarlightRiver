@@ -35,7 +35,7 @@ namespace StarlightRiver.Abilities
                 OnCast();
                 Active = true; //Ability is activated
 
-                SendPacket();
+                //SendPacket();
             }
         }
 
