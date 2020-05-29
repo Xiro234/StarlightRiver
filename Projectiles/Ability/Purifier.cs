@@ -89,7 +89,7 @@ namespace StarlightRiver.Projectiles.Ability
         {
             Tile target = Main.tile[x, y];
             {
-                if (target.type == TileID.Stone) { target.type = (ushort)mod.TileType("StonePure"); }
+                if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)mod.TileType("StonePure"); }
                 if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); }
                 if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }
             }
