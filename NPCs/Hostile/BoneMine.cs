@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class BoneMine : ModNPC
+    internal class BoneMine : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -71,9 +71,10 @@ namespace StarlightRiver.NPCs.Hostile
             Player player = spawnInfo.player;
             Vector2 spawnPos = new Vector2(spawnInfo.spawnTileX * 16, spawnInfo.spawnTileY * 16);
 
-            if (player.position.Y >= Main.maxTilesY - 200 && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].liquid != 0 &&
-                !Main.npc.Any(npc => npc.active && npc.type == ModContent.NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)) { return 1; }
-            return 0;
+            return player.position.Y >= Main.maxTilesY - 200 && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].liquid != 0 &&
+                !Main.npc.Any(npc => npc.active && npc.type == ModContent.NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)
+                ? 1
+                : (float)0;
         }
     }
 }

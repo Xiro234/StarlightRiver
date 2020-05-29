@@ -8,7 +8,7 @@ using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
-    class InfectedAccessory : ModItem
+    internal class InfectedAccessory : ModItem
     {
         public override bool Autoload(ref string name)
         {
@@ -21,8 +21,10 @@ namespace StarlightRiver.Items.CursedAccessories
             if (!player.armor[slot - 1].IsAir) return false;
             if (slot > 7 + player.extraAccessorySlots) return false;
 
-            Item blocker = new Item();
-            blocker.type = ModContent.ItemType<Blocker>();
+            Item blocker = new Item
+            {
+                type = ModContent.ItemType<Blocker>()
+            };
             blocker.SetDefaults(ModContent.ItemType<Blocker>());
             (blocker.modItem as Blocker).Parent = item;
             player.armor[slot - 1] = blocker;
@@ -30,8 +32,10 @@ namespace StarlightRiver.Items.CursedAccessories
         }
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            TooltipLine line = new TooltipLine(mod, "StarlightRiverInfectedWarning", "Infected! Requires 2 accessory slots");
-            line.overrideColor = new Color(100, 160, 120);
+            TooltipLine line = new TooltipLine(mod, "StarlightRiverInfectedWarning", "Infected! Requires 2 accessory slots")
+            {
+                overrideColor = new Color(100, 160, 120)
+            };
             tooltips.Add(line);
         }
         public virtual bool SafePreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) { return true; }
@@ -47,7 +51,7 @@ namespace StarlightRiver.Items.CursedAccessories
         }
     }
 
-    class Blocker : ModItem
+    internal class Blocker : ModItem
     {
         public override string Texture => "StarlightRiver/Invisible";
         public Item Parent { get; set; }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Keys
 {
-    class OvergrowKey : Key
+    internal class OvergrowKey : Key
     {
         public OvergrowKey() : base("Overgrowth Key", "StarlightRiver/Keys/OvergrowKey") { }
         public override bool ShowCondition => Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow;

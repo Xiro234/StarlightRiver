@@ -1,11 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
-using StarlightRiver.Configs;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -58,7 +56,7 @@ namespace StarlightRiver.GUI
 
     public class AbilityDisplay : UIElement
     {
-        Ability Ability;
+        private readonly Ability Ability;
         public AbilityDisplay(Ability ability)
         {
             Ability = ability;
@@ -70,7 +68,7 @@ namespace StarlightRiver.GUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 pos = GetDimensions().Center() - Vector2.One;
-            Texture2D tex = Ability.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Ability.texture;
+            Texture2D tex = Ability.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Ability.Texture;
 
             spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
 

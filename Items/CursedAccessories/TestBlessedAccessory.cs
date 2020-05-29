@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
-    class TestBlessedAccessory : BlessedAccessory
+    internal class TestBlessedAccessory : BlessedAccessory
     {
         public TestBlessedAccessory() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/TestBlessedAccessoryGlow"))
         {
@@ -27,8 +27,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
         public override bool TestCondition()
         {
-            if (Main.player[item.owner].statLife <= 100) { return true; }
-            else { return false; }
+            return Main.player[item.owner].statLife <= 100;
         }
     }
 }

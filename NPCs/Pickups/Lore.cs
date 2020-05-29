@@ -1,19 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Codex;
-using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Lore : AbilityPickup
+    internal class Lore : AbilityPickup
     {
         public override string Texture => "StarlightRiver/GUI/Book1Closed";
         public override Color GlowColor => new Color(200, 130, 40);
-        public override bool CanPickup(Player player) => player.GetModPlayer<CodexHandler>().CodexState == 0;
+        public override bool CanPickup(Player player)
+        {
+            return player.GetModPlayer<CodexHandler>().CodexState == 0;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starlight Codex");

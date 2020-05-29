@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -12,7 +11,7 @@ namespace StarlightRiver.Tiles.Fountains
     // Main.LocalPlayer.GetModPlayer<BiomeHandler>().FountainJungleCorrupt
     public abstract class BiomeFountain : ModTile
     {
-        int ItemType;
+        private readonly int ItemType;
 
         public BiomeFountain(int item)
         {
@@ -55,7 +54,7 @@ namespace StarlightRiver.Tiles.Fountains
             Texture2D texture;
             if (Main.canDrawColorTile(i, j))
             {
-                texture = Main.tileAltTexture[Type, (int)tile.color()];
+                texture = Main.tileAltTexture[Type, tile.color()];
             }
             else
             {

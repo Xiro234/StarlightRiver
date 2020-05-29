@@ -21,12 +21,12 @@ namespace StarlightRiver.Items.Overgrow
             item.height = 20;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.UseSound = SoundID.Item5;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Arrow;
         }

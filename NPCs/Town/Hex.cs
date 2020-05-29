@@ -51,11 +51,7 @@ namespace StarlightRiver.NPCs.Town
 
         public override bool CheckConditions(int left, int right, int top, int bottom)
         {
-            if (top >= (Main.maxTilesY - 200))
-            {
-                return true;
-            }
-            return false;
+            return top >= (Main.maxTilesY - 200);
         }
 
         public override string TownNPCName()
@@ -73,7 +69,7 @@ namespace StarlightRiver.NPCs.Town
             }
         }
 
-        int chatstate = 0;
+        private int chatstate = 0;
         public override string GetChat()
         {
             switch (chatstate)

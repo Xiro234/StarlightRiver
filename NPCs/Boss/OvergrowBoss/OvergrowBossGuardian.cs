@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
-    class OvergrowBossGuardian : ModNPC
+    internal class OvergrowBossGuardian : ModNPC
     {
         public override void SetDefaults()
         {

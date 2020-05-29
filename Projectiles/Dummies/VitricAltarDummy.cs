@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    class VitricAltarDummy : ModProjectile
+    internal class VitricAltarDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

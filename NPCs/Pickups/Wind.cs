@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
 using System;
@@ -10,11 +9,15 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Wind : AbilityPickup
+    internal class Wind : AbilityPickup
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Wind1";
         public override Color GlowColor => new Color(160, 230, 255);
-        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().dash.Locked;
+        public override bool CanPickup(Player player)
+        {
+            return player.GetModPlayer<AbilityHandler>().dash.Locked;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Forbidden Winds");

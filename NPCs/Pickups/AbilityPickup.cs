@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
@@ -16,7 +12,7 @@ namespace StarlightRiver.NPCs.Pickups
         /// <summary>
         /// Indicates if the pickup should be visible in-world. Should be controlled using clientside vars.
         /// </summary>
-        private bool Visible { get => CanPickup(Main.LocalPlayer); }
+        private bool Visible => CanPickup(Main.LocalPlayer);
         public sealed override void SetDefaults()
         {
             npc.width = 32;
@@ -30,9 +26,21 @@ namespace StarlightRiver.NPCs.Pickups
             npc.aiStyle = -1;
             npc.friendly = false;
         }
-        public override bool CheckActive() => false;
-        public sealed override bool? CanBeHitByItem(Player player, Item item) => false;
-        public sealed override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
+        public sealed override bool? CanBeHitByItem(Player player, Item item)
+        {
+            return false;
+        }
+
+        public sealed override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            return false;
+        }
+
         /// <summary>
         /// The clientside visual dust that this pickup makes when in-world
         /// </summary>
@@ -51,7 +59,7 @@ namespace StarlightRiver.NPCs.Pickups
         /// if the player should be able to pick this up or not
         /// </summary>
         public virtual bool CanPickup(Player player) { return false; }
-        public virtual Color GlowColor { get => Color.White; }
+        public virtual Color GlowColor => Color.White;
 
         public sealed override void AI()
         {

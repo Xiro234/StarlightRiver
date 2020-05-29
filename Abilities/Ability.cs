@@ -2,6 +2,7 @@
 using StarlightRiver.Dragons;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 
 namespace StarlightRiver.Abilities
 {
@@ -35,7 +36,8 @@ namespace StarlightRiver.Abilities
                 OnCast();
                 Active = true; //Ability is activated
 
-                SendPacket();
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    SendPacket();
             }
         }
 
@@ -54,7 +56,7 @@ namespace StarlightRiver.Abilities
 
         public virtual void SendPacket(int toWho = -1, int fromWho = -1)
         {
-            new Packets.UseAbility(fromWho, this); // TOOD: Scalie, review the UseAbility Receive() method please.
+            new Packets.UseAbility(Main.myPlayer, this).Send(toWho, fromWho);
         }
     }
 }

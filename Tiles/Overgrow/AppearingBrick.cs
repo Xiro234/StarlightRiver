@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    class AppearingBrick : ModTile
+    internal class AppearingBrick : ModTile
     {
         public override void SetDefaults()
         {

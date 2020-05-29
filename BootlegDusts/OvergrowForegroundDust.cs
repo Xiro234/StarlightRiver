@@ -5,10 +5,10 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.BootlegDusts
 {
-    class OvergrowForegroundDust : BootlegDust
+    internal class OvergrowForegroundDust : BootlegDust
     {
-        int offset = 0;
-        float co = 0;
+        private readonly int offset = 0;
+        private readonly float co = 0;
         public int fadein = 0;
         public OvergrowForegroundDust(int off, float coefficient, Vector2 velocity, Color color, float scale) : base(ModContent.GetTexture("StarlightRiver/GUI/HolyBig"), new Vector2(0, Main.screenHeight), velocity, color, scale, Main.rand.Next(6000))
         {

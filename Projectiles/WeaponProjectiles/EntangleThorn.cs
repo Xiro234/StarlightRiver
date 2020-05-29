@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class EntangleThorn : ModProjectile
+    internal class EntangleThorn : ModProjectile
     {
         public override void SetDefaults()
         {

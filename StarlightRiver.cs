@@ -5,6 +5,7 @@ using MonoMod.Cil;
 using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.BootlegDusts;
+using StarlightRiver.Codex;
 using StarlightRiver.Configs;
 using StarlightRiver.Dragons;
 using StarlightRiver.GUI;
@@ -14,19 +15,18 @@ using StarlightRiver.Keys;
 using StarlightRiver.RiftCrafting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.IO;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
-using StarlightRiver.Codex;
 
 namespace StarlightRiver
 {
@@ -443,7 +443,7 @@ namespace StarlightRiver
         private delegate NPC DynamicIconDelegate(NPC npc);
         private NPC EmitDynamicIconDelegateOverlay(NPC npc)
         {
-            if (npc != null && npc.active && npc.modNPC is NPCs.IDynamicMapIcon)
+            if (npc?.active == true && npc.modNPC is NPCs.IDynamicMapIcon)
             {
                 Vector2 npcPos = npc.Center;
                 Vector2 framePos = (Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2));
@@ -457,7 +457,7 @@ namespace StarlightRiver
         }
         private NPC EmitDynamicIconDelegateMinimap(NPC npc)
         {
-            if (npc != null && npc.active && npc.modNPC is NPCs.IDynamicMapIcon)
+            if (npc?.active == true && npc.modNPC is NPCs.IDynamicMapIcon)
             {
                 Vector2 mapPos = new Vector2(Main.miniMapX, Main.miniMapY);
                 Vector2 npcPos = npc.Center;
@@ -479,7 +479,7 @@ namespace StarlightRiver
         }
         private NPC EmitDynamicIconDelegateFullmap(NPC npc)
         {
-            if (npc != null && npc.active && npc.modNPC is NPCs.IDynamicMapIcon)
+            if (npc?.active == true && npc.modNPC is NPCs.IDynamicMapIcon)
             {
                 float mapScale = Main.mapFullscreenScale / Main.UIScale;
 
@@ -574,7 +574,7 @@ namespace StarlightRiver
 
             c.EmitDelegate<DrawWindowDelegate>(EmitMoonlordLayerDel);
         }
-        private List<BootlegDust> WindowDust = new List<BootlegDust>();
+        private readonly List<BootlegDust> WindowDust = new List<BootlegDust>();
         private void EmitMoonlordLayerDel()
         {
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -877,17 +877,15 @@ namespace StarlightRiver
         #region Detours
         private bool NoSoulboundFrame(On.Terraria.Player.orig_ItemFitsItemFrame orig, Player self, Item i)
         {
-            if (i.modItem is Items.SoulboundItem) return false;
-            return orig(self, i);
+            return i.modItem is Items.SoulboundItem ? false : orig(self, i);
         }
         private bool NoSoulboundRack(On.Terraria.Player.orig_ItemFitsWeaponRack orig, Player self, Item i)
         {
-            if (i.modItem is Items.SoulboundItem) return false;
-            return orig(self, i);
+            return i.modItem is Items.SoulboundItem ? false : orig(self, i);
         }
         private void SoulboundPriority(On.Terraria.Player.orig_dropItemCheck orig, Player self)
         {
-            if (Main.mouseItem.type > 0 && !Main.playerInventory && Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem)
+            if (Main.mouseItem.type > ItemID.None && !Main.playerInventory && Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem)
             {
                 for (int k = 49; k > 0; k--)
                 {
@@ -911,10 +909,7 @@ namespace StarlightRiver
         }
         private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, GameTime gameTime)
         {
-            if (dragonMenuUI != null)
-            {
-                dragonMenuUI.Update(gameTime);
-            }
+            dragonMenuUI?.Update(gameTime);
             orig(self, gameTime);
         }
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
@@ -941,8 +936,7 @@ namespace StarlightRiver
         }
         private bool UpdateMatrixFirst(On.Terraria.Graphics.SpriteViewMatrix.orig_ShouldRebuild orig, SpriteViewMatrix self)
         {
-            if (Rotation != 0) return false;
-            return orig(self);
+            return Rotation != 0 ? false : orig(self);
         }
         private void PostDrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
@@ -972,7 +966,7 @@ namespace StarlightRiver
             return new Vector2(x, y);
         }
 
-        List<BootlegDust> foregroundDusts = new List<BootlegDust>();
+        private readonly List<BootlegDust> foregroundDusts = new List<BootlegDust>();
         private void DrawForeground(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
             Main.spriteBatch.Begin();
@@ -1403,7 +1397,7 @@ namespace StarlightRiver
             float num8 = 1f;
             if (rectangle2.Width > 32 || rectangle2.Height > 32)
             {
-                num8 = ((rectangle2.Width <= rectangle2.Height) ? (32f / (float)rectangle2.Height) : (32f / (float)rectangle2.Width));
+                num8 = ((rectangle2.Width <= rectangle2.Height) ? (32f / rectangle2.Height) : (32f / rectangle2.Width));
             }
             num8 *= Main.inventoryScale;
             Vector2 position2 = position + vector / 2f - rectangle2.Size() * num8 / 2f;

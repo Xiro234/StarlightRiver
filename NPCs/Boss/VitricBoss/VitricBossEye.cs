@@ -1,21 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    class VitricBossEye
+    internal class VitricBossEye
     {
-        Vector2 Position;
+        private Vector2 Position;
         public VitricBoss Parent;
-        int Timer;
-        int Index;
+        private int Timer;
+        private readonly int Index;
         public VitricBossEye(Vector2 pos, int index)
         {
             Position = pos;

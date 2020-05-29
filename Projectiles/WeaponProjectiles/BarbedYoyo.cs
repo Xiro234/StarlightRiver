@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class BarbedYoyo : ModProjectile
+    internal class BarbedYoyo : ModProjectile
     {
-        List<NPC> targets = new List<NPC>();
+        private readonly List<NPC> targets = new List<NPC>();
         public override void SetDefaults()
         {
             projectile.width = 16;

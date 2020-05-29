@@ -1,13 +1,13 @@
-﻿using System;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class GemFocusProjectile : ModProjectile
+    internal class GemFocusProjectile : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -21,7 +21,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.penetrate = -1;
             projectile.netSpam = 1;
         }
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
+        }
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);

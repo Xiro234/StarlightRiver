@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.ObjectData;
+using System;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Decoration
 {
-    class VineBannerItem : ModItem
+    internal class VineBannerItem : ModItem
     {
-        bool SecondPoint;
-        VineBannerEntity target;
+        private bool SecondPoint;
+        private VineBannerEntity target;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vine Banner");
@@ -26,7 +23,7 @@ namespace StarlightRiver.Tiles.Decoration
         {
             item.useTime = 10;
             item.useAnimation = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
         }
         public override void HoldItem(Player player)
         {
@@ -51,7 +48,8 @@ namespace StarlightRiver.Tiles.Decoration
             return true;
         }
     }
-    class VineBanner : ModTile
+
+    internal class VineBanner : ModTile
     {
         public override void SetDefaults()
         {
@@ -97,7 +95,8 @@ namespace StarlightRiver.Tiles.Decoration
             }
         }
     }
-    class VineBannerEntity : ModTileEntity
+
+    internal class VineBannerEntity : ModTileEntity
     {
         internal Point16 Endpoint;
         internal bool Set;
@@ -120,10 +119,10 @@ namespace StarlightRiver.Tiles.Decoration
         }
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
-            if (Main.netMode == 1)
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(Main.myPlayer, i, j, 3);
-                NetMessage.SendData(87, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
             return Place(i, j);

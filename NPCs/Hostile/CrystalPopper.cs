@@ -1,22 +1,21 @@
 
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Abilities;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class CrystalPopper : ModNPC
+    internal class CrystalPopper : ModNPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sandbat");
             Main.npcFrameCount[npc.type] = 7;
         }
-        const int animFramesLoop = 6; //amount of frames in the main loop
+
+        private const int animFramesLoop = 6; //amount of frames in the main loop
 
         public override void SetDefaults()
         {
@@ -35,7 +34,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.spriteDirection = npc.direction;
         }
 
-        float AnimSpeedMult = 0.3f;
+        private readonly float AnimSpeedMult = 0.3f;
 
         public override void AI()
         {

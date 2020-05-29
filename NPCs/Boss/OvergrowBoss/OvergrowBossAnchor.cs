@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
-    class OvergrowBossAnchor : ModNPC
+    internal class OvergrowBossAnchor : ModNPC
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override bool CheckActive() { return false; }

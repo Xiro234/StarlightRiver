@@ -5,9 +5,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Dusts
 {
-    class OvergrowDust : ModDust
+    internal class OvergrowDust : ModDust
     {
-        int time = 0;
+        private readonly int time = 0;
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Dusts/DragonFire";

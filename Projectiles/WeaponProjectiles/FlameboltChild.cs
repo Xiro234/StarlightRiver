@@ -23,21 +23,18 @@ namespace StarlightRiver.Projectiles
             projectile.penetrate = 1;
             projectile.timeLeft = 120;
         }
-        bool picked = false;
-        bool cameBack = false;
-        NPC target = Main.npc[0];
-        NPC blacklist;
+
+        private bool picked = false;
+        private bool cameBack = false;
+        private NPC target = Main.npc[0];
+        private NPC blacklist;
         public override bool? CanHitNPC(NPC target)
         {
             if (cameBack && target.Equals(blacklist)) //if its original target is dead, only allow damage towards blacklist
             {
                 return base.CanHitNPC(target);
             }
-            if (!cameBack && !target.Equals(blacklist)) //if og target aint dead, anything but blacklist
-            {
-                return base.CanHitNPC(target);
-            }
-            return false;
+            return !cameBack && !target.Equals(blacklist) ? base.CanHitNPC(target) : false;
         }
         public void pick()
         {

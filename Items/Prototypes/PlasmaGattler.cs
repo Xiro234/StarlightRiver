@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Prototypes
 {
-    class PlasmaGattler : PrototypeWeapon
+    internal class PlasmaGattler : PrototypeWeapon
     {
         public PlasmaGattler() : base(3000, BreakType.Time) { }
         private int Heat { get; set; }
@@ -17,7 +17,7 @@ namespace StarlightRiver.Items.Prototypes
         public override void SetDefaults()
         {
             item.damage = 20;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.useTime = 5;
             item.useAnimation = 5;
             item.UseSound = SoundID.Item75;

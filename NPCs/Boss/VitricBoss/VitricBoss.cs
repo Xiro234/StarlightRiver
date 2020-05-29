@@ -10,10 +10,14 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    sealed partial class VitricBoss : ModNPC, IDynamicMapIcon
+    internal sealed partial class VitricBoss : ModNPC, IDynamicMapIcon
     {
         #region tml hooks
-        public override bool CheckActive() => npc.ai[1] == (int)AIStates.Leaving;
+        public override bool CheckActive()
+        {
+            return npc.ai[1] == (int)AIStates.Leaving;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ceiros");
@@ -176,7 +180,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     for (int k = 0; k < Main.maxNPCs; k++) //finds all the large platforms to add them to the list of possible locations for the nuke attack
                     {
                         NPC npc = Main.npc[k];
-                        if (npc != null && npc.active && (npc.type == ModContent.NPCType<VitricBossPlatformUp>() || npc.type == ModContent.NPCType<VitricBossPlatformDown>())) CrystalLocations.Add(npc.Center + new Vector2(0, -48));
+                        if (npc?.active == true && (npc.type == ModContent.NPCType<VitricBossPlatformUp>() || npc.type == ModContent.NPCType<VitricBossPlatformDown>())) CrystalLocations.Add(npc.Center + new Vector2(0, -48));
                     }
 
                     ChangePhase(AIStates.SpawnAnimation, true);
@@ -353,7 +357,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         #endregion
         #region Networking
-        int FavoriteCrystal = 0;
+        private int FavoriteCrystal = 0;
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(FavoriteCrystal);
@@ -364,8 +368,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         #endregion
 
-        int IconFrame = 0;
-        int IconFrameCounter = 0;
+        private int IconFrame = 0;
+        private int IconFrameCounter = 0;
         public void DrawOnMap(SpriteBatch spriteBatch, Vector2 center, float scale, Color color)
         {
             if (IconFrameCounter++ >= 5) { IconFrame++; IconFrameCounter = 0; }

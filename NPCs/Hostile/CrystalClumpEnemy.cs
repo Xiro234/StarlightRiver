@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class CrystalClumpEnemy : ModNPC
+    internal class CrystalClumpEnemy : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -36,22 +36,25 @@ namespace StarlightRiver.NPCs.Hostile
                 Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(2, 7));
             }
         }
-        int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }
-        bool CanSuck => SuckTime > 0;
-        Player Target => Main.player[npc.target];
+
+        private int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }
+
+        private bool CanSuck => SuckTime > 0;
+
+        private Player Target => Main.player[npc.target];
         public override void HitEffect(int hitDirection, double damage)
         {
-            Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 41); //granite golem
-            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 30); //ice materialize
+            Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 41); //granite golem
+            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 30); //ice materialize
             if (npc.life <= 0)
             {
-                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 5); //ice/pixie
-                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 34); //deadly sphere
+                Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 5); //ice/pixie
+                Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 34); //deadly sphere
             }
             else
             {
 
-                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 50); //ice block mine
+                Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 50); //ice block mine
             }
             base.HitEffect(hitDirection, damage);
         }
@@ -128,10 +131,13 @@ namespace StarlightRiver.NPCs.Hostile
             return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 0.4f : 0f;
         }
 
-        public override void FindFrame(int frameHeight) => npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
-
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
+        }
     }
-    class CrystalClumpEnemy2 : ModNPC
+
+    internal class CrystalClumpEnemy2 : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -155,24 +161,27 @@ namespace StarlightRiver.NPCs.Hostile
             npc.value = 82000f;
         }
 
-        int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }
-        int ShootTime { get => (int)npc.ai[1]; set => npc.ai[1] = value; }
-        bool CanSuck => SuckTime > 0;
-        bool HasSucked = false;
-        Player Target => Main.player[npc.target];
+        private int SuckTime { get => (int)npc.ai[0]; set => npc.ai[0] = value; }
+        private int ShootTime { get => (int)npc.ai[1]; set => npc.ai[1] = value; }
+
+        private bool CanSuck => SuckTime > 0;
+
+        private bool HasSucked = false;
+
+        private Player Target => Main.player[npc.target];
         public override void HitEffect(int hitDirection, double damage)
         {
-            Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 41); //granite golem
-            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 30); //ice materialize
+            Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 41); //granite golem
+            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 30); //ice materialize
             if (npc.life <= 0)
             {
-                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 5); //ice/pixie
-                Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 34); //deadly sphere
+                Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 5); //ice/pixie
+                Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 34); //deadly sphere
             }
             else
             {
 
-                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 50); //ice block mine
+                Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 50); //ice block mine
             }
             base.HitEffect(hitDirection, damage);
         }
@@ -251,6 +260,9 @@ namespace StarlightRiver.NPCs.Hostile
                 SpawnDust(2);
             }
         }
-        public override void FindFrame(int frameHeight) => npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;
+        }
     }
 }

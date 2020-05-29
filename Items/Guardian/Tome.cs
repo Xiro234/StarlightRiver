@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Guardian
 {
-    class Tome : ModItem
+    internal class Tome : ModItem
     {
         public int Radius { get; set; }
         public int ProjectileType { get; set; }
@@ -30,7 +31,7 @@ namespace StarlightRiver.Items.Guardian
         public sealed override void SetDefaults()
         {
             item.noMelee = true;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.useTime = 15;
             item.useAnimation = 15;
         }

@@ -3,11 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Dragons
 {
-    class YoungDragon : ModMountData
+    internal class YoungDragon : ModMountData
     {
         public override void SetDefaults()
         {
@@ -33,7 +34,7 @@ namespace StarlightRiver.Dragons
             mountData.bodyFrame = 3;
             mountData.yOffset = 6;
             mountData.playerHeadOffset = 22;
-            if (Main.netMode != 2)
+            if (Main.netMode != NetmodeID.Server)
             {
                 mountData.textureWidth = mountData.backTexture.Width + 20;
                 mountData.textureHeight = mountData.backTexture.Height;

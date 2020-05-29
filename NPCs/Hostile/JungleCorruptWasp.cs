@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class JungleCorruptWasp : ModNPC
+    internal class JungleCorruptWasp : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +26,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.aiStyle = -1;
         }
 
-        float AnimSpeedMult = 0.5f;//speed
+        private readonly float AnimSpeedMult = 0.5f;//speed
 
         public override void AI()
         {
@@ -105,7 +105,7 @@ namespace StarlightRiver.NPCs.Hostile
         }
         public override void AI()
         {
-            Dust.NewDust(projectile.position, (int)(projectile.width), (int)(projectile.height), 75);
+            Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
             projectile.localAI[1]++;
             projectile.Hitbox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, (int)(8 * projectile.localAI[0]), (int)(8 * projectile.localAI[0]));
 

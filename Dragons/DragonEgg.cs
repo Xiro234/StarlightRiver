@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Dragons
 {
-    class DragonEgg : ModNPC
+    internal class DragonEgg : ModNPC
     {
         public NestEntity nest;
         public override string Texture => "StarlightRiver/Invisible";

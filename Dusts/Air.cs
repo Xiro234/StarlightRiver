@@ -41,7 +41,7 @@ namespace StarlightRiver.Dusts
     }
     public class Air2 : ModDust
     {
-        int timer = 0;
+        private int timer = 0;
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Dusts/Air";
@@ -245,7 +245,8 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Gold";
             return base.Autoload(ref name, ref texture);
         }
-        int timer = 0;
+
+        private int timer = 0;
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

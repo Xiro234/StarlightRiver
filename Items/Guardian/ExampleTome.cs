@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Guardian
 {
-    class ExampleTome : Tome
+    internal class ExampleTome : Tome
     {
         public ExampleTome() : base(ModContent.ProjectileType<ExampleTomeProjectile>(), 1, 128, 75) { }
         public override void SetStaticDefaults()
@@ -17,7 +17,8 @@ namespace StarlightRiver.Items.Guardian
             tooltips.Insert(1, new TooltipLine(mod, "Effect", "+" + 5 * Main.LocalPlayer.GetModPlayer<StarlightPlayer>().GuardDamage + "% damage, x2 for guardian damage"));
         }
     }
-    class ExampleTomeProjectile : TomeProjectile
+
+    internal class ExampleTomeProjectile : TomeProjectile
     {
         public override void SetDefaults()
         {

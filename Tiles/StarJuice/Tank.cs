@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.StarJuice
 {
-    sealed class Tank : ModTile
+    internal sealed class Tank : ModTile
     {
         public override void SetDefaults()
         {
@@ -95,7 +95,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
     }
 
-    sealed class TankEntity : ModTileEntity
+    internal sealed class TankEntity : ModTileEntity
     {
         public int charge = 0;
         public int maxCharge = 5000;
@@ -108,10 +108,10 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
-            if (Main.netMode == 1)
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(Main.myPlayer, i, j, 3);
-                NetMessage.SendData(87, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
             return Place(i, j);

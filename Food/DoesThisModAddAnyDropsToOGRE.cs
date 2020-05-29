@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Food
 {
-    class DoesThisModAddAnyDropsToOGRE : GlobalNPC
+    internal class DoesThisModAddAnyDropsToOGRE : GlobalNPC
     {
         public override void NPCLoot(NPC npc)
         {

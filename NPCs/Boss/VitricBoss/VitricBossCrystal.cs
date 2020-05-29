@@ -7,15 +7,27 @@ using static StarlightRiver.NPCs.Boss.VitricBoss.VitricBoss;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    class VitricBossCrystal : ModNPC
+    internal class VitricBossCrystal : ModNPC
     {
         public Vector2 StartPos;
         public Vector2 TargetPos;
         public VitricBoss Parent;
 
-        public override bool CheckActive() => npc.ai[2] == 4;
-        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
-        public override bool? CanBeHitByItem(Player player, Item item) => false;
+        public override bool CheckActive()
+        {
+            return npc.ai[2] == 4;
+        }
+
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            return false;
+        }
+
+        public override bool? CanBeHitByItem(Player player, Item item)
+        {
+            return false;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Resonant Crystal");
@@ -42,7 +54,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             npc.damage = 50;
         }
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => !(npc.ai[0] == 0 || npc.ai[0] == 1); //too tired of dealing with this sheeeet
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            return !(npc.ai[0] == 0 || npc.ai[0] == 1); //too tired of dealing with this sheeeet
+        }
 
         public override void AI()
         {

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
-using StarlightRiver.Codex.Entries;
 using System;
 using Terraria;
 using Terraria.Graphics.Effects;
@@ -10,11 +8,15 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Wisp : AbilityPickup
+    internal class Wisp : AbilityPickup
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Wisp1";
         public override Color GlowColor => new Color(255, 255, 130);
-        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().wisp.Locked;
+        public override bool CanPickup(Player player)
+        {
+            return player.GetModPlayer<AbilityHandler>().wisp.Locked;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Faeflame");

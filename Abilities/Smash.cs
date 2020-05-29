@@ -14,7 +14,7 @@ namespace StarlightRiver.Abilities
     {
         public Smash(Player player) : base(2, player) { }
         public override bool CanUse => player.velocity.Y != 0;
-        public override Texture2D texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
+        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         public const int ChargeTime = 30;
 
         public override void OnCast()
@@ -117,7 +117,7 @@ namespace StarlightRiver.Abilities
             }
             else
             {
-                float rot = Main.rand.NextFloat(6.28f);
+                //float rot = Main.rand.NextFloat(6.28f);
                 //Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(rot) * 40, ModContent.DustType<JungleEnergy>(), Vector2.One.RotatedBy(rot) * -2f, 0, default, 0.3f);
             }
         }

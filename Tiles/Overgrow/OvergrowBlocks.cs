@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    class BrickOvergrow : ModTile
+    internal class BrickOvergrow : ModTile
     {
         public override void SetDefaults()
         {
@@ -51,7 +51,8 @@ namespace StarlightRiver.Tiles.Overgrow
             spriteBatch.Draw(tex, (Helper.TileAdj + new Vector2(i, j)) * 16 + Vector2.One * 8 - Main.screenPosition, new Rectangle(i * j % 4 * 40, 0, 40, 50), Lighting.GetColor(i, j), 0, new Vector2(20, 25), 1, 0, 0);
         }
     }
-    class GlowBrickOvergrow : ModTile
+
+    internal class GlowBrickOvergrow : ModTile
     {
         public override void SetDefaults()
         {
@@ -86,7 +87,8 @@ namespace StarlightRiver.Tiles.Overgrow
             frameYOffset = 270 * ((j + Main.tileFrame[type]) % 6);
         }
     }
-    class LeafOvergrow : ModTile
+
+    internal class LeafOvergrow : ModTile
     {
         public override void SetDefaults()
         {
@@ -103,7 +105,7 @@ namespace StarlightRiver.Tiles.Overgrow
         }
     }
 
-    class GrassOvergrow : ModTile
+    internal class GrassOvergrow : ModTile
     {
         public override void SetDefaults()
         {
@@ -179,7 +181,7 @@ namespace StarlightRiver.Tiles.Overgrow
         }
     }
 
-    class VineOvergrow : ModTile
+    internal class VineOvergrow : ModTile
     {
         public override void SetDefaults()
         {
@@ -194,7 +196,7 @@ namespace StarlightRiver.Tiles.Overgrow
                 ModContent.TileType<VineOvergrow>()
             };
             TileObjectData.addTile(Type);
-            soundType = 6;
+            soundType = SoundID.Grass;
             dustType = 14;
             AddMapEntry(new Color(202, 157, 49));
         }
@@ -219,7 +221,7 @@ namespace StarlightRiver.Tiles.Overgrow
         }
     }
 
-    class TallgrassOvergrow : ModTile
+    internal class TallgrassOvergrow : ModTile
     {
         public override void SetDefaults()
         {
@@ -233,7 +235,7 @@ namespace StarlightRiver.Tiles.Overgrow
                 ModContent.TileType<VineOvergrow>()
             };
             TileObjectData.addTile(Type);
-            soundType = 6;
+            soundType = SoundID.Grass;
             dustType = 14;
             AddMapEntry(new Color(202, 157, 49));
         }

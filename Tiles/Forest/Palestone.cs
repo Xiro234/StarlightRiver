@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Tiles.Forest
 {
-    class PalestoneItem : Items.QuickTileItem { public PalestoneItem() : base("Palestone", "", ModContent.TileType<Palestone>(), 0) { } }
-    class Palestone : ModTile
+    internal class PalestoneItem : Items.QuickTileItem { public PalestoneItem() : base("Palestone", "", ModContent.TileType<Palestone>(), 0) { } }
+
+    internal class Palestone : ModTile
     {
         public override void SetDefaults()
         {

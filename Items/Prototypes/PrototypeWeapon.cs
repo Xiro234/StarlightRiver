@@ -6,14 +6,14 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Prototypes
 {
-    enum BreakType : int
+    internal enum BreakType : int
     {
         MaxUses = 0, //the weapon can only be used as many times as durability it has
         Time = 1, //the weapon can only be used for as many ticks as durability it has
         MaxDamage = 2 //the weapon can only be used before it has delt the amount of damage as durability it has
     }
 
-    class PrototypeWeapon : ModItem
+    internal class PrototypeWeapon : ModItem
     {
         public int Durability { get; set; } //how many on the appropriate degradation factor the prototype can withstand before breaking
         public int MaxDurability { get; set; } //the maximum durability, for the purpose of calculting durability bars
@@ -35,8 +35,10 @@ namespace StarlightRiver.Items.Prototypes
                 case (BreakType.Time): text += " Left"; break;
                 case (BreakType.MaxDamage): text += " Damage Left"; break;
             }
-            TooltipLine line = new TooltipLine(mod, "PrototypeInfo", text);
-            line.overrideColor = new Color(255, 200, 100);
+            TooltipLine line = new TooltipLine(mod, "PrototypeInfo", text)
+            {
+                overrideColor = new Color(255, 200, 100)
+            };
             tooltips.Add(line);
         }
         public virtual bool SafeUseItem(Player player) { return true; } //allows on-use effects without breaking the prototype behavior

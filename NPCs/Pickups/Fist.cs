@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using System;
 using Terraria;
@@ -9,11 +8,15 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Pickups
 {
-    class Fist : AbilityPickup
+    internal class Fist : AbilityPickup
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Smash1";
         public override Color GlowColor => new Color(180, 220, 140);
-        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().smash.Locked;
+        public override bool CanPickup(Player player)
+        {
+            return player.GetModPlayer<AbilityHandler>().smash.Locked;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gaia's Fish");

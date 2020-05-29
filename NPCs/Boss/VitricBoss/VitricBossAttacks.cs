@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    sealed partial class VitricBoss : ModNPC
+    internal sealed partial class VitricBoss : ModNPC
     {
         public void ResetAttack()
         {

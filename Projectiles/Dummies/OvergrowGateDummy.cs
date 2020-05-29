@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    class OvergrowGateDummy : ModProjectile
+    internal class OvergrowGateDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

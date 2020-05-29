@@ -7,7 +7,7 @@ using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Codex
 {
-    class CodexHandler : ModPlayer
+    internal class CodexHandler : ModPlayer
     {
         public int CodexState = 0; //0 = none, 1 = normal, 2 = void
         public List<CodexEntry> Entries = new List<CodexEntry>();

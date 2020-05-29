@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 
 namespace StarlightRiver.Items.StarJuice
 {
-    class StarLamp : StarjuiceStoringItem
+    internal class StarLamp : StarjuiceStoringItem
     {
         public StarLamp() : base(500) { }
         public override void SetStaticDefaults()
@@ -15,10 +16,10 @@ namespace StarlightRiver.Items.StarJuice
         {
             item.width = 16;
             item.height = 16;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
         }
 
         public override void UpdateInventory(Player player)

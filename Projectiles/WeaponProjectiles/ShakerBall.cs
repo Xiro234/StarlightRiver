@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class ShakerBall : ModProjectile
+    internal class ShakerBall : ModProjectile
     {
         public override void SetDefaults()
         {

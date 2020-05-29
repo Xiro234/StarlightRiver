@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class LeafSpawner : ModProjectile
+    internal class LeafSpawner : ModProjectile
     {
         public override void SetDefaults()
         {

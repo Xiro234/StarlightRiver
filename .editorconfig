@@ -11,3 +11,9 @@ dotnet_diagnostic.RCS1129.severity = none
 
 # RCS1036: Remove redundant empty line.
 dotnet_diagnostic.RCS1036.severity = none
+
+# RCS1032: Remove redundant parentheses.
+dotnet_diagnostic.RCS1032.severity = none
+
+# IDE0047: Remove unnecessary parentheses
+dotnet_diagnostic.IDE0047.severity = none

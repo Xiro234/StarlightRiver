@@ -58,7 +58,7 @@ namespace StarlightRiver
 
                 if (Main.tile[x, y].type == TileID.Dirt && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6)
                 {
-                    WorldGen.TileRunner(x, y, (double)WorldGen.genRand.Next(10, 11), 1, ModContent.TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 11), 1, ModContent.TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
                 }
             }
         }

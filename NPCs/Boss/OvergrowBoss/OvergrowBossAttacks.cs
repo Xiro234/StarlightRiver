@@ -168,7 +168,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                 //screenshake
                 int distance = (int)Vector2.Distance(Main.LocalPlayer.Center, flail.npc.Center);
-                ((StarlightPlayer)Main.LocalPlayer.GetModPlayer<StarlightPlayer>()).Shake += distance < 100 ? distance / 20 : 5;
+                Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += distance < 100 ? distance / 20 : 5;
             }
 
             if (npc.ai[3] == 240) ResetAttack();
@@ -275,7 +275,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                 //screenshake
                 int distance = (int)Vector2.Distance(Main.LocalPlayer.Center, flail.npc.Center);
-                ((StarlightPlayer)Main.LocalPlayer.GetModPlayer<StarlightPlayer>()).Shake += distance < 100 ? distance / 20 : 5;
+                Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += distance < 100 ? distance / 20 : 5;
             }
 
             if (npc.ai[3] == 180) ResetAttack();

@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    class ForestIvy : HangingPlant { public ForestIvy() : base("Ivy") { } }
+    internal class ForestIvy : HangingPlant { public ForestIvy() : base("Ivy") { } }
     public class ForestIvyWild : ModTile
     {
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace StarlightRiver.Tiles.Herbology
                 TileID.Grass
             };
             TileObjectData.addTile(Type);
-            soundType = 6;
+            soundType = SoundID.Grass;
             dustType = DustID.Grass;
             drop = ModContent.ItemType<Items.Herbology.Ivy>();
             AddMapEntry(new Color(0, 150, 40));

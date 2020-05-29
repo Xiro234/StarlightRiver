@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Void
 {
-    class Void1 : ModTile
+    internal class Void1 : ModTile
     {
         public override void SetDefaults()
         {
@@ -21,7 +21,8 @@ namespace StarlightRiver.Tiles.Void
             AddMapEntry(new Color(35, 40, 20));
         }
     }
-    class Void2 : ModTile
+
+    internal class Void2 : ModTile
     {
         public override void SetDefaults()
         {
@@ -34,7 +35,8 @@ namespace StarlightRiver.Tiles.Void
             AddMapEntry(new Color(45, 50, 30));
         }
     }
-    class VoidTorch1 : ModTile
+
+    internal class VoidTorch1 : ModTile
     {
         public override void SetDefaults()
         {
@@ -64,7 +66,7 @@ namespace StarlightRiver.Tiles.Void
         }
     }
 
-    class VoidTorch2 : ModTile
+    internal class VoidTorch2 : ModTile
     {
         public override void SetDefaults()
         {
@@ -96,7 +98,7 @@ namespace StarlightRiver.Tiles.Void
         }
     }
 
-    class VoidPillarB : ModTile
+    internal class VoidPillarB : ModTile
     {
         public override void SetDefaults()
         {
@@ -114,7 +116,8 @@ namespace StarlightRiver.Tiles.Void
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarBItem"));
         }
     }
-    class VoidPillarM : ModTile
+
+    internal class VoidPillarM : ModTile
     {
         public override void SetDefaults()
         {
@@ -134,7 +137,8 @@ namespace StarlightRiver.Tiles.Void
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarMItem"));
         }
     }
-    class VoidPillarT : ModTile
+
+    internal class VoidPillarT : ModTile
     {
         public override void SetDefaults()
         {
@@ -162,7 +166,8 @@ namespace StarlightRiver.Tiles.Void
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarTItem"));
         }
     }
-    class VoidPillarP : ModTile
+
+    internal class VoidPillarP : ModTile
     {
         public override void SetDefaults()
         {

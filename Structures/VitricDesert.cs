@@ -103,7 +103,7 @@ namespace StarlightRiver.Structures
                 if (i > MinArenaSide && i < MaxArenaSide)
                     sHei = (int)(8f * (Math.Sin((i / 18f) - 2f)) - 16f); //Middle dune
 
-                for (int j = (int)(sHei); j < (10 + WorldGen.genRand.Next(12, 19)); ++j)
+                for (int j = sHei; j < (10 + WorldGen.genRand.Next(12, 19)); ++j)
                 {
                     int off = (int)((i / 30f) * ((i >= 0) ? -1 : 1));
                     if (i > MinArenaSide && i < MaxArenaSide) off = 0;
@@ -119,9 +119,7 @@ namespace StarlightRiver.Structures
 
         private static void GenerateCrystals(Point tC)
         {
-            float rot = 0f; //Rotation of crystal/placement used later
             int totalReps = (int)(125 * WorldSize()); //Total repeats
-            float shortTau = 6.28f; //Helper variable
 
             //Add those FRICKING dumb crystals you BUFFOON.
         }
@@ -188,7 +186,10 @@ namespace StarlightRiver.Structures
         /// <summary>
         /// Returns the world size difference: 1f for small, 1.5f for medium, 2f for large. Will return valid results for abnormal worlds.
         /// </summary>
-        public static float WorldSize() => Main.maxTilesX / 4200f;
+        public static float WorldSize()
+        {
+            return Main.maxTilesX / 4200f;
+        }
 
         /// <summary>
         /// Returns the world size difference, adjusted: 1 for small, 2 for medium, 3 for large.

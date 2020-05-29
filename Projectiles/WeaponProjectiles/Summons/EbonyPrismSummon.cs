@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +17,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
         {
             DisplayName.SetDefault("Ebony Prism");
         }
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            return false;
+        }
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -74,8 +77,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             Charging = 0,
             Shooting = 1
         }
-        NPC target = Main.npc[0];
-        int lastShot;
+
+        private NPC target = Main.npc[0];
+        private int lastShot;
         public override void AI()
         {
 
@@ -85,7 +89,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
              * 0: State
              * 1: Timer
              */
-            if (projectile.OwnerMinionAttackTargetNPC == null || !projectile.OwnerMinionAttackTargetNPC.active)//automatically choose target
+            if (projectile.OwnerMinionAttackTargetNPC?.active != true)//automatically choose target
             {
                 for (int k = 0; k < Main.npc.Length; k++)
                 {
@@ -171,11 +175,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.penetrate == 1)
-            {
-                return false;
-            }
-            return base.CanHitNPC(target);
+            return projectile.penetrate == 1 ? false : base.CanHitNPC(target);
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

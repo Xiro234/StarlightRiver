@@ -5,13 +5,11 @@ using StarlightRiver.Codex;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
 namespace StarlightRiver
@@ -23,10 +21,10 @@ namespace StarlightRiver
         /// </summary>
         /// <param name="npc"></param>
 
-        public static Vector2 TileAdj { get => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12; }
+        public static Vector2 TileAdj => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12;
         public static void Kill(this NPC npc)
         {
-            bool modNPCDontDie = npc.modNPC != null && !npc.modNPC.CheckDead();
+            bool modNPCDontDie = npc.modNPC?.CheckDead() == false;
             if (modNPCDontDie)
                 return;
 
@@ -117,16 +115,14 @@ namespace StarlightRiver
             if (Vector2.Distance(center, hitbox.TopLeft()) <= radius) return true;
             if (Vector2.Distance(center, hitbox.TopRight()) <= radius) return true;
             if (Vector2.Distance(center, hitbox.BottomLeft()) <= radius) return true;
-            if (Vector2.Distance(center, hitbox.BottomRight()) <= radius) return true;
-            return false;
+            return Vector2.Distance(center, hitbox.BottomRight()) <= radius;
         }
         public static bool CheckConicalCollision(Vector2 center, int radius, float angle, float width, Rectangle hitbox)
         {
             if (CheckPoint(center, radius, hitbox.TopLeft(), angle, width)) return true;
             if (CheckPoint(center, radius, hitbox.TopRight(), angle, width)) return true;
             if (CheckPoint(center, radius, hitbox.BottomLeft(), angle, width)) return true;
-            if (CheckPoint(center, radius, hitbox.BottomRight(), angle, width)) return true;
-            return false;
+            return CheckPoint(center, radius, hitbox.BottomRight(), angle, width);
         }
         private static bool CheckPoint(Vector2 center, int radius, Vector2 check, float angle, float width)
         {
@@ -196,7 +192,7 @@ namespace StarlightRiver
                     if (npc.HasValidTarget && jump)
                     {
                         Player target = Main.player[npc.target];
-                        if (npc.ai[slot] >= ((int)((npc.position.Y - target.position.Y) / 16) + 1) - ((int)(npc.height / 16) - 1))
+                        if (npc.ai[slot] >= ((int)((npc.position.Y - target.position.Y) / 16) + 1) - (npc.height / 16 - 1))
                         {
                             break;
                         }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Abilities;
 using StarlightRiver.Codex;
 using StarlightRiver.Codex.Entries;
 using StarlightRiver.GUI;

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
-using System;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
@@ -13,8 +12,7 @@ namespace StarlightRiver.GUI
     {
         public UIPanel abicon;
         public static bool visible = false;
-
-        Stam Stam1 = new Stam();
+        private readonly Stam Stam1 = new Stam();
         public override void OnInitialize()
         {
             Stam1.Left.Set(-303, 1);
@@ -65,7 +63,7 @@ namespace StarlightRiver.GUI
 
     }
 
-    class Stam : UIElement
+    internal class Stam : UIElement
     {
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {

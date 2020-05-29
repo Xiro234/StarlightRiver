@@ -6,13 +6,7 @@ namespace StarlightRiver.NPCs
 {
     public class DebuffHandler : GlobalNPC
     {
-        public override bool InstancePerEntity
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool InstancePerEntity => true;
         public int frozenTime = 0;
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {

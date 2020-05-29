@@ -13,7 +13,7 @@ namespace StarlightRiver.Projectiles
     public class Zapper : ModProjectile
     {
         public Tile parent;
-        Vector2 dims = new Vector2(32, 0);
+        private Vector2 dims = new Vector2(32, 0);
         public override void SetDefaults()
         {
             projectile.hostile = true;

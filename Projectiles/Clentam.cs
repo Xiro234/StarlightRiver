@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles
 {
-    class Clentam : ModProjectile
+    internal class Clentam : ModProjectile
     {
         //public Vector2 start;
         public override void SetDefaults()
@@ -36,7 +36,8 @@ namespace StarlightRiver.Projectiles
             }
         }
     }
-    class Clentam2 : ModProjectile
+
+    internal class Clentam2 : ModProjectile
     {
         //public Vector2 start;
         public override void SetDefaults()
@@ -68,7 +69,8 @@ namespace StarlightRiver.Projectiles
             }
         }
     }
-    class Clentam3 : ModProjectile
+
+    internal class Clentam3 : ModProjectile
     {
         //public Vector2 start;
         public override void SetDefaults()

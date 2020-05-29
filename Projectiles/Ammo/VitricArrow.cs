@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Ammo
 {
-    class VitricArrow : ModProjectile
+    internal class VitricArrow : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -57,7 +57,8 @@ namespace StarlightRiver.Projectiles.Ammo
             return true;
         }
     }
-    class VitricArrowShattered : ModProjectile
+
+    internal class VitricArrowShattered : ModProjectile
     {
         public override void SetDefaults()
         {

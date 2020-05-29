@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Purified
 {
-    class StonePure : ModTile
+    internal class StonePure : ModTile
     {
         public override void SetDefaults()
         {
@@ -18,7 +18,8 @@ namespace StarlightRiver.Tiles.Purified
             AddMapEntry(new Color(208, 201, 199));
         }
     }
-    class StonePure2 : StonePure
+
+    internal class StonePure2 : StonePure
     {
         public override bool Autoload(ref string name, ref string texture)
         {

@@ -4,7 +4,7 @@ using Terraria;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
-    class OvergrowBossVerticalPlatform : MovingPlatform
+    internal class OvergrowBossVerticalPlatform : MovingPlatform
     {
         public override string Texture => "StarlightRiver/NPCs/Boss/OvergrowBoss/OvergrowBossPlatform";
         public override void SafeSetDefaults()
@@ -19,7 +19,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             npc.velocity.Y = (float)Math.Sin(npc.ai[0]) * 3;
         }
     }
-    class OvergrowBossCircularPlatform : MovingPlatform
+
+    internal class OvergrowBossCircularPlatform : MovingPlatform
     {
         public override string Texture => "StarlightRiver/NPCs/Boss/OvergrowBoss/OvergrowBossPlatform";
         public override void SafeSetDefaults()

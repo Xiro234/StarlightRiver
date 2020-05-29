@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace StarlightRiver.Gases
 {
-    class GasWorld : ModWorld
+    internal class GasWorld : ModWorld
     {
         public static ModGas[,] Gas;
         public override void Initialize()
@@ -24,7 +24,7 @@ namespace StarlightRiver.Gases
                     {
                         ModGas gas = Gas[x, y];
 
-                        if (gas != null && gas.Strength >= 1)
+                        if (gas?.Strength >= 1)
                         {
                             if (Main.tile[x, y + 1].collisionType != 1)
                             {
@@ -49,7 +49,7 @@ namespace StarlightRiver.Gases
                             gas.Strength -= 3;
                         }
                         else if (gas != null) { Gas[gas.i, gas.j] = null; }
-                        if (gas != null) { gas.Update(); }
+                        gas?.Update();
                     }
                 }
             }
@@ -58,7 +58,8 @@ namespace StarlightRiver.Gases
 
         }
     }
-    class ModGas
+
+    internal class ModGas
     {
         public int maxStrength = 0;
         public int Strength = 0;

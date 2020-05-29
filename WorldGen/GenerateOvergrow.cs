@@ -6,16 +6,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using StructureHelper;
 
 namespace StarlightRiver
 {
     public partial class LegendWorld
     {
-        const int RoomHeight = 32;
-        const int HallWidth = 16;
-        const int HallThickness = 2;
-        static List<Rectangle> Rooms = new List<Rectangle>();
+        private const int RoomHeight = 32;
+        private const int HallWidth = 16;
+        private const int HallThickness = 2;
+        private static List<Rectangle> Rooms = new List<Rectangle>();
 
         public static void OvergrowGen(GenerationProgress progress)
         {

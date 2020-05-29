@@ -188,7 +188,7 @@ namespace StarlightRiver.GUI
 
     public class TextButton : UIElement
     {
-        private string Text;
+        private readonly string Text;
         private int Fade;
         public TextButton(string text) { Text = text; }
         public override void OnInitialize()
@@ -230,8 +230,8 @@ namespace StarlightRiver.GUI
     public class ColorSlider : UIElement
     {
         public int sliderPos = 0;
-        private ColorChannel Channel;
-        private Rectangle sliderBox { get => new Rectangle((int)GetDimensions().X + sliderPos - 9, (int)GetDimensions().Y + 2, 18, 28); }
+        private readonly ColorChannel Channel;
+        private Rectangle sliderBox => new Rectangle((int)GetDimensions().X + sliderPos - 9, (int)GetDimensions().Y + 2, 18, 28);
 
         public ColorSlider(ColorChannel channel) { Channel = channel; }
         public override void Draw(SpriteBatch spriteBatch)

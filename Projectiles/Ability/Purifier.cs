@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Effects;
 
 namespace StarlightRiver.Projectiles.Ability
 {
-    class Purifier : ModProjectile
+    internal class Purifier : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()
@@ -127,7 +127,7 @@ namespace StarlightRiver.Projectiles.Ability
         }
     }
 
-    class PurifierReturn : ModProjectile
+    internal class PurifierReturn : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()

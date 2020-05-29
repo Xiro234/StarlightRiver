@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    class OvergrowBossPitDummy : ModProjectile
+    internal class OvergrowBossPitDummy : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetStaticDefaults()

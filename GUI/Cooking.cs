@@ -16,16 +16,15 @@ namespace StarlightRiver.GUI
     {
         public static bool Visible = false;
         private static bool Moving = false;
-        CookingSlot MainSlot = new CookingSlot(IngredientType.Main);
-        CookingSlot SideSlot0 = new CookingSlot(IngredientType.Side);
-        CookingSlot SideSlot1 = new CookingSlot(IngredientType.Side);
-        CookingSlot SeasonSlot = new CookingSlot(IngredientType.Seasoning);
-        UIImageButton CookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/CookPrep"));
-        UIImageButton ExitButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/CookExit"));
-        UIImage StatBack = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookStatWindow"));
-        UIImage TopBar = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookTop"));
-
-        Vector2 Basepos = new Vector2(Main.screenWidth / 2 - 173, Main.screenHeight / 2 - 122);
+        private readonly CookingSlot MainSlot = new CookingSlot(IngredientType.Main);
+        private readonly CookingSlot SideSlot0 = new CookingSlot(IngredientType.Side);
+        private readonly CookingSlot SideSlot1 = new CookingSlot(IngredientType.Side);
+        private readonly CookingSlot SeasonSlot = new CookingSlot(IngredientType.Seasoning);
+        private readonly UIImageButton CookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/CookPrep"));
+        private readonly UIImageButton ExitButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/CookExit"));
+        private readonly UIImage StatBack = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookStatWindow"));
+        private readonly UIImage TopBar = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookTop"));
+        private Vector2 Basepos = new Vector2(Main.screenWidth / 2 - 173, Main.screenHeight / 2 - 122);
         public override void OnInitialize()
         {
             CookButton.OnClick += CookFood;
@@ -132,7 +131,7 @@ namespace StarlightRiver.GUI
     public class CookingSlot : UIElement
     {
         public Item Item = new Item();
-        IngredientType Type;
+        private readonly IngredientType Type;
         public CookingSlot(IngredientType type) { Type = type; }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -178,7 +177,7 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            if (Item.type == 0 || Item.stack <= 0) Item.TurnToAir();
+            if (Item.type == ItemID.None || Item.stack <= 0) Item.TurnToAir();
             Width.Set(60, 0);
             Height.Set(60, 0);
         }

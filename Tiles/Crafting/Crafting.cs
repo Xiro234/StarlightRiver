@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Crafting
 {
-    class Oven : ModTile
+    internal class Oven : ModTile
     {
         public override void SetDefaults()
         {
@@ -36,7 +36,7 @@ namespace StarlightRiver.Tiles.Crafting
         }
     }
 
-    class OvenAstral : ModTile
+    internal class OvenAstral : ModTile
     {
         public override void SetDefaults()
         {
@@ -65,7 +65,7 @@ namespace StarlightRiver.Tiles.Crafting
         }
     }
 
-    class HerbStation : ModTile
+    internal class HerbStation : ModTile
     {
         public override void SetDefaults()
         {
@@ -87,7 +87,7 @@ namespace StarlightRiver.Tiles.Crafting
         }
     }
 
-    class CookStation : ModTile
+    internal class CookStation : ModTile
     {
         public override void SetDefaults()
         {

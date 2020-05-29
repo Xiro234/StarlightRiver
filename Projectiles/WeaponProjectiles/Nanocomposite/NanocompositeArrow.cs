@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles.Nanocomposite
 {
-    class NanocompositeArrow : ModProjectile
+    internal class NanocompositeArrow : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetDefaults()

@@ -1,11 +1,10 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.Achievements;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Achievements
 {
-    static class Achievements
+    internal static class Achievements
     {
         public static void CallAchievements(Mod mod)
         {
@@ -29,13 +28,10 @@ namespace StarlightRiver.Achievements
             }
         }
 
-        public static void QuickGive(String name, Player player)
+        public static void QuickGive(string name, Player player)
         {
             Mod achLib = ModLoader.GetMod("AchievementLib");
-            if (achLib != null)
-            {
-                achLib.Call("UnlockLocal", "StarlightRiver", name, player);
-            }
+            achLib?.Call("UnlockLocal", "StarlightRiver", name, player);
         }
     }
 }

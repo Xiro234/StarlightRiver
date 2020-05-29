@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    class DenialAura : ModTile
+    internal class DenialAura : ModTile
     {
         public override bool Autoload(ref string name, ref string texture)
         {

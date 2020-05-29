@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    class Soil : ModTile
+    internal class Soil : ModTile
     {
         public override void SetDefaults()
         {
@@ -23,8 +23,7 @@ namespace StarlightRiver.Tiles.Herbology
         }
     }
 
-
-    class Trellis : ModTile
+    internal class Trellis : ModTile
     {
         public override void SetDefaults()
         {
@@ -102,7 +101,7 @@ namespace StarlightRiver.Tiles.Herbology
 
     }
 
-    class GreenhouseWall : ModWall
+    internal class GreenhouseWall : ModWall
     {
         public override void SetDefaults()
         {

@@ -1,7 +1,7 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles
 {
@@ -47,19 +47,14 @@ namespace StarlightRiver.Projectiles
 
             Vector2 centroid = GetCentroid(pos, vertex1, vertex2);
 
-            Vector2 hitboxCenter = new Vector2((float)(hitbox.Y + hitbox.Height / 2), (float)(hitbox.X + hitbox.Width / 2));
+            Vector2 hitboxCenter = new Vector2(hitbox.Y + hitbox.Height / 2, hitbox.X + hitbox.Width / 2);
             Vector2 intersectionPoint = GetIntersectionPoint(centroid, hitboxCenter, pos, vertex1);
 
             float angleToHitbox = (float)Math.Atan2(hitbox.X - hitboxCenter.X, hitbox.Y - hitboxCenter.Y);
 
             float inHitbox = Math.Min((float)((hitbox.Width / 2) / Math.Sin(angleToHitbox)), (float)((hitbox.Height / 2) / Math.Cos(angleToHitbox)));
 
-            if (GetDistance(centroid, intersectionPoint) <= GetDistance(centroid, hitboxCenter) - inHitbox)
-            {
-                return true;
-            }
-
-            return false;
+            return GetDistance(centroid, intersectionPoint) <= GetDistance(centroid, hitboxCenter) - inHitbox ? true : false;
         }
 
         public Vector2 GetIntersectionPoint(Vector2 p1, Vector2 p2, Vector2 q1, Vector2 q2)
@@ -79,9 +74,15 @@ namespace StarlightRiver.Projectiles
             return new Vector2(x, y);
         }
 
-        public Vector2 GetCentroid(Vector2 p1, Vector2 p2, Vector2 p3) => new Vector2((p1.X + p2.X + p3.X) / 3f, (p1.Y + p2.Y + p3.Y) / 3f);
+        public Vector2 GetCentroid(Vector2 p1, Vector2 p2, Vector2 p3)
+        {
+            return new Vector2((p1.X + p2.X + p3.X) / 3f, (p1.Y + p2.Y + p3.Y) / 3f);
+        }
 
-        public float GetDistance(Vector2 p1, Vector2 p2) => (float)(Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2)));
+        public float GetDistance(Vector2 p1, Vector2 p2)
+        {
+            return (float)(Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2)));
+        }
 
         public Vector2 RotatePoint(Vector2 p1, Vector2 p2, float theta)
         {

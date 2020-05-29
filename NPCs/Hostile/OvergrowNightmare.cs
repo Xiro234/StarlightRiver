@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class OvergrowNightmare : ModNPC
+    internal class OvergrowNightmare : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -17,8 +14,8 @@ namespace StarlightRiver.NPCs.Hostile
             Main.npcFrameCount[npc.type] = 22;
         }
 
-        const int runFramesLoop = 11;
-        int maxSpeed = 10;
+        private const int runFramesLoop = 11;
+        private readonly int maxSpeed = 10;
 
         public override void SetDefaults()
         {
@@ -58,7 +55,7 @@ namespace StarlightRiver.NPCs.Hostile
                 case 2://oh god oh fuck
                     if (npc.velocity.Y == 0)
                     {
-                        Helper.NpcVertical(this.npc, true, 2, 6);
+                        Helper.NpcVertical(npc, true, 2, 6);
                     }
 
                     npc.velocity.X += npc.Center.X - target.Center.X > 0 ? -0.2f : 0.2f;

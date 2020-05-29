@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
-    class BulbDummy : ModProjectile
+    internal class BulbDummy : ModProjectile
     {
         public override void SetStaticDefaults()
         {

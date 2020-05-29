@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
 {
-    class Shaker : ModItem
+    internal class Shaker : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,10 +22,10 @@ namespace StarlightRiver.Items.Overgrow
             item.height = 20;
             item.useTime = 60;
             item.useAnimation = 1;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
         public override bool CanUseItem(Player player)

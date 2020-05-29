@@ -3,20 +3,30 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    class ArenaBottom : ModNPC
+    internal class ArenaBottom : ModNPC
     {
         public VitricBoss Parent;
         public override string Texture => "StarlightRiver/Invisible";
-        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
-        public override bool? CanBeHitByItem(Player player, Item item) => false;
-        public override bool CheckActive() => false;
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            return false;
+        }
+
+        public override bool? CanBeHitByItem(Player player, Item item)
+        {
+            return false;
+        }
+
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
@@ -40,7 +50,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
              * 0: timer
              * 1: state
              */
-            if (Parent == null || !Parent.npc.active) { npc.active = false; return; }
+            if (Parent?.npc.active != true) { npc.active = false; return; }
             if (Parent.npc.ai[1] == (int)VitricBoss.AIStates.FirstToSecond) npc.ai[1] = 2;
             switch (npc.ai[1])
             {
@@ -95,7 +105,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
     }
 
-    class CrystalWave : ModProjectile
+    internal class CrystalWave : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -105,7 +115,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.timeLeft = 30;
             projectile.hide = true;
         }
-        float startY;
+
+        private float startY;
         public override void AI()
         {
             float off = 128 * projectile.timeLeft / 15 - 64 * (float)Math.Pow(projectile.timeLeft, 2) / 225;

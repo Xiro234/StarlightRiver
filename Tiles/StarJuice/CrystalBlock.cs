@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.StarJuice
 {
-    class CrystalBlock : ModTile
+    internal class CrystalBlock : ModTile
     {
         public override void SetDefaults()
         {

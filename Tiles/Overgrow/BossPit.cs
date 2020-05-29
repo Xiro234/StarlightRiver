@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    class BossPit : ModTile
+    internal class BossPit : ModTile
     {
         public override bool Autoload(ref string name, ref string texture)
         {

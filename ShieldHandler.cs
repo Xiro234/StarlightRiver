@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver
 {
-    class ShieldHandler : GlobalNPC
+    internal class ShieldHandler : GlobalNPC
     {
         public int MaxShield;
         public int Shield;
@@ -164,14 +164,18 @@ namespace StarlightRiver
         {
             if (Piercing)
             {
-                TooltipLine line = new TooltipLine(mod, "Pierce", "2x Damage to Shields");
-                line.overrideColor = new Color(140, 220, 255);
+                TooltipLine line = new TooltipLine(mod, "Pierce", "2x Damage to Shields")
+                {
+                    overrideColor = new Color(140, 220, 255)
+                };
                 tooltips.Add(line);
             }
             if (RedHurting)
             {
-                TooltipLine line = new TooltipLine(mod, "RedHurt", "Can Damage [PH]REDHEALTH");
-                line.overrideColor = new Color(255, 210, 210);
+                TooltipLine line = new TooltipLine(mod, "RedHurt", "Can Damage [PH]REDHEALTH")
+                {
+                    overrideColor = new Color(255, 210, 210)
+                };
                 tooltips.Add(line);
             }
         }

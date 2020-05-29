@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    class BulbFruit : ModTile
+    internal class BulbFruit : ModTile
     {
         public override void SetDefaults()
         {

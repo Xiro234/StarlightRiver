@@ -1,14 +1,10 @@
 using Microsoft.Xna.Framework;
-using StarlightRiver.GUI;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles
 {
-    class CheeseTile : ModTile
+    internal class CheeseTile : ModTile
     {
         public override void SetDefaults()
         {

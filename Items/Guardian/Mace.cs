@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Guardian
 {
-    class Mace : GuardianWeapon
+    internal class Mace : GuardianWeapon
     {
-        int Timer { get; set; }
+        private int Timer { get; set; }
         public Mace(int HPcost, int lifesteal, int healrad, int heal) : base(HPcost, lifesteal, healrad, heal) { }
         public override void HoldItem(Player player)
         {
@@ -30,7 +30,7 @@ namespace StarlightRiver.Items.Guardian
         }
     }
 
-    class MaceProjectile : ModProjectile
+    internal class MaceProjectile : ModProjectile
     {
         public int LifeSteal { get; set; }
         public int HealRadius { get; set; }

@@ -35,7 +35,7 @@ namespace StarlightRiver
                                 for (int x = k; x < k + width; x++)
                                 {
                                     int xRel = x - k;
-                                    int xSqr = (int)((-1 * xRel * xRel) / 8 + xRel + 1);
+                                    int xSqr = (-1 * xRel * xRel) / 8 + xRel + 1;
                                     for (int y2 = y - xSqr; y2 < y + xSqr; y2++)
                                     {
                                         WorldGen.PlaceTile(x, y2, ModContent.TileType<Tiles.Forest.Palestone>(), true, true);
@@ -57,9 +57,9 @@ namespace StarlightRiver
                     {
                         int size = WorldGen.genRand.Next(6, 15);
 
-                        for (int x = k - (int)(size / 2); x < k + (int)(size / 2); x++)
+                        for (int x = k - size / 2; x < k + size / 2; x++)
                         {
-                            for (int y = j - (int)(size / 2); y < j + (int)(size / 2); y++)
+                            for (int y = j - size / 2; y < j + size / 2; y++)
                             {
                                 if (Main.tile[x, y].active() && Main.tile[x, y].type == TileID.Grass && Main.tile[x, y - 1].collisionType != 1 && Main.tile[x, y].slope() == 0) //!Main.tileSolid[Main.tile[x, y - 1].type] may be redundant
                                 {

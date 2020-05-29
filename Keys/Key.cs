@@ -12,10 +12,10 @@ namespace StarlightRiver.Keys
     {
         public string Name { get; set; }
         public string Texture { get; set; }
-        public virtual bool ShowCondition { get => true; }
+        public virtual bool ShowCondition => true;
 
         public Vector2 Position = new Vector2(0, 0);
-        public Rectangle Hitbox { get => new Rectangle((int)Position.X, (int)Position.Y, 32, 32); }
+        public Rectangle Hitbox => new Rectangle((int)Position.X, (int)Position.Y, 32, 32);
         public Key(string name, string texture)
         {
             Name = name;

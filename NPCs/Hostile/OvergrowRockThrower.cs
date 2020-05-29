@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Hostile
 {
-    class OvergrowRockThrower : ModNPC
+    internal class OvergrowRockThrower : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -107,7 +107,7 @@ namespace StarlightRiver.NPCs.Hostile
             return true;
         }
 
-        private Vector2[] drawpoints = new Vector2[3];
+        private readonly Vector2[] drawpoints = new Vector2[3];
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) //draws behind the NPC
         {

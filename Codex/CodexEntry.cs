@@ -43,7 +43,7 @@ namespace StarlightRiver.Codex
             Utils.DrawBorderString(spriteBatch, Title, pos, Color.White, 1.2f);
 
             List<string> lines = Helper.WrapString(Body, 480, Main.fontDeathText, 0.7f).Split('\n').ToList();
-            int maxLines = (int)(342 - (50 + Image.Height)) / 18; //grabs the max amount of lines that could feasibly be displated
+            int maxLines = (342 - (50 + Image.Height)) / 18; //grabs the max amount of lines that could feasibly be displated
             int linePosEnd = LinePos + maxLines;
             int lastLine = lines.Count < maxLines ? lines.Count : linePosEnd;
 

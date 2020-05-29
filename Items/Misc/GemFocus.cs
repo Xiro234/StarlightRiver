@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Misc
 {
-    class GemFocus : ModItem
+    internal class GemFocus : ModItem
     {
         public override string Texture => "StarlightRiver/Invisible";
         public override void SetStaticDefaults()
@@ -22,12 +20,12 @@ namespace StarlightRiver.Items.Misc
         {
             item.width = 28;
             item.height = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 10;
             item.useTime = 10;
             item.knockBack = 1f;
             item.damage = 17;
-            item.rare = 2;
+            item.rare = ItemRarityID.Green;
             item.noMelee = true;
             item.magic = true;
             item.mana = 4;

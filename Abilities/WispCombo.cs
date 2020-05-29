@@ -11,7 +11,7 @@ namespace StarlightRiver.Abilities
     // Combo Infusion to be made
     public class WispCombo : WispHoming
     {
-        [DataMember] new bool exit = false;
+        [DataMember] private new bool exit = false;
         public WispCombo(Player player) : base(player)
         {
 
@@ -51,7 +51,7 @@ namespace StarlightRiver.Abilities
                 Main.screenPosition.Y + Main.mouseY - player.Hitbox.Center.Y
                 )) * 5 + new Vector2(0.25f, 0.25f);
 
-            player.Hitbox = new Rectangle((int)player.Hitbox.X - 7 + 7, (int)player.Hitbox.Y + 21 + 7, 14, 14);
+            player.Hitbox = new Rectangle(player.Hitbox.X - 7 + 7, player.Hitbox.Y + 21 + 7, 14, 14);
 
             Lighting.AddLight(player.Center, new Vector3(0.15f, 0.15f, 0f));
 
@@ -118,7 +118,7 @@ namespace StarlightRiver.Abilities
             }
         }
 
-        new public bool TestExit()
+        public new bool TestExit()
         {
             int cleartiles = 0;
             for (int x2 = (int)(player.position.X / 16); x2 <= (int)(player.position.X / 16) + 1; x2++)
@@ -128,8 +128,7 @@ namespace StarlightRiver.Abilities
                     if (Main.tile[x2, y2].collisionType == 0) { cleartiles++; }
                 }
             }
-            if (cleartiles == 6) { return true; }
-            else { return false; }
+            return cleartiles == 6;
         }
     }
 }

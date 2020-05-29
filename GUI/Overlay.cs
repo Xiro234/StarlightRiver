@@ -135,7 +135,7 @@ namespace StarlightRiver.GUI
             pos += vel;
             scl *= 0.996f;
             time--;
-            pos.X += (float)Math.Sin((float)(time / 550f * 12.56f));
+            pos.X += (float)Math.Sin(time / 550f * 12.56f);
             rot += 0.1f;
         }
     }
@@ -158,7 +158,7 @@ namespace StarlightRiver.GUI
             rot += 0.05f;
 
             time--;
-            pos.X += (float)Math.Sin((float)(time / 550f * 31.4f)) * 0.25f;
+            pos.X += (float)Math.Sin(time / 550f * 31.4f) * 0.25f;
         }
     }
     public class HolyDust : BootlegDust
@@ -188,11 +188,11 @@ namespace StarlightRiver.GUI
     }
     public class VitricDust : BootlegDust
     {
-        Vector2 Basepos = Vector2.Zero;
-        int Offset = 0;
-        float Parallax;
-        float Velocity;
-        new float rot = Main.rand.NextFloat(6.28f);
+        private Vector2 Basepos = Vector2.Zero;
+        private readonly int Offset = 0;
+        private readonly float Parallax;
+        private readonly float Velocity;
+        private new float rot = Main.rand.NextFloat(6.28f);
         public VitricDust(Texture2D texture, Vector2 basepos, int offset, float scale, float alpha, float parallax) :
             base(texture, basepos, new Vector2(0, -1), new Color(70, 155, 175) * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
         {

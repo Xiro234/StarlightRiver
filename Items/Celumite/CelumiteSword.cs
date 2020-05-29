@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Celumite
 {
-    class CelumiteSword : ModItem
+    internal class CelumiteSword : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,10 +21,10 @@ namespace StarlightRiver.Items.Celumite
             item.height = 38;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2f;
             item.value = 10000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;
             item.useTurn = true;

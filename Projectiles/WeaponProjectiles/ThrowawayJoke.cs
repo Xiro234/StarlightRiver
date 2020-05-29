@@ -7,7 +7,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     public class ThrowawayJokeProjectile : ModProjectile
     {
-        bool crit = false;
+        private bool crit = false;
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -52,11 +52,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.penetrate == 2)
-            {
-                return base.CanHitNPC(target);
-            }
-            return false;
+            return projectile.penetrate == 2 ? base.CanHitNPC(target) : false;
         }
     }
 }

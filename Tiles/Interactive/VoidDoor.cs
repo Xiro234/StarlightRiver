@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    class VoidDoorOn : ModTile
+    internal class VoidDoorOn : ModTile
     {
         public override void SetDefaults()
         {
@@ -32,7 +32,8 @@ namespace StarlightRiver.Tiles.Interactive
             }
         }
     }
-    class VoidDoorOff : ModTile
+
+    internal class VoidDoorOff : ModTile
     {
         public override void SetDefaults()
         {

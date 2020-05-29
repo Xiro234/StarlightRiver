@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Codex;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.Graphics;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
-using StarlightRiver.Codex;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ID;
-using Terraria.GameContent.UI.Elements;
 
 namespace StarlightRiver.GUI
 {
@@ -21,13 +17,13 @@ namespace StarlightRiver.GUI
         public static bool Open = false;
         private static bool Dragging = false;
 
-        private CodexBack Back = new CodexBack();
-        private UIImage DragButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/DragButton"));
-        private UIImage ExitButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/ExitButton"));
-        private UIImageButton BookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/BookLocked"));
-        private UIElement EntryBack = new UIElement();
+        private readonly CodexBack Back = new CodexBack();
+        private readonly UIImage DragButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/DragButton"));
+        private readonly UIImage ExitButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/ExitButton"));
+        private readonly UIImageButton BookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/BookLocked"));
+        private readonly UIElement EntryBack = new UIElement();
         internal UIList ClickableEntries = new UIList();
-        private UIScrollbar EntryScroll = new UIScrollbar();
+        private readonly UIScrollbar EntryScroll = new UIScrollbar();
         public override void OnInitialize()
         {
             AddElement(BookButton, 300, 100, 26, 32, this);
@@ -155,7 +151,8 @@ namespace StarlightRiver.GUI
             element.Top.Set(pos.Y, 0);
         }
     }
-    class CodexBack : UIElement
+
+    internal class CodexBack : UIElement
     {
         internal CodexEntry ActiveEntry;
         internal CodexEntry.Categories ActiveCategory = CodexEntry.Categories.None;
@@ -164,9 +161,9 @@ namespace StarlightRiver.GUI
             spriteBatch.Draw(Main.magicPixel, GetDimensions().ToRectangle(), Main.magicPixel.Frame(), Color.White * 0.1f);
             Vector2 pos = GetDimensions().ToRectangle().TopLeft() + new Vector2(20, 50);
             Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack");
-            if (ActiveEntry != null && ActiveEntry.RequiresUpgradedBook) backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack2"); //use a purple back for rift entries
+            if (ActiveEntry?.RequiresUpgradedBook == true) backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack2"); //use a purple back for rift entries
             spriteBatch.Draw(backTex, pos, Color.White * 0.8f);
-            if (ActiveEntry != null) ActiveEntry.Draw(pos + new Vector2(50, 16), spriteBatch); //draws the text of the active entry
+            ActiveEntry?.Draw(pos + new Vector2(50, 16), spriteBatch); //draws the text of the active entry
             base.Draw(spriteBatch);
 
             foreach (EntryButton button in (Parent as Codex).ClickableEntries._items)
@@ -193,10 +190,11 @@ namespace StarlightRiver.GUI
             }
         }
     }
-    class CategoryButton : UIElement
+
+    internal class CategoryButton : UIElement
     {
-        CodexEntry.Categories Category;
-        string Text = "";
+        private readonly CodexEntry.Categories Category;
+        private readonly string Text = "";
         public CategoryButton(CodexEntry.Categories category, string text) { Category = category; Text = text; }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -225,7 +223,7 @@ namespace StarlightRiver.GUI
         }
     }
 
-    class EntryButton : UIElement
+    internal class EntryButton : UIElement
     {
         public CodexEntry Entry;
         public EntryButton(CodexEntry entry) { Entry = entry; }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Gores;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -47,11 +46,7 @@ namespace StarlightRiver.Items.Ultrashark
             float rotation = Vector2.Normalize(GetMousePos() - GetSharkPos(player)).ToRotation();
             float anglediff = ((turretDirection == 1 ? 0 : 3.14f) - rotation + 9.42f) % 6.28f - 3.14f;
             float f = 1.256f;
-            if (anglediff <= f && anglediff >= -f)
-            {
-                return rotation;
-            }
-            return sharkRotation;
+            return anglediff <= f && anglediff >= -f ? rotation : sharkRotation;
         }
         public void completeSetup(Player player)
         {
@@ -109,7 +104,7 @@ namespace StarlightRiver.Items.Ultrashark
         #region item
         public override void SetDefaults()
         {
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 24;
             item.useTime = 24;
             item.shootSpeed = 20f;
@@ -118,14 +113,14 @@ namespace StarlightRiver.Items.Ultrashark
             item.width = 64;
             item.height = 24;
             item.damage = 28;
-            item.rare = 4;
+            item.rare = ItemRarityID.LightRed;
             item.value = Item.sellPrice(0, 10, 0, 0);
             item.noMelee = true;
             item.autoReuse = true;
             item.useTurn = false;
             item.useAmmo = AmmoID.Bullet;
             item.ranged = true;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
         }
         public override void SetStaticDefaults()
         {

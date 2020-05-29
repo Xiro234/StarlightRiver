@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class PlasmaGattlerPulse : ModProjectile
+    internal class PlasmaGattlerPulse : ModProjectile
     {
         public override void SetDefaults()
         {

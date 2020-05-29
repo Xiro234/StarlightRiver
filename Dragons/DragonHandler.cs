@@ -79,7 +79,7 @@ namespace StarlightRiver.Dragons
     public class DragonHandler : ModPlayer
     {
         public DragonData data = new DragonData();
-        public bool DragonMounted { get => player.mount.Type == ModContent.MountType<YoungDragon>(); }
+        public bool DragonMounted => player.mount.Type == ModContent.MountType<YoungDragon>();
         public bool jumpAgainDragon = true;
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
