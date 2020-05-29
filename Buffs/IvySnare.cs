@@ -1,5 +1,4 @@
-﻿using StarlightRiver.Items.Armor.Ivy;
-using StarlightRiver.NPCs;
+﻿using StarlightRiver.NPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

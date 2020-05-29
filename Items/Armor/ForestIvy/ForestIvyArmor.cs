@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using StarlightRiver.Items.Herbology;
 
 namespace StarlightRiver.Items.Armor.ForestIvy
 {
@@ -24,6 +25,14 @@ namespace StarlightRiver.Items.Armor.ForestIvy
         public override void UpdateEquip(Player player)
         {
             player.rangedCrit += 2;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Ivy>(), 8);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 
@@ -58,6 +67,14 @@ namespace StarlightRiver.Items.Armor.ForestIvy
             StarlightPlayer starlightPlayer = player.GetModPlayer<StarlightPlayer>();
             starlightPlayer.ivyArmorComplete = true;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Ivy>(), 12);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
     [AutoloadEquip(EquipType.Legs)]
     public class ForestIvyLegs : ModItem
@@ -80,6 +97,14 @@ namespace StarlightRiver.Items.Armor.ForestIvy
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.2f;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Ivy>(), 8);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

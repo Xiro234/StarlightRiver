@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.BootlegDusts;
 using StarlightRiver.Codex;
@@ -19,7 +18,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.IO;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
@@ -64,8 +62,8 @@ namespace StarlightRiver
 
         public static float Rotation;
 
-        public const string PatchString = "Starlight River Test Build #23     Place/Holder/Date - And:Time EST";
-        public const string MessageString = "Check out the Ebony, Palestone, Forest Ivy, and Starwood sets. \nGive us some feedback on how they feel and what we can do to balance them further.";
+        //public const string PatchString = "Starlight River Test Build #23     Place/Holder/Date - And:Time EST";
+        //public const string MessageString = "Check out the Ebony, Palestone, Forest Ivy, and Starwood sets. \nGive us some feedback on how they feel and what we can do to balance them further.";
 
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
 
@@ -238,7 +236,7 @@ namespace StarlightRiver
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
             //Menu themes
-            On.Terraria.Main.DrawMenu += TestMenu;
+            //On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
@@ -267,7 +265,7 @@ namespace StarlightRiver
             IL.Terraria.WorldGen.Convert += JungleGrassConvert;
             IL.Terraria.WorldGen.hardUpdateWorld += JungleGrassSpread;
             //title screen BGs
-            IL.Terraria.Main.DrawBG += DrawTitleScreen;
+            //IL.Terraria.Main.DrawBG += DrawTitleScreen;
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
 
@@ -1102,10 +1100,10 @@ namespace StarlightRiver
 
             if (!Main.playerInventory)
             {
-                Main.spriteBatch.Begin();
+                /*Main.spriteBatch.Begin();
                 Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 120), Color.White);
                 Main.spriteBatch.DrawString(Main.fontItemStack, MessageString, new Vector2(20, 140), Color.White);
-                Main.spriteBatch.End();
+                Main.spriteBatch.End();*/
             }
         }
 
@@ -1114,10 +1112,10 @@ namespace StarlightRiver
         {
             orig?.Invoke(self, gameTime);
 
-            Main.spriteBatch.Begin();
+            /*Main.spriteBatch.Begin();
             Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 20), Color.White);
             Main.spriteBatch.DrawString(Main.fontItemStack, MessageString, new Vector2(20, 40), Color.White);
-            Main.spriteBatch.End();
+            Main.spriteBatch.End();*/
 
             try
             {
