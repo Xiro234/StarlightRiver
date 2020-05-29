@@ -16,8 +16,7 @@ namespace StarlightRiver
     {
         public int Timer { get; private set; }
 
-        public int ivyTimer;
-        public bool ivyArmorComplete;
+        public bool ivyArmorComplete = false;
         
         public bool JustHit = false;
         public int LastHit = 0;
@@ -57,11 +56,6 @@ namespace StarlightRiver
 
         public override void PreUpdate()
         {
-            if (ivyArmorComplete)
-            {
-                ivyTimer++;
-            }
-
             if (PickupTarget != null)
             {
                 PickupTimer++;
@@ -188,8 +182,6 @@ namespace StarlightRiver
         {
             JustHit = true;
             LastHit = Timer;
-
-            ivyTimer = 0;
         }
         public override void PostUpdateEquips()
         {
@@ -258,7 +250,7 @@ namespace StarlightRiver
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
-            if (this.ivyTimer >= 300 && Helper.IsTargetValid(target) && proj.ranged)
+            if (ivyArmorComplete == true && Timer - LastHit >= 300 && Helper.IsTargetValid(target) && proj.ranged)
             {
                 if (target.boss)
                 {
@@ -270,7 +262,6 @@ namespace StarlightRiver
                     target.AddBuff(ModContent.BuffType<IvySnare>(), 180);
                 }
                 //Gotta balance it somewhere... right?
-                this.ivyTimer = 0;
             }
         }
         public override void OnEnterWorld(Player player)

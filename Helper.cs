@@ -40,15 +40,8 @@ namespace StarlightRiver
         /// </summary>
         /// <param name="npc"></param>
         public static bool IsTargetValid(this NPC npc) => npc.active && !npc.friendly && !npc.dontTakeDamage && !npc.immortal; //mostly used for summoner like stuff
-        /// <summary>
-        /// Checks if a target is abled to be snared. Only used by the forest ivy set.
-        /// I regret nothing.
-        /// </summary>
-        /// <param name="npc"></param>
-        /// <returns></returns>
-        public static bool IsTargetValidForSnare(this NPC npc) => npc.active && !npc.boss && !npc.friendly && !npc.dontTakeDamage && !npc.immortal && npc.aiStyle != 10 && npc.aiStyle != 11 && npc.aiStyle != 12 && npc.aiStyle != 357 && npc.aiStyle != 374 && npc.aiStyle != 375 && npc.aiStyle != 87 && npc.aiStyle != 88 && npc.aiStyle != 89 && npc.aiStyle != 90 && npc.aiStyle != 91 && npc.aiStyle != 92 && npc.aiStyle != 7 && npc.aiStyle != 8 && npc.aiStyle != 9;
 
-        public static void PlaceMultitile(Point16 position, int type, int style = 0)
+        public static void PlaceMultitile(Point16 position, int type, int style = 0)    
         {
             TileObjectData data = TileObjectData.GetTileData(type, style); //magic numbers and uneccisary params begone!
 
