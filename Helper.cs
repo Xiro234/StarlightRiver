@@ -40,8 +40,8 @@ namespace StarlightRiver
         /// </summary>
         /// <param name="npc"></param>
         public static bool IsTargetValid(this NPC npc) => npc.active && !npc.friendly && !npc.dontTakeDamage && !npc.immortal; //mostly used for summoner like stuff
-        
-        public static void PlaceMultitile(Point16 position, int type, int style = 0)
+
+        public static void PlaceMultitile(Point16 position, int type, int style = 0)    
         {
             TileObjectData data = TileObjectData.GetTileData(type, style); //magic numbers and uneccisary params begone!
 

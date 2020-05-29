@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
+using StarlightRiver.Buffs;
 using StarlightRiver.GUI;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace StarlightRiver
     {
         public int Timer { get; private set; }
 
+        public bool ivyArmorComplete = false;
+        
         public bool JustHit = false;
         public int LastHit = 0;
 
@@ -243,6 +246,22 @@ namespace StarlightRiver
                 {
                     (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
                 }
+            }
+        }
+        public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+        {
+            if (ivyArmorComplete == true && Timer - LastHit >= 300 && Helper.IsTargetValid(target) && proj.ranged)
+            {
+                if (target.boss)
+                {
+                    target.AddBuff(ModContent.BuffType<Ivy>(), 600);
+                }
+                else
+                {
+                    target.AddBuff(ModContent.BuffType<Ivy>(), 300);
+                    target.AddBuff(ModContent.BuffType<IvySnare>(), 180);
+                }
+                //Gotta balance it somewhere... right?
             }
         }
         public override void OnEnterWorld(Player player)
