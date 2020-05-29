@@ -9,8 +9,6 @@ namespace StarlightRiver.Packets
     [Serializable]
     public class UseAbility : Module
     {
-        public UseAbility() { }
-
         public UseAbility(int fromWho, Ability ability)
         {
             this.fromWho = fromWho;
@@ -31,15 +29,6 @@ namespace StarlightRiver.Packets
 
             ab.OnCast();
             (ab.Active, ab.Timer) = (abActive, abTimer);
-        }
-
-        protected override bool PreSend(Node? ignoreClient, Node? toClient)
-        {
-            if (abType == null)
-            {
-                throw new ArgumentException("Specify the ability to sync.");
-            }
-            return base.PreSend(ignoreClient, toClient);
         }
     }
 }

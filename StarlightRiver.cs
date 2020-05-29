@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.IO;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
@@ -238,7 +237,7 @@ namespace StarlightRiver
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
             //Menu themes
-            On.Terraria.Main.DrawMenu += TestMenu;
+            //TODO fix On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
@@ -267,7 +266,7 @@ namespace StarlightRiver
             IL.Terraria.WorldGen.Convert += JungleGrassConvert;
             IL.Terraria.WorldGen.hardUpdateWorld += JungleGrassSpread;
             //title screen BGs
-            IL.Terraria.Main.DrawBG += DrawTitleScreen;
+            //TODO fix IL.Terraria.Main.DrawBG += DrawTitleScreen;
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
 
@@ -1112,7 +1111,8 @@ namespace StarlightRiver
         internal static readonly List<BootlegDust> MenuDust = new List<BootlegDust>();
         private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
-            orig?.Invoke(self, gameTime);
+            return; // TODO fix
+            orig(self, gameTime);
 
             Main.spriteBatch.Begin();
             Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 20), Color.White);
