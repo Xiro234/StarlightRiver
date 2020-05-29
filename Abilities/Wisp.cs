@@ -27,7 +27,6 @@ namespace StarlightRiver.Abilities
             {
                 Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Gold2>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 1.2f);
             }
-
         }
 
         public override void InUse()

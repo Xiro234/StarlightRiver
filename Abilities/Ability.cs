@@ -35,7 +35,8 @@ namespace StarlightRiver.Abilities
                 OnCast();
                 Active = true; //Ability is activated
 
-                SendPacket();
+                if (Main.netMode == Terraria.ID.NetmodeID.MultiplayerClient)
+                    SendPacket();
             }
         }
 
@@ -54,7 +55,7 @@ namespace StarlightRiver.Abilities
 
         public virtual void SendPacket(int toWho = -1, int fromWho = -1)
         {
-            new Packets.UseAbility(fromWho, this); // TOOD: Scalie, review the UseAbility Receive() method please.
+            new Packets.UseAbility(player.whoAmI, this).Send(new NetEasy.Node(fromWho), new NetEasy.Node(toWho)); // TOOD: Scalie, review the UseAbility Receive() method please.
         }
     }
 }
