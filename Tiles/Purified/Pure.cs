@@ -40,6 +40,20 @@ namespace StarlightRiver.Tiles.Purified
             TileID.Sets.Grass[Type] = true;
             SetModTree(new TreePure());
             dustType = mod.DustType("Purify");
+            drop = ItemID.DirtBlock;
+            AddMapEntry(new Color(208, 201, 199));
+        }
+    }
+    internal class SandPure : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileLighted[Type] = true;
+            Main.tileSand[Type] = true;
+            dustType = mod.DustType("Purify");
             AddMapEntry(new Color(208, 201, 199));
         }
     }

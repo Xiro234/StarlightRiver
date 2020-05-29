@@ -79,6 +79,7 @@ namespace StarlightRiver.Projectiles.Ability
                 }
                 Projectile.NewProjectile(projectile.Center - Vector2.One * 16, Vector2.Normalize((projectile.Center - Vector2.One * 16) - Main.player[projectile.owner].Center).RotatedBy(0.3f) * 6,
                     ModContent.ProjectileType<PurifierReturn>(), 0, 0, projectile.owner);
+
                 if (Filters.Scene["AuraFilter"].IsActive())
                 {
                     Filters.Scene.Deactivate("AuraFilter");
@@ -92,6 +93,7 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)ModContent.TileType<StonePure>(); }
                 if (target.type == TileID.Grass || target.type == TileID.CorruptGrass || target.type == TileID.FleshGrass || target.type == TileID.HallowedGrass) { target.type = (ushort)ModContent.TileType<GrassPure>(); }
+                if (target.type == TileID.Sand || target.type == TileID.Ebonsand || target.type == TileID.Crimsand || target.type == TileID.Pearlsand) { target.type = (ushort)ModContent.TileType<SandPure>(); }
                 if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); }
                 if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }
             }
@@ -102,6 +104,7 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 if (target.type == (ushort)ModContent.TileType<StonePure>()) { target.type = TileID.Stone; SpawnDust(x, y); }
                 if (target.type == (ushort)ModContent.TileType<GrassPure>()) { target.type = TileID.Grass; SpawnDust(x, y); }
+                if (target.type == (ushort)ModContent.TileType<SandPure>()) { target.type = TileID.Sand; SpawnDust(x, y); }
                 if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); SpawnDust(x, y); }
                 if (target.type == (ushort)mod.TileType("VoidDoorOff")) { target.type = (ushort)mod.TileType("VoidDoorOn"); SpawnDust(x, y); }
             }
