@@ -106,9 +106,7 @@ namespace StarlightRiver.Structures
                             }
 
                             if (placeType != 0 && placeType <= 250) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //used for tiles that dont change between structures
-                            else
-                            {
-                                switch (placeType) //place types
+                            else switch (placeType) //place types
                                 {
                                     case 255:
                                         Main.tile[(int)spawn.X + x, (int)spawn.Y + y].ClearEverything();
@@ -203,7 +201,6 @@ namespace StarlightRiver.Structures
                                         WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, spawnTileType, true, true);
                                         break;
                                 }
-                            }
 
                             //if (wallType != 0 && wallType != 255) { WorldGen.PlaceWall((int)spawn.X + x, (int)spawn.Y + y, wallType, true); } //place wall
 

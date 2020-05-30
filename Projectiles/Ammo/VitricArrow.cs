@@ -24,6 +24,7 @@ namespace StarlightRiver.Projectiles.Ammo
         {
             DisplayName.SetDefault("Vitric Arrow");
         }
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
@@ -33,6 +34,7 @@ namespace StarlightRiver.Projectiles.Ammo
                 projectile.velocity.Y += 0.05f;
             }
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Projectile.NewProjectile(target.Center, projectile.velocity, mod.ProjectileType("VitricArrowShattered"), projectile.damage / 3, 0, projectile.owner);
@@ -46,6 +48,7 @@ namespace StarlightRiver.Projectiles.Ammo
             }
             Main.PlaySound(SoundID.Item27);
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             for (int k = 0; k <= 10; k++)
@@ -76,6 +79,7 @@ namespace StarlightRiver.Projectiles.Ammo
         {
             DisplayName.SetDefault("Vitric Arrow");
         }
+
         public override void AI()
         {
             projectile.rotation += 0.3f;

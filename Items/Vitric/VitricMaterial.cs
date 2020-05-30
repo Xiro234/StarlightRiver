@@ -3,10 +3,18 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Vitric
 {
-    public class VitricOre : QuickMaterial { public VitricOre() : base("Vitric Ore", "", 999, 200, 2) { } }
+    public class VitricOre : QuickMaterial {
+        public VitricOre() : base("Vitric Ore", "", 999, 200, 2)
+        {
+        }
+    }
+
     public class VitricGem : QuickMaterial
     {
-        public VitricGem() : base("Vitric Gem", "Many Facters Shimmer Within", 250, 500, 2) { }
+        public VitricGem() : base("Vitric Gem", "Many Facters Shimmer Within", 250, 500, 2)
+        {
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

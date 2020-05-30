@@ -12,6 +12,7 @@ namespace StarlightRiver.Items.Accessories
         private bool doubleJumped = false;
         private bool releaseJump = false;
         private const int maxSpeed = 15;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse Boots");

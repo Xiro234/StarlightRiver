@@ -42,6 +42,7 @@ namespace StarlightRiver.Tiles.StarJuice
         private TankEntity tank = null;
         private int timer = 0;
         private int variation = 0;
+
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
@@ -61,10 +62,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override void Update()
         {
-            if (!Main.tile[Position.X, Position.Y].active())
-            {
-                Kill(Position.X, Position.Y);
-            }
+            if (!Main.tile[Position.X, Position.Y].active()) Kill(Position.X, Position.Y);
 
             if (tank == null)
             {
@@ -77,7 +75,6 @@ namespace StarlightRiver.Tiles.StarJuice
                     }
                 }
             }
-
             else if (Main.tile[Position.X, Position.Y + 2].type == ModContent.TileType<CrystalBlock>() && tank.charge < tank.maxCharge)
             {
                 Vector2 pos = Position.ToVector2() * 16 + Vector2.One * 8;
@@ -96,8 +93,6 @@ namespace StarlightRiver.Tiles.StarJuice
                     variation = Main.rand.Next(-30, 30);
                 }
             }
-
-
         }
     }
 }

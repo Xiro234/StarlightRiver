@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     public class ShadowflameGrenade : ModProjectile
@@ -18,15 +19,18 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.extraUpdates = 2;
             projectile.ignoreWater = true;
         }
+
         public void SpawnShadowflame(int angle)
         {
             Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.ToRadians((angle + Main.rand.Next(40) - 20)));
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ShadowflameTendril>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 200);
         }
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item62, projectile.position);
@@ -43,6 +47,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             }
             //make it actually do the thing
         }
+
         public override void AI()
         {
             Vector2 dustOffset = (Vector2.One * projectile.height / 2).RotatedBy(Main.time / 3);
@@ -57,6 +62,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.velocity.Y += 0.04f;
             }
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame Grenade");

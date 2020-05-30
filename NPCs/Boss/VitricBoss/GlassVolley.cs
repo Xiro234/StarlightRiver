@@ -10,6 +10,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     internal class GlassVolley : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.hostile = false;
@@ -17,6 +18,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.height = 1;
             projectile.timeLeft = 2;
         }
+
         public override void AI()
         {
             projectile.timeLeft = 2;
@@ -34,11 +36,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     }
                 }
             }
-            if (projectile.ai[0] == 65)
-            {
-                projectile.Kill(); //kill it when it expires
-            }
+            if (projectile.ai[0] == 65) projectile.Kill(); //kill it when it expires
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             spriteBatch.End();
@@ -55,6 +55,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             spriteBatch.Begin();
         }
     }
+
     public class GlassVolleyShard : ModProjectile
     {
         public override void SetDefaults()
@@ -66,6 +67,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.scale = 0.5f;
             projectile.extraUpdates = 4;
         }
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + 1.58f;

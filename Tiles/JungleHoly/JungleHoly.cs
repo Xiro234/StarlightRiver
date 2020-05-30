@@ -12,6 +12,7 @@ namespace StarlightRiver.Tiles.JungleHoly
     {
         public int x = 0;
         public int y = 0;
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -27,6 +28,7 @@ namespace StarlightRiver.Tiles.JungleHoly
             soundType = SoundID.Dig;
             dustType = 125;
         }
+
         public override void RandomUpdate(int i, int j)//grappling hook breaks the grass, its running killtile for some reason?
         {
             x = Main.rand.Next(-4, 4);
@@ -103,6 +105,7 @@ namespace StarlightRiver.Tiles.JungleHoly
             }
         }*/
     }
+
     public class VineJungleHoly : ModTile
     {
         public override void SetDefaults()
@@ -149,6 +152,7 @@ namespace StarlightRiver.Tiles.JungleHoly
             return true;
         }
     }
+
     public class TallgrassJungleHoly : ModTile
     {
         public override void SetDefaults()

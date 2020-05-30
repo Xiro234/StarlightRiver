@@ -3,10 +3,29 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Herbology
 {
-    public class Ivy : QuickMaterial { public Ivy() : base("Forest Ivy", "A common, yet versatile herb", 999, 100, 1) { } }
-    public class IvySeeds : QuickMaterial { public IvySeeds() : base("Forest Ivy Seeds", "Can grow in hanging planters", 99, 0, 1) { } }
-    public class ForestBerries : QuickMaterial { public ForestBerries() : base("Forest Berries", "Sweet and juicy!", 99, 100, 1) { } }
-    public class BerryBush : QuickTileItem { public BerryBush() : base("Berry bush", "Plant to grow your own berries!", ModContent.TileType<Tiles.Herbology.ForestBerryBush>(), 1) { } }
+    public class Ivy : QuickMaterial {
+        public Ivy() : base("Forest Ivy", "A common, yet versatile herb", 999, 100, 1)
+        {
+        }
+    }
+
+    public class IvySeeds : QuickMaterial {
+        public IvySeeds() : base("Forest Ivy Seeds", "Can grow in hanging planters", 99, 0, 1)
+        {
+        }
+    }
+
+    public class ForestBerries : QuickMaterial {
+        public ForestBerries() : base("Forest Berries", "Sweet and juicy!", 99, 100, 1)
+        {
+        }
+    }
+
+    public class BerryBush : QuickTileItem {
+        public BerryBush() : base("Berry bush", "Plant to grow your own berries!", ModContent.TileType<Tiles.Herbology.ForestBerryBush>(), 1)
+        {
+        }
+    }
 
     public class Deathstalk : ModItem
     {

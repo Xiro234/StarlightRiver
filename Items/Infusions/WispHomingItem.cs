@@ -5,12 +5,16 @@ namespace StarlightRiver.Items.Infusions
 {
     public class WispHomingItem : InfusionItem
     {
-        public WispHomingItem() : base(3) { }
+        public WispHomingItem() : base(3)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feral Wisp");
             Tooltip.SetDefault("Faeflame Infusion\nRelease homing bolts that lower enemie's damage");
         }
+
         public override void UpdateEquip(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();

@@ -16,10 +16,12 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Star Fragment");
         }
+
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k <= 50; k++)
@@ -38,6 +40,7 @@ namespace StarlightRiver.Projectiles
                 }
             }
         }
+
         public override void AI()
         {
             projectile.timeLeft = 2;

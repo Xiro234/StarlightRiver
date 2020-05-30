@@ -12,14 +12,14 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class Superdash : Ability
     {
-
         [DataMember] private float timer = 0;
         [DataMember] private Vector2 objective;
         [DataMember] private Vector2 start;
+
         public Superdash(Player player) : base(3, player)
         {
-
         }
+
         public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
         public override bool CanUse => !player.mount.Active;
 

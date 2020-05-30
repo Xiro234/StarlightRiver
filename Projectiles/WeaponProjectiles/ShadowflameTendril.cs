@@ -8,10 +8,12 @@ namespace StarlightRiver.Projectiles
     public class ShadowflameTendril : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 48;
@@ -27,6 +29,7 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 200);
@@ -34,6 +37,7 @@ namespace StarlightRiver.Projectiles
 
         private readonly float rand1 = Main.rand.NextFloat(0.1f) - 0.05f;
         private readonly float rand2 = 5f + Main.rand.NextFloat(6f);
+
         public override void AI()
         {
             projectile.velocity = Vector2.Normalize(projectile.velocity).RotatedBy(rand1) * rand2;

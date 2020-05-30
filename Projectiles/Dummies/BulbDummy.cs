@@ -11,9 +11,10 @@ namespace StarlightRiver.Projectiles.Dummies
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
-
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -22,6 +23,7 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
         }
+
         public override void AI()
         {
             int hostX = (int)projectile.position.X / 16;
@@ -30,21 +32,13 @@ namespace StarlightRiver.Projectiles.Dummies
 
             if (Main.player.Any(p => AbilityHelper.CheckWisp(p, projectile.Hitbox)) && hostTile.frameX == 0)
             {
-                for (int k = 0; k < 40; k++)
-                {
-                    Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1.2f, 1.4f));
-                }
+                for (int k = 0; k < 40; k++) Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1.2f, 1.4f));
 
                 for (int x = hostX; x <= hostX + 1; x++)
-                {
                     for (int y = hostY; y <= hostY + 1; y++)
-                    {
                         Main.tile[x, y].frameX += 34;
-                    }
-                }
 
                 Main.NewText("Harvest!");
-
             }
             projectile.timeLeft = 2;
 

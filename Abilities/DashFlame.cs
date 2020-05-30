@@ -9,11 +9,8 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class DashFlame : Dash
     {
-
-
         public DashFlame(Player player) : base(player)
         {
-
         }
 
         public override void OnCast()

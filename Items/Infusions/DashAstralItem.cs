@@ -5,12 +5,16 @@ namespace StarlightRiver.Items.Infusions
 {
     public class DashAstralItem : InfusionItem
     {
-        public DashAstralItem() : base(3) { }
+        public DashAstralItem() : base(3)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Comet Rush");
             Tooltip.SetDefault("Forbidden Winds Infusion\nDash farther and faster");
         }
+
         public override void UpdateEquip(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
@@ -27,7 +31,6 @@ namespace StarlightRiver.Items.Infusions
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             return !mp.dash.Locked;
-
         }
 
         public override void Unequip(Player player)

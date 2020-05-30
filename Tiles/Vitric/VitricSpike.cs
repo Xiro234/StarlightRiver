@@ -19,7 +19,12 @@ namespace StarlightRiver.Tiles.Vitric
 
             Main.tileMerge[Type][ModContent.TileType<VitricSand>()] = true;
         }
-        public override bool Dangersense(int i, int j, Player player) { return true; }
+
+        public override bool Dangersense(int i, int j, Player player)
+        {
+            return true;
+        }
+
         public override void FloorVisuals(Player player)
         {
             player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " thought glass shards would be soft..."), 25, 0);

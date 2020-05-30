@@ -21,6 +21,7 @@ namespace StarlightRiver.Items
             item.noMelee = true;
             item.autoReuse = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 34); //
@@ -41,12 +42,14 @@ namespace StarlightRiver.Items
             }
             return false;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Wisp Suck");
             Tooltip.SetDefault("Succ");
         }
     }
+
     public class Wisp : ModItem
     {
         public override void SetDefaults()
@@ -58,6 +61,7 @@ namespace StarlightRiver.Items
             item.autoReuse = false;
             item.noUseGraphic = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desert Wisp");

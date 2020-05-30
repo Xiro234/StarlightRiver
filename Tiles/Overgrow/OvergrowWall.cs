@@ -15,6 +15,7 @@ namespace StarlightRiver.Tiles.Overgrow
             dustType = mod.DustType("Gold2");
             AddMapEntry(new Color(114, 65, 37));
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (i > Main.screenPosition.X / 16 && i < Main.screenPosition.X / 16 + Main.screenWidth / 16 && j > Main.screenPosition.Y / 16 && j < Main.screenPosition.Y / 16 + Main.screenHeight / 16)
@@ -27,6 +28,7 @@ namespace StarlightRiver.Tiles.Overgrow
             }
         }
     }
+
     public class WallOvergrowBrick : ModWall
     {
         public override void SetDefaults()
@@ -36,6 +38,7 @@ namespace StarlightRiver.Tiles.Overgrow
             AddMapEntry(new Color(62, 68, 55));
         }
     }
+
     public class WallOvergrowInvisible : ModWall
     {
         public override void SetDefaults()

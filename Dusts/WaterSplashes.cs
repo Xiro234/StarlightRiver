@@ -19,6 +19,8 @@ namespace StarlightRiver.Dusts
     }
 
     public sealed class CorruptJungleSplash : QuickSplash { }
+
     public sealed class BloodyJungleSplash : QuickSplash { }
+
     public sealed class HolyJungleSplash : QuickSplash { }
 }

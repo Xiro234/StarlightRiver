@@ -11,11 +11,10 @@ namespace StarlightRiver.Abilities
 {
     public class Pure : Ability
     {
-
         public Pure(Player player) : base(4, player)
         {
-
         }
+
         public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
         public override bool CanUse => !Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.active && (proj.type == ModContent.ProjectileType<Purifier>() || proj.type == ModContent.ProjectileType<PurifierReturn>()));
 
@@ -35,12 +34,10 @@ namespace StarlightRiver.Abilities
 
             Active = false;
             OnExit();
-
         }
 
         public override void OnExit()
         {
-
         }
     }
 }

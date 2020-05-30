@@ -2,6 +2,7 @@
 using StarlightRiver.Dragons;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 
 namespace StarlightRiver.Abilities
 {
@@ -35,26 +36,46 @@ namespace StarlightRiver.Abilities
                 OnCast();
                 Active = true; //Ability is activated
 
-                SendPacket();
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    SendPacket();
             }
         }
 
-        public virtual void OnCast() { }
-        public virtual void OnCastDragon() { }
+        public virtual void OnCast()
+        {
+        }
 
-        public virtual void InUse() { }
-        public virtual void InUseDragon() { }
+        public virtual void OnCastDragon()
+        {
+        }
 
-        public virtual void UseEffects() { }
-        public virtual void UseEffectsDragon() { }
+        public virtual void InUse()
+        {
+        }
 
-        public virtual void OffCooldownEffects() { }
+        public virtual void InUseDragon()
+        {
+        }
 
-        public virtual void OnExit() { }
+        public virtual void UseEffects()
+        {
+        }
+
+        public virtual void UseEffectsDragon()
+        {
+        }
+
+        public virtual void OffCooldownEffects()
+        {
+        }
+
+        public virtual void OnExit()
+        {
+        }
 
         public virtual void SendPacket(int toWho = -1, int fromWho = -1)
         {
-            new Packets.UseAbility(fromWho, this); // TOOD: Scalie, review the UseAbility Receive() method please.
+            new Packets.UseAbility(Main.myPlayer, this).Send(toWho, fromWho);
         }
     }
 }

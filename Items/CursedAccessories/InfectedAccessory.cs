@@ -14,23 +14,13 @@ namespace StarlightRiver.Items.CursedAccessories
         {
             return false;
         }
+
         public override bool CanEquipAccessory(Player player, int slot)
         {
             Main.NewText("Slot: " + slot, 255, 255, 0);
-            if (slot == 3)
-            {
-                return false;
-            }
-
-            if (!player.armor[slot - 1].IsAir)
-            {
-                return false;
-            }
-
-            if (slot > 7 + player.extraAccessorySlots)
-            {
-                return false;
-            }
+            if (slot == 3) return false;
+            if (!player.armor[slot - 1].IsAir) return false;
+            if (slot > 7 + player.extraAccessorySlots) return false;
 
             Item blocker = new Item
             {
@@ -41,6 +31,7 @@ namespace StarlightRiver.Items.CursedAccessories
             player.armor[slot - 1] = blocker;
             return true;
         }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             TooltipLine line = new TooltipLine(mod, "StarlightRiverInfectedWarning", "Infected! Requires 2 accessory slots")
@@ -49,7 +40,12 @@ namespace StarlightRiver.Items.CursedAccessories
             };
             tooltips.Add(line);
         }
-        public virtual bool SafePreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale) { return true; }
+
+        public virtual bool SafePreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            return true;
+        }
+
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (Main.LocalPlayer.armor.Any(n => n == item))
@@ -66,21 +62,22 @@ namespace StarlightRiver.Items.CursedAccessories
     {
         public override string Texture => "StarlightRiver/Invisible";
         public Item Parent { get; set; }
+
         public override void SetDefaults()
         {
             item.accessory = true;
         }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             tooltips.Clear();
         }
+
         public override void UpdateEquip(Player player)
         {
-            if (!player.armor.Any(n => n.type == Parent.type))
-            {
-                item.TurnToAir();
-            }
+            if (!player.armor.Any(n => n.type == Parent.type)) item.TurnToAir();
         }
+
         public override TagCompound Save()
         {
             return new TagCompound
@@ -88,6 +85,7 @@ namespace StarlightRiver.Items.CursedAccessories
                 [nameof(Parent)] = Parent
             };
         }
+
         public override void Load(TagCompound tag)
         {
             Parent = tag.Get<Item>(nameof(Parent));

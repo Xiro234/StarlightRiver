@@ -6,16 +6,14 @@ namespace StarlightRiver.Tiles.JungleBloody
 {
     internal class TreeJungleBloody : ModTree
     {
-        private static Mod mod => ModLoader.GetMod("StarlightRiver");
-
         public override int CreateDust()
         {
-            return mod.DustType("Corrupt");
+            return StarlightRiver.Instance.DustType("Corrupt");
         }
 
         public override int GrowthFXGore()
         {
-            return mod.GetGoreSlot("Gores/Ward0");
+            return StarlightRiver.Instance.GetGoreSlot("Gores/Ward0");
         }
 
         public override int DropWood()
@@ -25,7 +23,7 @@ namespace StarlightRiver.Tiles.JungleBloody
 
         public override Texture2D GetTexture()
         {
-            return mod.GetTexture("Tiles/JungleBloody/TreeJungleBloody");
+            return StarlightRiver.Instance.GetTexture("Tiles/JungleBloody/TreeJungleBloody");
         }
 
         public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
@@ -34,13 +32,12 @@ namespace StarlightRiver.Tiles.JungleBloody
             frameHeight = 98;
             xOffsetLeft = 48;
             yOffset = 2;
-            return mod.GetTexture("Tiles/JungleBloody/TreeJungleBloody_Tops");
-
+            return StarlightRiver.Instance.GetTexture("Tiles/JungleBloody/TreeJungleBloody_Tops");
         }
 
         public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
         {
-            return mod.GetTexture("Tiles/JungleBloody/TreeJungleBloody_Branches");
+            return StarlightRiver.Instance.GetTexture("Tiles/JungleBloody/TreeJungleBloody_Branches");
         }
     }
 }

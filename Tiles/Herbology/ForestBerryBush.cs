@@ -30,6 +30,7 @@ namespace StarlightRiver.Tiles.Herbology
             dustType = DustID.Grass; //the dust your tile gives off when its broken.
             disableSmartCursor = true; //Reccomended for multitiles.
         }
+
         public override void RandomUpdate(int i, int j) //RandomUpdate is vanilla's shitty ass way of handling having the entire world loaded at once. a bunch of tiles update every tick at pure random. thanks redcode.
         {
             Tile tile = Main.tile[i, j]; //you could probably add more safety checks if you want to be extra giga secure, but we assume RandomUpdate only calls valid tiles here
@@ -52,6 +53,7 @@ namespace StarlightRiver.Tiles.Herbology
                 }
             }
         }
+
         public override bool NewRightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];
@@ -75,6 +77,7 @@ namespace StarlightRiver.Tiles.Herbology
             }
             return true;
         }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(new Vector2(i * 16, j * 16), ModContent.ItemType<Items.Herbology.BerryBush>()); //drop a bush item

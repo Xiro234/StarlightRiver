@@ -13,6 +13,7 @@ namespace StarlightRiver.NPCs.Hostile
             DisplayName.SetDefault("Swordsman Skeleton");
             Main.npcFrameCount[npc.type] = 6;
         }
+
         public override void SetDefaults()
         {
             npc.width = 36;
@@ -56,6 +57,7 @@ namespace StarlightRiver.NPCs.Hostile
                 npc.ai[3] = 0;
             }
         }
+
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
             if (npc.HasValidTarget)
@@ -146,13 +148,10 @@ namespace StarlightRiver.NPCs.Hostile
 
                         if (npc.ai[3] >= maxRangeTimer)
                         {//timer max, reset ai[]s and move to next step
-
                             for (int y = 0; y < 30; y++)//placeholder dash dust
                             {
                                 Dust.NewDustPerfect(new Vector2(npc.Center.X - ((npc.width / 2) * npc.direction) + Main.rand.Next(-5, 5), Main.rand.Next((int)npc.position.Y + 5, (int)npc.position.Y + npc.height) - 5), 31, new Vector2((Main.rand.Next(-20, 30) * 0.03f) * npc.direction, Main.rand.Next(-20, 20) * 0.02f), 0, default, 2);
                             }
-
-
 
                             npc.ai[2] = 0;
                             npc.ai[3] = 0;
@@ -161,7 +160,6 @@ namespace StarlightRiver.NPCs.Hostile
                     }
                     else //if no target
                     {
-
                         npc.ai[2]++;
 
                         if (npc.ai[3] >= 2 && npc.velocity.Y == 0)
@@ -217,7 +215,7 @@ namespace StarlightRiver.NPCs.Hostile
                         npc.direction = -npc.direction;
                         npc.spriteDirection = npc.direction;
                         npc.ai[3] = 0;//slide to a halt and then back to case 0
-                        npc.ai[2] = 1;//tells case 2 to spawn particles 
+                        npc.ai[2] = 1;//tells case 2 to spawn particles
                         npc.ai[0] = 2;//turns out this case is the exact same for both
                         break;
                     }
@@ -231,7 +229,6 @@ namespace StarlightRiver.NPCs.Hostile
                     npc.velocity.X *= 0.95f;
                     if (npc.ai[2] == 1)//this checks if this is for hitting a wall or slowing down
                     {
-
                     }
 
                     if (npc.ai[3] >= 50)
@@ -242,7 +239,6 @@ namespace StarlightRiver.NPCs.Hostile
                     }
                     break;
             }
-
         }
 
         private void Move(float speed) //note: seperated for simplicity //note: decide if this can be replaced with nightmare's version
@@ -273,14 +269,10 @@ namespace StarlightRiver.NPCs.Hostile
         {
             npc.frameCounter += Math.Abs(npc.velocity.X);//note: slightly jank, but best I could come up with
             if ((int)(npc.frameCounter * 0.1) >= Main.npcFrameCount[npc.type])//replace the 0.1 with a float to control animation speed
-            {
                 npc.frameCounter = 0;
-            }
-
             npc.frame.Y = (int)(npc.frameCounter * 0.1) * frameHeight;
             //Main.NewText(npc.frame.Y / frameHeight); //debug
         }
-
 
         /*public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -289,7 +281,6 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void NPCLoot()
         {
-
         }
     }
 }

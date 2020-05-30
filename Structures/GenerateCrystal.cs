@@ -39,7 +39,6 @@ namespace StarlightRiver.Structures
                     }
 
                     if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, false); } //place block
-
                 }
             }
         }

@@ -18,14 +18,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.extraUpdates = 2;
             projectile.penetrate = -1;
         }
+
         public override void AI()
         {
             projectile.ai[0]++;
 
-            if (projectile.ai[0] == 30)
-            {
-                projectile.knockBack *= 0;
-            }
+            if (projectile.ai[0] == 30) projectile.knockBack *= 0;
 
             Vector2 relativeRot = new Vector2
             {

@@ -12,6 +12,7 @@ namespace StarlightRiver.Tiles.Overgrow
             texture = "StarlightRiver/Invisible";
             return true;
         }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>() && n.Hitbox.Contains(new Point(i * 16, j * 16))))

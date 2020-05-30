@@ -18,12 +18,14 @@ namespace StarlightRiver.Items.Accessories
             item.height = 16;
             item.accessory = true;
         }
+
         public override void UpdateEquip(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             mp.StatStaminaMaxTemp += 1;
         }
     }
+
     public class RingofStamina : ModItem
     {
         public override void SetStaticDefaults()
@@ -38,6 +40,7 @@ namespace StarlightRiver.Items.Accessories
             item.height = 16;
             item.accessory = true;
         }
+
         public override void UpdateEquip(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();

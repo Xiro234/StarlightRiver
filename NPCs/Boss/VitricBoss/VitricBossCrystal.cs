@@ -33,6 +33,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             DisplayName.SetDefault("Resonant Crystal");
             Main.npcFrameCount[npc.type] = 4;
         }
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -50,10 +51,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.dontTakeDamage = true;
             npc.dontTakeDamageFromHostiles = true;
         }
+
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.damage = 50;
         }
+
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             return !(npc.ai[0] == 0 || npc.ai[0] == 1); //too tired of dealing with this sheeeet
@@ -67,11 +70,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
              * 2: phase
              * 3: alt timer
              */
-            if (Parent == null)
-            {
-                npc.Kill();
-            }
-
+            if (Parent == null) npc.Kill();
             npc.frame = new Rectangle(0, npc.height * (int)npc.ai[0], npc.width, npc.height); //frame finding based on state
 
             npc.ai[1]++; //ticks the timers
@@ -80,15 +79,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (npc.ai[0] == 0)
             {
                 foreach (Player player in Main.player)
-                {
                     if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
                     {
                         Main.PlaySound(Terraria.ID.SoundID.DD2_WitherBeastCrystalImpact);
-                        for (int k = 0; k < 20; k++)
-                        {
-                            Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8), 0, default, 2.2f);
-                        }
-
+                        for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8), 0, default, 2.2f);
                         npc.ai[0] = 1; //It's all broken and on the floor!
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
@@ -101,7 +95,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                             npc.friendly = false; //damaging again
                         }
                     }
-                }
             }
 
             switch (npc.ai[2])
@@ -110,10 +103,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.rotation != 0) //normalize rotation
                     {
                         npc.rotation += 0.5f;
-                        if (npc.rotation >= 5f)
-                        {
-                            npc.rotation = 0;
-                        }
+                        if (npc.rotation >= 5f) npc.rotation = 0;
                     }
                     if (npc.friendly && npc.ai[0] != 0)
                     {
@@ -131,18 +121,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case 1: //nuke attack
-                    if (npc.ai[0] == 0)
-                    {
-                        npc.friendly = true; //vulnerable crystal shouldnt do damage
-                    }
-
+                    if (npc.ai[0] == 0) npc.friendly = true; //vulnerable crystal shouldnt do damage
                     if (npc.rotation != 0) //normalize rotation
                     {
                         npc.rotation += 0.5f;
-                        if (npc.rotation >= 5f)
-                        {
-                            npc.rotation = 0;
-                        }
+                        if (npc.rotation >= 5f) npc.rotation = 0;
                     }
 
                     if (npc.ai[1] > 60 && npc.ai[1] <= 120)
@@ -175,11 +158,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     {
                         npc.scale = Vector2.Distance(npc.Center, Parent.npc.Center) / 100f;
                     }
-                    else
-                    {
-                        npc.scale = 1;
-                    }
-
+                    else npc.scale = 1;
                     break;
 
                 case 3: //falling for smash attack
@@ -188,16 +167,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.rotation != 0) //normalize rotation
                     {
                         npc.rotation += 0.5f;
-                        if (npc.rotation >= 5f)
-                        {
-                            npc.rotation = 0;
-                        }
+                        if (npc.rotation >= 5f) npc.rotation = 0;
                     }
 
                     Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>());
 
                     if (npc.Center.Y > TargetPos.Y)
-                    {
                         foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
                         {
                             Rectangle hitbox = new Rectangle((int)point.X - 110, (int)point.Y + 48, 220, 16); //grabs the platform hitbox
@@ -209,8 +184,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                                 Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
                             }
                         }
-                    }
-
                     if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).collisionType == 1 && npc.Center.Y > LegendWorld.VitricBiome.Y * 16) //tile collision
                     {
                         npc.velocity *= 0;
@@ -218,36 +191,32 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
                     }
                     break;
+
                 case 4: //fleeing
                     npc.velocity.Y += 0.7f;
-                    if (npc.ai[1] >= 120)
-                    {
-                        npc.active = false;
-                    }
-
+                    if (npc.ai[1] >= 120) npc.active = false;
                     break;
+
                 case 5: //transforming the boss
                     for (float k = 0; k < 1; k += 0.03f)
                     {
                         Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), ModContent.DustType<Dusts.Air>());
                     }
                     break;
-
-
             }
         }
+
         private void ResetTimers()
         {
             npc.ai[1] = 0;
             npc.ai[3] = 0;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline
             if (npc.ai[0] == 0)
-            {
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
-            }
 
             if (npc.ai[2] == 1 && npc.ai[1] < 180) //tell line for going to a platform in the nuke attack
             {

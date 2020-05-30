@@ -14,6 +14,7 @@ namespace StarlightRiver.Projectiles
     {
         public Tile parent;
         private Vector2 dims = new Vector2(32, 0);
+
         public override void SetDefaults()
         {
             projectile.hostile = true;
@@ -24,20 +25,19 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zapper");
         }
+
         public override void AI()
         {
             dims.Y = 0;
             for (int k = 0; 1 == 1; k++)
             {
                 dims.Y++;
-                if (Main.tileSolid[Main.tile[((int)projectile.position.X + 4) / 16, (int)(projectile.position.Y + k) / 16].type] && Main.tile[(int)projectile.position.X / 16, (int)(projectile.position.Y + k) / 16].active())
-                {
-                    break;
-                }
+                if (Main.tileSolid[Main.tile[((int)projectile.position.X + 4) / 16, (int)(projectile.position.Y + k) / 16].type] && Main.tile[(int)projectile.position.X / 16, (int)(projectile.position.Y + k) / 16].active()) break;
             }
             foreach (Player player in Main.player.Where(player => player.active))
             {
@@ -48,10 +48,7 @@ namespace StarlightRiver.Projectiles
                     player.velocity.Y = 0.1f;
 
                     Projectile proj = Main.projectile.FirstOrDefault(p => p.owner == player.whoAmI && Main.projHook[p.type]);
-                    if (proj != null)
-                    {
-                        proj.timeLeft = 0;
-                    }
+                    if (proj != null) proj.timeLeft = 0;
 
                     player.GetModPlayer<AbilityHandler>().dash.Active = false;
                 }

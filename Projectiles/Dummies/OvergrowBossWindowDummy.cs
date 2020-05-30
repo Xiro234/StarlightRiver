@@ -9,12 +9,18 @@ namespace StarlightRiver.Projectiles.Dummies
 {
     internal class OvergrowBossWindowDummy : ModNPC //yeah its actually an NPC fucking fight me
     {
-        public override bool CheckActive() { return false; }
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             npc.width = 100;
@@ -31,10 +37,7 @@ namespace StarlightRiver.Projectiles.Dummies
         public override void AI()
         {
             //Dust
-            if (npc.ai[0] > 0 && npc.ai[0] < 359)
-            {
-                Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedByRandom(6.28f) * 412, ModContent.DustType<Dusts.Stone>());
-            }
+            if (npc.ai[0] > 0 && npc.ai[0] < 359) Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedByRandom(6.28f) * 412, ModContent.DustType<Dusts.Stone>());
 
             if (Main.rand.Next(4) == 0 && npc.ai[0] >= 360)
             {
@@ -43,11 +46,7 @@ namespace StarlightRiver.Projectiles.Dummies
             }
 
             //Screenshake
-            if (npc.ai[0] < 359 && npc.ai[0] > 0)
-            {
-                Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += (int)(359 - npc.ai[0]) / 175;
-            }
-
+            if (npc.ai[0] < 359 && npc.ai[0] > 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += (int)(359 - npc.ai[0]) / 175;
 
             //Lighting
             for (float k = 0; k <= 6.28f; k += 0.2f)
@@ -58,41 +57,25 @@ namespace StarlightRiver.Projectiles.Dummies
             {
                 if (npc.ai[0] > 0)
                 {
-                    float bright = npc.ai[0] / 60f; if (bright > 1)
-                    {
-                        bright = 1;
-                    }
-
+                    float bright = npc.ai[0] / 60f; if (bright > 1) bright = 1;
                     Lighting.AddLight(npc.Center + new Vector2(560 + k * 35, 150 + k * 80), new Vector3(1, 1, 0.7f) * bright);
                     Lighting.AddLight(npc.Center + new Vector2(-560 - k * 35, 150 + k * 80), new Vector3(1, 1, 0.7f) * bright);
                 }
                 if (npc.ai[0] > 60)
                 {
-                    float bright = (npc.ai[0] - 60) / 150f; if (bright > 1)
-                    {
-                        bright = 1;
-                    }
-
+                    float bright = (npc.ai[0] - 60) / 150f; if (bright > 1) bright = 1;
                     Lighting.AddLight(npc.Center + new Vector2(450 + k * 15, 300 + k * 50), new Vector3(1, 1, 0.7f) * bright);
                     Lighting.AddLight(npc.Center + new Vector2(-450 - k * 15, 300 + k * 50), new Vector3(1, 1, 0.7f) * bright);
                 }
                 if (npc.ai[0] > 210)
                 {
-                    float bright = (npc.ai[0] - 210) / 70f; if (bright > 1)
-                    {
-                        bright = 1;
-                    }
-
+                    float bright = (npc.ai[0] - 210) / 70f; if (bright > 1) bright = 1;
                     Lighting.AddLight(npc.Center + new Vector2(250 + k * 5, 350 + k * 40), new Vector3(1, 1, 0.7f) * bright);
                     Lighting.AddLight(npc.Center + new Vector2(-250 - k * 5, 350 + k * 40), new Vector3(1, 1, 0.7f) * bright);
                 }
                 if (npc.ai[0] > 280)
                 {
-                    float bright = (npc.ai[0] - 280) / 50f; if (bright > 1)
-                    {
-                        bright = 1;
-                    }
-
+                    float bright = (npc.ai[0] - 280) / 50f; if (bright > 1) bright = 1;
                     Lighting.AddLight(npc.Center + new Vector2(40, 550 + k * 10), new Vector3(1, 1, 0.7f) * bright);
                     Lighting.AddLight(npc.Center + new Vector2(-40, 550 + k * 10), new Vector3(1, 1, 0.7f) * bright);
                 }
@@ -107,10 +90,7 @@ namespace StarlightRiver.Projectiles.Dummies
                 NPC.NewNPC((int)npc.Center.X + 300, (int)npc.Center.Y + 600, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
             }
 
-            if (LegendWorld.OvergrowBossOpen && npc.ai[0] <= 360)
-            {
-                npc.ai[0]++;
-            }
+            if (LegendWorld.OvergrowBossOpen && npc.ai[0] <= 360) npc.ai[0]++;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

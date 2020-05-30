@@ -47,6 +47,7 @@ namespace StarlightRiver.Tiles.Void
                 Main.tileSolid[Type] = true;
             }
         }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)

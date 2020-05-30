@@ -41,11 +41,7 @@ namespace StarlightRiver.Tiles.StarJuice
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
             int index = ModContent.GetInstance<TankEntity>().Find(i - tile.frameX / 18 * 16, j - tile.frameY / 18 * 16);
-            if (index == -1)
-            {
-                return true;
-            }
-
+            if (index == -1) return true;
             TankEntity entity = (TankEntity)TileEntity.ByID[index];
 
             if (player.HeldItem.modItem is StarjuiceStoringItem)
@@ -65,11 +61,7 @@ namespace StarlightRiver.Tiles.StarJuice
         {
             Tile tile = Main.tile[i, j];
             int index = ModContent.GetInstance<TankEntity>().Find(i, j);
-            if (index == -1)
-            {
-                return true;
-            }
-
+            if (index == -1) return true;
             TankEntity entity = (TankEntity)TileEntity.ByID[index];
 
             if (tile.frameX == 0 && tile.frameY == 0)
@@ -100,7 +92,6 @@ namespace StarlightRiver.Tiles.StarJuice
             }
             return true;
         }
-
     }
 
     internal sealed class TankEntity : ModTileEntity
@@ -127,10 +118,7 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override void Update()
         {
-            if (!Main.tile[Position.X, Position.Y].active())
-            {
-                Kill(Position.X, Position.Y);
-            }
+            if (!Main.tile[Position.X, Position.Y].active()) Kill(Position.X, Position.Y);
 
             Vector2 pos = Position.ToVector2() * 16 + new Vector2(24, -12);
             Lighting.AddLight(pos, new Vector3(1.2f, 1.6f, 2) * (charge / (float)maxCharge) * 0.5f);
@@ -140,10 +128,7 @@ namespace StarlightRiver.Tiles.StarJuice
                 float rot = Main.rand.NextFloat(6.28f);
                 Dust.NewDustPerfect(pos + Vector2.One.RotatedBy(rot) * 20, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(rot) * -10, 0, default, 0.5f);
 
-                if (Main.time % 10 == 0 && !Main.fastForwardTime)
-                {
-                    charge++;
-                }
+                if (Main.time % 10 == 0 && !Main.fastForwardTime) charge++;
             }
 
             if (charge == maxCharge)
@@ -154,10 +139,7 @@ namespace StarlightRiver.Tiles.StarJuice
                 }
             }
 
-            if (charge > maxCharge)
-            {
-                charge = maxCharge;
-            }
+            if (charge > maxCharge) charge = maxCharge;
         }
 
         public override TagCompound Save()
@@ -167,6 +149,7 @@ namespace StarlightRiver.Tiles.StarJuice
                 ["Charge"] = charge
             };
         }
+
         public override void Load(TagCompound tag)
         {
             charge = tag.GetInt("Charge");

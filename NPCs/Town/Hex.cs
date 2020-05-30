@@ -51,11 +51,7 @@ namespace StarlightRiver.NPCs.Town
 
         public override bool CheckConditions(int left, int right, int top, int bottom)
         {
-            if (top >= (Main.maxTilesY - 200))
-            {
-                return true;
-            }
-            return false;
+            return top >= (Main.maxTilesY - 200);
         }
 
         public override string TownNPCName()
@@ -64,26 +60,33 @@ namespace StarlightRiver.NPCs.Town
             {
                 case 0:
                     return "Chicken";
+
                 case 1:
                     return "Beef";
+
                 case 2:
                     return "Pork";
+
                 default:
                     return "Turkey";
             }
         }
 
         private int chatstate = 0;
+
         public override string GetChat()
         {
             switch (chatstate)
             {
                 case 0:
                     return "I am man that removes curse";
+
                 case 1:
                     return "Are you sure you want to remove your cursed items? you wont get them back!";
+
                 case 2:
                     return "You dont have any cursed items on... except maybe your face - but I cant do much about that...";
+
                 default:
                     return "This message should not appear! Please report me to the developers!";
             }
@@ -94,7 +97,6 @@ namespace StarlightRiver.NPCs.Town
             button = Language.GetTextValue("LegacyInterface.28");
             button2 = "Destroy Cursed Items";
         }
-
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {

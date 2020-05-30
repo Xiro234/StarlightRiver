@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 
@@ -11,12 +10,14 @@ namespace StarlightRiver.Dusts
         {
             return lightColor;
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.scale *= 2;
             dust.fadeIn = Main.rand.NextFloat(6.28f);
             dust.noLight = false;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.Y += dust.velocity.Y;
@@ -35,7 +36,5 @@ namespace StarlightRiver.Dusts
 
     public class GreenLeaf : Leaf
     {
-
     }
-
 }

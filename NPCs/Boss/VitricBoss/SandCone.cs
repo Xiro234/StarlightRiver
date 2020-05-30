@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     internal class SandCone : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.hostile = false;
@@ -19,6 +20,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.height = 1;
             projectile.timeLeft = 2;
         }
+
         public override void AI()
         {
             projectile.timeLeft = 2;
@@ -26,23 +28,17 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             if (projectile.ai[0] >= 70) //when this projectile goes off
             {
-                for (int k = 0; k < 100; k++)
-                {
-                    Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Sand>(), new Vector2(Main.rand.NextFloat(-20f, 0), 0).RotatedBy(projectile.rotation + Main.rand.NextFloat(-0.2f, 0.2f)), Main.rand.Next(50, 150));
-                }
-
+                for (int k = 0; k < 100; k++) Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Sand>(), new Vector2(Main.rand.NextFloat(-20f, 0), 0).RotatedBy(projectile.rotation + Main.rand.NextFloat(-0.2f, 0.2f)), Main.rand.Next(50, 150));
                 foreach (Player player in Main.player.Where(n => Helper.CheckConicalCollision(projectile.Center, 700, projectile.rotation, 0.2f, n.Hitbox)))
                 {
                     player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " bit the dust..."), Main.expertMode ? 50 : 35, 0); //hurt em
-                    if (Main.rand.Next(Main.expertMode ? 1 : 2) == 0)
-                    {
-                        player.AddBuff(BuffID.Obstructed, 180); //blind em
-                    }
+                    if (Main.rand.Next(Main.expertMode ? 1 : 2) == 0) player.AddBuff(BuffID.Obstructed, 180); //blind em
                 }
                 Main.PlaySound(SoundID.DD2_BookStaffCast); //sound
                 projectile.Kill(); //self-destruct
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             spriteBatch.End();

@@ -40,15 +40,8 @@ namespace StarlightRiver
                                     {
                                         WorldGen.PlaceTile(x, y2, ModContent.TileType<Tiles.Forest.Palestone>(), true, true);
                                         WorldGen.SlopeTile(x, y2);
-                                        if (y2 == y - xSqr && xRel < width / 2 && WorldGen.genRand.Next(2) == 0)
-                                        {
-                                            WorldGen.SlopeTile(x, y2, 2);
-                                        }
-
-                                        if (y2 == y - xSqr && xRel > width / 2 && WorldGen.genRand.Next(2) == 0)
-                                        {
-                                            WorldGen.SlopeTile(x, y2, 1);
-                                        }
+                                        if (y2 == y - xSqr && xRel < width / 2 && WorldGen.genRand.Next(2) == 0) WorldGen.SlopeTile(x, y2, 2);
+                                        if (y2 == y - xSqr && xRel > width / 2 && WorldGen.genRand.Next(2) == 0) WorldGen.SlopeTile(x, y2, 1);
                                     }
                                 }
                                 break;
@@ -92,23 +85,18 @@ namespace StarlightRiver
                         for (int y = surface - (xOff / 2 + WorldGen.genRand.Next(2)) - 3; true; y++)
                         {
                             WorldGen.PlaceWall(k + x, y, ModContent.WallType<Tiles.Forest.LeafWall>());
-                            if (y - surface > 20 || !WorldGen.InWorld(k + x, y + 1) || Main.tile[k + x, y + 1].wall != 0)
-                            {
-                                break;
-                            }
+                            if (y - surface > 20 || !WorldGen.InWorld(k + x, y + 1) || Main.tile[k + x, y + 1].wall != 0) break;
                         }
                     }
                 }
             }
         }
+
         private static bool AnyGrass(int x)
         {
             for (int y = 10; y < Main.maxTilesY; y++)
             {
-                if (Main.tile[x, y].type == TileID.Grass)
-                {
-                    return true;
-                }
+                if (Main.tile[x, y].type == TileID.Grass) return true;
             }
             return false;
         }

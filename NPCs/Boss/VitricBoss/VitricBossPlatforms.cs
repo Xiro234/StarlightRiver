@@ -4,6 +4,7 @@
     {
         public const int MaxHeight = 880;
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatform";
+
         public override bool CheckActive()
         {
             return false;
@@ -16,6 +17,7 @@
             npc.noTileCollide = true;
             npc.dontCountMe = true;
         }
+
         public override void SafeAI()
         {
             /*AI fields:
@@ -30,10 +32,7 @@
                     npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Risetime;
                     npc.ai[1]--;
                 }
-                else
-                {
-                    npc.velocity.Y = 0;
-                }
+                else npc.velocity.Y = 0;
             }
 
             if (npc.ai[0] == 1)
@@ -63,10 +62,7 @@
                     npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Risetime;
                     npc.ai[1]--;
                 }
-                else
-                {
-                    npc.velocity.Y = 0;
-                }
+                else npc.velocity.Y = 0;
             }
 
             if (npc.ai[0] == 1)
@@ -83,6 +79,7 @@
     internal class VitricBossPlatformUpSmall : VitricBossPlatformUp
     {
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatformSmall";
+
         public override void SafeSetDefaults()
         {
             npc.width = 100;
@@ -95,6 +92,7 @@
     internal class VitricBossPlatformDownSmall : VitricBossPlatformDown
     {
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatformSmall";
+
         public override void SafeSetDefaults()
         {
             npc.width = 100;
@@ -103,5 +101,4 @@
             npc.dontCountMe = true;
         }
     }
-
 }

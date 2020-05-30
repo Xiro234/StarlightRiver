@@ -25,6 +25,7 @@ namespace StarlightRiver.Items.Vitric
             item.UseSound = SoundID.Item18;
             item.useTurn = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vitric Axe");
@@ -50,7 +51,5 @@ namespace StarlightRiver.Items.Vitric
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
     }
-
 }

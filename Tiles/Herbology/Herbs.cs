@@ -9,11 +9,17 @@ namespace StarlightRiver.Tiles.Herbology
     internal class HangingPlant : ModTile
     {
         private readonly string ItemDrop;
-        public HangingPlant(string drop) { ItemDrop = drop; }
+
+        public HangingPlant(string drop)
+        {
+            ItemDrop = drop;
+        }
+
         public override bool Autoload(ref string name, ref string texture)
         {
             return GetType().IsSubclassOf(typeof(HangingPlant));
         }
+
         public override void SetDefaults()
         {
             Main.tileCut[Type] = true;
@@ -44,11 +50,17 @@ namespace StarlightRiver.Tiles.Herbology
     internal class TallPlant : ModTile
     {
         private readonly string ItemDrop;
-        public TallPlant(string drop) { ItemDrop = drop; }
+
+        public TallPlant(string drop)
+        {
+            ItemDrop = drop;
+        }
+
         public override bool Autoload(ref string name, ref string texture)
         {
             return GetType().IsSubclassOf(typeof(HangingPlant));
         }
+
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;

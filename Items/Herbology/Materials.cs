@@ -5,7 +5,10 @@ namespace StarlightRiver.Items.Herbology
 {
     public class BlendForest : QuickMaterial
     {
-        public BlendForest() : base("Forest Blend", "Powdered herbs from the Forest", 999, 100, 2) { }
+        public BlendForest() : base("Forest Blend", "Powdered herbs from the Forest", 999, 100, 2)
+        {
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -17,9 +20,13 @@ namespace StarlightRiver.Items.Herbology
             recipe.AddRecipe();
         }
     }
+
     public class BlendEvil : QuickMaterial
     {
-        public BlendEvil() : base("Twisted Blend", "Powdered herbs from Dark Places", 999, 100, 3) { }
+        public BlendEvil() : base("Twisted Blend", "Powdered herbs from Dark Places", 999, 100, 3)
+        {
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

@@ -32,6 +32,7 @@ namespace StarlightRiver.Items
         {
             return !(player.GetModPlayer<GemHandler>().gems[gemID] == 1);
         }
+
         public override bool OnPickup(Player player)
         {
             player.GetModPlayer<GemHandler>().gems[gemID] = 1;
@@ -43,6 +44,7 @@ namespace StarlightRiver.Items
             }
             return false;
         }
+
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Items/StarlightGem"), item.Center - Main.screenPosition, new Rectangle(0, 0, 18, 20), new Color(120, 245 - gemID, 175 + gemID) * 0.7f,
@@ -70,7 +72,6 @@ namespace StarlightRiver.Items
 
         public override void PreUpdate()
         {
-
         }
     }
 }

@@ -49,6 +49,7 @@ namespace StarlightRiver.Tiles.Overgrow
             minPick = 210;
             AddMapEntry(new Color(255, 255, 220));
         }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (!Main.projectile.Any(proj => proj.active && proj.type == ModContent.ProjectileType<Projectiles.Dummies.BigHatchDummy>() &&

@@ -49,11 +49,7 @@ namespace StarlightRiver.NPCs.Town
 
         public override bool CheckConditions(int left, int right, int top, int bottom)
         {
-            if (top >= (Main.maxTilesY - 200))
-            {
-                return true;
-            }
-            return false;
+            return top >= (Main.maxTilesY - 200);
         }
 
         public override string TownNPCName()
@@ -62,10 +58,13 @@ namespace StarlightRiver.NPCs.Town
             {
                 case 0:
                     return "111Nick";
+
                 case 1:
                     return "121Nick";
+
                 case 2:
                     return "122Nick";
+
                 default:
                     return "123Nick";
             }
@@ -77,8 +76,10 @@ namespace StarlightRiver.NPCs.Town
             {
                 case 0:
                     return "Vortex is Gay";
+
                 case 1:
                     return "Vortex is Gayer";
+
                 default:
                     return "Vortex is Gayest";
             }
@@ -89,7 +90,6 @@ namespace StarlightRiver.NPCs.Town
             button = Language.GetTextValue("LegacyInterface.28");
             button2 = "Upgrades";
         }
-
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {

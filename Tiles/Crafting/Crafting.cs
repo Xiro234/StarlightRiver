@@ -24,12 +24,14 @@ namespace StarlightRiver.Tiles.Crafting
             name.SetDefault("Oven");
             AddMapEntry(new Color(113, 113, 113), name);
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = 0.4f;
             g = 0.2f;
             b = 0.05f;
         }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.OvenItem>());
@@ -53,12 +55,14 @@ namespace StarlightRiver.Tiles.Crafting
             name.SetDefault("Astral Oven");
             AddMapEntry(new Color(125, 125, 125), name);
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = 0.5f;
             g = 0.3f;
             b = 0.15f;
         }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.OvenAstralItem>());

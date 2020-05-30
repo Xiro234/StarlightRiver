@@ -9,7 +9,7 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver.Structures
 {
-    public partial class GenHelper
+    public static partial class GenHelper
     {
         private const int TotalHeight = 96;
         private const int HalfHeight = 48;
@@ -36,7 +36,7 @@ namespace StarlightRiver.Structures
             Vector2 sandMid = GetGroundDirectional(new Vector2(0, 1), centre.ToVector2(), TileID.Platforms);
 
             GenerateSandDunes(new Point((int)sandMid.X, (int)sandMid.Y - 10), (int)(size * 1.15f)); //Generates SAND under the crystals. Wacky!
-            GenerateCrystals(centre); //I wonder what this does
+            //GenerateCrystals(centre); //I wonder what this does. literally nothing rn
             GenerateFloatingOre(centre, 30, (int)(size * 0.7f));
 
             LegendWorld.VitricBiome = new Rectangle(centre.X - size, centre.Y - TotalHeight / 2, size * 2, 96);
@@ -54,9 +54,7 @@ namespace StarlightRiver.Structures
                 int height = (int)(48 * (Math.Sin((1 / 30.57d) * modI + 1.57f) + 1)) / 2;
 
                 if (distI < size - HalfHeight)
-                {
                     height = HalfHeight;
-                }
 
                 for (int j = -height - 2 - spikeOut; j < height + 2 + spikeIn; ++j) //Place walls
                 {
@@ -86,10 +84,7 @@ namespace StarlightRiver.Structures
                 {
                     Vector2 pos = centre.ToVector2() + new Vector2(WorldGen.genRand.Next(-width, width), WorldGen.genRand.Next((int)(HalfHeight * 0.8f)));
                     while (Main.tile[(int)pos.X, (int)pos.Y].active())
-                    {
                         pos = centre.ToVector2() + new Vector2(WorldGen.genRand.Next(-width, width), WorldGen.genRand.Next((int)(HalfHeight * 0.8f)));
-                    }
-
                     Helper.PlaceMultitile(pos.ToPoint16(), ModContent.TileType<VitricOreFloat>());
                 }
             }
@@ -104,23 +99,14 @@ namespace StarlightRiver.Structures
             {
                 int sHei = (int)(Math.Sin((i / 18f) + (3.14f / 3)) * 8.0f); //Sin wave placement for Y height
                 if (i > MinArenaSide && i < MaxArenaSide)
-                {
                     sHei = (int)(8f * (Math.Sin((i / 18f) - 2f)) - 16f); //Middle dune
-                }
 
                 for (int j = sHei; j < (10 + WorldGen.genRand.Next(12, 19)); ++j)
                 {
                     int off = (int)((i / 30f) * ((i >= 0) ? -1 : 1));
-                    if (i > MinArenaSide && i < MaxArenaSide)
-                    {
-                        off = 0;
-                    }
-
+                    if (i > MinArenaSide && i < MaxArenaSide) off = 0;
                     if (Main.tile[midPoint.X + i, (midPoint.Y + j) + off].type == (ushort)ModContent.TileType<VitricGlassCrystal>())
-                    {
                         continue;
-                    }
-
                     WorldGen.KillTile(midPoint.X + i, (midPoint.Y + j) + off, true, false, true);
                     WorldGen.PlaceTile(midPoint.X + i, (midPoint.Y + j) + off, ModContent.TileType<VitricSand>(), true, true, -1, 0);
                 }
@@ -129,74 +115,57 @@ namespace StarlightRiver.Structures
 
         //private const float CrystalOffsetCoefficient = 3f; //Used for easy changing of the offset of the crystals
 
-#pragma warning disable IDE0060 // Remove unused parameter
-        private static void GenerateCrystals(Point tC)
-#pragma warning restore IDE0060 // Remove unused parameter
-        {
-            //int totalReps = (int)(125 * WorldSize()); //Total repeats
+        //private static void GenerateCrystals(Point tC)
+        //{
+        //    //int totalReps = (int)(125 * WorldSize()); //Total repeats
 
-            //TODO Add those FRICKING dumb crystals you BUFFOON.
-        }
+        //    //TODO: Add those FRICKING dumb crystals you BUFFOON.
+        //}
 
         /// <summary>
         /// Places crystal at placePosition, length of dist * 3, direction of dir, at the size determined by smol.
         /// </summary>
-#pragma warning disable IDE0051 // Remove unused private members
-        private static bool PlaceCrystal(int dist, Vector2 placePosition, Vector2 dir, bool smol)
-#pragma warning restore IDE0051 // Remove unused private members
-        {
-            int width = WorldGen.genRand.Next(3, 7);
-            int negWidth = WorldGen.genRand.Next(3, 7);
-            if (smol)
-            {
-                width = WorldGen.genRand.Next(1, 4);
-                negWidth = WorldGen.genRand.Next(1, 4);
-            }
+        //private static bool PlaceCrystal(int dist, Vector2 placePosition, Vector2 dir, bool smol)
+        //{
+        //    int width = WorldGen.genRand.Next(3, 7);
+        //    int negWidth = WorldGen.genRand.Next(3, 7);
+        //    if (smol)
+        //    {
+        //        width = WorldGen.genRand.Next(1, 4);
+        //        negWidth = WorldGen.genRand.Next(1, 4);
+        //    }
 
-            width -= 2;
-            negWidth -= 2;
+        //    width -= 2;
+        //    negWidth -= 2;
 
-            for (int j = 0; j < dist * 3; ++j)
-            {
-                if (j == 0 || j == 2)
-                {
-                    width++;
-                }
+        //    for (int j = 0; j < dist * 3; ++j)
+        //    {
+        //        if (j == 0 || j == 2)
+        //            width++;
+        //        if (j == 1 || j == 3)
+        //            negWidth++;
 
-                if (j == 1 || j == 3)
-                {
-                    negWidth++;
-                }
+        //        if (placePosition.X < 0 || placePosition.X > Main.maxTilesX || placePosition.Y < 0 || placePosition.Y > Main.maxTilesY)
+        //            return false;
+        //        Vector2 negDir = Vector2.Normalize(new Vector2(1 / dir.X, 1 / -dir.Y));
+        //        Vector2 actualPlacePos = placePosition - (negDir * 2);
 
-                if (placePosition.X < 0 || placePosition.X > Main.maxTilesX || placePosition.Y < 0 || placePosition.Y > Main.maxTilesY)
-                {
-                    return false;
-                }
+        //        if ((dist * 3) - j < width)
+        //            width--;
+        //        if ((dist * 3) - j < negWidth)
+        //            negWidth--;
 
-                Vector2 negDir = Vector2.Normalize(new Vector2(1 / dir.X, 1 / -dir.Y));
-                Vector2 actualPlacePos = placePosition - (negDir * 2);
+        //        for (int k = -negWidth; k < width; ++k)
+        //        {
+        //            Main.tile[(int)actualPlacePos.X, (int)actualPlacePos.Y].active(false);
+        //            WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, ModContent.TileType<VitricGlassCrystal>());
+        //            actualPlacePos += (negDir / 4);
+        //        }
 
-                if ((dist * 3) - j < width)
-                {
-                    width--;
-                }
-
-                if ((dist * 3) - j < negWidth)
-                {
-                    negWidth--;
-                }
-
-                for (int k = -negWidth; k < width; ++k)
-                {
-                    Main.tile[(int)actualPlacePos.X, (int)actualPlacePos.Y].active(false);
-                    WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, ModContent.TileType<VitricGlassCrystal>());
-                    actualPlacePos += (negDir / 4);
-                }
-
-                placePosition += dir;
-            }
-            return true;
-        }
+        //        placePosition += dir;
+        //    }
+        //    return true;
+        //}
 
         /// <summary>
         /// Moves from starting point p to the first solid block it touches according to direction dir. Skips tiles of types included the ignoredTileIDs array.
@@ -206,10 +175,7 @@ namespace StarlightRiver.Structures
         {
             Vector2 actualPos = p;
             while (!Main.tile[(int)actualPos.X, (int)actualPos.Y].active() || ignoredTileIDs.Any(x => x == Main.tile[(int)actualPos.X, (int)actualPos.Y].type))
-            {
                 actualPos += dir;
-            }
-
             return actualPos;
         }
 
@@ -231,8 +197,10 @@ namespace StarlightRiver.Structures
             {
                 case 1:
                     return 1;
+
                 case 1.5f:
                     return 2;
+
                 case 2f:
                     return 3;
             }

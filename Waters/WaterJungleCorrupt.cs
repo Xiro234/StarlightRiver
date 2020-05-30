@@ -9,8 +9,7 @@ namespace StarlightRiver.Waters
         public override bool ChooseWaterStyle()
         {
             BiomeHandler modPlayer = Main.LocalPlayer.GetModPlayer<BiomeHandler>();
-            if (modPlayer.ZoneJungleCorrupt || modPlayer.FountainJungleCorrupt) { return true; }
-            else { return false; }
+            return modPlayer.ZoneJungleCorrupt || modPlayer.FountainJungleCorrupt;
         }
 
         public override int ChooseWaterfallStyle()

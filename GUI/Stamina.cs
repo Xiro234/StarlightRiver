@@ -13,6 +13,7 @@ namespace StarlightRiver.GUI
         public UIPanel abicon;
         public static bool visible = false;
         private readonly Stam Stam1 = new Stam();
+
         public override void OnInitialize()
         {
             Stam1.Left.Set(-303, 1);
@@ -44,13 +45,11 @@ namespace StarlightRiver.GUI
                 Stam1.Left.Set(-306, 1);
                 Stam1.Top.Set(110, 0);
             }
-            int height = 30 * mp.StatStaminaMax; if (height > 30 * 7)
-            {
-                height = 30 * 7;
-            }
+            int height = 30 * mp.StatStaminaMax; if (height > 30 * 7) height = 30 * 7;
 
             Stam1.Height.Set(height, 0f);
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
@@ -63,7 +62,6 @@ namespace StarlightRiver.GUI
 
             Recalculate();
         }
-
     }
 
     internal class Stam : UIElement
@@ -80,10 +78,7 @@ namespace StarlightRiver.GUI
             int row = 0;
             for (int k = 0; k < mp.StatStaminaMax; k++)
             {
-                if (k % 7 == 0 && k != 0)
-                {
-                    row++;
-                }
+                if (k % 7 == 0 && k != 0) row++;
 
                 Vector2 pos = row % 2 == 0 ? dimensions.ToRectangle().TopLeft() + new Vector2(row * -18, (k % 7) * 28) :
                     dimensions.ToRectangle().TopLeft() + new Vector2(row * -18, 14 + (k % 7) * 28);
@@ -100,7 +95,6 @@ namespace StarlightRiver.GUI
                     spriteBatch.Draw(fillTex, pos + Vector2.One * 4 + fillTex.Size() / 2, fillTex.Frame(), Color.White, 0, fillTex.Size() / 2, scale, 0, 0);
                 }
             }
-
         }
     }
 }

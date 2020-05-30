@@ -25,37 +25,24 @@ namespace StarlightRiver
 
             while (!CheckDungeon(firstRoom))
             {
-                if (Math.Abs(firstRoom.X - Main.dungeonX) > 100)
-                {
-                    firstRoom.Y += 5;
-                }
-                else
-                {
-                    firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
-                }
+                if (Math.Abs(firstRoom.X - Main.dungeonX) > 100) firstRoom.Y += 5;
+                else firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
             }
 
-            if (ModLoader.GetMod("StructureHelper") != null)
-            {
-                StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
-            }
-
+            if (ModLoader.GetMod("StructureHelper") != null) StructureHelper.StructureHelper.GenerateStructure("Structures/WispAltar", firstRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
             WispSP = firstRoom.Center() * 16 + new Vector2(0, 56); //sets faeflame spawnpoint
             WormFromRoom(firstRoom);
 
-            while (Rooms.Count <= 7)
-            {
-                WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
-            }
+            while (Rooms.Count <= 7) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
 
-            Rooms.ForEach(n => PopulateRoom(n));
+            Rooms.ForEach(PopulateRoom);
 
-            //TODO: 
+            //TODO:
             //      Generate that room's insides based on that from file
             //      hallway prefabs
             //      boss room + special rooms
-
         }
+
         private static void WormFromRoom(Rectangle parent, byte initialDirection = 5)
         {
             byte direction = initialDirection >= 5 ? (byte)WorldGen.genRand.Next(4) : initialDirection;
@@ -69,21 +56,25 @@ namespace StarlightRiver
                 switch (direction % 4) //the 4 possible directions that the hallway can generate in, this generates the rectangles for the hallway and room to safety check them.
                 {
                     case 0: //up
-                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y - hallSize + 1, HallWidth, hallSize - 2); //Big brain power required to think back through the math here lol. 
+                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y - hallSize + 1, HallWidth, hallSize - 2); //Big brain power required to think back through the math here lol.
                         room = new Rectangle(parent.X + (parent.Width - roomWidth) / 2, parent.Y - hallSize - RoomHeight, roomWidth, RoomHeight);
                         break;
+
                     case 1: //right
                         hall = new Rectangle(parent.X + parent.Width + 1, parent.Y + RoomHeight / 2 - HallWidth / 2, hallSize - 2, HallWidth);
                         room = new Rectangle(parent.X + parent.Width + hallSize, parent.Y, roomWidth, RoomHeight);
                         break;
+
                     case 2: //down
                         hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y + RoomHeight + 1, HallWidth, hallSize - 2);
                         room = new Rectangle(parent.X + (parent.Width - roomWidth) / 2, parent.Y + RoomHeight + hallSize, roomWidth, RoomHeight);
                         break;
+
                     case 3: //left
                         hall = new Rectangle(parent.X - hallSize + 1, parent.Y + RoomHeight / 2 - HallWidth / 2, hallSize - 2, HallWidth);
                         room = new Rectangle(parent.X - hallSize - roomWidth, parent.Y, roomWidth, RoomHeight);
                         break;
+
                     default: //failsafe, this should never happen. If it does, seek shelter immediately, the universe is likely collapsing.
                         hall = new Rectangle();
                         room = new Rectangle();
@@ -94,22 +85,13 @@ namespace StarlightRiver
                 if (CheckDungeon(hall) && CheckDungeon(room)) //all clear!
                 {
                     MakeRoom(room); //get a room
-                    if (direction % 2 == 0)
-                    {
-                        MakeHallTall(hall);  //should we make a sideways or longways hall?
-                    }
-                    else
-                    {
-                        MakeHallLong(hall);
-                    }
+                    if (direction % 2 == 0) MakeHallTall(hall);  //should we make a sideways or longways hall?
+                    else MakeHallLong(hall);
 
                     Debug.WriteLine("Successfully wormed");
 
                     WormFromRoom(room);
-                    if (WorldGen.genRand.Next(3) >= 1)
-                    {
-                        WormFromRoom(room); //chance to worm in an additional direciton
-                    }
+                    if (WorldGen.genRand.Next(3) >= 1) WormFromRoom(room); //chance to worm in an additional direciton
 
                     break;
                 }
@@ -126,6 +108,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private static void MakeHallLong(Rectangle target)
         {
             for (int x = target.X; x <= target.X + target.Width; x++)
@@ -148,6 +131,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private static void MakeHallTall(Rectangle target)
         {
             for (int x = target.X; x <= target.X + target.Width; x++)
@@ -170,6 +154,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private static void MakeRoom(Rectangle target)
         {
             Rooms.Add(target);
@@ -185,12 +170,10 @@ namespace StarlightRiver
                 }
             }
         }
+
         private static bool CheckDungeon(Rectangle rect)
         {
-            if (Rooms.Count > 20)
-            {
-                return false; //limit to 20 rooms
-            }
+            if (Rooms.Count > 20) return false; //limit to 20 rooms
 
             for (int x = rect.X; x <= rect.X + rect.Width; x++)
             {
@@ -226,39 +209,13 @@ namespace StarlightRiver
             bool down = false;
             bool left = false;
             bool right = false;
+            //bool isLong = room.Width > 20;
             int type = ModContent.TileType<Tiles.Overgrow.MarkerGem>();
 
-            for (int x = room.X; x <= room.X + room.Width; x++)
-            {
-                if (Framing.GetTileSafely(x, room.Y - 2).type == type)
-                {
-                    up = true;
-                }
-            }
-
-            for (int x = room.X; x <= room.X + room.Width; x++)
-            {
-                if (Framing.GetTileSafely(x, room.Y + room.Height + 2).type == type)
-                {
-                    down = true;
-                }
-            }
-
-            for (int y = room.Y; y <= room.Y + room.Height; y++)
-            {
-                if (Framing.GetTileSafely(room.X - 2, y).type == type)
-                {
-                    left = true;
-                }
-            }
-
-            for (int y = room.Y; y <= room.Y + room.Height; y++)
-            {
-                if (Framing.GetTileSafely(room.X + room.Width + 2, y).type == type)
-                {
-                    right = true;
-                }
-            }
+            for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y - 2).type == type) up = true;
+            for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y + room.Height + 2).type == type) down = true;
+            for (int y = room.Y; y <= room.Y + room.Height; y++) if (Framing.GetTileSafely(room.X - 2, y).type == type) left = true;
+            for (int y = room.Y; y <= room.Y + room.Height; y++) if (Framing.GetTileSafely(room.X + room.Width + 2, y).type == type) right = true;
 
             for (int x = room.X; x <= room.X + room.Width; x++)
             {
@@ -266,7 +223,9 @@ namespace StarlightRiver
                 for (int y = room.Y; y <= room.Y + room.Height; y++)
                 {
                     int yRel = y - room.Y;
+
                     #region openings
+
                     if (up)
                     {
                         if (xRel > (room.Width / 2) - HallWidth / 2 && xRel < (room.Width / 2) + HallWidth / 2 && yRel < 3)
@@ -295,7 +254,9 @@ namespace StarlightRiver
                             WorldGen.KillTile(x, y);
                         }
                     }
-                    #endregion
+
+                    #endregion openings
+
                     if (xRel > 2 && xRel < room.Width - 2 && yRel > 2 && yRel < room.Height - 2) //clear out
                     {
                         WorldGen.KillTile(x, y);

@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -100,9 +99,10 @@ namespace StarlightRiver.NPCs.Hostile
         {
             return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 0.75f : 0f;
         }
+
         /*public override int SpawnNPC(int tileX, int tileY)
         {
-            return 
+            return
             (tileX, tileY + 1, ModContent.NPCType<CrystalPopper>());
         }*/
 
@@ -121,10 +121,7 @@ namespace StarlightRiver.NPCs.Hostile
                 case 2:
                     npc.frameCounter++;//skele frame-code
                     if ((int)(npc.frameCounter * AnimSpeedMult) >= animFramesLoop)
-                    {
                         npc.frameCounter = 0;
-                    }
-
                     npc.frame.Y = (int)(npc.frameCounter * AnimSpeedMult) * frameHeight; break;
             }
         }

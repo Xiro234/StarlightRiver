@@ -12,6 +12,7 @@ namespace StarlightRiver.Tiles.Vitric
             texture = "StarlightRiver/Invisible";
             return true;
         }
+
         public override void SetDefaults()
         {
             TileID.Sets.DrawsWalls[Type] = true;

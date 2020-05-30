@@ -13,6 +13,7 @@ namespace StarlightRiver.NPCs.Hostile
             DisplayName.SetDefault("Crystal Observer");
             Main.npcFrameCount[npc.type] = 2;
         }
+
         public override void SetDefaults()
         {
             npc.aiStyle = 14;
@@ -29,6 +30,7 @@ namespace StarlightRiver.NPCs.Hostile
 
             npc.value = 111f;
         }
+
         public override void NPCLoot()
         {
             if (Main.rand.NextFloat() < 0.50f)
@@ -41,6 +43,8 @@ namespace StarlightRiver.NPCs.Hostile
 
         private bool CanSuck => SuckTime > 0;
 
+        //private Player Target => Main.player[npc.target];
+
         public override void HitEffect(int hitDirection, double damage)
         {
             Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 41); //granite golem
@@ -52,7 +56,6 @@ namespace StarlightRiver.NPCs.Hostile
             }
             else
             {
-
                 Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 50); //ice block mine
             }
             base.HitEffect(hitDirection, damage);
@@ -71,16 +74,14 @@ namespace StarlightRiver.NPCs.Hostile
 
             npc.TargetClosest(true);
 
-            /* Using the sign of SuckTime as a boolean, kindof. 
+            /* Using the sign of SuckTime as a boolean, kindof.
              * When the Observer has pulled for more than 180 ticks, it'll set its SuckTime to -180.
              * Since it's negative, it won't suck and won't decrease.
              * While it's cooling down (SuckTime < 0), it will constantly approach being ready to suck (increasing SuckTime).
              */
 
             if (SuckTime > 180)
-            {
                 SuckTime = -180;
-            }
 
             if (SuckTime <= 0)
             {
@@ -119,16 +120,9 @@ namespace StarlightRiver.NPCs.Hostile
                     npc.velocity = Vector2.Zero;
                     allPlayers.velocity = (npc.Center - allPlayers.Center).SafeNormalize(Vector2.Zero) * 5;
                     if (SuckTime % 20 == 0)
-                    {
                         for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
-                        {
                             if (Main.rand.Next(2) == 0)
-                            {
                                 SpawnDust(3);
-                            }
-                        }
-                    }
-
                     SuckTime++;
                 }
             }
@@ -152,6 +146,7 @@ namespace StarlightRiver.NPCs.Hostile
             DisplayName.SetDefault("Grand Crystal Observer");
             Main.npcFrameCount[npc.type] = 2;
         }
+
         public override void SetDefaults()
         {
             npc.aiStyle = 14;
@@ -176,6 +171,8 @@ namespace StarlightRiver.NPCs.Hostile
 
         private bool HasSucked = false;
 
+        //private Player Target => Main.player[npc.target];
+
         public override void HitEffect(int hitDirection, double damage)
         {
             Main.PlaySound(SoundID.NPCHit, (int)npc.position.X, (int)npc.position.Y, 41); //granite golem
@@ -187,7 +184,6 @@ namespace StarlightRiver.NPCs.Hostile
             }
             else
             {
-
                 Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 50); //ice block mine
             }
             base.HitEffect(hitDirection, damage);
@@ -205,16 +201,13 @@ namespace StarlightRiver.NPCs.Hostile
 
             npc.TargetClosest(true);
 
-
             ShootTime += 1;
             if (ShootTime >= 460)
             {
                 ShootTime = 0 + Main.rand.Next(20, 120);
             }
             if (SuckTime > 360)
-            {
                 SuckTime = -180;
-            }
 
             npc.rotation = npc.velocity.X / 30f;
 
@@ -254,16 +247,9 @@ namespace StarlightRiver.NPCs.Hostile
                     npc.velocity = Vector2.Zero;
                     allPlayers.velocity = (npc.Center - allPlayers.Center).SafeNormalize(Vector2.Zero) * 8;
                     if (SuckTime % 20 == 0)
-                    {
                         for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 40)
-                        {
                             if (Main.rand.Next(2) == 0)
-                            {
                                 SpawnDust(3);
-                            }
-                        }
-                    }
-
                     SuckTime++;
                     return;
                 }
@@ -276,6 +262,7 @@ namespace StarlightRiver.NPCs.Hostile
                 SpawnDust(2);
             }
         }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frame.Y = (CanSuck ? 0 : 1) * frameHeight;

@@ -15,6 +15,7 @@ namespace StarlightRiver.Tiles.Vitric
             texture = "StarlightRiver/Invisible";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = false;
@@ -45,6 +46,7 @@ namespace StarlightRiver.Tiles.Vitric
                 Main.tileSolid[Type] = true;
             }
         }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)

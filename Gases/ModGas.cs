@@ -1,20 +1,22 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace StarlightRiver.Gases
 {
     internal class GasWorld : ModWorld
     {
         public static ModGas[,] Gas;
+
         public override void Initialize()
         {
             Gas = new ModGas[Main.maxTilesX, Main.maxTilesY];
         }
+
         public override void PostUpdate()
         {
             Player player = Main.LocalPlayer;
             int max = Main.screenWidth / 24;
-
 
             for (int x = (int)(player.Center.X / 16) - max; x <= (int)(player.Center.X / 16) + max; x++)
             {
@@ -24,7 +26,7 @@ namespace StarlightRiver.Gases
                     {
                         ModGas gas = Gas[x, y];
 
-                        if (gas != null && gas.Strength >= 1)
+                        if (gas?.Strength >= 1)
                         {
                             if (Main.tile[x, y + 1].collisionType != 1)
                             {
@@ -49,13 +51,12 @@ namespace StarlightRiver.Gases
                             gas.Strength -= 3;
                         }
                         else if (gas != null) { Gas[gas.i, gas.j] = null; }
-                        if (gas != null) { gas.Update(); }
+                        gas?.Update();
                     }
                 }
             }
             //timer = 0;
             //}
-
         }
     }
 
@@ -66,6 +67,7 @@ namespace StarlightRiver.Gases
         public int DustType = 0;
         public int i = 0;
         public int j = 0;
+
         public ModGas(int maxstrength, int strength, int dusttype, int x, int y)
         {
             maxStrength = maxstrength;
@@ -79,7 +81,6 @@ namespace StarlightRiver.Gases
         {
             if (Main.rand.Next(90) == 0)
             {
-
                 Dust.NewDust(new Vector2(i, j) * 16, 16, 16, DustType, 0, 0, 0, default, Strength / (maxStrength / 16));
                 if (Main.rand.Next(4) == 0)
                 {
@@ -92,6 +93,5 @@ namespace StarlightRiver.Gases
         {
             GasWorld.Gas[i, j] = new ModGas(strength, strength, type, i, j);
         }
-
     }
 }

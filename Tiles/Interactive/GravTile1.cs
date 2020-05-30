@@ -36,6 +36,7 @@ namespace StarlightRiver.Tiles.Interactive
                 }
             }
         }
+
         /*public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             if (++frameCounter >= 5)

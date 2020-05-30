@@ -22,6 +22,7 @@ namespace StarlightRiver.Buffs
                 tip += (item.modItem as Ingredient).ItemTooltip + "\n";
             }
         }
+
         public override void Update(Player player, ref int buffIndex)
         {
             FoodBuffHandler mp = player.GetModPlayer<FoodBuffHandler>();
@@ -43,7 +44,6 @@ namespace StarlightRiver.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-
         }
     }
 }

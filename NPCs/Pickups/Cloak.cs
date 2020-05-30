@@ -14,6 +14,7 @@ namespace StarlightRiver.NPCs.Pickups
         {
             DisplayName.SetDefault("Zzelera's Cloak");
         }
+
         public override void SetDefaults()
         {
             npc.width = 32;
@@ -24,9 +25,14 @@ namespace StarlightRiver.NPCs.Pickups
             npc.knockBackResist = 0;
             npc.noGravity = true;
         }
-        public override bool CheckActive() { return false; }
+
+        public override bool CheckActive()
+        {
+            return false;
+        }
 
         private int animate = 0;
+
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -70,11 +76,11 @@ namespace StarlightRiver.NPCs.Pickups
             {
                 animate--;
             }
-
         }
 
         public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
         private float timer = 0;
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();

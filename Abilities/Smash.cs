@@ -12,8 +12,11 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class Smash : Ability
     {
-        public Smash(Player player) : base(2, player) { }
-        public override bool CanUse => player.velocity.Y != 0 && !player.mount.Active;
+        public Smash(Player player) : base(2, player)
+        {
+        }
+
+        public override bool CanUse => player.velocity.Y != 0;
         public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         public const int ChargeTime = 30;
 
@@ -31,10 +34,7 @@ namespace StarlightRiver.Abilities
                     player.frozen = true;
                     player.maxFallSpeed = 0.8f;
                     Timer++;
-                    if (Timer == ChargeTime)
-                    {
-                        Main.PlaySound(SoundID.MaxMana, player.Center);
-                    }
+                    if (Timer == ChargeTime) Main.PlaySound(SoundID.MaxMana, player.Center);
                 }
                 else
                 {
@@ -62,14 +62,8 @@ namespace StarlightRiver.Abilities
 
                 player.maxFallSpeed = 999;
                 //player.velocity.X = 0;
-                if (player.velocity.Y < 35)
-                {
-                    player.velocity.Y += 2;
-                }
-                else
-                {
-                    player.velocity.Y = 35;
-                }
+                if (player.velocity.Y < 35) player.velocity.Y += 2;
+                else player.velocity.Y = 35;
 
                 if (Timer % 10 == 0)
                 {
@@ -121,7 +115,6 @@ namespace StarlightRiver.Abilities
                     Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * 8 * k, ModContent.DustType<JungleEnergy>(), new Vector2(0, -1).RotatedBy(-1), 200);
                     Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * 8 * k, ModContent.DustType<JungleEnergy>(), new Vector2(0, -1).RotatedBy(1), 200);
                 }
-
             }
             else
             {

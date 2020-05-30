@@ -12,6 +12,7 @@ namespace StarlightRiver.Configs
         HallowJungle = 5,
         None = 6
     }
+
     public class Config : ModConfig
     {
         public override ConfigScope Mode => ConfigScope.ClientSide;

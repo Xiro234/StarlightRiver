@@ -9,6 +9,7 @@ namespace StarlightRiver.Items.Vitric
     internal class VitricSword : ModItem
     {
         public bool Broken = false;
+
         public override void SetDefaults()
         {
             item.damage = 25;
@@ -63,7 +64,6 @@ namespace StarlightRiver.Items.Vitric
                 Broken = false;
             }
             return true;
-
         }
 
         public override void AddRecipes()

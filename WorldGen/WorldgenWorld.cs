@@ -36,6 +36,7 @@ namespace StarlightRiver
                 tasks.Insert(SurfaceIndex + 2, new PassLegacy("Starlight River Ivy", ForestHerbGen));
             }
         }
+
         public override void PostWorldGen()
         {
         }

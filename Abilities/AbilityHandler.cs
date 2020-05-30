@@ -11,6 +11,7 @@ namespace StarlightRiver.Abilities
     {
         //All players store 1 instance of each ability. This instance is changed to the infusion variant if an infusion is equipped.
         public Dash dash = new Dash(Main.LocalPlayer);
+
         public Wisp wisp = new Wisp(Main.LocalPlayer);
         public Pure pure = new Pure(Main.LocalPlayer);
         public Smash smash = new Smash(Main.LocalPlayer);
@@ -21,6 +22,7 @@ namespace StarlightRiver.Abilities
 
         //The players stamina stats.
         public int StatStaminaMax = 0;
+
         public int StatStaminaMaxTemp = 0;
         public int StatStaminaMaxPerm = 1;
         public int StatStamina = 1;
@@ -75,7 +77,6 @@ namespace StarlightRiver.Abilities
             sdash.Locked = tag.GetBool(nameof(sdash));
             //Abilities.Add(sdash);
 
-
             //loads the player's maximum stamina.
             StatStaminaMaxPerm = tag.GetInt(nameof(StatStaminaMaxPerm));
 
@@ -115,12 +116,9 @@ namespace StarlightRiver.Abilities
 
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
-            //Dismounts player from mount if any ability (apart from Purify) is used and can be used
-            if ((StarlightRiver.Dash.JustPressed || StarlightRiver.Wisp.JustPressed || StarlightRiver.Smash.JustPressed || StarlightRiver.Superdash.JustPressed) &&
-                (dash.CanUse || wisp.CanUse || smash.CanUse || sdash.CanUse))
-            {
+            //Dismounts player from mount if any ability (apart from Purify) is used
+            if (StarlightRiver.Dash.JustPressed || StarlightRiver.Wisp.JustPressed || StarlightRiver.Smash.JustPressed || StarlightRiver.Superdash.JustPressed)
                 player.mount.Dismount(player);
-            }
             //Activates one of the player's abilities on the appropriate keystroke.
             if (StarlightRiver.Dash.JustPressed) { triggersSet.Jump = false; dash.StartAbility(player); }
             if (StarlightRiver.Wisp.JustPressed) { wisp.StartAbility(player); }
@@ -131,16 +129,11 @@ namespace StarlightRiver.Abilities
 
         public override void PreUpdate()
         {
-
             //Executes the ability's use code while it's active.
             if (player.GetModPlayer<Dragons.DragonHandler>().DragonMounted)
-            {
                 foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUseDragon(); ability.UseEffectsDragon(); }
-            }
             else
-            {
                 foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUse(); ability.UseEffects(); }
-            }
 
             //Decrements internal cooldowns of abilities.
             foreach (Ability ability in Abilities.Where(ability => ability.Cooldown > 0)) { ability.Cooldown--; }
@@ -197,7 +190,6 @@ namespace StarlightRiver.Abilities
                 StatStaminaRegen = StatStaminaRegenMax;
                 foreach (Ability ability in Abilities) { ability.Active = false; }
             }
-
         }
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)

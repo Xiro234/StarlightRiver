@@ -37,10 +37,7 @@ namespace StarlightRiver.Tiles.Dragons
         public override bool NewRightClick(int i, int j)
         {
             NestEntity entity = GetTE(i, j);
-            if (entity == null)
-            {
-                return false;
-            }
+            if (entity == null) return false;
 
             Item item = Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
 
@@ -60,10 +57,7 @@ namespace StarlightRiver.Tiles.Dragons
         {
             Tile tile = Main.tile[i, j];
             NestEntity entity = GetTE(i, j);
-            if (entity == null || entity.owner == null)
-            {
-                return;
-            }
+            if (entity == null || entity.owner == null) return;
 
             if (tile.frameX == 0 && tile.frameY == 0)
             {
@@ -79,12 +73,7 @@ namespace StarlightRiver.Tiles.Dragons
             int top = j - (tile.frameY / 18);
             int index = ModContent.GetInstance<NestEntity>().Find(left, top);
 
-            if (index == -1)
-            {
-                return null;
-            }
-
-            return (NestEntity)TileEntity.ByID[index];
+            return index == -1 ? null : (NestEntity)TileEntity.ByID[index];
         }
     }
 
@@ -92,11 +81,13 @@ namespace StarlightRiver.Tiles.Dragons
     {
         public Player owner;
         public DragonHandler Dragon => owner.GetModPlayer<DragonHandler>();
+
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
             return tile.active() && tile.type == ModContent.TileType<Nest>() && tile.frameX == 0 && tile.frameY == 0;
         }
+
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -107,10 +98,10 @@ namespace StarlightRiver.Tiles.Dragons
             }
             return Place(i, j);
         }
+
         public override void Update()
         {
             owner.GetModPlayer<DragonHandler>().data = Dragon.data;
         }
     }
-
 }

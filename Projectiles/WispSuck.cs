@@ -16,10 +16,12 @@ namespace StarlightRiver.Projectiles
             projectile.magic = true;
             projectile.timeLeft = 8;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The unresistable sucction");
         }
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Player player = Main.player[projectile.owner];
@@ -29,6 +31,7 @@ namespace StarlightRiver.Projectiles
             target.velocity += Vector2.Normalize(distance) * -10;
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
         }
+
         public override void AI()
         {
             Player player = Main.player[projectile.owner];

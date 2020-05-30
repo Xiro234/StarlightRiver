@@ -13,6 +13,7 @@ namespace StarlightRiver.NPCs.Pickups
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Wind1";
         public override Color GlowColor => new Color(160, 230, 255);
+
         public override bool CanPickup(Player player)
         {
             return player.GetModPlayer<AbilityHandler>().dash.Locked;
@@ -31,6 +32,7 @@ namespace StarlightRiver.NPCs.Pickups
             Dust dus2 = Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Cos(LegendWorld.rottime) * 15, npc.Center.Y), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
             dus2.fadeIn = Math.Abs((float)Math.Cos(LegendWorld.rottime));
         }
+
         public override void PickupVisuals(int timer)
         {
             Player player = Main.LocalPlayer;
@@ -97,6 +99,7 @@ namespace StarlightRiver.NPCs.Pickups
                 }
             }
         }
+
         public override void PickupEffects(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();

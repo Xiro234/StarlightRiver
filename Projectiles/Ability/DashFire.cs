@@ -17,10 +17,12 @@ namespace StarlightRiver.Projectiles.Ability
             projectile.width = 64;
             projectile.height = 64;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flameburst");
         }
+
         public override bool? CanHitNPC(NPC target)
         {
             if (target.lifeMax * 0.05 <= 200 && target.lifeMax * 0.05 >= 10)
@@ -41,6 +43,7 @@ namespace StarlightRiver.Projectiles.Ability
             target.GetGlobalNPC<StaminaDrop>().DropStamina = true;
             return null;
         }
+
         public override void AI()
         {
             projectile.position = Main.player[projectile.owner].position + new Vector2(-21, -12);

@@ -15,7 +15,9 @@ namespace StarlightRiver.Projectiles.Dummies
         {
             DisplayName.SetDefault("");
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 48;
@@ -24,6 +26,7 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
         }
+
         public override void AI()
         {
             foreach (Player player in Main.player.Where(player => Vector2.Distance(player.Center, projectile.Center) <= 100))
@@ -49,6 +52,7 @@ namespace StarlightRiver.Projectiles.Dummies
                 projectile.timeLeft = 0;
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/OvergrowGateGlow"), projectile.position + new Vector2(6, 53) - Main.screenPosition, Color.White * (float)Math.Sin(LegendWorld.rottime));

@@ -14,15 +14,18 @@ namespace StarlightRiver.Tiles.Vitric
             texture = "StarlightRiver/Invisible";
             return true;
         }
+
         public override void KillWall(int i, int j, ref bool fail)
         {
             fail = true;
         }
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = false;
             dustType = ModContent.DustType<Dusts.Air>();
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/CrystalOver1");
@@ -37,6 +40,7 @@ namespace StarlightRiver.Tiles.Vitric
             texture = "StarlightRiver/Invisible";
             return true;
         }
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;

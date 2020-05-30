@@ -11,7 +11,6 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver
 {
-
     public partial class LegendWorld : ModWorld
     {
         public static Vector2 BookSP;
@@ -26,6 +25,7 @@ namespace StarlightRiver
 
         //Boss Flags
         public static bool DesertOpen = false;
+
         public static bool GlassBossOpen = false;
         public static bool GlassBossDowned = false;
 
@@ -44,8 +44,8 @@ namespace StarlightRiver
 
         //Handling Keys
         public static List<Key> Keys = new List<Key>();
-        public static List<Key> KeyInventory = new List<Key>();
 
+        public static List<Key> KeyInventory = new List<Key>();
 
         private void EbonyGen(GenerationProgress progress)
         {
@@ -62,67 +62,67 @@ namespace StarlightRiver
                 }
             }
         }
-#pragma warning disable IDE0051 // Remove unused private members
-        private void DolomiteGen(GenerationProgress progress)
-#pragma warning restore IDE0051 // Remove unused private members
-        {
-            progress.Message = "Shifting Tectonic Plates...";
-            ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite.Dolomite>();
 
-            for (int k = 0; k < (Main.rand.Next(4, 8)); k++)
-            {
-                int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+        //private void DolomiteGen(GenerationProgress progress)
+        //{
+        //    progress.Message = "Shifting Tectonic Plates...";
+        //    ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite.Dolomite>();
 
-                for (int i = x - 200; i <= x + 200; i++)
-                {
-                    for (int j = y - 100; j <= y + 100; j++)
-                    {
-                        if (i > 20 && j > 20 && i < Main.maxTilesX - 20 && j < Main.maxTilesY - 20)
-                        {
-                            if (Main.tile[i, j].type is TileID.Stone) { Main.tile[i, j].type = Dolomite; }
+        //    for (int k = 0; k < (Main.rand.Next(4, 8)); k++)
+        //    {
+        //        int x = WorldGen.genRand.Next(0, Main.maxTilesX);
+        //        int y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 
-                            if (!Main.tile[i, j + 2].active() && Main.tile[i, j].type == Dolomite) { Main.tile[i, j + 1].type = (ushort)ModContent.TileType<Tiles.Dolomite.DolomiteHanging>(); }
+        //        for (int i = x - 200; i <= x + 200; i++)
+        //        {
+        //            for (int j = y - 100; j <= y + 100; j++)
+        //            {
+        //                if (i > 20 && j > 20 && i < Main.maxTilesX - 20 && j < Main.maxTilesY - 20)
+        //                {
+        //                    if (Main.tile[i, j].type is TileID.Stone) { Main.tile[i, j].type = Dolomite; }
 
-                            if (i % 15 == 0 && Main.tile[i, j].active() && Main.tile[i, j].type == Dolomite && !Main.tile[i, j - 1].active() && Main.rand.Next(3) == 0)
-                            {
-                                GenerateBeam(i, j);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //                    if (!Main.tile[i, j + 2].active() && Main.tile[i, j].type == Dolomite) { Main.tile[i, j + 1].type = (ushort)ModContent.TileType<Tiles.Dolomite.DolomiteHanging>(); }
 
-        private static void GenerateBeam(int x, int y)
-        {
-            for (int j = y - 1; j >= y - 100; j--)
-            {
-                if (j % 10 == 0 && Main.rand.Next(2) == 0)
-                {
-                    for (int k = -1; k <= 1; k++)
-                    {
-                        if (!Main.tile[x + k, j].active()) { Main.tile[x + k, j].type = TileID.WoodenBeam; }
-                    }
-                }
+        //                    if (i % 15 == 0 && Main.tile[i, j].active() && Main.tile[i, j].type == Dolomite && !Main.tile[i, j - 1].active() && Main.rand.Next(3) == 0)
+        //                    {
+        //                        GenerateBeam(i, j);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
-                if (x > 0 && j > 0 && x < Main.maxTilesX && j < Main.maxTilesY)
-                {
-                    Main.tile[x, j].wall = WallID.Wood;
-                    if (Main.tile[x, j].active() || j == y - 100)
-                    {
-                        for (int k = -2; k <= 2; k++)
-                        {
-                            Main.tile[x + k, j].type = TileID.WoodBlock;
-                        }
-                        return;
-                    }
-                }
-            }
-        }
+        //private static void GenerateBeam(int x, int y)
+        //{
+        //    for (int j = y - 1; j >= y - 100; j--)
+        //    {
+        //        if (j % 10 == 0 && Main.rand.Next(2) == 0)
+        //        {
+        //            for (int k = -1; k <= 1; k++)
+        //            {
+        //                if (!Main.tile[x + k, j].active()) { Main.tile[x + k, j].type = TileID.WoodenBeam; }
+        //            }
+        //        }
+
+        //        if (x > 0 && j > 0 && x < Main.maxTilesX && j < Main.maxTilesY)
+        //        {
+        //            Main.tile[x, j].wall = WallID.Wood;
+        //            if (Main.tile[x, j].active() || j == y - 100)
+        //            {
+        //                for (int k = -2; k <= 2; k++)
+        //                {
+        //                    Main.tile[x + k, j].type = TileID.WoodBlock;
+        //                }
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
 
         public static float rottime = 0;
         public static bool starfall = false;
+
         public override void PreUpdate()
         {
             rottime += (float)Math.PI / 60;
@@ -131,14 +131,13 @@ namespace StarlightRiver
                 rottime = 0;
             }
         }
+
         public override void PostUpdate()
         {
-
             if (!Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
             {
                 PureTiles.Clear();
             }
-
 
             if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wind>() && n.active == true))
             {
@@ -161,6 +160,7 @@ namespace StarlightRiver
                 key.Update();
             }
         }
+
         public override void Initialize()
         {
             VitricBiome.X = 0;
@@ -184,6 +184,7 @@ namespace StarlightRiver
             BookSP = Vector2.Zero;
             DashSP = Vector2.Zero;
         }
+
         public override TagCompound Save()
         {
             return new TagCompound
@@ -213,6 +214,7 @@ namespace StarlightRiver
                 [nameof(RiftLocation)] = RiftLocation
             };
         }
+
         public override void Load(TagCompound tag)
         {
             VitricBiome.X = (int)tag.Get<Vector2>("VitricBiomePos").X;
@@ -241,7 +243,6 @@ namespace StarlightRiver
             DashSP = tag.Get<Vector2>(nameof(DashSP));
 
             RiftLocation = tag.Get<Vector2>(nameof(RiftLocation));
-
 
             for (int k = 0; k <= PureTiles.Count - 1; k++)
             {

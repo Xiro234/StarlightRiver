@@ -7,8 +7,10 @@ namespace StarlightRiver.Projectiles
 {
     public class ImperfectLaser : ModProjectile
     {
-        public override string Texture => "StarlightRiver/Invisible";
         public const short LaserFocusDist = 80;
+
+        public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -55,12 +57,7 @@ namespace StarlightRiver.Projectiles
 
             float inHitbox = Math.Min((float)((hitbox.Width / 2) / Math.Sin(angleToHitbox)), (float)((hitbox.Height / 2) / Math.Cos(angleToHitbox)));
 
-            if (GetDistance(centroid, intersectionPoint) <= GetDistance(centroid, hitboxCenter) - inHitbox)
-            {
-                return true;
-            }
-
-            return false;
+            return GetDistance(centroid, intersectionPoint) <= GetDistance(centroid, hitboxCenter) - inHitbox ? true : false;
         }
 
         public static Vector2 GetIntersectionPoint(Vector2 p1, Vector2 p2, Vector2 q1, Vector2 q2)

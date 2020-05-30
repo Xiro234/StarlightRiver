@@ -10,6 +10,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public const int Scrolltime = 1000;
         public const int Risetime = 360;
+
         public override bool CheckActive()
         {
             return false;
@@ -29,6 +30,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             DisplayName.SetDefault("");
         }
+
         public override void SetDefaults()
         {
             npc.height = 1;
@@ -42,6 +44,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.dontTakeDamage = true;
             npc.dontCountMe = true;
         }
+
         public override void AI()
         {
             /* AI fields:
@@ -51,11 +54,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
              * 3:
              */
 
-            if (LegendWorld.GlassBossOpen && npc.ai[1] == 0)
-            {
-                npc.ai[1] = 1; //when the altar is hit, make the BG rise out of the ground
-            }
-
+            if (LegendWorld.GlassBossOpen && npc.ai[1] == 0) npc.ai[1] = 1; //when the altar is hit, make the BG rise out of the ground
             if (npc.ai[1] == 1)
             {
                 SpawnPlatforms();
@@ -65,40 +64,22 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 18;
                     Main.PlaySound(SoundID.NPCDeath9);
                 }
-                if (npc.ai[0]++ > Risetime)
-                {
-                    npc.ai[1] = 2;
-                }
+                if (npc.ai[0]++ > Risetime) npc.ai[1] = 2;
 
-                if (npc.ai[0] % 10 == 0)
-                {
-                    Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += npc.ai[0] < 100 ? 5 : 3;
-                }
-
+                if (npc.ai[0] % 10 == 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += npc.ai[0] < 100 ? 5 : 3;
                 for (int k = 0; k < 18; k++)
-                {
                     Dust.NewDust(npc.position, 560, 1, ModContent.DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f)); //spawns dust
-                }
             }
-            if (npc.ai[1] == 2)
-            {
-                npc.ai[0] = Risetime;
-            }
-
-            if (npc.ai[1] == 3)
-            {
-                npc.ai[2]++;
-            }
-
-            if (npc.ai[2] > Scrolltime)
-            {
-                npc.ai[2] = 0;
-            }
+            if (npc.ai[1] == 2) npc.ai[0] = Risetime;
+            if (npc.ai[1] == 3) npc.ai[2]++;
+            if (npc.ai[2] > Scrolltime) npc.ai[2] = 0;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             return false;
         }
+
         public void SpecialDraw(SpriteBatch spriteBatch)
         {
             if (npc.ai[1] != 3) //animation for rising out of the sand
@@ -111,11 +92,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 spriteBatch.Draw(tex, target, source, color, 0, Vector2.Zero, 0, 0);
             }
-            else
-            {
-                ScrollDraw(spriteBatch);
-            }
+            else ScrollDraw(spriteBatch);
         }
+
         public virtual void ScrollDraw(SpriteBatch sb) //im lazy
         {
             Texture2D tex = ModContent.GetTexture(Texture);
@@ -131,6 +110,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             sb.Draw(tex, target1, source1, color, 0, Vector2.Zero, 0, 0);
             sb.Draw(tex, target2, source2, color, 0, Vector2.Zero, 0, 0);
         }
+
         public virtual void SpawnPlatforms(bool rising = true)
         {
             PlacePlatform(200, 140, ModContent.NPCType<VitricBossPlatformUp>(), rising);
@@ -142,18 +122,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             PlacePlatform(230, 570, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
             PlacePlatform(260, 790, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
         }
+
         public void PlacePlatform(int x, int y, int type, bool rising)
         {
-            if (rising && npc.ai[0] == Risetime - (int)(y / 880f * Risetime))
-            {
-                NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - 2, type, 0, 0, Risetime - npc.ai[0]); //When rising out of the ground, check for the appropriate time to spawn the platform based on y coord
-            }
-            else if (!rising)
-            {
-                NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - y, type, 0, 2, Risetime); //otherwise spawn it instantly AT the y coord
-            }
+            if (rising && npc.ai[0] == Risetime - (int)(y / 880f * Risetime)) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - 2, type, 0, 0, Risetime - npc.ai[0]); //When rising out of the ground, check for the appropriate time to spawn the platform based on y coord
+            else if (!rising) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - y, type, 0, 2, Risetime); //otherwise spawn it instantly AT the y coord
         }
     }
+
     public class VitricBackdropRight : VitricBackdropLeft //im lazy
     {
         public override void ScrollDraw(SpriteBatch sb)

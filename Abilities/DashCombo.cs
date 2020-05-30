@@ -10,11 +10,8 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class DashCombo : DashAstral
     {
-
-
         public DashCombo(Player player) : base(player)
         {
-
         }
 
         public override void OnCast()

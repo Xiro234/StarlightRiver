@@ -16,10 +16,12 @@ namespace StarlightRiver.Dusts
             dust.color.G = 172;
             dust.color.B = 107;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;

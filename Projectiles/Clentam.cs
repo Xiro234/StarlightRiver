@@ -17,6 +17,7 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = false;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamer Gas");
@@ -50,6 +51,7 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = false;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamer Gas");
@@ -83,6 +85,7 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = false;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamer Gas");

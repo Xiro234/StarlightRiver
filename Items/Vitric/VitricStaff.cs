@@ -26,6 +26,7 @@ namespace StarlightRiver.Items.Vitric
             item.noMelee = true;
             item.magic = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 35f;
@@ -38,6 +39,7 @@ namespace StarlightRiver.Items.Vitric
             Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, item.shoot, damage, knockBack, player.whoAmI);
             return false;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vitric Staff");

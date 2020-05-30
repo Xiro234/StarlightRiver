@@ -89,16 +89,8 @@ namespace StarlightRiver
             if (distance <= 1500)
             {
                 float val = (1500 / distance - 1) * 2;
-                if (val <= 1)
-                {
-                    val = 1;
-                }
-
-                if (val >= 2.5f)
-                {
-                    val = 2.5f;
-                }
-
+                if (val <= 1) val = 1;
+                if (val >= 2.5f) val = 2.5f;
                 Lighting.brightness = 1 / val;
             }
 
@@ -131,7 +123,6 @@ namespace StarlightRiver
                 Overlay.state = (int)OverlayState.HolyJungle;
             }
 
-
             if (ZoneOvergrow && Main.rand.Next(5) == 0)
             {
                 Dust.NewDustPerfect(Main.screenPosition - Vector2.One * 100 + new Vector2(Main.rand.Next(Main.screenWidth + 200), Main.rand.Next(Main.screenHeight + 200)),
@@ -140,14 +131,10 @@ namespace StarlightRiver
 
             //Codex Unlocks
             if (ZoneGlass && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is VitricEntry && entry.Locked))
-            {
                 Helper.UnlockEntry<VitricEntry>(player);
-            }
 
             if (ZoneOvergrow && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is OvergrowEntry && entry.Locked))
-            {
                 Helper.UnlockEntry<OvergrowEntry>(player);
-            }
         }
     }
 
@@ -158,6 +145,7 @@ namespace StarlightRiver
         public static int evilJungleTiles;
         public static int bloodJungleTiles;
         public static int holyJungleTiles;
+
         public override void TileCountsAvailable(int[] tileCounts)
         {
             glassTiles = tileCounts[mod.TileType("VitricSand")];

@@ -11,6 +11,7 @@ namespace StarlightRiver.Items.Misc
         public int ammo = 30;
         public int cooldown = 120;
         public bool crit = false;
+
         public override void SetDefaults()
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -29,19 +30,23 @@ namespace StarlightRiver.Items.Misc
             item.shootSpeed = 20f;
             item.useAmmo = AmmoID.Bullet;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Throwaway Joke");
             Tooltip.SetDefault("The thing goes like pewpewpewpewpewpewpewpewpewpewpewpew\nand then you throw it\nif you smack somethings ass with it you get to go pewpewpewpewpewpewpewpewpewpew again \nalso if you hit somethign and its a crit you get like have more ammo\nbut if you dont you gotta wait to go pewpewpewpewpewpewpewpewpewpew again\nit shoot faster the less ammo it has out of the total of the ammo in the magazine");
         }
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-30, 0);
         }
+
         public override float UseTimeMultiplier(Player player)
         {
             return 1f + ((crit ? 60 : 30) - ammo) / 30f;
         }
+
         public override bool CanUseItem(Player player)
         {
             if (ammo <= 1) //one less cause this method dumb
@@ -56,6 +61,7 @@ namespace StarlightRiver.Items.Misc
             }
             return ammo > 0f;
         }
+
         public void Reload(bool crit)
         {
             cooldown = 120;
@@ -64,6 +70,7 @@ namespace StarlightRiver.Items.Misc
             Main.PlaySound(SoundID.Item, -1, -1, 99, 1);
             Main.PlaySound(SoundID.Item, -1, -1, 98, 1);
         }
+
         public override void HoldItem(Player player)
         {
             if (ammo <= 0)
@@ -76,10 +83,12 @@ namespace StarlightRiver.Items.Misc
             }
             base.HoldItem(player);
         }
+
         public override bool ConsumeAmmo(Player player)
         {
             return ammo <= 0;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             ammo--;

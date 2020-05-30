@@ -24,6 +24,7 @@ namespace StarlightRiver.Items.Herbology
             item.consumable = true;
             item.createTile = mod.TileType("Soil");
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -57,6 +58,7 @@ namespace StarlightRiver.Items.Herbology
             item.consumable = true;
             item.createTile = mod.TileType("Trellis");
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -89,6 +91,7 @@ namespace StarlightRiver.Items.Herbology
             item.consumable = true;
             item.createTile = mod.TileType("Planter");
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -121,6 +124,7 @@ namespace StarlightRiver.Items.Herbology
             item.consumable = true;
             item.createWall = mod.WallType("GreenhouseWall");
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
