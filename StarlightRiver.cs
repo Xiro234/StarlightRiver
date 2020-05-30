@@ -63,8 +63,8 @@ namespace StarlightRiver
 
         public static float Rotation;
 
-        public const string PatchString = "Starlight River Nightly Build #22     5/19/2020 - 23:35 EST";
-        public const string MessageString = "Please generate a new world and check for any world generation freezes (logs please!) \nand check out the new world generation in the forest and jungle biomes. \nthe sand scripts and focusing gem have both recieved small updates also\nmore balance test on those would be nice.";
+        public const string PatchString = " ";
+        public const string MessageString = " ";
 
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
 

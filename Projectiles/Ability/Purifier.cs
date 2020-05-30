@@ -36,7 +36,7 @@ namespace StarlightRiver.Projectiles.Ability
         {
             if(projectile.timeLeft == 550)
             {
-                Filters.Scene.Activate("PurityFilter", projectile.position).GetShader();
+                Filters.Scene.Activate("PurityFilter", projectile.position).GetShader().UseDirection(new Vector2(0.1f, 0.1f));
             }
             else if (projectile.timeLeft >= 500)
             {
@@ -47,7 +47,7 @@ namespace StarlightRiver.Projectiles.Ability
                 projectile.ai[0]--;
             }
 
-            Filters.Scene["PurityFilter"].GetShader().UseProgress((projectile.ai[0] / 255) * 0.191f).UseIntensity((projectile.ai[0] / 255) * 0.015f);
+            Filters.Scene["PurityFilter"].GetShader().UseProgress((projectile.ai[0] / 255) * 0.191f).UseIntensity((projectile.ai[0] / 255) * 0.007f);
 
             Main.NewText(projectile.ai[0]);
 
@@ -131,14 +131,18 @@ namespace StarlightRiver.Projectiles.Ability
             }
         }
 
+        private readonly Texture2D cirTex = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle");
+        private readonly Texture2D cirTex2 = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle2");
+        //private readonly Texture2D starTex = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneStar");
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            spriteBatch.Draw(cirTex, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex.Frame(), Color.White, -(projectile.timeLeft / 500f), cirTex.Size() / 2, (projectile.ai[0] / 255) * 1.010f , 0, 0);
+            spriteBatch.Draw(cirTex2, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex2.Frame(), Color.White, projectile.timeLeft / 500f, cirTex2.Size() / 2, (projectile.ai[0] / 255) * 1.010f, 0, 0);
+
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
             spriteBatch.Draw(tex, projectile.Center + new Vector2(-16, -16 + (float)Math.Sin(LegendWorld.rottime) * 2) - Main.screenPosition, tex.Frame(),
                 Color.White * ((projectile.timeLeft < 500) ? 1 : (projectile.ai[0] / 250f)), 0, tex.Size() / 2, 1, 0, 0);
-
-            Texture2D cirTex = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle");
-            spriteBatch.Draw(cirTex, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex.Frame(), Color.White, 0, cirTex.Size() / 2, (projectile.ai[0] / 255) * 1.015f , 0, 0);
 
             /*for (float k = 0; k <= 6.28f; k += 0.1f)
             {
