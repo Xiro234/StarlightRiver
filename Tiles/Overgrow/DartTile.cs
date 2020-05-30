@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    // This class shows off a number of less common ModTile methods. These methods help our trap tile behave like vanilla traps. 
+    // This class shows off a number of less common ModTile methods. These methods help our trap tile behave like vanilla traps.
     // In particular, hammer behavior is particularly tricky. The logic here is setup for multiple styles as well.
     public class DartTile : ModTile
     {
@@ -44,6 +44,7 @@ namespace StarlightRiver.Tiles.Overgrow
         }
 
         private static readonly int[] frameXCycle = { 2, 3, 1, 0 };
+
         public override bool Slope(int i, int j)
         {
             Tile tile = Main.tile[i, j];
@@ -84,12 +85,15 @@ namespace StarlightRiver.Tiles.Overgrow
                         case 0:
                             Projectile.NewProjectile(new Vector2(i * 16 - 0, j * 16 + 8), new Vector2(-3, 0) * 6f, ProjectileID.PoisonDartTrap, 20, 2f, Main.myPlayer);
                             break;
+
                         case 18:
                             Projectile.NewProjectile(new Vector2(i * 16 + 8, j * 16 + 8), new Vector2(3, 0) * 6f, ProjectileID.PoisonDartTrap, 20, 2f, Main.myPlayer);
                             break;
+
                         case 36:
                             Projectile.NewProjectile(new Vector2(i * 16 + 6, j * 16 - 8), new Vector2(0, -3) * 6f, ProjectileID.PoisonDartTrap, 20, 2f, Main.myPlayer);
                             break;
+
                         case 54:
                             Projectile.NewProjectile(new Vector2(i * 16 + 6, j * 16 + 8), new Vector2(0, 3) * 6f, ProjectileID.PoisonDartTrap, 20, 2f, Main.myPlayer);
                             break;
@@ -102,7 +106,6 @@ namespace StarlightRiver.Tiles.Overgrow
                 }
             }
         }*/
-
 
         public override void HitWire(int i, int j)
         {

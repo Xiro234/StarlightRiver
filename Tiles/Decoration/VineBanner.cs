@@ -14,21 +14,25 @@ namespace StarlightRiver.Tiles.Decoration
     {
         private bool SecondPoint;
         private VineBannerEntity target;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vine Banner");
             Tooltip.SetDefault("Click 2 points to place a swaying vine");
         }
+
         public override void SetDefaults()
         {
             item.useTime = 10;
             item.useAnimation = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
         }
+
         public override void HoldItem(Player player)
         {
             base.HoldItem(player);
         }
+
         public override bool UseItem(Player player)
         {
             if (SecondPoint && Main.tile[(Main.MouseWorld / 16).ToPoint16().X, (Main.MouseWorld / 16).ToPoint16().Y].active())
@@ -53,7 +57,6 @@ namespace StarlightRiver.Tiles.Decoration
     {
         public override void SetDefaults()
         {
-
             Main.tileBlockLight[Type] = false;
             Main.tileSolid[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -61,6 +64,7 @@ namespace StarlightRiver.Tiles.Decoration
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<VineBannerEntity>().Hook_AfterPlacement, -1, 0, false);
             TileObjectData.addTile(Type);
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (i * 16 > Main.screenPosition.X && i * 16 < Main.screenPosition.X + Main.screenWidth && TileEntity.ByPosition.ContainsKey(new Point16(i, j)))
@@ -100,6 +104,7 @@ namespace StarlightRiver.Tiles.Decoration
     {
         internal Point16 Endpoint;
         internal bool Set;
+
         public override void Update()
         {
             if (!Set) Endpoint = (Main.MouseWorld / 16).ToPoint16() - Position;
@@ -113,10 +118,12 @@ namespace StarlightRiver.Tiles.Decoration
                 WorldGen.KillTile(Position.X, Position.Y);
             }
         }
+
         public override bool ValidTile(int i, int j)
         {
             return (Main.tile[i, j].active() && Main.tile[i, j].type == ModContent.TileType<VineBanner>());
         }
+
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -127,6 +134,7 @@ namespace StarlightRiver.Tiles.Decoration
             }
             return Place(i, j);
         }
+
         public override TagCompound Save()
         {
             return new TagCompound()
@@ -136,6 +144,7 @@ namespace StarlightRiver.Tiles.Decoration
                 ["PosY"] = Endpoint.Y
             };
         }
+
         public override void Load(TagCompound tag)
         {
             Set = tag.GetBool("Set");

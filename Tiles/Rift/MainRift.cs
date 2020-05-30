@@ -61,7 +61,6 @@ namespace StarlightRiver.Tiles.Rift
 
             return true;
         }
-
     }
 
     public class RiftEntity : ModTileEntity
@@ -135,7 +134,6 @@ namespace StarlightRiver.Tiles.Rift
                     }
                 }
             }
-
             else
             {
                 if (spawnCooldown > 0) spawnCooldown--;

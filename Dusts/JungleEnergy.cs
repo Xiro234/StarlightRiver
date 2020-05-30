@@ -14,10 +14,12 @@ namespace StarlightRiver.Dusts
             dust.color.G = 255;
             dust.color.B = 80;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color * ((255 - dust.alpha) / 255f);
         }
+
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
@@ -44,6 +46,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/JungleEnergy";
             return true;
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -53,10 +56,12 @@ namespace StarlightRiver.Dusts
             dust.color.B = 80;
             dust.alpha = 150;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color * (dust.alpha / 255f);
         }
+
         public override bool Update(Dust dust)
         {
             if (dust.customData is Player)

@@ -17,8 +17,8 @@ namespace StarlightRiver.Abilities
 
         public Dash(Player player) : base(1, player)
         {
-
         }
+
         public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         public override bool CanUse => player.controlLeft || player.controlRight || player.controlUp || player.controlDown;
 
@@ -51,6 +51,7 @@ namespace StarlightRiver.Abilities
                 OnExit();
             }
         }
+
         public override void UseEffects()
         {
             Vector2 prevPos = player.Center + Vector2.Normalize(player.velocity) * 10;
@@ -62,6 +63,7 @@ namespace StarlightRiver.Abilities
                 dus.fadeIn = k - Timer * 3;
             }
         }
+
         public override void OnCastDragon()
         {
             if (player.velocity.Y == 0) //on the ground, set to zero so the game knows to do the pounce
@@ -77,6 +79,7 @@ namespace StarlightRiver.Abilities
             Timer = 20;
             Cooldown = 90;
         }
+
         public override void InUseDragon()
         {
             Timer--;
@@ -95,12 +98,12 @@ namespace StarlightRiver.Abilities
                 OnExit();
             }
         }
+
         public override void UseEffectsDragon()
         {
             Dust.NewDust(player.position, 50, 50, ModContent.DustType<Air>());
             if (Math.Abs(X) < 1)
             {
-
                 for (int k = 0; k <= 10; k++)
                 {
                     float rot = ((Timer - k / 10f) / 10f * 6.28f) + new Vector2(X, Y).ToRotation();

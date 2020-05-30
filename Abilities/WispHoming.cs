@@ -12,7 +12,6 @@ namespace StarlightRiver.Abilities
     {
         public WispHoming(Player player) : base(player)
         {
-
         }
 
         public override void UseEffects()

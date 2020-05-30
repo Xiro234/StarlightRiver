@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     internal class WhipSegment1 : ModProjectile
@@ -35,13 +36,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (rotvel >= (24 - projectile.ai[0]) * 0.005f) { rot = projectile.ai[1] + (24 - projectile.ai[0]) * 0.005f; }
             else if (rotvel <= (24 - projectile.ai[0]) * -0.005f) { rot = projectile.ai[1] + (24 - projectile.ai[0]) * -0.005f; }
 
-
             projectile.position = (player.Center) + (projectile.velocity * rad * projectile.ai[0]).RotatedBy(rot - projectile.velocity.ToRotation());
 
             projectile.rotation = rot + 1.57f;
 
             projectile.ai[1] = rot;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Projectile proj = Main.projectile.FirstOrDefault(k => k.type == projectile.type && k.owner == projectile.owner && k.ai[0] == projectile.ai[0] - 1);

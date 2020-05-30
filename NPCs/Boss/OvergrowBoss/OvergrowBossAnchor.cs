@@ -9,7 +9,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
     internal class OvergrowBossAnchor : ModNPC
     {
         public override string Texture => "StarlightRiver/Invisible";
-        public override bool CheckActive() { return false; }
+
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
         public override void SetDefaults()
         {
             npc.width = 20;
@@ -19,6 +24,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             npc.knockBackResist = 0f;
             npc.HitSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ChainHit");
         }
+
         public override void AI()
         {
             if (!LegendWorld.OvergrowBossOpen) npc.dontTakeDamage = true;
@@ -39,11 +45,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 }
                 if (npc.ai[0] % 3 == 0) Gore.NewGore(pos, new Vector2(0, 1), mod.GetGoreSlot("Gores/ChainGore"));
                 if (npc.ai[0] % 8 == 0) Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ChainHit").WithPitchVariance(0.4f), pos);
-
             }
             if (npc.ai[0] == 1)
             {
-
             }
         }
 
@@ -62,6 +66,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 }
             }
         }
+
         public override bool CheckDead()
         {
             npc.HitSound = null;
@@ -69,6 +74,5 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             npc.immortal = true;
             return false;
         }
-
     }
 }

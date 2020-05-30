@@ -7,10 +7,12 @@ namespace StarlightRiver.Items.Overgrow
     internal class ExecutionersAxe : ModItem
     {
         public override string Texture => "StarlightRiver/MarioCumming";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Executioner's Axe");
         }
+
         public override void SetDefaults()
         {
             item.width = 34;
@@ -25,6 +27,7 @@ namespace StarlightRiver.Items.Overgrow
             item.useTime = 30;
             item.channel = true;
         }
+
         public override bool CanUseItem(Player player)
         {
             return true;

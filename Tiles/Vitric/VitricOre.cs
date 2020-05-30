@@ -36,12 +36,14 @@ namespace StarlightRiver.Tiles.Vitric
             disableSmartCursor = true;
             minPick = int.MaxValue;
         }
+
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
         }
 
         public static Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricOreGlow");
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
@@ -92,6 +94,7 @@ namespace StarlightRiver.Tiles.Vitric
             disableSmartCursor = true;
             minPick = int.MaxValue;
         }
+
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;

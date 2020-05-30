@@ -6,11 +6,15 @@ namespace StarlightRiver.Items.Guardian
 {
     internal class ExampleMace : Mace
     {
-        public ExampleMace() : base(10, 6, 48, 4) { }
+        public ExampleMace() : base(10, 6, 48, 4)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Iron Mace");
         }
+
         public override void SafeSetDefaults()
         {
             item.damage = 10;
@@ -21,6 +25,7 @@ namespace StarlightRiver.Items.Guardian
             item.UseSound = SoundID.Item1;
             item.noMelee = true;
         }
+
         public override bool UseItem(Player player)
         {
             SpawnProjectile(ModContent.ProjectileType<ExampleMaceProjectile>(), player);

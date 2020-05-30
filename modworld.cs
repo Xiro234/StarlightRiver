@@ -11,7 +11,6 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver
 {
-
     public partial class LegendWorld : ModWorld
     {
         public static Vector2 BookSP;
@@ -26,6 +25,7 @@ namespace StarlightRiver
 
         //Boss Flags
         public static bool DesertOpen = false;
+
         public static bool GlassBossOpen = false;
         public static bool GlassBossDowned = false;
 
@@ -44,8 +44,8 @@ namespace StarlightRiver
 
         //Handling Keys
         public static List<Key> Keys = new List<Key>();
-        public static List<Key> KeyInventory = new List<Key>();
 
+        public static List<Key> KeyInventory = new List<Key>();
 
         private void EbonyGen(GenerationProgress progress)
         {
@@ -62,6 +62,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private void DolomiteGen(GenerationProgress progress)
         {
             progress.Message = "Shifting Tectonic Plates...";
@@ -121,6 +122,7 @@ namespace StarlightRiver
 
         public static float rottime = 0;
         public static bool starfall = false;
+
         public override void PreUpdate()
         {
             rottime += (float)Math.PI / 60;
@@ -129,14 +131,13 @@ namespace StarlightRiver
                 rottime = 0;
             }
         }
+
         public override void PostUpdate()
         {
-
             if (!Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
             {
                 PureTiles.Clear();
             }
-
 
             if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wind>() && n.active == true))
             {
@@ -159,6 +160,7 @@ namespace StarlightRiver
                 key.Update();
             }
         }
+
         public override void Initialize()
         {
             VitricBiome.X = 0;
@@ -182,6 +184,7 @@ namespace StarlightRiver
             BookSP = Vector2.Zero;
             DashSP = Vector2.Zero;
         }
+
         public override TagCompound Save()
         {
             return new TagCompound
@@ -211,6 +214,7 @@ namespace StarlightRiver
                 [nameof(RiftLocation)] = RiftLocation
             };
         }
+
         public override void Load(TagCompound tag)
         {
             VitricBiome.X = (int)tag.Get<Vector2>("VitricBiomePos").X;
@@ -239,7 +243,6 @@ namespace StarlightRiver
             DashSP = tag.Get<Vector2>(nameof(DashSP));
 
             RiftLocation = tag.Get<Vector2>(nameof(RiftLocation));
-
 
             for (int k = 0; k <= PureTiles.Count - 1; k++)
             {

@@ -13,6 +13,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     internal sealed partial class VitricBoss : ModNPC, IDynamicMapIcon
     {
         #region tml hooks
+
         public override bool CheckActive()
         {
             return npc.ai[1] == (int)AIStates.Leaving;
@@ -81,6 +82,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             return false;
         }
+
         private readonly List<VitricBossEye> Eyes = new List<VitricBossEye>()
         {
             new VitricBossEye(new Vector2(24, 32), 0),
@@ -94,6 +96,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             new VitricBossEye(new Vector2(106, 66), 8),
             new VitricBossEye(new Vector2(64, 60), 9)
         };
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (Eyes.Any(n => n.Parent == null)) Eyes.ForEach(n => n.Parent = this);
@@ -105,9 +108,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (0.55f + ((float)Math.Sin(LegendWorld.rottime * 2) * 0.15f)), 0, tex.Size() / 2, 1, 0, 0);
             }
         }
-        #endregion
+
+        #endregion tml hooks
 
         #region helper methods
+
         //Used for the various differing passive animations of the different forms
         private void SetFrameX(int frame)
         {
@@ -128,14 +133,17 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.ai[1] = (int)phase;
             if (resetTime) npc.ai[0] = 0;
         }
-        #endregion
+
+        #endregion helper methods
 
         #region AI
+
         public Vector2 startPos;
         public Vector2 endPos;
         public Vector2 homePos;
         public List<NPC> Crystals = new List<NPC>();
         public List<Vector2> CrystalLocations = new List<Vector2>();
+
         public enum AIStates
         {
             SpawnEffects = 0,
@@ -239,7 +247,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.ai[3] == 1) //switching out attacks
                     {
                         if (npc.dontTakeDamage) npc.ai[2] = 0; //nuke attack once the boss turns immortal for a chance to break a crystal
-
                         else //otherwise proceed with attacking pattern
                         {
                             npc.ai[2]++;
@@ -352,24 +359,30 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp)) npc.active = false; //arena reset
                     }
                     break;
-
             }
         }
-        #endregion
+
+        #endregion AI
+
         #region Networking
+
         private int FavoriteCrystal = 0;
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(FavoriteCrystal);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             FavoriteCrystal = reader.ReadInt32();
         }
-        #endregion
+
+        #endregion Networking
 
         private int IconFrame = 0;
         private int IconFrameCounter = 0;
+
         public void DrawOnMap(SpriteBatch spriteBatch, Vector2 center, float scale, Color color)
         {
             if (IconFrameCounter++ >= 5) { IconFrame++; IconFrameCounter = 0; }

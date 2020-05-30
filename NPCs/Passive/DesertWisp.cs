@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Passive
         {
             DisplayName.SetDefault("Desert Wisp");
         }
+
         public override void SetDefaults()
         {
             npc.width = 18;
@@ -28,6 +29,7 @@ namespace StarlightRiver.NPCs.Passive
         }
 
         private bool fleeing = false;
+
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -60,6 +62,7 @@ namespace StarlightRiver.NPCs.Passive
                 Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-10, 10) * 0.1f, Main.rand.Next(-10, 10) * 0.1f));
             }
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return (spawnInfo.player.ZoneOverworldHeight && !Main.dayTime && spawnInfo.player.ZoneDesert) ? 1f : 0f;
@@ -72,6 +75,7 @@ namespace StarlightRiver.NPCs.Passive
         {
             DisplayName.SetDefault("Greater Desert Wisp");
         }
+
         public override void SetDefaults()
         {
             npc.width = 24;
@@ -88,6 +92,7 @@ namespace StarlightRiver.NPCs.Passive
         }
 
         private bool fleeing = false;
+
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -123,6 +128,7 @@ namespace StarlightRiver.NPCs.Passive
                 Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-10, 10) * 0.1f, Main.rand.Next(-10, 10) * 0.1f));
             }
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 3f : 0f;

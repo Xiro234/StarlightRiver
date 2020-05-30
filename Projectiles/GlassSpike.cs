@@ -17,10 +17,12 @@ namespace StarlightRiver.Projectiles
             projectile.ignoreWater = true;
             projectile.damage = 5;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glass Spike");
         }
+
         public override void AI()
         {
             for (int k = 0; k <= 1; k++)
@@ -29,6 +31,7 @@ namespace StarlightRiver.Projectiles
             }
             projectile.rotation = projectile.velocity.ToRotation() + (3.14f / 4);
         }
+
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             target.AddBuff(BuffID.Bleeding, 300);

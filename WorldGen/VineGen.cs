@@ -32,6 +32,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private int AnyTree(int x)
         {
             int tree = 0;
@@ -45,6 +46,7 @@ namespace StarlightRiver
             }
             return grass ? tree : 0;
         }
+
         private Point16 ScanTrees(int i, int j)
         {
             for (int x = i + 6; x < i + 20; x++)

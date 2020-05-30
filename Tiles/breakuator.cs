@@ -11,6 +11,7 @@ namespace StarlightRiver.Tiles
     internal class Breakuator : GlobalTile
     {
         public static List<Point16> breakuator = new List<Point16>();
+
         public override void HitWire(int i, int j, int type)
         {
             if (breakuator.Any(point => point == new Point16(i, j)))

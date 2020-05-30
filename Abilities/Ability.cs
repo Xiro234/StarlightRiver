@@ -41,18 +41,37 @@ namespace StarlightRiver.Abilities
             }
         }
 
-        public virtual void OnCast() { }
-        public virtual void OnCastDragon() { }
+        public virtual void OnCast()
+        {
+        }
 
-        public virtual void InUse() { }
-        public virtual void InUseDragon() { }
+        public virtual void OnCastDragon()
+        {
+        }
 
-        public virtual void UseEffects() { }
-        public virtual void UseEffectsDragon() { }
+        public virtual void InUse()
+        {
+        }
 
-        public virtual void OffCooldownEffects() { }
+        public virtual void InUseDragon()
+        {
+        }
 
-        public virtual void OnExit() { }
+        public virtual void UseEffects()
+        {
+        }
+
+        public virtual void UseEffectsDragon()
+        {
+        }
+
+        public virtual void OffCooldownEffects()
+        {
+        }
+
+        public virtual void OnExit()
+        {
+        }
 
         public virtual void SendPacket(int toWho = -1, int fromWho = -1)
         {

@@ -14,20 +14,29 @@ namespace StarlightRiver.Items.Guardian
         public int Radius { get; set; }
         public int ProjectileType { get; set; }
         public int HealthCost { get; set; }
+
         public Tome(int projType, int strength, int rad, int hpcost)
         {
             Radius = rad;
             ProjectileType = projType;
             HealthCost = hpcost;
         }
-        public virtual void EffectTooltip(List<TooltipLine> tooltips) { }
+
+        public virtual void EffectTooltip(List<TooltipLine> tooltips)
+        {
+        }
+
         public sealed override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             EffectTooltip(tooltips);
             tooltips.Insert(2, new TooltipLine(mod, "Radius", Radius + " effect radius"));
             tooltips.Insert(3, new TooltipLine(mod, "HealthCost", "uses " + HealthCost + " Life"));
         }
-        public virtual void SafeSetDefaults() { }
+
+        public virtual void SafeSetDefaults()
+        {
+        }
+
         public sealed override void SetDefaults()
         {
             item.noMelee = true;
@@ -35,6 +44,7 @@ namespace StarlightRiver.Items.Guardian
             item.useTime = 15;
             item.useAnimation = 15;
         }
+
         public sealed override bool CanUseItem(Player player)
         {
             if (player.statLife > HealthCost)
@@ -45,7 +55,12 @@ namespace StarlightRiver.Items.Guardian
             }
             return false;
         }
-        public virtual bool SafeUseItem(Player player) { return true; }
+
+        public virtual bool SafeUseItem(Player player)
+        {
+            return true;
+        }
+
         public sealed override bool UseItem(Player player)
         {
             StarlightPlayer mp = player.GetModPlayer<StarlightPlayer>();
@@ -56,8 +71,14 @@ namespace StarlightRiver.Items.Guardian
 
     public class TomeProjectile : ModProjectile
     {
-        public virtual void BoostPlayer(Player player) { }
-        public virtual void SafeAI() { }
+        public virtual void BoostPlayer(Player player)
+        {
+        }
+
+        public virtual void SafeAI()
+        {
+        }
+
         public override void AI()
         {
             foreach (Player player in Main.player.Where(player => Helper.CheckCircularCollision(projectile.Center, (int)(projectile.ai[1] * 1.3f), player.Hitbox)))
@@ -70,6 +91,7 @@ namespace StarlightRiver.Items.Guardian
             }
             SafeAI();
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture);

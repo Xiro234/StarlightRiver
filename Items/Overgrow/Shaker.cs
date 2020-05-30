@@ -60,6 +60,7 @@ namespace StarlightRiver.Items.Overgrow
     public class AnimationHandler : ModPlayer
     {
         public bool Lifting = false;
+
         public override void PostUpdate()
         {
             if (Lifting)

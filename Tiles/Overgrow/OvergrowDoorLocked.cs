@@ -31,6 +31,7 @@ namespace StarlightRiver.Tiles.Overgrow
             if (tile.frameX > 100) tile.active(false);
             else tile.active(true);
         }
+
         public override bool NewRightClick(int i, int j)
         {
             if (Keys.Key.Use<Keys.OvergrowKey>())

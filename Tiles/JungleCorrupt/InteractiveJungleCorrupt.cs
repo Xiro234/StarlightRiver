@@ -32,8 +32,8 @@ namespace StarlightRiver.Tiles.JungleCorrupt
             if (i % 3 == 0) { offset += 1 * 16; }
             if (j % 3 == 0) { offset += 3 * 16; }
             frameYOffset = (offset % 11) * 16;
-
         }
+
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             if (++frameCounter >= 8)
@@ -46,6 +46,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
             }
         }
     }
+
     public class ThornJungleCorrupt : ModTile
     {
         public override void SetDefaults()

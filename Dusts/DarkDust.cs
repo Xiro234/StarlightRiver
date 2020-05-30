@@ -11,6 +11,7 @@ namespace StarlightRiver.Dusts
             dust.noGravity = true;
             dust.noLight = false;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.Y -= 0.6f;
@@ -28,7 +29,5 @@ namespace StarlightRiver.Dusts
             }
             return false;
         }
-
     }
-
 }

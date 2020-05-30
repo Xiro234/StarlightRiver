@@ -14,7 +14,9 @@ namespace StarlightRiver.Projectiles.Dummies
         {
             DisplayName.SetDefault("");
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 22;
@@ -23,6 +25,7 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
         }
+
         public override void AI()
         {
             if (projectile.localAI[0] > 0) { projectile.localAI[0]--; }

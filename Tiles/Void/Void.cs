@@ -132,6 +132,7 @@ namespace StarlightRiver.Tiles.Void
             TileObjectData.addTile(Type);
             dustType = mod.DustType("Darkness");
         }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarMItem"));
@@ -161,6 +162,7 @@ namespace StarlightRiver.Tiles.Void
             TileObjectData.addTile(Type);
             dustType = mod.DustType("Darkness");
         }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarTItem"));
@@ -189,6 +191,7 @@ namespace StarlightRiver.Tiles.Void
             TileObjectData.addTile(Type);
             dustType = mod.DustType("Darkness");
         }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarPItem"));

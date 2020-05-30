@@ -8,12 +8,16 @@ namespace StarlightRiver.Items.Prototypes
 {
     internal class ArcCannon : PrototypeWeapon
     {
-        public ArcCannon() : base(500, BreakType.MaxUses) { }
+        public ArcCannon() : base(500, BreakType.MaxUses)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Electro-Beam");
             Tooltip.SetDefault("Fires rapid-fire chain lightning to melt your foes armor");
         }
+
         public override void SetDefaults()
         {
             item.damage = 50;
@@ -22,6 +26,7 @@ namespace StarlightRiver.Items.Prototypes
             item.useAnimation = 8;
             item.autoReuse = true;
         }
+
         public override bool SafeUseItem(Player player)
         {
             int index = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<Projectiles.WeaponProjectiles.LightningNode>(), 120, 0, player.whoAmI, 1, 500);

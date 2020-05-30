@@ -11,6 +11,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public VitricBoss Parent;
         private int Timer;
         private readonly int Index;
+
         public VitricBossEye(Vector2 pos, int index)
         {
             Position = pos;

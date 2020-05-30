@@ -19,13 +19,13 @@ namespace StarlightRiver.Items.Accessories
             item.height = 16;
             item.accessory = true;
         }
+
         public override void UpdateEquip(Player player)
         {
             player.rocketBoots = 4;
             player.rocketTimeMax = 10;
             if (player.rocketFrame)
             {
-
             }
             //if (player.velocity.Y == 0) player.rocketTime = 600;
             //Main.NewText("Rocket Power: " + player.rocketTime + "/" + player.rocketTimeMax);

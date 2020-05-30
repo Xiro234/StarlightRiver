@@ -31,6 +31,7 @@ namespace StarlightRiver.Tiles.Overgrow
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(79, 76, 71));
         }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (i > Main.screenPosition.X / 16 && i < Main.screenPosition.X / 16 + Main.screenWidth / 16 && j > Main.screenPosition.Y / 16 && j < Main.screenPosition.Y / 16 + Main.screenHeight / 16)
@@ -45,6 +46,7 @@ namespace StarlightRiver.Tiles.Overgrow
                 }
             }
         }
+
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Blob");
@@ -121,6 +123,7 @@ namespace StarlightRiver.Tiles.Overgrow
             drop = mod.ItemType("BrickOvergrowItem");
             AddMapEntry(new Color(202, 157, 49));
         }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
@@ -131,6 +134,7 @@ namespace StarlightRiver.Tiles.Overgrow
                 nextSpecialDrawIndex++;
             }
         }
+
         public void CustomDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
@@ -151,6 +155,7 @@ namespace StarlightRiver.Tiles.Overgrow
                 spriteBatch.Draw(tex, new Vector2(i + 0.5f, j) * 16 + crunch * 0.5f - Main.screenPosition, source, color);
             }
         }
+
         public override void FloorVisuals(Player player)
         {
             Vector2 playerFeet = player.Center + new Vector2(-8, player.height / 2);

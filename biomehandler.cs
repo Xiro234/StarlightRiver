@@ -123,7 +123,6 @@ namespace StarlightRiver
                 Overlay.state = (int)OverlayState.HolyJungle;
             }
 
-
             if (ZoneOvergrow && Main.rand.Next(5) == 0)
             {
                 Dust.NewDustPerfect(Main.screenPosition - Vector2.One * 100 + new Vector2(Main.rand.Next(Main.screenWidth + 200), Main.rand.Next(Main.screenHeight + 200)),
@@ -146,6 +145,7 @@ namespace StarlightRiver
         public static int evilJungleTiles;
         public static int bloodJungleTiles;
         public static int holyJungleTiles;
+
         public override void TileCountsAvailable(int[] tileCounts)
         {
             glassTiles = tileCounts[mod.TileType("VitricSand")];

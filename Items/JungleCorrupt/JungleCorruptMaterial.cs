@@ -23,8 +23,8 @@ namespace StarlightRiver.Items.JungleCorrupt
             item.height = 14;
             item.rare = ItemRarityID.LightRed;
             item.maxStack = 999;
-
         }
+
         public override void PostUpdate()
         {
             Lighting.AddLight(item.Center, .3f, .25f, 0.6f);

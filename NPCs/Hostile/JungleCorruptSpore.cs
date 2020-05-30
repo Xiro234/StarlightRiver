@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Hostile
             DisplayName.SetDefault("Bloated Spore");
             Main.npcFrameCount[npc.type] = 4;
         }
+
         public override void SetDefaults()
         {
             npc.width = 32;
@@ -35,10 +36,12 @@ namespace StarlightRiver.NPCs.Hostile
             }
             return true;
         }
+
         public override void AI()
         {
             Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("Corrupt"), 0, 0, 0, default, 0.6f);
         }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             Helper.Kill(npc);
@@ -51,6 +54,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public int Framecounter = 0;
         public int Gameframecounter = 0;
+
         public override void FindFrame(int frameHeight)
         {
             if (Gameframecounter++ == 6)

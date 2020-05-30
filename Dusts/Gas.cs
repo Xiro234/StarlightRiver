@@ -7,6 +7,7 @@ namespace StarlightRiver.Dusts
     public class Gas : ModDust
     {
         private readonly float mult;
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -34,6 +35,6 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-    public class GasGreen : Gas { }
 
+    public class GasGreen : Gas { }
 }

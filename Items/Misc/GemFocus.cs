@@ -11,11 +11,13 @@ namespace StarlightRiver.Items.Misc
     internal class GemFocus : ModItem
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Focusing Gem");
             Tooltip.SetDefault("Control a magical gemstone focus");
         }
+
         public override void SetDefaults()
         {
             item.width = 28;
@@ -32,6 +34,7 @@ namespace StarlightRiver.Items.Misc
             item.channel = true;
             item.autoReuse = true;
         }
+
         public override bool UseItem(Player player)
         {
             if (!Main.projectile.Any(n => n.active && n.type == ModContent.ProjectileType<Projectiles.WeaponProjectiles.GemFocusProjectile>() && n.owner == player.whoAmI))
@@ -40,6 +43,7 @@ namespace StarlightRiver.Items.Misc
             }
             return true;
         }
+
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Texture2D over = ModContent.GetTexture("StarlightRiver/Items/Misc/GemFocusOver");
@@ -63,6 +67,7 @@ namespace StarlightRiver.Items.Misc
 
             return false;
         }
+
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
             Texture2D over = ModContent.GetTexture("StarlightRiver/Items/Misc/GemFocusOver");

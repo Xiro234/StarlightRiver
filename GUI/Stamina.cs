@@ -13,6 +13,7 @@ namespace StarlightRiver.GUI
         public UIPanel abicon;
         public static bool visible = false;
         private readonly Stam Stam1 = new Stam();
+
         public override void OnInitialize()
         {
             Stam1.Left.Set(-303, 1);
@@ -48,6 +49,7 @@ namespace StarlightRiver.GUI
 
             Stam1.Height.Set(height, 0f);
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
@@ -60,7 +62,6 @@ namespace StarlightRiver.GUI
 
             Recalculate();
         }
-
     }
 
     internal class Stam : UIElement
@@ -94,7 +95,6 @@ namespace StarlightRiver.GUI
                     spriteBatch.Draw(fillTex, pos + Vector2.One * 4 + fillTex.Size() / 2, fillTex.Frame(), Color.White, 0, fillTex.Size() / 2, scale, 0, 0);
                 }
             }
-
         }
     }
 }

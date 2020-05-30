@@ -33,6 +33,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             DisplayName.SetDefault("Resonant Crystal");
             Main.npcFrameCount[npc.type] = 4;
         }
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -50,10 +51,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.dontTakeDamage = true;
             npc.dontTakeDamageFromHostiles = true;
         }
+
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.damage = 50;
         }
+
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             return !(npc.ai[0] == 0 || npc.ai[0] == 1); //too tired of dealing with this sheeeet
@@ -189,25 +192,27 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
                     }
                     break;
+
                 case 4: //fleeing
                     npc.velocity.Y += 0.7f;
                     if (npc.ai[1] >= 120) npc.active = false;
                     break;
+
                 case 5: //transforming the boss
                     for (float k = 0; k < 1; k += 0.03f)
                     {
                         Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), ModContent.DustType<Dusts.Air>());
                     }
                     break;
-
-
             }
         }
+
         private void ResetTimers()
         {
             npc.ai[1] = 0;
             npc.ai[3] = 0;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline

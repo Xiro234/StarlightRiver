@@ -15,7 +15,9 @@ namespace StarlightRiver.Projectiles.Dummies
         {
             DisplayName.SetDefault("");
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 80;
@@ -24,6 +26,7 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
         }
+
         public override void AI()
         {
             projectile.timeLeft = 2;
@@ -91,6 +94,7 @@ namespace StarlightRiver.Projectiles.Dummies
             }
             else if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>())) projectile.ai[0] = 0; //TODO fix this later
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor) //actually drawing the barriers and item indicator
         {
             Point16 parentPos = new Point16((int)projectile.position.X / 16, (int)projectile.position.Y / 16);
@@ -116,6 +120,7 @@ namespace StarlightRiver.Projectiles.Dummies
             spriteBatch.Draw(tex, new Rectangle((int)center.X + 606 - (int)Main.screenPosition.X, (int)center.Y - off - (int)Main.screenPosition.Y, tex.Width, off),
                 new Rectangle(0, 0, tex.Width, (int)(projectile.ai[0] / 120f * 880)), color);
         }
+
         public void SpawnBoss()
         {
             NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 500, ModContent.NPCType<VitricBoss>());

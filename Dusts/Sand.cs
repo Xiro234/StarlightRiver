@@ -7,6 +7,7 @@ namespace StarlightRiver.Dusts
     public class Sand : ModDust
     {
         private readonly float mult;
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

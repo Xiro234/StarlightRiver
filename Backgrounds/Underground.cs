@@ -1,4 +1,3 @@
-
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,6 +9,7 @@ namespace StarlightRiver.Backgrounds
         {
             return Main.LocalPlayer.GetModPlayer<BiomeHandler>().GlassBG;
         }
+
         public override void FillTextureArray(int[] textureSlots)
         {
             for (int k = 0; k <= 5; k++)
@@ -34,6 +34,7 @@ namespace StarlightRiver.Backgrounds
             }
         }
     }
+
     public class JungleBloodyBG : ModUgBgStyle
     {
         public override bool ChooseBgStyle()
@@ -49,6 +50,7 @@ namespace StarlightRiver.Backgrounds
             }
         }
     }
+
     public class JungleHolyBG : ModUgBgStyle
     {
         public override bool ChooseBgStyle()

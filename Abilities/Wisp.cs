@@ -12,11 +12,13 @@ namespace StarlightRiver.Abilities
     public class Wisp : Ability
     {
         public bool exit = false;
+
         public Wisp(Player player) : base(1, player)
         {
-
         }
+
         public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
+
         public override void OnCast()
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
@@ -27,7 +29,6 @@ namespace StarlightRiver.Abilities
             {
                 Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Gold2>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 1.2f);
             }
-
         }
 
         public override void InUse()
@@ -47,8 +48,6 @@ namespace StarlightRiver.Abilities
 
             Lighting.AddLight(player.Center, new Vector3(0.15f, 0.15f, 0f));
 
-
-
             if (Timer % 60 == 0 && Timer >= 0) { mp.StatStamina--; }
 
             if (StarlightRiver.Wisp.JustReleased)
@@ -61,6 +60,7 @@ namespace StarlightRiver.Abilities
                 OnExit();
             }
         }
+
         public override void UseEffects()
         {
             if (Timer > -10)

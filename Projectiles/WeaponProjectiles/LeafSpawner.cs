@@ -15,7 +15,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.ignoreWater = true;
             projectile.friendly = true;
         }
+
         public int proj { get; set; }
+
         public override void AI()
         {
             projectile.ai[0]++;

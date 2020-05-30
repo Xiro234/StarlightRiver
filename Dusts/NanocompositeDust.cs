@@ -15,10 +15,12 @@ namespace StarlightRiver.Dusts
             dust.color.B = 254;
             dust.fadeIn = 40;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.rotation += 0.16f;

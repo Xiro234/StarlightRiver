@@ -13,6 +13,7 @@ namespace StarlightRiver.NPCs.Pickups
         /// Indicates if the pickup should be visible in-world. Should be controlled using clientside vars.
         /// </summary>
         private bool Visible => CanPickup(Main.LocalPlayer);
+
         public sealed override void SetDefaults()
         {
             npc.width = 32;
@@ -26,6 +27,7 @@ namespace StarlightRiver.NPCs.Pickups
             npc.aiStyle = -1;
             npc.friendly = false;
         }
+
         public override bool CheckActive()
         {
             return false;
@@ -45,20 +47,24 @@ namespace StarlightRiver.NPCs.Pickups
         /// The clientside visual dust that this pickup makes when in-world
         /// </summary>
         public virtual void Visuals() { }
+
         /// <summary>
         /// The clientside visual dust taht this pickup makes when being picked up, relative to a timer.
         /// </summary>
         /// <param name="timer">The progression along the animation</param>
         public virtual void PickupVisuals(int timer) { }
+
         /// <summary>
         /// What happens to the player internally when they touch the pickup. This is deterministically synced.
         /// </summary>
         /// <param name="player"></param>
         public virtual void PickupEffects(Player player) { }
+
         /// <summary>
         /// if the player should be able to pick this up or not
         /// </summary>
         public virtual bool CanPickup(Player player) { return false; }
+
         public virtual Color GlowColor => Color.White;
 
         public sealed override void AI()
@@ -91,6 +97,7 @@ namespace StarlightRiver.NPCs.Pickups
                 PickupVisuals(mp.PickupTimer);
             }
         }
+
         public sealed override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             StarlightPlayer mp = target.GetModPlayer<StarlightPlayer>();
@@ -101,6 +108,7 @@ namespace StarlightRiver.NPCs.Pickups
             }
             return false;
         }
+
         public sealed override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (Visible)
@@ -111,6 +119,7 @@ namespace StarlightRiver.NPCs.Pickups
             }
             return false;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (Visible)
@@ -121,10 +130,8 @@ namespace StarlightRiver.NPCs.Pickups
                 spriteBatch.End();
                 spriteBatch.Begin(default, BlendState.Additive);
 
-
                 spriteBatch.Draw(tex, pos, tex.Frame(), GlowColor * 0.3f, 0, tex.Size() / 2, 1, 0, 0);
                 spriteBatch.Draw(tex, pos, tex.Frame(), GlowColor * 0.5f, 0, tex.Size() / 2, 0.6f, 0, 0);
-
 
                 spriteBatch.End();
                 spriteBatch.Begin();

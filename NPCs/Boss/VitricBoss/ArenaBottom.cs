@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public VitricBoss Parent;
         public override string Texture => "StarlightRiver/Invisible";
+
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             return false;
@@ -31,6 +32,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             DisplayName.SetDefault("");
         }
+
         public override void SetDefaults()
         {
             npc.height = 16;
@@ -44,6 +46,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.dontTakeDamage = true;
             npc.dontCountMe = true;
         }
+
         public override void AI()
         {
             /* AI fields:
@@ -90,6 +93,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[1] == 2 && npc.ai[0] > 90) //in the second phase after the crystals have risen
@@ -117,6 +121,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
 
         private float startY;
+
         public override void AI()
         {
             float off = 128 * projectile.timeLeft / 15 - 64 * (float)Math.Pow(projectile.timeLeft, 2) / 225;
@@ -127,10 +132,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             projectile.position.Y = startY - off;
         }
+
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
             drawCacheProjsBehindNPCsAndTiles.Add(index);
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.position - Main.screenPosition, Color.White);

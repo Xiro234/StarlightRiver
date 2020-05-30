@@ -18,6 +18,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.extraUpdates = 2;
             projectile.penetrate = -1;
         }
+
         public override void AI()
         {
             projectile.ai[0]++;

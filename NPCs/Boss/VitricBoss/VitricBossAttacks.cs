@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +13,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             npc.ai[3] = 0;
         }
+
         private void RandomizeTarget()
         {
             List<int> players = new List<int>();
@@ -23,7 +23,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             npc.target = players[Main.rand.Next(players.Count)];
         }
+
         #region phase 1
+
         private void NukePlatforms()
         {
             if (npc.ai[3] == 1)
@@ -48,6 +50,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 ResetAttack();
             }
         }
+
         private void CrystalCage()
         {
             if (npc.ai[3] % 110 == 0 && npc.ai[3] != 0 && npc.ai[3] < 800) //the sand cones the boss fires
@@ -127,6 +130,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 }
             }
         }
+
         private void CrystalSmash()
         {
             //boss during the attack
@@ -140,10 +144,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 npc.position.X += (npc.ai[3] < 68 || npc.ai[3] > 68 * 3) ? vel : -vel;
             }
 
-
             if (npc.ai[3] == 270) { startPos = npc.Center; npc.velocity *= 0; } //where we start our return trip
             if (npc.ai[3] > 270) npc.Center = Vector2.SmoothStep(startPos, endPos, (npc.ai[3] - 270) / 90); //smoothstep back to the center
-
 
             //Crystals during the attack
             for (int k = 0; k < 4; k++)
@@ -174,6 +176,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             //ending the attack
             if (npc.ai[3] > 360) ResetAttack();
         }
+
         private void RandomSpikes()
         {
             List<Vector2> points = new List<Vector2>();
@@ -185,6 +188,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             ResetAttack();
         }
+
         private void PlatformDash()
         {
             if (npc.ai[3] == 1) CrystalLocations.OrderBy(n => n.Y); //orders the points the boss should go to by height off the ground
@@ -224,11 +228,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 npc.Center = Vector2.SmoothStep(startPos, homePos, timer / 120f);
                 if (timer == 121) ResetAttack(); //reset attack
             }
-
         }
-        #endregion
+
+        #endregion phase 1
 
         #region phase 2
+
         private void Volley()
         {
             if (npc.ai[3] == 1) RandomizeTarget();
@@ -239,6 +244,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             if (npc.ai[3] >= 120 * 4 - 1) ResetAttack(); //end after the third volley is fired
         }
+
         private void ReverseCage()
         {
             if (npc.ai[3] == 1)
@@ -251,7 +257,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 }
             }
         }
-        #endregion
+
+        #endregion phase 2
+
         private void AngerAttack()
         {
             if (Crystals.Count(n => n.ai[0] == 2) == 0)

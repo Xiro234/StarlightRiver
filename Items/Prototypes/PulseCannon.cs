@@ -9,12 +9,16 @@ namespace StarlightRiver.Items.Prototypes
 {
     internal class PulseCannon : PrototypeWeapon
     {
-        public PulseCannon() : base(10, BreakType.MaxUses) { }
+        public PulseCannon() : base(10, BreakType.MaxUses)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse Cannon");
             Tooltip.SetDefault("Pushes enemies away with incredible force");
         }
+
         public override void SetDefaults()
         {
             item.damage = 0;
@@ -22,6 +26,7 @@ namespace StarlightRiver.Items.Prototypes
             item.useTime = 90;
             item.useAnimation = 90;
         }
+
         public override bool SafeUseItem(Player player)
         {
             Main.PlaySound(SoundID.NPCHit43, player.Center);

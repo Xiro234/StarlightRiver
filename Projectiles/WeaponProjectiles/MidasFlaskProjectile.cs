@@ -18,11 +18,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.timeLeft = 600;
             projectile.ignoreWater = true;
         }
+
         public override void Kill(int timeLeft)
         {
             //make it actually do the thing
             Main.PlaySound(SoundID.Item, -1, -1, 107, 1);
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midas Flask");

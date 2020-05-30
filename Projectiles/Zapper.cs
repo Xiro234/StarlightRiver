@@ -14,6 +14,7 @@ namespace StarlightRiver.Projectiles
     {
         public Tile parent;
         private Vector2 dims = new Vector2(32, 0);
+
         public override void SetDefaults()
         {
             projectile.hostile = true;
@@ -24,10 +25,12 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zapper");
         }
+
         public override void AI()
         {
             dims.Y = 0;

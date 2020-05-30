@@ -16,10 +16,12 @@ namespace StarlightRiver.GUI
         HolyJungle = 4,
         Overgrow = 5
     }
+
     public class Overlay : UIState
     {
         public static bool visible = true;
         public static int state = 0;
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
@@ -28,6 +30,7 @@ namespace StarlightRiver.GUI
         }
 
         internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
+
         public override void Update(GameTime gameTime)
         {
             BiomeHandler player = Main.LocalPlayer.GetModPlayer<BiomeHandler>();
@@ -139,9 +142,11 @@ namespace StarlightRiver.GUI
             rot += 0.1f;
         }
     }
+
     public class BloodDust : BootlegDust
     {
         private readonly float Acceleration;
+
         public BloodDust(Texture2D texture, Vector2 position, Vector2 velocity, float scale, float acceleration) :
             base(texture, position, velocity, Color.White, scale, 600)
         {
@@ -150,7 +155,6 @@ namespace StarlightRiver.GUI
 
         public override void Update()
         {
-
             col *= 0.99999948f;
             pos += vel;
             vel += new Vector2(0, Acceleration);
@@ -161,6 +165,7 @@ namespace StarlightRiver.GUI
             pos.X += (float)Math.Sin(time / 550f * 31.4f) * 0.25f;
         }
     }
+
     public class HolyDust : BootlegDust
     {
         public HolyDust(Texture2D texture, Vector2 position, Vector2 velocity) :
@@ -186,6 +191,7 @@ namespace StarlightRiver.GUI
             pos.Y += vel.Y + (float)Math.Sin((time / 550f * 31.4f)) * 0.5f;
         }
     }
+
     public class VitricDust : BootlegDust
     {
         private Vector2 Basepos = Vector2.Zero;
@@ -193,6 +199,7 @@ namespace StarlightRiver.GUI
         private readonly float Parallax;
         private readonly float Velocity;
         private new float rot = Main.rand.NextFloat(6.28f);
+
         public VitricDust(Texture2D texture, Vector2 basepos, int offset, float scale, float alpha, float parallax) :
             base(texture, basepos, new Vector2(0, -1), new Color(70, 155, 175) * alpha, scale + Main.rand.NextFloat(0, 0.6f), 1500)
         {
@@ -201,6 +208,7 @@ namespace StarlightRiver.GUI
             Parallax = parallax;
             Velocity = Main.rand.NextFloat(3.4f, 6.2f);
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, pos, new Rectangle(0, 0, 32, 22), col, rot, default, scl, default, 0);

@@ -17,6 +17,7 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity * 0.1f;

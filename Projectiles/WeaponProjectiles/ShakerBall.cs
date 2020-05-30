@@ -19,6 +19,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.ignoreWater = true;
             projectile.melee = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaker");

@@ -33,7 +33,6 @@ namespace StarlightRiver.Items.Armor
 
         public override void AddRecipes()
         {
-
         }
     }
 
@@ -41,6 +40,7 @@ namespace StarlightRiver.Items.Armor
     public class OvergrowChest : ModItem
     {
         public int floatTime = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Faeleaf Cloak");
@@ -85,14 +85,13 @@ namespace StarlightRiver.Items.Armor
             {
                 player.rangedCrit += 20;
             }
-
         }
 
         public override void AddRecipes()
         {
-
         }
     }
+
     public class OvergrowArmorProjectile : GlobalProjectile
     {
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
@@ -119,6 +118,7 @@ namespace StarlightRiver.Items.Armor
     public class OvergrowRobe : ModItem
     {
         public int leaves = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Faeleaf Robes");
@@ -147,7 +147,6 @@ namespace StarlightRiver.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-
             player.setBonus = "Hitting enemies grants you damaging leaves\n getting hit releases them";
 
             for (int k = 0; k < leaves; k++)
@@ -165,12 +164,10 @@ namespace StarlightRiver.Items.Armor
                 }
                 leaves = 0;
             }
-
         }
 
         public override void AddRecipes()
         {
-
         }
     }
 
@@ -199,7 +196,6 @@ namespace StarlightRiver.Items.Armor
 
         public override void AddRecipes()
         {
-
         }
     }
 }

@@ -8,6 +8,7 @@ namespace StarlightRiver.NPCs
     {
         public override bool InstancePerEntity => true;
         public int frozenTime = 0;
+
         public override void UpdateLifeRegen(NPC npc, ref int damage)
         {
             if (frozenTime != 0)
@@ -26,10 +27,12 @@ namespace StarlightRiver.NPCs
                 npc.velocity *= 0.2f;
             }
         }
+
         public override void ResetEffects(NPC npc)
         {
             base.ResetEffects(npc);
         }
+
         public override void DrawEffects(NPC npc, ref Color drawColor)
         {
             if (frozenTime != 0)

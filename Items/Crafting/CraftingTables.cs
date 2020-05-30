@@ -5,7 +5,10 @@ namespace StarlightRiver.Items.Crafting
 {
     public class OvenItem : QuickTileItem
     {
-        public OvenItem() : base("Oven", "Used to bake items", ModContent.TileType<Tiles.Crafting.Oven>(), 0) { }
+        public OvenItem() : base("Oven", "Used to bake items", ModContent.TileType<Tiles.Crafting.Oven>(), 0)
+        {
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -17,9 +20,13 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
+
     public class OvenAstralItem : QuickTileItem
     {
-        public OvenAstralItem() : base("Astral Oven", "Used to bake advanced items", ModContent.TileType<Tiles.Crafting.OvenAstral>(), 0) { }
+        public OvenAstralItem() : base("Astral Oven", "Used to bake advanced items", ModContent.TileType<Tiles.Crafting.OvenAstral>(), 0)
+        {
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -31,9 +38,13 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
+
     public class HerbStationItem : QuickTileItem
     {
-        public HerbStationItem() : base("Herbologist's Bench", "Used to refine herbs", ModContent.TileType<Tiles.Crafting.HerbStation>(), 0) { }
+        public HerbStationItem() : base("Herbologist's Bench", "Used to refine herbs", ModContent.TileType<Tiles.Crafting.HerbStation>(), 0)
+        {
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -45,9 +56,13 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddRecipe();
         }
     }
+
     public class CookStationItem : QuickTileItem
     {
-        public CookStationItem() : base("Prep Station", "Right click to prepare meals", ModContent.TileType<Tiles.Crafting.CookStation>(), 0) { }
+        public CookStationItem() : base("Prep Station", "Right click to prepare meals", ModContent.TileType<Tiles.Crafting.CookStation>(), 0)
+        {
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

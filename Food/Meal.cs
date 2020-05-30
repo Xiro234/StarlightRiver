@@ -30,6 +30,7 @@ namespace StarlightRiver.Food
             item.width = 32;
             item.height = 32;
         }
+
         public override bool CanUseItem(Player player)
         {
             FoodBuffHandler mp = player.GetModPlayer<FoodBuffHandler>();
@@ -51,6 +52,7 @@ namespace StarlightRiver.Food
             item.stack--;
             return true;
         }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             string sidesName = "";
@@ -86,6 +88,7 @@ namespace StarlightRiver.Food
             };
             tooltips.Add(cooldownLine);
         }
+
         public override TagCompound Save()
         {
             return new TagCompound()
@@ -94,6 +97,7 @@ namespace StarlightRiver.Food
                 ["Fullness"] = Fullness
             };
         }
+
         public override void Load(TagCompound tag)
         {
             Ingredients = (List<Item>)tag.GetList<Item>("Items");

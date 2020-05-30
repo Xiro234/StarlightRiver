@@ -25,6 +25,7 @@ namespace StarlightRiver.GUI
         private readonly UIImage StatBack = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookStatWindow"));
         private readonly UIImage TopBar = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookTop"));
         private Vector2 Basepos = new Vector2(Main.screenWidth / 2 - 173, Main.screenHeight / 2 - 122);
+
         public override void OnInitialize()
         {
             CookButton.OnClick += CookFood;
@@ -32,6 +33,7 @@ namespace StarlightRiver.GUI
             ExitButton.OnClick += Exit;
             ExitButton.SetVisibility(1, 1);
         }
+
         public override void Update(GameTime gameTime)
         {
             if (TopBar.IsMouseHovering && Main.mouseLeft) Moving = true;
@@ -63,6 +65,7 @@ namespace StarlightRiver.GUI
             Append(TopBar);
             base.Update(gameTime);
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
@@ -90,13 +93,14 @@ namespace StarlightRiver.GUI
                 Utils.DrawBorderString(spriteBatch, duration / 60 + " seconds duration", Basepos + new Vector2(186, 150), new Color(110, 235, 255), 0.65f);
                 Utils.DrawBorderString(spriteBatch, cooldown / 60 + " seconds fullness", Basepos + new Vector2(186, 164), new Color(255, 170, 120), 0.65f);
             }
-
         }
+
         private void SetPosition(UIElement element, int x, int y)
         {
             element.Left.Set(Basepos.X + x, 0);
             element.Top.Set(Basepos.Y + y, 0);
         }
+
         private void CookFood(UIMouseEvent evt, UIElement listeningElement)
         {
             if (!MainSlot.Item.IsAir) //make sure were cooking SOMETHING!
@@ -112,6 +116,7 @@ namespace StarlightRiver.GUI
                 Main.LocalPlayer.QuickSpawnClonedItem(item);
             }
         }
+
         private void CookIngredient(Item target, CookingSlot source)
         {
             if (!source.Item.IsAir && source.Item.modItem is Ingredient)
@@ -122,17 +127,24 @@ namespace StarlightRiver.GUI
                 else source.Item.stack--;
             }
         }
+
         private void Exit(UIMouseEvent evt, UIElement listeningElement)
         {
             Visible = false;
             Main.PlaySound(SoundID.MenuClose);
         }
     }
+
     public class CookingSlot : UIElement
     {
         public Item Item = new Item();
         private readonly IngredientType Type;
-        public CookingSlot(IngredientType type) { Type = type; }
+
+        public CookingSlot(IngredientType type)
+        {
+            Type = type;
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotY");
@@ -151,6 +163,7 @@ namespace StarlightRiver.GUI
                 if (Item.stack > 1) spriteBatch.DrawString(Main.fontItemStack, Item.stack.ToString(), GetDimensions().Position() + Vector2.One * 28, Color.White);
             }
         }
+
         public override void Click(UIMouseEvent evt)
         {
             Player player = Main.LocalPlayer;
@@ -175,6 +188,7 @@ namespace StarlightRiver.GUI
             }
             Main.isMouseLeftConsumedByUI = true;
         }
+
         public override void Update(GameTime gameTime)
         {
             if (Item.type == ItemID.None || Item.stack <= 0) Item.TurnToAir();
@@ -182,5 +196,4 @@ namespace StarlightRiver.GUI
             Height.Set(60, 0);
         }
     }
-
 }

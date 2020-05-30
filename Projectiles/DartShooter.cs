@@ -9,6 +9,7 @@ namespace StarlightRiver.Projectiles
     {
         public Tile parent;
         public int direction;
+
         public override void SetDefaults()
         {
             projectile.hostile = false;
@@ -19,10 +20,12 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zapper");
         }
+
         public override void AI()
         {
             //Main.NewText(direction);
@@ -33,12 +36,15 @@ namespace StarlightRiver.Projectiles
                     case 0:
                         Projectile.NewProjectile(new Vector2(projectile.position.X, projectile.position.Y + 4), new Vector2(-3, 0) * 6f, ProjectileID.PoisonDartTrap, 20, 2f, Main.myPlayer);
                         break;
+
                     case 18:
                         Projectile.NewProjectile(new Vector2(projectile.position.X + 4, projectile.position.Y + 4), new Vector2(3, 0) * 6f, ProjectileID.PoisonDartTrap, 20, 2f, Main.myPlayer);
                         break;
+
                     case 36:
                         Projectile.NewProjectile(new Vector2(projectile.position.X + 2, projectile.position.Y + 2), new Vector2(0, -3) * 6f, ProjectileID.PoisonDartTrap, 20, 2f, Main.myPlayer);
                         break;
+
                     case 54:
                         Projectile.NewProjectile(new Vector2(projectile.position.X + 2, projectile.position.Y + 6), new Vector2(0, 3) * 6f, ProjectileID.PoisonDartTrap, 20, 2f, Main.myPlayer);
                         break;
@@ -56,7 +62,6 @@ namespace StarlightRiver.Projectiles
 
         /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-
         }*/
     }
 }

@@ -13,6 +13,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             DisplayName.SetDefault("[PH] RockThrower");
         }
+
         public override void SetDefaults()
         {
             npc.width = 48;
@@ -50,6 +51,7 @@ namespace StarlightRiver.NPCs.Hostile
                         npc.ai[0] = 1;
                     }
                     break;
+
                 case 1: //Passive
                     {
                         npc.ai[1]++;
@@ -67,6 +69,7 @@ namespace StarlightRiver.NPCs.Hostile
                         //insert movement code here
                     }
                     break;
+
                 case 2: //Attack
                     {
                         npc.ai[1]++;

@@ -14,6 +14,7 @@ namespace StarlightRiver.Items.Dragons
         {
             DisplayName.SetDefault("Dragon Egg");
         }
+
         public override void SetDefaults()
         {
             item.width = 16;

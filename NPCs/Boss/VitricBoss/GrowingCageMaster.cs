@@ -7,12 +7,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public override string Texture => "StarlightRiver/Invisible";
         public VitricBoss Parent;
+
         public override void SetDefaults()
         {
             projectile.width = 32;
             projectile.height = 32;
             projectile.timeLeft = 2;
         }
+
         public override void AI()
         {
             if (Parent == null) { projectile.Kill(); return; } //This projectile's AI relies on it's parent boss - if its not present, this projectile will kill itself.

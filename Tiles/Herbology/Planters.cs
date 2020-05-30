@@ -37,6 +37,7 @@ namespace StarlightRiver.Tiles.Herbology
             name.SetDefault("Rich Soil");
             AddMapEntry(new Color(56, 33, 33), name);
         }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Herbology/Post"), new Vector2((i + 12) * 16, (j + 9) * 16) - (Main.screenPosition), Lighting.GetColor(i, j));
@@ -70,14 +71,17 @@ namespace StarlightRiver.Tiles.Herbology
         {
             num = fail ? 1 : 3;
         }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("Planter"));
         }
+
         public override void PlaceInWorld(int i, int j, Item item)
         {
             Main.tile[i, j].frameX = 0;
         }
+
         public override void RandomUpdate(int i, int j)
         {
             if (Main.tile[i, j + 1].active() == false)
@@ -89,6 +93,7 @@ namespace StarlightRiver.Tiles.Herbology
                 }
             }
         }
+
         public override bool NewRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -98,7 +103,6 @@ namespace StarlightRiver.Tiles.Herbology
             }
             return true;
         }
-
     }
 
     internal class GreenhouseWall : ModWall

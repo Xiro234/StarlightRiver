@@ -9,10 +9,12 @@ namespace StarlightRiver.Projectiles
     public class FlameboltChild : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flamebolt");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -28,6 +30,7 @@ namespace StarlightRiver.Projectiles
         private bool cameBack = false;
         private NPC target = Main.npc[0];
         private NPC blacklist;
+
         public override bool? CanHitNPC(NPC target)
         {
             if (cameBack && target.Equals(blacklist)) //if its original target is dead, only allow damage towards blacklist
@@ -36,6 +39,7 @@ namespace StarlightRiver.Projectiles
             }
             return !cameBack && !target.Equals(blacklist) ? base.CanHitNPC(target) : false;
         }
+
         public void pick()
         {
             for (int k = 0; k < Main.npc.Length; k++)
@@ -50,6 +54,7 @@ namespace StarlightRiver.Projectiles
                 }
             }
         }
+
         //when spawned, choose a target that isnt the npc hit by the parent
         //home in on that target
         //if that target is dead
@@ -96,6 +101,7 @@ namespace StarlightRiver.Projectiles
                 Main.dust[dust].velocity = Vector2.Zero;
             }
         }
+
         public override void Kill(int timeLeft)
         {
             for (int num2 = 0; num2 < 7; num2++)

@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     internal class SandCone : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.hostile = false;
@@ -19,6 +20,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.height = 1;
             projectile.timeLeft = 2;
         }
+
         public override void AI()
         {
             projectile.timeLeft = 2;
@@ -36,6 +38,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 projectile.Kill(); //self-destruct
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             spriteBatch.End();

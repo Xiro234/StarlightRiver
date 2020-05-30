@@ -7,8 +7,8 @@ namespace StarlightRiver.Items.CursedAccessories
     {
         public AnthemDagger() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow"))
         {
-
         }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Consume mana to absorb damage\n90% Reduced defense");
@@ -21,6 +21,7 @@ namespace StarlightRiver.Items.CursedAccessories
             item.height = 32;
             item.accessory = true;
         }
+
         public override void UpdateEquip(Player player)
         {
             player.statDefense /= 10;

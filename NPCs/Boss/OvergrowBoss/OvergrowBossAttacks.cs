@@ -71,9 +71,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
             if (npc.ai[3] == 451) ResetAttack();
         }
+
         private void Phase1Pendulum()
         {
-
             if (npc.ai[3] > 1 && npc.ai[3] <= 60)
             {
                 flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, npc.ai[3] / 60f);
@@ -100,6 +100,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
             if (npc.ai[3] == 210) ResetAttack();
         }
+
         private void Phase1Bolts()
         {
             Vector2 handpos = npc.Center; //used as a basepoint for this attack to match the animation
@@ -130,6 +131,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
             if (npc.ai[3] == 200) ResetAttack();
         }
+
         private void Phase1Toss()
         {
             if (npc.ai[3] <= 60)
@@ -173,6 +175,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (npc.ai[3] == 240) ResetAttack();
         }
+
         private void DrawTossTell(SpriteBatch sb)
         {
             float glow = npc.ai[3] > 90 ? (1 - (npc.ai[3] - 90) / 30f) : ((npc.ai[3] - 60) / 30f);
@@ -192,6 +195,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             sb.End();
             sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
         }
+
         private void Phase1Trap()
         {
             Main.NewText(npc.ai[3]);
@@ -218,6 +222,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
             if (npc.ai[3] >= 180) ResetAttack();
         }
+
         private void DrawTrapTell(SpriteBatch sb)
         {
             float glow = npc.ai[3] > 45 ? (1 - (npc.ai[3] - 45) / 45f) : ((npc.ai[3]) / 45f);
@@ -232,8 +237,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             sb.End();
             sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
         }
-
-
 
         private void RapidToss()
         {
@@ -290,12 +293,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             Main.NewText("Random target chosen!");
         }
+
         public void ResetAttack()
         {
             flail.npc.velocity *= 0;
             npc.ai[3] = 0;
             npc.ai[2] = 0;
         }
-
     }
 }

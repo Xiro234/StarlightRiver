@@ -13,6 +13,7 @@ namespace StarlightRiver.Items.Celumite
             DisplayName.SetDefault("Arc Cleaver");
             Tooltip.SetDefault("Accumulates charge on hit \nRight click to release");
         }
+
         public override void SetDefaults()
         {
             item.damage = 40;
@@ -29,10 +30,12 @@ namespace StarlightRiver.Items.Celumite
             item.autoReuse = false;
             item.useTurn = true;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override bool UseItem(Player player)
         {
             if (player.altFunctionUse == 2)

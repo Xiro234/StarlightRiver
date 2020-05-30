@@ -12,12 +12,14 @@ namespace StarlightRiver.Items.Salvage
         public Randstat Damage;
         public Randstat Speed;
         public Randstat Crit;
+
         public SalvageItem(Randstat damage, Randstat speed, Randstat crit) : base()
         {
             Damage = damage;
             Speed = speed;
             Crit = crit;
         }
+
         public override bool CloneNewInstances => true;
 
         public override TagCompound Save()

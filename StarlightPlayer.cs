@@ -38,7 +38,6 @@ namespace StarlightRiver
 
         public override void PreUpdateBuffs()
         {
-
             if (InvertGrav > 0)
             {
                 //Main.NewText("Invert: true");
@@ -129,7 +128,6 @@ namespace StarlightRiver
                     playSound = false;
                     genGore = false;
                     Main.PlaySound(SoundID.MaxMana);
-
                 }
                 else if (player.statMana > 0)
                 {
@@ -165,6 +163,7 @@ namespace StarlightRiver
             JustHit = true;
             LastHit = Timer;
         }
+
         public override void PostUpdateEquips()
         {
             JustHit = false;
@@ -198,19 +197,21 @@ namespace StarlightRiver
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
         }
+
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;
 
             Action<PlayerDrawInfo> layerTarget = DrawGlowmasks; //the Action<T> of our layer. This is the delegate which will actually do the drawing of the layer.
             PlayerLayer layer = new PlayerLayer("ExampleSwordLayer", "Sword Glowmask", layerTarget); //Instantiate a new instance of PlayerLayer to insert into the list
-            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Arms")), layer); //Insert the layer at the appropriate index. 
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Arms")), layer); //Insert the layer at the appropriate index.
 
             void DrawGlowmasks(PlayerDrawInfo info)
             {
                 if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem) (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
             }
         }
+
         public override void OnEnterWorld(Player player)
         {
             Collection.ShouldReset = true;

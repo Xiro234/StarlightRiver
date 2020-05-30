@@ -12,7 +12,6 @@ namespace StarlightRiver.Food
 
         public override void PostUpdateBuffs()
         {
-
         }
 
         public override void ResetEffects()

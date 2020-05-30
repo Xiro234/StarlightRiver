@@ -11,10 +11,12 @@ namespace StarlightRiver.Dusts
             dust.noGravity = true;
             dust.noLight = false;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return Color.White * dust.scale;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.Y -= 0.2f;
@@ -34,14 +36,15 @@ namespace StarlightRiver.Dusts
             }
             return false;
         }
-
     }
+
     public class Corrupt2 : Corrupt
     {
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return Color.White * dust.scale;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.Y += dust.velocity.Y;
@@ -60,5 +63,4 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-
 }

@@ -17,6 +17,7 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.color *= 0.94f;
@@ -33,7 +34,6 @@ namespace StarlightRiver.Dusts
 
             return false;
         }
-
     }
 
     public class Purify2 : ModDust
@@ -49,6 +49,7 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.color *= 0.98f;
@@ -66,7 +67,5 @@ namespace StarlightRiver.Dusts
 
             return false;
         }
-
     }
-
 }

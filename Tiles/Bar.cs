@@ -5,7 +5,6 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-
 namespace StarlightRiver.Tiles
 {
     public class AluminumBar : ModTile
@@ -28,6 +27,7 @@ namespace StarlightRiver.Tiles
             AddMapEntry(new Color(156, 172, 177), name);
         }
     }
+
     public class IvoryBar : ModTile
     {
         public override void SetDefaults()

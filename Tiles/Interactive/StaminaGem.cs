@@ -36,6 +36,7 @@ namespace StarlightRiver.Tiles.Interactive
                 Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>(), 0, 0);
             }
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>() && proj.active && proj.ai[0] == 0))

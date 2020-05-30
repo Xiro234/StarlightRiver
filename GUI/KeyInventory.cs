@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Keys;
 using System.Collections.Generic;
@@ -21,12 +20,12 @@ namespace StarlightRiver.GUI
                 key.DrawKey(spriteBatch, new Vector2(Main.screenWidth - (Main.LocalPlayer.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMax > 7 ? 344 : 324), 110 + keys.IndexOf(key) * 40));
             }
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
             Recalculate();
         }
-
     }
 
     public class KeyIcon : UIElement
@@ -39,6 +38,7 @@ namespace StarlightRiver.GUI
             parent = key;
             timer = animate ? 60 : 0;
         }
+
         public void DrawKey(SpriteBatch spriteBatch, Vector2 pos)
         {
             Vector2 center = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);

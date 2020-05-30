@@ -152,6 +152,7 @@ namespace StarlightRiver
         public bool RedHurting = false;
         public override bool InstancePerEntity => true;
         public override bool CloneNewInstances => true;
+
         public override void SetDefaults(Item item)
         {
             if (item.hammer > 0)

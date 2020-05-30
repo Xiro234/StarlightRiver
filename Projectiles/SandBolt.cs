@@ -21,10 +21,12 @@ namespace StarlightRiver.Projectiles
             projectile.damage = 5;
             projectile.aiStyle = -1;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Bolt");
         }
+
         public override void AI()
         {
             float rot = projectile.velocity.ToRotation();
@@ -35,6 +37,7 @@ namespace StarlightRiver.Projectiles
 
             Dust.NewDust(projectile.position, 8, 8, DustID.Sandstorm, 0, 0, 0, new Color(237, 213, 149), 1.5f);
         }
+
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             if (Main.rand.Next(2) == 0) { target.AddBuff(BuffID.Blackout, 180); }

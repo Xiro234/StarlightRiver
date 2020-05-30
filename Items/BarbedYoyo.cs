@@ -20,8 +20,8 @@ namespace StarlightRiver.Items
             item.noUseGraphic = true;
             item.noMelee = true;
             item.melee = true;
-
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("[PH] barbed wire yoyo");

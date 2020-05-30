@@ -201,8 +201,10 @@ namespace StarlightRiver.Structures
             {
                 case 1:
                     return 1;
+
                 case 1.5f:
                     return 2;
+
                 case 2f:
                     return 3;
             }

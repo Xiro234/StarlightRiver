@@ -8,6 +8,7 @@ namespace StarlightRiver.Projectiles
     public class ImperfectLaser : ModProjectile
     {
         public const short LaserFocusDist = 80;
+
         public override void SetDefaults()
         {
             projectile.width = 10;

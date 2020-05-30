@@ -18,21 +18,23 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Glass");
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(SoundID.Item27);
         }
 
         private float timer = 0;
+
         public override void AI()
         {
             int pos = (int)projectile.localAI[0];
             Player player = Main.player[projectile.owner];
-
 
             Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Air>(), 0, 0, 0, default, 0.35f);
             if (((float)player.statLife / player.statLifeMax2) > 0.2f * pos)

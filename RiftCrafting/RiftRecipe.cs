@@ -33,6 +33,7 @@ namespace StarlightRiver.RiftCrafting
     {
         public int type;
         public int count;
+
         public RiftIngredient(int typ, int cnt)
         {
             type = typ;

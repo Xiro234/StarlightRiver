@@ -17,14 +17,17 @@ namespace StarlightRiver.Items.Prototypes
     {
         public int Durability { get; set; } //how many on the appropriate degradation factor the prototype can withstand before breaking
         public int MaxDurability { get; set; } //the maximum durability, for the purpose of calculting durability bars
-        public BreakType Breaktype { get; set; } //the restriction for the weapons usage, see above enumerator       
+        public BreakType Breaktype { get; set; } //the restriction for the weapons usage, see above enumerator
+
         public PrototypeWeapon(int durability, BreakType breaktype)
         {
             MaxDurability = durability;
             Durability = durability;
             Breaktype = breaktype;
         }
+
         public override bool CloneNewInstances => true; //allows dynamic tooltips and for multiple of the same prototype to coexist with different durabilities
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             string text = "";
@@ -41,20 +44,30 @@ namespace StarlightRiver.Items.Prototypes
             };
             tooltips.Add(line);
         }
-        public virtual bool SafeUseItem(Player player) { return true; } //allows on-use effects without breaking the prototype behavior
+
+        public virtual bool SafeUseItem(Player player)
+        {
+            return true;
+        } //allows on-use effects without breaking the prototype behavior
+
         public sealed override bool UseItem(Player player) //reduces durability on use if the breaking method of the prototype is limited uses
         {
             if (Breaktype == BreakType.MaxUses) Durability--;
             if (Durability == 0) BreakItem(player.Center); //destroys the item on it's last use
             return SafeUseItem(player);
         }
-        public virtual void SafeUpdateInventory(Player player) { } //allows in-inventory effects without breaking the prototype behavior
+
+        public virtual void SafeUpdateInventory(Player player)
+        {
+        } //allows in-inventory effects without breaking the prototype behavior
+
         public sealed override void UpdateInventory(Player player) //reduces durability every tick in the player's inventory if of the appropriate breaking method
         {
             if (Breaktype == BreakType.Time) Durability--;
             if (Durability == 0) BreakItem(player.Center); //destroys the item when time is up, if in the inventory
             SafeUpdateInventory(player);
         }
+
         public sealed override void PostUpdate() //reduces durability every tick in the world if of the appropriate breaking method
         {
             if (Breaktype == BreakType.Time) Durability--;
@@ -72,6 +85,5 @@ namespace StarlightRiver.Items.Prototypes
             }
             item.TurnToAir();
         }
-
     }
 }

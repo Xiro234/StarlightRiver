@@ -9,6 +9,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
     internal class LightningNode : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -16,9 +17,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.timeLeft = 1;
             projectile.friendly = true;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            //AI Fields: 
+            //AI Fields:
             //0: jumps remaining
             //1: jump radius
 

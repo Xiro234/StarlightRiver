@@ -10,6 +10,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public const int Scrolltime = 1000;
         public const int Risetime = 360;
+
         public override bool CheckActive()
         {
             return false;
@@ -29,6 +30,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             DisplayName.SetDefault("");
         }
+
         public override void SetDefaults()
         {
             npc.height = 1;
@@ -42,6 +44,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.dontTakeDamage = true;
             npc.dontCountMe = true;
         }
+
         public override void AI()
         {
             /* AI fields:
@@ -71,10 +74,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (npc.ai[1] == 3) npc.ai[2]++;
             if (npc.ai[2] > Scrolltime) npc.ai[2] = 0;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             return false;
         }
+
         public void SpecialDraw(SpriteBatch spriteBatch)
         {
             if (npc.ai[1] != 3) //animation for rising out of the sand
@@ -89,6 +94,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             else ScrollDraw(spriteBatch);
         }
+
         public virtual void ScrollDraw(SpriteBatch sb) //im lazy
         {
             Texture2D tex = ModContent.GetTexture(Texture);
@@ -104,6 +110,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             sb.Draw(tex, target1, source1, color, 0, Vector2.Zero, 0, 0);
             sb.Draw(tex, target2, source2, color, 0, Vector2.Zero, 0, 0);
         }
+
         public virtual void SpawnPlatforms(bool rising = true)
         {
             PlacePlatform(200, 140, ModContent.NPCType<VitricBossPlatformUp>(), rising);
@@ -115,12 +122,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             PlacePlatform(230, 570, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
             PlacePlatform(260, 790, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
         }
+
         public void PlacePlatform(int x, int y, int type, bool rising)
         {
             if (rising && npc.ai[0] == Risetime - (int)(y / 880f * Risetime)) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - 2, type, 0, 0, Risetime - npc.ai[0]); //When rising out of the ground, check for the appropriate time to spawn the platform based on y coord
             else if (!rising) NPC.NewNPC((int)npc.position.X + x, (int)npc.position.Y - y, type, 0, 2, Risetime); //otherwise spawn it instantly AT the y coord
         }
     }
+
     public class VitricBackdropRight : VitricBackdropLeft //im lazy
     {
         public override void ScrollDraw(SpriteBatch sb)

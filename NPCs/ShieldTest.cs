@@ -8,6 +8,7 @@ namespace StarlightRiver.NPCs
         {
             DisplayName.SetDefault("Shielded Guy");
         }
+
         public override void SetDefaults()
         {
             npc.width = 28;
@@ -24,16 +25,18 @@ namespace StarlightRiver.NPCs
 
         public override void AI()
         {
-
         }
     }
+
     public class ShieldTest2 : ModNPC
     {
         public override string Texture => "StarlightRiver/NPCs/ShieldTest";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Red Guy");
         }
+
         public override void SetDefaults()
         {
             npc.width = 28;
@@ -50,16 +53,18 @@ namespace StarlightRiver.NPCs
 
         public override void AI()
         {
-
         }
     }
+
     public class ShieldTest3 : ModNPC
     {
         public override string Texture => "StarlightRiver/NPCs/ShieldTest";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shielded Red Guy");
         }
+
         public override void SetDefaults()
         {
             npc.width = 28;
@@ -79,7 +84,6 @@ namespace StarlightRiver.NPCs
 
         public override void AI()
         {
-
         }
     }
 }

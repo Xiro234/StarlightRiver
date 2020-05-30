@@ -8,8 +8,12 @@ namespace StarlightRiver.Keys
 {
     internal class OvergrowKey : Key
     {
-        public OvergrowKey() : base("Overgrowth Key", "StarlightRiver/Keys/OvergrowKey") { }
+        public OvergrowKey() : base("Overgrowth Key", "StarlightRiver/Keys/OvergrowKey")
+        {
+        }
+
         public override bool ShowCondition => Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow;
+
         public override void PreDraw(SpriteBatch spriteBatch)
         {
             spriteBatch.End();
@@ -23,12 +27,14 @@ namespace StarlightRiver.Keys
             spriteBatch.End();
             spriteBatch.Begin();
         }
+
         public override void PreUpdate()
         {
             if (Main.rand.Next(4) == 0)
                 Dust.NewDust(Position + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5), 32, 32, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
             Lighting.AddLight(Position, new Vector3(1, 1, 0.8f) * 0.6f);
         }
+
         public override void OnPickup()
         {
             CombatText.NewText(Hitbox, Color.White, "Got: Overgrowth Key");

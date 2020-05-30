@@ -19,10 +19,12 @@ namespace StarlightRiver.Projectiles.Ability
             projectile.height = 4;
             projectile.extraUpdates = 1;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fae Bolt");
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.GetGlobalNPC<StaminaDrop>().DropStamina = true;

@@ -7,13 +7,18 @@ namespace StarlightRiver.Items.Prototypes
 {
     internal class PlasmaGattler : PrototypeWeapon
     {
-        public PlasmaGattler() : base(3000, BreakType.Time) { }
+        public PlasmaGattler() : base(3000, BreakType.Time)
+        {
+        }
+
         private int Heat { get; set; }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasmic Converter");
             Tooltip.SetDefault("'convert' your foes into dust\nless accurate over time");
         }
+
         public override void SetDefaults()
         {
             item.damage = 20;
@@ -23,6 +28,7 @@ namespace StarlightRiver.Items.Prototypes
             item.UseSound = SoundID.Item75;
             item.autoReuse = true;
         }
+
         public override bool SafeUseItem(Player player)
         {
             player.channel = true;
@@ -33,6 +39,7 @@ namespace StarlightRiver.Items.Prototypes
             if (Heat <= 200) Heat += 10;
             return true;
         }
+
         public override void SafeUpdateInventory(Player player)
         {
             if (!player.channel && Heat > 0) Heat--;

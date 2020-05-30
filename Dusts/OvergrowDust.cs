@@ -8,11 +8,13 @@ namespace StarlightRiver.Dusts
     internal class OvergrowDust : ModDust
     {
         private readonly int time = 0;
+
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Dusts/DragonFire";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -20,10 +22,12 @@ namespace StarlightRiver.Dusts
             dust.customData = 550;
             dust.scale = 1.8f;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             if (dust.customData is int)

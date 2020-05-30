@@ -15,9 +15,11 @@ namespace StarlightRiver.GUI
         public static List<BootlegDust> dust = new List<BootlegDust>();
         public static Ability ActiveAbility;
         public static bool ShouldReset = false;
+
         public override void OnInitialize()
         {
         }
+
         private void AddAbility(Ability ability, Vector2 off)
         {
             AbilityDisplay element = new AbilityDisplay(ability);
@@ -27,6 +29,7 @@ namespace StarlightRiver.GUI
             element.Height.Set(32, 0);
             Append(element);
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/back");
@@ -37,6 +40,7 @@ namespace StarlightRiver.GUI
             dust.ForEach(n => n.Update());
             dust.RemoveAll(n => n.time == 0);
         }
+
         public override void Update(GameTime gameTime)
         {
             if ((!Main.gameMenu && Elements.Count == 0 && Main.LocalPlayer.GetModPlayer<AbilityHandler>() != null) || ShouldReset)
@@ -57,14 +61,17 @@ namespace StarlightRiver.GUI
     public class AbilityDisplay : UIElement
     {
         private readonly Ability Ability;
+
         public AbilityDisplay(Ability ability)
         {
             Ability = ability;
         }
+
         public override void Click(UIMouseEvent evt)
         {
             if (!Ability.Locked) Collection.ActiveAbility = Ability;
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 pos = GetDimensions().Center() - Vector2.One;

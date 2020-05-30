@@ -18,6 +18,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.timeLeft = 160;
             Main.projFrames[projectile.type] = 6;
         }
+
         public override void AI()
         {
             projectile.ai[0] += 1f;

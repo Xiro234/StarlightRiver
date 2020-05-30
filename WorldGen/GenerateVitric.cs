@@ -25,6 +25,7 @@ namespace StarlightRiver
             }
 
             #region Main shape
+
             int row = WorldGen.genRand.Next(512);
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++) //base sand + spikes
             {
@@ -111,7 +112,7 @@ namespace StarlightRiver
                 }
             }
 
-            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 35; x <= biomeTarget.X + biomeTarget.Width / 2 + 36; x++) //entrance hole 
+            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 35; x <= biomeTarget.X + biomeTarget.Width / 2 + 36; x++) //entrance hole
             {
                 for (int y = biomeTarget.Y; y < biomeTarget.Y + 20; y++)
                 {
@@ -142,7 +143,9 @@ namespace StarlightRiver
                 WorldGen.PlaceTile(biomeTarget.X + biomeTarget.Width / 2 - 40, y, ModContent.TileType<Tiles.Vitric.VitricBossBarrier>(), false, false);
                 WorldGen.PlaceTile(biomeTarget.X + biomeTarget.Width / 2 + 41, y, ModContent.TileType<Tiles.Vitric.VitricBossBarrier>(), false, false);
             }
-            #endregion
+
+            #endregion Main shape
+
             #region Floating islands
 
             WormFromIsland(VitricBiome.TopLeft().ToPoint16(), 60);
@@ -202,7 +205,6 @@ namespace StarlightRiver
                         WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>());
                     }
                 }
-
             }
 
             bool CheckIsland(Point16 topLeft, int width, int height)
@@ -219,7 +221,8 @@ namespace StarlightRiver
                     }
                 return true;
             }
-            #endregion
+
+            #endregion Floating islands
         }
     }
 }

@@ -14,6 +14,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             DisplayName.SetDefault("Bone Mine");
         }
+
         public override void SetDefaults()
         {
             npc.width = 50;

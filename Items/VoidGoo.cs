@@ -7,7 +7,10 @@ namespace StarlightRiver.Items
 {
     public class VoidGooItem : QuickTileItem
     {
-        public VoidGooItem() : base("Void Goo", "Can be passed with a shadow dash", ModContent.TileType<Tiles.Interactive.VoidGoo>(), 8) { }
+        public VoidGooItem() : base("Void Goo", "Can be passed with a shadow dash", ModContent.TileType<Tiles.Interactive.VoidGoo>(), 8)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(Itemname);
@@ -16,9 +19,13 @@ namespace StarlightRiver.Items
             ItemID.Sets.ItemNoGravity[item.type] = true;
         }
     }
+
     public class VoidDoorItem : QuickTileItem
     {
-        public VoidDoorItem() : base("Void Barrier", "Dissappears when Purified", ModContent.TileType<Tiles.Interactive.VoidDoorOn>(), 8) { }
+        public VoidDoorItem() : base("Void Barrier", "Dissappears when Purified", ModContent.TileType<Tiles.Interactive.VoidDoorOn>(), 8)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(Itemname);
@@ -27,6 +34,7 @@ namespace StarlightRiver.Items
             ItemID.Sets.ItemNoGravity[item.type] = true;
         }
     }
+
     public class Fluff : ModItem // remove?
     {
         public override void SetStaticDefaults()

@@ -11,6 +11,7 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.Y += (float)Math.Sin(LegendWorld.rottime + dust.fadeIn) * 0.3f;

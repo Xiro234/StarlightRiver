@@ -20,9 +20,9 @@ namespace StarlightRiver.Items.Overgrow
             item.value = 10000;
             item.accessory = true;
         }
+
         public override void UpdateEquip(Player player)
         {
-
         }
     }
 

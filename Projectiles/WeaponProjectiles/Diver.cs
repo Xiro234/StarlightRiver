@@ -18,13 +18,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.damage = 5;
             projectile.extraUpdates = 3;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corrosive Spores");
         }
+
         public override void AI()
         {
-
             if (Main.tile[(int)projectile.position.X / 16, (int)projectile.position.Y / 16].active() == false)
             {
                 Dust.NewDustPerfect(projectile.position, mod.DustType("Gold"));

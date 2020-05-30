@@ -15,6 +15,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.friendly = true;
             projectile.timeLeft = 180;
         }
+
         public override void AI()
         {
             if (projectile.timeLeft == 90) projectile.velocity *= -1;

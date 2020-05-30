@@ -28,6 +28,7 @@ namespace StarlightRiver.Items.Herbology
         private readonly int Time;
         private readonly int BuffID;
         private readonly int Rare;
+
         public QuickPotion(string name, string tooltip, int time, int buffID, int rare = 1)
         {
             ItemName = name;
@@ -36,15 +37,18 @@ namespace StarlightRiver.Items.Herbology
             BuffID = buffID;
             Rare = rare;
         }
+
         public override bool Autoload(ref string name)
         {
             return GetType().IsSubclassOf(typeof(QuickPotion));
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(ItemName);
             Tooltip.SetDefault(ItemTooltip);
         }
+
         public override void SetDefaults()
         {
             item.width = 20;
@@ -62,5 +66,4 @@ namespace StarlightRiver.Items.Herbology
             item.buffTime = Time;
         }
     }
-
 }

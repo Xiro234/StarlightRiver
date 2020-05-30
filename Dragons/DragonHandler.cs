@@ -11,11 +11,13 @@ namespace StarlightRiver.Dragons
         normal = 0,
         scalie = 1
     };
+
     public enum GrowthStage
     {
         egg = 0,
         baby = 1
     }
+
     public struct DragonData
     {
         public Color hornColor;
@@ -47,6 +49,7 @@ namespace StarlightRiver.Dragons
                 [nameof(gear)] = gear
             };
         }
+
         public void Load(TagCompound tag)
         {
             hornColor = tag.Get<Color>(nameof(hornColor));
@@ -61,6 +64,7 @@ namespace StarlightRiver.Dragons
             stage = (GrowthStage)tag.GetInt(nameof(stage));
             gear = tag.Get<Item>(nameof(gear));
         }
+
         public void SetDefault()
         {
             hornColor = new Color(180, 140, 60);
@@ -76,11 +80,13 @@ namespace StarlightRiver.Dragons
             gear = null;
         }
     }
+
     public class DragonHandler : ModPlayer
     {
         public DragonData data = new DragonData();
         public bool DragonMounted => player.mount.Type == ModContent.MountType<YoungDragon>();
         public bool jumpAgainDragon = true;
+
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
         {
             if (!mediumcoreDeath)
@@ -90,6 +96,7 @@ namespace StarlightRiver.Dragons
                 items.Add(egg);
             }
         }
+
         public override TagCompound Save()
         {
             return new TagCompound()
@@ -97,6 +104,7 @@ namespace StarlightRiver.Dragons
                 [nameof(data)] = data.Save(),
             };
         }
+
         public override void Load(TagCompound tag)
         {
             data.Load(tag.GetCompound(nameof(data)));

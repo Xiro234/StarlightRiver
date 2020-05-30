@@ -19,6 +19,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         private Vector2 spawnPoint = Vector2.Zero; //the Boss' spawn point, used for returning during the guardian phase and some animations
         private Vector2 targetPoint = Vector2.Zero; //the Boss' stored targeting point, for things like bolt and flail toss. SHOULD be deterministic I hope?
+
         public enum OvergrowBossPhase : int //Enum for boss phases so I dont get lost later. wee!
         {
             Struggle = 0,
@@ -30,6 +31,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             FirstBurn = 6,
             FirstGuard = 7
         };
+
         public override void SetDefaults()
         {
             npc.lifeMax = 6000;
@@ -42,6 +44,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             npc.noGravity = true;
             music = default;
         }
+
         public override void AI()
         {
             Lighting.AddLight(npc.Center, new Vector3(1, 1, 0.8f));
@@ -75,7 +78,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     LegendWorld.OvergrowBossFree = true;
                     npc.ai[0] = (int)OvergrowBossPhase.spawnAnimation;
                 }
-
             }
             if (npc.ai[0] == (int)OvergrowBossPhase.spawnAnimation)
             {
@@ -155,7 +157,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (npc.ai[0] == (int)OvergrowBossPhase.FirstBurn)
             {
-
             }
 
             if (npc.ai[0] == (int)OvergrowBossPhase.FirstGuard)
@@ -193,10 +194,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     npc.ai[0] = 7;
                     ResetIntermission();
                 }
-
-
             }
         }
+
         private void ResetIntermission()
         {
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
@@ -218,15 +218,17 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 }
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (npc.ai[3] > 60 && npc.ai[3] < 120 && (npc.ai[2] == 3 || npc.ai[0] == (int)OvergrowBossPhase.FirstToss)) //if the boss is using a flail toss 
+            if (npc.ai[3] > 60 && npc.ai[3] < 120 && (npc.ai[2] == 3 || npc.ai[0] == (int)OvergrowBossPhase.FirstToss)) //if the boss is using a flail toss
                 DrawTossTell(spriteBatch);
 
             if (npc.ai[2] == 4) DrawTrapTell(spriteBatch);
 
             return npc.ai[0] != (int)OvergrowBossPhase.FirstGuard;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[0] == (int)OvergrowBossPhase.Struggle)
@@ -249,6 +251,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
             }
         }
+
         public override bool CheckDead()
         {
             LegendWorld.OvergrowBossDowned = true;

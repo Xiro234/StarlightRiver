@@ -74,6 +74,7 @@ namespace StarlightRiver.Codex
                 ["Locked"] = Locked
             };
         }
+
         public static CodexEntry DeserializeData(TagCompound tag)
         {
             Type t = Type.GetType(tag.GetString("Name"));

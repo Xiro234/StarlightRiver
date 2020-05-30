@@ -9,12 +9,18 @@ namespace StarlightRiver.Projectiles.Dummies
 {
     internal class OvergrowBossWindowDummy : ModNPC //yeah its actually an NPC fucking fight me
     {
-        public override bool CheckActive() { return false; }
+        public override bool CheckActive()
+        {
+            return false;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             npc.width = 100;
@@ -41,7 +47,6 @@ namespace StarlightRiver.Projectiles.Dummies
 
             //Screenshake
             if (npc.ai[0] < 359 && npc.ai[0] > 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += (int)(359 - npc.ai[0]) / 175;
-
 
             //Lighting
             for (float k = 0; k <= 6.28f; k += 0.2f)

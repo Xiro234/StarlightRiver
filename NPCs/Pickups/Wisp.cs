@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Pickups
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Wisp1";
         public override Color GlowColor => new Color(255, 255, 130);
+
         public override bool CanPickup(Player player)
         {
             return player.GetModPlayer<AbilityHandler>().wisp.Locked;

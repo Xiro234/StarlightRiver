@@ -64,7 +64,6 @@ namespace StarlightRiver.NPCs.Hostile
                     npc.direction = npc.velocity.X > 0 ? 1 : -1;
                     npc.spriteDirection = -npc.direction;
 
-
                     //cross gaps/jump over obstacles
                     if (npc.velocity.Y == 0 &&
                         (Main.player[npc.target].Bottom.Y <= npc.Bottom.Y || Main.rand.Next(5) == 0) &&

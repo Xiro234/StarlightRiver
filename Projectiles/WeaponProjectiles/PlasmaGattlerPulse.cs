@@ -20,6 +20,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.ignoreWater = true;
             projectile.extraUpdates = 4;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma");
@@ -31,12 +32,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Color color = new Color(projectile.ai[0] / 200f, (300 - projectile.ai[0]) / 255f, (300 - projectile.ai[0]) / 255f);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), color * 0.9f, projectile.rotation, tex.Size() / 2, 1.4f, 0, 0);
         }
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
             Color color = new Color(projectile.ai[0] / 200f, (200 - projectile.ai[0]) / 255f, (200 - projectile.ai[0]) / 255f);
             Dust.NewDustPerfect(projectile.Center, 264, Vector2.Zero, 0, color, 0.4f);
         }
+
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k <= 30; k++)

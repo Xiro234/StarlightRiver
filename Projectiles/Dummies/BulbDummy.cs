@@ -11,9 +11,10 @@ namespace StarlightRiver.Projectiles.Dummies
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
-
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -22,6 +23,7 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
         }
+
         public override void AI()
         {
             int hostX = (int)projectile.position.X / 16;
@@ -37,7 +39,6 @@ namespace StarlightRiver.Projectiles.Dummies
                         Main.tile[x, y].frameX += 34;
 
                 Main.NewText("Harvest!");
-
             }
             projectile.timeLeft = 2;
 

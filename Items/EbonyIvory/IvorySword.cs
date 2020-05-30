@@ -8,6 +8,7 @@ namespace StarlightRiver.Items.EbonyIvory
     public class IvorySword : ModItem
     {
         private int combostate = 0;
+
         public override void SetDefaults()
         {
             item.width = 44;
@@ -25,7 +26,9 @@ namespace StarlightRiver.Items.EbonyIvory
             item.melee = true;
             item.noUseGraphic = true;
         }
+
         public override bool CloneNewInstances => true;
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 aim = Vector2.Normalize(Main.MouseWorld - player.Center);
@@ -39,14 +42,16 @@ namespace StarlightRiver.Items.EbonyIvory
             if (combostate > 2) { combostate = 0; }
             return false;
         }
+
         public override bool UseItem(Player player)
         {
-
             return true;
         }
+
         public override void HoldItem(Player player)
         {
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ivory Rapier");
@@ -54,4 +59,3 @@ namespace StarlightRiver.Items.EbonyIvory
         }
     }
 }
-

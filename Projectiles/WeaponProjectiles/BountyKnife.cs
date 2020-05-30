@@ -17,6 +17,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.ignoreWater = true;
             projectile.extraUpdates = 5;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bounty Knife");
@@ -31,7 +32,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             if (!target.boss && !target.dontTakeDamage && !target.immortal && !target.friendly)
             {
-                /*if (target.aiStyle == 1) NPC.NewNPC((int)target.position.X, (int)target.position.Y, ModContent.NPCType<NPCs.Beasts.SlimeBeast>()); 
+                /*if (target.aiStyle == 1) NPC.NewNPC((int)target.position.X, (int)target.position.Y, ModContent.NPCType<NPCs.Beasts.SlimeBeast>());
                 else if (!target.noGravity && !target.noTileCollide) NPC.NewNPC((int)target.position.X, (int)target.position.Y, ModContent.NPCType<NPCs.Beasts.GroundBeast>());
                 else if (target.noGravity && !target.noTileCollide) NPC.NewNPC((int)target.position.X, (int)target.position.Y, ModContent.NPCType<NPCs.Beasts.AirBeast>());
                 else if (target.noGravity && target.noTileCollide) NPC.NewNPC((int)target.position.X, (int)target.position.Y, ModContent.NPCType<NPCs.Beasts.PhaseBeast>());

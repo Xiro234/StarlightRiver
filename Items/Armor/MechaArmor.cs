@@ -24,12 +24,10 @@ namespace StarlightRiver.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-
         }
 
         public override void AddRecipes()
         {
-
         }
     }
 
@@ -53,17 +51,14 @@ namespace StarlightRiver.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-
         }
 
         public override void UpdateArmorSet(Player player)
         {
-
         }
 
         public override void AddRecipes()
         {
-
         }
     }
 
@@ -87,12 +82,10 @@ namespace StarlightRiver.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-
         }
 
         public override void AddRecipes()
         {
-
         }
     }
 }

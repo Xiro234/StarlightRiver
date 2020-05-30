@@ -17,10 +17,12 @@ namespace StarlightRiver.Dusts
             dust.color.G = 235;
             dust.color.B = 255;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color * (1 - dust.fadeIn);
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.Y += dust.velocity.Y * 2;
@@ -31,7 +33,6 @@ namespace StarlightRiver.Dusts
             dust.scale *= 0.97f;
             dust.color *= 0.995f;
 
-
             if (dust.scale < 0.4f)
             {
                 dust.active = false;
@@ -39,14 +40,17 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Air2 : ModDust
     {
         private int timer = 0;
+
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Dusts/Air";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -56,6 +60,7 @@ namespace StarlightRiver.Dusts
             dust.color.G = 235;
             dust.color.B = 255;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             if (dust.customData is Player)
@@ -91,6 +96,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Air3 : ModDust
     {
         public override bool Autoload(ref string name, ref string texture)
@@ -98,6 +104,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Air";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.velocity *= 0.3f;
@@ -105,10 +112,12 @@ namespace StarlightRiver.Dusts
             dust.noLight = false;
             dust.scale *= 1.4f;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.Y += dust.velocity.Y * 2;
@@ -118,7 +127,6 @@ namespace StarlightRiver.Dusts
 
             dust.scale *= 0.97f;
 
-
             if (dust.scale < 0.4f)
             {
                 dust.active = false;
@@ -126,6 +134,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Air4 : ModDust
     {
         public override bool Autoload(ref string name, ref string texture)
@@ -133,6 +142,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Air";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.velocity *= 0.3f;
@@ -143,17 +153,18 @@ namespace StarlightRiver.Dusts
             dust.color.G = 235;
             dust.color.B = 255;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.rotation += 0.05f;
             dust.color *= 0.99f;
 
             dust.scale *= 0.98f;
-
 
             if (dust.scale < 0.4f)
             {
@@ -162,6 +173,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class AirDash : ModDust
     {
         public override bool Autoload(ref string name, ref string texture)
@@ -169,11 +181,13 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Air";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
             dust.noLight = false;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.fadeIn <= 0 ? new Color(170, 255, 255) * (dust.alpha / 255f) : Color.Transparent;
@@ -197,6 +211,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Gold";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.velocity *= 0.3f;
@@ -207,10 +222,12 @@ namespace StarlightRiver.Dusts
             dust.color.G = 220;
             dust.color.B = 100;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.rotation += 0.05f;
@@ -223,6 +240,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Gold2 : Gold
     {
         public override bool Update(Dust dust)
@@ -238,6 +256,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Gold3 : ModDust
     {
         public override bool Autoload(ref string name, ref string texture)
@@ -247,6 +266,7 @@ namespace StarlightRiver.Dusts
         }
 
         private int timer = 0;
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -257,6 +277,7 @@ namespace StarlightRiver.Dusts
             dust.color.G = 220;
             dust.color.B = 100;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
@@ -274,7 +295,6 @@ namespace StarlightRiver.Dusts
 
             if (dust.customData != null && (int)dust.customData <= 0)
             {
-
                 rot += (float)(Math.PI * 2) / (20 * 18);
                 if (rot >= (float)Math.PI * 2)
                 {
@@ -302,6 +322,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Gold4 : Gold
     {
         public override bool Update(Dust dust)
@@ -326,6 +347,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Void";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.velocity *= 0.1f;
@@ -336,17 +358,18 @@ namespace StarlightRiver.Dusts
             dust.color.G = 20;
             dust.color.B = 235;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
             dust.rotation += 0.05f;
 
             dust.scale *= 0.94f;
-
 
             if (dust.scale < 0.2f)
             {
@@ -355,6 +378,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Void2 : Void
     {
         public override void OnSpawn(Dust dust)
@@ -368,6 +392,7 @@ namespace StarlightRiver.Dusts
             dust.color.G = 20;
             dust.color.B = 235;
         }
+
         public override bool Update(Dust dust)
         {
             Player player = Main.LocalPlayer;
@@ -377,7 +402,6 @@ namespace StarlightRiver.Dusts
 
             dust.scale *= 0.98f;
 
-
             if (dust.scale < 0.2f)
             {
                 dust.active = false;
@@ -385,6 +409,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Void3 : Void
     {
         public override bool Update(Dust dust)
@@ -394,7 +419,6 @@ namespace StarlightRiver.Dusts
 
             dust.scale *= 0.97f;
 
-
             if (dust.scale < 1.3f)
             {
                 dust.active = false;
@@ -402,6 +426,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Void4 : Void
     {
         public override bool Update(Dust dust)
@@ -421,4 +446,3 @@ namespace StarlightRiver.Dusts
         }
     }
 }
-

@@ -19,6 +19,7 @@ namespace StarlightRiver.Items.Accessories.Expert
             item.rare = -12;
             item.accessory = true;
         }
+
         public override void UpdateEquip(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();

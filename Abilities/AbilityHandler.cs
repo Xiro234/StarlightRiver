@@ -11,6 +11,7 @@ namespace StarlightRiver.Abilities
     {
         //All players store 1 instance of each ability. This instance is changed to the infusion variant if an infusion is equipped.
         public Dash dash = new Dash(Main.LocalPlayer);
+
         public Wisp wisp = new Wisp(Main.LocalPlayer);
         public Pure pure = new Pure(Main.LocalPlayer);
         public Smash smash = new Smash(Main.LocalPlayer);
@@ -21,6 +22,7 @@ namespace StarlightRiver.Abilities
 
         //The players stamina stats.
         public int StatStaminaMax = 0;
+
         public int StatStaminaMaxTemp = 0;
         public int StatStaminaMaxPerm = 1;
         public int StatStamina = 1;
@@ -75,7 +77,6 @@ namespace StarlightRiver.Abilities
             sdash.Locked = tag.GetBool(nameof(sdash));
             //Abilities.Add(sdash);
 
-
             //loads the player's maximum stamina.
             StatStaminaMaxPerm = tag.GetInt(nameof(StatStaminaMaxPerm));
 
@@ -128,7 +129,6 @@ namespace StarlightRiver.Abilities
 
         public override void PreUpdate()
         {
-
             //Executes the ability's use code while it's active.
             if (player.GetModPlayer<Dragons.DragonHandler>().DragonMounted)
                 foreach (Ability ability in Abilities.Where(ability => ability.Active)) { ability.InUseDragon(); ability.UseEffectsDragon(); }
@@ -190,7 +190,6 @@ namespace StarlightRiver.Abilities
                 StatStaminaRegen = StatStaminaRegenMax;
                 foreach (Ability ability in Abilities) { ability.Active = false; }
             }
-
         }
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)

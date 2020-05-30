@@ -14,6 +14,7 @@ namespace StarlightRiver.NPCs.Hostile
             DisplayName.SetDefault("Royal Servant");
             Main.npcFrameCount[npc.type] = 2;
         }
+
         public override void SetDefaults()
         {
             npc.width = 32;
@@ -60,7 +61,6 @@ namespace StarlightRiver.NPCs.Hostile
             {
                 npc.localAI[3]--;
             }
-
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

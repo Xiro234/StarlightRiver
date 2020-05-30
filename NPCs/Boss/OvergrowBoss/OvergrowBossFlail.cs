@@ -14,10 +14,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         public OvergrowBoss parent;
         public Player holder;
         public override string Texture => "StarlightRiver/Projectiles/WeaponProjectiles/ShakerBall";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("[PH]Boss Shaker");
         }
+
         public override void SetDefaults()
         {
             npc.lifeMax = 2000;
@@ -31,10 +33,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             npc.ai[3] = 1;
         }
+
         public override bool CheckActive()
         {
             return false;
         }
+
         public override void AI()
         {
             /* AI fields:
@@ -63,7 +67,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     npc.velocity.Y -= 10; //launches it out of the pit
                     npc.ai[3] = 0; //cut the chain
-                    parent.npc.ai[0] = 5; //phase the boss            
+                    parent.npc.ai[0] = 5; //phase the boss
                 }
 
                 if (npc.ai[1] == 80) //some things need to be on a delay
@@ -102,13 +106,13 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 npc.velocity.Y += 0.2f;
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[3] != 0)
             {
                 for (float k = 0; k <= 1; k += 1 / (Vector2.Distance(npc.Center, parent.npc.Center) / 16))
                 {
-
                     Vector2 pos = Vector2.Lerp(npc.Center, parent.npc.Center, k) - Main.screenPosition;
                     //shake the chain when tossed
                     if ((parent.npc.ai[2] == 3 || parent.npc.ai[0] == 4) && npc.velocity.Length() > 0) pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float)Math.Sin(LegendWorld.rottime + k * 20) * 10;
@@ -119,6 +123,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
             return true;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[0] == 1 && holder == null && npc.velocity.X == 0)
@@ -126,6 +131,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 spriteBatch.DrawString(Main.fontMouseText, "Pick up!", npc.Center + new Vector2(Main.fontMouseText.MeasureString("Pick up!").X / -2, -50 + (float)Math.Sin(LegendWorld.rottime) * 5) - Main.screenPosition, Color.Yellow * 0.75f);
             }
         }
+
         public override bool CheckDead()
         {
             npc.dontTakeDamage = true;

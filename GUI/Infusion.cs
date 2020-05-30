@@ -16,6 +16,7 @@ namespace StarlightRiver.GUI
         public static bool visible = false;
         private readonly InfusionSlot slot0 = new InfusionSlot();
         private readonly InfusionSlot slot1 = new InfusionSlot();
+
         public override void OnInitialize()
         {
             slot0.Width.Set(32, 0);
@@ -143,5 +144,4 @@ namespace StarlightRiver.GUI
             }
         }
     }
-
 }

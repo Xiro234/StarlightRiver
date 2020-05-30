@@ -92,7 +92,6 @@ namespace StarlightRiver.Tiles.StarJuice
             }
             return true;
         }
-
     }
 
     internal sealed class TankEntity : ModTileEntity
@@ -150,6 +149,7 @@ namespace StarlightRiver.Tiles.StarJuice
                 ["Charge"] = charge
             };
         }
+
         public override void Load(TagCompound tag)
         {
             charge = tag.GetInt("Charge");

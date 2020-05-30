@@ -48,7 +48,6 @@ namespace StarlightRiver.Structures
                         case 30: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(3); break;
                         case 40: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(4); break;
                         case 50: Main.tile[(int)spawn.X + x, (int)spawn.Y + y].slope(5); break;
-
                     }
 
                     if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block

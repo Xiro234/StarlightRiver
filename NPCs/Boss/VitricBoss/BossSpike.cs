@@ -8,6 +8,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     internal class BossSpike : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.hostile = false;
@@ -15,6 +16,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.height = 128;
             projectile.timeLeft = 150;
         }
+
         public override bool CanHitPlayer(Player target)
         {
             if (projectile.ai[0] > 70 && Abilities.AbilityHelper.CheckDash(target, projectile.Hitbox))
@@ -45,6 +47,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 projectile.hostile = true;
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.ai[0] > 60)

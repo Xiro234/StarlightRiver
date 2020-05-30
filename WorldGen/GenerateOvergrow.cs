@@ -37,12 +37,12 @@ namespace StarlightRiver
 
             Rooms.ForEach(PopulateRoom);
 
-            //TODO: 
+            //TODO:
             //      Generate that room's insides based on that from file
             //      hallway prefabs
             //      boss room + special rooms
-
         }
+
         private static void WormFromRoom(Rectangle parent, byte initialDirection = 5)
         {
             byte direction = initialDirection >= 5 ? (byte)WorldGen.genRand.Next(4) : initialDirection;
@@ -56,21 +56,25 @@ namespace StarlightRiver
                 switch (direction % 4) //the 4 possible directions that the hallway can generate in, this generates the rectangles for the hallway and room to safety check them.
                 {
                     case 0: //up
-                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y - hallSize + 1, HallWidth, hallSize - 2); //Big brain power required to think back through the math here lol. 
+                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y - hallSize + 1, HallWidth, hallSize - 2); //Big brain power required to think back through the math here lol.
                         room = new Rectangle(parent.X + (parent.Width - roomWidth) / 2, parent.Y - hallSize - RoomHeight, roomWidth, RoomHeight);
                         break;
+
                     case 1: //right
                         hall = new Rectangle(parent.X + parent.Width + 1, parent.Y + RoomHeight / 2 - HallWidth / 2, hallSize - 2, HallWidth);
                         room = new Rectangle(parent.X + parent.Width + hallSize, parent.Y, roomWidth, RoomHeight);
                         break;
+
                     case 2: //down
                         hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y + RoomHeight + 1, HallWidth, hallSize - 2);
                         room = new Rectangle(parent.X + (parent.Width - roomWidth) / 2, parent.Y + RoomHeight + hallSize, roomWidth, RoomHeight);
                         break;
+
                     case 3: //left
                         hall = new Rectangle(parent.X - hallSize + 1, parent.Y + RoomHeight / 2 - HallWidth / 2, hallSize - 2, HallWidth);
                         room = new Rectangle(parent.X - hallSize - roomWidth, parent.Y, roomWidth, RoomHeight);
                         break;
+
                     default: //failsafe, this should never happen. If it does, seek shelter immediately, the universe is likely collapsing.
                         hall = new Rectangle();
                         room = new Rectangle();
@@ -104,6 +108,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private static void MakeHallLong(Rectangle target)
         {
             for (int x = target.X; x <= target.X + target.Width; x++)
@@ -126,6 +131,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private static void MakeHallTall(Rectangle target)
         {
             for (int x = target.X; x <= target.X + target.Width; x++)
@@ -148,6 +154,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private static void MakeRoom(Rectangle target)
         {
             Rooms.Add(target);
@@ -163,6 +170,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private static bool CheckDungeon(Rectangle rect)
         {
             if (Rooms.Count > 20) return false; //limit to 20 rooms
@@ -215,7 +223,9 @@ namespace StarlightRiver
                 for (int y = room.Y; y <= room.Y + room.Height; y++)
                 {
                     int yRel = y - room.Y;
+
                     #region openings
+
                     if (up)
                     {
                         if (xRel > (room.Width / 2) - HallWidth / 2 && xRel < (room.Width / 2) + HallWidth / 2 && yRel < 3)
@@ -244,7 +254,9 @@ namespace StarlightRiver
                             WorldGen.KillTile(x, y);
                         }
                     }
-                    #endregion
+
+                    #endregion openings
+
                     if (xRel > 2 && xRel < room.Width - 2 && yRel > 2 && yRel < room.Height - 2) //clear out
                     {
                         WorldGen.KillTile(x, y);

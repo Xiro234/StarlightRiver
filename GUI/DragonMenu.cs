@@ -17,6 +17,7 @@ namespace StarlightRiver.GUI
         eye = 4,
         name = 5
     };
+
     public class DragonMenu : UIState
     {
         public static bool created = false;
@@ -30,6 +31,7 @@ namespace StarlightRiver.GUI
         {
             QuickAddButton("Customize Dragon", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
         }
+
         private void ChangeToHuman(UIMouseEvent evt, UIElement listeningElement)
         {
             Main.menuMode = 2;
@@ -39,9 +41,9 @@ namespace StarlightRiver.GUI
 
             Main.PlaySound(SoundID.MenuClose);
         }
+
         private void ChangeToDragon(UIMouseEvent evt, UIElement listeningElement)
         {
-
             Main.menuMode = 888;
             visible = true;
             base.RemoveAllChildren();
@@ -59,16 +61,16 @@ namespace StarlightRiver.GUI
             part = ActivePart.none;
 
             Main.PlaySound(SoundID.MenuOpen);
-
         }
+
         private void Customize0(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
             part = ActivePart.name;
 
-
             QuickAddButton("Back", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
         }
+
         private void Customize1(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
@@ -81,6 +83,7 @@ namespace StarlightRiver.GUI
 
             Main.PlaySound(SoundID.MenuOpen);
         }
+
         private void Customize2(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
@@ -93,6 +96,7 @@ namespace StarlightRiver.GUI
 
             Main.PlaySound(SoundID.MenuOpen);
         }
+
         private void Customize3(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
@@ -105,6 +109,7 @@ namespace StarlightRiver.GUI
 
             Main.PlaySound(SoundID.MenuOpen);
         }
+
         private void Customize4(UIMouseEvent evt, UIElement listeningElement)
         {
             base.RemoveAllChildren();
@@ -117,6 +122,7 @@ namespace StarlightRiver.GUI
 
             Main.PlaySound(SoundID.MenuOpen);
         }
+
         private void Randomize(UIMouseEvent evt, UIElement listeningElement)
         {
             dragon.data.hornColor = new Color(Main.rand.Next(255), Main.rand.Next(255), Main.rand.Next(255));
@@ -152,6 +158,7 @@ namespace StarlightRiver.GUI
             base.Draw(spriteBatch);
             Recalculate();
         }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -164,6 +171,7 @@ namespace StarlightRiver.GUI
                 case ActivePart.name: dragon.data.name = Main.GetInputText(dragon.data.name); break;
             }
         }
+
         private void QuickAddButton(string text, Vector2 pos, MouseEvent OnClick = null)
         {
             TextButton button = new TextButton(text);
@@ -172,6 +180,7 @@ namespace StarlightRiver.GUI
             button.OnClick += OnClick;
             base.Append(button);
         }
+
         private void QuickAddColor(ColorChannel channel, Vector2 pos, int initialValue = 0)
         {
             ColorSlider slider = new ColorSlider(channel);
@@ -182,7 +191,6 @@ namespace StarlightRiver.GUI
             slider.sliderPos = initialValue;
 
             base.Append(slider);
-
         }
     }
 
@@ -190,12 +198,18 @@ namespace StarlightRiver.GUI
     {
         private readonly string Text;
         private int Fade;
-        public TextButton(string text) { Text = text; }
+
+        public TextButton(string text)
+        {
+            Text = text;
+        }
+
         public override void OnInitialize()
         {
             Width.Set((int)Main.fontMouseText.MeasureString(Text).X * 1.2f, 0);
             Height.Set((int)Main.fontMouseText.MeasureString(Text).Y * 1.2f, 0);
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             bool hover = GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint());
@@ -211,10 +225,12 @@ namespace StarlightRiver.GUI
             Width.Set((int)Main.fontMouseText.MeasureString(Text).X * 2f, 0);
             Height.Set((int)Main.fontMouseText.MeasureString(Text).Y * 1.2f, 0);
         }
+
         public override void MouseOver(UIMouseEvent evt)
         {
             Main.PlaySound(SoundID.MenuTick);
         }
+
         public override void Click(UIMouseEvent evt)
         {
             base.Click(evt);
@@ -227,13 +243,18 @@ namespace StarlightRiver.GUI
         g = 1,
         b = 2
     };
+
     public class ColorSlider : UIElement
     {
         public int sliderPos = 0;
         private readonly ColorChannel Channel;
         private Rectangle sliderBox => new Rectangle((int)GetDimensions().X + sliderPos - 9, (int)GetDimensions().Y + 2, 18, 28);
 
-        public ColorSlider(ColorChannel channel) { Channel = channel; }
+        public ColorSlider(ColorChannel channel)
+        {
+            Channel = channel;
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             Texture2D tex0 = ModContent.GetTexture("StarlightRiver/GUI/SliderBack");
@@ -261,6 +282,7 @@ namespace StarlightRiver.GUI
             spriteBatch.Draw(tex2, GetDimensions().ToRectangle(), tex2.Frame(), Color.White);
             spriteBatch.Draw(tex3, sliderBox, tex3.Frame(), Color.White);
         }
+
         public override void Update(GameTime gameTime)
         {
             if (GetDimensions().ToRectangle().Contains(Main.MouseScreen.ToPoint()) && Main.mouseLeft)

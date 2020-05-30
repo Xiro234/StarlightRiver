@@ -10,6 +10,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
     internal class GemFocusProjectile : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.friendly = true;
@@ -21,6 +22,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.penetrate = -1;
             projectile.netSpam = 1;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             return false;
@@ -30,6 +32,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (projectile.ai[1] == 0)
@@ -38,6 +41,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, projectile.Center);
             }
         }
+
         public override void AI()
         {
             if (projectile.ai[1] > 0) projectile.ai[1]--;
@@ -79,6 +83,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 d.customData = projectile;
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D over = ModContent.GetTexture("StarlightRiver/Items/Misc/GemFocusOver");
@@ -90,8 +95,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             float fade = (projectile.alpha / 255f);
             float pulse = 1 - projectile.ai[1] / 15f;
             Rectangle frame = under.Frame();
-
-
 
             spriteBatch.Draw(under, position + projectile.Size / 2 * scale, under.Frame(), Color.White * fade, projectile.rotation, under.Size() / 2, scale, 0, 0);
 

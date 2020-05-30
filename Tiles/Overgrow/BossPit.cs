@@ -14,6 +14,7 @@ namespace StarlightRiver.Tiles.Overgrow
             texture = "StarlightRiver/Invisible";
             return true;
         }
+
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = false;
@@ -52,4 +53,3 @@ namespace StarlightRiver.Tiles.Overgrow
         }
     }
 }
-

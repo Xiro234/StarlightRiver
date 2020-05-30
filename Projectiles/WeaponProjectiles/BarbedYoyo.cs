@@ -10,6 +10,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
     internal class BarbedYoyo : ModProjectile
     {
         private readonly List<NPC> targets = new List<NPC>();
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -19,6 +20,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.penetrate = -1;
             projectile.timeLeft = 2;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flayer");

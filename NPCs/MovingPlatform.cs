@@ -7,11 +7,15 @@ namespace StarlightRiver.NPCs
 {
     internal abstract class MovingPlatform : ModNPC
     {
-        public virtual void SafeSetDefaults() { }
+        public virtual void SafeSetDefaults()
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
         }
+
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();
@@ -20,14 +24,19 @@ namespace StarlightRiver.NPCs
             npc.immortal = true;
             npc.dontTakeDamage = true;
             npc.noGravity = true;
-            npc.knockBackResist = 0; //very very important!! 
+            npc.knockBackResist = 0; //very very important!!
             npc.aiStyle = -1;
         }
+
         public override bool CheckActive()
         {
             return false;
         }
-        public virtual void SafeAI() { }
+
+        public virtual void SafeAI()
+        {
+        }
+
         public sealed override void AI()
         {
             SafeAI();
@@ -47,6 +56,7 @@ namespace StarlightRiver.NPCs
                 proj.netUpdate = true;
             }
         }
+
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             return false;

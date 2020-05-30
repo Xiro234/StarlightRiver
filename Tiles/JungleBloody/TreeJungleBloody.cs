@@ -35,7 +35,6 @@ namespace StarlightRiver.Tiles.JungleBloody
             xOffsetLeft = 48;
             yOffset = 2;
             return mod.GetTexture("Tiles/JungleBloody/TreeJungleBloody_Tops");
-
         }
 
         public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)

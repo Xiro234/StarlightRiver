@@ -18,6 +18,7 @@ namespace StarlightRiver.Tiles.Overgrow
             dustType = ModContent.DustType<Dusts.Gold>();
             AddMapEntry(new Color(255, 255, 80));
         }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Tile tile = Framing.GetTileSafely(i, j);
@@ -31,6 +32,7 @@ namespace StarlightRiver.Tiles.Overgrow
                 Lighting.AddLight(new Vector2(i, j) * 16, new Vector3(1, 1, 0.5f));
             }
         }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Framing.GetTileSafely(i, j);

@@ -12,6 +12,7 @@ namespace StarlightRiver.Food
         Side = 1,
         Seasoning = 2
     };
+
     public abstract class Ingredient : ModItem
     {
         public string ItemTooltip;
@@ -28,21 +29,22 @@ namespace StarlightRiver.Food
         ///<summary>Where the effects of this food item's buff will go. use the multiplier param for any effect that should be multiplier-sensitive</summary>
         public virtual void BuffEffects(Player player, float multiplier)
         {
-
         }
+
         /// <summary>
         /// Make sure to reset appropriate buff updates here
         /// </summary>
         public virtual void ResetBuffEffects(Player player, float multiplier)
         {
-
         }
 
         public override bool CloneNewInstances => true;
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("\n\n");
         }
+
         public override void SetDefaults()
         {
             item.maxStack = 99;

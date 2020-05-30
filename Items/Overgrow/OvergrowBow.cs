@@ -30,6 +30,7 @@ namespace StarlightRiver.Items.Overgrow
             item.shootSpeed = 14f;
             item.useAmmo = AmmoID.Arrow;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<LeafSpawner>(), damage, knockBack, player.whoAmI);

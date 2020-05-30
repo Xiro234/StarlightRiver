@@ -4,7 +4,11 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Forest
 {
-    internal class PalestoneItem : Items.QuickTileItem { public PalestoneItem() : base("Palestone", "", ModContent.TileType<Palestone>(), 0) { } }
+    internal class PalestoneItem : Items.QuickTileItem {
+        public PalestoneItem() : base("Palestone", "", ModContent.TileType<Palestone>(), 0)
+        {
+        }
+    }
 
     internal class Palestone : ModTile
     {

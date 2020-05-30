@@ -11,10 +11,12 @@ namespace StarlightRiver.Projectiles.Dummies
     internal class OvergrowBossPitDummy : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -23,6 +25,7 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
         }
+
         public override void AI()
         {
             projectile.timeLeft = 2;

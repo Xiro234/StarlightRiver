@@ -25,10 +25,12 @@ namespace StarlightRiver.GUI
             scl = scale;
             time = timeleft;
         }
+
         public void SafeDraw(SpriteBatch spriteBatch)
         {
             if (ModContent.GetInstance<Config>().Active) Draw(spriteBatch);
         }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, pos, default, col, rot, tex.Size() / 2, scl, default, 0);
@@ -43,8 +45,8 @@ namespace StarlightRiver.GUI
     {
         public ExpertDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int timeleft) : base(texture, position, velocity, color, scale, timeleft)
         {
-
         }
+
         public override void Update()
         {
             pos += vel;

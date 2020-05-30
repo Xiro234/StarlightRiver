@@ -44,8 +44,6 @@ namespace StarlightRiver.Items.Armor
                 if ((float)player.statLife / player.statLifeMax2 > k)
                 {
                     player.statDefense += 3;
-
-
                 }
                 if ((float)player.statLife / player.statLifeMax2 < k)
                 {
@@ -70,6 +68,7 @@ namespace StarlightRiver.Items.Armor
         }
     }
 }
+
 namespace StarlightRiver.Items.Armor
 {
     [AutoloadEquip(EquipType.Body)]
@@ -106,6 +105,7 @@ namespace StarlightRiver.Items.Armor
         }
     }
 }
+
 namespace StarlightRiver.Items.Armor
 {
     [AutoloadEquip(EquipType.Legs)]

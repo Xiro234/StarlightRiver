@@ -16,6 +16,7 @@ namespace StarlightRiver.Items.Infusions
             item.useTime = 30;
             item.rare = ItemRarityID.Lime;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("[PH] Infusion Transfusion");
