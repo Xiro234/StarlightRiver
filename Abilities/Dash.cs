@@ -20,7 +20,7 @@ namespace StarlightRiver.Abilities
         }
 
         public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
-        public override bool CanUse => player.controlLeft || player.controlRight || player.controlUp || player.controlDown;
+        public override bool CanUse => (player.controlLeft || player.controlRight || player.controlUp || player.controlDown) && !player.mount.Active;
 
         public override void OnCast()
         {
