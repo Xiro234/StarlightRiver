@@ -57,7 +57,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     }
                     break;
                 case 1://has hit something
-                    if (projOwner.controlUseItem) {
+                    if (projOwner.controlUseItem || projectile.ai[1] >= maxcharge - 5) {
                         projectile.ai[1]++;
                         projectile.velocity *= 0.75f;
                         projectile.damage = 3;
@@ -73,8 +73,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         else if (projectile.ai[1] == maxcharge)//change hitbox size, stays for 3 frames
                         {
                             projectile.position = projectile.Center;
-                            projectile.width = 150;
-                            projectile.height = 150;
+                            projectile.width = 135;
+                            projectile.height = 135;
                             projectile.Center = projectile.position;
                             projectile.damage = oldDamage * 2;
                         }
@@ -82,6 +82,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         {
                             DustHelper.DrawStar(projectile.Center, ModContent.DustType<Dusts.Stamina>(), pointAmount: 5, mainSize: 4.5f, dustDensity: 2, pointDepthMult: 0.3f);
                             Lighting.AddLight(projectile.Center, new Vector3(0.8f, 0.4f, 0.2f));
+                            for (int k = 0; k < 50; k++)
+                            {
+                                Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.5f, 3f), 0, default, 1.5f);
+                            }
                         }
                     }
                     else { //if mouse isnt held or let go, start next phase
