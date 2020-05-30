@@ -8,28 +8,25 @@ namespace StarlightRiver.Dusts
 {
     public class Shadowflame : ModDust
     {
+        float startingScale;
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
             dust.noLight = false;
-            dust.color = new Color(196 + Main.rand.Next(20), 136+Main.rand.Next(20), 251);
+            startingScale = dust.scale;
+        }
+        public override Color? GetAlpha(Dust dust, Color lightColor)
+        {
+            return Color.Purple * dust.fadeIn;
         }
         public override bool Update(Dust dust)
         {
-            if (dust.alpha > 255 || dust.scale <= 0)
+            if (dust.scale <= 0)
             {
                 dust.active = false;
-                return false;
             }
-            if (dust.color.R >= 182 && Main.rand.NextBool())
-            {
-                dust.color.R -= 1;
-            }
-            if (dust.color.G >= 27)
-            {
-                dust.color.G -= 6;
-            }
-            Lighting.AddLight(dust.position, dust.color.ToVector3() * dust.scale * 0.75f);
+            dust.fadeIn = dust.scale / startingScale;
+            Lighting.AddLight((int)(dust.position.X / 16f), (int)(dust.position.Y / 16f), dust.scale * 0.6f, dust.scale * 0.2f, dust.scale);
 
             dust.velocity *= 0.9f;
             dust.position += dust.velocity;
