@@ -103,7 +103,7 @@ namespace StarlightRiver.NPCs.Hostile
             {
                 float rot = k / 3f * 6.28f;
                 Vector2 pos = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35;
-                Player player = Main.player[npc.target];
+                //Player player = Main.player[npc.target];
 
                 Projectile.NewProjectile(pos, -Vector2.Normalize(npc.Center - pos) * 6, ModContent.ProjectileType<Projectiles.OvergrowRockThrowerRock>(), npc.damage, 2); //throw rock
             }

@@ -75,7 +75,7 @@ namespace StarlightRiver.Structures
 
                         for (int x = 0; x < BoulderSlope.Width; x++) //every entry in the row
                         {
-                            ushort currentTileType = Main.tile[(int)spawn.X + x, (int)spawn.Y + y].type;
+                            //ushort currentTileType = Main.tile[(int)spawn.X + x, (int)spawn.Y + y].type;
                             ushort placeType = 0;
                             //ushort wallType = 0;
                             byte slopeType = 0;

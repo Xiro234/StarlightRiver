@@ -15,7 +15,7 @@ namespace StarlightRiver.Items.Guardian
         public int ProjectileType { get; set; }
         public int HealthCost { get; set; }
 
-        public Tome(int projType, int strength, int rad, int hpcost)
+        public Tome(int projType, int rad, int hpcost)
         {
             Radius = rad;
             ProjectileType = projType;

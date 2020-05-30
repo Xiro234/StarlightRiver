@@ -63,62 +63,62 @@ namespace StarlightRiver
             }
         }
 
-        private void DolomiteGen(GenerationProgress progress)
-        {
-            progress.Message = "Shifting Tectonic Plates...";
-            ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite.Dolomite>();
+        //private void DolomiteGen(GenerationProgress progress)
+        //{
+        //    progress.Message = "Shifting Tectonic Plates...";
+        //    ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite.Dolomite>();
 
-            for (int k = 0; k < (Main.rand.Next(4, 8)); k++)
-            {
-                int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
+        //    for (int k = 0; k < (Main.rand.Next(4, 8)); k++)
+        //    {
+        //        int x = WorldGen.genRand.Next(0, Main.maxTilesX);
+        //        int y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
 
-                for (int i = x - 200; i <= x + 200; i++)
-                {
-                    for (int j = y - 100; j <= y + 100; j++)
-                    {
-                        if (i > 20 && j > 20 && i < Main.maxTilesX - 20 && j < Main.maxTilesY - 20)
-                        {
-                            if (Main.tile[i, j].type is TileID.Stone) { Main.tile[i, j].type = Dolomite; }
+        //        for (int i = x - 200; i <= x + 200; i++)
+        //        {
+        //            for (int j = y - 100; j <= y + 100; j++)
+        //            {
+        //                if (i > 20 && j > 20 && i < Main.maxTilesX - 20 && j < Main.maxTilesY - 20)
+        //                {
+        //                    if (Main.tile[i, j].type is TileID.Stone) { Main.tile[i, j].type = Dolomite; }
 
-                            if (!Main.tile[i, j + 2].active() && Main.tile[i, j].type == Dolomite) { Main.tile[i, j + 1].type = (ushort)ModContent.TileType<Tiles.Dolomite.DolomiteHanging>(); }
+        //                    if (!Main.tile[i, j + 2].active() && Main.tile[i, j].type == Dolomite) { Main.tile[i, j + 1].type = (ushort)ModContent.TileType<Tiles.Dolomite.DolomiteHanging>(); }
 
-                            if (i % 15 == 0 && Main.tile[i, j].active() && Main.tile[i, j].type == Dolomite && !Main.tile[i, j - 1].active() && Main.rand.Next(3) == 0)
-                            {
-                                GenerateBeam(i, j);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //                    if (i % 15 == 0 && Main.tile[i, j].active() && Main.tile[i, j].type == Dolomite && !Main.tile[i, j - 1].active() && Main.rand.Next(3) == 0)
+        //                    {
+        //                        GenerateBeam(i, j);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
-        private void GenerateBeam(int x, int y)
-        {
-            for (int j = y - 1; j >= y - 100; j--)
-            {
-                if (j % 10 == 0 && Main.rand.Next(2) == 0)
-                {
-                    for (int k = -1; k <= 1; k++)
-                    {
-                        if (!Main.tile[x + k, j].active()) { Main.tile[x + k, j].type = TileID.WoodenBeam; }
-                    }
-                }
+        //private static void GenerateBeam(int x, int y)
+        //{
+        //    for (int j = y - 1; j >= y - 100; j--)
+        //    {
+        //        if (j % 10 == 0 && Main.rand.Next(2) == 0)
+        //        {
+        //            for (int k = -1; k <= 1; k++)
+        //            {
+        //                if (!Main.tile[x + k, j].active()) { Main.tile[x + k, j].type = TileID.WoodenBeam; }
+        //            }
+        //        }
 
-                if (x > 0 && j > 0 && x < Main.maxTilesX && j < Main.maxTilesY)
-                {
-                    Main.tile[x, j].wall = WallID.Wood;
-                    if (Main.tile[x, j].active() || j == y - 100)
-                    {
-                        for (int k = -2; k <= 2; k++)
-                        {
-                            Main.tile[x + k, j].type = TileID.WoodBlock;
-                        }
-                        return;
-                    }
-                }
-            }
-        }
+        //        if (x > 0 && j > 0 && x < Main.maxTilesX && j < Main.maxTilesY)
+        //        {
+        //            Main.tile[x, j].wall = WallID.Wood;
+        //            if (Main.tile[x, j].active() || j == y - 100)
+        //            {
+        //                for (int k = -2; k <= 2; k++)
+        //                {
+        //                    Main.tile[x + k, j].type = TileID.WoodBlock;
+        //                }
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
 
         public static float rottime = 0;
         public static bool starfall = false;

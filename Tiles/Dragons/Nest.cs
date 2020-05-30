@@ -44,7 +44,7 @@ namespace StarlightRiver.Tiles.Dragons
             if (entity.owner == null && item.type == ModContent.ItemType<Items.Dragons.Egg>())
             {
                 entity.owner = Main.LocalPlayer; //Sets the ID if the nest has not yet been claimed
-                entity.dragon.data.stage = GrowthStage.baby;
+                entity.Dragon.data.stage = GrowthStage.baby;
                 int index = NPC.NewNPC(entity.Position.X * 16 + 27, entity.Position.Y * 16, ModContent.NPCType<DragonEgg>());
                 (Main.npc[index].modNPC as DragonEgg).nest = entity;
                 item.TurnToAir(); //Absorbs the egg
@@ -62,7 +62,7 @@ namespace StarlightRiver.Tiles.Dragons
             if (tile.frameX == 0 && tile.frameY == 0)
             {
                 Vector2 center = (new Vector2(i + 1, j - 1) + Helper.TileAdj) * 16 + new Vector2(8, 0);
-                spriteBatch.DrawString(Main.fontItemStack, entity.owner.name + "'s dragon\n" + entity.dragon.data.name, center + new Vector2(0, -64) - Main.screenPosition - Main.fontItemStack.MeasureString(entity.dragon.data.name) / 2, Color.White);
+                spriteBatch.DrawString(Main.fontItemStack, entity.owner.name + "'s dragon\n" + entity.Dragon.data.name, center + new Vector2(0, -64) - Main.screenPosition - Main.fontItemStack.MeasureString(entity.Dragon.data.name) / 2, Color.White);
             }
         }
 
@@ -80,7 +80,7 @@ namespace StarlightRiver.Tiles.Dragons
     internal class NestEntity : ModTileEntity
     {
         public Player owner;
-        public DragonHandler dragon => owner.GetModPlayer<DragonHandler>();
+        public DragonHandler Dragon => owner.GetModPlayer<DragonHandler>();
 
         public override bool ValidTile(int i, int j)
         {
@@ -101,7 +101,7 @@ namespace StarlightRiver.Tiles.Dragons
 
         public override void Update()
         {
-            owner.GetModPlayer<DragonHandler>().data = dragon.data;
+            owner.GetModPlayer<DragonHandler>().data = Dragon.data;
         }
     }
 }

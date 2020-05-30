@@ -135,7 +135,7 @@ namespace StarlightRiver.Tiles.Overgrow
             }
         }
 
-        public void CustomDraw(int i, int j, SpriteBatch spriteBatch)
+        public static void CustomDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/GrassOvergrowMoss");

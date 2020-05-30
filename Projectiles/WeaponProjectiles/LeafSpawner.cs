@@ -16,13 +16,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.friendly = true;
         }
 
-        public int proj { get; set; }
+        public int Proj { get; set; }
 
         public override void AI()
         {
             projectile.ai[0]++;
-            if (!Main.projectile[proj].active) projectile.Kill();
-            projectile.position = Main.projectile[proj].position;
+            if (!Main.projectile[Proj].active) projectile.Kill();
+            projectile.position = Main.projectile[Proj].position;
             if (projectile.ai[0] % 10 == 0) Projectile.NewProjectile(projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<Leaf>(), projectile.damage, projectile.knockBack, projectile.owner);
         }
     }

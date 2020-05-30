@@ -7,7 +7,7 @@ namespace StarlightRiver.Dusts
 {
     internal class OvergrowDust : ModDust
     {
-        private readonly int time = 0;
+        //private readonly int time = 0;
 
         public override bool Autoload(ref string name, ref string texture)
         {

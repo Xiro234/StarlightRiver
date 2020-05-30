@@ -18,7 +18,7 @@ namespace StarlightRiver
 
         public override void Update()
         {
-            pos = basePos + vel * (500 - time) - Main.screenPosition + StarlightRiver.Instance.FindOffset(basePos, depth);
+            pos = basePos + vel * (500 - time) - Main.screenPosition + StarlightRiver.FindOffset(basePos, depth);
             col = Color.White * (time / 500f) * 0.8f;
             scl *= 0.99999f;
             time--;

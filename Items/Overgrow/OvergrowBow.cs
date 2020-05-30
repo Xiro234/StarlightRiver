@@ -35,7 +35,7 @@ namespace StarlightRiver.Items.Overgrow
         {
             int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<LeafSpawner>(), damage, knockBack, player.whoAmI);
             LeafSpawner spawner = Main.projectile[proj].modProjectile as LeafSpawner;
-            spawner.proj = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            spawner.Proj = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             return false;
         }
     }

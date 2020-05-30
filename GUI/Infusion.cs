@@ -96,7 +96,7 @@ namespace StarlightRiver.GUI
             }
         }
 
-        public void SetSlot(Player player, Item item, int slot)
+        public static void SetSlot(Player player, Item item, int slot)
         {
             if (slot == 0) { player.GetModPlayer<AbilityHandler>().slot1 = item; }
             else { player.GetModPlayer<AbilityHandler>().slot2 = item; }

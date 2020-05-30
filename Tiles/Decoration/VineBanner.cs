@@ -74,7 +74,7 @@ namespace StarlightRiver.Tiles.Decoration
                 Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Decoration/VineBanner");
                 Vector2 end = new Vector2(i - 0.5f, j) * 16 + entity.Endpoint.ToVector2() * 16;
                 Vector2 oldPos = new Vector2(i, j) * 16;
-                Vector2 olderPos = new Vector2(i, j) * 16;
+                //Vector2 olderPos = new Vector2(i, j) * 16;
                 float max = Vector2.Distance(end, new Vector2(i, j) * 16) / 5;
                 for (int k = 0; k < max; k++)
                 {
@@ -93,7 +93,7 @@ namespace StarlightRiver.Tiles.Decoration
 
                     spriteBatch.Draw(tex2, pos - Main.screenPosition, new Rectangle(k % 3 * 16, 0, 16, 16), color, (pos - oldPos).ToRotation() + 1.57f, tex2.Size() / 2, 1, 0, 0);
 
-                    olderPos = oldPos;
+                    //olderPos = oldPos;
                     oldPos = pos;
                 }
             }

@@ -94,7 +94,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             float scale = projectile.scale;
             float fade = (projectile.alpha / 255f);
             float pulse = 1 - projectile.ai[1] / 15f;
-            Rectangle frame = under.Frame();
+            //Rectangle frame = under.Frame();
 
             spriteBatch.Draw(under, position + projectile.Size / 2 * scale, under.Frame(), Color.White * fade, projectile.rotation, under.Size() / 2, scale, 0, 0);
 

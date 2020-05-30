@@ -11,7 +11,7 @@ namespace StarlightRiver.Items.Accessories
     { //needs sound / particles and number tweaking
         private bool doubleJumped = false;
         private bool releaseJump = false;
-        private static readonly int maxSpeed = 15;
+        private const int maxSpeed = 15;
 
         public override void SetStaticDefaults()
         {

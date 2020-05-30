@@ -48,7 +48,7 @@ namespace StarlightRiver.Dragons
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (nest == null) return false;
-            DragonData data = nest.dragon.data;
+            DragonData data = nest.Dragon.data;
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Items/Dragons/Egg");
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Items/Dragons/EggOver");
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), data.scaleColor.MultiplyRGB(drawColor), npc.rotation, new Vector2(tex.Width / 2, tex.Height), 1, 0, 0);
@@ -58,9 +58,9 @@ namespace StarlightRiver.Dragons
 
         public override bool CheckDead()
         {
-            for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, DustID.Marble, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, nest.dragon.data.scaleColor);
+            for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, DustID.Marble, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, nest.Dragon.data.scaleColor);
             Main.PlaySound(SoundID.Camera, npc.Center);
-            Main.NewText(nest.owner.name + "'s dragon ''" + nest.dragon.data.name + "'' hatched!", new Color(255, 240, 100));
+            Main.NewText(nest.owner.name + "'s dragon ''" + nest.Dragon.data.name + "'' hatched!", new Color(255, 240, 100));
             return true;
         }
     }

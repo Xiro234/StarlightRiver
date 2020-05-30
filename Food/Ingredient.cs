@@ -19,7 +19,7 @@ namespace StarlightRiver.Food
         public int Fill = 0;
         public IngredientType ThisType { get; set; }
 
-        public Ingredient(string tooltip, int filling, IngredientType type)
+        protected Ingredient(string tooltip, int filling, IngredientType type)
         {
             Fill = filling;
             ItemTooltip = tooltip;

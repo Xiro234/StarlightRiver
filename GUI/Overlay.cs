@@ -221,7 +221,7 @@ namespace StarlightRiver.GUI
             {
                 float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
                 float veloff = (Parallax > 0.2) ? 0.2f : 0.1f;
-                float off = Basepos.X + Offset + (StarlightRiver.Instance.GetParallaxOffset(Basepos.X, 0.5f) - Parallax * vanillaParallax * (Main.screenPosition.X + Main.screenWidth / 2 - Basepos.X));
+                float off = Basepos.X + Offset + (StarlightRiver.GetParallaxOffset(Basepos.X, 0.5f) - Parallax * vanillaParallax * (Main.screenPosition.X + Main.screenWidth / 2 - Basepos.X));
                 pos.X = (off) - Main.screenPosition.X;
                 pos.Y = ((Basepos.Y + 256) - (1500 * veloff * Velocity - time * veloff * Velocity) - Main.screenPosition.Y);
             }

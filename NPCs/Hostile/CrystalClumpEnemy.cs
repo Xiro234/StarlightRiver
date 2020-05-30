@@ -43,7 +43,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         private bool CanSuck => SuckTime > 0;
 
-        private Player Target => Main.player[npc.target];
+        //private Player Target => Main.player[npc.target];
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -171,7 +171,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         private bool HasSucked = false;
 
-        private Player Target => Main.player[npc.target];
+        //private Player Target => Main.player[npc.target];
 
         public override void HitEffect(int hitDirection, double damage)
         {

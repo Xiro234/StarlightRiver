@@ -43,7 +43,7 @@ namespace StarlightRiver
                 int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 40);
                 for (int y = biomeTarget.Y + biomeTarget.Height - 76; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
-                    Tile tile = Framing.GetTileSafely(x, y);
+                    //Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
 
@@ -59,7 +59,7 @@ namespace StarlightRiver
                 int off = (int)(xRel * 2 - xRel * xRel / 30f);
                 for (int y = biomeTarget.Y + biomeTarget.Height - off; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
-                    Tile tile = Framing.GetTileSafely(x, y);
+                    //Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
             }
@@ -70,7 +70,7 @@ namespace StarlightRiver
                 int off = (int)(30 - xRel * xRel / 30f);
                 for (int y = biomeTarget.Y + biomeTarget.Height - off; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
-                    Tile tile = Framing.GetTileSafely(x, y);
+                    //Tile tile = Framing.GetTileSafely(x, y);
                     WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
                 }
             }
@@ -127,12 +127,12 @@ namespace StarlightRiver
                 {
                     for (int y = biomeTarget.Y + biomeTarget.Height - 77; y < biomeTarget.Y + biomeTarget.Height - 67; y++) //bottom
                     {
-                        Tile tile = Framing.GetTileSafely(x, y);
+                        //Tile tile = Framing.GetTileSafely(x, y);
                         WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
                     }
                     for (int y = biomeTarget.Y - 1; y < biomeTarget.Y + 9; y++) // top
                     {
-                        Tile tile = Framing.GetTileSafely(x, y);
+                        //Tile tile = Framing.GetTileSafely(x, y);
                         WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
                     }
                 }

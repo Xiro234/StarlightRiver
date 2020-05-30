@@ -9,7 +9,7 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver.Structures
 {
-    public partial class GenHelper
+    public static partial class GenHelper
     {
         private const int TotalHeight = 96;
         private const int HalfHeight = 48;
@@ -35,10 +35,8 @@ namespace StarlightRiver.Structures
 
             Vector2 sandMid = GetGroundDirectional(new Vector2(0, 1), centre.ToVector2(), TileID.Platforms);
 
-            Mod m = ModLoader.GetMod("StarlightRiver");
-
             GenerateSandDunes(new Point((int)sandMid.X, (int)sandMid.Y - 10), (int)(size * 1.15f)); //Generates SAND under the crystals. Wacky!
-            GenerateCrystals(centre); //I wonder what this does
+            //GenerateCrystals(centre); //I wonder what this does. literally nothing rn
             GenerateFloatingOre(centre, 30, (int)(size * 0.7f));
 
             LegendWorld.VitricBiome = new Rectangle(centre.X - size, centre.Y - TotalHeight / 2, size * 2, 96);
@@ -115,61 +113,59 @@ namespace StarlightRiver.Structures
             }
         }
 
-        private const float CrystalOffsetCoefficient = 3f; //Used for easy changing of the offset of the crystals
+        //private const float CrystalOffsetCoefficient = 3f; //Used for easy changing of the offset of the crystals
 
-        private static void GenerateCrystals(Point tC)
-        {
-            int totalReps = (int)(125 * WorldSize()); //Total repeats
+        //private static void GenerateCrystals(Point tC)
+        //{
+        //    //int totalReps = (int)(125 * WorldSize()); //Total repeats
 
-            //Add those FRICKING dumb crystals you BUFFOON.
-        }
+        //    //TODO: Add those FRICKING dumb crystals you BUFFOON.
+        //}
 
         /// <summary>
         /// Places crystal at placePosition, length of dist * 3, direction of dir, at the size determined by smol.
         /// </summary>
-        private static bool PlaceCrystal(int dist, Vector2 placePosition, Vector2 dir, bool smol)
-        {
-            Mod m = ModLoader.GetMod("StarlightRiver");
+        //private static bool PlaceCrystal(int dist, Vector2 placePosition, Vector2 dir, bool smol)
+        //{
+        //    int width = WorldGen.genRand.Next(3, 7);
+        //    int negWidth = WorldGen.genRand.Next(3, 7);
+        //    if (smol)
+        //    {
+        //        width = WorldGen.genRand.Next(1, 4);
+        //        negWidth = WorldGen.genRand.Next(1, 4);
+        //    }
 
-            int width = WorldGen.genRand.Next(3, 7);
-            int negWidth = WorldGen.genRand.Next(3, 7);
-            if (smol)
-            {
-                width = WorldGen.genRand.Next(1, 4);
-                negWidth = WorldGen.genRand.Next(1, 4);
-            }
+        //    width -= 2;
+        //    negWidth -= 2;
 
-            width -= 2;
-            negWidth -= 2;
+        //    for (int j = 0; j < dist * 3; ++j)
+        //    {
+        //        if (j == 0 || j == 2)
+        //            width++;
+        //        if (j == 1 || j == 3)
+        //            negWidth++;
 
-            for (int j = 0; j < dist * 3; ++j)
-            {
-                if (j == 0 || j == 2)
-                    width++;
-                if (j == 1 || j == 3)
-                    negWidth++;
+        //        if (placePosition.X < 0 || placePosition.X > Main.maxTilesX || placePosition.Y < 0 || placePosition.Y > Main.maxTilesY)
+        //            return false;
+        //        Vector2 negDir = Vector2.Normalize(new Vector2(1 / dir.X, 1 / -dir.Y));
+        //        Vector2 actualPlacePos = placePosition - (negDir * 2);
 
-                if (placePosition.X < 0 || placePosition.X > Main.maxTilesX || placePosition.Y < 0 || placePosition.Y > Main.maxTilesY)
-                    return false;
-                Vector2 negDir = Vector2.Normalize(new Vector2(1 / dir.X, 1 / -dir.Y));
-                Vector2 actualPlacePos = placePosition - (negDir * 2);
+        //        if ((dist * 3) - j < width)
+        //            width--;
+        //        if ((dist * 3) - j < negWidth)
+        //            negWidth--;
 
-                if ((dist * 3) - j < width)
-                    width--;
-                if ((dist * 3) - j < negWidth)
-                    negWidth--;
+        //        for (int k = -negWidth; k < width; ++k)
+        //        {
+        //            Main.tile[(int)actualPlacePos.X, (int)actualPlacePos.Y].active(false);
+        //            WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, ModContent.TileType<VitricGlassCrystal>());
+        //            actualPlacePos += (negDir / 4);
+        //        }
 
-                for (int k = -negWidth; k < width; ++k)
-                {
-                    Main.tile[(int)actualPlacePos.X, (int)actualPlacePos.Y].active(false);
-                    WorldGen.PlaceTile((int)actualPlacePos.X, (int)actualPlacePos.Y, ModContent.TileType<VitricGlassCrystal>());
-                    actualPlacePos += (negDir / 4);
-                }
-
-                placePosition += dir;
-            }
-            return true;
-        }
+        //        placePosition += dir;
+        //    }
+        //    return true;
+        //}
 
         /// <summary>
         /// Moves from starting point p to the first solid block it touches according to direction dir. Skips tiles of types included the ignoredTileIDs array.

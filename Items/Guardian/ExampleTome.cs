@@ -7,7 +7,7 @@ namespace StarlightRiver.Items.Guardian
 {
     internal class ExampleTome : Tome
     {
-        public ExampleTome() : base(ModContent.ProjectileType<ExampleTomeProjectile>(), 1, 128, 75)
+        public ExampleTome() : base(ModContent.ProjectileType<ExampleTomeProjectile>(), 128, 75)
         {
         }
 

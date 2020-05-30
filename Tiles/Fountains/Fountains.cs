@@ -13,7 +13,7 @@ namespace StarlightRiver.Tiles.Fountains
     {
         private readonly int ItemType;
 
-        public BiomeFountain(int item)
+        protected BiomeFountain(int item)
         {
             ItemType = item;
         }
@@ -71,7 +71,7 @@ namespace StarlightRiver.Tiles.Fountains
             {
                 animate = Main.tileFrame[Type] * animationFrameHeight;
             }
-            Main.spriteBatch.Draw(texture, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY + animate, 16, 16), Lighting.GetColor(i, j), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY + animate, 16, 16), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
             return false;
         }
 

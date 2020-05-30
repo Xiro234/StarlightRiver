@@ -77,7 +77,11 @@ namespace StarlightRiver.Dusts
                 if (mp.smash.Timer > Abilities.Smash.ChargeTime || !mp.smash.Active) dust.alpha -= 10;
                 if (dust.alpha <= 0) dust.active = false;
             }
-            else dust.active = false;
+            else
+            {
+                dust.active = false;
+            }
+
             return false;
         }
     }

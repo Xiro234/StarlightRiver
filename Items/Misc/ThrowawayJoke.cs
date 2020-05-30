@@ -62,7 +62,7 @@ namespace StarlightRiver.Items.Misc
             return ammo > 0f;
         }
 
-        public void reload(bool crit)
+        public void Reload(bool crit)
         {
             cooldown = 120;
             this.crit = crit;
@@ -78,7 +78,7 @@ namespace StarlightRiver.Items.Misc
                 cooldown--;
                 if (cooldown <= 0)
                 {
-                    reload(false);
+                    Reload(false);
                 }
             }
             base.HoldItem(player);

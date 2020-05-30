@@ -31,7 +31,8 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            Rectangle box = new Rectangle(i * 16 - 72, j * 16 - 72, 144, 144);
+            //Rectangle box = new Rectangle(i * 16 - 72, j * 16 - 72, 144, 144);
+            //TODO wtf
         }
     }
 }

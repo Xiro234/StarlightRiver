@@ -117,7 +117,7 @@ namespace StarlightRiver.GUI
             }
         }
 
-        private void CookIngredient(Item target, CookingSlot source)
+        private static void CookIngredient(Item target, CookingSlot source)
         {
             if (!source.Item.IsAir && source.Item.modItem is Ingredient)
             {

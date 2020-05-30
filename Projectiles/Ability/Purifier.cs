@@ -107,7 +107,7 @@ namespace StarlightRiver.Projectiles.Ability
             }
         }
 
-        private void SpawnDust(int x, int y)
+        private static void SpawnDust(int x, int y)
         {
             for (int k = 0; k <= 4; k++)
             {

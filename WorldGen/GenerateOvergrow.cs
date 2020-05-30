@@ -209,7 +209,7 @@ namespace StarlightRiver
             bool down = false;
             bool left = false;
             bool right = false;
-            bool isLong = room.Width > 20;
+            //bool isLong = room.Width > 20;
             int type = ModContent.TileType<Tiles.Overgrow.MarkerGem>();
 
             for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y - 2).type == type) up = true;

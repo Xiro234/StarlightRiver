@@ -37,7 +37,7 @@ namespace StarlightRiver.NPCs
         {
             if (frozenTime != 0)
             {
-                Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 15, 0f, 0f, 255, default(Color), 1f)];
+                Dust dust = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 15, 0f, 0f, 255, default, 1f)];
                 dust.noGravity = true;
                 dust.scale = 1.1f;
                 dust.noLight = true;

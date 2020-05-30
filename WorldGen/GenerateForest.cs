@@ -92,7 +92,7 @@ namespace StarlightRiver
             }
         }
 
-        private bool AnyGrass(int x)
+        private static bool AnyGrass(int x)
         {
             for (int y = 10; y < Main.maxTilesY; y++)
             {

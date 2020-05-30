@@ -248,7 +248,7 @@ namespace StarlightRiver.GUI
     {
         public int sliderPos = 0;
         private readonly ColorChannel Channel;
-        private Rectangle sliderBox => new Rectangle((int)GetDimensions().X + sliderPos - 9, (int)GetDimensions().Y + 2, 18, 28);
+        private Rectangle SliderBox => new Rectangle((int)GetDimensions().X + sliderPos - 9, (int)GetDimensions().Y + 2, 18, 28);
 
         public ColorSlider(ColorChannel channel)
         {
@@ -280,7 +280,7 @@ namespace StarlightRiver.GUI
             spriteBatch.Begin();
 
             spriteBatch.Draw(tex2, GetDimensions().ToRectangle(), tex2.Frame(), Color.White);
-            spriteBatch.Draw(tex3, sliderBox, tex3.Frame(), Color.White);
+            spriteBatch.Draw(tex3, SliderBox, tex3.Frame(), Color.White);
         }
 
         public override void Update(GameTime gameTime)

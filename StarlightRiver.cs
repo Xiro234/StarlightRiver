@@ -13,6 +13,7 @@ using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.Items.Prototypes;
 using StarlightRiver.Keys;
 using StarlightRiver.RiftCrafting;
+using StarlightRiver.Tiles.Overgrow;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -236,7 +237,7 @@ namespace StarlightRiver
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
             //Menu themes
-            On.Terraria.Main.DrawMenu += TestMenu;
+            //On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
@@ -265,7 +266,7 @@ namespace StarlightRiver
             IL.Terraria.WorldGen.Convert += JungleGrassConvert;
             IL.Terraria.WorldGen.hardUpdateWorld += JungleGrassSpread;
             //title screen BGs
-            IL.Terraria.Main.DrawBG += DrawTitleScreen;
+            //IL.Terraria.Main.DrawBG += DrawTitleScreen;
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
 
@@ -946,7 +947,7 @@ namespace StarlightRiver
                 {
                     if (i > 0 && j > 0 && i < Main.maxTilesX && j < Main.maxTilesY && Main.tile[i, j] != null && Main.tile[i, j].type == ModContent.TileType<Tiles.Overgrow.GrassOvergrow>())
                     {
-                        (ModContent.GetModTile(ModContent.TileType<Tiles.Overgrow.GrassOvergrow>()) as Tiles.Overgrow.GrassOvergrow).CustomDraw(i, j, Main.spriteBatch);
+                        GrassOvergrow.CustomDraw(i, j, Main.spriteBatch);
                     }
                 }
         }
@@ -958,7 +959,7 @@ namespace StarlightRiver
             }
             orig(self);
         }
-        public Vector2 FindOffset(Vector2 basepos, float factor)
+        public static Vector2 FindOffset(Vector2 basepos, float factor)
         {
             Vector2 origin = Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
             float x = (origin.X - basepos.X) * factor;
@@ -1222,7 +1223,7 @@ namespace StarlightRiver
                 }
             }
         }
-        public void DrawLayer(Vector2 basepoint, Texture2D texture, float parallax, int offY = 0, Color color = default, bool flip = false)
+        public static void DrawLayer(Vector2 basepoint, Texture2D texture, float parallax, int offY = 0, Color color = default, bool flip = false)
         {
             if (color == default) color = Color.White;
             for (int k = 0; k <= 5; k++)
@@ -1235,12 +1236,12 @@ namespace StarlightRiver
                 }
             }
         }
-        public int GetParallaxOffset(float startpoint, float factor)
+        public static int GetParallaxOffset(float startpoint, float factor)
         {
             float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
             return (int)((Main.screenPosition.X + Main.screenWidth / 2 - startpoint) * factor * vanillaParallax);
         }
-        public int GetParallaxOffsetY(float startpoint, float factor)
+        public static int GetParallaxOffsetY(float startpoint, float factor)
         {
             //float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
             return (int)((Main.screenPosition.Y + Main.screenHeight / 2 - startpoint) * factor /* vanillaParallax*/);
@@ -1385,7 +1386,7 @@ namespace StarlightRiver
                 orig(sb, inv, context, slot, position, color);
             }
         }
-        private void RedrawItem(SpriteBatch sb, Item[] inv, Texture2D back, Vector2 position, int slot, Color color)
+        private static void RedrawItem(SpriteBatch sb, Item[] inv, Texture2D back, Vector2 position, int slot, Color color)
         {
             Item item = inv[slot];
             Vector2 vector = back.Size() * Main.inventoryScale;

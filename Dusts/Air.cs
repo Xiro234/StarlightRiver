@@ -63,9 +63,8 @@ namespace StarlightRiver.Dusts
 
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
-            if (dust.customData is Player)
+            if (dust.customData is Player player)
             {
-                Player player = (Player)dust.customData;
                 return dust.color * (1 - Vector2.Distance(dust.position, player.Center) / 50f);
             }
             return dust.color;

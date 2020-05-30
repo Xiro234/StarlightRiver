@@ -69,6 +69,7 @@ namespace StarlightRiver.Items
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = Tiletype;
+            item.rare = Rare;
         }
     }
 }

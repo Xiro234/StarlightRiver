@@ -60,7 +60,7 @@ namespace StarlightRiver.Projectiles
                 {
                     int dustType = 16;
                     Vector2 dustPos = projectile.Center;
-                    Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default(Color), 1f)];
+                    Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 1f)];
                     dust.velocity = (dustPos - player.Center).SafeNormalize(Vector2.Zero) * -9f;
                     dust.noGravity = true;
                     dust.scale = 1.1f;

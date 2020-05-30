@@ -43,7 +43,7 @@ namespace StarlightRiver.Items.Ultrashark
             return GetSharkPos(player) + new Vector2(0, 17);
         }
 
-        public Vector2 GetMousePos() //player's mouse position
+        public static Vector2 GetMousePos() //player's mouse position
         {
             return new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y);
         }
@@ -56,10 +56,13 @@ namespace StarlightRiver.Items.Ultrashark
             return anglediff <= f && anglediff >= -f ? rotation : sharkRotation;
         }
 
-        public void completeSetup(Player player)
+#pragma warning disable IDE0060 // Remove unused parameter
+        public void CompleteSetup(Player player)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             //put some completion vfx here idk
             turretSetup = true;
+            // TODO- ultrashark
         }
 
         #endregion methods
@@ -274,7 +277,7 @@ namespace StarlightRiver.Items.Ultrashark
                         }
                         else if (!item.turretSetup)
                         {
-                            item.completeSetup(player);
+                            item.CompleteSetup(player);
                         }
                     }
                     if (Main.time % 20 - item.spinup * 6f == 0) //animate gun

@@ -176,7 +176,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
                         {
                             Rectangle hitbox = new Rectangle((int)point.X - 110, (int)point.Y + 48, 220, 16); //grabs the platform hitbox
-                            Rectangle myHitbx = new Rectangle((int)npc.position.X, (int)npc.position.Y + 40, npc.width, 20);
                             if (npc.Hitbox.Intersects(hitbox))
                             {
                                 npc.velocity *= 0;

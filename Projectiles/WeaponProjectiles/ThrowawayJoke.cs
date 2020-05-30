@@ -50,7 +50,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     if (player.HeldItem.type.Equals(ModContent.ItemType<ThrowawayJoke>()))
                     {
                         ThrowawayJoke joke = (ThrowawayJoke)player.HeldItem.modItem;
-                        joke.reload(crit);
+                        joke.Reload(crit);
                     }
                 }
             }
