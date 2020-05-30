@@ -24,7 +24,7 @@ namespace StarlightRiver.Abilities
             Active = true;
             Main.PlaySound(SoundID.Item37);
             Cooldown = 600;
-            Filters.Scene.Activate("PurityFilter", player.Center + new Vector2(0, -40)).GetShader();
+            //Filters.Scene.Activate("PurityFilter", player.Center + new Vector2(0, -40)).GetShader();
         }
 
         public override void InUse()

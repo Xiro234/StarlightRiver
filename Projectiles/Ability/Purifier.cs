@@ -34,7 +34,11 @@ namespace StarlightRiver.Projectiles.Ability
 
         public override void AI()
         {
-            if (projectile.timeLeft >= 500)
+            if(projectile.timeLeft == 550)
+            {
+                Filters.Scene.Activate("PurityFilter", projectile.position).GetShader();
+            }
+            else if (projectile.timeLeft >= 500)
             {
                 projectile.ai[0] += 5;
             }
@@ -42,19 +46,14 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 projectile.ai[0]--;
             }
-<<<<<<< Updated upstream
-            Filters.Scene["AuraFilter"].GetShader().UseProgress(projectile.ai[0] / 6000).UseIntensity(-0.02f * (projectile.ai[0] * 0.01f + 0.5f))
-          .UseOpacity(projectile.ai[0] * 0.01f * 0.5f)
-          .UseColor(new Vector3(0.4f, 0.4f, 0.4f) * (projectile.ai[0] * 0.01f * 0.5f)); //to update the shader //1.3
 
-=======
             Filters.Scene["PurityFilter"].GetShader().UseProgress((projectile.ai[0] / 255) * 0.191f).UseIntensity((projectile.ai[0] / 255) * 0.015f);
 
             Main.NewText(projectile.ai[0]);
->>>>>>> Stashed changes
+
             for (int x = 0; x < 30; x++)
             {
-                Dust.NewDustPerfect(projectile.Center + (Vector2.One * (projectile.ai[0] * 0.72f)).RotatedByRandom(6.28f) - Vector2.One * 16, ModContent.DustType<Dusts.Purify>());
+                Dust.NewDustPerfect(projectile.Center + (Vector2.One * ((projectile.ai[0]) * 0.82f)).RotatedByRandom(6.28f) - Vector2.One * 16, ModContent.DustType<Dusts.Purify>());
             }
             Dust.NewDust(projectile.Center - Vector2.One * 32, 32, 32, ModContent.DustType<Dusts.Purify>());
 
@@ -62,8 +61,8 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 for (int y = -20; y < 20; y++)
                 {
-                    Vector2 check = (projectile.Center / 16) + new Vector2(x, y);
-                    if (Vector2.Distance((check * 16) + Vector2.One * 8, projectile.Center) <= projectile.ai[0] - 8)
+                    Vector2 check = (projectile.position / 16) + new Vector2(x, y);
+                    if (Vector2.Distance((check * 16), projectile.position) <= projectile.ai[0] - 2)
                     {
                         TransformTile((int)check.X, (int)check.Y);
                     }
@@ -82,15 +81,11 @@ namespace StarlightRiver.Projectiles.Ability
                 }
                 Projectile.NewProjectile(projectile.Center - Vector2.One * 16, Vector2.Normalize((projectile.Center - Vector2.One * 16) - Main.player[projectile.owner].Center).RotatedBy(0.3f) * 6,
                     ModContent.ProjectileType<PurifierReturn>(), 0, 0, projectile.owner);
-<<<<<<< Updated upstream
 
-                if (Filters.Scene["AuraFilter"].IsActive())
-=======
             }
             else if (projectile.timeLeft == 60)
             {
                 if (Filters.Scene["PurityFilter"].IsActive())
->>>>>>> Stashed changes
                 {
                     Filters.Scene.Deactivate("PurityFilter");
                 }
@@ -101,15 +96,15 @@ namespace StarlightRiver.Projectiles.Ability
         {
             Tile target = Main.tile[x, y];
             {
-                if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)ModContent.TileType<StonePure>(); }
-                if (target.type == TileID.Grass || target.type == TileID.CorruptGrass || target.type == TileID.FleshGrass || target.type == TileID.HallowedGrass) { target.type = (ushort)ModContent.TileType<GrassPure>(); }
-                if (target.type == TileID.Sand || target.type == TileID.Ebonsand || target.type == TileID.Crimsand || target.type == TileID.Pearlsand) { target.type = (ushort)ModContent.TileType<SandPure>(); }
-                if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); }
-                if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }
+                if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)ModContent.TileType<StonePure>(); SpawnDust(x, y); }
+                if (target.type == TileID.Grass || target.type == TileID.CorruptGrass || target.type == TileID.FleshGrass || target.type == TileID.HallowedGrass) { target.type = (ushort)ModContent.TileType<GrassPure>(); SpawnDust(x, y); }
+                if (target.type == TileID.Sand || target.type == TileID.Ebonsand || target.type == TileID.Crimsand || target.type == TileID.Pearlsand) { target.type = (ushort)ModContent.TileType<SandPure>(); SpawnDust(x, y); }
+                if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); SpawnDust(x, y); }
+                if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }//No Dust.
 
                 //walls
-                if (target.wall == WallID.Stone || target.wall == WallID.EbonstoneUnsafe || target.wall == WallID.CrimstoneUnsafe || target.wall == WallID.PearlstoneBrickUnsafe) target.wall = (ushort)ModContent.WallType<WallStonePure>();
-                if (target.wall == WallID.GrassUnsafe || target.wall == WallID.CorruptGrassUnsafe || target.wall == WallID.CrimsonGrassUnsafe || target.wall == WallID.HallowedGrassUnsafe) target.wall = (ushort)ModContent.WallType<WallGrassPure>();
+                if (target.wall == WallID.Stone || target.wall == WallID.EbonstoneUnsafe || target.wall == WallID.CrimstoneUnsafe || target.wall == WallID.PearlstoneBrickUnsafe) { target.wall = (ushort)ModContent.WallType<WallStonePure>(); SpawnDust(x, y); }
+                if (target.wall == WallID.GrassUnsafe || target.wall == WallID.CorruptGrassUnsafe || target.wall == WallID.CrimsonGrassUnsafe || target.wall == WallID.HallowedGrassUnsafe) { target.wall = (ushort)ModContent.WallType<WallGrassPure>(); SpawnDust(x, y); }
             }
         }
         private void RevertTile(int x, int y)
@@ -123,20 +118,16 @@ namespace StarlightRiver.Projectiles.Ability
                 if (target.type == (ushort)mod.TileType("VoidDoorOff")) { target.type = (ushort)mod.TileType("VoidDoorOn"); SpawnDust(x, y); }
 
                 //walls
-                if (target.wall == ModContent.WallType<WallStonePure>()) target.wall = WallID.Stone;
-                if (target.wall == ModContent.WallType<WallGrassPure>()) target.wall = WallID.GrassUnsafe;
+                if (target.wall == ModContent.WallType<WallStonePure>()) { target.wall = WallID.Stone; SpawnDust(x, y); }
+                if (target.wall == ModContent.WallType<WallGrassPure>()) { target.wall = WallID.GrassUnsafe; SpawnDust(x, y); }
             }
         }
 
         private static void SpawnDust(int x, int y)
         {
-            for (int k = 0; k <= 48; k++)
+            for (int k = 0; k <= 16; k++)
             {
-<<<<<<< Updated upstream
-                Dust.NewDustPerfect(new Vector2(x, y) * 16 + Vector2.One * 8, ModContent.DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.9f));
-=======
-                Dust.NewDustPerfect(new Vector2(x, y) * 16 + Main.rand.NextVector2Square(0, 16), ModContent.DustType<Dusts.Purify2>(), new Vector2(Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(-0.1f, -0.5f)));
->>>>>>> Stashed changes
+                Dust.NewDustPerfect(new Vector2(x, y) * 16 + Main.rand.NextVector2Square(-2, 18), ModContent.DustType<Dusts.Purify2>(), new Vector2(Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(-0.1f, -0.5f)), 0, Color.White, 2f);
             }
         }
 
@@ -147,8 +138,7 @@ namespace StarlightRiver.Projectiles.Ability
                 Color.White * ((projectile.timeLeft < 500) ? 1 : (projectile.ai[0] / 250f)), 0, tex.Size() / 2, 1, 0, 0);
 
             Texture2D cirTex = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle");
-            spriteBatch.Draw(cirTex, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex.Frame(),
-                    Color.White, 0, cirTex.Size() / 2, (projectile.ai[0] / 255) * 1.015f , 0, 0);
+            spriteBatch.Draw(cirTex, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex.Frame(), Color.White, 0, cirTex.Size() / 2, (projectile.ai[0] / 255) * 1.015f , 0, 0);
 
             /*for (float k = 0; k <= 6.28f; k += 0.1f)
             {
