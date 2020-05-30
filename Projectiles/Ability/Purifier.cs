@@ -42,10 +42,16 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 projectile.ai[0]--;
             }
+<<<<<<< Updated upstream
             Filters.Scene["AuraFilter"].GetShader().UseProgress(projectile.ai[0] / 6000).UseIntensity(-0.02f * (projectile.ai[0] * 0.01f + 0.5f))
           .UseOpacity(projectile.ai[0] * 0.01f * 0.5f)
           .UseColor(new Vector3(0.4f, 0.4f, 0.4f) * (projectile.ai[0] * 0.01f * 0.5f)); //to update the shader //1.3
 
+=======
+            Filters.Scene["PurityFilter"].GetShader().UseProgress((projectile.ai[0] / 255) * 0.191f).UseIntensity((projectile.ai[0] / 255) * 0.015f);
+
+            Main.NewText(projectile.ai[0]);
+>>>>>>> Stashed changes
             for (int x = 0; x < 30; x++)
             {
                 Dust.NewDustPerfect(projectile.Center + (Vector2.One * (projectile.ai[0] * 0.72f)).RotatedByRandom(6.28f) - Vector2.One * 16, ModContent.DustType<Dusts.Purify>());
@@ -57,7 +63,7 @@ namespace StarlightRiver.Projectiles.Ability
                 for (int y = -20; y < 20; y++)
                 {
                     Vector2 check = (projectile.Center / 16) + new Vector2(x, y);
-                    if (Vector2.Distance((check * 16) + Vector2.One * 8, projectile.Center) <= projectile.ai[0])
+                    if (Vector2.Distance((check * 16) + Vector2.One * 8, projectile.Center) <= projectile.ai[0] - 8)
                     {
                         TransformTile((int)check.X, (int)check.Y);
                     }
@@ -76,10 +82,17 @@ namespace StarlightRiver.Projectiles.Ability
                 }
                 Projectile.NewProjectile(projectile.Center - Vector2.One * 16, Vector2.Normalize((projectile.Center - Vector2.One * 16) - Main.player[projectile.owner].Center).RotatedBy(0.3f) * 6,
                     ModContent.ProjectileType<PurifierReturn>(), 0, 0, projectile.owner);
+<<<<<<< Updated upstream
 
                 if (Filters.Scene["AuraFilter"].IsActive())
+=======
+            }
+            else if (projectile.timeLeft == 60)
+            {
+                if (Filters.Scene["PurityFilter"].IsActive())
+>>>>>>> Stashed changes
                 {
-                    Filters.Scene.Deactivate("AuraFilter");
+                    Filters.Scene.Deactivate("PurityFilter");
                 }
             }
         }
@@ -117,9 +130,13 @@ namespace StarlightRiver.Projectiles.Ability
 
         private static void SpawnDust(int x, int y)
         {
-            for (int k = 0; k <= 4; k++)
+            for (int k = 0; k <= 48; k++)
             {
+<<<<<<< Updated upstream
                 Dust.NewDustPerfect(new Vector2(x, y) * 16 + Vector2.One * 8, ModContent.DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.9f));
+=======
+                Dust.NewDustPerfect(new Vector2(x, y) * 16 + Main.rand.NextVector2Square(0, 16), ModContent.DustType<Dusts.Purify2>(), new Vector2(Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(-0.1f, -0.5f)));
+>>>>>>> Stashed changes
             }
         }
 
@@ -129,12 +146,17 @@ namespace StarlightRiver.Projectiles.Ability
             spriteBatch.Draw(tex, projectile.Center + new Vector2(-16, -16 + (float)Math.Sin(LegendWorld.rottime) * 2) - Main.screenPosition, tex.Frame(),
                 Color.White * ((projectile.timeLeft < 500) ? 1 : (projectile.ai[0] / 250f)), 0, tex.Size() / 2, 1, 0, 0);
 
-            for (float k = 0; k <= 6.28f; k += 0.1f)
+            Texture2D cirTex = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle");
+            spriteBatch.Draw(cirTex, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex.Frame(),
+                    Color.White, 0, cirTex.Size() / 2, (projectile.ai[0] / 255) * 1.015f , 0, 0);
+
+            /*for (float k = 0; k <= 6.28f; k += 0.1f)
             {
-                Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/WhiteLine");
+                Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/WhiteLine"); //move this outside the for loop lol
+
                 spriteBatch.Draw(tex2, projectile.Center + (Vector2.One * (projectile.ai[0] * 0.72f)).RotatedBy(k) - Vector2.One * 16 - Main.screenPosition, tex2.Frame(),
                     Color.White * (projectile.timeLeft / 600f), k - 1.58f / 2, tex2.Size() / 2, 1, 0, 0);
-            }
+            }*/
         }
     }
 
