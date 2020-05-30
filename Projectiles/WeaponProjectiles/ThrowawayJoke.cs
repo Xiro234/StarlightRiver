@@ -57,11 +57,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 if (projectile.Hitbox.Intersects(player.Hitbox))
                 {
                     projectile.Kill();
-                    if (player.HeldItem.type.Equals(ModContent.ItemType<ThrowawayJoke>()))
-                    {
-                        ThrowawayJoke joke = (ThrowawayJoke)player.HeldItem.modItem;
-                        joke.reload(crit);
-                    }
+                    SmgPlayer sPlayer = player.GetModPlayer<SmgPlayer>();
+                    sPlayer.reload(crit);
                 }
             }
             else if (projectile.timeLeft <= 100)

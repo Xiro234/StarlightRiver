@@ -55,7 +55,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             Main.PlaySound(SoundID.Item62, projectile.position);
             Main.PlaySound(SoundID.Item103, projectile.position);
-            int max = 4 + Main.rand.Next(2);
+            int max = 4 + Main.rand.Next(4);
             for (int i = 0;i<=max; i++)
             {
                 spawnShadowflame((360 / max) * i);

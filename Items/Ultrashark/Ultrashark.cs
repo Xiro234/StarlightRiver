@@ -27,17 +27,17 @@ namespace StarlightRiver.Items.Ultrashark
         #endregion
 
         #region methods
-        public void SpawnCasing(Player player, Vector2 velocity) //pos infront of player pretty much
+        public void SpawnCasing(Player player, Vector2 velocity, Vector2 position) //pos infront of player pretty much
         {
-            Gore.NewGore(GetSharkPos(player), (-velocity + new Vector2(0, -1) + new Vector2(Main.rand.NextFloat(3f) - 1.5f, -2)) * 0.25f, mod.GetGoreSlot("Gores/UltrasharkCasing"));
+            Gore.NewGore(position, (-velocity + new Vector2(0, -1) + new Vector2(Main.rand.NextFloat(3f) - 1.5f, -2)) * 0.25f, mod.GetGoreSlot("Gores/UltrasharkCasing"));
         }
         public Vector2 GetSharkPos(Player player) //pos infront of player pretty much
         {
-            return player.Center + new Vector2(turretDirection * player.width, -10);
+            return player.Center + new Vector2(turretDirection * player.width, -7);
         }
         public Vector2 GetStandPos(Player player) //pos where we draw the stand
         {
-            return GetSharkPos(player) + new Vector2(0, 17);
+            return player.Center + new Vector2(turretDirection * player.width, 7);
         }
         public Vector2 GetMousePos() //player's mouse position
         {
@@ -187,7 +187,7 @@ namespace StarlightRiver.Items.Ultrashark
                 speedX = perturbedSpeed.X;
                 speedY = perturbedSpeed.Y;
                 position = GetSharkPos(player);
-                SpawnCasing(player, perturbedSpeed);
+                SpawnCasing(player, perturbedSpeed, position);
                 return true;
             }
             else if (player.altFunctionUse == 2) //summon stand
@@ -202,7 +202,7 @@ namespace StarlightRiver.Items.Ultrashark
             Vector2 perturbedSpeedAgain = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(8));
             speedX = perturbedSpeedAgain.X;
             speedY = perturbedSpeedAgain.Y;
-            SpawnCasing(player, perturbedSpeedAgain);
+            SpawnCasing(player, perturbedSpeedAgain, position);
             return true;
         }
         #endregion

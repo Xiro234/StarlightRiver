@@ -25,7 +25,7 @@ namespace StarlightRiver.Projectiles
             projectile.aiStyle = -1;
             projectile.penetrate = -1;
             projectile.extraUpdates = 2;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 180;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
@@ -75,18 +75,13 @@ namespace StarlightRiver.Projectiles
             {
                 projectile.Kill();
             }
-            if (projectile.scale < 1f)
+            for (int k = 0; k < projectile.scale * 5f; k++)
             {
-                for (int k = 0; k < projectile.scale * 5f; k++)
-                {
-                    Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, ModContent.DustType<Shadowflame>(), projectile.velocity.X, projectile.velocity.Y, 0, default, 2f)];
-                    dust.position = (dust.position + projectile.Center) / 2f;
-                    dust.velocity *= 0.1f;
-                    dust.velocity -= projectile.velocity * (1.3f - projectile.scale);
-                    dust.fadeIn = 100 + projectile.owner;
-                    dust.scale += projectile.scale * 1.25f;
-                }
-                return;
+                Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, ModContent.DustType<Shadowflame>(), projectile.velocity.X, projectile.velocity.Y, 100, default, 2f)];
+                dust.position = (dust.position + projectile.Center) / 2f;
+                dust.velocity *= 0.1f;
+                dust.velocity -= projectile.velocity * (1.3f - projectile.scale);
+                dust.scale += projectile.scale * 1.25f;
             }
         }
     }
