@@ -151,6 +151,8 @@ namespace StarlightRiver
             //Shaders
             if (!Main.dedServ)
             {
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive"), ItemType("VitricMusicBoxItem"), TileType("VitricMusicBox"));
+
                 GameShaders.Misc["StarlightRiver:Distort"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Distort")), "Distort");
 
                 Ref<Effect> screenRef4 = new Ref<Effect>(GetEffect("Effects/Shockwave"));
