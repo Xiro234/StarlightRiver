@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
@@ -29,6 +30,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (npc.ai[3] == 1)
             {
                 List<Vector2> possibleLocations = new List<Vector2>(CrystalLocations);
+                possibleLocations.ForEach(n => n += new Vector2(0, -32));
                 for (int k = 0; k < Crystals.Count; k++)
                 {
                     NPC npc = Crystals[k];
@@ -261,6 +263,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (npc.ai[3] == 1)
             {
                 RandomizeTarget();
+                startPos = npc.Center;
+            }
+            if(npc.ai[3] < 120)
+            {
+                npc.Center = Vector2.SmoothStep(startPos, homePos, npc.ai[3] / 120f);
             }
 
             if (npc.ai[3] % 120 == 0)
@@ -273,18 +280,74 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 ResetAttack(); //end after the third volley is fired
             }
         }
-        //private void ReverseCage()
-        //{
-        //    if (npc.ai[3] == 1)
-        //    {
-        //        FavoriteCrystal = Main.rand.Next(4); //not actually a crystal but is used to sync randomization here
-        //        for (int k = 0; k < 4; k++)
-        //        {
-        //            int i = Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k * 1.57f), ModContent.ProjectileType<GrowingCageMaster>(), 10, 0, 255, k == FavoriteCrystal ? 1 : 0);
-        //            (Main.projectile[i].modProjectile as GrowingCageMaster).Parent = this;
-        //        }
-        //    }
-        //}
+        private void ReverseCage()
+       {
+            Main.NewText("Poop Fard and Shidd");
+            ResetAttack();
+            if (npc.ai[3] == 1)
+            {
+                FavoriteCrystal = Main.rand.Next(4); //not actually a crystal but is used to sync randomization here
+                for (int k = 0; k < 4; k++)
+                {
+                    int i = Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k * 1.57f), ModContent.ProjectileType<GrowingCageMaster>(), 10, 0, 255, k == FavoriteCrystal ? 1 : 0);
+                    (Main.projectile[i].modProjectile as GrowingCageMaster).Parent = this;
+                }
+            }
+        }
+        private void Whirl()
+        {
+            if(npc.ai[3] == 1)
+            {
+                FavoriteCrystal = Main.rand.Next(2); //bootleg but I dont feel like syncing another var
+            }
+            if(npc.ai[3] < 300)
+            {
+                float rad = npc.ai[3] * 2.5f;
+                float rot = npc.ai[3] / 300f * 6.28f;
+                npc.Center = homePos + new Vector2(0, -rad).RotatedBy(FavoriteCrystal == 0 ? rot : -rot);
+                if(Main.expertMode && npc.ai[3] % 45 == 0)
+                {
+                    RandomizeTarget();
+                    Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, npc.Center);
+                    Projectile.NewProjectile(npc.Center, Vector2.Normalize(npc.Center - Main.player[npc.target].Center) * -2, ModContent.ProjectileType<GlassVolleyShard>(), 12, 1);
+                }
+            }
+            if(npc.ai[3] == 300)
+            {
+                startPos = npc.Center;
+            }
+            if(npc.ai[3] > 300)
+            {
+                npc.Center = Vector2.Lerp(startPos, homePos + new Vector2(0, 400), (npc.ai[3] - 300) / 30f);
+            }
+            if(npc.ai[3] == 330)
+            {
+                foreach(Player player in Main.player.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 1500))
+                {
+                    player.GetModPlayer<StarlightPlayer>().Shake += 20;
+                }
+                Main.PlaySound(SoundID.NPCDeath43, npc.Center);
+
+                for(int k = 0; k < 12; k++)
+                {
+                    Projectile.NewProjectile(homePos + new Vector2(-700 + k * 120, -550), new Vector2(0, 8), ModContent.ProjectileType<Projectiles.GlassSpike>(), 15, 0);
+                }
+                ResetAttack();
+            }
+        }
+        private void Mines()
+        {
+            if(npc.ai[3] == 1)
+            Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ModContent.ProjectileType<VitricBomb>(), 15, 0);
+
+            if (npc.ai[3] == 10 && npc.life <= npc.lifeMax / 5f)
+                Projectile.NewProjectile(npc.Center, new Vector2(-10, 4), ModContent.ProjectileType<VitricBomb>(), 15, 0);
+
+            if (npc.ai[3] == 20 && npc.life <= npc.lifeMax / 6f)
+                Projectile.NewProjectile(npc.Center, new Vector2(10, 4), ModContent.ProjectileType<VitricBomb>(), 15, 0);
+
+            if (npc.ai[3] == 60) ResetAttack();
+        }
         #endregion
         private void AngerAttack()
         {

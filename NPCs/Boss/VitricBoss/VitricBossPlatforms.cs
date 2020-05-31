@@ -1,4 +1,6 @@
-﻿namespace StarlightRiver.NPCs.Boss.VitricBoss
+﻿using Microsoft.Xna.Framework;
+
+namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
     internal class VitricBossPlatformUp : MovingPlatform
     {
@@ -8,7 +10,8 @@
         {
             return false;
         }
-
+        public override void DrawEffects(ref Color drawColor) { drawColor *= 1.4f; }
+              
         public override void SafeSetDefaults()
         {
             npc.width = 220;
@@ -39,7 +42,7 @@
             if (npc.ai[0] == 1)
             {
                 npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Scrolltime;
-                if (npc.position.Y <= LegendWorld.VitricBiome.Y * 16 + 8 * 16 + 2)
+                if (npc.position.Y <= LegendWorld.VitricBiome.Y * 16 + 8 * 16 + 4)
                 {
                     npc.position.Y += MaxHeight;
                 }
@@ -72,7 +75,7 @@
             if (npc.ai[0] == 1)
             {
                 npc.velocity.Y = (float)MaxHeight / VitricBackdropLeft.Scrolltime;
-                if (npc.position.Y >= LegendWorld.VitricBiome.Y * 16 + 8 * 16 + MaxHeight)
+                if (npc.position.Y >= LegendWorld.VitricBiome.Y * 16 + 8 * 16 + MaxHeight - 4)
                 {
                     npc.position.Y -= MaxHeight;
                 }

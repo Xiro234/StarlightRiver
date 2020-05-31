@@ -388,7 +388,21 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         }
                     }
 
-                    Volley();
+                    if (npc.ai[3] == 1) //switching out attacks
+                    {
+                        npc.ai[2]++;
+                        if (npc.ai[2] > 3)
+                        {
+                            npc.ai[2] = 0;
+                        }
+                    }
+                    switch (npc.ai[2]) //switch for crystal behavior
+                    {
+                        case 0: Volley(); break;
+                        case 1: Mines(); break;
+                        case 2: Whirl(); break;
+                        case 3: ReverseCage(); break;
+                    }
                     break;
 
                 case (int)AIStates.Leaving:
