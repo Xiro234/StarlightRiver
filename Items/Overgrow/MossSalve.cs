@@ -20,9 +20,9 @@ namespace StarlightRiver.Items.Overgrow
             item.value = 10000;
             item.accessory = true;
         }
+
         public override void UpdateEquip(Player player)
         {
-
         }
     }
 
@@ -32,10 +32,7 @@ namespace StarlightRiver.Items.Overgrow
         {
             if (item.healLife > 0 && item.potion)
             {
-                if (Helper.HasEquipped(player, ModContent.ItemType<MossSalve>()))
-                {
-                    player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
-                }
+                if (Helper.HasEquipped(player, ModContent.ItemType<MossSalve>())) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
             }
         }
     }

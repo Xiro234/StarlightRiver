@@ -11,6 +11,7 @@ namespace StarlightRiver.NPCs.Pickups
     {
         public override string Texture => "StarlightRiver/GUI/Book1Closed";
         public override Color GlowColor => new Color(200, 130, 40);
+
         public override bool CanPickup(Player player)
         {
             return player.GetModPlayer<CodexHandler>().CodexState == 0;
@@ -28,6 +29,7 @@ namespace StarlightRiver.NPCs.Pickups
 
             Lighting.AddLight(npc.Center, new Vector3(1, 0.5f, 0));
         }
+
         public override void PickupVisuals(int timer)
         {
             if (timer == 1)
@@ -38,7 +40,6 @@ namespace StarlightRiver.NPCs.Pickups
 
             if (timer < 119)
             {
-
             }
 
             if (timer == 119)
@@ -49,6 +50,7 @@ namespace StarlightRiver.NPCs.Pickups
                 Helper.UnlockEntry<Codex.CodexEntry>(Main.LocalPlayer);
             }
         }
+
         public override void PickupEffects(Player player)
         {
             CodexHandler mp = player.GetModPlayer<CodexHandler>();

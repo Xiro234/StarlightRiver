@@ -16,6 +16,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("White Slash");
@@ -58,7 +59,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 Main.player[projectile.owner].velocity = Vector2.Normalize(Main.player[projectile.owner].Center - projectile.Center) * -6f;
                 projectile.knockBack = 25f;
             }
-
         }
     }
 }

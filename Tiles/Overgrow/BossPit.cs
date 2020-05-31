@@ -14,6 +14,7 @@ namespace StarlightRiver.Tiles.Overgrow
             texture = "StarlightRiver/Invisible";
             return true;
         }
+
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = false;
@@ -46,13 +47,9 @@ namespace StarlightRiver.Tiles.Overgrow
                 }
             }
             Projectile dummy = Main.projectile.FirstOrDefault(proj => proj.active && proj.type == dummyType && proj.Hitbox.Contains(i * 16, j * 16));
-            if (dummy == null)
-            {
-                return;
-            }
+            if (dummy == null) return;
 
             Main.tileSolid[Type] = dummy.ai[1] == 0;
         }
     }
 }
-

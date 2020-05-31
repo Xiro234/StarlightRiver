@@ -21,6 +21,7 @@ namespace StarlightRiver.Projectiles.Ammo
             projectile.extraUpdates = 3;
             aiType = ProjectileID.Bullet;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Tracer");
@@ -29,6 +30,7 @@ namespace StarlightRiver.Projectiles.Ammo
         private bool picked = false;
         private float anglediff;
         private NPC target = Main.npc[0];
+
         public override void AI()
         {
             if (!picked)
@@ -49,7 +51,6 @@ namespace StarlightRiver.Projectiles.Ammo
                 projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.06f;
             }
             projectile.velocity = Vector2.Normalize(projectile.velocity) * 5;
-
         }
     }
 }

@@ -98,25 +98,11 @@ namespace StarlightRiver
 
         public override void PostAI(NPC npc)
         {
-            if (Shield > MaxShield)
-            {
-                Shield = MaxShield;
-            }
+            if (Shield > MaxShield) Shield = MaxShield;
+            if (Shield < 0) Shield = 0;
 
-            if (Shield < 0)
-            {
-                Shield = 0;
-            }
-
-            if (Red > MaxRed)
-            {
-                Red = MaxRed;
-            }
-
-            if (Red < 0)
-            {
-                Red = 0;
-            }
+            if (Red > MaxRed) Red = MaxRed;
+            if (Red < 0) Red = 0;
         }
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
@@ -166,6 +152,7 @@ namespace StarlightRiver
         public bool RedHurting = false;
         public override bool InstancePerEntity => true;
         public override bool CloneNewInstances => true;
+
         public override void SetDefaults(Item item)
         {
             if (item.hammer > 0)

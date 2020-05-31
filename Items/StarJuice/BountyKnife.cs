@@ -7,12 +7,16 @@ namespace StarlightRiver.Items.StarJuice
 {
     internal class BountyKnife : StarjuiceStoringItem
     {
-        public BountyKnife() : base(2500) { }
+        public BountyKnife() : base(2500)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hunters Dagger");
             Tooltip.SetDefault("Infuse a beast with starlight\nInfused enemies become powerful and gain abilities\nSlain enemies drop crystals");
         }
+
         public override void SetDefaults()
         {
             item.width = 16;
@@ -34,7 +38,6 @@ namespace StarlightRiver.Items.StarJuice
                 return true;
             }
             return false;
-
         }
     }
 }

@@ -10,16 +10,18 @@ namespace StarlightRiver.Items.Guardian
     internal class Mace : GuardianWeapon
     {
         private int Timer { get; set; }
-        public Mace(int HPcost, int lifesteal, int healrad, int heal) : base(HPcost, lifesteal, healrad, heal) { }
+
+        public Mace(int HPcost, int lifesteal, int healrad, int heal) : base(HPcost, lifesteal, healrad, heal)
+        {
+        }
+
         public override void HoldItem(Player player)
         {
             Timer++; //the timing ticker
-            if (Timer > item.useTime * 2)
-            {
-                Timer = -(item.useTime * 2);
-            }
+            if (Timer > item.useTime * 2) Timer = -(item.useTime * 2);
             //Main.NewText(Timer);
         }
+
         public virtual void SpawnProjectile(int type, Player player) //virtual to allow custom timing gimicks on individual maces
         {
             int damage = (item.damage / 2) + (Math.Abs(Timer) <= item.useTime * 0.5f ? item.damage / 2 : item.damage / 4); //calculate damage based on timing
@@ -40,7 +42,11 @@ namespace StarlightRiver.Items.Guardian
         public int Heal { get; set; }
 
         public bool HealedTeam = false;
-        public virtual void SafeSetDefaults() { }
+
+        public virtual void SafeSetDefaults()
+        {
+        }
+
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();
@@ -48,12 +54,20 @@ namespace StarlightRiver.Items.Guardian
             projectile.friendly = true;
             projectile.penetrate = -1;
         }
-        public virtual void SafeAI() { }
+
+        public virtual void SafeAI()
+        {
+        }
+
         public sealed override void AI()
         {
             projectile.position += Main.player[projectile.owner].velocity;
         }
-        public virtual void SafeOnHitNPC(NPC target, int damage, float knockback, bool crit) { }
+
+        public virtual void SafeOnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+        }
+
         public sealed override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];

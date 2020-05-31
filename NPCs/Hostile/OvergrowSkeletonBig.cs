@@ -7,11 +7,13 @@ namespace StarlightRiver.NPCs.Hostile
     internal class OvergrowSkeletonBig : ModNPC
     {
         public override string Texture => "StarlightRiver/MarioCumming";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Executioner Skeleton");
             Main.npcFrameCount[npc.type] = 1;
         }
+
         public override void SetDefaults()
         {
             npc.height = 16;
@@ -21,6 +23,7 @@ namespace StarlightRiver.NPCs.Hostile
             npc.aiStyle = -1;
             npc.noGravity = false;
         }
+
         public override void AI()
         {
             /* AI fields:
@@ -34,7 +37,6 @@ namespace StarlightRiver.NPCs.Hostile
                     npc.TargetClosest();
                     if (Vector2.Distance(npc.Center, target.Center) <= 1200)
                     {
-
                     }
                     break;
             }

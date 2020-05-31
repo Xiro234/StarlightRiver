@@ -11,12 +11,10 @@ namespace StarlightRiver.Abilities
     // Combo Infusion to be made
     public class WispCombo : WispHoming
     {
-#pragma warning disable CS0108 // 'WispCombo.exit' hides inherited member 'Wisp.exit'. Use the new keyword if hiding was intended.
-        [DataMember] private bool exit = false;
-#pragma warning restore CS0108 // 'WispCombo.exit' hides inherited member 'Wisp.exit'. Use the new keyword if hiding was intended.
+        [DataMember] private new bool exit = false;
+
         public WispCombo(Player player) : base(player)
         {
-
         }
 
         public override void OnCast()
@@ -37,7 +35,6 @@ namespace StarlightRiver.Abilities
             {
                 Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Gold2>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, Color.Red, 1.2f);
             }
-
         }
 
         public override void InUse()
@@ -57,8 +54,6 @@ namespace StarlightRiver.Abilities
 
             Lighting.AddLight(player.Center, new Vector3(0.15f, 0.15f, 0f));
 
-
-
             if (Timer % 60 == 0 && Timer > 0) { mp.StatStamina--; }
             else if (Timer > 0)
             {
@@ -76,6 +71,7 @@ namespace StarlightRiver.Abilities
                 OnExit();
             }
         }
+
         public override void UseEffects()
         {
             if (Timer > -1)
@@ -120,9 +116,7 @@ namespace StarlightRiver.Abilities
             }
         }
 
-#pragma warning disable CS0108 // 'WispCombo.TestExit()' hides inherited member 'Wisp.TestExit()'. Use the new keyword if hiding was intended.
-        public bool TestExit()
-#pragma warning restore CS0108 // 'WispCombo.TestExit()' hides inherited member 'Wisp.TestExit()'. Use the new keyword if hiding was intended.
+        public new bool TestExit()
         {
             int cleartiles = 0;
             for (int x2 = (int)(player.position.X / 16); x2 <= (int)(player.position.X / 16) + 1; x2++)
@@ -132,8 +126,7 @@ namespace StarlightRiver.Abilities
                     if (Main.tile[x2, y2].collisionType == 0) { cleartiles++; }
                 }
             }
-            if (cleartiles == 6) { return true; }
-            else { return false; }
+            return cleartiles == 6;
         }
     }
 }

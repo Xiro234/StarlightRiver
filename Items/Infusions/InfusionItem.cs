@@ -6,10 +6,12 @@ namespace StarlightRiver.Items.Infusions
     public class InfusionItem : ModItem
     {
         private readonly int Rarity;
+
         public InfusionItem(int rarity)
         {
             Rarity = rarity;
         }
+
         public override void SetDefaults()
         {
             item.width = 64;
@@ -19,7 +21,6 @@ namespace StarlightRiver.Items.Infusions
 
         public virtual void Unequip(Player player)
         {
-
         }
     }
 }

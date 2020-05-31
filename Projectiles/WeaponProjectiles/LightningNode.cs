@@ -9,6 +9,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
     internal class LightningNode : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -16,9 +17,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.timeLeft = 1;
             projectile.friendly = true;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            //AI Fields: 
+            //AI Fields:
             //0: jumps remaining
             //1: jump radius
 
@@ -27,11 +29,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             {
                 possibleTargets.Add(npc); //This grabs all possible targets, which includes all NPCs in the appropriate raidus which are alive and vulnerable, excluding the hit NPC
             }
-            if (possibleTargets.Count == 0)
-            {
-                return; //kill if no targets are available
-            }
-
+            if (possibleTargets.Count == 0) return; //kill if no targets are available
             NPC chosenTarget = possibleTargets[Main.rand.Next(possibleTargets.Count)];
 
             if (projectile.ai[0] > 0 && chosenTarget != null) //spawns the next node and VFX if more nodes are available and a target is also available

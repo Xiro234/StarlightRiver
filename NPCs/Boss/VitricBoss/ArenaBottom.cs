@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public VitricBoss Parent;
         public override string Texture => "StarlightRiver/Invisible";
+
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             return false;
@@ -31,6 +32,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             DisplayName.SetDefault("");
         }
+
         public override void SetDefaults()
         {
             npc.height = 16;
@@ -44,26 +46,19 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.dontTakeDamage = true;
             npc.dontCountMe = true;
         }
+
         public override void AI()
         {
             /* AI fields:
              * 0: timer
              * 1: state
              */
-            if (Parent == null || !Parent.npc.active) { npc.active = false; return; }
-            if (Parent.npc.ai[1] == (int)VitricBoss.AIStates.FirstToSecond)
-            {
-                npc.ai[1] = 2;
-            }
-
+            if (Parent?.npc.active != true) { npc.active = false; return; }
+            if (Parent.npc.ai[1] == (int)VitricBoss.AIStates.FirstToSecond) npc.ai[1] = 2;
             switch (npc.ai[1])
             {
                 case 0:
-                    if (Main.player.Any(n => n.Hitbox.Intersects(npc.Hitbox)))
-                    {
-                        npc.ai[0]++; //ticks the enrage timer when players are standing on the ground. Naughty boys.
-                    }
-
+                    if (Main.player.Any(n => n.Hitbox.Intersects(npc.Hitbox))) npc.ai[0]++; //ticks the enrage timer when players are standing on the ground. Naughty boys.
                     if (npc.ai[0] > 120) //after standing there for too long a wave comes by to fuck em up.
                     {
                         npc.ai[1] = 1; //wave mode
@@ -85,11 +80,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
 
                 case 2: //only happens when the boss goes into phase 2
-                    if (npc.ai[0] < 120)
-                    {
-                        npc.ai[0]++; //cap timer at 120
-                    }
-
+                    if (npc.ai[0] < 120) npc.ai[0]++; //cap timer at 120
                     if (npc.ai[0] < 90) //dust before rising
                     {
                         Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Air>());
@@ -102,6 +93,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     break;
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[1] == 2 && npc.ai[0] > 90) //in the second phase after the crystals have risen
@@ -129,6 +121,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
 
         private float startY;
+
         public override void AI()
         {
             float off = 128 * projectile.timeLeft / 15 - 64 * (float)Math.Pow(projectile.timeLeft, 2) / 225;
@@ -139,10 +132,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             projectile.position.Y = startY - off;
         }
+
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
             drawCacheProjsBehindNPCsAndTiles.Add(index);
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.position - Main.screenPosition, Color.White);

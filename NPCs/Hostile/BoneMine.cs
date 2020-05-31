@@ -14,6 +14,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             DisplayName.SetDefault("Bone Mine");
         }
+
         public override void SetDefaults()
         {
             npc.width = 50;
@@ -44,10 +45,7 @@ namespace StarlightRiver.NPCs.Hostile
         public override void AI()
         {
             npc.ai[0] += 0.02f;
-            if (npc.ai[0] >= 6.28f)
-            {
-                npc.ai[0] = 0;
-            }
+            if (npc.ai[0] >= 6.28f) npc.ai[0] = 0;
 
             if (npc.ai[1] == 0)
             {
@@ -64,15 +62,8 @@ namespace StarlightRiver.NPCs.Hostile
             else
             {
                 npc.ai[2]++;
-                if (npc.ai[2] % 10 == 0)
-                {
-                    Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
-                }
-
-                if (npc.ai[2] >= 45)
-                {
-                    Helper.Kill(npc); //detonate
-                }
+                if (npc.ai[2] % 10 == 0) Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
+                if (npc.ai[2] >= 45) Helper.Kill(npc); //detonate
             }
         }
 
@@ -81,9 +72,10 @@ namespace StarlightRiver.NPCs.Hostile
             Player player = spawnInfo.player;
             Vector2 spawnPos = new Vector2(spawnInfo.spawnTileX * 16, spawnInfo.spawnTileY * 16);
 
-            if (player.position.Y >= Main.maxTilesY - 200 && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].liquid != 0 &&
-                !Main.npc.Any(npc => npc.active && npc.type == ModContent.NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)) { return 1; }
-            return 0;
+            return player.position.Y >= Main.maxTilesY - 200 && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].liquid != 0 &&
+                !Main.npc.Any(npc => npc.active && npc.type == ModContent.NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)
+                ? 1
+                : (float)0;
         }
     }
 }

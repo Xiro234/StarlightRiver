@@ -19,6 +19,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.ignoreWater = true;
             projectile.melee = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shaker");
@@ -28,11 +29,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             Player player = Main.player[projectile.owner];
 
-            if (projectile.timeLeft < 2)
-            {
-                projectile.timeLeft = 2;
-            }
-
+            if (projectile.timeLeft < 2) projectile.timeLeft = 2;
             projectile.scale = projectile.ai[0] < 10 ? (projectile.ai[0] / 10f) : 1;
             projectile.damage = (int)((projectile.ai[0] * 1.5f) * player.meleeDamage);
 
@@ -93,20 +90,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (projectile.ai[1] == 2)
             {
                 projectile.velocity += -Vector2.Normalize(projectile.Center - player.Center) * 0.1f;
-                if (projectile.velocity.Length() >= 5)
-                {
-                    projectile.ai[1] = 3;
-                }
+                if (projectile.velocity.Length() >= 5) projectile.ai[1] = 3;
 
-                if (Vector2.Distance(projectile.Center, player.Center) <= 30)
-                {
-                    projectile.timeLeft = 0;
-                }
-
-                if (projectile.timeLeft == 3)
-                {
-                    projectile.ai[1] = 4;
-                }
+                if (Vector2.Distance(projectile.Center, player.Center) <= 30) projectile.timeLeft = 0;
+                if (projectile.timeLeft == 3) projectile.ai[1] = 4;
             }
 
             if (projectile.ai[1] == 3)
@@ -114,15 +101,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.velocity = -Vector2.Normalize(projectile.Center - player.Center) * 5;
                 projectile.velocity.Y += 3;
 
-                if (Vector2.Distance(projectile.Center, player.Center) <= 30)
-                {
-                    projectile.timeLeft = 0;
-                }
-
-                if (projectile.timeLeft == 3)
-                {
-                    projectile.ai[1] = 4;
-                }
+                if (Vector2.Distance(projectile.Center, player.Center) <= 30) projectile.timeLeft = 0;
+                if (projectile.timeLeft == 3) projectile.ai[1] = 4;
             }
 
             if (projectile.ai[1] == 4)
@@ -130,10 +110,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.velocity = -Vector2.Normalize(projectile.Center - player.Center) * 18;
                 projectile.tileCollide = false;
 
-                if (Vector2.Distance(projectile.Center, player.Center) <= 30)
-                {
-                    projectile.timeLeft = 0;
-                }
+                if (Vector2.Distance(projectile.Center, player.Center) <= 30) projectile.timeLeft = 0;
             }
         }
 

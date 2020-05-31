@@ -13,6 +13,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             DisplayName.SetDefault("[PH] RockThrower");
         }
+
         public override void SetDefaults()
         {
             npc.width = 48;
@@ -40,10 +41,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             Player player = Main.player[npc.target];
             npc.ai[3] += 0.05f;
-            if (npc.ai[3] > 6.28f)
-            {
-                npc.ai[3] = 0;
-            }
+            if (npc.ai[3] > 6.28f) npc.ai[3] = 0;
 
             switch (npc.ai[0])
             {
@@ -53,6 +51,7 @@ namespace StarlightRiver.NPCs.Hostile
                         npc.ai[0] = 1;
                     }
                     break;
+
                 case 1: //Passive
                     {
                         npc.ai[1]++;
@@ -70,6 +69,7 @@ namespace StarlightRiver.NPCs.Hostile
                         //insert movement code here
                     }
                     break;
+
                 case 2: //Attack
                     {
                         npc.ai[1]++;
@@ -103,6 +103,7 @@ namespace StarlightRiver.NPCs.Hostile
             {
                 float rot = k / 3f * 6.28f;
                 Vector2 pos = npc.Center + new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot) / 2) * 35;
+                //Player player = Main.player[npc.target];
 
                 Projectile.NewProjectile(pos, -Vector2.Normalize(npc.Center - pos) * 6, ModContent.ProjectileType<Projectiles.OvergrowRockThrowerRock>(), npc.damage, 2); //throw rock
             }

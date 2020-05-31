@@ -15,6 +15,7 @@ namespace StarlightRiver.NPCs.Hostile
             DisplayName.SetDefault("Crystal Slime");
             Main.npcFrameCount[npc.type] = 2;
         }
+
         public override void SetDefaults()
         {
             npc.width = 48;
@@ -28,12 +29,14 @@ namespace StarlightRiver.NPCs.Hostile
             npc.knockBackResist = 0.6f;
             npc.aiStyle = 1;
         }
+
         public override Color? GetAlpha(Color drawColor)
         {
             return Lighting.GetColor((int)npc.position.X / 16, (int)npc.position.Y / 16) * 0.75f;
         }
 
         private bool shielded = true;
+
         public override void AI()
         {
             npc.TargetClosest(true);

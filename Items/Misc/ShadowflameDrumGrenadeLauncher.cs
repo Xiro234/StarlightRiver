@@ -27,19 +27,23 @@ namespace StarlightRiver.Items.Misc
             item.ranged = true;
             item.shoot = ModContent.ProjectileType<ShadowflameGrenade>();
         }
+
         public override bool ConsumeAmmo(Player player)
         {
             return Main.rand.NextFloat() >= .5f;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame Drum Grenade Launcher");
             Tooltip.SetDefault("You like click it and like, it shoot quickly the entire drum mag\nThe grenades explode into shadowflame tendrils\nThey also release said tendrils sometimes i guess ye");
         }
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-20, 0);
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 muzzleOffset = Vector2.Normalize(new Vector2(speedX, speedY)) * 25f;

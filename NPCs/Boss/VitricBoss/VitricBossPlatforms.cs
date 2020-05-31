@@ -6,6 +6,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public const int MaxHeight = 880;
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatform";
+
         public override bool CheckActive()
         {
             return false;
@@ -19,6 +20,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.noTileCollide = true;
             npc.dontCountMe = true;
         }
+
         public override void SafeAI()
         {
             /*AI fields:
@@ -33,10 +35,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Risetime;
                     npc.ai[1]--;
                 }
-                else
-                {
-                    npc.velocity.Y = 0;
-                }
+                else npc.velocity.Y = 0;
             }
 
             if (npc.ai[0] == 1)
@@ -66,10 +65,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     npc.velocity.Y = -(float)MaxHeight / VitricBackdropLeft.Risetime;
                     npc.ai[1]--;
                 }
-                else
-                {
-                    npc.velocity.Y = 0;
-                }
+                else npc.velocity.Y = 0;
             }
 
             if (npc.ai[0] == 1)
@@ -86,6 +82,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     internal class VitricBossPlatformUpSmall : VitricBossPlatformUp
     {
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatformSmall";
+
         public override void SafeSetDefaults()
         {
             npc.width = 100;
@@ -98,6 +95,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     internal class VitricBossPlatformDownSmall : VitricBossPlatformDown
     {
         public override string Texture => "StarlightRiver/NPCs/Boss/VitricBoss/VitricBossPlatformSmall";
+
         public override void SafeSetDefaults()
         {
             npc.width = 100;
@@ -106,5 +104,4 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             npc.dontCountMe = true;
         }
     }
-
 }

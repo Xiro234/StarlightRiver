@@ -11,17 +11,14 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.Y += (float)Math.Sin(LegendWorld.rottime + dust.fadeIn) * 0.3f;
             dust.position += dust.velocity;
             dust.scale *= 0.994f;
             //Lighting.AddLight(dust.position, dust.color.ToVector3() * dust.scale);
-            if (dust.scale <= 0.2f)
-            {
-                dust.active = false;
-            }
-
+            if (dust.scale <= 0.2f) dust.active = false;
             return false;
         }
     }

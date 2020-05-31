@@ -11,6 +11,7 @@ namespace StarlightRiver.GUI
     {
         private string Text;
         public int Timer;
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             CodexHandler mp = Main.LocalPlayer.GetModPlayer<CodexHandler>();
@@ -24,12 +25,11 @@ namespace StarlightRiver.GUI
             Utils.DrawBorderString(spriteBatch, str, pos + new Vector2(40, 8), col);
             Timer--;
         }
+
         public void TripEntry(string text)
         {
             Text = text;
             Timer = 240;
         }
     }
-
-
 }

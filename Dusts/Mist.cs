@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -12,6 +11,7 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.scale *= Main.rand.NextFloat(0.5f, 1.2f);
@@ -20,6 +20,7 @@ namespace StarlightRiver.Dusts
             dust.rotation = Main.rand.NextFloat(6.28f);
             dust.frame = new Rectangle(0, 0, 32, 22);
         }
+
         public override bool Update(Dust dust)
         {
             dust.position.X += dust.velocity.X + Main.LocalPlayer.velocity.X * -0.6f * (dust.scale * 0.01f);
@@ -40,5 +41,4 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
-
 }

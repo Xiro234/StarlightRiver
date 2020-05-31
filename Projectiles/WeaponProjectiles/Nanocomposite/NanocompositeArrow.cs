@@ -8,6 +8,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Nanocomposite
     internal class NanocompositeArrow : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 22;
@@ -21,17 +22,18 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Nanocomposite
             projectile.ignoreWater = true;
             projectile.extraUpdates = 2;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nanocomposite Arrow");
         }
+
         public override void AI()
         {
             NPC target = Main.npc[(int)projectile.ai[0]];
             Dust.NewDustPerfect(projectile.Center, ModContent.DustType<NanocompositeDust>(), Vector2.Zero, 0, default, 1.8f);
             projectile.velocity += Vector2.Normalize(target.Center - projectile.Center);
             projectile.velocity = Vector2.Normalize(projectile.velocity) * 12;
-
         }
     }
 }

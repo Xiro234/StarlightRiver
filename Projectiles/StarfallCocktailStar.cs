@@ -1,4 +1,5 @@
-﻿using StarlightRiver.Dusts;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +12,7 @@ namespace StarlightRiver.Projectiles
         {
             DisplayName.SetDefault("Fallen Star");
         }
+
         public override void SetDefaults()
         {
             projectile.CloneDefaults(ProjectileID.FallingStar);
@@ -22,6 +24,7 @@ namespace StarlightRiver.Projectiles
             projectile.type = ProjectileID.FallingStar;
             return true;
         }
+
         public override void AI()
         {
             Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Starlight>(), 0, 0, 25, default, 2);

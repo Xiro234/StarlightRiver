@@ -17,16 +17,19 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = false;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Glass");
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(SoundID.Item27);
         }
 
         private float f = 1;
+
         public override void AI()
         {
             f += 0.1f;

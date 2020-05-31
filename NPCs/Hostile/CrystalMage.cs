@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             DisplayName.SetDefault("Glassweaver");
         }
+
         public override void SetDefaults()
         {
             npc.width = 48;

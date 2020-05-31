@@ -12,6 +12,7 @@ namespace StarlightRiver.Tiles.Vitric
     internal class VitricBossAltar : ModTile
     {
         private Projectile Dummy = new Projectile();
+
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = false;
@@ -33,6 +34,7 @@ namespace StarlightRiver.Tiles.Vitric
             name.SetDefault("Vitric Altar");
             AddMapEntry(new Color(113, 113, 113), name);
         }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Tile tile = Framing.GetTileSafely(i, j);
@@ -44,6 +46,7 @@ namespace StarlightRiver.Tiles.Vitric
                 }
             }
         }
+
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (Main.tile[i, j].frameX == 90 && Main.tile[i, j].frameY == 0)
@@ -53,6 +56,7 @@ namespace StarlightRiver.Tiles.Vitric
             }
             return true;
         }
+
         public override bool NewRightClick(int i, int j)
         {
             //debug stuff

@@ -132,7 +132,10 @@ namespace StarlightRiver.Tiles.Fountains
 
     public class JungleCorruptFountain : BiomeFountain
     {
-        public JungleCorruptFountain() : base(ModContent.ItemType<Items.Fountains.JungleCorruptFountainItem>()) { }
+        public JungleCorruptFountain() : base(ModContent.ItemType<Items.Fountains.JungleCorruptFountainItem>())
+        {
+        }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (Main.tile[i, j].frameY >= 72)
@@ -144,7 +147,10 @@ namespace StarlightRiver.Tiles.Fountains
 
     public class JungleBloodyFountain : BiomeFountain
     {
-        public JungleBloodyFountain() : base(ModContent.ItemType<Items.Fountains.JungleBloodyFountainItem>()) { }
+        public JungleBloodyFountain() : base(ModContent.ItemType<Items.Fountains.JungleBloodyFountainItem>())
+        {
+        }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (Main.tile[i, j].frameY >= 72)
@@ -156,7 +162,10 @@ namespace StarlightRiver.Tiles.Fountains
 
     public class JungleHolyFountain : BiomeFountain
     {
-        public JungleHolyFountain() : base(ModContent.ItemType<Items.Fountains.JungleHolyFountainItem>()) { }
+        public JungleHolyFountain() : base(ModContent.ItemType<Items.Fountains.JungleHolyFountainItem>())
+        {
+        }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (Main.tile[i, j].frameY >= 72)
@@ -165,5 +174,4 @@ namespace StarlightRiver.Tiles.Fountains
             }
         }
     }
-
 }

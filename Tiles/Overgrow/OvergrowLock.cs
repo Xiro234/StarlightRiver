@@ -32,7 +32,6 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-
         }
 
         public override bool NewRightClick(int i, int j)
@@ -49,6 +48,7 @@ namespace StarlightRiver.Tiles.Overgrow
                 return false;
             }
         }
+
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -56,7 +56,6 @@ namespace StarlightRiver.Tiles.Overgrow
             player.showItemIcon = true;
             player.showItemIcon2 = -1;
             player.showItemIconText = "Need: Overgrowth Key";
-
         }
     }
 }

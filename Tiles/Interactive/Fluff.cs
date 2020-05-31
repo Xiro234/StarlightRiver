@@ -38,6 +38,7 @@ namespace StarlightRiver.Tiles.Interactive
                 }
             }
         }
+
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             if (++frameCounter >= 5)
@@ -49,6 +50,7 @@ namespace StarlightRiver.Tiles.Interactive
                 }
             }
         }
+
         /*public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Main.spriteBatch.End();

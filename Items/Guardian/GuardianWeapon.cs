@@ -11,6 +11,7 @@ namespace StarlightRiver.Items.Guardian
         public int LifeSteal { get; set; }
         public int HealRadius { get; set; }
         public int HealAmount { get; set; }
+
         public GuardianWeapon(int HPcost, int lifesteal, int healrad, int heal)
         {
             HealthCost = HPcost;
@@ -18,7 +19,11 @@ namespace StarlightRiver.Items.Guardian
             HealRadius = healrad;
             HealAmount = heal;
         }
-        public virtual void SafeSetDefaults() { }
+
+        public virtual void SafeSetDefaults()
+        {
+        }
+
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();
@@ -28,14 +33,17 @@ namespace StarlightRiver.Items.Guardian
             item.thrown = false;
             item.summon = false;
         }
+
         public sealed override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             mult *= player.GetModPlayer<StarlightPlayer>().GuardDamage;
         }
+
         public sealed override void GetWeaponCrit(Player player, ref int crit)
         {
             crit += player.GetModPlayer<StarlightPlayer>().GuardCrit;
         }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             TooltipLine tip = tooltips.FirstOrDefault(x => x.Name == "Damage" && x.mod == "Terraria");
@@ -52,6 +60,7 @@ namespace StarlightRiver.Items.Guardian
             tooltips.Insert(4, new TooltipLine(mod, "HealRadius", HealRadius + " Healing Radius"));
             tooltips.Insert(5, new TooltipLine(mod, "HealthCost", "uses " + HealthCost + " Life"));
         }
+
         public sealed override bool CanUseItem(Player player)
         {
             if (player.statLife > HealthCost)
@@ -75,4 +84,3 @@ namespace StarlightRiver
         public int GuardRad { get; set; }
     }
 }
-

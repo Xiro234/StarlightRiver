@@ -12,6 +12,7 @@ namespace StarlightRiver.NPCs.Pickups
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Smash1";
         public override Color GlowColor => new Color(180, 220, 140);
+
         public override bool CanPickup(Player player)
         {
             return player.GetModPlayer<AbilityHandler>().smash.Locked;
@@ -37,7 +38,6 @@ namespace StarlightRiver.NPCs.Pickups
                 Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(-timer + k * 0.02f) * 38, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
                 Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(-timer + k * 0.02f) * 48, ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);
             }
-
         }
 
         public override void PickupVisuals(int timer)
@@ -59,8 +59,4 @@ namespace StarlightRiver.NPCs.Pickups
             player.AddBuff(BuffID.Featherfall, 580);
         }
     }
-
-
-
-
 }

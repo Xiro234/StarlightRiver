@@ -7,8 +7,8 @@ namespace StarlightRiver.Items.CursedAccessories
     {
         public TestBlessedAccessory() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/TestBlessedAccessoryGlow"))
         {
-
         }
+
         public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Blessed");
@@ -21,14 +21,14 @@ namespace StarlightRiver.Items.CursedAccessories
             item.height = 32;
             item.accessory = true;
         }
+
         public override void UpdateEquip(Player player)
         {
         }
 
         public override bool TestCondition()
         {
-            if (Main.player[item.owner].statLife <= 100) { return true; }
-            else { return false; }
+            return Main.player[item.owner].statLife <= 100;
         }
     }
 }

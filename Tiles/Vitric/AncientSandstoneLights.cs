@@ -9,7 +9,10 @@ namespace StarlightRiver.Tiles.Vitric
 {
     public class AncientSandstoneTorchItem : Items.QuickTileItem
     {
-        public AncientSandstoneTorchItem() : base("Ancient Vitric Illuminator", "It has an entrancing glow", ModContent.TileType<AncientSandstoneTorch>(), 0) { }
+        public AncientSandstoneTorchItem() : base("Ancient Vitric Illuminator", "It has an entrancing glow", ModContent.TileType<AncientSandstoneTorch>(), 0)
+        {
+        }
+
         public override string Texture => "StarlightRiver/MarioCumming";
     }
 

@@ -55,7 +55,6 @@ namespace StarlightRiver.Dusts
             if (player.ZoneCrimson) { dust.color = new Color(208, 80, 80); }
             if (player.ZoneHoly) { dust.color = new Color(98, 213, 247); }
 
-
             dust.rotation += 0.1f;
             dust.scale *= 0.98f;
             if (dust.scale < 0.2f)

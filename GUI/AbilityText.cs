@@ -68,14 +68,9 @@ namespace StarlightRiver.GUI
 
                 if (Timer == 0) { Visible = false; }
             }
-
             else
             {
-                if (tempTime < tempTimeMax)
-                {
-                    tempTime++;
-                }
-
+                if (tempTime < tempTimeMax) tempTime++;
                 if (tempTime >= tempTimeMax) { Timer--; }
                 else if (Timer < 120) { Timer++; }
 

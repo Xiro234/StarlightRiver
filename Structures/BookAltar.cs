@@ -14,7 +14,6 @@ namespace StarlightRiver.Structures
             Vector2 spawn = FindSand();
             StructureHelper.StructureHelper.GenerateStructure("Structures/CodexTemple", spawn.ToPoint16(), StarlightRiver.Instance);
             LegendWorld.BookSP = spawn * 16 + new Vector2(312, 530);
-
         }
 
         private static Vector2 FindSand()
@@ -29,10 +28,7 @@ namespace StarlightRiver.Structures
                         {
                             return new Vector2(i, j - 30);
                         }
-                        else
-                        {
-                            break;
-                        }
+                        else break;
                     }
                 }
             }

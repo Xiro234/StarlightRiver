@@ -13,6 +13,7 @@ namespace StarlightRiver.NPCs.Hostile
             DisplayName.SetDefault("Jungle Rotter");
             Main.npcFrameCount[npc.type] = 3;
         }
+
         public override void SetDefaults()
         {
             npc.width = 32;
@@ -81,10 +82,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             npc.frameCounter++;//skele frame-code
             if ((int)(npc.frameCounter * AnimSpeedMult) >= Main.npcFrameCount[npc.type])
-            {
                 npc.frameCounter = 0;
-            }
-
             npc.frame.Y = (int)(npc.frameCounter * AnimSpeedMult) * frameHeight;
         }
     }
@@ -102,10 +100,12 @@ namespace StarlightRiver.NPCs.Hostile
             projectile.ignoreWater = true;
             projectile.damage = 5;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cursed Spray");
         }
+
         public override void AI()
         {
             Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
@@ -119,6 +119,7 @@ namespace StarlightRiver.NPCs.Hostile
             }
             projectile.velocity.Y += 0.05f;
         }
+
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             target.AddBuff(BuffID.CursedInferno, 300);

@@ -34,11 +34,7 @@ namespace StarlightRiver.Codex
                 Entries.Add(ThisEntry);
             }
 
-            if (entriesToLoad == null || entriesToLoad.Count == 0)
-            {
-                return;
-            }
-
+            if (entriesToLoad == null || entriesToLoad.Count == 0) return;
             foreach (TagCompound tagc in entriesToLoad)
             {
                 CodexEntry entry = CodexEntry.DeserializeData(tagc);

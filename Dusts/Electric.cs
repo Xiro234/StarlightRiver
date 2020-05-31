@@ -11,6 +11,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Stamina";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -19,18 +20,17 @@ namespace StarlightRiver.Dusts
             dust.color.G = 200;
             dust.color.B = 255;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.rotation += Main.rand.NextFloat(2f);
             dust.color *= 0.92f;
-            if (dust.color.G > 80)
-            {
-                dust.color.G -= 4;
-            }
+            if (dust.color.G > 80) dust.color.G -= 4;
 
             dust.scale *= 0.92f;
             if (dust.scale < 0.2f)

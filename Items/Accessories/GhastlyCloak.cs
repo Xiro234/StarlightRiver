@@ -12,6 +12,7 @@ namespace StarlightRiver.Items.Accessories
             DisplayName.SetDefault("Ghastly Cloak");
             Tooltip.SetDefault("Avoiding damage cloaks you, increasing most stats");
         }
+
         public override void UpdateEquip(Player player)
         {
             StarlightPlayer modplayer = player.GetModPlayer<StarlightPlayer>();
@@ -29,6 +30,7 @@ namespace StarlightRiver.Items.Accessories
             }
             base.UpdateEquip(player);
         }
+
         public override void SetDefaults()
         {
             item.width = 16;

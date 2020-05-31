@@ -12,6 +12,7 @@ namespace StarlightRiver.Projectiles.Ability
     internal class Purifier : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -22,6 +23,7 @@ namespace StarlightRiver.Projectiles.Ability
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corona of Purity");
@@ -98,6 +100,7 @@ namespace StarlightRiver.Projectiles.Ability
                 if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }
             }
         }
+
         private void RevertTile(int x, int y)
         {
             Tile target = Main.tile[x, y];
@@ -136,6 +139,7 @@ namespace StarlightRiver.Projectiles.Ability
     internal class PurifierReturn : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -146,6 +150,7 @@ namespace StarlightRiver.Projectiles.Ability
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Returning Crown");

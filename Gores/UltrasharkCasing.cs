@@ -9,6 +9,7 @@ namespace StarlightRiver.Gores
         {
             gore.timeLeft = 10;
         }
+
         public override bool Update(Gore gore)
         {
             if (gore.timeLeft <= 5)

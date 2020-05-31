@@ -75,6 +75,7 @@ namespace StarlightRiver.Tiles.Interactive
     public class WispSwitchEntity : ModTileEntity
     {
         public int timer = 0;
+
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];

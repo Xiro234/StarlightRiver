@@ -9,11 +9,8 @@ namespace StarlightRiver.Abilities
     [DataContract]
     public class DashAstral : Dash
     {
-
-
         public DashAstral(Player player) : base(player)
         {
-
         }
 
         public override void InUse()

@@ -40,6 +40,7 @@ namespace StarlightRiver.Dragons
                 mountData.textureHeight = mountData.backTexture.Height;
             }
         }
+
         public override void UpdateEffects(Player player)
         {
             SetDefaults();
@@ -57,11 +58,9 @@ namespace StarlightRiver.Dragons
             {
                 player.maxFallSpeed = 1.5f;
             }
-            if (player.velocity.Y == 0)
-            {
-                player.GetModPlayer<DragonHandler>().jumpAgainDragon = true;
-            }
+            if (player.velocity.Y == 0) player.GetModPlayer<DragonHandler>().jumpAgainDragon = true;
         }
+
         public override bool Draw(List<DrawData> playerDrawData, int drawType, Player drawPlayer, ref Texture2D texture, ref Texture2D glowTexture, ref Vector2 drawPosition, ref Rectangle frame, ref Color drawColor, ref Color glowColor, ref float rotation, ref SpriteEffects spriteEffects, ref Vector2 drawOrigin, ref float drawScale, float shadow)
         {
             texture = ModContent.GetTexture("StarlightRiver/Invisible");
@@ -77,6 +76,7 @@ namespace StarlightRiver.Dragons
             return true;
         }
     }
+
     public class CarMount : ModBuff
     {
         public override void SetDefaults()

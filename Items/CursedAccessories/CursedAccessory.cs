@@ -13,12 +13,14 @@ namespace StarlightRiver.Items.CursedAccessories
     {
         private readonly Texture2D Glow = null;
         private Vector2 drawpos = Vector2.Zero;
+
         public CursedAccessory(Texture2D glow)
         {
             Glow = glow;
         }
 
         internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Color color = Color.White * (float)Math.Sin(LegendWorld.rottime);

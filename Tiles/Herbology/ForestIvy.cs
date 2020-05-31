@@ -10,7 +10,12 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    internal class ForestIvy : HangingPlant { public ForestIvy() : base("Ivy") { } }
+    internal class ForestIvy : HangingPlant {
+        public ForestIvy() : base("Ivy")
+        {
+        }
+    }
+
     public class ForestIvyWild : ModTile
     {
         public override void SetDefaults()
@@ -43,13 +48,10 @@ namespace StarlightRiver.Tiles.Herbology
             spriteBatch.Draw(tex, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), drawColor,
                 (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.2f, new Vector2(8, 16), 1, SpriteEffects.FlipHorizontally, 0);
         }
+
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            if (Main.rand.Next(8) == 0)
-            {
-                Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.IvySeeds>());
-            }
+            if (Main.rand.Next(8) == 0) Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.IvySeeds>());
         }
     }
-
 }

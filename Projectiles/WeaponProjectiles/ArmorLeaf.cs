@@ -18,6 +18,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Leaf");
@@ -25,6 +26,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         private bool picked = false;
         private NPC target = Main.npc[0];
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;

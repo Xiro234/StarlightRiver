@@ -11,6 +11,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public VitricBoss Parent;
         private int Timer;
         private readonly int Index;
+
         public VitricBossEye(Vector2 pos, int index)
         {
             Position = pos;
@@ -19,29 +20,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public void Draw(SpriteBatch sb)
         {
-            if (Parent == null)
-            {
-                return;
-            }
-
+            if (Parent == null) return;
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBossEye");
             float rot = (Parent.npc.position + Position - Main.player[Parent.npc.target].Center).ToRotation();
-            if (Parent.npc.target >= 200)
-            {
-                rot = 0;
-            }
-
+            if (Parent.npc.target >= 200) rot = 0;
             Color color = new Color(160, 220, 250);
-            if ((Parent.npc.ai[0] > 360 || Timer >= 1) && Timer < 15)
-            {
-                Timer++;
-            }
-
-            if (Parent.npc.ai[1] != (int)VitricBoss.AIStates.SpawnAnimation && Parent.npc.ai[0] % (120) == Index * 6)
-            {
-                Timer = 1;
-            }
-
+            if ((Parent.npc.ai[0] > 360 || Timer >= 1) && Timer < 15) Timer++;
+            if (Parent.npc.ai[1] != (int)VitricBoss.AIStates.SpawnAnimation && Parent.npc.ai[0] % (120) == Index * 6) Timer = 1;
             if (Parent.npc.ai[1] == (int)VitricBoss.AIStates.Anger)
             {
                 rot = LegendWorld.rottime * 4 + Index / 7f;

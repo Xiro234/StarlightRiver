@@ -13,6 +13,7 @@ namespace StarlightRiver.Items.CursedAccessories
     {
         private readonly Texture2D Glow = null;
         private Vector2 drawpos = Vector2.Zero;
+
         public BlessedAccessory(Texture2D glow)
         {
             Glow = glow;
@@ -20,6 +21,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
         internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
         internal static readonly List<BootlegDust> Bootlegdust2 = new List<BootlegDust>();
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Color color = Color.White * (float)Math.Sin(LegendWorld.rottime + 3.14);
@@ -46,6 +48,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
             drawpos = position - new Vector2((frame.Width / 2), (frame.Width / 2));
         }
+
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Bootlegdust2.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));

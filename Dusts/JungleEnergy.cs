@@ -14,29 +14,22 @@ namespace StarlightRiver.Dusts
             dust.color.G = 255;
             dust.color.B = 80;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color * ((255 - dust.alpha) / 255f);
         }
+
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
             dust.rotation += 0.05f;
             dust.color.R--;
 
-            if (dust.fadeIn == 0)
-            {
-                dust.alpha -= 2;
-            }
-            else
-            {
-                dust.alpha += 2;
-            }
+            if (dust.fadeIn == 0) dust.alpha -= 2;
+            else dust.alpha += 2;
 
-            if (dust.alpha <= 175)
-            {
-                dust.fadeIn = 1;
-            }
+            if (dust.alpha <= 175) dust.fadeIn = 1;
 
             if (dust.alpha > 255)
             {
@@ -53,6 +46,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/JungleEnergy";
             return true;
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -62,10 +56,12 @@ namespace StarlightRiver.Dusts
             dust.color.B = 80;
             dust.alpha = 150;
         }
+
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return dust.color * (dust.alpha / 255f);
         }
+
         public override bool Update(Dust dust)
         {
             if (dust.customData is Player)
@@ -76,20 +72,10 @@ namespace StarlightRiver.Dusts
                 dust.position = player.Center + dust.velocity;
                 dust.rotation += 6.28f / Abilities.Smash.ChargeTime;
 
-                if (mp.smash.Active && mp.smash.Timer <= Abilities.Smash.ChargeTime)
-                {
-                    dust.alpha = (int)(mp.smash.Timer / (float)Abilities.Smash.ChargeTime * 255f);
-                }
+                if (mp.smash.Active && mp.smash.Timer <= Abilities.Smash.ChargeTime) dust.alpha = (int)(mp.smash.Timer / (float)Abilities.Smash.ChargeTime * 255f);
 
-                if (mp.smash.Timer > Abilities.Smash.ChargeTime || !mp.smash.Active)
-                {
-                    dust.alpha -= 10;
-                }
-
-                if (dust.alpha <= 0)
-                {
-                    dust.active = false;
-                }
+                if (mp.smash.Timer > Abilities.Smash.ChargeTime || !mp.smash.Active) dust.alpha -= 10;
+                if (dust.alpha <= 0) dust.active = false;
             }
             else
             {

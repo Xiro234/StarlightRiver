@@ -16,12 +16,17 @@ namespace StarlightRiver.Keys
 
         public Vector2 Position = new Vector2(0, 0);
         public Rectangle Hitbox => new Rectangle((int)Position.X, (int)Position.Y, 32, 32);
+
         public Key(string name, string texture)
         {
             Name = name;
             Texture = texture;
         }
-        public virtual void PreDraw(SpriteBatch spriteBatch) { }
+
+        public virtual void PreDraw(SpriteBatch spriteBatch)
+        {
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             PreDraw(spriteBatch);
@@ -29,13 +34,17 @@ namespace StarlightRiver.Keys
             Texture2D tex = ModContent.GetTexture(Texture);
             spriteBatch.Draw(tex, Position + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5) - Main.screenPosition, tex.Frame(), Lighting.GetColor((int)Position.X / 16, (int)Position.Y / 16));
 
-            if (Hitbox.Contains(Main.MouseWorld.ToPoint()))
-            {
-                Utils.DrawBorderString(spriteBatch, Name, Main.MouseScreen + new Vector2(12, 20), Main.mouseTextColorReal);
-            }
+            if (Hitbox.Contains(Main.MouseWorld.ToPoint())) Utils.DrawBorderString(spriteBatch, Name, Main.MouseScreen + new Vector2(12, 20), Main.mouseTextColorReal);
         }
-        public virtual void OnPickup() { }
-        public virtual void PreUpdate() { }
+
+        public virtual void OnPickup()
+        {
+        }
+
+        public virtual void PreUpdate()
+        {
+        }
+
         public void Update()
         {
             PreUpdate();
@@ -44,20 +53,14 @@ namespace StarlightRiver.Keys
             {
                 LegendWorld.Keys.Remove(this);
                 LegendWorld.KeyInventory.Add(this);
-                if (Main.player.FirstOrDefault(p => p.Hitbox.Intersects(Hitbox)) == Main.LocalPlayer)
-                {
-                    KeyInventory.keys.Add(new KeyIcon(this, true));
-                }
-                else
-                {
-                    KeyInventory.keys.Add(new KeyIcon(this, false));
-                }
-
+                if (Main.player.FirstOrDefault(p => p.Hitbox.Intersects(Hitbox)) == Main.LocalPlayer) KeyInventory.keys.Add(new KeyIcon(this, true));
+                else KeyInventory.keys.Add(new KeyIcon(this, false));
                 OnPickup();
 
                 Main.PlaySound(ModLoader.GetMod("StarlightRiver").GetLegacySoundSlot(SoundType.Custom, "Sounds/KeyGet"));
             }
         }
+
         public static bool Use<T>()
         {
             if (LegendWorld.KeyInventory.Any(n => n is T))
@@ -75,6 +78,7 @@ namespace StarlightRiver.Keys
                 return false;
             }
         }
+
         public static void Spawn<T>(Vector2 position)
         {
             Key key = (Key)Activator.CreateInstance(typeof(T));

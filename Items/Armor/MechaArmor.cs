@@ -18,19 +18,16 @@ namespace StarlightRiver.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare =
-                ItemRarityID.Orange;
+            item.rare = ItemRarityID.Orange;
             item.defense = 5;
         }
 
         public override void UpdateEquip(Player player)
         {
-
         }
 
         public override void AddRecipes()
         {
-
         }
     }
 
@@ -48,24 +45,20 @@ namespace StarlightRiver.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 1;
-            item.rare =
-                ItemRarityID.Orange;
+            item.rare = ItemRarityID.Orange;
             item.defense = 10;
         }
 
         public override void UpdateEquip(Player player)
         {
-
         }
 
         public override void UpdateArmorSet(Player player)
         {
-
         }
 
         public override void AddRecipes()
         {
-
         }
     }
 
@@ -89,12 +82,10 @@ namespace StarlightRiver.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-
         }
 
         public override void AddRecipes()
         {
-
         }
     }
 }

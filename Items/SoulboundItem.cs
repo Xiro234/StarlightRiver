@@ -6,7 +6,10 @@ namespace StarlightRiver.Items
 {
     internal abstract class SoulboundItem : ModItem
     {
-        public virtual void SafeModifyTooltips(List<TooltipLine> tooltips) { }
+        public virtual void SafeModifyTooltips(List<TooltipLine> tooltips)
+        {
+        }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             SafeModifyTooltips(tooltips);

@@ -18,15 +18,18 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.rare = ItemRarityID.Blue;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Kill");
             Tooltip.SetDefault("Big Damag");
         }
+
         public override bool CanUseItem(Player player)
         {
             if (player.name == "a")
@@ -49,6 +52,7 @@ namespace StarlightRiver.Items.Debug
             return base.CanUseItem(player);
         }
     }
+
     public class GrassJungleCorrupt : ModItem
     {
         public override void SetStaticDefaults()
@@ -72,6 +76,7 @@ namespace StarlightRiver.Items.Debug
             item.shootSpeed = 8f;
         }
     }
+
     public class GrassJungleCorrupt2 : ModItem
     {
         public override void SetStaticDefaults()
@@ -95,6 +100,7 @@ namespace StarlightRiver.Items.Debug
             item.shootSpeed = 8f;
         }
     }
+
     public class GrassJungleCorrupt3 : ModItem
     {
         public override void SetStaticDefaults()
@@ -118,6 +124,7 @@ namespace StarlightRiver.Items.Debug
             item.shootSpeed = 8f;
         }
     }
+
     public class SealPlacer : ModItem
     {
         public override void SetStaticDefaults()
@@ -140,6 +147,7 @@ namespace StarlightRiver.Items.Debug
             item.createWall = ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
         }
     }
+
     public class FleshPlacer : ModItem
     {
         public override void SetStaticDefaults()
@@ -176,20 +184,32 @@ namespace StarlightRiver.Items.Debug
             return true;
         }
     }
+
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.Tank>(), 0) { }
+
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.Tank>(), 0)
+        {
+        }
     }
+
     public class DebugPlacer2 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<AncientSandstone>(), 0) { }
+
+        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<AncientSandstone>(), 0)
+        {
+        }
     }
+
     public class DebugPlacer3 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<Tiles.Fountains.JungleCorruptFountain>(), 0) { }
+
+        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<Tiles.Fountains.JungleCorruptFountain>(), 0)
+        {
+        }
     }
 
     public class DebugPotion : ModItem
@@ -205,7 +225,9 @@ namespace StarlightRiver.Items.Debug
             item.autoReuse = true;
             item.createTile = ModContent.TileType<Tiles.Misc.SandscriptTile>();
         }
+
         public override string Texture => "StarlightRiver/MarioCumming";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Potion of Debugging");
@@ -215,10 +237,7 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 1;
-            foreach (Abilities.Ability ab in player.GetModPlayer<Abilities.AbilityHandler>().Abilities)
-            {
-                ab.Locked = true;
-            }
+            foreach (Abilities.Ability ab in player.GetModPlayer<Abilities.AbilityHandler>().Abilities) ab.Locked = true;
 
             player.GetModPlayer<Codex.CodexHandler>().CodexState = 0;
 
@@ -238,7 +257,9 @@ namespace StarlightRiver.Items.Debug
             item.rare = ItemRarityID.Green;
             item.noUseGraphic = true;
         }
+
         public override string Texture => "StarlightRiver/MarioCumming";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Potion of Debugging 2");
@@ -248,21 +269,20 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
-            foreach (Codex.CodexEntry entry in mp.Entries)
-            {
-                entry.Locked = true;
-            }
+            foreach (Codex.CodexEntry entry in mp.Entries) entry.Locked = true;
 
             player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 12;
             player.GetModPlayer<Abilities.AbilityHandler>().StatStamina = 12;
 
             return true;
         }
+
         public override void HoldItem(Player player)
         {
             //StarlightRiver.Rotation = (player.Center - Main.MouseWorld).ToRotation() - 1.58f;
         }
     }
+
     public class RedKiller : ModItem
     {
         public override void SetDefaults()
@@ -276,6 +296,7 @@ namespace StarlightRiver.Items.Debug
             item.rare = ItemRarityID.Lime;
             item.GetGlobalItem<ShieldBreakingItem>().RedHurting = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("RedKiller");
@@ -283,4 +304,3 @@ namespace StarlightRiver.Items.Debug
         }
     }
 }
-

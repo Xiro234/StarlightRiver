@@ -11,6 +11,7 @@ namespace StarlightRiver.NPCs.Traps
     internal class Crusher : ModNPC
     {
         public Tile Parent;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Masher");

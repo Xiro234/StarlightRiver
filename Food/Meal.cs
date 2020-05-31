@@ -11,8 +11,6 @@ namespace StarlightRiver.Food
 {
     internal class Meal : ModItem
     {
-        private const int V = 30;
-
         public List<Item> Ingredients { get; set; } = new List<Item>();
         public int Fullness { get; set; }
         public override bool CloneNewInstances => true;
@@ -27,11 +25,12 @@ namespace StarlightRiver.Food
         {
             item.consumable = true;
             item.useAnimation = 30;
-            item.useTime = V;
+            item.useTime = 30;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 32;
             item.height = 32;
         }
+
         public override bool CanUseItem(Player player)
         {
             FoodBuffHandler mp = player.GetModPlayer<FoodBuffHandler>();
@@ -48,14 +47,12 @@ namespace StarlightRiver.Food
 
                 player.AddBuff(ModContent.BuffType<Full>(), (int)(Fullness * 1.5f));
             }
-            else
-            {
-                Main.NewText("Bad food! Please report me to the mod devs.", Color.Red);
-            }
+            else Main.NewText("Bad food! Please report me to the mod devs.", Color.Red);
 
             item.stack--;
             return true;
         }
+
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             string sidesName = "";
@@ -63,17 +60,10 @@ namespace StarlightRiver.Food
             {
                 List<Item> sides = Ingredients.FindAll(n => (n.modItem as Ingredient).ThisType == IngredientType.Side);
                 sidesName += " with " + sides[0].Name;
-                if (sides.Count == 2)
-                {
-                    sidesName += " and " + sides[1].Name;
-                }
+                if (sides.Count == 2) sidesName += " and " + sides[1].Name;
             }
             string mainName = "";
-            if (Ingredients.Any(n => (n.modItem as Ingredient).ThisType == IngredientType.Main))
-            {
-                mainName = Ingredients.FirstOrDefault(n => (n.modItem as Ingredient).ThisType == IngredientType.Main).Name;
-            }
-
+            if (Ingredients.Any(n => (n.modItem as Ingredient).ThisType == IngredientType.Main)) mainName = Ingredients.FirstOrDefault(n => (n.modItem as Ingredient).ThisType == IngredientType.Main).Name;
             string fullName = mainName + sidesName;
             tooltips.FirstOrDefault(n => n.Name == "ItemName" && n.mod == "Terraria").text = fullName;
 
@@ -98,6 +88,7 @@ namespace StarlightRiver.Food
             };
             tooltips.Add(cooldownLine);
         }
+
         public override TagCompound Save()
         {
             return new TagCompound()
@@ -106,6 +97,7 @@ namespace StarlightRiver.Food
                 ["Fullness"] = Fullness
             };
         }
+
         public override void Load(TagCompound tag)
         {
             Ingredients = (List<Item>)tag.GetList<Item>("Items");

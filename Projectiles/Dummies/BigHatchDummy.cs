@@ -13,7 +13,9 @@ namespace StarlightRiver.Projectiles.Dummies
         {
             DisplayName.SetDefault("");
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 22;
@@ -22,15 +24,12 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
         }
+
         public override void AI()
         {
             projectile.timeLeft = 2;
             projectile.ai[0] += 0.01f;
-            if (projectile.ai[0] >= 6.28f)
-            {
-                projectile.ai[0] = 0;
-            }
-
+            if (projectile.ai[0] >= 6.28f) projectile.ai[0] = 0;
             if (Main.rand.Next(5) == 0)
             {
                 float rot = Main.rand.NextFloat(-0.7f, 0.7f);
@@ -43,6 +42,7 @@ namespace StarlightRiver.Projectiles.Dummies
                 projectile.timeLeft = 0;
             }
         }
+
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
             drawCacheProjsBehindNPCsAndTiles.Add(index);

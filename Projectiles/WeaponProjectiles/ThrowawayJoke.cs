@@ -3,11 +3,13 @@ using StarlightRiver.Items.Misc;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     public class ThrowawayJokeProjectile : ModProjectile
     {
         private bool crit = false;
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -19,16 +21,19 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.timeLeft = 120;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Throwaway Joke");
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             projectile.velocity.X = -projectile.velocity.X;
             projectile.velocity.Y = -projectile.velocity.Y;
             this.crit = crit;
         }
+
         public override void AI()
         {
             projectile.rotation += (float)Math.PI / 10f;
@@ -50,13 +55,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 }
             }
         }
+
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.penetrate == 2)
-            {
-                return base.CanHitNPC(target);
-            }
-            return false;
+            return projectile.penetrate == 2 ? base.CanHitNPC(target) : false;
         }
     }
 }

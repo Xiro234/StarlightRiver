@@ -46,6 +46,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Glass2 : ModDust
     {
         public override bool Autoload(ref string name, ref string texture)
@@ -53,6 +54,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Glass";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
@@ -72,6 +74,7 @@ namespace StarlightRiver.Dusts
             return false;
         }
     }
+
     public class Glass3 : ModDust
     {
         public override bool Autoload(ref string name, ref string texture)
@@ -79,6 +82,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/Glass";
             return base.Autoload(ref name, ref texture);
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

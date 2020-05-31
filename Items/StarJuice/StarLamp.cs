@@ -6,12 +6,16 @@ namespace StarlightRiver.Items.StarJuice
 {
     internal class StarLamp : StarjuiceStoringItem
     {
-        public StarLamp() : base(500) { }
+        public StarLamp() : base(500)
+        {
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starlight Illuminator");
             Tooltip.SetDefault("Consumes starlight to produce light");
         }
+
         public override void SetDefaults()
         {
             item.width = 16;
@@ -26,11 +30,7 @@ namespace StarlightRiver.Items.StarJuice
         {
             if (charge > 0)
             {
-                if (Main.time % 60 == 0 && !Main.fastForwardTime)
-                {
-                    charge--;
-                }
-
+                if (Main.time % 60 == 0 && !Main.fastForwardTime) charge--;
                 Lighting.AddLight(player.Center, new Vector3(1f, 1.7f, 1.9f) * (charge / (float)maxCharge) * (player.HeldItem == item ? 0.6f : 0.4f));
             }
         }
@@ -39,14 +39,9 @@ namespace StarlightRiver.Items.StarJuice
         {
             if (charge > 0)
             {
-                if (Main.time % 60 == 0 && !Main.fastForwardTime)
-                {
-                    charge--;
-                }
-
+                if (Main.time % 60 == 0 && !Main.fastForwardTime) charge--;
                 Lighting.AddLight(item.Center, new Vector3(1f, 1.7f, 1.9f) * (charge / (float)maxCharge) * 0.4f);
             }
         }
-
     }
 }

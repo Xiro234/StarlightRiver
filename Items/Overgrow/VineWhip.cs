@@ -13,6 +13,7 @@ namespace StarlightRiver.Items.Overgrow
         {
             DisplayName.SetDefault("Vine Whip");
         }
+
         public override void SetDefaults()
         {
             item.width = 34;
@@ -33,6 +34,7 @@ namespace StarlightRiver.Items.Overgrow
         {
             return !Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.type == ModContent.ProjectileType<WhipSegment1>() && proj.active);
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int k = 0; k <= 10; k++)

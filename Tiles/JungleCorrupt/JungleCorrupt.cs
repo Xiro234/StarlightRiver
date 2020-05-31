@@ -12,6 +12,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
     {
         public int x = 0;
         public int y = 0;
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -27,6 +28,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
             soundType = SoundID.Dig;
             dustType = 38;
         }
+
         public override void RandomUpdate(int i, int j)//grappling hook breaks the grass, its running killtile for some reason?
         {
             x = Main.rand.Next(-4, 4);
@@ -102,7 +104,6 @@ namespace StarlightRiver.Tiles.JungleCorrupt
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-
             if (Main.rand.Next(600) == 0 && !Main.tile[i, j + 1].active() && Main.tile[i, j].slope() == 0)
             {
                 Dust.NewDustPerfect(new Vector2(i, j) * 16, mod.DustType("Corrupt2"), new Vector2(0, 0.6f));
@@ -171,6 +172,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
                 }
             }
         }
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             if (!Main.tile[i, j - 1].active())
@@ -186,6 +188,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
             return true;
         }
     }
+
     public class TallgrassJungleCorrupt : ModTile
     {
         public override void SetDefaults()

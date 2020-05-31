@@ -17,6 +17,7 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity * 0.1f;
@@ -29,12 +30,12 @@ namespace StarlightRiver.Dusts
             dust.color.G -= 3;
             dust.color.B -= 3;
 
-
             float light = 0.001f * dust.scale;
             Lighting.AddLight(dust.position, new Vector3(dust.color.R, dust.color.G, dust.color.B) * light);
             return false;
         }
     }
+
     public class FireDust2 : ModDust
     {
         public override void OnSpawn(Dust dust)
@@ -48,6 +49,7 @@ namespace StarlightRiver.Dusts
         {
             return dust.color;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity * 0.15f;
@@ -59,7 +61,6 @@ namespace StarlightRiver.Dusts
             dust.color *= 0.95f;
             dust.color.G -= 1;
             dust.color.B -= 1;
-
 
             float light = 0.001f * dust.scale;
             Lighting.AddLight(dust.position, new Vector3(dust.color.R, dust.color.G, dust.color.B) * light);

@@ -13,6 +13,7 @@ namespace StarlightRiver.Items.EbonyIvory
             Tooltip.SetDefault("");
             DisplayName.SetDefault("P");
         }
+
         public override void SetDefaults()
         {
             item.mana = 10;
@@ -31,6 +32,7 @@ namespace StarlightRiver.Items.EbonyIvory
             item.shoot = ModContent.ProjectileType<EbonyPrismSummon>();
             item.shootSpeed = 0f;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.ownedProjectileCounts[ModContent.ProjectileType<EbonyPrismSummon>()] > 0)

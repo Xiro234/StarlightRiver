@@ -12,6 +12,7 @@ namespace StarlightRiver.Items.Misc
             DisplayName.SetDefault("Sand Scripts");
             Tooltip.SetDefault("Manifests a blade of sand");
         }
+
         public override void SetDefaults()
         {
             item.width = 28;

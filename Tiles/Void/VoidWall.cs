@@ -15,6 +15,7 @@ namespace StarlightRiver.Tiles.Void
             AddMapEntry(new Color(17, 22, 21));
         }
     }
+
     public class VoidWallPillar : ModWall
     {
         public override void SetDefaults()
@@ -24,6 +25,7 @@ namespace StarlightRiver.Tiles.Void
             drop = mod.ItemType("VoidWallItem");
             AddMapEntry(new Color(17, 22, 21));
         }
+
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Texture2D pillar = ModContent.GetTexture("StarlightRiver/Tiles/Void/BackPillar");
@@ -38,6 +40,7 @@ namespace StarlightRiver.Tiles.Void
             return false;
         }
     }
+
     public class VoidWallPillarS : ModWall
     {
         public override void SetDefaults()
@@ -47,6 +50,7 @@ namespace StarlightRiver.Tiles.Void
             drop = mod.ItemType("VoidWallItem");
             AddMapEntry(new Color(17, 22, 21));
         }
+
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Texture2D pillar = ModContent.GetTexture("StarlightRiver/Tiles/Void/BackPillarS");

@@ -25,6 +25,7 @@ namespace StarlightRiver.Items
             DisplayName.SetDefault(Matname);
             Tooltip.SetDefault(Mattooltip);
         }
+
         public override void SetDefaults()
         {
             item.width = 16;
@@ -41,6 +42,7 @@ namespace StarlightRiver.Items
         public string Itemtooltip;
         private readonly int Tiletype;
         private readonly int Rare;
+
         public QuickTileItem(string name, string tooltip, int placetype, int rare)
         {
             Itemname = name;
@@ -48,6 +50,7 @@ namespace StarlightRiver.Items
             Tiletype = placetype;
             Rare = rare;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(Itemname);

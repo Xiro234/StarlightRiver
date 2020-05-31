@@ -24,6 +24,7 @@ namespace StarlightRiver.Items.Vitric
             item.noMelee = true;
             item.ranged = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 aim = Vector2.Normalize(Main.MouseWorld - player.Center);
@@ -38,6 +39,7 @@ namespace StarlightRiver.Items.Vitric
             Main.projectile[proj2].noDropItem = true;
             return true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vitric Bow");

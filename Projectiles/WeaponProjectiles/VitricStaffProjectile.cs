@@ -18,12 +18,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Glass");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(projectile.width / 2, projectile.height / 2);
@@ -58,16 +60,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             offset = target.position - projectile.position;
             base.ModifyHitNPC(target, ref damage, ref knockback, ref crit, ref hitDirection);
         }
+
         public override bool? CanHitNPC(NPC target)
         {
-            if (projectile.ai[0] == 1)
-            {
-                return false;
-            }
-            return base.CanHitNPC(target);
+            return projectile.ai[0] == 1 ? false : base.CanHitNPC(target);
         }
 
         private Vector2 offset;
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;

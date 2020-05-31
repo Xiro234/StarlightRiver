@@ -16,6 +16,7 @@ namespace StarlightRiver.Tiles.Forest
             soundType = SoundID.Grass;
             AddMapEntry(new Color(50, 140, 90));
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (i > Main.screenPosition.X / 16 && i < Main.screenPosition.X / 16 + Main.screenWidth / 16 && j > Main.screenPosition.Y / 16 && j < Main.screenPosition.Y / 16 + Main.screenHeight / 16)

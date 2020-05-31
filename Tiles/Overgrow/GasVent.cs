@@ -17,6 +17,7 @@ namespace StarlightRiver.Tiles.Overgrow
             dustType = ModContent.DustType<Dusts.Gas>();
             AddMapEntry(new Color(255, 186, 66));
         }
+
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (Main.rand.Next(2) == 0)
@@ -26,4 +27,3 @@ namespace StarlightRiver.Tiles.Overgrow
         }
     }
 }
-

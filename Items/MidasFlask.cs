@@ -25,6 +25,7 @@ namespace StarlightRiver.Items
             item.shoot = ModContent.ProjectileType<MidasFlaskProjectile>();
             item.shootSpeed = 8f;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Midas' Flask");

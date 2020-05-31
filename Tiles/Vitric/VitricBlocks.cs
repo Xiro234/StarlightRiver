@@ -21,6 +21,7 @@ namespace StarlightRiver.Tiles.Vitric
             Main.tileMerge[Type][ModContent.TileType<VitricSpike>()] = true;
             Main.tileMerge[Type][ModContent.TileType<AncientSandstone>()] = true;
         }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color light = Lighting.GetColor(i, j);
@@ -37,12 +38,14 @@ namespace StarlightRiver.Tiles.Vitric
         private new readonly int Drop = 0;
         private readonly int Chance = 0;
         private readonly int Pick = 0;
+
         public VitricTile(int drop, int chance, int pick)
         {
             Drop = drop;
             Chance = chance;
             Pick = pick;
         }
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -54,6 +57,7 @@ namespace StarlightRiver.Tiles.Vitric
             minPick = Pick;
             AddMapEntry(new Color(115, 182, 158));
         }
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color light = Lighting.GetColor(i, j);
@@ -69,7 +73,6 @@ namespace StarlightRiver.Tiles.Vitric
     {
         public VitricGlass() : base(ModContent.ItemType<VitricGlassItem>(), 30, 50)
         {
-
         }
     }
 
@@ -77,8 +80,8 @@ namespace StarlightRiver.Tiles.Vitric
     {
         public VitricGlassCrystal() : base(ModContent.ItemType<VitricGlassCrystalItem>(), 30, 50)
         {
-
         }
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -97,8 +100,8 @@ namespace StarlightRiver.Tiles.Vitric
     {
         public VitricBrick() : base(ModContent.ItemType<VitricBrickItem>(), 60, 65)
         {
-
         }
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
@@ -112,5 +115,4 @@ namespace StarlightRiver.Tiles.Vitric
             AddMapEntry(new Color(169, 229, 167));
         }
     }
-
 }

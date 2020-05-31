@@ -5,7 +5,10 @@ namespace StarlightRiver.Items.Herbology
 {
     public class GreenhouseGlassItem : QuickTileItem
     {
-        public GreenhouseGlassItem() : base("Greenhouse Glass", "Speeds up the growth the plant below it\nNeeds a clear area above it", ModContent.TileType<Tiles.Herbology.GreenhouseGlass>(), 1) { }
+        public GreenhouseGlassItem() : base("Greenhouse Glass", "Speeds up the growth the plant below it\nNeeds a clear area above it", ModContent.TileType<Tiles.Herbology.GreenhouseGlass>(), 1)
+        {
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

@@ -15,7 +15,9 @@ namespace StarlightRiver.Projectiles.Dummies
         {
             DisplayName.SetDefault("");
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetDefaults()
         {
             projectile.width = 80;
@@ -24,24 +26,18 @@ namespace StarlightRiver.Projectiles.Dummies
             projectile.timeLeft = 2;
             projectile.tileCollide = false;
         }
+
         public override void AI()
         {
             projectile.timeLeft = 2;
             Point16 parentPos = new Point16((int)projectile.position.X / 16, (int)projectile.position.Y / 16);
             Tile parent = Framing.GetTileSafely(parentPos.X, parentPos.Y);
-            if (!parent.active())
-            {
-                projectile.timeLeft = 0;
-            }
+            if (!parent.active()) projectile.timeLeft = 0;
 
             if (parent.frameX == 0 && Main.player.Any(n => Abilities.AbilityHelper.CheckDash(n, projectile.Hitbox)))
             {
                 Main.PlaySound(Terraria.ID.SoundID.Shatter);
-                for (int k = 0; k < 100; k++)
-                {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Glass2>(), 0, 0, 0, default, 1.2f);
-                }
-
+                for (int k = 0; k < 100; k++) Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Glass2>(), 0, 0, 0, default, 1.2f);
                 for (int x = parentPos.X; x < parentPos.X + 5; x++)
                 {
                     for (int y = parentPos.Y; y < parentPos.Y + 7; y++)
@@ -79,41 +75,26 @@ namespace StarlightRiver.Projectiles.Dummies
                 int timerset = LegendWorld.GlassBossOpen ? 360 : 0; //the arena should already be up if it was opened before
 
                 int index = NPC.NewNPC((int)center.X + 352, (int)center.Y, ModContent.NPCType<VitricBackdropRight>(), 0, timerset);
-                if (LegendWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropRight)
-                {
-                    (Main.npc[index].modNPC as VitricBackdropRight).SpawnPlatforms(false);
-                }
+                if (LegendWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropRight) (Main.npc[index].modNPC as VitricBackdropRight).SpawnPlatforms(false);
 
                 index = NPC.NewNPC((int)center.X - 352, (int)center.Y, ModContent.NPCType<VitricBackdropLeft>(), 0, timerset);
-                if (LegendWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropLeft)
-                {
-                    (Main.npc[index].modNPC as VitricBackdropLeft).SpawnPlatforms(false);
-                }
+                if (LegendWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropLeft) (Main.npc[index].modNPC as VitricBackdropLeft).SpawnPlatforms(false);
             }
 
             //controls the drawing of the barriers
             if (projectile.ai[0] < 120 && Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>()))
             {
                 projectile.ai[0]++;
-                if (projectile.ai[0] % 3 == 0)
-                {
-                    Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 2; //screenshake
-                }
-
+                if (projectile.ai[0] % 3 == 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 2; //screenshake
                 if (projectile.ai[0] == 119) //hitting the top
                 {
                     Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 25;
-                    for (int k = 0; k < 5; k++)
-                    {
-                        Main.PlaySound(Terraria.ID.SoundID.Tink);
-                    }
+                    for (int k = 0; k < 5; k++) Main.PlaySound(Terraria.ID.SoundID.Tink);
                 }
             }
-            else if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>()))
-            {
-                projectile.ai[0] = 0; //TODO fix this later
-            }
+            else if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>())) projectile.ai[0] = 0; //TODO fix this later
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor) //actually drawing the barriers and item indicator
         {
             Point16 parentPos = new Point16((int)projectile.position.X / 16, (int)projectile.position.Y / 16);
@@ -139,6 +120,7 @@ namespace StarlightRiver.Projectiles.Dummies
             spriteBatch.Draw(tex, new Rectangle((int)center.X + 606 - (int)Main.screenPosition.X, (int)center.Y - off - (int)Main.screenPosition.Y, tex.Width, off),
                 new Rectangle(0, 0, tex.Width, (int)(projectile.ai[0] / 120f * 880)), color);
         }
+
         public void SpawnBoss()
         {
             NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 500, ModContent.NPCType<VitricBoss>());

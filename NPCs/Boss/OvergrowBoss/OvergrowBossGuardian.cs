@@ -21,18 +21,18 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             npc.aiStyle = -1;
             npc.noGravity = true;
         }
+
         public override bool CheckActive()
         {
             return false;
         }
+
         public override void AI()
         {
             if (Main.npc.Any(n => n.active && n.type == ModContent.NPCType<OvergrowBossFlail>() && n.ai[0] == 1 && n.Hitbox.Intersects(npc.Hitbox) && (n.modNPC as OvergrowBossFlail).holder == null))
             {
                 for (int k = 0; k < 100; k++)
-                {
                     Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), default, default, 6.4f);
-                }
 
                 npc.Kill();
             }

@@ -6,6 +6,7 @@ namespace StarlightRiver.Projectiles
     public class OvergrowRockThrowerRock : ModProjectile
     {
         public NPC owner;
+
         public override void SetDefaults()
         {
             projectile.hostile = true;
@@ -17,13 +18,14 @@ namespace StarlightRiver.Projectiles
             projectile.ignoreWater = true;
             projectile.damage = 5;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rock");
         }
+
         public override void AI()
         {
-
         }
     }
 }

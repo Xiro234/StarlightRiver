@@ -18,6 +18,7 @@ namespace StarlightRiver.Items
             item.useTime = 10;
             item.rare = ItemRarityID.Blue;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Breakuator");

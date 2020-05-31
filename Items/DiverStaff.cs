@@ -25,11 +25,13 @@ namespace StarlightRiver.Items
             item.magic = true;
             item.autoReuse = true;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Splitstream");
             Tooltip.SetDefault("Shoots a projectile that ascends in blocks");
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(.75f);

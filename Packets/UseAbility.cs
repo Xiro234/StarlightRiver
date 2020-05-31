@@ -23,12 +23,13 @@ namespace StarlightRiver.Packets
 
         protected override void Receive()
         {
-            // TODO: Scalie, review this method please.
             AbilityHandler mp = Main.player[fromWho].GetModPlayer<AbilityHandler>();
             Ability ab = mp.Abilities.Single(a => a.GetType() == abType);
 
             ab.OnCast();
             (ab.Active, ab.Timer) = (abActive, abTimer);
+
+            if (Main.netMode == Terraria.ID.NetmodeID.Server) ab.SendPacket(-1, fromWho);
         }
     }
 }

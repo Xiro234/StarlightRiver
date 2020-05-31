@@ -11,6 +11,7 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/GasChaos";
             return true;
         }
+
         public override void OnSpawn(Dust dust)
         {
             dust.color = new Color(Main.rand.Next(100, 255), Main.rand.Next(100, 255), Main.rand.Next(100, 255));
