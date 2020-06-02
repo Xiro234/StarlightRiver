@@ -19,7 +19,7 @@ namespace StarlightRiver
                     {
                         for (int y = 10; y < Main.worldSurface; y++)
                         {
-                            if (Main.tile[k, y].type == TileID.Grass && Helper.CheckAirRectangle(new Point16(k, y - 2), new Point16(2, 2)))
+                            if (Main.tile[k, y].type == TileID.Grass && Main.tile[k + 1, y].type == TileID.Grass && Helper.CheckAirRectangle(new Point16(k, y - 2), new Point16(2, 2)))
                             {
                                 Helper.PlaceMultitile(new Point16(k, y - 2), ModContent.TileType<Tiles.Herbology.ForestBerryBush>());
                             }
