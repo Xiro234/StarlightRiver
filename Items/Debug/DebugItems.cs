@@ -268,11 +268,8 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            Codex.CodexHandler mp = player.GetModPlayer<Codex.CodexHandler>();
-            foreach (Codex.CodexEntry entry in mp.Entries) entry.Locked = true;
-
-            player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 12;
-            player.GetModPlayer<Abilities.AbilityHandler>().StatStamina = 12;
+            foreach (NPC wall in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBackdropLeft)) wall.ai[1] = 3; //make the walls scroll
+            foreach (NPC plat in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBossPlatformUp)) plat.ai[0] = 1; //make the platforms scroll
 
             return true;
         }

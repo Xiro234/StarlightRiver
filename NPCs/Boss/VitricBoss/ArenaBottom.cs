@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
@@ -85,15 +86,33 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     {
                         Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Air>());
                     }
-                    if (npc.ai[0] == 90) //make the NPC damage players now
+                    if (npc.ai[0] >= 120)
                     {
-                        npc.friendly = false;
-                        npc.damage = 50;
+                        foreach (Player target in Main.player.Where(n => n.active))
+                        {
+                            Rectangle rect = new Rectangle((int)npc.position.X, (int)npc.position.Y - 840, npc.width, npc.height);
+                            if (target.Hitbox.Intersects(rect))
+                            {
+                                target.Hurt(PlayerDeathReason.ByCustomReason(target.name + " was impaled..."), Main.expertMode ? 80 : 40, 0);
+                                target.GetModPlayer<StarlightPlayer>().platformTimer = 15;
+                                target.velocity.Y += 12;
+                            }
+                            if (target.Hitbox.Intersects(npc.Hitbox))
+                            {
+                                target.Hurt(PlayerDeathReason.ByCustomReason(target.name + " was impaled..."), Main.expertMode ? 80 : 40, 0);
+                                target.GetModPlayer<StarlightPlayer>().platformTimer = 15;
+                                target.velocity.Y -= 12;
+                            }
+                        }
                     }
                     break;
             }
         }
-
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+        {
+            Rectangle rect = new Rectangle((int)npc.position.X, (int)npc.position.Y - 820, npc.width, npc.height);
+            if (target.Hitbox.Intersects(rect) || target.Hitbox.Intersects(npc.Hitbox)) target.Hurt(PlayerDeathReason.ByCustomReason(target.name + " was impaled..."), Main.expertMode ? 80 : 40, 0);
+        }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[1] == 2 && npc.ai[0] > 90) //in the second phase after the crystals have risen
@@ -102,8 +121,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 for (int k = 0; k < npc.width; k += 16)
                 {
                     Vector2 pos = npc.position + new Vector2(k, 32 - off) - Main.screenPosition; //actually draw the crystals lol
+                    Vector2 pos2 = npc.position + new Vector2(k, -940 + 32 + off) - Main.screenPosition; //actually draw the crystals lol
                     Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalWave");
                     spriteBatch.Draw(tex, pos, Color.White);
+                    spriteBatch.Draw(tex, pos2, Color.White);
                 }
             }
         }
