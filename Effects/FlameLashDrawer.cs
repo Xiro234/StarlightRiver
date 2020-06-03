@@ -1,5 +1,6 @@
-using Microsoft.Xna.Framework;
+/*using Microsoft.Xna.Framework;
 using Terraria.Graphics.Shaders;
+using Terraria;
 
 namespace StarlightRiver.Effects
 {
@@ -36,4 +37,4 @@ namespace StarlightRiver.Effects
 			return MathHelper.Lerp(24f + transitToDark * 16f, 8f, Utils.GetLerpValue(0f, 1f, progressOnStrip, clamped: true)) * lerpValue;
 		}
 	}
-}
+}*/

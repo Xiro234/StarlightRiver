@@ -45,12 +45,14 @@ namespace StarlightRiver.GUI
         {
             if ((!Main.gameMenu && Elements.Count == 0 && Main.LocalPlayer.GetModPlayer<AbilityHandler>() != null) || ShouldReset)
             {
+                Elements.Clear();
+
                 AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
 
                 for (int k = 0; k < mp.Abilities.Count; k++)
                 {
                     Ability ability = mp.Abilities[k];
-                    Vector2 pos = new Vector2(100, 300) + new Vector2(-50, 0).RotatedBy(-k / (float)(mp.Abilities.Count - 1) * 3.14f);
+                    Vector2 pos = new Vector2(100, 300) + new Vector2(-70, 0).RotatedBy(-k / (float)(mp.Abilities.Count - 1) * 3.14f);
                     AddAbility(ability, pos);
                 }
                 ShouldReset = false;
