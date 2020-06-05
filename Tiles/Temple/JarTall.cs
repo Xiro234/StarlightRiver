@@ -14,8 +14,9 @@ using StarlightRiver.Items;
 
 namespace StarlightRiver.Tiles.Temple
 {
-    class JarTall : ModTile
+    class JarTall : DummyTile
     {
+        public JarTall() : base(ModContent.ProjectileType<Projectiles.Dummies.JarDummy>()) { }
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = false;
