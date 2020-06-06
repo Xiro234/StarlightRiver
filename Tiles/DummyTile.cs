@@ -24,7 +24,13 @@ namespace StarlightRiver.Tiles
             if (!Main.tileFrameImportant[Type] || SpawnConditions(i, j))
             {
                 if (!Main.projectile.Any(n => n.active && n.type == DummyType && n.position == new Vector2(i, j) * 16))
-                    Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, DummyType, 0, 0);
+                {
+                    Projectile p = new Projectile();
+                    p.SetDefaults(DummyType);
+
+                    Projectile.NewProjectile(new Vector2(i, j) * 16 + p.Size / 2, Vector2.Zero, DummyType, 1, 0);
+                    p = null;
+                }
             }
             SafeNearbyEffects(i, j, closer);
         }

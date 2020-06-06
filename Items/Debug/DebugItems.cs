@@ -1,4 +1,5 @@
-﻿using StarlightRiver.Tiles.Vitric;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Tiles.Vitric;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -252,8 +253,8 @@ namespace StarlightRiver.Items.Debug
             item.width = 64;
             item.height = 64;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 10;
-            item.useTime = 10;
+            item.useAnimation = 2;
+            item.useTime = 2;
             item.rare = ItemRarityID.Green;
             item.noUseGraphic = true;
         }
@@ -268,9 +269,9 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            foreach (NPC wall in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBackdropLeft)) wall.ai[1] = 3; //make the walls scroll
-            foreach (NPC plat in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBossPlatformUp)) plat.ai[0] = 1; //make the platforms scroll
-
+            //foreach (NPC wall in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBackdropLeft)) wall.ai[1] = 3; //make the walls scroll
+            //foreach (NPC plat in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBossPlatformUp)) plat.ai[0] = 1; //make the platforms scroll
+            Helper.NewItemPerfect(player.Center + new Vector2(10, -30), Vector2.Normalize(player.Center - Main.MouseWorld).RotatedByRandom(0.3f) * -25, Main.rand.Next(ItemID.Count), 1);
             return true;
         }
 

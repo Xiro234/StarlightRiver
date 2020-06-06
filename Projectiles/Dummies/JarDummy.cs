@@ -15,6 +15,7 @@ namespace StarlightRiver.Projectiles.Dummies
             if (AbilityHelper.CheckDash(player, projectile.Hitbox))
             {
                 WorldGen.KillTile(ParentX, ParentY);
+                Main.PlaySound(SoundID.Shatter, projectile.Center);
             }
         }
     }
