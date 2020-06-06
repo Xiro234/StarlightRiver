@@ -78,7 +78,7 @@ namespace StarlightRiver.NPCs.Pickups
                 if (animate == 1)
                 {
                     player.AddBuff(BuffID.Featherfall, 120);
-                    StarlightRiver.Instance.abilitytext.Display("Coronoa of Purity", "Press " + StarlightRiver.Purify.GetAssignedKeys()[0] + " to purify nearby tiles", mp.pure);
+                    StarlightRiver.Instance.textcard.Display("Coronoa of Purity", "Press " + StarlightRiver.Purify.GetAssignedKeys()[0] + " to purify nearby tiles", mp.pure);
                     Helper.UnlockEntry<PureEntry>(player);
                 }
             }

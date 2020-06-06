@@ -183,7 +183,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     StarlightPlayer mp = Main.LocalPlayer.GetModPlayer<StarlightPlayer>();
                     mp.ScreenMoveTarget = npc.Center + new Vector2(0, -850);
                     mp.ScreenMoveTime = 600;
-                    StarlightRiver.Instance.abilitytext.Display(npc.FullName, Main.rand.Next(10000) == 0 ? "Glass tax returns" : "Shattered Sentinel", null, 500); //Screen pan + intro text
+                    StarlightRiver.Instance.textcard.Display(npc.FullName, Main.rand.Next(10000) == 0 ? "Glass tax returns" : "Shattered Sentinel", null, 500); //Screen pan + intro text
 
                     for (int k = 0; k < Main.maxNPCs; k++) //finds all the large platforms to add them to the list of possible locations for the nuke attack
                     {

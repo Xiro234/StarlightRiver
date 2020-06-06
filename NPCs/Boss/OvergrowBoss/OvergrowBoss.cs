@@ -73,7 +73,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     mp.ScreenMoveTime = 320;
                     mp.ScreenMoveTarget = npc.Center;
 
-                    StarlightRiver.Instance.abilitytext.Display("[PH] Overgrow Boss", "[PH] Boss of the Overgrow", null, 200);
+                    StarlightRiver.Instance.textcard.Display("[PH] Overgrow Boss", "[PH] Boss of the Overgrow", null, 200);
 
                     LegendWorld.OvergrowBossFree = true;
                     npc.ai[0] = (int)OvergrowBossPhase.spawnAnimation;

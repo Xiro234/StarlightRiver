@@ -57,7 +57,7 @@ namespace StarlightRiver.Codex
                 }
             }
             (mod as StarlightRiver).codex = new GUI.Codex();
-            (mod as StarlightRiver).customResources8.SetState((mod as StarlightRiver).codex);
+            (mod as StarlightRiver).CodexUserInterface.SetState((mod as StarlightRiver).codex);
         }
     }
 }

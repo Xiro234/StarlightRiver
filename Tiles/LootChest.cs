@@ -8,8 +8,14 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles
 {
-    abstract class LootChest : ModTile
+    public abstract class LootChest : ModTile
     {
-
+        internal List<int> GoldLootPool { get; set; }
+        internal List<int> SmallLootPool { get; set; }
+        public override bool NewRightClick(int i, int j)
+        {
+            WorldGen.KillTile(i, j);
+            return true;
+        }
     }
 }

@@ -13,7 +13,7 @@ using Terraria.UI;
 
 namespace StarlightRiver.GUI
 {
-    class LootUI : UIState
+    public class LootUI : UIState
     {
         public static bool Visible = false;
         private Item BigItem = new Item();

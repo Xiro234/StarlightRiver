@@ -86,7 +86,7 @@ namespace StarlightRiver.NPCs.Pickups
                     "Press " + StarlightRiver.Dash.GetAssignedKeys()[0] + " + A/W/S/D to dash." :
                     "Press " + "[Please bind a key]" + " + A/W/S/D to dash.";
 
-                StarlightRiver.Instance.abilitytext.Display("Forbidden Winds", message, Main.LocalPlayer.GetModPlayer<AbilityHandler>().dash);
+                StarlightRiver.Instance.textcard.Display("Forbidden Winds", message, Main.LocalPlayer.GetModPlayer<AbilityHandler>().dash);
                 Helper.UnlockEntry<WindsEntry>(Main.LocalPlayer);
             }
             // audio fade shenanigans
