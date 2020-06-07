@@ -190,7 +190,7 @@ namespace StarlightRiver.Items.Debug
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
 
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.StarJuice.Tank>(), 0)
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<Tiles.Temple.TempleChestSimple>(), 0)
         {
         }
     }

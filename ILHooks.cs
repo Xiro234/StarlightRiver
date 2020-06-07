@@ -2,32 +2,18 @@
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using ReLogic.Graphics;
-using StarlightRiver.Abilities;
-using StarlightRiver.BootlegDusts;
-using StarlightRiver.Codex;
 using StarlightRiver.Configs;
 using StarlightRiver.Dragons;
 using StarlightRiver.GUI;
-using StarlightRiver.Items.CursedAccessories;
-using StarlightRiver.Items.Prototypes;
-using StarlightRiver.Keys;
-using StarlightRiver.RiftCrafting;
-using StarlightRiver.Tiles.Overgrow;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
-using Terraria.Graphics;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using static Terraria.ModLoader.ModContent;
-using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 
 namespace StarlightRiver
 {

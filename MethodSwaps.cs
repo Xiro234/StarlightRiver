@@ -513,19 +513,12 @@ namespace StarlightRiver
         }
         private void HandleSpecialItemInteractions(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
-            if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is Blocker) && context == 10)
-            {
-                return;
-            }
-            if (Main.mouseItem.modItem is Items.SoulboundItem && (context != 0 || inv != Main.LocalPlayer.inventory))
-            {
-                return;
-            }
-            if (inv[slot].modItem is Items.SoulboundItem && Main.keyState.PressingShift())
-            {
-                return;
-            }
-            //Main.NewText(context);
+            if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is Blocker) && context == 10) return;
+
+            if (Main.mouseItem.modItem is Items.SoulboundItem && (context != 0 || inv != Main.LocalPlayer.inventory)) return;
+
+            if (inv[slot].modItem is Items.SoulboundItem && Main.keyState.PressingShift()) return;
+
             orig(inv, context, slot);
         }
         private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
@@ -533,21 +526,15 @@ namespace StarlightRiver
             Player player = Main.player[Main.myPlayer];
             for (int i = 0; i < player.armor.Length; i++)
             {
-                if ((player.armor[i].modItem is CursedAccessory || player.armor[i].modItem is Blocker) && ItemSlot.ShiftInUse && inv[slot].accessory)
-                {
-                    return;
-                }
+                if ((player.armor[i].modItem is CursedAccessory || player.armor[i].modItem is Blocker) && ItemSlot.ShiftInUse && inv[slot].accessory) return;
             }
 
             if (inv == player.armor)
             {
                 Item swaptarget = player.armor[slot - 10];
-                //Main.NewText(swaptarget + "  /  " + slot);
                 if (context == 11 && (swaptarget.modItem is CursedAccessory || swaptarget.modItem is Blocker || swaptarget.modItem is InfectedAccessory)) return;
             }
-
             orig(inv, context, slot);
-
         }
         private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Terraria.Item[] inv, int context, int slot, Vector2 position, Color color)
         {
