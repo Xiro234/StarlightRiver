@@ -33,15 +33,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 possibleLocations.ForEach(n => n += new Vector2(0, -32));
                 for (int k = 0; k < Crystals.Count; k++)
                 {
-                    NPC npc = Crystals[k];
-                    VitricBossCrystal crystal = npc.modNPC as VitricBossCrystal;
+                    NPC crystalNpc = Crystals[k];
+                    VitricBossCrystal crystal = crystalNpc.modNPC as VitricBossCrystal;
 
-                    crystal.StartPos = npc.Center;
-                    Vector2 target = possibleLocations.OrderBy(n => Vector2.Distance(npc.Center, n)).ToList()[0]; //sort the remaining possible unique platforms by distance, this ensures crystals go to theirn earest unique platform
+                    crystal.StartPos = crystalNpc.Center;
+                    Vector2 target = possibleLocations.OrderBy(n => Vector2.Distance(crystalNpc.Center, n)).ToList()[0]; //sort the remaining possible unique platforms by distance, this ensures crystals go to theirn earest unique platform
                     crystal.TargetPos = target;
                     possibleLocations.Remove(target);
-                    Phase = 0; //reset the crystal's timers
-                    AttackPhase = 1; //set them into this attack's mode
+                    crystalNpc.ai[1] = 0; //reset the crystal's timers
+                    crystalNpc.ai[2] = 1; //set them into this attack's mode
                 }
             }
             if (AttackTimer == 180)

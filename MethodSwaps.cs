@@ -65,8 +65,25 @@ namespace StarlightRiver
             On.Terraria.Player.dropItemCheck += SoulboundPriority;
             On.Terraria.Player.ItemFitsItemFrame += NoSoulboundFrame;
             On.Terraria.Player.ItemFitsWeaponRack += NoSoulboundRack;
+            //Additive Batching
+            On.Terraria.Main.DrawDust += DrawAdditive;
         }
+
+
         #region hooks
+        private void DrawAdditive(On.Terraria.Main.orig_DrawDust orig, Main self)
+        {
+            orig(self);
+            Main.spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+
+            for (int k = 0; k < Main.maxProjectiles; k++) //projectiles
+                if (Main.projectile[k].active && Main.projectile[k].modProjectile is IDrawAdditive) (Main.projectile[k].modProjectile as IDrawAdditive).DrawAdditive(Main.spriteBatch);
+
+            for (int k = 0; k < Main.maxNPCs; k++) //NPCs
+                if (Main.npc[k].active && Main.npc[k].modNPC is IDrawAdditive) (Main.npc[k].modNPC as IDrawAdditive).DrawAdditive(Main.spriteBatch);
+
+            Main.spriteBatch.End();
+        }
         private bool NoSoulboundFrame(On.Terraria.Player.orig_ItemFitsItemFrame orig, Player self, Item i)
         {
             return i.modItem is Items.SoulboundItem ? false : orig(self, i);

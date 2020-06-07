@@ -162,14 +162,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void AI()
         {
-            /*
-             * AI slots:
-             * 0: Timer
-             * 1: Phase
-             * 2: Attack state
-             * 3: Attack timer
-             */
-
             //Ticks the timer
             GlobalTimer++;
             AttackTimer++;

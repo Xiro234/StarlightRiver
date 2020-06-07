@@ -16,7 +16,7 @@ namespace StarlightRiver.Items.Temple
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Point of Light");
-            Tooltip.SetDefault("Slain foes leave behind a bright light");
+            Tooltip.SetDefault("Struck foes glow\nSlain foes leave behind a bright light");
         }
         public override void SetDefaults()
         {
@@ -41,6 +41,7 @@ namespace StarlightRiver.Items.Temple
         public TempleSpearProjectile() : base(30, 7, 25) { }
         public override void PostAI()
         {
+            //Dust effects
             Dust d = Dust.NewDustPerfect(projectile.Center, 264, projectile.velocity.RotatedBy(-0.5f));
             d.noGravity = true;
             d.color = new Color(255, 255, 200) * (projectile.timeLeft / (30f * Main.player[projectile.owner].meleeSpeed));
@@ -53,6 +54,7 @@ namespace StarlightRiver.Items.Temple
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            //inflicting debuff + light orbs on kill
             target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 600);
             if(damage >= target.life)
             {
