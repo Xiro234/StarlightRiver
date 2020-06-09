@@ -8,7 +8,7 @@ using Terraria.UI;
 
 namespace StarlightRiver.GUI
 {
-    public class AbilityText : UIState
+    public class TextCard : UIState
     {
         public static bool Visible = false;
 

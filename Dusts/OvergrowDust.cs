@@ -11,7 +11,7 @@ namespace StarlightRiver.Dusts
 
         public override bool Autoload(ref string name, ref string texture)
         {
-            texture = "StarlightRiver/Dusts/DragonFire";
+            texture = "StarlightRiver/Dusts/PlayerFollowOrange";
             return base.Autoload(ref name, ref texture);
         }
 

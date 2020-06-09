@@ -28,7 +28,7 @@ namespace StarlightRiver.GUI
 
         public void SafeDraw(SpriteBatch spriteBatch)
         {
-            if (ModContent.GetInstance<Config>().Active) Draw(spriteBatch);
+            if (ModContent.GetInstance<Config>().Active) Draw(spriteBatch);        
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

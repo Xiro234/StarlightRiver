@@ -46,7 +46,7 @@ namespace StarlightRiver.NPCs.Pickups
             {
                 string message = "Open the codex from your inventory to learn about the world.";
 
-                StarlightRiver.Instance.abilitytext.Display("Starlight Codex", message, null, 240);
+                StarlightRiver.Instance.textcard.Display("Starlight Codex", message, null, 240);
                 Helper.UnlockEntry<Codex.CodexEntry>(Main.LocalPlayer);
             }
         }

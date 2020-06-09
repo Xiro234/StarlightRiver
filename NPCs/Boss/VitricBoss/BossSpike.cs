@@ -12,9 +12,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override void SetDefaults()
         {
             projectile.hostile = false;
-            projectile.width = 48;
+            projectile.width = 220;
             projectile.height = 128;
-            projectile.timeLeft = 150;
+            projectile.timeLeft = 180;
         }
 
         public override bool CanHitPlayer(Player target)
@@ -36,13 +36,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             projectile.ai[0]++; //ticks up the timer
 
-            if (projectile.ai[0] < 60 && projectile.ai[0] > 10)
+            if (projectile.ai[0] < 90 && projectile.ai[0] > 10)
             {
                 Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, ModContent.DustType<Dusts.Glass2>());
                 int i = Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, ModContent.DustType<Dusts.AirDash>(), 0, -5);
                 Main.dust[i].fadeIn = 30;
             }
-            if (projectile.ai[0] == 60) //when this projectile goes off
+            if (projectile.ai[0] == 90) //when this projectile goes off
             {
                 projectile.hostile = true;
             }
@@ -50,10 +50,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.ai[0] > 60)
+            if (projectile.ai[0] > 90)
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BossSpike");
-                int off = projectile.ai[0] < 70 ? (int)((projectile.ai[0] - 60) / 10f * projectile.height) : projectile.height - (int)((projectile.ai[0] - 70) / 80f * projectile.height);
+                int off = projectile.ai[0] < 100 ? (int)((projectile.ai[0] - 90) / 10f * projectile.height) : projectile.height - (int)((projectile.ai[0] - 100) / 80f * projectile.height);
                 Rectangle targetRect = new Rectangle((int)(projectile.position.X - Main.screenPosition.X), (int)(projectile.position.Y - off - Main.screenPosition.Y + projectile.height), projectile.width, off);
                 Rectangle sourceRect = new Rectangle(0, 0, projectile.width, off);
                 spriteBatch.Draw(tex, targetRect, sourceRect, lightColor, 0, Vector2.Zero, 0, 0);

@@ -19,31 +19,28 @@ namespace StarlightRiver
                     {
                         for (int y = 10; y < Main.worldSurface; y++)
                         {
-                            if (Main.tile[k, y].type == TileID.Grass && Helper.CheckAirRectangle(new Point16(k, y - 2), new Point16(2, 2)))
+                            if (Main.tile[k, y].type == TileID.Grass && Main.tile[k + 1, y].type == TileID.Grass && Helper.CheckAirRectangle(new Point16(k, y - 2), new Point16(2, 2)))
                             {
                                 Helper.PlaceMultitile(new Point16(k, y - 2), ModContent.TileType<Tiles.Herbology.ForestBerryBush>());
                             }
                         }
                     }
-                    else if (WorldGen.genRand.Next(30) == 0)
+                    else if (WorldGen.genRand.Next(50) == 0) //Palestone
                     {
                         for (int y = 10; y < Main.worldSurface; y++)
                         {
-                            if (Main.tile[k, y].type == TileID.Grass)
+                            bool canPlace = true;
+                            for (int w = -2; w < 2; ++w) //Scans are for valid placement (fixed some really bizzare placement issues)
                             {
-                                int width = WorldGen.genRand.Next(4, 8);
-                                for (int x = k; x < k + width; x++)
+                                if (Main.tile[k, y].type != TileID.Grass || !Main.tile[k, y].active())
                                 {
-                                    int xRel = x - k;
-                                    int xSqr = (-1 * xRel * xRel) / 8 + xRel + 1;
-                                    for (int y2 = y - xSqr; y2 < y + xSqr; y2++)
-                                    {
-                                        WorldGen.PlaceTile(x, y2, ModContent.TileType<Tiles.Forest.Palestone>(), true, true);
-                                        WorldGen.SlopeTile(x, y2);
-                                        if (y2 == y - xSqr && xRel < width / 2 && WorldGen.genRand.Next(2) == 0) WorldGen.SlopeTile(x, y2, 2);
-                                        if (y2 == y - xSqr && xRel > width / 2 && WorldGen.genRand.Next(2) == 0) WorldGen.SlopeTile(x, y2, 1);
-                                    }
+                                    canPlace = false;
+                                    break;
                                 }
+                            }
+                            if (canPlace)
+                            {
+                                PalestoneChunk(k, y); //Place chunk
                                 break;
                             }
                         }
@@ -85,18 +82,46 @@ namespace StarlightRiver
                         for (int y = surface - (xOff / 2 + WorldGen.genRand.Next(2)) - 3; true; y++)
                         {
                             WorldGen.PlaceWall(k + x, y, ModContent.WallType<Tiles.Forest.LeafWall>());
-                            if (y - surface > 20 || !WorldGen.InWorld(k + x, y + 1) || Main.tile[k + x, y + 1].wall != 0) break;
+                            if (y - surface > 20 || !WorldGen.InWorld(k + x, y + 1) || Main.tile[k + x, y + 1].wall != 0)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
 
+        private void PalestoneChunk(int k, int y)
+        {
+            int width = WorldGen.genRand.Next(4, 14);
+            y += WorldGen.genRand.Next(0, 3); //Adjusts how deep in the ground it is
+            for (int x = k - (width / 2); x < k + (width / 2); x++) //Modified code from probably Scalie; I adjusted the pre-existing code.
+            {
+                int xRel = x - k;
+                int xSqr = (-1 * xRel * xRel) / 8 + xRel + 1;
+                for (int y2 = y - xSqr; y2 < y + xSqr; y2++)
+                {
+                    WorldGen.KillTile(x, y2);
+                    WorldGen.PlaceTile(x, y2, ModContent.TileType<Tiles.Forest.Palestone>(), true, true); //Kills and places palestone
+                    WorldGen.SlopeTile(x, y2);
+                    if (y2 == y - xSqr && xRel < width / 2 && WorldGen.genRand.Next(2) == 0 && !Main.tile[x, y2 - 1].active()) //Slopes only if exposed to air
+                        WorldGen.SlopeTile(x, y2, 2);
+                    if (y2 == y - xSqr && xRel > width / 2 && WorldGen.genRand.Next(2) == 0 && !Main.tile[x, y2 - 1].active()) //Slopes only if exposed to air
+                        WorldGen.SlopeTile(x, y2, 1);
+                }
+            }
+        }
+
+
         private static bool AnyGrass(int x)
         {
             for (int y = 10; y < Main.maxTilesY; y++)
             {
-                if (Main.tile[x, y].type == TileID.Grass) return true;
+                if (Main.tile[x, y].type == TileID.Grass)
+                {
+                    return true;
+                }
             }
             return false;
         }

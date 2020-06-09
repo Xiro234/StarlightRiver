@@ -23,6 +23,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.CoordinatePadding = 2; //spacing between each frame in pixels
             TileObjectData.newTile.Origin = new Point16(0, 0); //where the tile is placed from for the purpose of createTile in items. (1, 1) would make the tile place from the top left of the bottom right tile instead
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorValidTiles = new int[] { TileID.Grass };
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type); //Adds the data to this type of tile. Make sure you call this after setting everything else.
 
@@ -37,7 +38,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData data = TileObjectData.GetTileData(tile); //grabs the TileObjectData associated with our tile. So we dont have to use as many magic numbers
             int fullFrameWidth = data.Width * (data.CoordinateWidth + data.CoordinatePadding); //the width of a full frame of our multitile in pixels. We get this by multiplying the size of 1 full frame with padding by the width of our tile in tiles.
 
-            if (tile.frameY % 2 == 0 && tile.frameX % fullFrameWidth == 0) //this checks to make sure this is only the top-left tile. We only want one tile to do all the growing for us, and top-left is the standard. otherwise each tile in the multitile ticks on its own due to stupid poopoo redcode.
+            if (tile.frameX == 0 && tile.frameY % 36 == 0) //this checks to make sure this is only the top-left tile. We only want one tile to do all the growing for us, and top-left is the standard. otherwise each tile in the multitile ticks on its own due to stupid poopoo redcode.
             {
                 if (Main.rand.Next(2) == 0 && tile.frameX == 0) //a random check here can slow growing as much as you want.
                 {
@@ -56,24 +57,21 @@ namespace StarlightRiver.Tiles.Herbology
 
         public override bool NewRightClick(int i, int j)
         {
-            Tile tile = Main.tile[i, j];
-            TileObjectData data = TileObjectData.GetTileData(tile);
-            int fullFrameWidth = data.Width * (data.CoordinateWidth + data.CoordinatePadding);
-
-            if (tile.frameX >= fullFrameWidth)
+            if (Main.tile[i, j].frameX > 35) //Only runs if it has berries
             {
-                int offX = (tile.frameX - fullFrameWidth) / 10;
-                int offY = tile.frameY / 10;
+                Tile tile = Main.tile[i, j]; //Selects current tile
 
-                for (int x = -offX; x < data.Width; x++)
-                {
-                    for (int y = -offY; y < data.Height; y++)
-                    {
-                        Tile targetTile = Main.tile[i + x, j + y];
-                        targetTile.frameX -= (short)fullFrameWidth;
-                    }
-                }
-                Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.ForestBerries>());
+                int newX = i; //Here to line 67 adjusts the tile position so we get the top-left of the multitile
+                int newY = j;
+                if (tile.frameX % 36 == 18)
+                    newX = i - 1;
+                if (tile.frameY % 36 == 18)
+                    newY = j - 1;
+
+                for (int k = 0; k < 2; k++)
+                    for (int l = 0; l < 2; ++l)
+                        Main.tile[newX + k, newY + l].frameX -= 36; //Changes frames to berry-less
+                Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.ForestBerries>()); //Drops berries
             }
             return true;
         }
@@ -81,6 +79,8 @@ namespace StarlightRiver.Tiles.Herbology
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(new Vector2(i * 16, j * 16), ModContent.ItemType<Items.Herbology.BerryBush>()); //drop a bush item
+            if (frameX > 35)
+                Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.ForestBerries>()); //Drops berries if harvestable
         }
     }
 }
