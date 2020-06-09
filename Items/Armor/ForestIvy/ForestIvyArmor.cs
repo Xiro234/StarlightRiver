@@ -16,10 +16,9 @@ namespace StarlightRiver.Items.Armor.ForestIvy
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = 10000;
-            item.rare = ItemRarityID.Green;
+            item.width = 28;
+            item.height = 28;
+            item.value = 8000;
             item.defense = 2;
         }
         public override void UpdateEquip(Player player)
@@ -47,10 +46,9 @@ namespace StarlightRiver.Items.Armor.ForestIvy
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = 1;
-            item.rare = ItemRarityID.Green;
+            item.width = 34;
+            item.height = 20;
+            item.value = 6000;
             item.defense = 4;
         }
         public override void UpdateEquip(Player player)
@@ -87,10 +85,9 @@ namespace StarlightRiver.Items.Armor.ForestIvy
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = 1;
-            item.rare = ItemRarityID.Green;
+            item.width = 30;
+            item.height = 20;
+            item.value = 4000;
             item.defense = 2;
         }
 

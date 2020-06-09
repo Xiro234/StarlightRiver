@@ -11,6 +11,12 @@ namespace StarlightRiver.Items
     internal class StaminaPickup : ModItem
     {
         public override string Texture => "StarlightRiver/Invisible";
+
+        public override bool ItemSpace(Player player)
+        {
+            return true;
+        }
+
         public override bool OnPickup(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();

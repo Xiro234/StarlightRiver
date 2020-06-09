@@ -56,6 +56,8 @@ namespace StarlightRiver
 
         public override void PreUpdate()
         {
+            EmpowermentUpdate();
+
             if (PickupTarget != null)
             {
                 PickupTimer++;
@@ -125,6 +127,8 @@ namespace StarlightRiver
 
         public override void ResetEffects()
         {
+            ResetStarwoodEffects();
+
             AnthemDagger = false;
             GuardDamage = 1;
             GuardCrit = 0;
@@ -248,8 +252,15 @@ namespace StarlightRiver
                 }
             }
         }
+
+        public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+        {
+            if (item.magic) { OnHitStarwood(target); }
+        }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
+            if (proj.magic) { OnHitStarwood(target); }
+
             if (ivyArmorComplete == true && Timer - LastHit >= 300 && Helper.IsTargetValid(target) && proj.ranged)
             {
                 if (target.boss)
@@ -264,6 +275,7 @@ namespace StarlightRiver
                 //Gotta balance it somewhere... right?
             }
         }
+
         public override void OnEnterWorld(Player player)
         {
             Collection.ShouldReset = true;

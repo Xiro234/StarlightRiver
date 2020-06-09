@@ -16,15 +16,14 @@ namespace StarlightRiver.Items.Armor.Palestone
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Palestone Helm");
-            Tooltip.SetDefault("2% increased melee critial strike change");
+            Tooltip.SetDefault("2% increased melee critial strike chance");
         }
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = 10000;
-            item.rare = 2;
+            item.width = 22;
+            item.height = 22;
+            item.value = 8000;
             item.defense = 2;
         }
         public override void UpdateEquip(Player player)
@@ -44,10 +43,9 @@ namespace StarlightRiver.Items.Armor.Palestone
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = 1;
-            item.rare = 2;
+            item.width = 40;
+            item.height = 22;
+            item.value = 6000;
             item.defense = 3;
         }
         public override void UpdateEquip(Player player)
@@ -173,10 +171,9 @@ namespace StarlightRiver.Items.Armor.Palestone
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = 1;
-            item.rare = 2;
+            item.width = 30;
+            item.height = 20;
+            item.value = 4000;
             item.defense = 2;
         }
 
