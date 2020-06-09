@@ -137,6 +137,10 @@ namespace StarlightRiver
                 Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/BlurEffect"));
                 Terraria.Graphics.Effects.Filters.Scene["BlurFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef, "BlurPass"), Terraria.Graphics.Effects.EffectPriority.High);
                 Terraria.Graphics.Effects.Filters.Scene["BlurFilter"].Load();
+
+                Ref<Effect> screenRef5 = new Ref<Effect>(GetEffect("Effects/Purity"));
+                Terraria.Graphics.Effects.Filters.Scene["PurityFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef5, "PurityPass"), Terraria.Graphics.Effects.EffectPriority.High);
+                Terraria.Graphics.Effects.Filters.Scene["PurityFilter"].Load();
             }
 
             //Autoload Rift Recipes

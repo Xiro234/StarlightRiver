@@ -12,7 +12,7 @@ namespace StarlightRiver.Dragons
     {
         public override void SetDefaults()
         {
-            mountData.spawnDust = ModContent.DustType<Dusts.DragonFire>();
+            mountData.spawnDust = ModContent.DustType<Dusts.PlayerFollowOrange>();
             mountData.buff = mod.BuffType("CarMount");
             mountData.heightBoost = 20;
             mountData.fallDamage = 0.1f;

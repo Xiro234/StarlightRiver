@@ -212,7 +212,38 @@ namespace StarlightRiver.Items.Debug
         {
         }
     }
+    public class DebugPotion3 : ModItem
+    {
+        public override void SetDefaults()
+        {
+            item.width = 64;
+            item.height = 64;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useAnimation = 10;
+            item.useTime = 10;
+            item.rare = ItemRarityID.Green;
+            item.autoReuse = true;
+            item.createTile = ModContent.TileType<Tiles.Misc.SandscriptTile>();
+        }
 
+        public override string Texture => "StarlightRiver/MarioCumming";
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Super Clentaminator");
+            Tooltip.SetDefault("Effects vary");
+        }
+
+        public override bool UseItem(Player player)
+        {
+            for (int x = 0; x < Main.maxTilesX; x++)
+                for (int y = 0; y < Main.maxTilesY; y++)
+                {
+                    WorldGen.Convert(x, y, 0);
+                }
+            return true;
+        }
+    }
     public class DebugPotion : ModItem
     {
         public override void SetDefaults()

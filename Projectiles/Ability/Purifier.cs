@@ -19,7 +19,7 @@ namespace StarlightRiver.Projectiles.Ability
             projectile.height = 32;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 550;
+            projectile.timeLeft = 900;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
@@ -36,39 +36,39 @@ namespace StarlightRiver.Projectiles.Ability
 
         public override void AI()
         {
-            if(projectile.timeLeft == 550)
+            if(projectile.timeLeft == 900)
             {
                 Filters.Scene.Activate("PurityFilter", projectile.position).GetShader().UseDirection(new Vector2(0.1f, 0.1f));
             }
-            else if (projectile.timeLeft >= 500)
+            else if (projectile.timeLeft >= 750)
             {
-                projectile.ai[0] += 5;
+                projectile.ai[0] += 2;
             }
-            else if (projectile.timeLeft % 2 == 0)
+            else if (projectile.timeLeft < 150)
             {
-                projectile.ai[0]--;
+                projectile.ai[0] -= 2;
             }
 
-            Filters.Scene["PurityFilter"].GetShader().UseProgress((projectile.ai[0] / 255) * 0.191f).UseIntensity((projectile.ai[0] / 255) * 0.007f);
+            Filters.Scene["PurityFilter"].GetShader().UseProgress((projectile.ai[0] / 255) * 0.125f).UseIntensity((projectile.ai[0] / 255) * 0.006f);
 
-            Main.NewText(projectile.ai[0]);
-
-            for (int x = 0; x < 30; x++)
-            {
-                Dust.NewDustPerfect(projectile.Center + (Vector2.One * ((projectile.ai[0]) * 0.82f)).RotatedByRandom(6.28f) - Vector2.One * 16, ModContent.DustType<Dusts.Purify>());
-            }
             Dust.NewDust(projectile.Center - Vector2.One * 32, 32, 32, ModContent.DustType<Dusts.Purify>());
 
-            for (int x = -20; x < 20; x++)
+            for (int x = -40; x < 40; x++)
             {
-                for (int y = -20; y < 20; y++)
+                for (int y = -40; y < 40; y++)
                 {
                     Vector2 check = (projectile.position / 16) + new Vector2(x, y);
-                    if (Vector2.Distance((check * 16), projectile.position) <= projectile.ai[0] - 2)
+                    if (Vector2.Distance((check * 16), projectile.Center) <= projectile.ai[0] - 2)
                     {
                         TransformTile((int)check.X, (int)check.Y);
                     }
                     else
+                    {
+                        RevertTile((int)check.X, (int)check.Y);
+                    }
+
+                    //just in case
+                    if(projectile.timeLeft == 1)
                     {
                         RevertTile((int)check.X, (int)check.Y);
                     }
@@ -128,9 +128,9 @@ namespace StarlightRiver.Projectiles.Ability
 
         private static void SpawnDust(int x, int y)
         {
-            for (int k = 0; k <= 16; k++)
+            for (int k = 0; k <= 4; k++)
             {
-                Dust.NewDustPerfect(new Vector2(x, y) * 16 + Main.rand.NextVector2Square(-2, 18), ModContent.DustType<Dusts.Purify2>(), new Vector2(Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(-0.1f, -0.5f)), 0, Color.White, 2f);
+                Dust.NewDustPerfect(new Vector2(x, y) * 16 + Main.rand.NextVector2Square(-2, 18), ModContent.DustType<Dusts.Purify2>(), new Vector2(Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(-0.1f, -0.5f)), 0, Color.White, 0.5f);
             }
         }
 
@@ -140,8 +140,8 @@ namespace StarlightRiver.Projectiles.Ability
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            spriteBatch.Draw(cirTex, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex.Frame(), Color.White, -(projectile.timeLeft / 500f), cirTex.Size() / 2, (projectile.ai[0] / 255) * 1.010f , 0, 0);
-            spriteBatch.Draw(cirTex2, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex2.Frame(), Color.White, projectile.timeLeft / 500f, cirTex2.Size() / 2, (projectile.ai[0] / 255) * 1.010f, 0, 0);
+            spriteBatch.Draw(cirTex, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex.Frame(), Color.White, -(projectile.timeLeft / 900f), cirTex.Size() / 2, (projectile.ai[0] / cirTex.Width * 2.1f), 0, 0);
+            spriteBatch.Draw(cirTex2, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex2.Frame(), Color.White, projectile.timeLeft / 900f, cirTex2.Size() / 2, (projectile.ai[0] / cirTex.Width * 2.1f), 0, 0);
 
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
             spriteBatch.Draw(tex, projectile.Center + new Vector2(-16, -16 + (float)Math.Sin(LegendWorld.rottime) * 2) - Main.screenPosition, tex.Frame(),
