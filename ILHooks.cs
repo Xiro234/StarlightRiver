@@ -340,7 +340,7 @@ namespace StarlightRiver
 
             c.EmitDelegate<DrawWindowDelegate>(EmitMoonlordLayerDel);
         }
-        private readonly List<BootlegDust> WindowDust = new List<BootlegDust>();
+        //private readonly List<BootlegDust> WindowDust = new List<BootlegDust>();
         private void EmitMoonlordLayerDel()
         {
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -380,7 +380,7 @@ namespace StarlightRiver
                     Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
 
                     // Update + draw dusts
-                    foreach (BootlegDust dust in WindowDust)
+                    /*foreach (BootlegDust dust in WindowDust)
                     {
                         dust.SafeDraw(spriteBatch);
                         dust.Update();
@@ -388,6 +388,7 @@ namespace StarlightRiver
                     WindowDust.RemoveAll(n => n.time == 0);
 
                     if (Main.rand.Next(10) == 0) WindowDust.Add(new WindowLightDust(npc.Center + new Vector2(Main.rand.Next(-350, 350), -650), new Vector2(0, Main.rand.NextFloat(0.8f, 1.6f))));
+                    */
 
                     for (int k = -2; k < 3; k++)
                     {

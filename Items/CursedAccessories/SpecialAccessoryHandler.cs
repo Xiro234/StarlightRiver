@@ -10,6 +10,7 @@ namespace StarlightRiver.Items.CursedAccessories
     {
         public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
+            /*
             //updates visuals for cursed accessories
             CursedAccessory.Bootlegdust.ForEach(BootlegDust => BootlegDust.Update());
             CursedAccessory.Bootlegdust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
@@ -19,6 +20,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
             BlessedAccessory.Bootlegdust2.ForEach(BootlegDust => BootlegDust.Update());
             BlessedAccessory.Bootlegdust2.RemoveAll(BootlegDust => BootlegDust.time <= 0);
+            */
         }
 
         private void CheckFail(Item item)

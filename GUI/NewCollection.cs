@@ -12,7 +12,7 @@ namespace StarlightRiver.GUI
     public class Collection : UIState
     {
         public static bool visible = false;
-        public static List<BootlegDust> dust = new List<BootlegDust>();
+        //public static List<BootlegDust> dust = new List<BootlegDust>();
         public static Ability ActiveAbility;
         public static bool ShouldReset = false;
 
@@ -36,9 +36,9 @@ namespace StarlightRiver.GUI
             spriteBatch.Draw(tex, new Vector2(100, 300), tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
             base.Draw(spriteBatch);
 
-            dust.ForEach(n => n.SafeDraw(spriteBatch));
-            dust.ForEach(n => n.Update());
-            dust.RemoveAll(n => n.time == 0);
+            //dust.ForEach(n => n.SafeDraw(spriteBatch));
+            //dust.ForEach(n => n.Update());
+            //dust.RemoveAll(n => n.time == 0);
         }
 
         public override void Update(GameTime gameTime)
@@ -79,7 +79,7 @@ namespace StarlightRiver.GUI
 
             spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
 
-            if (Collection.ActiveAbility == Ability) //extra VFX
+            /*if (Collection.ActiveAbility == Ability) //extra VFX
             {
                 if (Ability is Dash)
                 {
@@ -105,7 +105,7 @@ namespace StarlightRiver.GUI
                     Vector2 duspos3 = pos + new Vector2((float)Math.Cos(LegendWorld.rottime + 2), (float)Math.Sin(LegendWorld.rottime + 2)) * 16f;
                     Collection.dust.Add(new ExpertDust(dustex, duspos3, Vector2.Zero, new Color(255, 255, 150), 1.8f, 30));
                 }
-            }
+            }*/
         }
     }
 }

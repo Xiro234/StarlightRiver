@@ -19,17 +19,18 @@ namespace StarlightRiver.Items.CursedAccessories
             Glow = glow;
         }
 
-        internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
+        //internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Color color = Color.White * (float)Math.Sin(LegendWorld.rottime);
             spriteBatch.Draw(Glow, position, new Rectangle(0, 0, 32, 32), color, 0, origin, scale, SpriteEffects.None, 0);
-
+            /*
             Bootlegdust.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
 
             BootlegDust dus = new CurseDust(ModContent.GetTexture("StarlightRiver/GUI/Dark"), (position) + frame.Size() / 4 - Vector2.One + (Vector2.One * Main.rand.Next(12)).RotatedBy(Main.rand.NextFloat(0, 6.28f)), new Vector2(0, -0.4f), Color.White * 0.1f, 1.5f, 60);
             Bootlegdust.Add(dus);
+            */
 
             drawpos = position - new Vector2((frame.Width / 2), (frame.Width / 2));
         }
@@ -40,15 +41,15 @@ namespace StarlightRiver.Items.CursedAccessories
             Main.PlaySound(SoundID.Item123);
             for (int k = 0; k <= 175; k++)
             {
-                BootlegDust dus = new CurseDust2(ModContent.GetTexture("StarlightRiver/GUI/Dark"), drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0, 0.8f), Color.White * 0.4f, 3.8f, 180);
-                Bootlegdust.Add(dus);
+                //BootlegDust dus = new CurseDust2(ModContent.GetTexture("StarlightRiver/GUI/Dark"), drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0, 0.8f), Color.White * 0.4f, 3.8f, 180);
+                //Bootlegdust.Add(dus);
             }
 
             return true;
         }
     }
 
-    public class CurseDust : BootlegDust
+    /*public class CurseDust : BootlegDust
     {
         public CurseDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int time) :
             base(texture, position, velocity, color, scale, time)
@@ -93,4 +94,5 @@ namespace StarlightRiver.Items.CursedAccessories
             time--;
         }
     }
+    */
 }

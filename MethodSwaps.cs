@@ -9,6 +9,7 @@ using StarlightRiver.GUI;
 using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.Items.Prototypes;
 using StarlightRiver.Keys;
+using StarlightRiver.ParticleSystems;
 using StarlightRiver.Tiles.Overgrow;
 using System;
 using System.Collections.Generic;
@@ -175,20 +176,11 @@ namespace StarlightRiver
             return new Vector2(x, y);
         }
 
-        private readonly List<BootlegDust> foregroundDusts = new List<BootlegDust>();
+        //internal ParticleSystem ForegroundSystem = new ParticleSystem("", );
         private void DrawForeground(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
             Main.spriteBatch.Begin();
-            //This is where foreground shiznit is drawn
-            List<BootlegDust> removals = new List<BootlegDust>();
-
-            foreach (BootlegDust dus in foregroundDusts)
-            {
-                dus.SafeDraw(Main.spriteBatch);
-                dus.Update();
-                if (dus.time <= 0) removals.Add(dus);
-            }
-            foreach (BootlegDust dus in removals) foregroundDusts.Remove(dus);
+            //ForegroundSystem.DrawParticles(Main.spriteBatch);
 
             //Overgrow magic wells
             if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow)
@@ -197,12 +189,13 @@ namespace StarlightRiver
                 if (Main.rand.Next(9) == 0)
                     for (int k = 0; k < 10; k++)
                     {
+                        /*
                         foregroundDusts.Add(new OvergrowForegroundDust(direction * 800 * k + Main.rand.Next(80), 1.4f, new Vector2(0, -Main.rand.NextFloat(2.5f, 3)), Color.White * 0.005f, Main.rand.NextFloat(1, 2)));
                         if (Main.rand.Next(2) == 0)
                             foregroundDusts.Add(new OvergrowForegroundDust(direction * 900 * k + Main.rand.Next(30), 0.6f, new Vector2(0, -Main.rand.NextFloat(1.3f, 1.5f)), Color.White * 0.05f, Main.rand.NextFloat(0.4f, 0.6f)));
+                    */
                     }
             }
-            else foreach (BootlegDust dus in foregroundDusts) (dus as OvergrowForegroundDust).fadein = 101;
             Main.spriteBatch.End();
             orig(self, gameTime);
 
@@ -215,8 +208,7 @@ namespace StarlightRiver
             }
         }
 
-        internal static readonly List<BootlegDust> MenuDust = new List<BootlegDust>();
-        private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
+        /*private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
 
@@ -297,7 +289,7 @@ namespace StarlightRiver
             {
 
             }
-        }
+        }*/
         private void DrawProto(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_refItem_int_Vector2_Color orig, SpriteBatch spriteBatch, ref Item inv, int context, Vector2 position, Color lightColor)
         {
             orig(spriteBatch, ref inv, context, position, lightColor);
@@ -352,107 +344,6 @@ namespace StarlightRiver
                         npc.Center - Main.screenPosition + Vector2.One * 16 * 12 + new Vector2(-4 + (float)Math.Sin(npc.ai[0] + k) * 4, 18 + k * 16), drawColor);
                 }
             }
-        }
-
-        internal static readonly List<BootlegDust> VitricBackgroundDust = new List<BootlegDust>();
-        internal static readonly List<BootlegDust> VitricForegroundDust = new List<BootlegDust>();
-
-        private void DrawVitricBackground(On.Terraria.Main.orig_DrawBackgroundBlackFill orig, Main self)
-        {
-            orig(self);
-
-            if (Main.gameMenu) return;
-
-            Player player = null;
-            if (Main.playerLoaded) { player = Main.LocalPlayer; }
-
-            VitricBackgroundDust.ForEach(BootlegDust => BootlegDust.Update());
-            VitricBackgroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
-
-            VitricForegroundDust.ForEach(BootlegDust => BootlegDust.Update());
-            VitricForegroundDust.RemoveAll(BootlegDust => BootlegDust.time <= 0);
-
-            if (player != null && LegendWorld.VitricBiome.Contains((player.Center / 16).ToPoint()))
-            {
-                Vector2 basepoint = (LegendWorld.VitricBiome != null) ? LegendWorld.VitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
-
-                DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass5"), 0, 300); //the background
-
-                DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5, 170, new Color(150, 175, 190)); //the back sand
-                DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 5.5f, 400, new Color(120, 150, 170), true); //the back sand on top
-
-                foreach (BootlegDust dust in VitricBackgroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
-                {
-                    dust.SafeDraw(Main.spriteBatch); //back particles
-                }
-
-                for (int k = 4; k >= 0; k--)
-                {
-                    int off = 140 + (440 - k * 110);
-                    if (k == 4) off = 400;
-                    DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass" + k), k + 1, off); //the crystal layers and front sand
-                    if (k == 0) DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass1"), 0.5f, 100, new Color(180, 220, 235), true); //the sand on top
-                    if (k == 2)
-                    {
-                        foreach (BootlegDust dust in VitricForegroundDust.Where(n => n.pos.X > 0 && n.pos.X < Main.screenWidth + 30 && n.pos.Y > 0 && n.pos.Y < Main.screenHeight + 30))
-                        {
-                            dust.SafeDraw(Main.spriteBatch); //front particles
-                        }
-                    }
-
-                }
-
-                int screenCenterX = (int)(Main.screenPosition.X + Main.screenWidth / 2);
-                for (int k = (int)(screenCenterX - basepoint.X) - (int)(Main.screenWidth * 1.5f); k <= (int)(screenCenterX - basepoint.X) + (int)(Main.screenWidth * 1.5f); k += 30)
-                {
-                    if (Main.rand.Next(800) == 0)
-                    {
-                        BootlegDust dus = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1550), k, 0.75f, 0.2f, 0.1f);
-                        VitricBackgroundDust.Add(dus);
-                    }
-
-                    if (Main.rand.Next(700) == 0)
-                    {
-                        BootlegDust dus2 = new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), basepoint + new Vector2(-2000, 1550), k, 0.95f, 0.5f, 0.4f);
-                        VitricForegroundDust.Add(dus2);
-                    }
-                }
-
-                for (int i = -2 + (int)(Main.screenPosition.X) / 16; i <= 2 + (int)(Main.screenPosition.X + Main.screenWidth) / 16; i++)
-                {
-                    for (int j = -2 + (int)(Main.screenPosition.Y) / 16; j <= 2 + (int)(Main.screenPosition.Y + Main.screenHeight) / 16; j++)
-                    {
-                        if (Lighting.Brightness(i, j) == 0 || ((Main.tile[i, j].active() && Main.tile[i, j].collisionType == 1) || Main.tile[i, j].wall != 0))
-                        {
-                            Color color = Color.Black * (1 - Lighting.Brightness(i, j) * 2);
-                            Main.spriteBatch.Draw(Main.blackTileTexture, new Vector2(i * 16, j * 16) - Main.screenPosition, color);
-                        }
-                    }
-                }
-            }
-        }
-        public static void DrawLayer(Vector2 basepoint, Texture2D texture, float parallax, int offY = 0, Color color = default, bool flip = false)
-        {
-            if (color == default) color = Color.White;
-            for (int k = 0; k <= 5; k++)
-            {
-                float x = basepoint.X + (k * 739 * 4) + GetParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X;
-                float y = basepoint.Y + offY - (int)Main.screenPosition.Y + GetParallaxOffsetY(basepoint.Y + LegendWorld.VitricBiome.Height * 8, parallax * 0.04f);
-                if (x > -texture.Width && x < Main.screenWidth + 30)
-                {
-                    Main.spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(0, 0, 2956, 1528), color, 0f, Vector2.Zero, 1f, flip ? SpriteEffects.FlipVertically : 0, 0);
-                }
-            }
-        }
-        public static int GetParallaxOffset(float startpoint, float factor)
-        {
-            float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
-            return (int)((Main.screenPosition.X + Main.screenWidth / 2 - startpoint) * factor * vanillaParallax);
-        }
-        public static int GetParallaxOffsetY(float startpoint, float factor)
-        {
-            //float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
-            return (int)((Main.screenPosition.Y + Main.screenHeight / 2 - startpoint) * factor /* vanillaParallax*/);
         }
         private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, UICharacterListItem self, SpriteBatch spriteBatch)
         {

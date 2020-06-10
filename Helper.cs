@@ -23,7 +23,11 @@ namespace StarlightRiver
         /// <param name="npc"></param>
 
         public static Vector2 TileAdj => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12;
-
+        public static bool OnScreen(Vector2 pos)
+        {
+            if (pos.X > 0 && pos.X < Main.screenWidth && pos.Y > 0 && pos.Y < Main.screenHeight) return true;
+            return false;
+        }
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC?.CheckDead() == false;

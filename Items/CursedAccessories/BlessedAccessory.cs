@@ -19,14 +19,14 @@ namespace StarlightRiver.Items.CursedAccessories
             Glow = glow;
         }
 
-        internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
-        internal static readonly List<BootlegDust> Bootlegdust2 = new List<BootlegDust>();
+        //internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
+        //internal static readonly List<BootlegDust> Bootlegdust2 = new List<BootlegDust>();
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Color color = Color.White * (float)Math.Sin(LegendWorld.rottime + 3.14);
             spriteBatch.Draw(Glow, position, new Rectangle(0, 0, 32, 32), color, 0, origin, scale, SpriteEffects.None, 0);
-
+            /*
             Bootlegdust.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
 
             if (Main.rand.Next(4) == 0)
@@ -45,13 +45,13 @@ namespace StarlightRiver.Items.CursedAccessories
             BootlegDust dus4 = new BlessDust2(ModContent.GetTexture("StarlightRiver/GUI/Holy"), position + new Vector2(-0.4f, -0.4f) + Vector2.One * frame.Width / 2 * scale + new Vector2((float)Math.Cos(LegendWorld.rottime), (float)Math.Sin(LegendWorld.rottime) / 2) * 16, Vector2.Zero, Color.White * 1f, 0.8f, 60);
             if (LegendWorld.rottime > 3.14) { Bootlegdust.Add(dus4); }
             else { Bootlegdust2.Add(dus4); }
-
+            */
             drawpos = position - new Vector2((frame.Width / 2), (frame.Width / 2));
         }
 
         public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Bootlegdust2.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
+            //Bootlegdust2.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
             return true;
         }
 
@@ -61,8 +61,8 @@ namespace StarlightRiver.Items.CursedAccessories
             Main.PlaySound(SoundID.Item30);
             for (int k = 0; k <= 175; k++)
             {
-                BootlegDust dus = new BlessDust2(ModContent.GetTexture("StarlightRiver/GUI/Holy"), drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0, 0.5f), Color.White * 0.2f, 3.8f, 180);
-                Bootlegdust.Add(dus);
+                //BootlegDust dus = new BlessDust2(ModContent.GetTexture("StarlightRiver/GUI/Holy"), drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0, 0.5f), Color.White * 0.2f, 3.8f, 180);
+                //Bootlegdust.Add(dus);
             }
 
             return true;
@@ -74,7 +74,7 @@ namespace StarlightRiver.Items.CursedAccessories
         }
     }
 
-    public class BlessDust : BootlegDust
+    /*public class BlessDust : BootlegDust
     {
         public BlessDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int time) :
             base(texture, position, velocity, color, scale, time)
@@ -115,4 +115,5 @@ namespace StarlightRiver.Items.CursedAccessories
             time--;
         }
     }
+    */
 }
