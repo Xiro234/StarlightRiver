@@ -26,6 +26,7 @@ namespace StarlightRiver.Items
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.shootSpeed = 10f;
             item.knockBack = 4f;
+            item.UseSound = SoundID.Item19;
             item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.StarwoodBoomerangProjectile>();
         }
 
