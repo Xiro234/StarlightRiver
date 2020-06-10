@@ -68,10 +68,18 @@ namespace StarlightRiver
             On.Terraria.Player.ItemFitsWeaponRack += NoSoulboundRack;
             //Additive Batching
             On.Terraria.Main.DrawDust += DrawAdditive;
+            //Particle System Batching for Inventory
+            On.Terraria.Main.DrawInterface_27_Inventory += DrawInventoryParticles;
         }
 
 
+
         #region hooks
+        private void DrawInventoryParticles(On.Terraria.Main.orig_DrawInterface_27_Inventory orig, Terraria.Main self)
+        {
+            orig(self);
+            CursedAccessory.CursedSystem.DrawParticles(Main.spriteBatch);
+        }
         private void DrawAdditive(On.Terraria.Main.orig_DrawDust orig, Main self)
         {
             orig(self);
@@ -112,12 +120,12 @@ namespace StarlightRiver
             }
             orig(self);
         }
-        private void DontDropSoulbound(On.Terraria.Player.orig_DropSelectedItem orig, Terraria.Player self)
+        private void DontDropSoulbound(On.Terraria.Player.orig_DropSelectedItem orig, Player self)
         {
             if (self.inventory[self.selectedItem].modItem is Items.SoulboundItem || Main.mouseItem.modItem is Items.SoulboundItem) return;
             else orig(self);
         }
-        private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, GameTime gameTime)
+        private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
         {
             dragonMenuUI?.Update(gameTime);
             orig(self, gameTime);

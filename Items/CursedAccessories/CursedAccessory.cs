@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.ParticleSystems;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
@@ -18,81 +19,48 @@ namespace StarlightRiver.Items.CursedAccessories
         {
             Glow = glow;
         }
+        private static ParticleSystem.Update UpdateCursed => UpdateCursedBody;
 
-        //internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
+        private static void UpdateCursedBody(Particle particle)
+        {
+            float alpha = (particle.Timer * 0.053f) - (0.00088f * (float)Math.Pow(particle.Timer, 2));
+            particle.Color = Color.White * alpha;
+            particle.Scale *= 0.97f;
+            particle.Position += particle.Velocity;
+            particle.Timer--;
+        }
+
+        public static ParticleSystem CursedSystem = new ParticleSystem("StarlightRiver/GUI/Dark", UpdateCursed);
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             Color color = Color.White * (float)Math.Sin(LegendWorld.rottime);
             spriteBatch.Draw(Glow, position, new Rectangle(0, 0, 32, 32), color, 0, origin, scale, SpriteEffects.None, 0);
-            /*
-            Bootlegdust.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
 
-            BootlegDust dus = new CurseDust(ModContent.GetTexture("StarlightRiver/GUI/Dark"), (position) + frame.Size() / 4 - Vector2.One + (Vector2.One * Main.rand.Next(12)).RotatedBy(Main.rand.NextFloat(0, 6.28f)), new Vector2(0, -0.4f), Color.White * 0.1f, 1.5f, 60);
-            Bootlegdust.Add(dus);
-            */
+            Vector2 pos = position + frame.Size() / 4 - Vector2.One + (Vector2.One * Main.rand.Next(12)).RotatedBy(Main.rand.NextFloat(0, 6.28f)) + new Vector2(0, 10);
+            CursedSystem.AddParticle(new Particle(pos, new Vector2(0, -0.4f), 0, 1.25f, Color.White * 0.1f, 60, Vector2.Zero));
 
-            drawpos = position - new Vector2((frame.Width / 2), (frame.Width / 2));
+            drawpos = position + frame.Size() / 4;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
             Main.PlaySound(SoundID.NPCHit55);
             Main.PlaySound(SoundID.Item123);
-            for (int k = 0; k <= 175; k++)
+            for (int k = 0; k <= 50; k++)
             {
-                //BootlegDust dus = new CurseDust2(ModContent.GetTexture("StarlightRiver/GUI/Dark"), drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0, 0.8f), Color.White * 0.4f, 3.8f, 180);
-                //Bootlegdust.Add(dus);
+                CursedSystem.AddParticle(new Particle(drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.75f), 0, 3, Color.White * 0.1f, 60, Vector2.Zero));
             }
 
             return true;
         }
-    }
-
-    /*public class CurseDust : BootlegDust
-    {
-        public CurseDust(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int time) :
-            base(texture, position, velocity, color, scale, time)
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-        }
-
-        public override void Update()
-        {
-            if (time > 20 && col.R < 255)
+            TooltipLine line = new TooltipLine(mod, "StarlightRiverCursedWarning", "Cursed, Cannot be removed normally once equipped")
             {
-                col *= 1.2f;
-            }
-            if (time <= 20)
-            {
-                col *= 0.78f;
-            }
-
-            scl *= 0.97f;
-            pos += vel;
-
-            time--;
+                overrideColor = new Color(200, 100, 255)
+            };
+            tooltips.Add(line);
         }
     }
-
-    public class CurseDust2 : BootlegDust
-    {
-        public CurseDust2(Texture2D texture, Vector2 position, Vector2 velocity, Color color, float scale, int time) :
-            base(texture, position, velocity, color, scale, time)
-        {
-        }
-
-        public override void Update()
-        {
-            if (time <= 20)
-            {
-                col *= 0.94f;
-            }
-
-            scl *= 0.98f;
-            pos += vel;
-
-            time--;
-        }
-    }
-    */
 }
