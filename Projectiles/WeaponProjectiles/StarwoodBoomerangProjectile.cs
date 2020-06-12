@@ -12,7 +12,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Boomerang");
-            Main.projFrames[projectile.type] = 2;
         }
 
         //todo, explosion sfx, trail, more
@@ -85,13 +84,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     break;
                 case 1://has hit something
                     if (projOwner.controlUseItem || projectile.ai[1] >= maxcharge - 5) {
+                        if(projectile.ai[1] == 0)
+                        {
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ImpactHeal"), projectile.Center);
+                        }
                         projectile.ai[1]++;
                         projectile.velocity *= 0.75f;
                         Lighting.AddLight(projectile.Center, lightColor * chargeMult);
-                        if (projectile.timeLeft % 8 == 0)
-                        {
-                            Main.PlaySound(SoundID.Item24, projectile.Center);
-                        }
 
                         if (projectile.ai[1] >= maxcharge + 3)//reset stats and start return phase
                         {
@@ -112,7 +111,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         {
                             DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f);
                             Lighting.AddLight(projectile.Center, lightColor * 2);
-                            Main.PlaySound(SoundID.Item74, projectile.Center);
+                            //Main.PlaySound(SoundID.Item74, projectile.Center);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/MagicAttack"), projectile.Center);
                             for (int k = 0; k < 50; k++)
                             {
                                 Dust.NewDustPerfect(projectile.Center, dustType, Vector2.One.RotatedByRandom(6.28f) * (Main.rand.NextFloat(0.25f, 1.5f) * ScaleMult), 0, default, 1.5f);
