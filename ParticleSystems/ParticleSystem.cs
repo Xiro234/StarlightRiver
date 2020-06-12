@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using StarlightRiver.Configs;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -21,7 +23,7 @@ namespace StarlightRiver.ParticleSystems
             UpdateDelegate = updateDelegate;
             Styles = styles;
         }
-        
+
         public void DrawParticles(SpriteBatch spriteBatch)
         {
             if (ModContent.GetInstance<Config>().Active)
