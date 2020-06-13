@@ -49,7 +49,7 @@ namespace StarlightRiver.GUI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotY");
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotY");
 
             Utils.DrawBorderStringBig(spriteBatch, Quotes[QuoteID], GetDimensions().Center() + new Vector2(0, -80) - 2.2f * Main.fontItemStack.MeasureString(Quotes[QuoteID]) / 2, Color.White, 0.75f);
 
@@ -109,7 +109,7 @@ namespace StarlightRiver.GUI
             if (Parent is LootUI)
             {
                 LootUI parent = Parent as LootUI;
-                Texture2D tex = parent.Selections.Any(n => n == Item) ? ModContent.GetTexture("StarlightRiver/GUI/CookSlotY") : ModContent.GetTexture("StarlightRiver/GUI/CookSlotB");
+                Texture2D tex = parent.Selections.Any(n => n == Item) ? ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotY") : ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotB");
 
                 spriteBatch.Draw(tex, GetDimensions().Position(), tex.Frame(), Color.White, 0, Vector2.Zero, 1, 0, 0);
                 if (!Item.IsAir)

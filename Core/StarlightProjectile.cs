@@ -9,7 +9,7 @@ using Terraria.ID;
 
 namespace StarlightRiver.Core
 {
-    class StarlightProjectile : GlobalProjectile
+    partial class StarlightProjectile : GlobalProjectile
     {
         public delegate void ModifyHitNPCDelegate(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection);
         public static event ModifyHitNPCDelegate ModifyHitNPCEvent;

@@ -18,9 +18,9 @@ namespace StarlightRiver.GUI
         private static bool Dragging = false;
 
         private readonly CodexBack Back = new CodexBack();
-        private readonly UIImage DragButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/DragButton"));
-        private readonly UIImage ExitButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/ExitButton"));
-        private readonly UIImageButton BookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/BookLocked"));
+        private readonly UIImage DragButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/DragButton"));
+        private readonly UIImage ExitButton = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/ExitButton"));
+        private readonly UIImageButton BookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/Assets/BookLocked"));
         private readonly UIElement EntryBack = new UIElement();
         internal UIList ClickableEntries = new UIList();
         private readonly UIScrollbar EntryScroll = new UIScrollbar();
@@ -83,7 +83,7 @@ namespace StarlightRiver.GUI
                 BookButton.Draw(spriteBatch);
                 if (player.CodexState != 0 && player.Entries.Any(n => n.New))
                 {
-                    Texture2D tex = BookButton.IsMouseHovering ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed");
+                    Texture2D tex = BookButton.IsMouseHovering ? ModContent.GetTexture("StarlightRiver/GUI/Assets/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/Assets/BookGlowClosed");
                     spriteBatch.Draw(tex, BookButton.GetDimensions().Position() + new Vector2(-1, 0), Color.White * (float)Math.Sin(StarlightWorld.rottime));
                 }
                 if (BookButton.IsMouseHovering) Utils.DrawBorderString(spriteBatch, player.CodexState == 0 ? "Found in the desert..." : "Starlight Codex", Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.95f);
@@ -99,17 +99,17 @@ namespace StarlightRiver.GUI
             switch (player.CodexState)
             {
                 case 0: //locked
-                    BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/BookLocked"));
+                    BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/BookLocked"));
                     break;
 
                 case 1: //tier 1
-                    if (BookButton.IsMouseHovering) BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Open"));
-                    else BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book1Closed"));
+                    if (BookButton.IsMouseHovering) BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/Book1Open"));
+                    else BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/Book1Closed"));
                     break;
 
                 case 2: //tier 2
-                    if (BookButton.IsMouseHovering) BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book2Open"));
-                    else BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Book2Closed"));
+                    if (BookButton.IsMouseHovering) BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/Book2Open"));
+                    else BookButton.SetImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/Book2Closed"));
                     break;
             }
 
@@ -160,8 +160,8 @@ namespace StarlightRiver.GUI
         {
             spriteBatch.Draw(Main.magicPixel, GetDimensions().ToRectangle(), Main.magicPixel.Frame(), Color.White * 0.1f);
             Vector2 pos = GetDimensions().ToRectangle().TopLeft() + new Vector2(20, 50);
-            Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack");
-            if (ActiveEntry?.RequiresUpgradedBook == true) backTex = ModContent.GetTexture("StarlightRiver/GUI/CodexBack2"); //use a purple back for rift entries
+            Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CodexBack");
+            if (ActiveEntry?.RequiresUpgradedBook == true) backTex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CodexBack2"); //use a purple back for rift entries
             spriteBatch.Draw(backTex, pos, Color.White * 0.8f);
             ActiveEntry?.Draw(pos + new Vector2(50, 16), spriteBatch); //draws the text of the active entry
             base.Draw(spriteBatch);
@@ -204,7 +204,7 @@ namespace StarlightRiver.GUI
 
             Vector2 pos = GetDimensions().ToRectangle().TopLeft();
             Color backColor = player.Entries.Any(n => n.New && n.Category == Category) ? new Color(255, 255, 127 + (int)((float)Math.Sin(StarlightWorld.rottime * 2) * 127f)) : Color.White; //yellow flashing background for new entries
-            Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/CategoryButton");
+            Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CategoryButton");
             spriteBatch.Draw(backTex, pos, backColor * 0.8f);
             Vector2 textSize = Main.fontDeathText.MeasureString(Text) * 0.6f;
             Utils.DrawBorderString(spriteBatch, Text, GetDimensions().ToRectangle().Center(), (parent.ActiveCategory == Category) ? Color.Yellow : Color.White, 0.6f, 0.5f, 0.5f);
@@ -234,7 +234,7 @@ namespace StarlightRiver.GUI
 
             Vector2 pos = GetDimensions().ToRectangle().TopLeft();
             Color backColor = Entry.New ? new Color(255, 255, 127 + (int)((float)Math.Sin(StarlightWorld.rottime * 2) * 127f)) : Color.White; //yellow flashing background for new entries
-            Texture2D backTex = Entry.RequiresUpgradedBook ? ModContent.GetTexture("StarlightRiver/GUI/EntryButton2") : ModContent.GetTexture("StarlightRiver/GUI/EntryButton");
+            Texture2D backTex = Entry.RequiresUpgradedBook ? ModContent.GetTexture("StarlightRiver/GUI/Assets/EntryButton2") : ModContent.GetTexture("StarlightRiver/GUI/Assets/EntryButton");
             spriteBatch.Draw(backTex, pos, backColor * 0.8f);
 
             Vector2 iconPos = pos + new Vector2(10, 14);
@@ -245,7 +245,7 @@ namespace StarlightRiver.GUI
             }
             else //draws the locked icon if locked
             {
-                Texture2D blankTex = ModContent.GetTexture("StarlightRiver/GUI/blank");
+                Texture2D blankTex = ModContent.GetTexture("StarlightRiver/GUI/Assets/blank");
                 spriteBatch.Draw(blankTex, iconPos, blankTex.Frame(), Color.White, 0, blankTex.Size() / 2, 0.5f, 0, 0);
                 Utils.DrawBorderString(spriteBatch, "???", iconPos + new Vector2(10, -6), Color.White, 0.6f);
             }

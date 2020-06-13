@@ -21,8 +21,8 @@ namespace StarlightRiver
 
         private void LoadVitricBGSystems()
         {
-            ForegroundParticles = new ParticleSystem("StarlightRiver/GUI/LightBig", UpdateForeground, 3);
-            BackgroundParticles = new ParticleSystem("StarlightRiver/GUI/LightBig", UpdateBackground, 3);
+            ForegroundParticles = new ParticleSystem("StarlightRiver/GUI/Assets/LightBig", UpdateForeground, 3);
+            BackgroundParticles = new ParticleSystem("StarlightRiver/GUI/Assets/LightBig", UpdateBackground, 3);
         }
 
         private static void UpdateForegroundBody(Particle particle)

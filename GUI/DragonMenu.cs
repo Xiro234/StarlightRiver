@@ -257,10 +257,10 @@ namespace StarlightRiver.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex0 = ModContent.GetTexture("StarlightRiver/GUI/SliderBack");
-            Texture2D tex1 = ModContent.GetTexture("StarlightRiver/GUI/SliderGradient");
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/GUI/Slider");
-            Texture2D tex3 = ModContent.GetTexture("StarlightRiver/GUI/SliderOver");
+            Texture2D tex0 = ModContent.GetTexture("StarlightRiver/GUI/Assets/SliderBack");
+            Texture2D tex1 = ModContent.GetTexture("StarlightRiver/GUI/Assets/SliderGradient");
+            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/GUI/Assets/Slider");
+            Texture2D tex3 = ModContent.GetTexture("StarlightRiver/GUI/Assets/SliderOver");
 
             Color backColor = (Parent as DragonMenu).currentColor;
             if (Channel == ColorChannel.r) backColor.R = 0;
