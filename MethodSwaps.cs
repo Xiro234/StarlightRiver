@@ -2,14 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Abilities;
-using StarlightRiver.BootlegDusts;
 using StarlightRiver.Codex;
 using StarlightRiver.Configs;
 using StarlightRiver.GUI;
 using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.Items.Prototypes;
 using StarlightRiver.Keys;
-using StarlightRiver.ParticleSystems;
 using StarlightRiver.Tiles.Overgrow;
 using System;
 using System.Collections.Generic;

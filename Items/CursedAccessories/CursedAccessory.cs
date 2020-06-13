@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.ParticleSystems;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.CursedAccessories
 {

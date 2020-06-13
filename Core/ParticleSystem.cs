@@ -7,7 +7,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.ParticleSystems
+namespace StarlightRiver.Core
 {
     public class ParticleSystem
     {
@@ -27,7 +27,6 @@ namespace StarlightRiver.ParticleSystems
         public void DrawParticles(SpriteBatch spriteBatch)
         {
             if (ModContent.GetInstance<Config>().Active)
-            {
                 for (int k = 0; k < Particles.Count; k++)
                 {
                     Particle particle = Particles[k];
@@ -40,14 +39,11 @@ namespace StarlightRiver.ParticleSystems
                     }
                     if (particle.Timer <= 0) Particles.Remove(particle);
                 }
-            }
         }
         public void AddParticle(Particle particle)
         {
             if (ModContent.GetInstance<Config>().Active)
-            {
                 Particles.Add(particle);
-            }
         }
 
     }
