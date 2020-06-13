@@ -6,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.Guardian
 {
@@ -100,7 +101,7 @@ namespace StarlightRiver.Items.Guardian
             foreach (Player player in Main.player.Where(player => Helper.CheckCircularCollision(projectile.Center, (int)(projectile.ai[1] * 1.3f), player.Hitbox)))
             {
                 Rectangle target = new Rectangle((int)(player.Center.X - 8 - Main.screenPosition.X), (int)(player.Center.Y - 48 - Main.screenPosition.Y), 16, 16);
-                spriteBatch.Draw(tex, target, tex.Frame(), Color.White * (0.5f + (float)Math.Sin(LegendWorld.rottime * 2) * 0.5f), 0, Vector2.Zero, 0, 0);
+                spriteBatch.Draw(tex, target, tex.Frame(), Color.White * (0.5f + (float)Math.Sin(StarlightWorld.rottime * 2) * 0.5f), 0, Vector2.Zero, 0, 0);
             }
             return false;
         }

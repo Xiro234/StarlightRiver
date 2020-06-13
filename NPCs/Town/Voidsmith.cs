@@ -99,7 +99,7 @@ namespace StarlightRiver.NPCs.Town
             }
             else
             {
-                LegendWorld.NPCUpgrades[0]++;
+                StarlightWorld.NPCUpgrades[0]++;
             }
         }
 

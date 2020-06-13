@@ -46,7 +46,7 @@ namespace StarlightRiver.Tiles.Herbology
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Herbology/ForestIvyWild");
 
             spriteBatch.Draw(tex, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), drawColor,
-                (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.2f, new Vector2(8, 16), 1, SpriteEffects.FlipHorizontally, 0);
+                (float)Math.Sin(StarlightWorld.rottime + i % 6.28f) * 0.2f, new Vector2(8, 16), 1, SpriteEffects.FlipHorizontally, 0);
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

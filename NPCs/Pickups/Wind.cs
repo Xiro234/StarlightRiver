@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Pickups
 {
@@ -26,11 +27,11 @@ namespace StarlightRiver.NPCs.Pickups
 
         public override void Visuals()
         {
-            Dust dus = Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Sin(LegendWorld.rottime) * 30, npc.Center.Y - 20), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
-            dus.fadeIn = Math.Abs((float)Math.Sin(LegendWorld.rottime));
+            Dust dus = Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Sin(StarlightWorld.rottime) * 30, npc.Center.Y - 20), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
+            dus.fadeIn = Math.Abs((float)Math.Sin(StarlightWorld.rottime));
 
-            Dust dus2 = Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Cos(LegendWorld.rottime) * 15, npc.Center.Y), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
-            dus2.fadeIn = Math.Abs((float)Math.Cos(LegendWorld.rottime));
+            Dust dus2 = Dust.NewDustPerfect(new Vector2(npc.Center.X + (float)Math.Cos(StarlightWorld.rottime) * 15, npc.Center.Y), ModContent.DustType<Dusts.Air>(), Vector2.Zero);
+            dus2.fadeIn = Math.Abs((float)Math.Cos(StarlightWorld.rottime));
         }
 
         public override void PickupVisuals(int timer)

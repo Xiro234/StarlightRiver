@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Items.Accessories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +15,6 @@ namespace StarlightRiver.Items.Temple
     {
         private int RuneTimer;
         public TempleRune() : base("Rune of Warding", "Periodically provides +5 Defense") { }
-        public override bool Autoload(ref string name)
-        {
-            StarlightPlayer.PreHurtEvent += PreHurtRune;
-            return true;
-        }
-
-        private bool PreHurtRune(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
-        {
-            if(Equipped)
-            Main.NewText("Fuck my pussy daddy!");
-            return true;
-        }
         public override void SafeSetDefaults()
         {
             item.rare = ItemRarityID.Blue;

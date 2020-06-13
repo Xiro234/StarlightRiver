@@ -6,26 +6,27 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items.Accessories
+namespace StarlightRiver.Items
 {
     public abstract class SmartAccessory : ModItem
     {
-        internal bool Equipped { get; set; }
+        public bool Equipped
+        {
+            get
+            {
+                Player player = Main.player[item.owner];
+                for (int k = 2; k <= 9; k++)
+                    if ( player.armor[k].type == item.type) return true;
+                return false;
+            }
+        }
         private readonly string ThisName;
         private readonly string ThisTooltip;
-        public SmartAccessory(string name, string tooltip)
+        //public override bool CloneNewInstances => true;
+        public SmartAccessory(string name, string tooltip) : base()
         {
             ThisName = name;
             ThisTooltip = tooltip;
-        }
-        public override bool Autoload(ref string name)
-        {
-            StarlightPlayer.ResetEffectsEvent += ResetEquip;
-            return true;
-        }
-        private void ResetEquip()
-        {
-            Equipped = false;
         }
         public override void SetStaticDefaults()
         {
@@ -40,12 +41,10 @@ namespace StarlightRiver.Items.Accessories
             item.height = 32;
             item.accessory = true;
         }
-
         public virtual void SafeUpdateEquip(Player player) { }
         public sealed override void UpdateEquip(Player player)
         {
             SafeUpdateEquip(player);
-            Equipped = true;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             npc.ai[1]++; //ticks our timer
 
-            if (npc.life <= 1) Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedBy(LegendWorld.rottime * 4)); //dust when "destroyed"
+            if (npc.life <= 1) Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedBy(StarlightWorld.rottime * 4)); //dust when "destroyed"
 
             if (npc.ai[2] == 1) //if zapped
             {
@@ -115,7 +115,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     Vector2 pos = Vector2.Lerp(npc.Center, parent.npc.Center, k) - Main.screenPosition;
                     //shake the chain when tossed
-                    if ((parent.npc.ai[2] == 3 || parent.npc.ai[0] == 4) && npc.velocity.Length() > 0) pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float)Math.Sin(LegendWorld.rottime + k * 20) * 10;
+                    if ((parent.npc.ai[2] == 3 || parent.npc.ai[0] == 4) && npc.velocity.Length() > 0) pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float)Math.Sin(StarlightWorld.rottime + k * 20) * 10;
 
                     spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), pos,
                         new Rectangle(0, 0, 8, 16), drawColor, (npc.Center - parent.npc.Center).ToRotation() + 1.58f, new Vector2(4, 8), 1, 0, 0);
@@ -128,7 +128,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         {
             if (npc.ai[0] == 1 && holder == null && npc.velocity.X == 0)
             {
-                spriteBatch.DrawString(Main.fontMouseText, "Pick up!", npc.Center + new Vector2(Main.fontMouseText.MeasureString("Pick up!").X / -2, -50 + (float)Math.Sin(LegendWorld.rottime) * 5) - Main.screenPosition, Color.Yellow * 0.75f);
+                spriteBatch.DrawString(Main.fontMouseText, "Pick up!", npc.Center + new Vector2(Main.fontMouseText.MeasureString("Pick up!").X / -2, -50 + (float)Math.Sin(StarlightWorld.rottime) * 5) - Main.screenPosition, Color.Yellow * 0.75f);
             }
         }
 

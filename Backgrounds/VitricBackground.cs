@@ -59,9 +59,9 @@ namespace StarlightRiver
             Player player = null;
             if (Main.playerLoaded) { player = Main.LocalPlayer; }
 
-            if (player != null && LegendWorld.VitricBiome.Contains((player.Center / 16).ToPoint()))
+            if (player != null && StarlightWorld.VitricBiome.Contains((player.Center / 16).ToPoint()))
             {
-                Vector2 basepoint = (LegendWorld.VitricBiome != null) ? LegendWorld.VitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
+                Vector2 basepoint = (StarlightWorld.VitricBiome != null) ? StarlightWorld.VitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
 
                 DrawLayer(basepoint, ModContent.GetTexture("StarlightRiver/Backgrounds/Glass5"), 0, 300); //the background
 
@@ -117,7 +117,7 @@ namespace StarlightRiver
             for (int k = 0; k <= 5; k++)
             {
                 float x = basepoint.X + (k * 739 * 4) + GetParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X;
-                float y = basepoint.Y + offY - (int)Main.screenPosition.Y + GetParallaxOffsetY(basepoint.Y + LegendWorld.VitricBiome.Height * 8, parallax * 0.04f);
+                float y = basepoint.Y + offY - (int)Main.screenPosition.Y + GetParallaxOffsetY(basepoint.Y + StarlightWorld.VitricBiome.Height * 8, parallax * 0.04f);
                 if (x > -texture.Width && x < Main.screenWidth + 30)
                 {
                     Main.spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(0, 0, 2956, 1528), color, 0f, Vector2.Zero, 1f, flip ? SpriteEffects.FlipVertically : 0, 0);

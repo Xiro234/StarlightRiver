@@ -21,7 +21,7 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
+using StarlightRiver.Core;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 
 namespace StarlightRiver
@@ -172,7 +172,7 @@ namespace StarlightRiver
         }
         private void DrawKeys(On.Terraria.Main.orig_DrawItems orig, Main self)
         {
-            foreach (Key key in LegendWorld.Keys)
+            foreach (Key key in StarlightWorld.Keys)
             {
                 key.Draw(Main.spriteBatch);
             }
@@ -206,7 +206,7 @@ namespace StarlightRiver
             if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow)
             {
                 int direction = Main.dungeonX > Main.spawnTileX ? -1 : 1;
-                if (LegendWorld.rottime == 0)
+                if (StarlightWorld.rottime == 0)
                     for (int k = 0; k < 10; k++)
                     {
                         for (int i = (int)Main.worldSurface; i < Main.maxTilesY - 200; i+= 20)
@@ -349,7 +349,7 @@ namespace StarlightRiver
             if (Main.gameMenu) return;
             Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Fire");
 
-            float distance = Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation);
+            float distance = Vector2.Distance(Main.LocalPlayer.Center, StarlightWorld.RiftLocation);
             float val = ((1500 / distance - 1) / 3);
             if (val > 0.8f) val = 0.8f;
             Color color = Color.Black * (distance <= 1500 ? val : 0);

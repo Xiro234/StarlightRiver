@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using StarlightRiver.ParticleSystems;
-using StarlightRiver.Items.Accessories;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
@@ -35,7 +34,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Color color = Color.White * (float)Math.Sin(LegendWorld.rottime);
+            Color color = Color.White * (float)Math.Sin(StarlightWorld.rottime);
             spriteBatch.Draw(Glow, position, new Rectangle(0, 0, 32, 32), color, 0, origin, scale, SpriteEffects.None, 0);
 
             Vector2 pos = position + frame.Size() / 4 - Vector2.One + (Vector2.One * Main.rand.Next(12)).RotatedBy(Main.rand.NextFloat(0, 6.28f)) + new Vector2(0, 10);

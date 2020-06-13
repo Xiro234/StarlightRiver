@@ -311,25 +311,4 @@ namespace StarlightRiver.Items.Debug
             //StarlightRiver.Rotation = (player.Center - Main.MouseWorld).ToRotation() - 1.58f;
         }
     }
-
-    public class RedKiller : ModItem
-    {
-        public override void SetDefaults()
-        {
-            item.width = 32;
-            item.height = 32;
-            item.damage = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 10;
-            item.useTime = 10;
-            item.rare = ItemRarityID.Lime;
-            item.GetGlobalItem<ShieldBreakingItem>().RedHurting = true;
-        }
-
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("RedKiller");
-            Tooltip.SetDefault("Debugging Item");
-        }
-    }
 }

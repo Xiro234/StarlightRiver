@@ -42,7 +42,7 @@ namespace StarlightRiver.Tiles.Overgrow
                             Main.tile[x, y].frameX += 36;
 
                 CombatText.NewText(new Rectangle(i * 16, j * 16, 1, 1), new Color(255, 255, 200), Main.tile[i, j].frameX / 36 + "/3");
-                if (Main.tile[i, j].frameX > 100) LegendWorld.OvergrowBossOpen = true;
+                if (Main.tile[i, j].frameX > 100) StarlightWorld.OvergrowBossOpen = true;
             }
             return true;
         }

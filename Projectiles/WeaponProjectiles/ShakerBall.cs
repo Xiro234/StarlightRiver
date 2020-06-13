@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -146,9 +147,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (projectile.ai[0] == 100)
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
-                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - LegendWorld.rottime) * 0.2f, 0, tex.Size() / 2, LegendWorld.rottime * 0.17f, 0, 0);
-                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - (LegendWorld.rottime + 3.14f)) * 0.2f, 0, tex.Size() / 2, (LegendWorld.rottime + 3.14f) * 0.17f, 0, 0);
-                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - (LegendWorld.rottime - 3.14f)) * 0.2f, 0, tex.Size() / 2, (LegendWorld.rottime - 3.14f) * 0.17f, 0, 0);
+                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - StarlightWorld.rottime) * 0.2f, 0, tex.Size() / 2, StarlightWorld.rottime * 0.17f, 0, 0);
+                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - (StarlightWorld.rottime + 3.14f)) * 0.2f, 0, tex.Size() / 2, (StarlightWorld.rottime + 3.14f) * 0.17f, 0, 0);
+                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - (StarlightWorld.rottime - 3.14f)) * 0.2f, 0, tex.Size() / 2, (StarlightWorld.rottime - 3.14f) * 0.17f, 0, 0);
             }
         }
     }

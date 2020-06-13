@@ -30,10 +30,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBombGlow");
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BombTell");
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime), 0, tex.Size() / 2, 1, 0, 0);
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, tex.Size() / 2, 1, 0, 0);
 
             float bright = ((300 - projectile.timeLeft) / 300f * 0.5f);
-            if (projectile.timeLeft < 60) bright += (float)Math.Sin(LegendWorld.rottime * 6) * 0.2f;
+            if (projectile.timeLeft < 60) bright += (float)Math.Sin(StarlightWorld.rottime * 6) * 0.2f;
             spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, tex2.Frame(), (projectile.timeLeft < 60 ? Color.Red : Color.White) * bright, 0, tex2.Size() / 2, 2, 0, 0);
         }
         public override bool CanHitPlayer(Player target)

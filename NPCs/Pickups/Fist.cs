@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Pickups
 {
@@ -25,7 +26,7 @@ namespace StarlightRiver.NPCs.Pickups
 
         public override void Visuals()
         {
-            float timer = LegendWorld.rottime;
+            float timer = StarlightWorld.rottime;
             //Vector2 pos = npc.position - Main.screenPosition - (new Vector2((int)((Math.Cos(timer * 3) + 1) * 4f), (int)((Math.Sin(timer * 3) + 1) * 4f)) / 2) + new Vector2(0, (float)Math.Sin(timer) * 4);
 
             Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(timer) * (23 + (float)Math.Sin(timer * 10) * 4), ModContent.DustType<Dusts.JungleEnergy>(), Vector2.Zero, 254, default, 0.8f);

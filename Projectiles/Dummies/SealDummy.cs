@@ -3,6 +3,7 @@ using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -30,9 +31,9 @@ namespace StarlightRiver.Projectiles.Dummies
             {
                 if (AbilityHelper.CheckSmash(player, projectile.Hitbox))
                 {
-                    if (!LegendWorld.SealOpen)
+                    if (!StarlightWorld.SealOpen)
                     {
-                        LegendWorld.SealOpen = true;
+                        StarlightWorld.SealOpen = true;
                         player.GetModPlayer<AbilityHandler>().smash.OnExit();
                         player.GetModPlayer<AbilityHandler>().smash.Active = false;
                         player.GetModPlayer<StarlightPlayer>().Shake = 80;

@@ -39,7 +39,7 @@ namespace StarlightRiver.Items.Overgrow
         public override void PostUpdate()
         {
             Lighting.AddLight(item.Center, .45f, .45f, .25f);
-            item.position.Y += (float)Math.Sin(LegendWorld.rottime) / 3;
+            item.position.Y += (float)Math.Sin(StarlightWorld.rottime) / 3;
         }
     }
 }

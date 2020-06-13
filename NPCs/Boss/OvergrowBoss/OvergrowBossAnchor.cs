@@ -27,7 +27,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override void AI()
         {
-            if (!LegendWorld.OvergrowBossOpen) npc.dontTakeDamage = true;
+            if (!StarlightWorld.OvergrowBossOpen) npc.dontTakeDamage = true;
             else npc.dontTakeDamage = false;
 
             if (!(Main.npc.Any(n => n.active && n.type == ModContent.NPCType<OvergrowBoss>()))) return;

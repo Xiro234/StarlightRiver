@@ -21,7 +21,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
         public override bool TestCondition()
         {
-            return Main.player[item.owner].statLife <= 100;
+            return Main.player[item.owner].statLife < 100;
         }
     }
 }

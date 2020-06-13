@@ -28,7 +28,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (!player.channel && projectile.timeLeft < 80) { projectile.timeLeft -= 2; }
 
             float rot = (Main.MouseWorld - player.Center).ToRotation();
-            rot += (float)Math.Sin(LegendWorld.rottime * 5) * projectile.ai[0] * 0.03f;
+            rot += (float)Math.Sin(StarlightWorld.rottime * 5) * projectile.ai[0] * 0.03f;
             float rotvel = (rot - projectile.ai[1] + 9.42f) % 6.28f - 3.14f;
 
             if (Math.Abs(rotvel) >= 3.14f) { rotvel = 3.13f; }

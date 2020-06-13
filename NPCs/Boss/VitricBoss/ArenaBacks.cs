@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -10,22 +11,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public const int Scrolltime = 1000;
         public const int Risetime = 360;
-
-        public override bool CheckActive()
-        {
-            return false;
-        }
-
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            return false;
-        }
-
-        public override bool? CanBeHitByItem(Player player, Item item)
-        {
-            return false;
-        }
-
+        public override bool CheckActive() => false;
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
@@ -54,7 +42,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
              * 3:
              */
 
-            if (LegendWorld.GlassBossOpen && npc.ai[1] == 0) npc.ai[1] = 1; //when the altar is hit, make the BG rise out of the ground
+            if (StarlightWorld.GlassBossOpen && npc.ai[1] == 0) npc.ai[1] = 1; //when the altar is hit, make the BG rise out of the ground
             if (npc.ai[1] == 1)
             {
                 SpawnPlatforms();

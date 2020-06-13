@@ -119,7 +119,7 @@ namespace StarlightRiver
 
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
-            float fade = LegendWorld.rottime / 6.28f;
+            float fade = StarlightWorld.rottime / 6.28f;
             spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 1.1f, 0, 0);
         }
 

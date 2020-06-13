@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
-using StarlightRiver.Items.Accessories;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -25,7 +24,7 @@ namespace StarlightRiver.Items.CursedAccessories
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Color color = Color.White * (float)Math.Sin(LegendWorld.rottime + 3.14);
+            Color color = Color.White * (float)Math.Sin(StarlightWorld.rottime + 3.14);
             spriteBatch.Draw(Glow, position, new Rectangle(0, 0, 32, 32), color, 0, origin, scale, SpriteEffects.None, 0);
             /*
             Bootlegdust.ForEach(BootlegDust => BootlegDust.Draw(spriteBatch));
