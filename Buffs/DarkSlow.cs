@@ -4,18 +4,12 @@ using StarlightRiver.Core;
 
 namespace StarlightRiver.Buffs
 {
-    public class DarkSlow : ModBuff
+    public class DarkSlow : SmartBuff
     {
-        public override void SetDefaults()
-        {
-            DisplayName.SetDefault("Grasping Darkness");
-            Description.SetDefault("Your movement is inhibited!");
-            Main.debuff[Type] = true;
-        }
-
+        public DarkSlow() : base("Grasping Darkness", "Slowed by shadowy tendrils!", true) { }
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetModPlayer<StarlightPlayer>().DarkSlow = true;
+            player.velocity.X *= 0.2f;
         }
     }
 }

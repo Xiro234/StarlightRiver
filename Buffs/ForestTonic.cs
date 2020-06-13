@@ -3,14 +3,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Buffs
 {
-    public class ForestTonic : ModBuff
+    public class ForestTonic : SmartBuff
     {
-        public override void SetDefaults()
-        {
-            DisplayName.SetDefault("Forest Tonic");
-            Description.SetDefault("Immunity to poision + regeneration");
-        }
-
+        public ForestTonic() : base("Forest Tonic", "Immunity to poision\nSlowly regenerate life", false) { }
         public override void Update(Player player, ref int buffIndex)
         {
             player.lifeRegen += 2;
