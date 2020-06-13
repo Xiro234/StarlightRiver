@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Items.Accessories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,30 +12,27 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Temple
 {
-    class TempleLens : ModItem
+    class TempleLens : SmartAccessory
     {
+        public TempleLens() : base("Ancient Lens", "+ 3 % Critical Strike Chance\nCritical strikes inflict glowing") { }
         public override bool Autoload(ref string name)
         {
             StarlightPlayer.PreHurtEvent += PreHurtLens;
             return true;
         }
-
-        private bool PreHurtLens(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        private bool PreHurtLens(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            Main.NewText("Hey look ModPlayer hook dependant code in an Accessorie's ModItem class!");
+            if (Equipped)
+            {
+                Main.NewText("Hey look ModPlayer hook dependant code in an Accessorie's ModItem class!");
+            }
             return true;
         }
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Ancient Lens");
-            Tooltip.SetDefault("+3% Critical Strike Chance\nCritical strikes inflict glowing");
-        }
-        public override void SetDefaults()
+        public override void SafeSetDefaults()
         {
             item.rare = ItemRarityID.Blue;
-            item.accessory = true;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void SafeUpdateAccessory(Player player, bool hideVisual)
         {
             player.meleeCrit += 3;
             player.rangedCrit += 3;

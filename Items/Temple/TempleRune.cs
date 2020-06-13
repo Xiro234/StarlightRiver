@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Items.Accessories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,32 +12,27 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Temple
 {
-    class TempleRune : ModItem
+    class TempleRune : SmartAccessory
     {
         private int RuneTimer;
+        public TempleRune() : base("Rune of Warding", "Periodically provides +5 Defense") { }
         public override bool Autoload(ref string name)
         {
             StarlightPlayer.PreHurtEvent += PreHurtRune;
             return true;
         }
 
-        private bool PreHurtRune(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        private bool PreHurtRune(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            if(Equipped)
             Main.NewText("Fuck my pussy daddy!");
             return true;
         }
-
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Rune of Warding");
-            Tooltip.SetDefault("Periodically gain +5 Defense");
-        }
-        public override void SetDefaults()
+        public override void SafeSetDefaults()
         {
             item.rare = ItemRarityID.Blue;
-            item.accessory = true;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void SafeUpdateAccessory(Player player, bool hideVisual)
         {
             RuneTimer++;
             if(RuneTimer < 300)

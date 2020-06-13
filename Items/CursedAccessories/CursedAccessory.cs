@@ -7,15 +7,16 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using StarlightRiver.ParticleSystems;
+using StarlightRiver.Items.Accessories;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
-    public class CursedAccessory : ModItem
+    public abstract class CursedAccessory : SmartAccessory
     {
         private readonly Texture2D Glow = null;
         private Vector2 drawpos = Vector2.Zero;
 
-        public CursedAccessory(Texture2D glow)
+        public CursedAccessory(Texture2D glow) : base("Unnamed Cursed Accessory", "You forgot to give this a display name dingus!")
         {
             Glow = glow;
         }

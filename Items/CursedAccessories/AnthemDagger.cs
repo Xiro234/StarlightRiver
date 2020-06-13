@@ -5,9 +5,7 @@ namespace StarlightRiver.Items.CursedAccessories
 {
     internal class AnthemDagger : CursedAccessory
     {
-        public AnthemDagger() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow"))
-        {
-        }
+        public AnthemDagger() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow")) { }
 
         public override void SetStaticDefaults()
         {
@@ -15,18 +13,10 @@ namespace StarlightRiver.Items.CursedAccessories
             DisplayName.SetDefault("Anthem Dagger");
         }
 
-        public override void SetDefaults()
-        {
-            item.width = 32;
-            item.height = 32;
-            item.accessory = true;
-        }
-
-        public override void UpdateEquip(Player player)
+        public override void SafeUpdateAccessory(Player player, bool hideVisual)
         {
             player.statDefense /= 10;
             player.manaFlower = false;
-            player.GetModPlayer<StarlightPlayer>().AnthemDagger = true;
         }
     }
 }

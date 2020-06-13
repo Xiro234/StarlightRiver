@@ -20,8 +20,6 @@ namespace StarlightRiver
 
         public bool DarkSlow = false;
 
-        public bool AnthemDagger = false;
-
         public int Shake = 0;
 
         public int ScreenMoveTime = 0;
@@ -103,9 +101,12 @@ namespace StarlightRiver
             }
             DarkSlow = false;
         }
+        public delegate void ResetEffectsDelegate();
+        public static event ResetEffectsDelegate ResetEffectsEvent;
+        public void OnResetEffects() { ResetEffectsEvent?.Invoke(); }
         public override void ResetEffects()
         {
-            AnthemDagger = false;
+            OnResetEffects();
             GuardDamage = 1;
             GuardCrit = 0;
             GuardBuff = 1;
@@ -136,15 +137,15 @@ namespace StarlightRiver
         #endregion
         #region PreHurt
         //this is the grossest one. I am sorry, little ones.
-        public delegate bool PreHurtDelegate(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource);
+        public delegate bool PreHurtDelegate(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource);
         public static event PreHurtDelegate PreHurtEvent;
-        public bool OnPreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        public bool OnPreHurt(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            return (bool)PreHurtEvent?.Invoke(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
+            return (bool)PreHurtEvent?.Invoke(player, pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
         }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            return OnPreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
+            return OnPreHurt(player, pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
         }
         #endregion
 

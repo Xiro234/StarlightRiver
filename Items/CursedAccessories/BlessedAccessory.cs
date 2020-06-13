@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
+using StarlightRiver.Items.Accessories;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -9,12 +10,12 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
-    public class BlessedAccessory : ModItem
+    public abstract class BlessedAccessory : SmartAccessory
     {
         private readonly Texture2D Glow = null;
         private Vector2 drawpos = Vector2.Zero;
 
-        public BlessedAccessory(Texture2D glow)
+        public BlessedAccessory(Texture2D glow) : base("Unnamed Blessed Accessory", "You forgot to set a display name/tooltip dingus!")
         {
             Glow = glow;
         }
@@ -64,7 +65,6 @@ namespace StarlightRiver.Items.CursedAccessories
                 //BootlegDust dus = new BlessDust2(ModContent.GetTexture("StarlightRiver/GUI/Holy"), drawpos, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0, 0.5f), Color.White * 0.2f, 3.8f, 180);
                 //Bootlegdust.Add(dus);
             }
-
             return true;
         }
 

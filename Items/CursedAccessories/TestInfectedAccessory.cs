@@ -16,11 +16,6 @@ namespace StarlightRiver.Items.CursedAccessories
             DisplayName.SetDefault("Orb of Ejaculation");
         }
 
-        public override void SetDefaults()
-        {
-            item.accessory = true;
-        }
-
         public override void UpdateEquip(Player player)
         {
         }
