@@ -14,14 +14,17 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             DisplayName.SetDefault("Starwood Boomerang");
         }
 
-        //todo, explosion sfx, trail, more
-
+        private const int maxChargeTime = 50;//how long it takes to charge up
         private int maxDistTime;//only set on spawn, used to simplify things, all uses could be replaced with: projectile.timeLeft - 30
 
-        private float chargeMult;
+        private float chargeMult;//a multiplier used during charge up, used both in ai and for drawing
+
+        //These stats get scaled when empowered
         private int ScaleMult = 2;
-        private Color glowColor = new Color(255, 220, 180, 255);
-        int dustType = ModContent.DustType<Dusts.Stamina>();
+        private Color glowColor = new Color(255, 220, 200, 255);
+        private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
+        private int dustType = ModContent.DustType<Dusts.Stamina>();
+
 
         public override void SetDefaults()
         {
@@ -37,33 +40,21 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.aiStyle = -1;
         }
 
-        private readonly int maxcharge = 50;
 
         public override void AI()
         {
             Player projOwner = Main.player[projectile.owner];
-            Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
+            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
 
-            chargeMult = projectile.ai[1] / (maxcharge + 3);
             projectile.rotation += 0.3f;
 
-            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
-            switch (mp.Empowered)
+            if (projectile.timeLeft == 1200 && mp.Empowered)
             {
-                case true: //if empowered
-                    projectile.frame = 1;
-                    glowColor = new Color(200, 180, 255, 255);
-                    lightColor = new Vector3(0.1f, 0.2f, 0.4f);//these are only set when empowered since they get set every time AI() is called
-                    ScaleMult = 3;
-                    dustType = ModContent.DustType<Dusts.BlueStamina>();
-                    break;
-
-                case false: //if not empowered (this can be removed if it does not convert back)
-                    projectile.frame = 0;
-                    glowColor = new Color(255, 220, 180, 255);
-                    ScaleMult = 2;
-                    dustType = ModContent.DustType<Dusts.Stamina>();
-                    break;
+                projectile.frame = 1;
+                glowColor = new Color(220, 200, 255, 255);
+                lightColor = new Vector3(0.1f, 0.2f, 0.4f);//these are only set when empowered since they get set every time AI() is called
+                ScaleMult = 3;
+                dustType = ModContent.DustType<Dusts.BlueStamina>();
             }
 
             switch (projectile.ai[0])
@@ -83,16 +74,18 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     }
                     break;
                 case 1://has hit something
-                    if (projOwner.controlUseItem || projectile.ai[1] >= maxcharge - 5) {
+                    if (projOwner.controlUseItem || projectile.ai[1] >= maxChargeTime - 5) {
                         if(projectile.ai[1] == 0)
                         {
                             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ImpactHeal"), projectile.Center);
                         }
+
+                        chargeMult = projectile.ai[1] / (maxChargeTime + 3);
                         projectile.ai[1]++;
                         projectile.velocity *= 0.75f;
                         Lighting.AddLight(projectile.Center, lightColor * chargeMult);
 
-                        if (projectile.ai[1] >= maxcharge + 3)//reset stats and start return phase
+                        if (projectile.ai[1] >= maxChargeTime + 3)//reset stats and start return phase
                         {
                             projectile.position = projectile.Center;
                             projectile.width = 18;
@@ -100,14 +93,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                             projectile.Center = projectile.position;
                             NextPhase(1);//ai[]s reset here
                         }
-                        else if (projectile.ai[1] == maxcharge)//change hitbox size, stays for 3 frames
+                        else if (projectile.ai[1] == maxChargeTime)//change hitbox size, stays for 3 frames
                         {
                             projectile.position = projectile.Center;
                             projectile.width = 67 * ScaleMult;
                             projectile.height = 67 * ScaleMult;
                             projectile.Center = projectile.position;
                         }
-                        else if(projectile.ai[1] == maxcharge - 5)//sfx
+                        else if(projectile.ai[1] == maxChargeTime - 5)//sfx
                         {
                             DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f);
                             Lighting.AddLight(projectile.Center, lightColor * 2);
@@ -160,7 +153,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
             if (projectile.ai[0] == 1)
             {
-                if(projectile.ai[1] >= maxcharge - 3 && projectile.ai[1] <= maxcharge + 3)
+                if(projectile.ai[1] >= maxChargeTime - 3 && projectile.ai[1] <= maxChargeTime + 3)
                 {
                     if (mp.Empowered)
                     {
@@ -231,7 +224,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 new Vector2(GlowingTexture.Width / 2, GlowingTexture.Height / 4),
                 1f, default, default);
             
-            spriteBatch.Draw(AuraTexture, projectile.Center - Main.screenPosition, AuraTexture.Frame(), glowColor * (projectile.ai[1] / maxcharge), 0, AuraTexture.Size() / 2, (-chargeMult + 1) / 1.2f, 0, 0);
+            spriteBatch.Draw(AuraTexture, projectile.Center - Main.screenPosition, AuraTexture.Frame(), (glowColor * (projectile.ai[1] / maxChargeTime)), 0, AuraTexture.Size() / 2, (-chargeMult + 1) / 1.2f, 0, 0);
         }
 
         #region phase change void
