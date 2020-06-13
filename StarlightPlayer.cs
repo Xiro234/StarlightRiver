@@ -103,7 +103,6 @@ namespace StarlightRiver
             }
             DarkSlow = false;
         }
-
         public override void ResetEffects()
         {
             AnthemDagger = false;
@@ -113,8 +112,43 @@ namespace StarlightRiver
             GuardRad = 0;
         }
 
+        #region ModifyHitByProjectile
+        //for on-hit effects that require more specific effects, projectiles
+        public delegate void ModifyHitByProjectileDelegate(Projectile proj, ref int damage, ref bool crit);
+        public static event ModifyHitByProjectileDelegate ModifyHitByProjectileEvent;
+        public void OnModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit) { ModifyHitByProjectileEvent?.Invoke(proj, ref damage, ref crit); }
+        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit) { OnModifyHitByProjectile(proj, ref damage, ref crit); }
+
+        #endregion
+        #region ModifyHitByNPC
+        //for on-hit effects that require more specific effects, contact damage
+        public delegate void ModifyHitByNPCDelegate(NPC npc, ref int damage, ref bool crit);
+        public static event ModifyHitByNPCDelegate ModifyHitByNPCEvent;
+        public void OnModifyHitByNPC(NPC npc, ref int damage, ref bool crit) { ModifyHitByNPCEvent?.Invoke(npc, ref damage, ref crit); }
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) { OnModifyHitByNPC(npc, ref damage, ref crit); }
+        #endregion
+        #region ModifyHitNPC
+        //For stuff like fire gauntlet
+        public delegate void ModifyHitNPCDelegate(Item item, NPC target, ref int damage, ref float knockback, ref bool crit);
+        public static event ModifyHitNPCDelegate ModifyHitNPCEvent;
+        public void OnModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit) { ModifyHitNPCEvent?.Invoke(item, target, ref damage, ref knockback, ref crit); }
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit) { OnModifyHitNPC(item, target, ref damage, ref knockback, ref crit); }
+        #endregion
+        #region PreHurt
+        //this is the grossest one. I am sorry, little ones.
+        public delegate bool PreHurtDelegate(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource);
+        public static event PreHurtDelegate PreHurtEvent;
+        public bool OnPreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            return (bool)PreHurtEvent?.Invoke(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
+        }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            return OnPreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
+        }
+        #endregion
+
+        /*
             //Controls the anthem dagger's mana shield
             if (AnthemDagger)
             {
@@ -137,9 +171,8 @@ namespace StarlightRiver
                     player.manaRegenDelay = 0;
                     Main.PlaySound(SoundID.MaxMana);
                 }
-            }
-            return true;
-        }
+            }*/
+
 
         public override void PostUpdate()
         {
@@ -218,3 +251,4 @@ namespace StarlightRiver
         }
     }
 }
+ 

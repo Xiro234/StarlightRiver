@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,6 +14,18 @@ namespace StarlightRiver.Items.Temple
     class TempleRune : ModItem
     {
         private int RuneTimer;
+        public override bool Autoload(ref string name)
+        {
+            StarlightPlayer.PreHurtEvent += PreHurtRune;
+            return true;
+        }
+
+        private bool PreHurtRune(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            Main.NewText("Fuck my pussy daddy!");
+            return true;
+        }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rune of Warding");
