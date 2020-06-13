@@ -91,47 +91,17 @@ namespace StarlightRiver.Core
             }
             DarkSlow = false;
         }
-        #region ResetEffects
-        public delegate void ResetEffectsDelegate(Player player);
+
+        public delegate void ResetEffectsDelegate(StarlightPlayer player);
         public static event ResetEffectsDelegate ResetEffectsEvent;
         public override void ResetEffects()
         {
-            ResetEffectsEvent?.Invoke(player);
+            ResetEffectsEvent?.Invoke(this);
             GuardDamage = 1;
             GuardCrit = 0;
             GuardBuff = 1;
             GuardRad = 0;
         }
-        #endregion
-        #region ModifyHitByProjectile
-        //for on-hit effects that require more specific effects, projectiles
-        public delegate void ModifyHitByProjectileDelegate(Player player, Projectile proj, ref int damage, ref bool crit);
-        public static event ModifyHitByProjectileDelegate ModifyHitByProjectileEvent;
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit) { ModifyHitByProjectileEvent?.Invoke(player, proj, ref damage, ref crit); }
-
-        #endregion
-        #region ModifyHitByNPC
-        //for on-hit effects that require more specific effects, contact damage
-        public delegate void ModifyHitByNPCDelegate(Player player, NPC npc, ref int damage, ref bool crit);
-        public static event ModifyHitByNPCDelegate ModifyHitByNPCEvent;
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) { ModifyHitByNPCEvent?.Invoke(player, npc, ref damage, ref crit); }
-        #endregion
-        #region ModifyHitNPC
-        //For stuff like fire gauntlet
-        public delegate void ModifyHitNPCDelegate(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit);
-        public static event ModifyHitNPCDelegate ModifyHitNPCEvent;
-        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
-        { ModifyHitNPCEvent?.Invoke(player, item, target, ref damage, ref knockback, ref crit); }
-        #endregion
-        #region PreHurt
-        //this is the grossest one. I am sorry, little ones.
-        public delegate bool PreHurtDelegate(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource);
-        public static event PreHurtDelegate PreHurtEvent;
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
-        {
-            return (bool)PreHurtEvent?.Invoke(player, pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
-        }
-        #endregion
 
         public override void PostUpdate()
         {

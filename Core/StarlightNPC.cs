@@ -9,7 +9,7 @@ using Terraria.ID;
 
 namespace StarlightRiver.Core
 {
-    class StarlightNPC : GlobalNPC
+    public partial class StarlightNPC : GlobalNPC
     {
     }
 }
