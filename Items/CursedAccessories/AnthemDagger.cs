@@ -13,7 +13,7 @@ namespace StarlightRiver.Items.CursedAccessories
             DisplayName.SetDefault("Anthem Dagger");
         }
 
-        public override void SafeUpdateAccessory(Player player, bool hideVisual)
+        public override void SafeUpdateEquip(Player player)
         {
             player.statDefense /= 10;
             player.manaFlower = false;

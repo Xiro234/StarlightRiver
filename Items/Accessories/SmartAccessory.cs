@@ -41,10 +41,10 @@ namespace StarlightRiver.Items.Accessories
             item.accessory = true;
         }
 
-        public virtual void SafeUpdateAccessory(Player player, bool hideVisual) { }
-        public sealed override void UpdateAccessory(Player player, bool hideVisual)
+        public virtual void SafeUpdateEquip(Player player) { }
+        public sealed override void UpdateEquip(Player player)
         {
-            SafeUpdateAccessory(player, hideVisual);
+            SafeUpdateEquip(player);
             Equipped = true;
         }
     }

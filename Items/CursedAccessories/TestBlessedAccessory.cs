@@ -15,7 +15,7 @@ namespace StarlightRiver.Items.CursedAccessories
             DisplayName.SetDefault("ExampleBlessedAccessory");
         }
 
-        public override void UpdateEquip(Player player)
+        public override void SafeUpdateEquip(Player player)
         {
         }
 

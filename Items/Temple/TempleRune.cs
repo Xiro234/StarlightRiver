@@ -32,7 +32,7 @@ namespace StarlightRiver.Items.Temple
         {
             item.rare = ItemRarityID.Blue;
         }
-        public override void SafeUpdateAccessory(Player player, bool hideVisual)
+        public override void SafeUpdateEquip(Player player)
         {
             RuneTimer++;
             if(RuneTimer < 300)

@@ -32,7 +32,7 @@ namespace StarlightRiver.Items.Temple
         {
             item.rare = ItemRarityID.Blue;
         }
-        public override void SafeUpdateAccessory(Player player, bool hideVisual)
+        public override void SafeUpdateEquip(Player player)
         {
             player.meleeCrit += 3;
             player.rangedCrit += 3;
