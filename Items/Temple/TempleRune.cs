@@ -28,8 +28,8 @@ namespace StarlightRiver.Items.Temple
                 player.statDefense += 5;
                 for(float k = (RuneTimer % 5) * 0.1f; k < 6.28f; k+= 0.5f)
                 {
-                    Vector2 off = new Vector2((float)Math.Cos(k + RuneTimer/100f), (float)Math.Sin(k + RuneTimer / 100f) * 1.5f);
-                    Dust d = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.PlayerFollowOrange>(), off * 24);
+                    Vector2 off = new Vector2((float)Math.Cos(k + RuneTimer/100f) * player.width, (float)Math.Sin(k + RuneTimer / 100f) * player.height);
+                    Dust d = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.PlayerFollowOrange>(), off);
                     d.customData = player.whoAmI;
                 }
             }

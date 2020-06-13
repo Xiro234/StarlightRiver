@@ -29,6 +29,7 @@ namespace StarlightRiver.Items.Temple
             item.useTime = 30;
             item.useAnimation = 30;
             item.noUseGraphic = true;
+            item.noMelee = true;
             item.knockBack = 2;
             item.rare = ItemRarityID.Blue;
             item.shoot = ModContent.ProjectileType<TempleSpearProjectile>();

@@ -32,9 +32,9 @@ namespace StarlightRiver.Items.Temple
             return true; 
         }
 
-        private void ModifyHurtLens(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        private void ModifyHurtLens(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            if (Equipped && crit)
+            if (Equipped(player) && crit)
             {
                 target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 300);
             }
@@ -42,7 +42,7 @@ namespace StarlightRiver.Items.Temple
 
         private void ModifyProjectileLens(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Equipped && crit)
+            if (Equipped(Main.player[projectile.owner]) && crit)
             {
                 target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 300);
             }

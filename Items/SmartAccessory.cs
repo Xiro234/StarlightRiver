@@ -10,15 +10,11 @@ namespace StarlightRiver.Items
 {
     public abstract class SmartAccessory : ModItem
     {
-        public bool Equipped
+        public bool Equipped(Player player)
         {
-            get
-            {
-                Player player = Main.player[item.owner];
-                for (int k = 2; k <= 9; k++)
-                    if ( player.armor[k].type == item.type) return true;
-                return false;
-            }
+            for (int k = 2; k <= 9; k++)
+                if (player.armor[k].type == item.type) return true;
+            return false;
         }
         private readonly string ThisName;
         private readonly string ThisTooltip;
