@@ -6,15 +6,10 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Accessories
 {
-    public class GhastlyCloak : ModItem
+    public class GhastlyCloak : SmartAccessory
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Ghastly Cloak");
-            Tooltip.SetDefault("Avoiding damage cloaks you, increasing most stats");
-        }
-
-        public override void UpdateEquip(Player player)
+        public GhastlyCloak() : base("Ghastly Cloak", "Avoiding damage cloaks you, increasing most stats."){}
+        public override void SafeUpdateEquip(Player player)
         {
             StarlightPlayer modplayer = player.GetModPlayer<StarlightPlayer>();
             if (modplayer.Timer - modplayer.LastHit >= 1200)
@@ -30,13 +25,6 @@ namespace StarlightRiver.Items.Accessories
                 player.AddBuff(ModContent.BuffType<GhastlyCloakBuff>(), 2, false);
             }
             base.UpdateEquip(player);
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 16;
-            item.height = 16;
-            item.accessory = true;
         }
     }
 }

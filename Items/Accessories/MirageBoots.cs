@@ -4,23 +4,11 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Accessories
 {
-    public class MirageBoots : ModItem
+    public class MirageBoots : SmartAccessory
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Mirage Boots");
-            Tooltip.SetDefault("Allows extended flight" + "\nUnimplimented Function");
-        }
-
-        public override void SetDefaults()
-        {
-            item.rare = ItemRarityID.Orange;
-            item.width = 16;
-            item.height = 16;
-            item.accessory = true;
-        }
-
-        public override void UpdateEquip(Player player)
+        public MirageBoots() : base("Mirage Boots", "NaN") { }
+        public override void SafeSetDefaults() { item.rare = ItemRarityID.Orange; }
+        public override void SafeUpdateEquip(Player player)
         {
             player.rocketBoots = 4;
             player.rocketTimeMax = 10;

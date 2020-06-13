@@ -202,7 +202,7 @@ namespace StarlightRiver.Tiles.Overgrow
             };
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
-            dustType = 14;
+            dustType = ModContent.DustType<Dusts.Leaf>();
             AddMapEntry(new Color(202, 157, 49));
         }
 
@@ -241,7 +241,7 @@ namespace StarlightRiver.Tiles.Overgrow
             };
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
-            dustType = 14;
+            dustType = ModContent.DustType<Dusts.Leaf>();
             AddMapEntry(new Color(202, 157, 49));
         }
 
