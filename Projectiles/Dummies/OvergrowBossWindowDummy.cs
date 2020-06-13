@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -80,7 +81,7 @@ namespace StarlightRiver.Projectiles.Dummies
                     Lighting.AddLight(npc.Center + new Vector2(-40, 550 + k * 10), new Vector3(1, 1, 0.7f) * bright);
                 }
             }
-            if (Main.player.Any(p => Vector2.Distance(p.Center, npc.Center) < 2000) && !Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>()) && !LegendWorld.OvergrowBossFree)
+            if (Main.player.Any(p => Vector2.Distance(p.Center, npc.Center) < 2000) && !Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>()) && !StarlightWorld.OvergrowBossFree)
             {
                 NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 250, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>());
 
@@ -90,7 +91,7 @@ namespace StarlightRiver.Projectiles.Dummies
                 NPC.NewNPC((int)npc.Center.X + 300, (int)npc.Center.Y + 600, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
             }
 
-            if (LegendWorld.OvergrowBossOpen && npc.ai[0] <= 360) npc.ai[0]++;
+            if (StarlightWorld.OvergrowBossOpen && npc.ai[0] <= 360) npc.ai[0]++;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

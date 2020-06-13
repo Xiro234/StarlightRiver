@@ -56,9 +56,9 @@ namespace StarlightRiver.Projectiles.Dummies
 
             for (int k = 0; k <= 5; k++)
             {
-                spriteBatch.Draw(tex, pos, tex.Frame(), col * 0.5f, (float)Math.Sin(LegendWorld.rottime + k) * 0.5f, new Vector2(8, 0), 1, 0, 0);
-                spriteBatch.Draw(tex, pos, tex.Frame(), col * 0.3f, (float)Math.Sin(LegendWorld.rottime + k + 0.5f) * 0.5f, new Vector2(8, 0), 1.4f, 0, 0);
-                spriteBatch.Draw(tex, pos, tex.Frame(), col * 0.6f, (float)Math.Sin(LegendWorld.rottime + k + 0.7f) * 0.3f, new Vector2(8, 0), 1.2f, 0, 0);
+                spriteBatch.Draw(tex, pos, tex.Frame(), col * 0.5f, (float)Math.Sin(StarlightWorld.rottime + k) * 0.5f, new Vector2(8, 0), 1, 0, 0);
+                spriteBatch.Draw(tex, pos, tex.Frame(), col * 0.3f, (float)Math.Sin(StarlightWorld.rottime + k + 0.5f) * 0.5f, new Vector2(8, 0), 1.4f, 0, 0);
+                spriteBatch.Draw(tex, pos, tex.Frame(), col * 0.6f, (float)Math.Sin(StarlightWorld.rottime + k + 0.7f) * 0.3f, new Vector2(8, 0), 1.2f, 0, 0);
             }
 
             spriteBatch.End();

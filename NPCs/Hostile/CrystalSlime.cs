@@ -98,7 +98,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             if (shielded)
             {
-                Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
+                Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Hostile/Crystal"), npc.position - Main.screenPosition + new Vector2(-2, -5), Lighting.GetColor((int)npc.position.X / 16, (int)npc.position.Y / 16));
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Hostile/CrystalGlow"), npc.position - Main.screenPosition + new Vector2(-3, -6), color);
             }

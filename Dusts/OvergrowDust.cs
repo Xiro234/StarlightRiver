@@ -45,7 +45,7 @@ namespace StarlightRiver.Dusts
                     dust.scale *= 0.99f;
                 }
 
-                dust.rotation = LegendWorld.rottime;
+                dust.rotation = StarlightWorld.rottime;
                 dust.position.X += (float)Math.Sin(-dust.scale * 3);
                 dust.position.Y += (float)Math.Cos(-dust.scale * 3);
             }

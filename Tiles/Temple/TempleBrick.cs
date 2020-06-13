@@ -20,9 +20,5 @@ namespace StarlightRiver.Tiles.Temple
             dustType = DustID.Stone;
         }
     }
-    public class TempleBrickItem : QuickTileItem
-    {
-        public TempleBrickItem() : base("Ancient Temple Bricks", "", ModContent.TileType<TempleBrick>(), 0) { }
-    }
-
+    public class TempleBrickItem : QuickTileItem { public TempleBrickItem() : base("Ancient Temple Bricks", "", ModContent.TileType<TempleBrick>(), 0) { } }
 }

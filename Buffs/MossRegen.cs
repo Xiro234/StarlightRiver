@@ -3,14 +3,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Buffs
 {
-    public class MossRegen : ModBuff
+    public class MossRegen : SmartBuff
     {
-        public override void SetDefaults()
-        {
-            DisplayName.SetDefault("Mending Moss");
-            Description.SetDefault("You are being healed!");
-        }
-
+        public MossRegen() : base("Mending Moss", "Regenerating life quickly!", false) { }
         public override void Update(Player player, ref int buffIndex)
         {
             player.lifeRegen += 10;

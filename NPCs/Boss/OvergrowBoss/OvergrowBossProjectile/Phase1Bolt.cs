@@ -22,7 +22,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss.OvergrowBossProjectile
         public override void AI()
         {
             Dust.NewDustPerfect(projectile.Center + Vector2.One.RotatedByRandom(6.28f), ModContent.DustType<Dusts.Gold2>(),
-                Vector2.Normalize(projectile.velocity.RotatedBy(1.58f)) * (float)Math.Sin(LegendWorld.rottime * 16) * 0.6f, 0, default, 0.8f);
+                Vector2.Normalize(projectile.velocity.RotatedBy(1.58f)) * (float)Math.Sin(StarlightWorld.rottime * 16) * 0.6f, 0, default, 0.8f);
         }
 
         public override void Kill(int timeLeft)

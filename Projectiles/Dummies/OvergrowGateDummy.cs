@@ -55,7 +55,7 @@ namespace StarlightRiver.Projectiles.Dummies
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/OvergrowGateGlow"), projectile.position + new Vector2(6, 53) - Main.screenPosition, Color.White * (float)Math.Sin(LegendWorld.rottime));
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/OvergrowGateGlow"), projectile.position + new Vector2(6, 53) - Main.screenPosition, Color.White * (float)Math.Sin(StarlightWorld.rottime));
             return true;
         }
     }

@@ -135,7 +135,7 @@ namespace StarlightRiver.Tiles.StarJuice
             {
                 for (int k = 0; k < 4; k++)
                 {
-                    Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(LegendWorld.rottime + 1.58f * k) * 5, 0, default, 0.7f);
+                    Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(StarlightWorld.rottime + 1.58f * k) * 5, 0, default, 0.7f);
                 }
             }
 

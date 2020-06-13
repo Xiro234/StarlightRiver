@@ -15,20 +15,13 @@ namespace StarlightRiver.Items.CursedAccessories
             DisplayName.SetDefault("ExampleBlessedAccessory");
         }
 
-        public override void SetDefaults()
-        {
-            item.width = 32;
-            item.height = 32;
-            item.accessory = true;
-        }
-
-        public override void UpdateEquip(Player player)
+        public override void SafeUpdateEquip(Player player)
         {
         }
 
         public override bool TestCondition()
         {
-            return Main.player[item.owner].statLife <= 100;
+            return Main.player[item.owner].statLife < 100;
         }
     }
 }

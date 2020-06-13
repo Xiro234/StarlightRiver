@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Pickups
 {
@@ -76,7 +77,7 @@ namespace StarlightRiver.NPCs.Pickups
 
                 if (Vector2.Distance(Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2), npc.Center) <= Main.screenWidth / 2 + 100) //shader
                 {
-                    float timer = Math.Abs((float)Math.Sin(LegendWorld.rottime));
+                    float timer = Math.Abs((float)Math.Sin(StarlightWorld.rottime));
                     Filters.Scene.Activate("ShockwaveFilter", npc.Center).GetShader().UseProgress(Main.screenWidth / (float)Main.screenHeight).UseIntensity(300).UseDirection(new Vector2(0.005f + timer * 0.03f, 1 * 0.004f - timer * 0.004f));
                 }
 
@@ -114,7 +115,7 @@ namespace StarlightRiver.NPCs.Pickups
             if (Visible)
             {
                 Texture2D tex = ModContent.GetTexture(Texture);
-                Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5);
+                Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5);
                 spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
             }
             return false;
@@ -125,7 +126,7 @@ namespace StarlightRiver.NPCs.Pickups
             if (Visible)
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/RiftCrafting/Glow0");
-                Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5);
+                Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5);
 
                 spriteBatch.End();
                 spriteBatch.Begin(default, BlendState.Additive);

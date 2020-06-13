@@ -4,6 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.Armor
 {
@@ -151,7 +152,7 @@ namespace StarlightRiver.Items.Armor
 
             for (int k = 0; k < leaves; k++)
             {
-                Dust dus = Dust.NewDustPerfect(player.Center + (new Vector2((float)Math.Cos(LegendWorld.rottime) * 2, (float)Math.Sin(LegendWorld.rottime)) * 20).RotatedBy(k / (float)leaves * 6.28f),
+                Dust dus = Dust.NewDustPerfect(player.Center + (new Vector2((float)Math.Cos(StarlightWorld.rottime) * 2, (float)Math.Sin(StarlightWorld.rottime)) * 20).RotatedBy(k / (float)leaves * 6.28f),
                 ModContent.DustType<Dusts.GenericFollow>(), Vector2.Zero, 0, default, leaves == 10 ? 1.2f : 0.8f);
                 dus.customData = player;
             }

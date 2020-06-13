@@ -46,10 +46,10 @@ namespace StarlightRiver.Tiles.Vitric
             Vector2 pos = (new Vector2(i, j) + Helper.TileAdj) * 16 + Vector2.One * 8 - Main.screenPosition;
             for (int k = 0; k < 3; k++)
             {
-                spriteBatch.Draw(tex, pos, tex.Frame(), new Color(115, 162, 158) * (0.6f + (float)Math.Sin(LegendWorld.rottime) * 0.05f), 0, tex.Size() / 2, k * 0.4f, 0, 0);
+                spriteBatch.Draw(tex, pos, tex.Frame(), new Color(115, 162, 158) * (0.6f + (float)Math.Sin(StarlightWorld.rottime) * 0.05f), 0, tex.Size() / 2, k * 0.4f, 0, 0);
             }
-            spriteBatch.Draw(tex2, pos, tex.Frame(), new Color(115, 162, 158) * (0.6f + (float)Math.Sin(LegendWorld.rottime) * 0.10f), (float)Math.Sin(LegendWorld.rottime) * 0.1f, tex.Size() / 2, 1f, 0, 0);
-            spriteBatch.Draw(tex2, pos, tex.Frame(), new Color(115, 162, 158) * (0.6f - (float)Math.Sin(LegendWorld.rottime) * 0.10f), 2 + -(float)Math.Sin(LegendWorld.rottime + 1) * 0.1f, tex.Size() / 2, 1.3f, 0, 0);
+            spriteBatch.Draw(tex2, pos, tex.Frame(), new Color(115, 162, 158) * (0.6f + (float)Math.Sin(StarlightWorld.rottime) * 0.10f), (float)Math.Sin(StarlightWorld.rottime) * 0.1f, tex.Size() / 2, 1f, 0, 0);
+            spriteBatch.Draw(tex2, pos, tex.Frame(), new Color(115, 162, 158) * (0.6f - (float)Math.Sin(StarlightWorld.rottime) * 0.10f), 2 + -(float)Math.Sin(StarlightWorld.rottime + 1) * 0.1f, tex.Size() / 2, 1.3f, 0, 0);
 
             spriteBatch.End();
             spriteBatch.Begin();

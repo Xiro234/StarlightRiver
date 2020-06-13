@@ -9,13 +9,17 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver
 {
-    public partial class LegendWorld : ModWorld
+    public partial class StarlightWorld : ModWorld
     {
         public static void VitricGen_Old(GenerationProgress progress)
         {
             int vitricHeight = 140;
             Rectangle biomeTarget = new Rectangle(WorldGen.UndergroundDesertLocation.X - 80, WorldGen.UndergroundDesertLocation.Y + WorldGen.UndergroundDesertLocation.Height, WorldGen.UndergroundDesertLocation.Width + 160, vitricHeight);
+
             VitricBiome = biomeTarget;
+
+            StarlightWorld.VitricBiome = biomeTarget;
+
 
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++)
             {

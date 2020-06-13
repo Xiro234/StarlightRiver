@@ -7,37 +7,15 @@ using Terraria.ModLoader;
 namespace StarlightRiver.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shoes)]
-    public class PulseBoots : ModItem //WIP, this item does not work fluently with vanilla rocket boots and double jumps
-    { //needs sound / particles and number tweaking
+    public class PulseBoots : SmartAccessory
+    { 
+        public PulseBoots() : base("Pulse Boots", "Rocket Power!") { }
+
         private bool doubleJumped = false;
         private bool releaseJump = false;
         private const int maxSpeed = 15;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Pulse Boots");
-            Tooltip.SetDefault("Rocket Power!");
-        }
-
-        public override void SetDefaults()
-        {
-            item.width = 21;
-            item.height = 19;
-            item.accessory = true;
-        }
-
-        public override void PostUpdate()
-        {
-            base.PostUpdate();
-        }
-
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            base.UpdateAccessory(player, hideVisual);
-            //Main.NewText(player.velocity.X);
-        }
-
-        public override void UpdateEquip(Player player)
+        public override void SafeUpdateEquip(Player player)
         {
             void jumpSide(int side)
             {

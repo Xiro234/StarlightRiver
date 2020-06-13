@@ -38,7 +38,7 @@ namespace StarlightRiver.NPCs.Passive
             Vector2 distance = player.Center - npc.Center;
 
             Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-20, 20) * 0.01f, Main.rand.Next(-20, 20) * 0.01f));
-            if (LegendWorld.rottime == 0)
+            if (StarlightWorld.rottime == 0)
             {
                 for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 20)
                 {
@@ -101,7 +101,7 @@ namespace StarlightRiver.NPCs.Passive
             Vector2 distance = player.Center - npc.Center;
 
             Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-40, 40) * 0.01f, Main.rand.Next(-40, 40) * 0.01f));
-            if (LegendWorld.rottime == 0)
+            if (StarlightWorld.rottime == 0)
             {
                 for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 20)
                 {

@@ -25,14 +25,14 @@ namespace StarlightRiver.GUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            Bootlegdust.ForEach(VoidDust => VoidDust.Draw(spriteBatch));
+            //Bootlegdust.ForEach(VoidDust => VoidDust.Draw(spriteBatch));
             Recalculate();
         }
 
-        internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
+        //internal static readonly List<BootlegDust> Bootlegdust = new List<BootlegDust>();
 
         public override void Update(GameTime gameTime)
-        {
+        {/*
             BiomeHandler player = Main.LocalPlayer.GetModPlayer<BiomeHandler>();
             Bootlegdust.ForEach(dust => dust.Update());
             Bootlegdust.RemoveAll(dust => dust.time <= 0);
@@ -92,24 +92,12 @@ namespace StarlightRiver.GUI
                             Bootlegdust.Add(dus);
                         }
                     }
-                }
-
-                /*if (state == (int)OverlayState.Overgrow)
-                {
-                    for (int k = 0; k <= Main.screenWidth; k++)
-                    {
-                        if (k % Main.rand.Next(20, 40) == 0 && Main.rand.Next(550) == 0)
-                        {
-                            HolyDust dus = new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Holy"), new Vector2(k, Main.rand.Next(Main.screenHeight)), Vector2.Zero);
-                            Bootlegdust.Add(dus);
-                        }
-                    }
-                }*/
-            }
+                }            
+            }*/
         }
-    }
+}
 
-    public class VoidDust : BootlegDust
+    /*public class VoidDust : BootlegDust
     {
         public VoidDust(Texture2D texture, Vector2 position, Vector2 velocity) :
             base(texture, position, velocity, Color.Black, Main.rand.NextFloat(1, 10), 140)
@@ -233,6 +221,6 @@ namespace StarlightRiver.GUI
             scl *= (Parallax > 0.2) ? 0.997f : 0.999f;
             rot += 0.015f;
             time--;
-        }
-    }
+        }   
+    }*/
 }

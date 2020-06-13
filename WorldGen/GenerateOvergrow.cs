@@ -9,7 +9,7 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver
 {
-    public partial class LegendWorld
+    public partial class StarlightWorld
     {
         private const int RoomHeight = 32;
         private const int HallWidth = 16;

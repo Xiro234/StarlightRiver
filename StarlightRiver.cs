@@ -96,7 +96,7 @@ namespace StarlightRiver
                     priority = MusicPriority.BiomeHigh;
                 }
 
-                if (Main.LocalPlayer.ZoneOverworldHeight && LegendWorld.starfall)
+                if (Main.LocalPlayer.ZoneOverworldHeight && StarlightWorld.starfall)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starlight");
                     priority = MusicPriority.BiomeHigh;
@@ -191,10 +191,16 @@ namespace StarlightRiver
                 LootUserInterface.SetState(lootUI);
             }
 
+            //particle systems
+            if (!Main.dedServ)
+            {
+                LoadVitricBGSystems();
+            }
+
             //Hooking
             HookOn();
             HookIL();
-        }  
+        }
         public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
             if (Rotation != 0)
@@ -266,13 +272,6 @@ namespace StarlightRiver
                 codex = null;
                 codexpopup = null;
                 lootUI = null;
-
-                VitricBackgroundDust.Clear();
-                VitricForegroundDust.Clear();
-                CursedAccessory.Bootlegdust.Clear();
-                BlessedAccessory.Bootlegdust.Clear();
-                BlessedAccessory.Bootlegdust2.Clear();
-                Overlay.Bootlegdust.Clear();
 
                 Instance = null;
                 Dash = null;

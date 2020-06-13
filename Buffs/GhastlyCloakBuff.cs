@@ -3,14 +3,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Buffs
 {
-    public class GhastlyCloakBuff : ModBuff
+    public class GhastlyCloakBuff : SmartBuff
     {
-        public override void SetDefaults()
-        {
-            DisplayName.SetDefault("Cloaked");
-            Description.SetDefault("Increases most stats");
-        }
-
+        public GhastlyCloakBuff() : base("Cloaked", "Increases most stats", false) { }
         public override void Update(Player player, ref int buffIndex)
         {
             player.immuneAlpha += 80;

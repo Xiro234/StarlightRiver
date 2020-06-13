@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver
 {
-    public class WindowLightDust : BootlegDust
+    /*public class WindowLightDust : BootlegDust
     {
         private Vector2 basePos;
         private readonly float depth;
@@ -23,5 +23,5 @@ namespace StarlightRiver
             scl *= 0.99999f;
             time--;
         }
-    }
+    }*/
 }

@@ -9,7 +9,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver
+namespace StarlightRiver.Core
 {
     public partial class StarlightPlayer : ModPlayer
     {
@@ -20,8 +20,6 @@ namespace StarlightRiver
 
         public bool DarkSlow = false;
 
-        public bool AnthemDagger = false;
-
         public int Shake = 0;
 
         public int ScreenMoveTime = 0;
@@ -29,26 +27,16 @@ namespace StarlightRiver
         public Vector2 ScreenMovePan = new Vector2(0, 0);
         private int ScreenMoveTimer = 0;
 
-        public int InvertGrav = 0;
         public int platformTimer = 0;
 
         public int PickupTimer = 0;
         public int MaxPickupTimer = 0;
         public NPC PickupTarget;
 
-        public override void PreUpdateBuffs()
-        {
-            if (InvertGrav > 0)
-            {
-                //Main.NewText("Invert: true");
-                player.gravControl = true;
-                player.gravDir = -1f;
-            }
-            else
-            {
-                //Main.NewText("Invert: false");
-            }
-        }
+        public float GuardDamage;
+        public int GuardCrit;
+        public float GuardBuff;
+        public int GuardRad;
 
         public override void PreUpdate()
         {
@@ -103,58 +91,51 @@ namespace StarlightRiver
             }
             DarkSlow = false;
         }
-
+        #region ResetEffects
+        public delegate void ResetEffectsDelegate(Player player);
+        public static event ResetEffectsDelegate ResetEffectsEvent;
         public override void ResetEffects()
         {
-            AnthemDagger = false;
+            ResetEffectsEvent?.Invoke(player);
             GuardDamage = 1;
             GuardCrit = 0;
             GuardBuff = 1;
             GuardRad = 0;
         }
+        #endregion
+        #region ModifyHitByProjectile
+        //for on-hit effects that require more specific effects, projectiles
+        public delegate void ModifyHitByProjectileDelegate(Player player, Projectile proj, ref int damage, ref bool crit);
+        public static event ModifyHitByProjectileDelegate ModifyHitByProjectileEvent;
+        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit) { ModifyHitByProjectileEvent?.Invoke(player, proj, ref damage, ref crit); }
 
+        #endregion
+        #region ModifyHitByNPC
+        //for on-hit effects that require more specific effects, contact damage
+        public delegate void ModifyHitByNPCDelegate(Player player, NPC npc, ref int damage, ref bool crit);
+        public static event ModifyHitByNPCDelegate ModifyHitByNPCEvent;
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) { ModifyHitByNPCEvent?.Invoke(player, npc, ref damage, ref crit); }
+        #endregion
+        #region ModifyHitNPC
+        //For stuff like fire gauntlet
+        public delegate void ModifyHitNPCDelegate(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit);
+        public static event ModifyHitNPCDelegate ModifyHitNPCEvent;
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        { ModifyHitNPCEvent?.Invoke(player, item, target, ref damage, ref knockback, ref crit); }
+        #endregion
+        #region PreHurt
+        //this is the grossest one. I am sorry, little ones.
+        public delegate bool PreHurtDelegate(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource);
+        public static event PreHurtDelegate PreHurtEvent;
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            //Controls the anthem dagger's mana shield
-            if (AnthemDagger)
-            {
-                if (player.statMana > damage)
-                {
-                    player.statMana -= damage;
-                    player.ManaEffect(damage);
-                    damage = 0;
-                    player.manaRegenDelay = 0;
-                    player.statLife += 1;
-                    playSound = false;
-                    genGore = false;
-                    Main.PlaySound(SoundID.MaxMana);
-                }
-                else if (player.statMana > 0)
-                {
-                    player.ManaEffect(player.statMana);
-                    damage -= player.statMana;
-                    player.statMana = 0;
-                    player.manaRegenDelay = 0;
-                    Main.PlaySound(SoundID.MaxMana);
-                }
-            }
-            return true;
+            return (bool)PreHurtEvent?.Invoke(player, pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
         }
+        #endregion
 
         public override void PostUpdate()
         {
-            //Main.NewText(player.velocity);
-            if (InvertGrav > 0)
-            {
-                if (InvertGrav == 1 && player.velocity.Y < 5 && player.velocity.Y > -5)
-                {
-                    player.velocity.Y = 0;
-                }
-                --InvertGrav;
-            }
-
-            if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) { LegendWorld.rottime += (float)Math.PI / 60; }
-
+            if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) { StarlightWorld.rottime += (float)Math.PI / 60; }
             Timer++;
         }
 
@@ -218,3 +199,4 @@ namespace StarlightRiver
         }
     }
 }
+ 

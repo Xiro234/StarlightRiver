@@ -52,7 +52,7 @@ namespace StarlightRiver.Items.Misc
 
             spriteBatch.Draw(under, position + frame.Size() / 2 * scale, under.Frame(), Color.White, 0, under.Size() / 2, scale, 0, 0);
 
-            float timer = (float)Math.Sin(LegendWorld.rottime) * 0.1f;
+            float timer = (float)Math.Sin(StarlightWorld.rottime) * 0.1f;
             spriteBatch.Draw(under, position + frame.Size() / 2 * scale, under.Frame(), Main.DiscoColor * (0.4f + timer), 0, under.Size() / 2, scale * 1.3f + timer, 0, 0);
 
             spriteBatch.Draw(over, position + frame.Size() / 2 * scale, over.Frame(), Color.White, 0, over.Size() / 2, scale, 0, 0);
@@ -79,7 +79,7 @@ namespace StarlightRiver.Items.Misc
 
             spriteBatch.Draw(under, position, under.Frame(), Color.White, 0, Vector2.Zero, scale, 0, 0);
 
-            float timer = (float)Math.Sin(LegendWorld.rottime) * 0.1f;
+            float timer = (float)Math.Sin(StarlightWorld.rottime) * 0.1f;
             spriteBatch.Draw(under, position + frame.Size() / 2 * scale, under.Frame(), Main.DiscoColor * (0.4f + timer), 0, under.Size() / 2, scale * 1.3f + timer, 0, 0);
 
             spriteBatch.Draw(over, position, over.Frame(), lightColor, 0, Vector2.Zero, scale, 0, 0);

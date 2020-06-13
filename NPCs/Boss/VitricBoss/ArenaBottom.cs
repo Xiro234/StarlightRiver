@@ -6,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {

@@ -78,8 +78,8 @@ namespace StarlightRiver.Tiles.Decoration
                 float max = Vector2.Distance(end, new Vector2(i, j) * 16) / 5;
                 for (int k = 0; k < max; k++)
                 {
-                    float off = -Math.Abs((i * 16 - end.X) / 6f) + (float)Math.Cos(LegendWorld.rottime + i % 6) * 2;
-                    float sin = (float)Math.Sin(LegendWorld.rottime + i % 6);
+                    float off = -Math.Abs((i * 16 - end.X) / 6f) + (float)Math.Cos(StarlightWorld.rottime + i % 6) * 2;
+                    float sin = (float)Math.Sin(StarlightWorld.rottime + i % 6);
                     Vector2 pos = Vector2.CatmullRom(new Vector2(i + sin, j + off) * 16, end, new Vector2(i + 1.5f, j + 1) * 16, new Vector2(i - sin, j + off) * 16, k / max);
                     Color color = Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16);
                     if (!entity.Set) color *= 0.2f;

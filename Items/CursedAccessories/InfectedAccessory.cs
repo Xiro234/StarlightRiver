@@ -8,13 +8,9 @@ using Terraria.ModLoader.IO;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
-    internal class InfectedAccessory : ModItem
+    internal abstract class InfectedAccessory : SmartAccessory
     {
-        public override bool Autoload(ref string name)
-        {
-            return false;
-        }
-
+        public InfectedAccessory() : base("Unnamed Infected Accessory", "you forgot to set a display name/tooltip dingus!") { }
         public override bool CanEquipAccessory(Player player, int slot)
         {
             Main.NewText("Slot: " + slot, 255, 255, 0);
