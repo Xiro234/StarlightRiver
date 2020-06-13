@@ -144,7 +144,7 @@ namespace StarlightRiver.Projectiles.Ability
             spriteBatch.Draw(cirTex2, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex2.Frame(), Color.White, projectile.timeLeft / 900f, cirTex2.Size() / 2, (projectile.ai[0] / cirTex.Width * 2.1f), 0, 0);
 
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
-            spriteBatch.Draw(tex, projectile.Center + new Vector2(-16, -16 + (float)Math.Sin(LegendWorld.rottime) * 2) - Main.screenPosition, tex.Frame(),
+            spriteBatch.Draw(tex, projectile.Center + new Vector2(-16, -16 + (float)Math.Sin(StarlightWorld.rottime) * 2) - Main.screenPosition, tex.Frame(),
                 Color.White * ((projectile.timeLeft < 500) ? 1 : (projectile.ai[0] / 250f)), 0, tex.Size() / 2, 1, 0, 0);
 
             /*for (float k = 0; k <= 6.28f; k += 0.1f)

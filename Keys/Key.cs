@@ -32,7 +32,7 @@ namespace StarlightRiver.Keys
             PreDraw(spriteBatch);
 
             Texture2D tex = ModContent.GetTexture(Texture);
-            spriteBatch.Draw(tex, Position + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5) - Main.screenPosition, tex.Frame(), Lighting.GetColor((int)Position.X / 16, (int)Position.Y / 16));
+            spriteBatch.Draw(tex, Position + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5) - Main.screenPosition, tex.Frame(), Lighting.GetColor((int)Position.X / 16, (int)Position.Y / 16));
 
             if (Hitbox.Contains(Main.MouseWorld.ToPoint())) Utils.DrawBorderString(spriteBatch, Name, Main.MouseScreen + new Vector2(12, 20), Main.mouseTextColorReal);
         }
@@ -51,8 +51,8 @@ namespace StarlightRiver.Keys
 
             if (Main.player.Any(p => p.Hitbox.Intersects(Hitbox)))
             {
-                LegendWorld.Keys.Remove(this);
-                LegendWorld.KeyInventory.Add(this);
+                StarlightWorld.Keys.Remove(this);
+                StarlightWorld.KeyInventory.Add(this);
                 if (Main.player.FirstOrDefault(p => p.Hitbox.Intersects(Hitbox)) == Main.LocalPlayer) KeyInventory.keys.Add(new KeyIcon(this, true));
                 else KeyInventory.keys.Add(new KeyIcon(this, false));
                 OnPickup();
@@ -63,10 +63,10 @@ namespace StarlightRiver.Keys
 
         public static bool Use<T>()
         {
-            if (LegendWorld.KeyInventory.Any(n => n is T))
+            if (StarlightWorld.KeyInventory.Any(n => n is T))
             {
-                Key key = LegendWorld.KeyInventory.FirstOrDefault(n => n is T);
-                LegendWorld.KeyInventory.Remove(key);
+                Key key = StarlightWorld.KeyInventory.FirstOrDefault(n => n is T);
+                StarlightWorld.KeyInventory.Remove(key);
                 KeyIcon icon = KeyInventory.keys.FirstOrDefault(n => n.parent == key);
                 KeyInventory.keys.Remove(icon);
 
@@ -83,7 +83,7 @@ namespace StarlightRiver.Keys
         {
             Key key = (Key)Activator.CreateInstance(typeof(T));
             key.Position = position;
-            LegendWorld.Keys.Add(key);
+            StarlightWorld.Keys.Add(key);
         }
     }
 }

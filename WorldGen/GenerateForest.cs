@@ -6,7 +6,7 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver
 {
-    public partial class LegendWorld : ModWorld
+    public partial class StarlightWorld : ModWorld
     {
         private void ForestHerbGen(GenerationProgress progress)
         {

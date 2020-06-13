@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.BootlegDusts
 {
-    internal class OvergrowForegroundDust : BootlegDust
+    /*internal class OvergrowForegroundDust : BootlegDust
     {
         private readonly int offset = 0;
         private readonly float co = 0;
@@ -30,4 +30,5 @@ namespace StarlightRiver.BootlegDusts
             if (fadein > 100) col *= 0.999f;
         }
     }
+    */
 }

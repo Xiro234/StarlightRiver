@@ -70,11 +70,11 @@ namespace StarlightRiver.Tiles.Vitric
                         Framing.GetTileSafely(x, y).frameX -= 90;
                     }
                 }
-                LegendWorld.GlassBossOpen = false;
+                StarlightWorld.GlassBossOpen = false;
                 return true;
             }
             //end debug
-            if (LegendWorld.GlassBossOpen && Dummy.modProjectile is VitricAltarDummy)
+            if (StarlightWorld.GlassBossOpen && Dummy.modProjectile is VitricAltarDummy)
             {
                 (Dummy.modProjectile as VitricAltarDummy).SpawnBoss();
             }

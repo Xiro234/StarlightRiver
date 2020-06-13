@@ -2,6 +2,7 @@
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.Guardian
 {
@@ -71,16 +72,5 @@ namespace StarlightRiver.Items.Guardian
             }
             return false;
         }
-    }
-}
-
-namespace StarlightRiver
-{
-    public partial class StarlightPlayer : ModPlayer
-    {
-        public float GuardDamage { get; set; }
-        public int GuardCrit { get; set; }
-        public float GuardBuff { get; set; }
-        public int GuardRad { get; set; }
     }
 }

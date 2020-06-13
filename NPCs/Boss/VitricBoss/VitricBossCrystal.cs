@@ -184,7 +184,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                                 Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
                             }
                         }
-                    if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).collisionType == 1 && npc.Center.Y > LegendWorld.VitricBiome.Y * 16) //tile collision
+                    if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).collisionType == 1 && npc.Center.Y > StarlightWorld.VitricBiome.Y * 16) //tile collision
                     {
                         npc.velocity *= 0;
                         npc.ai[2] = 0; //turn it idle
@@ -216,7 +216,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline
             if (npc.ai[0] == 0)
-                spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
+                spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
 
             if (npc.ai[2] == 1 && npc.ai[1] < 180) //tell line for going to a platform in the nuke attack
             {

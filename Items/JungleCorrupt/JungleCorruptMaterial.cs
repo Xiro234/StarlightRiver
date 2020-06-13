@@ -28,7 +28,7 @@ namespace StarlightRiver.Items.JungleCorrupt
         public override void PostUpdate()
         {
             Lighting.AddLight(item.Center, .3f, .25f, 0.6f);
-            item.position.Y += (float)Math.Sin(LegendWorld.rottime) / 3;
+            item.position.Y += (float)Math.Sin(StarlightWorld.rottime) / 3;
         }
     }
 }

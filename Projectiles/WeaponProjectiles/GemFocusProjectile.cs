@@ -75,8 +75,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     case 5: color = new Color(255, 255, 255); break;
                 }
 
-                float x = (float)Math.Cos(LegendWorld.rottime + k) * projectile.ai[0] / 30f * 40;
-                float y = (float)Math.Sin(LegendWorld.rottime + k) * projectile.ai[0] / 30f * 10;
+                float x = (float)Math.Cos(StarlightWorld.rottime + k) * projectile.ai[0] / 30f * 40;
+                float y = (float)Math.Sin(StarlightWorld.rottime + k) * projectile.ai[0] / 30f * 10;
                 Vector2 pos = (new Vector2(x, y)).RotatedBy(k / 12f * 6.28f);
 
                 Dust d = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.GemFocusDust>(), pos, 0, color, 1f);
@@ -98,7 +98,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             spriteBatch.Draw(under, position + projectile.Size / 2 * scale, under.Frame(), Color.White * fade, projectile.rotation, under.Size() / 2, scale, 0, 0);
 
-            float timer = (float)Math.Sin(LegendWorld.rottime) * 0.1f;
+            float timer = (float)Math.Sin(StarlightWorld.rottime) * 0.1f;
             spriteBatch.Draw(under, position + projectile.Size / 2 * scale, under.Frame(), Main.DiscoColor * (0.4f + timer) * fade, projectile.rotation, under.Size() / 2, scale * 1.3f + timer, 0, 0);
 
             spriteBatch.Draw(over, position + projectile.Size / 2 * scale, over.Frame(), lightColor * fade, projectile.rotation, over.Size() / 2, scale, 0, 0);

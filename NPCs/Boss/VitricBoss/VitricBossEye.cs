@@ -29,7 +29,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (Parent.npc.ai[1] != (int)VitricBoss.AIStates.SpawnAnimation && Parent.npc.ai[0] % (120) == Index * 6) Timer = 1;
             if (Parent.npc.ai[1] == (int)VitricBoss.AIStates.Anger)
             {
-                rot = LegendWorld.rottime * 4 + Index / 7f;
+                rot = StarlightWorld.rottime * 4 + Index / 7f;
                 color = new Color(255, 120, 120);
                 Timer = 15;
             }

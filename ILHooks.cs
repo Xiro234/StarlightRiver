@@ -340,7 +340,7 @@ namespace StarlightRiver
 
             c.EmitDelegate<DrawWindowDelegate>(EmitMoonlordLayerDel);
         }
-        private readonly List<BootlegDust> WindowDust = new List<BootlegDust>();
+        //private readonly List<BootlegDust> WindowDust = new List<BootlegDust>();
         private void EmitMoonlordLayerDel()
         {
             for (int i = 0; i < Main.maxNPCs; i++)
@@ -380,7 +380,7 @@ namespace StarlightRiver
                     Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
 
                     // Update + draw dusts
-                    foreach (BootlegDust dust in WindowDust)
+                    /*foreach (BootlegDust dust in WindowDust)
                     {
                         dust.SafeDraw(spriteBatch);
                         dust.Update();
@@ -388,6 +388,7 @@ namespace StarlightRiver
                     WindowDust.RemoveAll(n => n.time == 0);
 
                     if (Main.rand.Next(10) == 0) WindowDust.Add(new WindowLightDust(npc.Center + new Vector2(Main.rand.Next(-350, 350), -650), new Vector2(0, Main.rand.NextFloat(0.8f, 1.6f))));
+                    */
 
                     for (int k = -2; k < 3; k++)
                     {
@@ -536,7 +537,7 @@ namespace StarlightRiver
             // If the tile is in the vitric biome and doesn't block light, emit light.
             bool tileBlock = Main.tile[i, j].active() && Main.tileBlockLight[Main.tile[i, j].type] && !(Main.tile[i, j].slope() != 0 || Main.tile[i, j].halfBrick());
             bool wallBlock = Main.wallLight[Main.tile[i, j].wall];
-            if (LegendWorld.VitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            if (StarlightWorld.VitricBiome.Contains(i, j) && Main.tile[i, j] != null && !tileBlock && wallBlock)
             {
                 r = .4f;
                 g = .57f;
@@ -544,11 +545,11 @@ namespace StarlightRiver
             }
 
             //underworld lighting
-            if (Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) <= 1500 && j >= Main.maxTilesY - 200 && Main.tile[i, j] != null && !tileBlock && wallBlock)
+            if (Vector2.Distance(Main.LocalPlayer.Center, StarlightWorld.RiftLocation) <= 1500 && j >= Main.maxTilesY - 200 && Main.tile[i, j] != null && !tileBlock && wallBlock)
             {
                 r = 0;
                 g = 0;
-                b = (1500 / Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation) - 1) / 2;
+                b = (1500 / Vector2.Distance(Main.LocalPlayer.Center, StarlightWorld.RiftLocation) - 1) / 2;
                 if (b >= 0.8f) b = 0.8f;
             }
 

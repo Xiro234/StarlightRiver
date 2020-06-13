@@ -109,12 +109,6 @@ namespace StarlightRiver.NPCs.Pickups
                     Lighting.brightness = 0f;
                 }
 
-                if (animate >= 60 && animate < 400)
-                {
-                    Overlay.visible = false;
-                    Overlay.Bootlegdust.Clear();
-                }
-
                 if (animate < 30 && animate > 0)
                 {
                     spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (float)animate / 30));

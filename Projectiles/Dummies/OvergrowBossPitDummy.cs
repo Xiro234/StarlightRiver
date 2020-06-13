@@ -96,8 +96,8 @@ namespace StarlightRiver.Projectiles.Dummies
             if (projectile.ai[0] > 0)
             {
                 Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Exclamation");
-                spriteBatch.Draw(tex2, pos + new Vector2(88, -100 + (float)Math.Sin(LegendWorld.rottime) * 12), tex2.Frame(),
-                    Color.White * (projectile.ai[0] / 88f) * 0.2f, 0, tex2.Frame().Size() / 2, 0.5f + (float)Math.Sin(LegendWorld.rottime * 3) * 0.05f, 0, 0);
+                spriteBatch.Draw(tex2, pos + new Vector2(88, -100 + (float)Math.Sin(StarlightWorld.rottime) * 12), tex2.Frame(),
+                    Color.White * (projectile.ai[0] / 88f) * 0.2f, 0, tex2.Frame().Size() / 2, 0.5f + (float)Math.Sin(StarlightWorld.rottime * 3) * 0.05f, 0, 0);
             }
         }
     }

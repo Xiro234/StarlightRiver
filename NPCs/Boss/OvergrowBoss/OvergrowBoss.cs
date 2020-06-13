@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -75,7 +76,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                     StarlightRiver.Instance.textcard.Display("[PH] Overgrow Boss", "[PH] Boss of the Overgrow", null, 200);
 
-                    LegendWorld.OvergrowBossFree = true;
+                    StarlightWorld.OvergrowBossFree = true;
                     npc.ai[0] = (int)OvergrowBossPhase.spawnAnimation;
                 }
             }
@@ -238,7 +239,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                 for (int k = 0; k < 3; k++)
                 {
-                    float sin = (float)Math.Sin(LegendWorld.rottime + k * (6.28f / 6));
+                    float sin = (float)Math.Sin(StarlightWorld.rottime + k * (6.28f / 6));
 
                     DrawData data = new DrawData(TextureManager.Load("Images/Misc/Perlin"), npc.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 300, 200)), new Color(255, 255, 200) * 0.6f, npc.rotation, new Vector2(150, 100), 2 + sin * 0.1f, 0, 0);
 
@@ -254,7 +255,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override bool CheckDead()
         {
-            LegendWorld.OvergrowBossDowned = true;
+            StarlightWorld.OvergrowBossDowned = true;
             return true;
         }
     }

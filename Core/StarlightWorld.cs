@@ -11,7 +11,7 @@ using Terraria.World.Generation;
 
 namespace StarlightRiver
 {
-    public partial class LegendWorld : ModWorld
+    public partial class StarlightWorld : ModWorld
     {
         public static Vector2 BookSP;
         public static Vector2 DashSP;

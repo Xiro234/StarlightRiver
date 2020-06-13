@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -122,7 +123,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (npc.ai[3] == 60) targetPoint = Main.player[npc.target].Center;
             if (npc.ai[3] >= 60 && npc.ai[3] <= 120 && npc.ai[3] % 30 == 0) //3 rounds of projectiles
             {
-                Main.PlaySound(ModLoader.GetMod("StarlightRiver").GetLegacySoundSlot(SoundType.Custom, "Sounds/ProjectileLaunch1"), npc.Center);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ProjectileLaunch1"), npc.Center);
                 for (float k = -0.6f; k <= 0.6f; k += 0.3f) //5 projectiles in even spread
                 {
                     Vector2 trajectory = Vector2.Normalize(targetPoint - handpos).RotatedBy(k + (npc.ai[3] == 90 ? 0.15f : 0)) * 1.6f; //towards the target, alternates on the second round

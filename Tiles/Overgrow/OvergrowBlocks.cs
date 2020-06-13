@@ -202,14 +202,14 @@ namespace StarlightRiver.Tiles.Overgrow
             };
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
-            dustType = 14;
+            dustType = ModContent.DustType<Dusts.Leaf>();
             AddMapEntry(new Color(202, 157, 49));
         }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             float sway = 0;
-            float rot = LegendWorld.rottime + (i % 4) * 0.3f;
+            float rot = StarlightWorld.rottime + (i % 4) * 0.3f;
             for (int k = 1; k > 0; k++)
             {
                 if (Main.tile[i, j - k].type == Type && sway <= 2.4f) { sway += 0.3f; }
@@ -241,14 +241,14 @@ namespace StarlightRiver.Tiles.Overgrow
             };
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
-            dustType = 14;
+            dustType = ModContent.DustType<Dusts.Leaf>();
             AddMapEntry(new Color(202, 157, 49));
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle(((i + (int)Helper.TileAdj.X) * 16) - (int)Main.screenPosition.X + 8,
-                ((j + (int)Helper.TileAdj.Y + 1) * 16) - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle((i % 2) * 16, 0, 16, 16), drawColor, (float)Math.Sin(LegendWorld.rottime + i % 6.28f) * 0.25f,
+                ((j + (int)Helper.TileAdj.Y + 1) * 16) - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle((i % 2) * 16, 0, 16, 16), drawColor, (float)Math.Sin(StarlightWorld.rottime + i % 6.28f) * 0.25f,
                 new Vector2(8, 16), 0, 0);
         }
     }

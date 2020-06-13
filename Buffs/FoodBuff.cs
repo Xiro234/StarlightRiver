@@ -5,15 +5,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Buffs
 {
-    public class FoodBuff : ModBuff
+    public class FoodBuff : SmartBuff
     {
-        public override void SetDefaults()
-        {
-            DisplayName.SetDefault("Nourished");
-            Description.SetDefault("Nourised by rich food, granting:\n");
-            Main.debuff[Type] = true;
-        }
-
+        public FoodBuff() : base("Nourished", "Nourised by rich food, granting:\n", false){}
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
             FoodBuffHandler mp = Main.LocalPlayer.GetModPlayer<FoodBuffHandler>();
@@ -32,18 +26,5 @@ namespace StarlightRiver.Buffs
             }
         }
     }
-
-    public class Full : ModBuff
-    {
-        public override void SetDefaults()
-        {
-            DisplayName.SetDefault("Full");
-            Description.SetDefault("Cannot consume any more rich food");
-            Main.debuff[Type] = true;
-        }
-
-        public override void Update(Player player, ref int buffIndex)
-        {
-        }
-    }
+    public class Full : SmartBuff { public Full() : base("Stuffed", "Cannot consume any more rich food", true) { } }
 }

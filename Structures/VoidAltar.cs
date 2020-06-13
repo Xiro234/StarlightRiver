@@ -15,7 +15,7 @@ namespace StarlightRiver.Structures
 
             Texture2D Courtyard = ModContent.GetTexture("StarlightRiver/Structures/VoidAltar");
             Vector2 spawn = new Vector2(Main.maxTilesX / 4, Main.maxTilesY - 100);
-            LegendWorld.RiftLocation = (spawn + new Vector2(25.5f, 3.5f)) * 16;
+            StarlightWorld.RiftLocation = (spawn + new Vector2(25.5f, 3.5f)) * 16;
 
             for (int y = 0; y < Courtyard.Height; y++) // for every row
             {

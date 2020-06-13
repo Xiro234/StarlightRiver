@@ -45,7 +45,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             for (int k = 0; k < 3; k++)
             {
-                float sin = (float)Math.Sin(LegendWorld.rottime + k * (6.28f / 6));
+                float sin = (float)Math.Sin(StarlightWorld.rottime + k * (6.28f / 6));
 
                 DrawData data = new DrawData(TextureManager.Load("Images/Misc/Perlin"), npc.Center - Main.screenPosition, new Rectangle?(new Rectangle(0, 0, 150, 100)), new Color(255, 255, 200) * 0.6f, npc.rotation, new Vector2(75f, 50f), 2 + sin * 0.18f, 0, 0);
 

@@ -37,7 +37,7 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (LegendWorld.DesertOpen && !Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>() && n.active))
+            if (StarlightWorld.DesertOpen && !Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>() && n.active))
             {
                 Main.tileSolid[Type] = false;
             }
@@ -53,7 +53,7 @@ namespace StarlightRiver.Tiles.Vitric
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/SandstoneDoor");
                 Vector2 basepos = (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition;
-                int off = LegendWorld.DesertOpen ? 46 : 0;
+                int off = StarlightWorld.DesertOpen ? 46 : 0;
                 spriteBatch.Draw(tex, basepos + new Vector2(-off, 0), tex.Frame(), drawColor, 0, Vector2.Zero, 1, 0, 0);
                 spriteBatch.Draw(tex, basepos + new Vector2(tex.Width + off, 0), tex.Frame(), drawColor, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 0);
             }

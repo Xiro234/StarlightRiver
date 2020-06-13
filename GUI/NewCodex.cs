@@ -84,7 +84,7 @@ namespace StarlightRiver.GUI
                 if (player.CodexState != 0 && player.Entries.Any(n => n.New))
                 {
                     Texture2D tex = BookButton.IsMouseHovering ? ModContent.GetTexture("StarlightRiver/GUI/BookGlowOpen") : ModContent.GetTexture("StarlightRiver/GUI/BookGlowClosed");
-                    spriteBatch.Draw(tex, BookButton.GetDimensions().Position() + new Vector2(-1, 0), Color.White * (float)Math.Sin(LegendWorld.rottime));
+                    spriteBatch.Draw(tex, BookButton.GetDimensions().Position() + new Vector2(-1, 0), Color.White * (float)Math.Sin(StarlightWorld.rottime));
                 }
                 if (BookButton.IsMouseHovering) Utils.DrawBorderString(spriteBatch, player.CodexState == 0 ? "Found in the desert..." : "Starlight Codex", Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.95f);
             }
@@ -203,7 +203,7 @@ namespace StarlightRiver.GUI
             CodexHandler player = Main.LocalPlayer.GetModPlayer<CodexHandler>();
 
             Vector2 pos = GetDimensions().ToRectangle().TopLeft();
-            Color backColor = player.Entries.Any(n => n.New && n.Category == Category) ? new Color(255, 255, 127 + (int)((float)Math.Sin(LegendWorld.rottime * 2) * 127f)) : Color.White; //yellow flashing background for new entries
+            Color backColor = player.Entries.Any(n => n.New && n.Category == Category) ? new Color(255, 255, 127 + (int)((float)Math.Sin(StarlightWorld.rottime * 2) * 127f)) : Color.White; //yellow flashing background for new entries
             Texture2D backTex = ModContent.GetTexture("StarlightRiver/GUI/CategoryButton");
             spriteBatch.Draw(backTex, pos, backColor * 0.8f);
             Vector2 textSize = Main.fontDeathText.MeasureString(Text) * 0.6f;
@@ -233,7 +233,7 @@ namespace StarlightRiver.GUI
             CodexBack parent = Parent.Parent.Parent.Parent as CodexBack;
 
             Vector2 pos = GetDimensions().ToRectangle().TopLeft();
-            Color backColor = Entry.New ? new Color(255, 255, 127 + (int)((float)Math.Sin(LegendWorld.rottime * 2) * 127f)) : Color.White; //yellow flashing background for new entries
+            Color backColor = Entry.New ? new Color(255, 255, 127 + (int)((float)Math.Sin(StarlightWorld.rottime * 2) * 127f)) : Color.White; //yellow flashing background for new entries
             Texture2D backTex = Entry.RequiresUpgradedBook ? ModContent.GetTexture("StarlightRiver/GUI/EntryButton2") : ModContent.GetTexture("StarlightRiver/GUI/EntryButton");
             spriteBatch.Draw(backTex, pos, backColor * 0.8f);
 

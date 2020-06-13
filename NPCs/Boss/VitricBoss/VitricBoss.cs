@@ -7,6 +7,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -59,7 +60,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 1500) Helper.UnlockEntry<Codex.Entries.CeirosEntry>(Main.LocalPlayer); //unlocks the entry if the local player is close enough. codex is clientside so this is fine.
             foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp)) npc.active = false; //reset arena
-            LegendWorld.GlassBossDowned = true;
+            StarlightWorld.GlassBossDowned = true;
             return true;
         }
 
@@ -105,7 +106,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (Phase == (int)AIStates.FirstPhase && npc.dontTakeDamage) //draws the npc's shield when immune and in the first phase
             {
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/Shield");
-                spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (0.55f + ((float)Math.Sin(LegendWorld.rottime * 2) * 0.15f)), 0, tex.Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (0.55f + ((float)Math.Sin(StarlightWorld.rottime * 2) * 0.15f)), 0, tex.Size() / 2, 1, 0, 0);
             }
         }
 
@@ -212,7 +213,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         {
                             if (GlobalTimer == 280 + k * 30)
                             {
-                                Vector2 target = new Vector2(npc.Center.X + (-100 + k * 50), LegendWorld.VitricBiome.Top * 16 + 1100);
+                                Vector2 target = new Vector2(npc.Center.X + (-100 + k * 50), StarlightWorld.VitricBiome.Top * 16 + 1100);
                                 int index = NPC.NewNPC((int)target.X, (int)target.Y, ModContent.NPCType<VitricBossCrystal>(), 0, 2); //spawn in state 2: sandstone forme
                                 (Main.npc[index].modNPC as VitricBossCrystal).Parent = this;
                                 (Main.npc[index].modNPC as VitricBossCrystal).StartPos = target;

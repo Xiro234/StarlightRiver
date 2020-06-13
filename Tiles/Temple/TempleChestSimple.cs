@@ -17,7 +17,9 @@ namespace StarlightRiver.Tiles.Temple
         {
             get => new List<Loot>
             {
-                new Loot(ModContent.ItemType<Items.Temple.TempleSpear>(), 1)
+                new Loot(ModContent.ItemType<Items.Temple.TemplePick>(), 1),
+                new Loot(ModContent.ItemType<Items.Temple.TempleSpear>(), 1),
+                new Loot(ModContent.ItemType<Items.Temple.TempleRune>(), 1)
             };               
         }
         internal override List<Loot> SmallLootPool

@@ -41,7 +41,7 @@ namespace StarlightRiver.Tiles.Interactive
         {
             if (Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>() && proj.active && proj.ai[0] == 0))
             {
-                Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime * 3f);
+                Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime * 3f);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemGlow"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, color);
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemOn"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, Color.White);
             }

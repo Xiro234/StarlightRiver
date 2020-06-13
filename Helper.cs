@@ -23,7 +23,11 @@ namespace StarlightRiver
         /// <param name="npc"></param>
 
         public static Vector2 TileAdj => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12;
-
+        public static bool OnScreen(Vector2 pos)
+        {
+            if (pos.X > 0 && pos.X < Main.screenWidth && pos.Y > 0 && pos.Y < Main.screenHeight) return true;
+            return false;
+        }
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC?.CheckDead() == false;
@@ -115,7 +119,7 @@ namespace StarlightRiver
 
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
-            float fade = LegendWorld.rottime / 6.28f;
+            float fade = StarlightWorld.rottime / 6.28f;
             spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 1.1f, 0, 0);
         }
 

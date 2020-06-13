@@ -5,25 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Temple
 {
-    class TempleRune : ModItem
+    class TempleRune : SmartAccessory
     {
         private int RuneTimer;
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Rune of Warding");
-            Tooltip.SetDefault("Periodically gain +5 Defense");
-        }
-        public override void SetDefaults()
+        public TempleRune() : base("Rune of Warding", "Periodically provides +5 Defense") { }
+        public override void SafeSetDefaults()
         {
             item.rare = ItemRarityID.Blue;
-            item.accessory = true;
         }
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void SafeUpdateEquip(Player player)
         {
             RuneTimer++;
             if(RuneTimer < 300)
@@ -32,8 +28,8 @@ namespace StarlightRiver.Items.Temple
                 player.statDefense += 5;
                 for(float k = (RuneTimer % 5) * 0.1f; k < 6.28f; k+= 0.5f)
                 {
-                    Vector2 off = new Vector2((float)Math.Cos(k + RuneTimer/100f), (float)Math.Sin(k + RuneTimer / 100f) * 1.5f);
-                    Dust d = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.PlayerFollowOrange>(), off * 24);
+                    Vector2 off = new Vector2((float)Math.Cos(k + RuneTimer/100f) * player.width, (float)Math.Sin(k + RuneTimer / 100f) * player.height);
+                    Dust d = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.PlayerFollowOrange>(), off);
                     d.customData = player.whoAmI;
                 }
             }

@@ -26,7 +26,7 @@ namespace StarlightRiver.Dusts
             dust.position.X += dust.velocity.X + Main.LocalPlayer.velocity.X * -0.6f * (dust.scale * 0.01f);
             dust.position.Y += Main.LocalPlayer.velocity.Y * -0.15f * (dust.scale * 0.01f);
             dust.velocity.X = 0.9f;
-            dust.position.Y += (float)Math.Sin(LegendWorld.rottime + dust.fadeIn / 30f) * 0.4f;
+            dust.position.Y += (float)Math.Sin(StarlightWorld.rottime + dust.fadeIn / 30f) * 0.4f;
             dust.scale *= 0.999f;
             dust.rotation += 0.01f;
 

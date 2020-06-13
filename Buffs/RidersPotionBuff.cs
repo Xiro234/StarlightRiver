@@ -3,14 +3,9 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Buffs
 {
-    public class RidersPotionBuff : ModBuff
+    public class RidersPotionBuff : SmartBuff
     {
-        public override void SetDefaults()
-        {
-            DisplayName.SetDefault("Riders Potion");
-            Description.SetDefault("Increased critical strike chance while mounted");
-        }
-
+        public RidersPotionBuff() : base("Rider's Blessing", "Increased critical strike chance while mounted", false) { }
         public override void Update(Player player, ref int buffIndex)
         {
             if (player.mount.Active)

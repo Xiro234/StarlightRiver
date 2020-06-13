@@ -6,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -47,7 +48,7 @@ namespace StarlightRiver.Projectiles.Dummies
                 }
             }
 
-            if (parent.frameX == 90 && !LegendWorld.GlassBossOpen)
+            if (parent.frameX == 90 && !StarlightWorld.GlassBossOpen)
             {
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 1;
                 Dust.NewDust(projectile.Center + new Vector2(-632, projectile.height / 2), 560, 1, ModContent.DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f));
@@ -56,7 +57,7 @@ namespace StarlightRiver.Projectiles.Dummies
                 projectile.ai[1]++;
                 if (projectile.ai[1] > 120)
                 {
-                    LegendWorld.GlassBossOpen = true;
+                    StarlightWorld.GlassBossOpen = true;
                     if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass)
                     {
                         Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMovePan = projectile.Center + new Vector2(0, -400);
@@ -72,13 +73,13 @@ namespace StarlightRiver.Projectiles.Dummies
             {
                 Main.NewText("Debug");
                 Vector2 center = projectile.Center + new Vector2(0, 60);
-                int timerset = LegendWorld.GlassBossOpen ? 360 : 0; //the arena should already be up if it was opened before
+                int timerset = StarlightWorld.GlassBossOpen ? 360 : 0; //the arena should already be up if it was opened before
 
                 int index = NPC.NewNPC((int)center.X + 352, (int)center.Y, ModContent.NPCType<VitricBackdropRight>(), 0, timerset);
-                if (LegendWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropRight) (Main.npc[index].modNPC as VitricBackdropRight).SpawnPlatforms(false);
+                if (StarlightWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropRight) (Main.npc[index].modNPC as VitricBackdropRight).SpawnPlatforms(false);
 
                 index = NPC.NewNPC((int)center.X - 352, (int)center.Y, ModContent.NPCType<VitricBackdropLeft>(), 0, timerset);
-                if (LegendWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropLeft) (Main.npc[index].modNPC as VitricBackdropLeft).SpawnPlatforms(false);
+                if (StarlightWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropLeft) (Main.npc[index].modNPC as VitricBackdropLeft).SpawnPlatforms(false);
             }
 
             //controls the drawing of the barriers
@@ -102,12 +103,12 @@ namespace StarlightRiver.Projectiles.Dummies
 
             if (parent.frameX >= 90 && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>()))
             {
-                Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(LegendWorld.rottime) * 5 - 20), new Color(150, 220, 250));
+                Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5 - 20), new Color(150, 220, 250));
             }
             else if (parent.frameX < 90)
             {
                 Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricBossAltarGlow");
-                spriteBatch.Draw(glow, projectile.position - Main.screenPosition + new Vector2(3, -9), glow.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime), 0, Vector2.Zero, 1, 0, 0);
+                spriteBatch.Draw(glow, projectile.position - Main.screenPosition + new Vector2(3, -9), glow.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, Vector2.Zero, 1, 0, 0);
             }
 
             Vector2 center = projectile.Center + new Vector2(0, 56);

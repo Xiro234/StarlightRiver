@@ -14,7 +14,7 @@ namespace StarlightRiver.Dusts
 
         public override bool Update(Dust dust)
         {
-            dust.position.Y += (float)Math.Sin(LegendWorld.rottime + dust.fadeIn) * 0.3f;
+            dust.position.Y += (float)Math.Sin(StarlightWorld.rottime + dust.fadeIn) * 0.3f;
             dust.position += dust.velocity;
             dust.scale *= 0.994f;
             //Lighting.AddLight(dust.position, dust.color.ToVector3() * dust.scale);

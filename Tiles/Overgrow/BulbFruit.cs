@@ -41,14 +41,14 @@ namespace StarlightRiver.Tiles.Overgrow
                 if (tile.frameX == 0)
                 {
                     Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/BulbFruitGlow");
-                    spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16 + new Vector2(3, 12) - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(LegendWorld.rottime));
+                    spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16 + new Vector2(3, 12) - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime));
                 }
 
                 for (int k = 1; k <= 30; k++)
                 {
                     if (Main.tile[i, j - k].active()) break;
                     Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow");
-                    float sway = (float)Math.Sin(LegendWorld.rottime + (15 - k) / 4) * (15 - k) / 150;
+                    float sway = (float)Math.Sin(StarlightWorld.rottime + (15 - k) / 4) * (15 - k) / 150;
                     spriteBatch.Draw(tex, (new Vector2(i + 0.5f + sway, j - k) + Helper.TileAdj) * 16 - Main.screenPosition, new Rectangle(16 * k % 3, 0, 16, 16), Lighting.GetColor(i, j - k));
 
                     if (tile.frameX == 0 && Main.rand.Next(5) == 0)

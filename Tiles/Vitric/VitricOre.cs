@@ -46,7 +46,7 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
+            Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime);
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
                 spriteBatch.Draw(glow, new Vector2((i + 12) * 16 - 1, (j + 12) * 16 - 1) - Main.screenPosition, color);
@@ -102,7 +102,7 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Color color = new Color(255, 255, 255) * (float)Math.Sin(LegendWorld.rottime);
+            Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime);
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
                 spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricOreFloatGlow"), new Vector2((i + 12) * 16 - 1, (j + 12) * 16 - 1) - Main.screenPosition, color);

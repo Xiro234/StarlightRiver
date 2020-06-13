@@ -25,12 +25,12 @@ namespace StarlightRiver
 
         public override void UpdateBiomes()
         {
-            ZoneGlass = LegendWorld.glassTiles > 50 || LegendWorld.VitricBiome.Contains((player.position / 16).ToPoint());
-            GlassBG = LegendWorld.VitricBiome.Contains((player.Center / 16).ToPoint()) && ZoneGlass;
-            ZoneVoidPre = (LegendWorld.voidTiles > 50);
-            ZoneJungleCorrupt = (LegendWorld.evilJungleTiles > 50);
-            ZoneJungleBloody = (LegendWorld.bloodJungleTiles > 50);
-            ZoneJungleHoly = (LegendWorld.holyJungleTiles > 50);
+            ZoneGlass = StarlightWorld.glassTiles > 50 || StarlightWorld.VitricBiome.Contains((player.position / 16).ToPoint());
+            GlassBG = StarlightWorld.VitricBiome.Contains((player.Center / 16).ToPoint()) && ZoneGlass;
+            ZoneVoidPre = (StarlightWorld.voidTiles > 50);
+            ZoneJungleCorrupt = (StarlightWorld.evilJungleTiles > 50);
+            ZoneJungleBloody = (StarlightWorld.bloodJungleTiles > 50);
+            ZoneJungleHoly = (StarlightWorld.holyJungleTiles > 50);
             ZoneOvergrow = Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>() ||
                 Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>() ||
                 Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>();
@@ -85,7 +85,7 @@ namespace StarlightRiver
 
         public override void PreUpdate()
         {
-            float distance = Vector2.Distance(Main.LocalPlayer.Center, LegendWorld.RiftLocation);
+            float distance = Vector2.Distance(Main.LocalPlayer.Center, StarlightWorld.RiftLocation);
             if (distance <= 1500)
             {
                 float val = (1500 / distance - 1) * 2;
@@ -138,7 +138,7 @@ namespace StarlightRiver
         }
     }
 
-    public partial class LegendWorld
+    public partial class StarlightWorld
     {
         public static int glassTiles;
         public static int voidTiles;
@@ -191,7 +191,7 @@ namespace StarlightRiver
                 backgroundColor = backgroundColor.MultiplyRGB(Color.Purple);
             }
 
-            if (LegendWorld.starfall)
+            if (StarlightWorld.starfall)
             {
                 tileColor = new Color(20, 50, 60);
                 backgroundColor = new Color(10, 15, 20);
