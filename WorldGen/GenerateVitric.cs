@@ -236,6 +236,7 @@ namespace StarlightRiver
 
         public static void VitricGen(GenerationProgress progress)
         {
+            int[] validGround = new int[] { ModContent.TileType<Tiles.Vitric.VitricSand>(), ModContent.TileType<Tiles.Vitric.VitricSoftSand>() };
             int vitricHeight = 140;
             Rectangle biomeTarget = new Rectangle(WorldGen.UndergroundDesertLocation.X - 80, WorldGen.UndergroundDesertLocation.Y + WorldGen.UndergroundDesertLocation.Height, WorldGen.UndergroundDesertLocation.Width + 160, vitricHeight);
             VitricBiome = biomeTarget; //Sets up biome information - adjusted from prior code
@@ -294,13 +295,7 @@ namespace StarlightRiver
 
                     if (WorldGen.genRand.Next(3) == 0 && x % 2 == 1)
                     {
-                        layers[2] = minFloorDepth + (int)(5f * Math.Sin(0.05f * x));
-                        //if (layers[2] >= minFloorDepth && layers[2] <= maxFloorDepth)
-                        //    layers[2] += WorldGen.genRand.Next(-1, 2);
-                        //else if (layers[2] < minFloorDepth)
-                        //    layers[2] += WorldGen.genRand.Next(2);
-                        //else
-                        //    layers[2] += WorldGen.genRand.Next(-1, 1);
+                        //IMPLEMENT FASTNOISE
                     }
                 }
                 else //End curve
@@ -317,7 +312,7 @@ namespace StarlightRiver
                         layers[2] = biomeTarget.Y + biomeTarget.Height / 2;
                     else if (xDif < 17)
                         layers[2] += WorldGen.genRand.Next(-1, 2);
-                } 
+                }
 
                 if (layers[1] > biomeTarget.Y + biomeTarget.Height / 2) layers[1] = biomeTarget.Y + biomeTarget.Height / 2;
                 if (layers[2] < biomeTarget.Y + biomeTarget.Height / 2) layers[2] = biomeTarget.Y + biomeTarget.Height / 2;
@@ -374,7 +369,7 @@ namespace StarlightRiver
                 {
                     rX = biomeTarget.X + (int)(VitricSlopeOffset * 0.8f) + WorldGen.genRand.Next((int)(biomeTarget.Width / 2.7f));
                     if (WorldGen.genRand.Next(2) == 0) rX += (int)(biomeTarget.Width / 2f);
-                    rY = (maxCeilDepth + 14) + (WorldGen.genRand.Next((int)(biomeTarget.Height / 3f)));
+                    rY = (maxCeilDepth + 18) + (WorldGen.genRand.Next((int)(biomeTarget.Height / 3f)));
                     if (islands.Any(v => Vector2.Distance(new Vector2(rX, rY), v.ToVector2()) < 32) || (rX > biomeTarget.X + biomeTarget.Width / 2 - 71 && rX < biomeTarget.X + biomeTarget.Width / 2 + 70))
                         rep = true;
                     else
@@ -385,42 +380,56 @@ namespace StarlightRiver
                 CreateIsland(rX, rY); //Adds island pos to list and places island
             }
 
-            for (int i = biomeTarget.X + VitricSlopeOffset; i < biomeTarget.X + (biomeTarget.Width - VitricSlopeOffset); ++i) //Add large crystals and decor
+            for (int i = biomeTarget.X + VitricSlopeOffset; i < biomeTarget.X + (biomeTarget.Width - VitricSlopeOffset); ++i) //Add large crystals
             {
                 for (int j = biomeTarget.Y + 2; j < biomeTarget.Y + biomeTarget.Height - 2; ++j)
                 {
                     if (i < biomeTarget.X + biomeTarget.Width / 2 - 71 || i > biomeTarget.X + biomeTarget.Width / 2 + 70)
                     {
-                        if (Main.tile[i + 1, j].type == ModContent.TileType<Tiles.Vitric.VitricSand>() && Main.tile[i + 8, j].type == ModContent.TileType<Tiles.Vitric.VitricSand>() && Helper.CheckAirRectangle(new Point16(i, j - 19), new Point16(10, 19)))
+                        if (validGround.Any(x => x == Main.tile[i, j + 1].type) && validGround.Any(x => x == Main.tile[i + 9, j + 1].type) && Helper.CheckAirRectangle(new Point16(i, j - 19), new Point16(10, 19)))
                         {
-                            StructureHelper.StructureHelper.GenerateStructure("Structures/LargeVitricCrystal", new Point16(i, j - 19), StarlightRiver.Instance);
-                            WorldGen.PlaceWall(i, j - 19, ModContent.WallType<Tiles.Vitric.VitricCrystalBig>());
-                            for (int k = 0; k < 10; ++k)
-                                WorldGen.PlaceTile(i + k, j, ModContent.TileType<Tiles.Vitric.VitricSand>(), true, false);
+                            StructureHelper.StructureHelper.GenerateStructure("Structures/LargeVitricCrystal", new Point16(i + 5, (j + WorldGen.genRand.Next(2)) - 17), StarlightRiver.Instance);
                             i += 10;
                         }
-                        else
+                    }
+                }
+            }
+
+            for (int i = biomeTarget.X + 5; i < biomeTarget.X + (biomeTarget.Width - 5); ++i) //Add vines & decor
+            {
+                for (int j = biomeTarget.Y; j < biomeTarget.Y + biomeTarget.Height - 10; ++j)
+                {
+                    if (WorldGen.genRand.Next(8) == 0 && validGround.Any(x => x == Main.tile[i, j].type) && !Main.tile[i, j + 1].active())
+                    {
+                        int targSize = WorldGen.genRand.Next(4, 23);
+                        for (int k = 1; k < targSize; ++k)
                         {
-                            int type = WorldGen.genRand.Next(6); //0 = 1x1 tile, 1 = 2x2 tile, 2 = 2x3 tile, 3+ is empty
-                            if (type == 0)
-                            {
-                                if (Main.tile[i, j].type == ModContent.TileType<Tiles.Vitric.VitricSand>() && Helper.CheckAirRectangle(new Point16(i, j - 1), new Point16(1, 1)))
-                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Tiles.Vitric.VitricSmolCactus>());
-                            }
-                            else if (type == 1)
-                            {
-                                if (Main.tile[i, j].type == ModContent.TileType<Tiles.Vitric.VitricSand>() && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(2, 2)) && Main.tile[i + 1, j].type == ModContent.TileType<Tiles.Vitric.VitricSand>())
-                                    WorldGen.PlaceTile(i, j - 2, WorldGen.genRand.Next(2) == 0 ? ModContent.TileType<Tiles.Vitric.VitricRoundCactus>() : ModContent.TileType<Tiles.Vitric.VitricDecor>());
-                            }
-                            else if (type == 2)
-                            {
-                                bool validGround = true;
-                                for (int k = 0; k < 3; ++k)
-                                    if (!Main.tile[i + k, j].active())
-                                        validGround = false;
-                                if (validGround && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(3, 2)))
-                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Tiles.Vitric.VitricDecorLarge>());
-                            }
+                            if (Main.tile[i, j + k].active())
+                                break;
+                            WorldGen.PlaceTile(i, j + k, ModContent.TileType<Tiles.Vitric.VitricVine>());
+                        }
+                    }
+                    else
+                    {
+                        int type = WorldGen.genRand.Next(7); //0 = 1x1 tile, 1 = 2x2 tile, 2 = 2x3 tile, 3+ is empty
+                        if (type == 0)
+                        {
+                            if (validGround.Any(x => x == Main.tile[i, j].type) && Helper.CheckAirRectangle(new Point16(i, j - 1), new Point16(1, 1)))
+                                WorldGen.PlaceTile(i, j - 1, WorldGen.genRand.Next(2) == 0 ? ModContent.TileType<Tiles.Vitric.VitricSmolCactus>() : ModContent.TileType<Tiles.Vitric.VitricRock>());
+                        }
+                        else if (type == 1)
+                        {
+                            if (validGround.Any(x => x == Main.tile[i, j].type) && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(2, 2)) && validGround.Any(x => x == Main.tile[i + 1, j].type))
+                                WorldGen.PlaceTile(i, j - 2, WorldGen.genRand.Next(2) == 0 ? ModContent.TileType<Tiles.Vitric.VitricRoundCactus>() : ModContent.TileType<Tiles.Vitric.VitricDecor>());
+                        }
+                        else if (type == 2)
+                        {
+                            bool vGround = true;
+                            for (int k = 0; k < 3; ++k)
+                                if (!Main.tile[i + k, j].active() || !validGround.Any(x => x == Main.tile[i + k, j].type))
+                                    vGround = false;
+                            if (vGround && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(3, 2)))
+                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Tiles.Vitric.VitricDecorLarge>());
                         }
                     }
                 }
@@ -493,7 +502,7 @@ namespace StarlightRiver
                 if (top < 3) top = 3;
                 for (int j = rY - top + offset; j < rY + depth + offset; j++)
                 {
-                    WorldGen.PlaceTile(i, j, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
+                    WorldGen.PlaceTile(i, j, j > (rY + depth + offset) - 4 ? ModContent.TileType<Tiles.Vitric.VitricSand>() : ModContent.TileType<Tiles.Vitric.VitricSoftSand>(), false, true);
                 }
             }
         }

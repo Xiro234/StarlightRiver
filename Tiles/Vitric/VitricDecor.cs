@@ -28,7 +28,7 @@ namespace StarlightRiver.Tiles.Vitric
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>(), ModContent.TileType<VitricSoftSand>() };
             TileObjectData.newTile.RandomStyleRange = 4;
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.addTile(Type);
@@ -63,7 +63,7 @@ namespace StarlightRiver.Tiles.Vitric
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>(), ModContent.TileType<VitricSoftSand>() };
             TileObjectData.newTile.RandomStyleRange = 6;
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.addTile(Type);

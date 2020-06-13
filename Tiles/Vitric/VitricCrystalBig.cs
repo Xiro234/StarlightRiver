@@ -29,7 +29,8 @@ namespace StarlightRiver.Tiles.Vitric
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/CrystalOver1");
-            spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, tex.Frame(), Color.White * (0.7f + (float)Math.Sin(LegendWorld.rottime + (i * 0.06f)) * 0.2f), 0, Vector2.Zero, 1, 0, 0);
+            spriteBatch.Draw(tex, ((new Vector2(i, j) + Helper.TileAdj) * 16) - Main.screenPosition, tex.Frame(), Color.White, 0, new Vector2(80, 176), 1, 0, 0);
+            // * (0.7f + (float)Math.Sin(LegendWorld.rottime + (i * 0.06f)) * 0.2f) - Equation for translucency for posterity
         }
     }
 
