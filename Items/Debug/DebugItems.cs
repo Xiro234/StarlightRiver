@@ -302,7 +302,7 @@ namespace StarlightRiver.Items.Debug
         {
             //foreach (NPC wall in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBackdropLeft)) wall.ai[1] = 3; //make the walls scroll
             //foreach (NPC plat in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBossPlatformUp)) plat.ai[0] = 1; //make the platforms scroll
-            Helper.NewItemPerfect(player.Center + new Vector2(10, -30), Vector2.Normalize(player.Center - Main.MouseWorld).RotatedByRandom(0.3f) * -25, Main.rand.Next(ItemID.Count), 1);
+            //Helper.NewItemPerfect(player.Center + new Vector2(10, -30), Vector2.Normalize(player.Center - Main.MouseWorld).RotatedByRandom(0.3f) * -25, Main.rand.Next(ItemID.Count), 1);
             return true;
         }
 

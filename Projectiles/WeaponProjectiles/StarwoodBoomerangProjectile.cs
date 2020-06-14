@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {

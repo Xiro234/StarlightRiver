@@ -2,6 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 using StarlightRiver.Items.Herbology;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.Armor.ForestIvy
 {
@@ -63,7 +64,7 @@ namespace StarlightRiver.Items.Armor.ForestIvy
         {
             player.setBonus = "After five (5) seconds of not taking damage, your next attack will ensnare and cause bleeding.";
             StarlightPlayer starlightPlayer = player.GetModPlayer<StarlightPlayer>();
-            starlightPlayer.ivyArmorComplete = true;
+            //starlightPlayer.ivyArmorComplete = true;
         }
         public override void AddRecipes()
         {

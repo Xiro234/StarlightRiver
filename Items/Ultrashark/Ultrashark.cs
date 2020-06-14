@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using StarlightRiver.Dusts;
 using StarlightRiver.Gores;
 using Terraria;

@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using StarlightRiver.Items.Armor.Starwood;
+using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.Armor.Starwood
 {
@@ -118,7 +119,7 @@ namespace StarlightRiver.Items.Armor.Starwood
         }
     }
 }
-namespace StarlightRiver
+namespace StarlightRiver.Core
 {
     public partial class StarlightPlayer : ModPlayer
     {

@@ -16,7 +16,7 @@ namespace StarlightRiver.Buffs
 
         public override void Update(NPC npc, ref int buffIndex)
         {
-            npc.GetGlobalNPC<DebuffHandler>().ivy = true;
+            //npc.GetGlobalNPC<DebuffHandler>().ivy = true;
         }
     }
 }
