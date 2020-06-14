@@ -9,8 +9,9 @@ using StarlightRiver.Items.Armor.Starwood;
 namespace StarlightRiver.Items.Armor.Starwood
 {
     [AutoloadEquip(EquipType.Head)]
-    public class StarwoodHat : ModItem
+    public class StarwoodHat : StarwoodItem
     {
+        public StarwoodHat() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodHat_Alt")) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Hat");
@@ -27,12 +28,14 @@ namespace StarlightRiver.Items.Armor.Starwood
         public override void UpdateEquip(Player player)
         {
             player.magicDamage += 0.05f;
+            isEmpowered = player.GetModPlayer<StarlightPlayer>().Empowered;
         }
     }
 
     [AutoloadEquip(EquipType.Body)]
-    public class StarwoodChest : ModItem
+    public class StarwoodChest : StarwoodItem
     {
+        public StarwoodChest() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodChest_Alt")) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Robes");
@@ -49,6 +52,7 @@ namespace StarlightRiver.Items.Armor.Starwood
         public override void UpdateEquip(Player player)
         {
             player.statManaMax2 += 20;
+            isEmpowered = player.GetModPlayer<StarlightPlayer>().Empowered;
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -64,8 +68,9 @@ namespace StarlightRiver.Items.Armor.Starwood
     }
 
     [AutoloadEquip(EquipType.Legs)]
-    public class StarwoodBoots : ModItem
+    public class StarwoodBoots : StarwoodItem
     {
+        public StarwoodBoots() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodBoots_Alt")) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Boots");
@@ -83,6 +88,7 @@ namespace StarlightRiver.Items.Armor.Starwood
         public override void UpdateEquip(Player player)
         {
             player.magicCrit += 5;
+            isEmpowered = player.GetModPlayer<StarlightPlayer>().Empowered;
         }
     }
 

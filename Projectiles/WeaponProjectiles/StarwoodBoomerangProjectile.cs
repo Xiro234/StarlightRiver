@@ -12,16 +12,17 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Boomerang");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;    //The length of old position to be recorded
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         private const int maxChargeTime = 50;//how long it takes to charge up
         private int maxDistTime;//only set on spawn, used to simplify things, all uses could be replaced with: projectile.timeLeft - 30
 
-        private float chargeMult;//a multiplier used during charge up, used both in ai and for drawing
+        private float chargeMult;//a multiplier used during charge up, used both in ai and for drawing (goes from 0 to 1)
 
         //These stats get scaled when empowered
         private int ScaleMult = 2;
-        private Color glowColor = new Color(255, 220, 200, 255);
         private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
         private int dustType = ModContent.DustType<Dusts.Stamina>();
 
@@ -51,11 +52,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (projectile.timeLeft == 1200 && mp.Empowered)
             {
                 projectile.frame = 1;
-                glowColor = new Color(220, 200, 255, 255);
-                lightColor = new Vector3(0.1f, 0.2f, 0.4f);//these are only set when empowered since they get set every time AI() is called
+                lightColor = new Vector3(0.1f, 0.2f, 0.4f);
                 ScaleMult = 3;
                 dustType = ModContent.DustType<Dusts.BlueStamina>();
             }
+
+            Lighting.AddLight(projectile.Center, lightColor * 0.5f);
 
             switch (projectile.ai[0])
             {
@@ -139,10 +141,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 if (projectile.timeLeft % 8 == 0)
                 {
                     Main.PlaySound(SoundID.Item7, projectile.Center);
-                }
-
-                if (Main.rand.Next(7) <= ScaleMult)
-                {
                     Dust.NewDustPerfect(projectile.Center, dustType, (projectile.velocity * 0.5f).RotatedByRandom(0.5f), Scale: Main.rand.NextFloat(0.8f, 1.5f));
                 }
             }
@@ -195,12 +193,42 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         #endregion
 
+        //private Texture2D LightTrailTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/glow");
+        private Texture2D GlowingTrail => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlowTrail");
+
         //private static Texture2D MainTexture => ModContent.GetTexture("StarlightRiver/Items/StarwoodBoomerang");
         private Texture2D GlowingTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
         private Texture2D AuraTexture => ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+
+            if (projectile.ai[0] != 1)
+            {
+                for (int k = 0; k < projectile.oldPos.Length; k++)
+                {
+                    Color color = projectile.GetAlpha(Color.White) * (((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) * 0.5f);
+                    float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length;
+
+                    spriteBatch.Draw(GlowingTrail,
+                    projectile.oldPos[k] + drawOrigin - Main.screenPosition,
+                    new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
+                    color,
+                    projectile.rotation,
+                    new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
+                    scale, default, default);
+
+                    //spriteBatch.Draw(LightTrailTexture,
+                    //projectile.oldPos[k] + drawOrigin - Main.screenPosition,
+                    //LightTrailTexture.Frame(),
+                    //Color.White * 0.3f,
+                    //0f,
+                    //new Vector2(LightTrailTexture.Width / 2, LightTrailTexture.Height / 2),
+                    //scale, default, default);
+                }
+            }
+
             spriteBatch.Draw(Main.projectileTexture[projectile.type], 
                 projectile.Center - Main.screenPosition, 
                 new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2), 
@@ -214,7 +242,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color = glowColor * chargeMult;
+            Color color = Color.White * chargeMult;
 
             spriteBatch.Draw(GlowingTexture, 
                 projectile.Center - Main.screenPosition, 
@@ -224,7 +252,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 new Vector2(GlowingTexture.Width / 2, GlowingTexture.Height / 4),
                 1f, default, default);
             
-            spriteBatch.Draw(AuraTexture, projectile.Center - Main.screenPosition, AuraTexture.Frame(), (glowColor * (projectile.ai[1] / maxChargeTime)), 0, AuraTexture.Size() / 2, (-chargeMult + 1) / 1.2f, 0, 0);
+            spriteBatch.Draw(AuraTexture, projectile.Center - Main.screenPosition, AuraTexture.Frame(), (Color.White * (projectile.ai[1] / maxChargeTime)), 0, AuraTexture.Size() / 2, (-chargeMult + 1) / 1.2f, 0, 0);
         }
 
         #region phase change void
