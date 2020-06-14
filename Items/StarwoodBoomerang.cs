@@ -1,12 +1,15 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    public class StarwoodBoomerang : ModItem
+    public class StarwoodBoomerang : StarwoodItem
     {
+        public StarwoodBoomerang() : base(ModContent.GetTexture("StarlightRiver/Items/StarwoodBoomerang_Alt")) { }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Boomerang");
@@ -15,15 +18,18 @@ namespace StarlightRiver.Items
 
         public override void SetDefaults()
         {
-            item.damage = 20;//also set on the projectile's side because it keeps getting reset to zero
+            item.damage = 20;
+            item.magic = true;
             item.width = 18;
             item.height = 34;
             item.useTime = 10;
-            item.useAnimation = 10;
             item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
+            item.shootSpeed = 10f;
+            item.knockBack = 4f;
+            item.UseSound = SoundID.Item19;
             item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.StarwoodBoomerangProjectile>();
-            item.shootSpeed = 10f;//this is also set on the projectile's side, if this is changed change it there too
+            item.useAnimation = 10;
         }
     }
 }

@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items.Armor
+namespace StarlightRiver.Items.Armor.Vitric
 {
     [AutoloadEquip(EquipType.Head)]
     public class VitricHead : ModItem
@@ -44,6 +44,8 @@ namespace StarlightRiver.Items.Armor
                 if ((float)player.statLife / player.statLifeMax2 > k)
                 {
                     player.statDefense += 3;
+
+
                 }
                 if ((float)player.statLife / player.statLifeMax2 < k)
                 {
@@ -67,10 +69,7 @@ namespace StarlightRiver.Items.Armor
             recipe.AddRecipe();
         }
     }
-}
 
-namespace StarlightRiver.Items.Armor
-{
     [AutoloadEquip(EquipType.Body)]
     public class VitricChest : ModItem
     {
@@ -104,10 +103,7 @@ namespace StarlightRiver.Items.Armor
             recipe.AddRecipe();
         }
     }
-}
 
-namespace StarlightRiver.Items.Armor
-{
     [AutoloadEquip(EquipType.Legs)]
     public class VitricLegs : ModItem
     {

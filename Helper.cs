@@ -11,7 +11,6 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.UI;
 
 namespace StarlightRiver
 {
@@ -23,34 +22,49 @@ namespace StarlightRiver
         /// <param name="npc"></param>
 
         public static Vector2 TileAdj => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12;
-        public static bool OnScreen(Vector2 pos)
-        {
-            if (pos.X > 0 && pos.X < Main.screenWidth && pos.Y > 0 && pos.Y < Main.screenHeight) return true;
-            return false;
-        }
         public static void Kill(this NPC npc)
         {
-            bool modNPCDontDie = npc.modNPC?.CheckDead() == false;
+            bool modNPCDontDie = npc.modNPC != null && !npc.modNPC.CheckDead();
             if (modNPCDontDie)
+            {
                 return;
+            }
 
             npc.life = 0;
             npc.checkDead();
             npc.HitEffect();
             npc.active = false;
         }
+        /// <summary>
+        /// Checks if a target is valid
+        /// </summary>
+        /// <param name="npc"></param>
+        public static bool IsTargetValid(this NPC npc) => npc.active && !npc.friendly && !npc.dontTakeDamage && !npc.immortal; //mostly used for summoner like stuff
 
-        public static void PlaceMultitile(Point16 position, int type, int style = 0)
+        public static void PlaceMultitile(Point16 position, int type, int style = 0)    
         {
             TileObjectData data = TileObjectData.GetTileData(type, style); //magic numbers and uneccisary params begone!
 
-            if (position.X + data.Width > Main.maxTilesX || position.X < 0) return; //make sure we dont spawn outside of the world!
-            if (position.Y + data.Height > Main.maxTilesY || position.Y < 0) return;
+            if (position.X + data.Width > Main.maxTilesX || position.X < 0)
+            {
+                return; //make sure we dont spawn outside of the world!
+            }
+
+            if (position.Y + data.Height > Main.maxTilesY || position.Y < 0)
+            {
+                return;
+            }
 
             int xVariants = 0;
             int yVariants = 0;
-            if (data.StyleHorizontal) xVariants = Main.rand.Next(data.RandomStyleRange);
-            else yVariants = Main.rand.Next(data.RandomStyleRange);
+            if (data.StyleHorizontal)
+            {
+                xVariants = Main.rand.Next(data.RandomStyleRange);
+            }
+            else
+            {
+                yVariants = Main.rand.Next(data.RandomStyleRange);
+            }
 
             for (int x = 0; x < data.Width; x++) //generate each column
             {
@@ -65,22 +79,30 @@ namespace StarlightRiver
                 }
             }
         }
-
         public static bool CheckAirRectangle(Point16 position, Point16 size)
         {
-            if (position.X + size.X > Main.maxTilesX || position.X < 0) return false; //make sure we dont check outside of the world!
-            if (position.Y + size.Y > Main.maxTilesY || position.Y < 0) return false;
+            if (position.X + size.X > Main.maxTilesX || position.X < 0)
+            {
+                return false; //make sure we dont check outside of the world!
+            }
+
+            if (position.Y + size.Y > Main.maxTilesY || position.Y < 0)
+            {
+                return false;
+            }
 
             for (int x = position.X; x < position.X + size.X; x++)
             {
                 for (int y = position.Y; y < position.Y + size.Y; y++)
                 {
-                    if (Main.tile[x, y].active()) return false; //if any tiles there are active, return false!
+                    if (Main.tile[x, y].active())
+                    {
+                        return false; //if any tiles there are active, return false!
+                    }
                 }
             }
             return true;
         }
-
         public static bool AirScanUp(Vector2 start, int MaxScan)
         {
             if (start.Y - MaxScan < 0) { return false; }
@@ -93,25 +115,30 @@ namespace StarlightRiver
             }
             return clear;
         }
-
         public static void UnlockEntry<type>(Player player)
         {
             CodexHandler mp = player.GetModPlayer<CodexHandler>();
             CodexEntry entry = mp.Entries.FirstOrDefault(n => n is type);
 
-            if (entry.RequiresUpgradedBook && mp.CodexState != 2) return; //dont give the player void entries if they dont have the void book
+            if (entry.RequiresUpgradedBook && mp.CodexState != 2)
+            {
+                return; //dont give the player void entries if they dont have the void book
+            }
+
             entry.Locked = false;
             entry.New = true;
-            if (mp.CodexState != 0) StarlightRiver.Instance.codexpopup.TripEntry(entry.Title);
+            if (mp.CodexState != 0)
+            {
+                StarlightRiver.Instance.codexpopup.TripEntry(entry.Title);
+            }
+
             Main.PlaySound(SoundID.Item30);
         }
-
         public static void SpawnGem(int ID, Vector2 position)
         {
             int item = Item.NewItem(position, ModContent.ItemType<Items.StarlightGem>());
             (Main.item[item].modItem as Items.StarlightGem).gemID = ID;
         }
-
         public static void DrawSymbol(SpriteBatch spriteBatch, Vector2 position, Color color)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Symbol");
@@ -119,38 +146,67 @@ namespace StarlightRiver
 
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
-            float fade = StarlightWorld.rottime / 6.28f;
+            float fade = LegendWorld.rottime / 6.28f;
             spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 1.1f, 0, 0);
         }
-
         public static bool CheckCircularCollision(Vector2 center, int radius, Rectangle hitbox)
         {
-            if (Vector2.Distance(center, hitbox.TopLeft()) <= radius) return true;
-            if (Vector2.Distance(center, hitbox.TopRight()) <= radius) return true;
-            if (Vector2.Distance(center, hitbox.BottomLeft()) <= radius) return true;
-            return Vector2.Distance(center, hitbox.BottomRight()) <= radius;
-        }
+            if (Vector2.Distance(center, hitbox.TopLeft()) <= radius)
+            {
+                return true;
+            }
 
+            if (Vector2.Distance(center, hitbox.TopRight()) <= radius)
+            {
+                return true;
+            }
+
+            if (Vector2.Distance(center, hitbox.BottomLeft()) <= radius)
+            {
+                return true;
+            }
+
+            if (Vector2.Distance(center, hitbox.BottomRight()) <= radius)
+            {
+                return true;
+            }
+
+            return false;
+        }
         public static bool CheckConicalCollision(Vector2 center, int radius, float angle, float width, Rectangle hitbox)
         {
-            if (CheckPoint(center, radius, hitbox.TopLeft(), angle, width)) return true;
-            if (CheckPoint(center, radius, hitbox.TopRight(), angle, width)) return true;
-            if (CheckPoint(center, radius, hitbox.BottomLeft(), angle, width)) return true;
-            return CheckPoint(center, radius, hitbox.BottomRight(), angle, width);
-        }
+            if (CheckPoint(center, radius, hitbox.TopLeft(), angle, width))
+            {
+                return true;
+            }
 
+            if (CheckPoint(center, radius, hitbox.TopRight(), angle, width))
+            {
+                return true;
+            }
+
+            if (CheckPoint(center, radius, hitbox.BottomLeft(), angle, width))
+            {
+                return true;
+            }
+
+            if (CheckPoint(center, radius, hitbox.BottomRight(), angle, width))
+            {
+                return true;
+            }
+
+            return false;
+        }
         private static bool CheckPoint(Vector2 center, int radius, Vector2 check, float angle, float width)
         {
             float thisAngle = (center - check).ToRotation() % 6.28f;
             return Vector2.Distance(center, check) <= radius && thisAngle > angle - width && thisAngle < angle + width;
         }
-
         public static string TicksToTime(int ticks)
         {
             int sec = ticks / 60;
             return (sec / 60) + ":" + (sec % 60 < 10 ? "0" + sec % 60 : "" + sec % 60);
         }
-
         public static void DrawElectricity(Vector2 point1, Vector2 point2, int dusttype, float scale = 1)
         {
             int nodeCount = (int)Vector2.Distance(point1, point2) / 30;
@@ -174,12 +230,7 @@ namespace StarlightRiver
 
         private static int tiltTime;
         private static float tiltMax;
-
-        public static void DoTilt(float intensity)
-        {
-            tiltMax = intensity; tiltTime = 0;
-        }
-
+        public static void DoTilt(float intensity) { tiltMax = intensity; tiltTime = 0; }
         public static void UpdateTilt()
         {
             if (Math.Abs(tiltMax) > 0)
@@ -194,13 +245,18 @@ namespace StarlightRiver
                 if (tiltTime >= 40) { StarlightRiver.Rotation = 0; tiltMax = 0; }
             }
         }
-
         public static bool HasEquipped(Player player, int ItemID)
         {
-            for (int k = 3; k < 7 + player.extraAccessorySlots; k++) if (player.armor[k].type == ItemID) return true;
+            for (int k = 3; k < 7 + player.extraAccessorySlots; k++)
+            {
+                if (player.armor[k].type == ItemID)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
-
         public static void NpcVertical(NPC npc, bool jump, int slot = 1, int jumpheight = 2) //idea: could be seperated farther
         {
             npc.ai[slot] = 0;//reset jump counter
@@ -253,6 +309,7 @@ namespace StarlightRiver
                 }
                 else if (npc.ai[slot] > 1 && jump == true)
                 {
+
                     npc.velocity.Y = -(3 + npc.ai[slot]);
                     if (!npc.HasValidTarget && npc.velocity.X == 0)
                     {
@@ -261,17 +318,22 @@ namespace StarlightRiver
                 }
             }
         }
-
         public static bool ScanForTypeDown(int startX, int startY, int type, int maxDown = 50)
         {
             for (int k = 0; k >= 0; k++)
             {
-                if (Main.tile[startX, startY + k].type == type) return true;
-                if (k > maxDown || startY + k >= Main.maxTilesY) break;
+                if (Main.tile[startX, startY + k].type == type)
+                {
+                    return true;
+                }
+
+                if (k > maxDown || startY + k >= Main.maxTilesY)
+                {
+                    break;
+                }
             }
             return false;
         }
-
         public static int SamplePerlin2D(int x, int y, int min, int max)
         {
             Texture2D perlin = TextureManager.Load("Images/Misc/Perlin");
@@ -281,12 +343,10 @@ namespace StarlightRiver
             perlin.GetData<Color>(0, row, rawData, 0, perlin.Width); //put the color data from the image into the array
             return (int)(min + rawData[x % 512].R / 255f * max);
         }
-
         public static float CompareAngle(float baseAngle, float targetAngle)
         {
             return (baseAngle - targetAngle + (float)Math.PI * 3) % MathHelper.TwoPi - (float)Math.PI;
         }
-
         public static string WrapString(string input, int length, DynamicSpriteFont font, float scale)
         {
             string output = "";
@@ -308,7 +368,6 @@ namespace StarlightRiver
             }
             return output;
         }
-
         public static List<T> RandomizeList<T>(List<T> input)
         {
             int n = input.Count();
@@ -321,75 +380,6 @@ namespace StarlightRiver
                 input[n] = value;
             }
             return input;
-        }
-        public static Item NewItemPerfect(Vector2 position, Vector2 velocity, int type, int stack = 1, bool noBroadcast = false, int prefixGiven = 0, bool noGrabDelay = false, bool reverseLookup = false)
-        {
-            int targetIndex = 400;
-            Main.item[400] = new Item(); //Vanilla seems to make sure to set the dummy here, so I will too.
-
-            if (Main.netMode != NetmodeID.MultiplayerClient) //Main.Item index finder from vanilla
-            {
-                if (reverseLookup)
-                {
-                    for (int i = 399; i >= 0; i--)
-                    {
-                        if (!Main.item[i].active && Main.itemLockoutTime[i] == 0)
-                        {
-                            targetIndex = i;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    for (int j = 0; j < 400; j++)
-                    {
-                        if (!Main.item[j].active && Main.itemLockoutTime[j] == 0)
-                        {
-                            targetIndex = j;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (targetIndex == 400 && Main.netMode != NetmodeID.MultiplayerClient) //some sort of vanilla failsafe if no safe index is found it seems?
-            {
-                int num2 = 0; 
-                for (int k = 0; k < 400; k++)
-                {
-                    if (Main.item[k].spawnTime - Main.itemLockoutTime[k] > num2)
-                    {
-                        num2 = Main.item[k].spawnTime - Main.itemLockoutTime[k];
-                        targetIndex = k;
-                    }
-                }
-            }
-            Main.itemLockoutTime[targetIndex] = 0; //normal stuff
-            Item item = Main.item[targetIndex];
-            item.SetDefaults(type, false);
-            item.Prefix(prefixGiven);
-            item.position = position;
-            item.velocity = velocity;
-            item.active = true;
-            item.spawnTime = 0;
-            item.stack = stack;
-            
-            item.wet = Collision.WetCollision(item.position, item.width, item.height); //not sure what this is, from vanilla
-
-            if (ItemSlot.Options.HighlightNewItems && item.type >= ItemID.None && !ItemID.Sets.NeverShiny[item.type]) //vanilla item highlight system
-            {
-                item.newAndShiny = true;
-            }
-            if (Main.netMode == NetmodeID.Server && !noBroadcast) //syncing
-            {
-                NetMessage.SendData(MessageID.SyncItem, -1, -1, null, targetIndex, noGrabDelay ? 1 : 0, 0f, 0f, 0, 0, 0);
-                item.FindOwner(item.whoAmI);
-            }
-            else if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                item.owner = Main.myPlayer;
-            }
-            return item;
         }
     }
 }
