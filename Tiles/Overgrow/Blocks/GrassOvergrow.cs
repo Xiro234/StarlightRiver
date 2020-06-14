@@ -13,7 +13,7 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
 {   
     internal class GrassOvergrow : QuickBlock
     {
-        public GrassOvergrow() : base(210, ModContent.DustType<Dusts.Leaf>(), SoundID.Tink, new Color(202, 157, 49), ModContent.ItemType<Items.Overgrow.BrickOvergrowItem>()) { }
+        public GrassOvergrow() : base(210, ModContent.DustType<Dusts.Leaf>(), SoundID.Tink, new Color(202, 157, 49), ModContent.ItemType<BrickOvergrowItem>()) { }
         public override void SafeSetDefaults()
         {
             Main.tileMerge[Type][ModContent.TileType<BrickOvergrow>()] = true;
