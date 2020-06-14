@@ -120,7 +120,7 @@ namespace StarlightRiver
                     tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
                     if (y - target.Y <= HallThickness || y - target.Y >= HallWidth - HallThickness)
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>();
+                        tile.type = (ushort)ModContent.TileType<StarlightRiver.Tiles.Overgrow.Blocks.BrickOvergrow>();
                         tile.active(true);
                     }
                     if (y - target.Y == HallWidth / 2 && (x == target.X + 1 || x == target.X + target.Width - 1))
@@ -143,7 +143,7 @@ namespace StarlightRiver
                     tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
                     if (x - target.X <= HallThickness || x - target.X >= HallWidth - HallThickness)
                     {
-                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>();
+                        tile.type = (ushort)ModContent.TileType<StarlightRiver.Tiles.Overgrow.Blocks.BrickOvergrow>();
                         tile.active(true);
                     }
                     if (x - target.X == HallWidth / 2 && (y == target.Y + 1 || y == target.Y + target.Height - 1))
@@ -165,7 +165,7 @@ namespace StarlightRiver
                     Tile tile = Framing.GetTileSafely(x, y);
                     tile.ClearEverything();
                     tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
-                    tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.BrickOvergrow>();
+                    tile.type = (ushort)ModContent.TileType<StarlightRiver.Tiles.Overgrow.Blocks.BrickOvergrow>();
                     tile.active(true);
                 }
             }
@@ -191,10 +191,10 @@ namespace StarlightRiver
                     }
                     Tile tile = Framing.GetTileSafely(x, y);
                     //keeps us from running into ourselves or the dungeon. Essentially playing snake.
-                    if (tile.type == TileID.BlueDungeonBrick || tile.type == TileID.GreenDungeonBrick || tile.type == TileID.PinkDungeonBrick || tile.type == ModContent.TileType<Tiles.Overgrow.BrickOvergrow>())
+                    if (tile.type == TileID.BlueDungeonBrick || tile.type == TileID.GreenDungeonBrick || tile.type == TileID.PinkDungeonBrick || tile.type == ModContent.TileType<StarlightRiver.Tiles.Overgrow.Blocks.BrickOvergrow>())
                     {
                         Debug.WriteLine("Failed to find a safe place within the rectangle: " + rect +
-                            " due to: " + (tile.type == ModContent.TileType<Tiles.Overgrow.BrickOvergrow>() ? "other overgrow tiles" : "vanilla dungeon tiles"));
+                            " due to: " + (tile.type == ModContent.TileType<StarlightRiver.Tiles.Overgrow.Blocks.BrickOvergrow>() ? "other overgrow tiles" : "vanilla dungeon tiles"));
                         return false;
                     }
                 }
