@@ -18,7 +18,6 @@ namespace StarlightRiver.Items.Armor
         {
             Texture2D tex = ModContent.GetTexture(texture);
             Main.playerDrawData.Add(new DrawData(tex, info.position - Main.screenPosition + offset, null, color * ((255 - info.drawPlayer.immuneAlpha) / 255f), info.drawPlayer.headRotation, tex.Size() / 2, scale, info.spriteEffects, 0));
-            Main.NewText(info.drawPlayer.headFrame);
         }
     }
 }
