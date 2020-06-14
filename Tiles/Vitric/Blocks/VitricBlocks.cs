@@ -27,7 +27,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
         }
     }
 
-    internal class VitricTile : ModTile
+    internal abstract class VitricTile : ModTile
     {
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
@@ -67,7 +67,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
         }
     }
 
-    internal class VitricSoftSand : VitricTile
+    internal class VitricSoftSand : ModTile
     {
         public override void SetDefaults()
         {

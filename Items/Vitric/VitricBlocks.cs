@@ -1,28 +1,29 @@
+using StarlightRiver.Tiles.Vitric.Blocks;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Vitric
 {
     public class VitricSandItem : QuickTileItem {
-        public VitricSandItem() : base("Glassy Sand", "", ModContent.TileType<Tiles.Vitric.VitricSand>(), 0)
+        public VitricSandItem() : base("Glassy Sand", "", ModContent.TileType<VitricSand>(), 0)
         {
         }
     }
 
     public class VitricGlassItem : QuickTileItem {
-        public VitricGlassItem() : base("Fuseglass", "", ModContent.TileType<Tiles.Vitric.VitricGlass>(), 0)
+        public VitricGlassItem() : base("Fuseglass", "", ModContent.TileType<VitricGlass>(), 0)
         {
         }
     }
 
     public class VitricGlassCrystalItem : QuickTileItem {
-        public VitricGlassCrystalItem() : base("Crystaline Glass", "", ModContent.TileType<Tiles.Vitric.VitricGlassCrystal>(), 0)
+        public VitricGlassCrystalItem() : base("Crystaline Glass", "", ModContent.TileType<VitricGlassCrystal>(), 0)
         {
         }
     }
 
     public class VitricBrickItem : QuickTileItem {
-        public VitricBrickItem() : base("Vitric Brick", "", ModContent.TileType<Tiles.Vitric.VitricBrick>(), 0)
+        public VitricBrickItem() : base("Vitric Brick", "", ModContent.TileType<VitricBrick>(), 0)
         {
         }
     }

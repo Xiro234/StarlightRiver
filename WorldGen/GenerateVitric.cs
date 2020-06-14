@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Tiles.Vitric.Blocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace StarlightRiver
 {
     public partial class StarlightWorld : ModWorld
     {
-        public static void VitricGen_Old(GenerationProgress progress)
+        /*public static void VitricGen_Old(GenerationProgress progress)
         {
             int vitricHeight = 140;
             Rectangle biomeTarget = new Rectangle(WorldGen.UndergroundDesertLocation.X - 80, WorldGen.UndergroundDesertLocation.Y + WorldGen.UndergroundDesertLocation.Height, WorldGen.UndergroundDesertLocation.Width + 160, vitricHeight);
@@ -39,7 +40,7 @@ namespace StarlightRiver
                 for (int y = biomeTarget.Y + biomeTarget.Height - off; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
                     int yRel = y - (biomeTarget.Y + biomeTarget.Height - off);
-                    WorldGen.PlaceTile(x, y, yRel <= WorldGen.genRand.Next(1, 4) ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
+                    WorldGen.PlaceTile(x, y, yRel <= WorldGen.genRand.Next(1, 4) ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<VitricSand>(), false, true);
                 }
             }
 
@@ -48,7 +49,7 @@ namespace StarlightRiver
                 int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 40);
                 for (int y = biomeTarget.Y + biomeTarget.Height - 76; y < biomeTarget.Y + biomeTarget.Height; y++)
                 {
-                    WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
+                    WorldGen.PlaceTile(x, y, ModContent.TileType<VitricSand>(), false, true);
                 }
 
                 if (xRel == 38)
@@ -234,13 +235,13 @@ namespace StarlightRiver
                 return true;
             }
             #endregion
-        }
+        }*/
 
         private const int VitricSlopeOffset = 48;
 
         public static void VitricGen(GenerationProgress progress)
         {
-            int[] validGround = new int[] { ModContent.TileType<Tiles.Vitric.VitricSand>(), ModContent.TileType<Tiles.Vitric.VitricSoftSand>() };
+            int[] validGround = new int[] { ModContent.TileType<VitricSand>(), ModContent.TileType<VitricSoftSand>() };
             int vitricHeight = 140;
             Rectangle biomeTarget = new Rectangle(WorldGen.UndergroundDesertLocation.X - 80, WorldGen.UndergroundDesertLocation.Y + WorldGen.UndergroundDesertLocation.Height, WorldGen.UndergroundDesertLocation.Width + 160, vitricHeight);
             VitricBiome = biomeTarget; //Sets up biome information - adjusted from prior code
@@ -322,13 +323,13 @@ namespace StarlightRiver
                 if (layers[2] < biomeTarget.Y + biomeTarget.Height / 2) layers[2] = biomeTarget.Y + biomeTarget.Height / 2;
 
                 for (int y = layers[0]; y < layers[1]; ++y)
-                    WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
+                    WorldGen.PlaceTile(x, y, ModContent.TileType<VitricSand>(), false, true);
 
                 int spikeOff = WorldGen.genRand.Next(2);
                 for (int y = layers[2] - (9 - spikeOff); y < layers[3]; ++y)
                 {
                     bool validSpike = y < layers[2] && y >= (biomeTarget.Y + (biomeTarget.Height / 2f));
-                    WorldGen.PlaceTile(x, y, validSpike ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
+                    WorldGen.PlaceTile(x, y, validSpike ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<VitricSand>(), false, true);
                 }
             }
 
@@ -336,7 +337,7 @@ namespace StarlightRiver
             {
                 int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 40);
                 for (int y = biomeTarget.Y + biomeTarget.Height - 76; y < biomeTarget.Y + biomeTarget.Height; y++)
-                    WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.VitricSand>(), false, true);
+                    WorldGen.PlaceTile(x, y, ModContent.TileType<VitricSand>(), false, true);
 
                 if (xRel == 38)
                     Helper.PlaceMultitile(new Point16(x, biomeTarget.Y + 57), ModContent.TileType<Tiles.Vitric.VitricBossAltar>());
@@ -506,7 +507,7 @@ namespace StarlightRiver
                 if (top < 3) top = 3;
                 for (int j = rY - top + offset; j < rY + depth + offset; j++)
                 {
-                    WorldGen.PlaceTile(i, j, j > (rY + depth + offset) - 4 ? ModContent.TileType<Tiles.Vitric.VitricSand>() : ModContent.TileType<Tiles.Vitric.VitricSoftSand>(), false, true);
+                    WorldGen.PlaceTile(i, j, j > (rY + depth + offset) - 4 ? ModContent.TileType<VitricSand>() : ModContent.TileType<VitricSoftSand>(), false, true);
                 }
             }
         }

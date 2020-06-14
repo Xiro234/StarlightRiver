@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Tiles.Vitric;
+using StarlightRiver.Tiles.Vitric.Blocks;
 using System;
 using System.Linq;
 using Terraria;

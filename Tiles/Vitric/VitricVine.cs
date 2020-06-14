@@ -7,6 +7,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using StarlightRiver.Tiles.Vitric.Blocks;
 
 namespace StarlightRiver.Tiles.Vitric
 {
