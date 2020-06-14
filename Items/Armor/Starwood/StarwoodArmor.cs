@@ -6,11 +6,12 @@ using Terraria.ModLoader;
 using System;
 using StarlightRiver.Items.Armor.Starwood;
 using StarlightRiver.Core;
+using Terraria.DataStructures;
 
 namespace StarlightRiver.Items.Armor.Starwood
 {
     [AutoloadEquip(EquipType.Head)]
-    public class StarwoodHat : StarwoodItem
+    public class StarwoodHat : StarwoodItem, IArmorLayerDrawable
     {
         public StarwoodHat() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodHat_Alt")) { }
         public override void SetStaticDefaults()
@@ -31,18 +32,32 @@ namespace StarlightRiver.Items.Armor.Starwood
             player.magicDamage += 0.05f;
             isEmpowered = player.GetModPlayer<StarlightPlayer>().Empowered;
         }
+
+        public void DrawArmorLayer(PlayerDrawInfo info)
+        {
+            Color color = Lighting.GetColor((int)info.position.X / 16, (int)info.position.Y / 16);
+            ArmorHelper.QuickDrawHelmet(info, "StarlightRiver/Items/Armor/Starwood/StarwoodHat", color, 1, new Vector2(9, -1));
+            if (info.drawPlayer.GetModPlayer<StarlightPlayer>().Empowered)
+            {
+                ArmorHelper.QuickDrawHelmet(info, "StarlightRiver/Items/Armor/Starwood/StarwoodHat_Alt", color, 1, new Vector2(9, -1));
+            }
+        }
     }
 
     [AutoloadEquip(EquipType.Body)]
     public class StarwoodChest : StarwoodItem
     {
         public StarwoodChest() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodChest_Alt")) { }
+        public override bool Autoload(ref string name)
+        {
+            StarlightPlayer.ModifyHitNPCEvent += ModifyHitNPCStarwood;
+            return true;
+        }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Robes");
             Tooltip.SetDefault("Increases max mana by 20");
         }
-
         public override void SetDefaults()
         {
             item.width = 38;
@@ -61,10 +76,25 @@ namespace StarlightRiver.Items.Armor.Starwood
         }
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Wip";
-            //StarlightPlayer starlightPlayer = player.GetModPlayer<StarlightPlayer>();
+            player.setBonus = "Picking up mana stars empowers starwood items";
             StarlightPlayer mp = player.GetModPlayer<StarlightPlayer>();
-            mp.starwoodArmorComplete = true;
+
+            if (mp.EmpowermentTimer > 0 && ArmorHelper.IsSetEquipped(this, player)) //checks if complete to disable empowerment if set is removed
+            {
+                for (int k = 0; k < 1; k++)//temp sfx
+                {
+                    Dust.NewDustPerfect(player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), ModContent.DustType<Dusts.BlueStamina>(), -Vector2.UnitY.RotatedByRandom(0.8f) * Main.rand.NextFloat(1.0f, 1.4f), 0, default, 1.2f);
+                }
+                mp.EmpowermentTimer--;
+            }
+            else { mp.EmpowermentTimer = 0; mp.Empowered = false; }
+        }
+        private void ModifyHitNPCStarwood(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (ArmorHelper.IsSetEquipped(this, player))
+            {
+                target.GetGlobalNPC<ManastarDrops>().DropStar = true;
+            }
         }
     }
 
@@ -105,7 +135,6 @@ namespace StarlightRiver.Items.Armor.Starwood
             return base.OnPickup(item, player);
         }
     }
-
     internal class ManastarDrops : GlobalNPC
     {
         public bool DropStar = false;
@@ -125,11 +154,11 @@ namespace StarlightRiver.Core
     {
         public bool starwoodArmorComplete = false;
         public bool Empowered = false;
-        private int EmpowermentTimer = 0;
+        public int EmpowermentTimer = 0;
 
         public void StartStarwoodEmpowerment()
         {
-            if (starwoodArmorComplete)//checks if complete, not completely needed but is there so empowered isnt true for a brief moment
+            if (player.armor[1].modItem is StarwoodChest && Items.Armor.ArmorHelper.IsSetEquipped(player.armor[1].modItem, player))//checks if complete, not completely needed but is there so empowered isnt true for a brief moment
             {
                 if (!Empowered)
                 {
@@ -146,37 +175,7 @@ namespace StarlightRiver.Core
                     }
                 }
                 Empowered = true;
-                EmpowermentTimer = 0;//resets timer
-            }
-        }
-
-        private void EmpowermentUpdate()
-        {
-            if (Empowered)//most stuff should just check if Empowerment is true, checking if the setis completed can be done but shouldn't be needed
-            {
-                //240 = 4 seconds
-                if (EmpowermentTimer <= 240 && starwoodArmorComplete) //checks if complete to disable empowerment if set is removed
-                { 
-                    for (int k = 0; k < 1; k++)//temp sfx
-                    {
-                        Dust.NewDustPerfect(player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), ModContent.DustType<Dusts.BlueStamina>(), new Vector2(0, -1).RotatedByRandom(0.8f) * Main.rand.NextFloat(1.0f, 1.4f), 0, default, 1.2f);
-                    }
-                    EmpowermentTimer++;
-                }
-                else { EmpowermentTimer = 0; Empowered = false; }
-            }
-        }
-
-        private void ResetStarwoodEffects()
-        {
-            starwoodArmorComplete = false;
-        }
-
-        private void OnHitStarwood(NPC target)
-        {
-            if (starwoodArmorComplete)
-            {
-                target.GetGlobalNPC<ManastarDrops>().DropStar = true;
+                EmpowermentTimer = 600;//resets timer
             }
         }
     }

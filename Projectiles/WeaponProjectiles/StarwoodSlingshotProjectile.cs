@@ -8,12 +8,12 @@ using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class StarwoodSlingshotProjectile : ModProjectile
+    class StarwoodSlingshotProjectile : ModProjectile, IDrawAdditive
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shooting Star");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;    //The length of old position to be recorded
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;   
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
@@ -81,31 +81,26 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, Main.projectileTexture[projectile.type].Height * 0.25f);
+            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
+
+            Texture2D tex = ModContent.GetTexture(Texture);
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, mp.Empowered ? 22 : 0, 22, 24), Color.White, projectile.rotation, new Vector2(11, 12), projectile.scale, default, default);
+            return false;
+        }
+
+        public void DrawAdditive(SpriteBatch spriteBatch)
+        {
+            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
 
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
-                Color color = new Color(255, 255, 255, 64) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length;
+                Color color = (mp.Empowered ? new Color(200, 220, 255) * 0.35f : new Color(255, 255, 200) * 0.3f) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                if (k <= 4) color *= 1.2f;
+                float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.8f;
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
 
-                spriteBatch.Draw(Main.projectileTexture[projectile.type],
-                projectile.oldPos[k] + drawOrigin - Main.screenPosition,
-                new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
-                color,
-                projectile.oldRot[k],
-                drawOrigin,
-                scale, default, default);
+                spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
             }
-
-            spriteBatch.Draw(Main.projectileTexture[projectile.type], 
-            projectile.Center - Main.screenPosition, 
-            new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
-            new Color(255, 255, 255, 32), 
-            projectile.rotation, 
-            new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4), 
-            1f, default, default);
-
-            return false;
         }
     }
 }

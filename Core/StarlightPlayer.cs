@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
 using StarlightRiver.GUI;
+using StarlightRiver.Items.Armor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,11 +116,7 @@ namespace StarlightRiver.Core
             LastHit = Timer;
         }
 
-        public override void PostUpdateEquips()
-        {
-            JustHit = false;
-        }
-
+        public override void PostUpdateEquips() => JustHit = false;
         public override void ModifyScreenPosition()
         {
             if (ScreenMoveTime > 0 && ScreenMoveTarget != Vector2.Zero)
@@ -148,19 +145,45 @@ namespace StarlightRiver.Core
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
         }
-
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;
 
-            Action<PlayerDrawInfo> layerTarget = DrawGlowmasks; //the Action<T> of our layer. This is the delegate which will actually do the drawing of the layer.
-            PlayerLayer layer = new PlayerLayer("ExampleSwordLayer", "Sword Glowmask", layerTarget); //Instantiate a new instance of PlayerLayer to insert into the list
-            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Arms")), layer); //Insert the layer at the appropriate index.
+            Action<PlayerDrawInfo> layerTarget = DrawGlowmasks;
+            PlayerLayer layer = new PlayerLayer("ItemLayer", "Starlight River Item Drawing Layer", layerTarget); 
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Arms")), layer);
 
             void DrawGlowmasks(PlayerDrawInfo info)
             {
                 if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem) (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
             }
+            #region armor masks
+            Action<PlayerDrawInfo> helmetTarget = DrawHelmetMask;
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Head")) + 1, new PlayerLayer("SLRHelmet", "Helmet mask layer", helmetTarget));
+
+            Action<PlayerDrawInfo> chestTarget = DrawChestMask;
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Body")) + 1, new PlayerLayer("SLRChest", "Chest mask layer", chestTarget));
+
+            Action<PlayerDrawInfo> legTarget = DrawLegMask;
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Legs")) + 1, new PlayerLayer("SLRLeg", "Leg mask layer", legTarget));
+
+
+            void DrawHelmetMask(PlayerDrawInfo info)
+            {
+                if (info.drawPlayer.armor[10].IsAir && info.drawPlayer.armor[0].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[0].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+                else if (info.drawPlayer.armor[10].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[10].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+            }
+            void DrawChestMask(PlayerDrawInfo info)
+            {
+                if (info.drawPlayer.armor[11].IsAir && info.drawPlayer.armor[1].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[1].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+                else if (info.drawPlayer.armor[11].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[11].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+            }
+            void DrawLegMask(PlayerDrawInfo info)
+            {
+                if (info.drawPlayer.armor[12].IsAir && info.drawPlayer.armor[2].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[2].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+                else if (info.drawPlayer.armor[12].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[12].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+            }
+            #endregion
         }
 
         public override void OnEnterWorld(Player player)
