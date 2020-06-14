@@ -17,9 +17,9 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
         public override void SafeSetDefaults()
         {
             Main.tileMerge[Type][ModContent.TileType<BrickOvergrow>()] = true;
-            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
+            Main.tileMerge[Type][ModContent.TileType<LeafOvergrow>()] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
-            Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
+            Main.tileMerge[Type][ModContent.TileType<GlowBrickOvergrow>()] = true;
 
             TileID.Sets.Grass[Type] = true;
         }

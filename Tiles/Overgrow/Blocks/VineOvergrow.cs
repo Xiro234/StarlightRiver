@@ -13,6 +13,11 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
 {
     internal class VineOvergrow : ModTile
     {
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/Invisible";
+            return true;
+        }
         public override void SetDefaults()
         {
             Main.tileCut[Type] = true;

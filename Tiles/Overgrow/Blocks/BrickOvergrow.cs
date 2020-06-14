@@ -17,10 +17,10 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
         public BrickOvergrow() : base(210, DustID.Stone, SoundID.Tink, new Color(79, 76, 71), ModContent.ItemType<BrickOvergrowItem>(), true, true) { }
         public override void SafeSetDefaults()
         {
-            Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
+            Main.tileMerge[Type][ModContent.TileType<GrassOvergrow>()] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
-            Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
-            Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
+            Main.tileMerge[Type][ModContent.TileType<GlowBrickOvergrow>()] = true;
+            Main.tileMerge[Type][ModContent.TileType<LeafOvergrow>()] = true;
 
             Main.tileMerge[Type][TileID.BlueDungeonBrick] = true;
             Main.tileMerge[Type][TileID.GreenDungeonBrick] = true;

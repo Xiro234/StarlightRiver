@@ -10,11 +10,11 @@ namespace StarlightRiver.Items.Overgrow
     public class SetpieceOvergrowItem : QuickTileItem
     {
         public SetpieceOvergrowItem() : base("Overgrow Altar", "", ModContent.TileType<Tiles.Overgrow.SetpieceAltar>(), 0) { }
-        public override string Texture => "StarlightRiver/Items/Overgrow/BrickOvergrowItem";
+        public override string Texture => "StarlightRiver/MarioCumming";
     }
     public class BigHatchOvergrowItem : QuickTileItem
     {
         public BigHatchOvergrowItem() : base("Overgrow Godrays", "", ModContent.TileType<Tiles.Overgrow.BigHatchOvergrow>(), 0) { }
-        public override string Texture => "StarlightRiver/Items/Overgrow/BrickOvergrowItem";
+        public override string Texture => "StarlightRiver/MarioCumming";
     }
 }
