@@ -46,7 +46,7 @@ namespace StarlightRiver.Items.CursedAccessories
         {
             if (Main.LocalPlayer.armor.Any(n => n == item))
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/InfectedGoop");
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/InfectedGoop");
                 spriteBatch.Draw(tex, position + new Vector2(-10, -35), tex.Frame(), Color.White);
             }
 

@@ -20,10 +20,10 @@ namespace StarlightRiver.GUI
         private readonly CookingSlot SideSlot0 = new CookingSlot(IngredientType.Side);
         private readonly CookingSlot SideSlot1 = new CookingSlot(IngredientType.Side);
         private readonly CookingSlot SeasonSlot = new CookingSlot(IngredientType.Seasoning);
-        private readonly UIImageButton CookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/CookPrep"));
-        private readonly UIImageButton ExitButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/CookExit"));
-        private readonly UIImage StatBack = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookStatWindow"));
-        private readonly UIImage TopBar = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/CookTop"));
+        private readonly UIImageButton CookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/Assets/CookPrep"));
+        private readonly UIImageButton ExitButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/Assets/CookExit"));
+        private readonly UIImage StatBack = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/CookStatWindow"));
+        private readonly UIImage TopBar = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/CookTop"));
         private Vector2 Basepos = new Vector2(Main.screenWidth / 2 - 173, Main.screenHeight / 2 - 122);
 
         public override void OnInitialize()
@@ -147,12 +147,12 @@ namespace StarlightRiver.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotY");
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotY");
             switch (Type)
             {
-                case IngredientType.Main: tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotY"); break;
-                case IngredientType.Side: tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotG"); break;
-                case IngredientType.Seasoning: tex = ModContent.GetTexture("StarlightRiver/GUI/CookSlotB"); break;
+                case IngredientType.Main: tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotY"); break;
+                case IngredientType.Side: tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotG"); break;
+                case IngredientType.Seasoning: tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotB"); break;
             }
 
             spriteBatch.Draw(tex, GetDimensions().Position(), tex.Frame(), Color.White, 0, Vector2.Zero, 1, 0, 0);

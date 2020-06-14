@@ -24,7 +24,6 @@ namespace StarlightRiver.Items.Accessories
                 }
                 player.AddBuff(ModContent.BuffType<GhastlyCloakBuff>(), 2, false);
             }
-            base.UpdateEquip(player);
         }
     }
 }

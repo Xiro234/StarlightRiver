@@ -1,57 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles
 {
-    internal class OreEbony : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = true;
-            Main.tileStone[Type] = true;
-            drop = mod.ItemType("OreEbonyItem");
+    internal class OreEbony : QuickBlock
+    {public OreEbony() : base(0, DustID.Stone, SoundID.Tink, new Color(80, 80, 90), ModContent.ItemType<Items.EbonyIvory.OreEbonyItem>(), true, true, "Ebony Ore"){ }}
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ebony");
-            AddMapEntry(new Color(80, 80, 90), name);
-        }
-    }
-
-    internal class OreIvory : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = true;
-            Main.tileStone[Type] = true;
-            drop = mod.ItemType("OreIvoryItem");
-
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ivory");
-            AddMapEntry(new Color(245, 245, 230), name);
-        }
-    }
-
-    internal class OreCelumite : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = true;
-            Main.tileStone[Type] = true;
-            drop = mod.ItemType("OreCelumiteItem");
-
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Celumite");
-            AddMapEntry(new Color(108, 134, 120), name);
-        }
-    }
+    internal class OreIvory : QuickBlock
+    {public OreIvory() : base(100, DustID.Stone, SoundID.Tink, new Color(255, 255, 220), ModContent.ItemType<Items.EbonyIvory.OreIvoryItem>(), true, true, "Ivory Ore") { }}
 }

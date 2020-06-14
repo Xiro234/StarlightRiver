@@ -69,7 +69,7 @@ namespace StarlightRiver
             //Particle System Batching for Inventory
             On.Terraria.Main.DrawInterface_27_Inventory += DrawInventoryParticles;
 
-            ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/HolyBig", UpdateOvergrowWells); //TODO: Move this later
+            ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
 
@@ -260,7 +260,7 @@ namespace StarlightRiver
                             Main.time = 0;
                             if (Main.rand.Next(3) >= 1 && canDraw)
                             {
-                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -Main.rand.NextFloat(1.4f))));
+                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Light"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -Main.rand.NextFloat(1.4f))));
                             }
                             if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 160, 190) * 0.75f);
                             break;
@@ -274,7 +274,7 @@ namespace StarlightRiver
                         case TitleScreenStyle.Overgrow:
                             if (Main.rand.Next(3) >= 1 && canDraw)
                             {
-                                MenuDust.Add(new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Holy"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight - Main.rand.Next(Main.screenHeight / 3)), Vector2.Zero));
+                                MenuDust.Add(new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Holy"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight - Main.rand.Next(Main.screenHeight / 3)), Vector2.Zero));
                             }
                             if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(180, 170, 100) * 0.75f);
                             break;
@@ -283,7 +283,7 @@ namespace StarlightRiver
                             Main.time = 51000;
                             if (Main.rand.Next(2) == 0 && canDraw)
                             {
-                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Corrupt"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight), new Vector2(0, -1.4f)));
+                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Corrupt"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight), new Vector2(0, -1.4f)));
                             }
                             if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(160, 110, 220) * 0.75f);
                             break;
@@ -292,7 +292,7 @@ namespace StarlightRiver
                             Main.time = 51000;
                             if (Main.rand.Next(2) == 0 && canDraw)
                             {
-                                MenuDust.Add(new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Blood"), new Vector2(Main.rand.Next(Main.screenWidth), -40), new Vector2(0, -1.4f), Main.rand.NextFloat(1, 2), Main.rand.NextFloat(0.2f)));
+                                MenuDust.Add(new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Blood"), new Vector2(Main.rand.Next(Main.screenWidth), -40), new Vector2(0, -1.4f), Main.rand.NextFloat(1, 2), Main.rand.NextFloat(0.2f)));
                             }
                             if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, -220, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(200, 70, 70) * 0.75f, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
                             break;
@@ -336,7 +336,7 @@ namespace StarlightRiver
 
             if (riftopen)
             {
-                return ModContent.GetTexture("StarlightRiver/GUI/Fire");
+                return ModContent.GetTexture("StarlightRiver/GUI/Assets/Fire");
             }*/
 
             return orig(self);
@@ -345,7 +345,7 @@ namespace StarlightRiver
         {
             orig(self, flat);
             if (Main.gameMenu) return;
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Fire");
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/Fire");
 
             float distance = Vector2.Distance(Main.LocalPlayer.Center, StarlightWorld.RiftLocation);
             float val = ((1500 / distance - 1) / 3);
@@ -403,32 +403,32 @@ namespace StarlightRiver
 
             Rectangle box = new Rectangle((int)(origin + new Vector2(86, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 80, 25);
             Rectangle box2 = new Rectangle((int)(origin + new Vector2(172, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 104, 25);
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/box"), box, Color.White); //Stamina box
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/box"), box2, Color.White); //Codex box
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Assets/box"), box, Color.White); //Stamina box
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Assets/box"), box2, Color.White); //Codex box
 
             mp.SetList();//update ability list
 
             if (mp.Abilities.Any(a => !a.Locked))//Draw stamina if any unlocked
             {
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Stamina"), origin + new Vector2(91, 68), Color.White);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Assets/Stamina"), origin + new Vector2(91, 68), Color.White);
                 Utils.DrawBorderString(spriteBatch, playerStamina + " SP", origin + new Vector2(118, 68), Color.White);
             }
             else//Myserious if locked
             {
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Stamina3"), origin + new Vector2(91, 68), Color.White);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Assets/Stamina3"), origin + new Vector2(91, 68), Color.White);
                 Utils.DrawBorderString(spriteBatch, "???", origin + new Vector2(118, 68), Color.White);
             }
 
             if (mp2.CodexState != 0)//Draw codex percentage if unlocked
             {
-                Texture2D bookTex = mp2.CodexState == 2 ? ModContent.GetTexture("StarlightRiver/GUI/Book2Closed") : ModContent.GetTexture("StarlightRiver/GUI/Book1Closed");
+                Texture2D bookTex = mp2.CodexState == 2 ? ModContent.GetTexture("StarlightRiver/GUI/Assets/Book2Closed") : ModContent.GetTexture("StarlightRiver/GUI/Assets/Book1Closed");
                 int percent = (int)(mp2.Entries.Count(n => !n.Locked) / (float)mp2.Entries.Count * 100f);
                 spriteBatch.Draw(bookTex, origin + new Vector2(178, 60), Color.White);
                 Utils.DrawBorderString(spriteBatch, percent + "%", origin + new Vector2(212, 68), percent >= 100 ? new Color(255, 205 + (int)(Math.Sin(Main.time / 50000 * 100) * 40), 50) : Color.White);
             }
             else//Mysterious if locked
             {
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/BookLocked"), origin + new Vector2(178, 60), Color.White * 0.4f);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Assets/BookLocked"), origin + new Vector2(178, 60), Color.White * 0.4f);
                 Utils.DrawBorderString(spriteBatch, "???", origin + new Vector2(212, 68), Color.White);
             }
 
@@ -474,21 +474,21 @@ namespace StarlightRiver
         {
             if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is BlessedAccessory) && context == 10)
             {
-                Texture2D back = inv[slot].modItem is CursedAccessory ? ModContent.GetTexture("StarlightRiver/GUI/CursedBack") : ModContent.GetTexture("StarlightRiver/GUI/BlessedBack");
+                Texture2D back = inv[slot].modItem is CursedAccessory ? ModContent.GetTexture("StarlightRiver/GUI/Assets/CursedBack") : ModContent.GetTexture("StarlightRiver/GUI/Assets/BlessedBack");
                 Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
                 sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
                 RedrawItem(sb, inv, back, position, slot, color);
             }
             else if ((inv[slot].modItem is InfectedAccessory || inv[slot].modItem is Blocker) && context == 10)
             {
-                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/InfectedBack");
+                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/Assets/InfectedBack");
                 Color backcolor = (!Main.expertMode && slot == 8) ? Color.White * 0.25f : Color.White * 0.75f;
                 sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
                 RedrawItem(sb, inv, back, position, slot, color);
             }
             else if (inv[slot].modItem is PrototypeWeapon && inv[slot] != Main.mouseItem)
             {
-                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/ProtoBack");
+                Texture2D back = ModContent.GetTexture("StarlightRiver/GUI/Assets/ProtoBack");
                 Color backcolor = Main.LocalPlayer.HeldItem != inv[slot] ? Color.White * 0.75f : Color.Yellow;
                 sb.Draw(back, position, null, backcolor, 0f, default, Main.inventoryScale, SpriteEffects.None, 0f);
                 RedrawItem(sb, inv, back, position, slot, color);

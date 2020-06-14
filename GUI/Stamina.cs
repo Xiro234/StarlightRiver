@@ -72,8 +72,8 @@ namespace StarlightRiver.GUI
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            Texture2D emptyTex = ModContent.GetTexture("StarlightRiver/GUI/StaminaEmpty");
-            Texture2D fillTex = ModContent.GetTexture("StarlightRiver/GUI/Stamina");
+            Texture2D emptyTex = ModContent.GetTexture("StarlightRiver/GUI/Assets/StaminaEmpty");
+            Texture2D fillTex = ModContent.GetTexture("StarlightRiver/GUI/Assets/Stamina");
 
             int row = 0;
             for (int k = 0; k < mp.StatStaminaMax; k++)

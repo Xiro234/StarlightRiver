@@ -7,18 +7,10 @@ using Terraria.ModLoader;
 using Terraria;
 using Terraria.ID;
 using StarlightRiver.Items;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Tiles.Temple
 {
-    class TempleBrick : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileBlockLight[Type] = true;
-            Main.tileSolid[Type] = true;
-            soundType = SoundID.Tink;
-            dustType = DustID.Stone;
-        }
-    }
+    class TempleBrick : QuickBlock { public TempleBrick() : base(0, DustID.Stone, SoundID.Tink, new Color(150, 160, 160), ModContent.ItemType<TempleBrickItem>()) { } }
     public class TempleBrickItem : QuickTileItem { public TempleBrickItem() : base("Ancient Temple Bricks", "", ModContent.TileType<TempleBrick>(), 0) { } }
 }

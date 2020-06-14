@@ -10,7 +10,7 @@ namespace StarlightRiver.NPCs.Pickups
 {
     internal class Lore : AbilityPickup
     {
-        public override string Texture => "StarlightRiver/GUI/Book1Closed";
+        public override string Texture => "StarlightRiver/GUI/Assets/Book1Closed";
         public override Color GlowColor => new Color(200, 130, 40);
 
         public override bool CanPickup(Player player)

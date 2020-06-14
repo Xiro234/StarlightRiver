@@ -11,14 +11,11 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class BrickOvergrow : ModTile
+    internal class BrickOvergrow : QuickBlock
     {
-        public override void SetDefaults()
+        public BrickOvergrow() : base(210, DustID.Stone, SoundID.Tink, new Color(79, 76, 71), ModContent.ItemType<Items.Overgrow.BrickOvergrowItem>(), true, true) { }
+        public override void SafeSetDefaults()
         {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = false;
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
             Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
@@ -27,11 +24,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileMerge[Type][TileID.BlueDungeonBrick] = true;
             Main.tileMerge[Type][TileID.GreenDungeonBrick] = true;
             Main.tileMerge[Type][TileID.PinkDungeonBrick] = true;
-            minPick = 210;
-            drop = mod.ItemType("BrickOvergrowItem");
-            AddMapEntry(new Color(79, 76, 71));
         }
-
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (i > Main.screenPosition.X / 16 && i < Main.screenPosition.X / 16 + Main.screenWidth / 16 && j > Main.screenPosition.Y / 16 && j < Main.screenPosition.Y / 16 + Main.screenHeight / 16)
@@ -46,7 +39,6 @@ namespace StarlightRiver.Tiles.Overgrow
                 }
             }
         }
-
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Blob");
@@ -54,24 +46,17 @@ namespace StarlightRiver.Tiles.Overgrow
         }
     }
 
-    internal class GlowBrickOvergrow : ModTile
+    internal class GlowBrickOvergrow : QuickBlock
     {
-        public override void SetDefaults()
+        public GlowBrickOvergrow() : base(210, DustID.Stone, SoundID.Tink, new Color(79, 76, 71), ModContent.ItemType<Items.Overgrow.BrickOvergrowItem>(), true, true) { }
+        public override void SafeSetDefaults()
         {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = false;
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
-            minPick = 210;
-            drop = mod.ItemType("BrickOvergrowItem");
-            AddMapEntry(new Color(79, 76, 71));
 
             animationFrameHeight = 270;
         }
-
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             if (++frameCounter >= 5)
@@ -83,47 +68,35 @@ namespace StarlightRiver.Tiles.Overgrow
                 }
             }
         }
-
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             frameYOffset = 270 * ((j + Main.tileFrame[type]) % 6);
         }
     }
 
-    internal class LeafOvergrow : ModTile
+    internal class LeafOvergrow : QuickBlock  
     {
-        public override void SetDefaults()
+        public LeafOvergrow() : base(210, ModContent.DustType<Dusts.Leaf>(), SoundID.Grass, new Color(221, 211, 67), ModContent.ItemType<Items.Overgrow.LeafOvergrowItem>(), true, true) { }
+        public override void SafeSetDefaults()
         {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = false;
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
-            minPick = 210;
-            drop = mod.ItemType("BrickOvergrowItem");
-            AddMapEntry(new Color(221, 211, 67));
         }
     }
 
-    internal class GrassOvergrow : ModTile
+    internal class GrassOvergrow : QuickBlock
     {
-        public override void SetDefaults()
+        public GrassOvergrow() : base(210, ModContent.DustType<Dusts.Leaf>(), SoundID.Tink, new Color(202, 157, 49), ModContent.ItemType<Items.Overgrow.BrickOvergrowItem>()) { }
+        public override void SafeSetDefaults()
         {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = false;
             Main.tileMerge[Type][ModContent.TileType<BrickOvergrow>()] = true;
             Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
             Main.tileMerge[Type][mod.GetTile("GlowBrickOvergrow").Type] = true;
-            TileID.Sets.Grass[Type] = true;
-            drop = mod.ItemType("BrickOvergrowItem");
-            AddMapEntry(new Color(202, 157, 49));
-        }
 
+            TileID.Sets.Grass[Type] = true;
+        }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile tile = Main.tile[i, j];
@@ -134,7 +107,6 @@ namespace StarlightRiver.Tiles.Overgrow
                 nextSpecialDrawIndex++;
             }
         }
-
         public static void CustomDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
@@ -155,7 +127,6 @@ namespace StarlightRiver.Tiles.Overgrow
                 spriteBatch.Draw(tex, new Vector2(i + 0.5f, j) * 16 + crunch * 0.5f - Main.screenPosition, source, color);
             }
         }
-
         public override void FloorVisuals(Player player)
         {
             Vector2 playerFeet = player.Center + new Vector2(-8, player.height / 2);
@@ -173,7 +144,6 @@ namespace StarlightRiver.Tiles.Overgrow
                 }
             }
         }
-
         public override void RandomUpdate(int i, int j)
         {
             if (!Main.tile[i, j - 1].active())
@@ -205,7 +175,6 @@ namespace StarlightRiver.Tiles.Overgrow
             dustType = ModContent.DustType<Dusts.Leaf>();
             AddMapEntry(new Color(202, 157, 49));
         }
-
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             float sway = 0;
@@ -219,10 +188,6 @@ namespace StarlightRiver.Tiles.Overgrow
                 (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition + new Vector2((float)(1 + Math.Cos(rot * 2) + Math.Sin(rot)) * sway * sway, 0),
                 new Rectangle(Main.tile[i, j + 1].type != ModContent.TileType<VineOvergrow>() ? 32 : j % 2 * 16, 0, 16, 16), Lighting.GetColor(i, j));
             return false;
-        }
-
-        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
-        {
         }
     }
 
@@ -244,7 +209,6 @@ namespace StarlightRiver.Tiles.Overgrow
             dustType = ModContent.DustType<Dusts.Leaf>();
             AddMapEntry(new Color(202, 157, 49));
         }
-
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle(((i + (int)Helper.TileAdj.X) * 16) - (int)Main.screenPosition.X + 8,

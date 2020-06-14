@@ -32,7 +32,7 @@ namespace StarlightRiver.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/back");
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/back");
             spriteBatch.Draw(tex, new Vector2(100, 300), tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
             base.Draw(spriteBatch);
 
@@ -75,7 +75,7 @@ namespace StarlightRiver.GUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 pos = GetDimensions().Center() - Vector2.One;
-            Texture2D tex = Ability.Locked ? ModContent.GetTexture("StarlightRiver/GUI/blank") : Ability.Texture;
+            Texture2D tex = Ability.Locked ? ModContent.GetTexture("StarlightRiver/GUI/Assets/blank") : Ability.Texture;
 
             spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
 
@@ -83,7 +83,7 @@ namespace StarlightRiver.GUI
             {
                 if (Ability is Dash)
                 {
-                    Texture2D dustex = ModContent.GetTexture("StarlightRiver/GUI/Fire");
+                    Texture2D dustex = ModContent.GetTexture("StarlightRiver/GUI/Assets/Fire");
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -94,7 +94,7 @@ namespace StarlightRiver.GUI
                 }
                 if (Ability is Wisp)
                 {
-                    Texture2D dustex = ModContent.GetTexture("StarlightRiver/GUI/Fire");
+                    Texture2D dustex = ModContent.GetTexture("StarlightRiver/GUI/Assets/Fire");
 
                     Vector2 duspos = pos + new Vector2((float)Math.Cos(LegendWorld.rottime) * 2, (float)Math.Sin(LegendWorld.rottime)) * 8f;
                     Collection.dust.Add(new ExpertDust(dustex, duspos, Vector2.Zero, new Color(255, 255, 150), 1.8f, 30));

@@ -14,8 +14,8 @@ namespace StarlightRiver.Codex.Entries
                 "Stamina is consumed when an ability is used, and\n" +
                 "can be passively regenerated over time.";
 
-            Image = ModContent.GetTexture("StarlightRiver/GUI/Stamina");
-            Icon = ModContent.GetTexture("StarlightRiver/GUI/Stamina");
+            Image = ModContent.GetTexture("StarlightRiver/GUI/Assets/Stamina");
+            Icon = ModContent.GetTexture("StarlightRiver/GUI/Assets/Stamina");
         }
     }
 

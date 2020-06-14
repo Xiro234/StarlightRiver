@@ -50,8 +50,8 @@ namespace StarlightRiver.GUI
                     {
                         if (k % Main.rand.Next(3, 13) == 0 && Main.rand.Next(30) == 0)
                         {
-                            VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(-15, k), new Vector2(Main.rand.NextFloat(1, 2), 0));
-                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-Main.rand.NextFloat(1, 2), 0));
+                            VoidDust dus = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Fire"), new Vector2(-15, k), new Vector2(Main.rand.NextFloat(1, 2), 0));
+                            VoidDust dus2 = new VoidDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Fire"), new Vector2(Main.screenWidth, k), new Vector2(-Main.rand.NextFloat(1, 2), 0));
                             Bootlegdust.Add(dus);
                             Bootlegdust.Add(dus2);
                         }
@@ -64,7 +64,7 @@ namespace StarlightRiver.GUI
                     {
                         if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1200) == 0)
                         {
-                            EvilDust dus = new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Corrupt"), new Vector2(k, Main.screenHeight), new Vector2(0, -1.4f));
+                            EvilDust dus = new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Corrupt"), new Vector2(k, Main.screenHeight), new Vector2(0, -1.4f));
                             Bootlegdust.Add(dus);
                         }
                     }
@@ -76,7 +76,7 @@ namespace StarlightRiver.GUI
                     {
                         if (k % Main.rand.Next(5, 15) == 0 && Main.rand.Next(1000) == 0)
                         {
-                            BloodDust dus = new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Blood"), new Vector2(k, 0), new Vector2(0, 2f), Main.rand.NextFloat(0.8f, 1.1f), Main.rand.NextFloat(0.06f, 0.08f));
+                            BloodDust dus = new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Blood"), new Vector2(k, 0), new Vector2(0, 2f), Main.rand.NextFloat(0.8f, 1.1f), Main.rand.NextFloat(0.06f, 0.08f));
                             Bootlegdust.Add(dus);
                         }
                     }
@@ -88,7 +88,7 @@ namespace StarlightRiver.GUI
                     {
                         if (k % Main.rand.Next(20, 40) == 0 && Main.rand.Next(750) == 0)
                         {
-                            HolyDust dus = new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Light"), new Vector2(k, Main.rand.Next(Main.screenHeight)), Vector2.Zero);
+                            HolyDust dus = new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Light"), new Vector2(k, Main.rand.Next(Main.screenHeight)), Vector2.Zero);
                             Bootlegdust.Add(dus);
                         }
                     }
