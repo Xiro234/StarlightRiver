@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.StarJuice
 {
-    internal class CrystalBlock : QuickBlock
+    internal class CrystalBlock : ModTile
     {
-        public CrystalBlock() : base(0, ModContent.DustType<Dusts.Starlight>(), SoundID.Tink, new Color(150, 180, 190), ModContent.ItemType<CrystalBlockItem>(), false, false, "Star Crystal") { }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
+            QuickBlock.QuickSet(this, 0, ModContent.DustType<Dusts.Starlight>(), SoundID.Tink, new Color(150, 180, 190), ModContent.ItemType<CrystalBlockItem>(), false, false, "Star Crystal");
             TileID.Sets.DrawsWalls[Type] = true;
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)

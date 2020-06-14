@@ -10,46 +10,24 @@ using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Tiles
 {
-    class QuickBlock : ModTile
+    internal static class QuickBlock
     {
-        private readonly int MinPick;
-        private readonly int DustType;
-        private readonly int SoundType;
-        private readonly Color MapColor;
-        private readonly int ThisDrop;
-        private readonly bool DirtMerge;
-        private readonly bool Stone;
-        private readonly string MapName;
-        public QuickBlock(int minPick, int dustType, int soundType, Color mapColor, int drop = 0, bool dirtMerge = false, bool stone = false, string mapName = "")
+        public static void QuickSet(this ModTile tile, int MinPick, int DustType, int SoundType, Color mapColor, int Drop, bool dirtMerge = false, bool stone = false, string mapName = "")
         {
-            MinPick = minPick;
-            DustType = dustType;
-            SoundType = soundType;
-            MapColor = mapColor;
-            ThisDrop = drop;
-            DirtMerge = dirtMerge;
-            Stone = stone;
-            MapName = mapName;
-        }
-        public virtual void SafeSetDefaults() { }
-        public sealed override void SetDefaults()
-        {
-            minPick = MinPick;
-            dustType = DustType;
-            soundType = SoundType;
-            drop = ThisDrop;
-            Main.tileMergeDirt[Type] = DirtMerge;
-            Main.tileStone[Type] = Stone;
+            tile.minPick = MinPick;
+            tile.dustType = DustType;
+            tile.soundType = SoundType;
+            tile.drop = Drop;
+            Main.tileMergeDirt[tile.Type] = dirtMerge;
+            Main.tileStone[tile.Type] = stone;
 
-            Main.tileSolid[Type] = true;
-            Main.tileLighted[Type] = true;
-            Main.tileBlockLight[Type] = true;
+            Main.tileSolid[tile.Type] = true;
+            Main.tileLighted[tile.Type] = true;
+            Main.tileBlockLight[tile.Type] = true;
 
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault(MapName);
-            AddMapEntry(MapColor, name);
-
-            SafeSetDefaults();
+            ModTranslation name = tile.CreateMapEntryName();
+            name.SetDefault(mapName);
+            tile.AddMapEntry(mapColor, name);
         }
     }
 }

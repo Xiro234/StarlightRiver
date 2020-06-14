@@ -11,11 +11,11 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Overgrow.Blocks
 {
-    internal class GlowBrickOvergrow : QuickBlock
+    internal class GlowBrickOvergrow : ModTile
     {
-        public GlowBrickOvergrow() : base(210, DustID.Stone, SoundID.Tink, new Color(79, 76, 71), ModContent.ItemType<BrickOvergrowItem>(), true, true) { }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
+            QuickBlock.QuickSet(this, 210, DustID.Stone, SoundID.Tink, new Color(79, 76, 71), ModContent.ItemType<BrickOvergrowItem>(), true, true);
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;

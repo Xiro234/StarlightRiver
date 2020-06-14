@@ -8,11 +8,11 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.JungleCorrupt
 {
-    class GrassJungleCorrupt : QuickBlock
+    class GrassJungleCorrupt : ModTile
     {
-        public GrassJungleCorrupt() : base(0, 38, SoundID.Dig, new Color(98, 82, 148), ItemID.MudBlock) { }
-        public override void SafeSetDefaults()
+        public override void SetDefaults()
         {
+            QuickBlock.QuickSet(this, 0, 38, SoundID.Dig, new Color(98, 82, 148), ItemID.MudBlock);
             TileID.Sets.Grass[Type] = true;
             TileID.Sets.GrassSpecial[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
