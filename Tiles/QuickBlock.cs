@@ -14,19 +14,19 @@ namespace StarlightRiver.Tiles
     {
         private readonly int MinPick;
         private readonly int DustType;
-        private readonly int SoundStyle;
+        private readonly int SoundType;
         private readonly Color MapColor;
-        private readonly int Drop;
+        private readonly int ThisDrop;
         private readonly bool DirtMerge;
         private readonly bool Stone;
         private readonly string MapName;
-        public QuickBlock(int minPick, int dustType, int soundStyle, Color mapColor, int drop = 0, bool dirtMerge = false, bool stone = false, string mapName = "")
+        public QuickBlock(int minPick, int dustType, int soundType, Color mapColor, int drop = 0, bool dirtMerge = false, bool stone = false, string mapName = "")
         {
             MinPick = minPick;
             DustType = dustType;
-            SoundStyle = soundStyle;
+            SoundType = soundType;
             MapColor = mapColor;
-            Drop = drop;
+            ThisDrop = drop;
             DirtMerge = dirtMerge;
             Stone = stone;
             MapName = mapName;
@@ -36,8 +36,8 @@ namespace StarlightRiver.Tiles
         {
             minPick = MinPick;
             dustType = DustType;
-            soundStyle = SoundStyle;
-            drop = Drop;
+            soundType = SoundType;
+            drop = ThisDrop;
             Main.tileMergeDirt[Type] = DirtMerge;
             Main.tileStone[Type] = Stone;
 
