@@ -9,13 +9,7 @@ namespace StarlightRiver.Tiles.Overgrow
 {
     public class WallOvergrowGrass : ModWall
     {
-        public override void SetDefaults()
-        {
-            Main.wallHouse[Type] = true;
-            dustType = mod.DustType("Gold2");
-            AddMapEntry(new Color(114, 65, 37));
-        }
-
+        public override void SetDefaults() { QuickBlock.QuickSetWall(this, ModContent.DustType<Dusts.Leaf>(), SoundID.Grass, 0, false, new Color(114, 65, 37)); }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (i > Main.screenPosition.X / 16 && i < Main.screenPosition.X / 16 + Main.screenWidth / 16 && j > Main.screenPosition.Y / 16 && j < Main.screenPosition.Y / 16 + Main.screenHeight / 16)
@@ -29,24 +23,13 @@ namespace StarlightRiver.Tiles.Overgrow
         }
     }
 
-    public class WallOvergrowBrick : ModWall
-    {
-        public override void SetDefaults()
-        {
-            Main.wallHouse[Type] = true;
-            dustType = ModContent.DustType<Dusts.Stone>();
-            AddMapEntry(new Color(62, 68, 55));
-        }
-    }
-
+    public class WallOvergrowBrick : ModWall { public override void SetDefaults() { QuickBlock.QuickSetWall(this, ModContent.DustType<Dusts.Stone>(), SoundID.Tink, 0, false, new Color(62, 68, 55)); } }
     public class WallOvergrowInvisible : ModWall
     {
         public override void SetDefaults()
         {
-            Main.wallHouse[Type] = false;
+            QuickBlock.QuickSetWall(this, ModContent.DustType<Dusts.Stone>(), SoundID.Tink, 0, false, new Color(255, 235, 50));
             WallID.Sets.Transparent[Type] = true;
-            dustType = ModContent.DustType<Dusts.Stone>();
-            AddMapEntry(new Color(31, 34, 27));
         }
     }
 }

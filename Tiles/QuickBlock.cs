@@ -12,12 +12,12 @@ namespace StarlightRiver.Tiles
 {
     internal static class QuickBlock
     {
-        public static void QuickSet(this ModTile tile, int MinPick, int DustType, int SoundType, Color mapColor, int Drop, bool dirtMerge = false, bool stone = false, string mapName = "")
+        public static void QuickSet(this ModTile tile, int minPick, int dustType, int soundType, Color mapColor, int drop, bool dirtMerge = false, bool stone = false, string mapName = "")
         {
-            tile.minPick = MinPick;
-            tile.dustType = DustType;
-            tile.soundType = SoundType;
-            tile.drop = Drop;
+            tile.minPick = minPick;
+            tile.dustType = dustType;
+            tile.soundType = soundType;
+            tile.drop = drop;
             Main.tileMergeDirt[tile.Type] = dirtMerge;
             Main.tileStone[tile.Type] = stone;
 
@@ -28,6 +28,14 @@ namespace StarlightRiver.Tiles
             ModTranslation name = tile.CreateMapEntryName();
             name.SetDefault(mapName);
             tile.AddMapEntry(mapColor, name);
+        }
+        public static void QuickSetWall(this ModWall wall, int dustType, int soundType, int drop, bool safe, Color mapColor)
+        {
+            wall.dustType = dustType;
+            wall.soundType = soundType;
+            wall.drop = drop;
+            Main.wallHouse[wall.Type] = safe;
+            wall.AddMapEntry(mapColor);
         }
     }
 }
