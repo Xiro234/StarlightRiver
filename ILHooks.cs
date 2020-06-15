@@ -160,7 +160,7 @@ namespace StarlightRiver
                 c.Emit(OpCodes.Brtrue, il.Instrs[index]);
                 c.Emit(OpCodes.Ldsfld, typeof(TileID.Sets.Conversion).GetField("Grass"));
             }
-            c.TryGotoNext(i => i.MatchLdfld<Tile>("wall"), i => i.MatchLdcI4(69));
+            c.TryGotoNext(i => i.MatchLdfld<Tile>("wall"), i => i.MatchLdcI4(69)); //funny sex number!!!
             c.TryGotoPrev(i => i.MatchLdsfld<Main>("tile"));
             c.Index++;
             c.Emit(OpCodes.Ldc_I4, TileID.JungleGrass);

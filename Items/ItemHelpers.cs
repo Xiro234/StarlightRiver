@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items
 {
-    public class QuickMaterial : ModItem
+    public abstract class QuickMaterial : ModItem
     {
         private readonly string Matname;
         private readonly string Mattooltip;
@@ -36,7 +36,7 @@ namespace StarlightRiver.Items
         }
     }
 
-    public class QuickTileItem : ModItem
+    public abstract class QuickTileItem : ModItem
     {
         public string Itemname;
         public string Itemtooltip;
@@ -69,6 +69,41 @@ namespace StarlightRiver.Items
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = Tiletype;
+            item.rare = Rare;
+        }
+    }
+
+    public abstract class QuickWallItem : ModItem
+    {
+        public string Itemname;
+        public string Itemtooltip;
+        private readonly int Walltype;
+        private readonly int Rare;
+
+        public QuickWallItem(string name, string tooltip, int placetype, int rare)
+        {
+            Itemname = name;
+            Itemtooltip = tooltip;
+            Walltype = placetype;
+            Rare = rare;
+        }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault(Itemname);
+            Tooltip.SetDefault(Itemtooltip);
+        }
+        public override void SetDefaults()
+        {
+            item.width = 16;
+            item.height = 16;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.consumable = true;
+            item.createWall = Walltype;
             item.rare = Rare;
         }
     }
