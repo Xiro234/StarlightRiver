@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,22 +11,27 @@ namespace StarlightRiver.Dusts
         {
             dust.noGravity = true;
             dust.noLight = false;
+            dust.color = Color.White;
         }
+        public override Color? GetAlpha(Dust dust, Color lightColor) => dust.color * (dust.alpha / 255f);
 
         public override bool Update(Dust dust)
         {
-            dust.position.Y -= 0.6f;
-            dust.velocity *= 0.94f;
-            dust.scale *= 0.94f;
-            if (dust.scale <= 0.2)
+            dust.fadeIn++;
+            dust.color.G -= 2;
+            dust.color.R--;
+            dust.alpha = (int)(dust.fadeIn * 17f / 2f - 17 * (float)(Math.Pow(dust.fadeIn, 2) / 240f));
+            dust.position += dust.velocity;
+            if (dust.velocity.X != 0)
+            {
+                dust.fadeIn += 4;
+                dust.velocity *= 0.9f;
+                dust.scale *= 0.9f;
+            }
+            dust.rotation += 0.1f;
+            if (dust.fadeIn > 120)
             {
                 dust.active = false;
-            }
-
-            float light = 0.4f * dust.scale;
-            if (dust.scale <= 2.5 + .55)
-            {
-                Lighting.AddLight(dust.position, new Vector3(1.1f, 1.12f, 1) * light);
             }
             return false;
         }

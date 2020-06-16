@@ -26,7 +26,12 @@ namespace StarlightRiver.Tiles.Void
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-                for (int k = 0; k <= 3; k++) Dust.NewDust(new Vector2((i * 16) - 1, (j - 1) * 16), 12, 16, mod.DustType("Darkness"));
+                for (int k = 0; k <= 2; k++)
+                {
+                    float dist = Main.rand.NextFloat(8);
+                    float dist2 = dist > 4 ? 4 - (dist - 4) : dist;
+                    Dust.NewDustPerfect(new Vector2(i, j) * 16 + new Vector2(dist + 5, -6 + dist2), DustType<Dusts.Darkness>(), new Vector2(0, -0.04f * dist2), 0, default, 0.5f);
+                }
             }
         }
     }
@@ -41,7 +46,12 @@ namespace StarlightRiver.Tiles.Void
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-                for (int k = 0; k <= 6; k++) Dust.NewDust(new Vector2((i * 16) + 5, (j - 0.8f) * 16), 18, 14, mod.DustType("Darkness"));
+                for (int k = 0; k <= 3; k++)
+                {
+                    float dist = Main.rand.NextFloat(10);
+                    float dist2 = dist > 5 ? 5 - (dist - 5) : dist;
+                    Dust.NewDustPerfect(new Vector2(i, j) * 16 + new Vector2(dist + 11, -10 + dist2), DustType<Dusts.Darkness>(), new Vector2(0, -0.05f * dist2));
+                }
             }
         }
     }
