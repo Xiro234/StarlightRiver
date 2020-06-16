@@ -24,6 +24,7 @@ namespace StarlightRiver.Tiles.Void
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
+            Lighting.AddLight(new Vector2(i, j) * 16, new Vector3(1, 0.5f, 1.2f) * 0.6f);
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
                 for (int k = 0; k <= 2; k++)
@@ -44,6 +45,7 @@ namespace StarlightRiver.Tiles.Void
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
+            Lighting.AddLight(new Vector2(i, j) * 16, new Vector3(1, 0.5f, 1.2f) * 0.6f);
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
                 for (int k = 0; k <= 3; k++)
