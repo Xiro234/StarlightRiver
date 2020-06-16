@@ -4,11 +4,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items
+namespace StarlightRiver.Items.Starwood
 {
     public class StarwoodBoomerang : StarwoodItem
     {
-        public StarwoodBoomerang() : base(ModContent.GetTexture("StarlightRiver/Items/StarwoodBoomerang_Alt")) { }
+        public StarwoodBoomerang() : base(ModContent.GetTexture("StarlightRiver/Items/Starwood/StarwoodBoomerang_Alt")) { }
 
         public override void SetStaticDefaults()
         {
