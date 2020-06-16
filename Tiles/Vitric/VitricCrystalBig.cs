@@ -42,15 +42,6 @@ namespace StarlightRiver.Tiles.Vitric
             texture = "StarlightRiver/Invisible";
             return true;
         }
-
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            TileID.Sets.DrawsWalls[Type] = true;
-            minPick = int.MaxValue;
-            soundStyle = SoundID.CoinPickup;
-            dustType = ModContent.DustType<Dusts.Air>();
-            AddMapEntry(new Color(115, 182, 158));
-        }
+        public override void SetDefaults() { QuickBlock.QuickSet(this, int.MaxValue, ModContent.DustType<Dusts.Air>(), SoundID.CoinPickup, new Color(115, 182, 158), -1); }
     }
 }

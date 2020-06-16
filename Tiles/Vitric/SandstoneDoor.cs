@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -13,38 +14,15 @@ namespace StarlightRiver.Tiles.Vitric
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Invisible";
-            return base.Autoload(ref name, ref texture);
+            return true;
         }
 
-        public override void SetDefaults()
-        {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-
-            TileObjectData.newTile.Width = 8;
-            TileObjectData.newTile.Height = 2;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-
-            TileObjectData.addTile(Type);
-
-            minPick = 1;
-            AddMapEntry(new Color(130, 85, 45));
-        }
+        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 8, 2, DustID.Stone, SoundID.Tink, false, -1, new Color(130, 85, 45)); 
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (StarlightWorld.DesertOpen && !Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>() && n.active))
-            {
-                Main.tileSolid[Type] = false;
-            }
-            else
-            {
-                Main.tileSolid[Type] = true;
-            }
+            if (StarlightWorld.DesertOpen && !Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>() && n.active)) Main.tileSolid[Type] = false;
+            else Main.tileSolid[Type] = true;
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
