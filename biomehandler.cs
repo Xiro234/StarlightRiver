@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -28,7 +29,7 @@ namespace StarlightRiver
             ZoneGlass = StarlightWorld.glassTiles > 50 || StarlightWorld.VitricBiome.Contains((player.position / 16).ToPoint());
             GlassBG = StarlightWorld.VitricBiome.Contains((player.Center / 16).ToPoint()) && ZoneGlass;
             ZoneVoidPre = (StarlightWorld.voidTiles > 50);
-            ZoneJungleCorrupt = (StarlightWorld.evilJungleTiles > 50);
+            ZoneJungleCorrupt = (StarlightWorld.corruptJungleTiles > 50);
             ZoneJungleBloody = (StarlightWorld.bloodJungleTiles > 50);
             ZoneJungleHoly = (StarlightWorld.holyJungleTiles > 50);
             ZoneOvergrow = Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>() ||
@@ -142,17 +143,17 @@ namespace StarlightRiver
     {
         public static int glassTiles;
         public static int voidTiles;
-        public static int evilJungleTiles;
+        public static int corruptJungleTiles;
         public static int bloodJungleTiles;
         public static int holyJungleTiles;
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
-            glassTiles = tileCounts[mod.TileType("VitricSand")];
-            voidTiles = tileCounts[mod.TileType("Void1")] + tileCounts[mod.TileType("Void2")];
-            evilJungleTiles = tileCounts[mod.TileType("GrassJungleCorrupt")];
-            bloodJungleTiles = tileCounts[mod.TileType("GrassJungleBloody")];
-            holyJungleTiles = tileCounts[mod.TileType("GrassJungleHoly")];
+            glassTiles = tileCounts[TileType<Tiles.Vitric.Blocks.VitricSand>()];
+            voidTiles = tileCounts[TileType<Tiles.Void.VoidBrick>()] + tileCounts[TileType<Tiles.Void.VoidStone>()];
+            corruptJungleTiles = tileCounts[TileType<Tiles.JungleCorrupt.GrassJungleCorrupt>()];
+            bloodJungleTiles = tileCounts[TileType<Tiles.JungleBloody.GrassJungleBloody>()];
+            holyJungleTiles = tileCounts[TileType<Tiles.JungleHoly.GrassJungleHoly>()];
         }
 
         public override void ResetNearbyTileEffects()
