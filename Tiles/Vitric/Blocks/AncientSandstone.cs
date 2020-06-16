@@ -24,7 +24,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
         
     }
 
-    internal class AncientSandstonePlatformItem : QuickTileItem { public AncientSandstonePlatformItem() : base("Ancient Sandstone Platform", "", TileType<Tiles.Vitric.AncientSandstonePlatform>(), 0) { } }
+    internal class AncientSandstonePlatformItem : QuickTileItem { public AncientSandstonePlatformItem() : base("Ancient Sandstone Platform", "", TileType<AncientSandstonePlatform>(), 0) { } }
 
     internal class AncientSandstoneWall : ModWall
     { public override void SetDefaults() => QuickBlock.QuickSetWall(this, DustID.Copper, SoundID.Dig, ItemType<AncientSandstoneWallItem>(), false, new Color(62, 68, 55)); }

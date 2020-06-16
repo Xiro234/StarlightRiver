@@ -354,11 +354,11 @@ namespace StarlightRiver
                 {
                     for (int y = biomeTarget.Y + biomeTarget.Height - 77; y < biomeTarget.Y + biomeTarget.Height - 67; y++) //Bottom
                     {
-                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<AncientSandstone>(), false, true);
                     }
                     for (int y = biomeTarget.Y - 1; y < biomeTarget.Y + 9; y++) //Top
                     {
-                        WorldGen.PlaceTile(x, y, ModContent.TileType<Tiles.Vitric.AncientSandstone>(), false, true);
+                        WorldGen.PlaceTile(x, y, ModContent.TileType<AncientSandstone>(), false, true);
                     }
                 }
             } //Adjusted from prior code
