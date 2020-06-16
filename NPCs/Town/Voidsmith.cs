@@ -105,7 +105,6 @@ namespace StarlightRiver.NPCs.Town
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<Items.VoidGooItem>());
         }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
