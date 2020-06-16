@@ -51,7 +51,7 @@ namespace StarlightRiver.Tiles.Void
     {
         public override void SetDefaults()
         {
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 3, 0);
             QuickBlock.QuickSetFurniture(this, 3, 2, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
         }
 
@@ -63,7 +63,12 @@ namespace StarlightRiver.Tiles.Void
     {
         public override void SetDefaults()
         {
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, 3, 0);
+            TileObjectData.newTile.AnchorAlternateTiles = new int[]
+            {
+                TileType<VoidPillarBase>(),
+                TileType<VoidPillarMiddle>()
+            };
             QuickBlock.QuickSetFurniture(this, 3, 2, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
         }
 
@@ -75,7 +80,12 @@ namespace StarlightRiver.Tiles.Void
     {
         public override void SetDefaults()
         {
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, 3, 0);
+            TileObjectData.newTile.AnchorAlternateTiles = new int[]
+            {
+                TileType<VoidPillarBase>(),
+                TileType<VoidPillarMiddle>()
+            };
             QuickBlock.QuickSetFurniture(this, 3, 1, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
         }
 
@@ -87,7 +97,12 @@ namespace StarlightRiver.Tiles.Void
     {
         public override void SetDefaults()
         {
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidWithTop, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, 3, 0);
+            TileObjectData.newTile.AnchorAlternateTiles = new int[]
+            {
+                TileType<VoidPillarBase>(),
+                TileType<VoidPillarMiddle>()
+            };
             QuickBlock.QuickSetFurniture(this, 3, 1, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40), true);
         }
 
