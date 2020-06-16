@@ -10,7 +10,8 @@ using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    internal class ForestIvy : HangingPlant {
+    internal class ForestIvy : HangingPlant
+    {
         public ForestIvy() : base("Ivy")
         {
         }

@@ -6,7 +6,8 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Crafting
 {
-    public class AluminumOre : QuickMaterial {
+    public class AluminumOre : QuickMaterial
+    {
         public AluminumOre() : base("Astral Aluminum Chunk", "Smelt into bars at an Oven", 999, 500, 2)
         {
         }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Dusts;
-using System;
-using System.Xml.Serialization;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

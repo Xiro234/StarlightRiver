@@ -1,12 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
+using StarlightRiver.Items.Armor.Starwood;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using StarlightRiver.Items.Armor.Starwood;
-using StarlightRiver.Core;
-using Terraria.DataStructures;
 
 namespace StarlightRiver.Items.Armor.Starwood
 {

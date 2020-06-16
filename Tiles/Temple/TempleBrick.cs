@@ -1,7 +1,7 @@
-﻿using Terraria.ModLoader;
-using Terraria.ID;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Items;
-using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Temple

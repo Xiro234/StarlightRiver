@@ -1,12 +1,12 @@
 ﻿
 using Microsoft.Xna.Framework;
+using StarlightRiver.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -266,7 +266,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 RandomizeTarget();
                 startPos = npc.Center;
             }
-            if(AttackTimer < 120)
+            if (AttackTimer < 120)
             {
                 npc.Center = Vector2.SmoothStep(startPos, homePos, AttackTimer / 120f);
             }
@@ -282,7 +282,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
         }
         private void ReverseCage()
-       {
+        {
             Main.NewText("Poop Fard and Shidd");
             ResetAttack();
             if (AttackTimer == 1)
@@ -297,39 +297,39 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         private void Whirl()
         {
-            if(AttackTimer == 1)
+            if (AttackTimer == 1)
             {
                 FavoriteCrystal = Main.rand.Next(2); //bootleg but I dont feel like syncing another var
             }
-            if(AttackTimer < 300)
+            if (AttackTimer < 300)
             {
                 float rad = AttackTimer * 2.5f;
                 float rot = AttackTimer / 300f * 6.28f;
                 npc.Center = homePos + new Vector2(0, -rad).RotatedBy(FavoriteCrystal == 0 ? rot : -rot);
-                if(Main.expertMode && AttackTimer % 45 == 0)
+                if (Main.expertMode && AttackTimer % 45 == 0)
                 {
                     RandomizeTarget();
                     Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, npc.Center);
                     Projectile.NewProjectile(npc.Center, Vector2.Normalize(npc.Center - Main.player[npc.target].Center) * -2, ModContent.ProjectileType<GlassVolleyShard>(), 12, 1);
                 }
             }
-            if(AttackTimer == 300)
+            if (AttackTimer == 300)
             {
                 startPos = npc.Center;
             }
-            if(AttackTimer > 300)
+            if (AttackTimer > 300)
             {
                 npc.Center = Vector2.Lerp(startPos, homePos + new Vector2(0, 400), (AttackTimer - 300) / 30f);
             }
-            if(AttackTimer == 330)
+            if (AttackTimer == 330)
             {
-                foreach(Player player in Main.player.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 1500))
+                foreach (Player player in Main.player.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 1500))
                 {
                     player.GetModPlayer<StarlightPlayer>().Shake += 20;
                 }
                 Main.PlaySound(SoundID.NPCDeath43, npc.Center);
 
-                for(int k = 0; k < 12; k++)
+                for (int k = 0; k < 12; k++)
                 {
                     Projectile.NewProjectile(homePos + new Vector2(-700 + k * 120, -550), new Vector2(0, 8), ModContent.ProjectileType<Projectiles.GlassSpike>(), 15, 0);
                 }
@@ -338,8 +338,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         }
         private void Mines()
         {
-            if(AttackTimer == 1)
-            Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ModContent.ProjectileType<VitricBomb>(), 15, 0);
+            if (AttackTimer == 1)
+                Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ModContent.ProjectileType<VitricBomb>(), 15, 0);
 
             if (AttackTimer == 10 && npc.life <= npc.lifeMax / 5f)
                 Projectile.NewProjectile(npc.Center, new Vector2(-10, 4), ModContent.ProjectileType<VitricBomb>(), 15, 0);

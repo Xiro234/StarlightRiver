@@ -8,7 +8,7 @@ namespace StarlightRiver.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shoes)]
     public class PulseBoots : SmartAccessory
-    { 
+    {
         public PulseBoots() : base("Pulse Boots", "Rocket Power!") { }
 
         private bool doubleJumped = false;

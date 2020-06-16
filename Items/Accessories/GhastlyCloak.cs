@@ -8,7 +8,7 @@ namespace StarlightRiver.Items.Accessories
 {
     public class GhastlyCloak : SmartAccessory
     {
-        public GhastlyCloak() : base("Ghastly Cloak", "Avoiding damage cloaks you, increasing most stats."){}
+        public GhastlyCloak() : base("Ghastly Cloak", "Avoiding damage cloaks you, increasing most stats.") { }
         public override void SafeUpdateEquip(Player player)
         {
             StarlightPlayer modplayer = player.GetModPlayer<StarlightPlayer>();

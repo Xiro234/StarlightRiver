@@ -3,11 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex;
-using StarlightRiver.Configs;
-using StarlightRiver.GUI;
+using StarlightRiver.Core;
 using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.Items.Prototypes;
 using StarlightRiver.Keys;
+using StarlightRiver.Tiles.Overgrow.Blocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +18,7 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
-using StarlightRiver.Core;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
-using StarlightRiver.Tiles.Overgrow.Blocks;
 
 namespace StarlightRiver
 {
@@ -191,7 +189,7 @@ namespace StarlightRiver
             particle.Position.Y = particle.Velocity.Y * (600 - particle.Timer) + particle.StoredPosition.Y - Main.screenPosition.Y + (particle.StoredPosition.Y - Main.screenPosition.Y) * particle.Velocity.X * 0.5f;
             particle.Position.X = particle.StoredPosition.X - Main.screenPosition.X + (particle.StoredPosition.X - Main.screenPosition.X) * particle.Velocity.X;
 
-            particle.Color = Color.White * (particle.Timer > 300 ? ((300 - (particle.Timer -  300)) / 300f) : (particle.Timer / 300f)) * particle.Velocity.X * 0.4f;
+            particle.Color = Color.White * (particle.Timer > 300 ? ((300 - (particle.Timer - 300)) / 300f) : (particle.Timer / 300f)) * particle.Velocity.X * 0.4f;
 
             particle.Timer--;
         }
@@ -207,7 +205,7 @@ namespace StarlightRiver
                 if (StarlightWorld.rottime == 0)
                     for (int k = 0; k < 10; k++)
                     {
-                        for (int i = (int)Main.worldSurface; i < Main.maxTilesY - 200; i+= 20)
+                        for (int i = (int)Main.worldSurface; i < Main.maxTilesY - 200; i += 20)
                         {
                             ForegroundSystem.AddParticle(new Particle(new Vector2(0, 0), new Vector2(0.4f, Main.rand.NextFloat(-2, -1)), 0, Main.rand.NextFloat(1.5f, 2),
                                 Color.White * 0.05f, 600, new Vector2(Main.dungeonX * 16 + k * (800 * direction) + Main.rand.Next(30), i * 16)));

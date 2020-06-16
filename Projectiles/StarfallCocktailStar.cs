@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Dusts;
+﻿using StarlightRiver.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

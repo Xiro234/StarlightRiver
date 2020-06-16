@@ -1,5 +1,4 @@
-﻿using StarlightRiver.NPCs;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Buffs

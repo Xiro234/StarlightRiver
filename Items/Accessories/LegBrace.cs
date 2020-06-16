@@ -1,6 +1,4 @@
-﻿using Terraria.ModLoader;
-
-namespace StarlightRiver.Items.Accessories
+﻿namespace StarlightRiver.Items.Accessories
 {
     public class LegBrace : SmartAccessory
     {

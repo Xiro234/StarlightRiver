@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,7 +22,7 @@ namespace StarlightRiver.Items.Starwood
             item.height = 34;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;;
+            item.useStyle = ItemUseStyleID.HoldingOut; ;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item19;
             item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.StarwoodSlingshotProjectile>();

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -57,7 +52,7 @@ namespace StarlightRiver.Items.Temple
         {
             //inflicting debuff + light orbs on kill
             target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 600);
-            if(damage >= target.life)
+            if (damage >= target.life)
             {
                 Projectile.NewProjectile(target.Center, new Vector2(0, -1), ModContent.ProjectileType<TempleSpearLight>(), 0, 0);
             }

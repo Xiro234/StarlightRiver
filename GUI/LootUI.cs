@@ -2,11 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Tiles;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
@@ -39,7 +36,7 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            if(Selections[1] != null)
+            if (Selections[1] != null)
             {
                 Visible = false;
                 Main.LocalPlayer.QuickSpawnItem(BigItem);
@@ -58,7 +55,7 @@ namespace StarlightRiver.GUI
             string str2 = "Pick two:";
 
             Utils.DrawBorderString(spriteBatch, str, GetDimensions().Center() + new Vector2(0, -40) - Main.fontItemStack.MeasureString(str) / 2, Color.White, 0.8f);
-            Utils.DrawBorderString(spriteBatch, str2, GetDimensions().Center() + new Vector2(0, + 50) - Main.fontItemStack.MeasureString(str2) / 2, Color.White, 0.8f);
+            Utils.DrawBorderString(spriteBatch, str2, GetDimensions().Center() + new Vector2(0, +50) - Main.fontItemStack.MeasureString(str2) / 2, Color.White, 0.8f);
 
             spriteBatch.Draw(tex, GetDimensions().Center(), tex.Frame(), Color.White * 0.75f, 0, tex.Size() / 2, 1, 0, 0);
             if (!BigItem.IsAir)
@@ -95,7 +92,7 @@ namespace StarlightRiver.GUI
             item.stack = bigItemID.GetCount();
             BigItem = item;
 
-            for(int k = 0; k < smallItemIDs.Length; k++)
+            for (int k = 0; k < smallItemIDs.Length; k++)
             {
                 Item item2 = new Item();
                 item2.SetDefaults(smallItemIDs[k].Type);
@@ -139,9 +136,9 @@ namespace StarlightRiver.GUI
                 {
                     float offY = 40 - Item.ToolTip.Lines * 14;
                     Vector2 pos = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2) + new Vector2(60, offY);
-                    for(int k = 0; k <= Item.ToolTip.Lines; k++)
+                    for (int k = 0; k <= Item.ToolTip.Lines; k++)
                     {
-                        if(k == 0) Utils.DrawBorderString(spriteBatch, Item.Name, pos + new Vector2(0, k * 14), ItemRarity.GetColor(Item.rare), 0.75f);
+                        if (k == 0) Utils.DrawBorderString(spriteBatch, Item.Name, pos + new Vector2(0, k * 14), ItemRarity.GetColor(Item.rare), 0.75f);
                         else Utils.DrawBorderString(spriteBatch, Item.ToolTip.GetLine(k - 1), pos + new Vector2(0, k * 14), Color.White, 0.75f);
                     }
                 }
@@ -149,7 +146,7 @@ namespace StarlightRiver.GUI
         }
         public override void Click(UIMouseEvent evt)
         {
-            if(Parent is LootUI)
+            if (Parent is LootUI)
             {
                 LootUI parent = Parent as LootUI;
                 if (parent.Selections[0] == null) parent.Selections[0] = Item;

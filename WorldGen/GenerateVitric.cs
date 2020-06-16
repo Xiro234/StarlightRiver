@@ -422,7 +422,7 @@ namespace StarlightRiver
                             for (int k = 0; k < 3; ++k)
                                 if (!Main.tile[i + k, j].active() || !validGround.Any(x => x == Main.tile[i + k, j].type)) vGround = false;
 
-                            if (vGround && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(3, 2))) PlaceTile(i, j - 2, TileType<VitricDecorLarge>());                         
+                            if (vGround && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(3, 2))) PlaceTile(i, j - 2, TileType<VitricDecorLarge>());
                         }
                     }
                 }

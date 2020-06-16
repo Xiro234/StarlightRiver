@@ -4,10 +4,8 @@ using StarlightRiver.Abilities;
 using StarlightRiver.Items;
 using StarlightRiver.Projectiles.Dummies;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Interactive

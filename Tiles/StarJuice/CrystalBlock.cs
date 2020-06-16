@@ -19,5 +19,5 @@ namespace StarlightRiver.Tiles.StarJuice
             Dust.NewDust(new Vector2(i, j) * 16, 16, 16, ModContent.DustType<Dusts.Starlight>(), 0, 4, 0, default, 0.5f);
         }
     }
-    internal class CrystalBlockItem : QuickTileItem { public CrystalBlockItem() : base("Star Crytsal", "Entrancing Crystalized Starlight...", ModContent.TileType<CrystalBlock>(), 1){} }
+    internal class CrystalBlockItem : QuickTileItem { public CrystalBlockItem() : base("Star Crytsal", "Entrancing Crystalized Starlight...", ModContent.TileType<CrystalBlock>(), 1) { } }
 }

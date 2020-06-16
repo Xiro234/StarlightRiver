@@ -21,7 +21,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
             minPick = 200;
             AddMapEntry(new Color(150, 105, 65));
         }
-        
+
     }
 
     internal class AncientSandstonePlatformItem : QuickTileItem { public AncientSandstonePlatformItem() : base("Ancient Sandstone Platform", "", TileType<AncientSandstonePlatform>(), 0) { } }

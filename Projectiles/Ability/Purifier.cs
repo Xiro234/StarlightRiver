@@ -36,7 +36,7 @@ namespace StarlightRiver.Projectiles.Ability
 
         public override void AI()
         {
-            if(projectile.timeLeft == 900)
+            if (projectile.timeLeft == 900)
             {
                 Filters.Scene.Activate("PurityFilter", projectile.position).GetShader().UseDirection(new Vector2(0.1f, 0.1f));
             }
@@ -68,7 +68,7 @@ namespace StarlightRiver.Projectiles.Ability
                     }
 
                     //just in case
-                    if(projectile.timeLeft == 1)
+                    if (projectile.timeLeft == 1)
                     {
                         RevertTile((int)check.X, (int)check.Y);
                     }

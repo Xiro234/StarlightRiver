@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +17,7 @@ namespace StarlightRiver.Tiles.Temple
                 new Loot(ModContent.ItemType<Items.Temple.TempleSpear>(), 1),
                 new Loot(ModContent.ItemType<Items.Temple.TempleRune>(), 1),
                 new Loot(ModContent.ItemType<Items.Temple.TempleLens>(), 1)
-            };               
+            };
         }
         internal override List<Loot> SmallLootPool
         {

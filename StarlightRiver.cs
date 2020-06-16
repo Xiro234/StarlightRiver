@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
-using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.RiftCrafting;
 using System;
 using System.Collections.Generic;

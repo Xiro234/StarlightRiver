@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Projectiles.Ability;
 using System.Linq;
 using Terraria;
-using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 

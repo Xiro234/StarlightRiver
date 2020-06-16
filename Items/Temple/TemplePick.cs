@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -40,7 +35,7 @@ namespace StarlightRiver.Items.Temple
         }
         public override bool UseItem(Player player)
         {
-            if(player.altFunctionUse == 2)
+            if (player.altFunctionUse == 2)
             {
                 item.noUseGraphic = true;
                 item.noMelee = true;

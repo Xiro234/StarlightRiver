@@ -7,7 +7,6 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Interactive
@@ -18,7 +17,7 @@ namespace StarlightRiver.Tiles.Interactive
 
         public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 1, 1, DustType<Dusts.Stamina>(), SoundID.Shatter, false, new Color(255, 186, 66));
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i,j) * 16, ItemType<StaminaGemItem>());
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<StaminaGemItem>());
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

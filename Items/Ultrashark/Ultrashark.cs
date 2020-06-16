@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
-using StarlightRiver.Dusts;
-using StarlightRiver.Gores;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -170,7 +168,7 @@ namespace StarlightRiver.Items.Ultrashark
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (spinup < (turretDeployed ? 4f: 3f)) //spinup
+            if (spinup < (turretDeployed ? 4f : 3f)) //spinup
             {
                 spinup += (turretDeployed ? 0.5f : 0.2f);
             }
@@ -220,7 +218,7 @@ namespace StarlightRiver.Items.Ultrashark
                 {
                     if (item.turretDirection != 0) //no turn
                     {
-                        player.direction = item.turretDirection; 
+                        player.direction = item.turretDirection;
                     }
                 }
             }

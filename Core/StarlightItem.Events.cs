@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Core
@@ -14,7 +9,7 @@ namespace StarlightRiver.Core
         public static event GetHealLifeDelegate GetHealLifeEvent;
         public override void GetHealLife(Item item, Player player, bool quickHeal, ref int healValue)
         {
-             GetHealLifeEvent?.Invoke(item, player, quickHeal, ref healValue);
+            GetHealLifeEvent?.Invoke(item, player, quickHeal, ref healValue);
         }
     }
 }

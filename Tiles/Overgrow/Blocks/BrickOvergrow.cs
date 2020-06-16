@@ -2,13 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Items;
 using System;
-using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Overgrow.Blocks
 {

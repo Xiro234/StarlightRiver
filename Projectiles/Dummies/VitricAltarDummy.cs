@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using StarlightRiver.NPCs.Boss.VitricBoss;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.Dummies
 {

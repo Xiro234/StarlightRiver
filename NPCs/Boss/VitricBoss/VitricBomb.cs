@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -48,7 +45,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             return true;
         }
-        
+
         public override void AI()
         {
             projectile.velocity *= 0.97f;
@@ -61,11 +58,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, projectile.Center);
-            for(int k = 0; k < 80; k++)
+            for (int k = 0; k < 80; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(4));
             }
-            foreach(Player player in Main.player.Where(n => Vector2.Distance(n.Center, projectile.Center) < 400))
+            foreach (Player player in Main.player.Where(n => Vector2.Distance(n.Center, projectile.Center) < 400))
             {
                 player.Hurt(Terraria.DataStructures.PlayerDeathReason.ByProjectile(player.whoAmI, projectile.whoAmI), 60, 0);
             }

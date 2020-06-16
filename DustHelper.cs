@@ -1,18 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
-using StarlightRiver.Codex;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Graphics;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.ObjectData;
 
 namespace StarlightRiver
 {
@@ -21,7 +9,7 @@ namespace StarlightRiver
         public static void DrawStar(Vector2 position, int dustType, float pointAmount = 5, float mainSize = 1, float dustDensity = 1, float dustSize = 1f, float pointDepthMult = 1f, float pointDepthMultOffset = 0.5f, float randomAmount = 0, float rotationAmount = -1)
         {
             float rot;
-            if (rotationAmount < 0){ rot = Main.rand.NextFloat(0, (float)Math.PI * 2); }
+            if (rotationAmount < 0) { rot = Main.rand.NextFloat(0, (float)Math.PI * 2); }
             else { rot = rotationAmount; }
 
             float density = 1 / dustDensity * 0.1f;

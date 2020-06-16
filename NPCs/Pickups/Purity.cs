@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
-using StarlightRiver.GUI;
 using System;
 using Terraria;
 using Terraria.ID;

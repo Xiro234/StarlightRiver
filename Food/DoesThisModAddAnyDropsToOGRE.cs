@@ -15,7 +15,8 @@ namespace StarlightRiver.Food
         }
     }
 
-    public class Onion : QuickMaterial {
+    public class Onion : QuickMaterial
+    {
         public Onion() : base("Onion", "Does this mod add any drops to ogre?", 69420, 69420, -12)
         {
         }

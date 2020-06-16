@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -13,7 +12,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shooting Star");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;   
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
@@ -56,14 +55,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.velocity *= 1.2f;
             }
             Lighting.AddLight(projectile.Center, lightColor);
-            if(projectile.velocity.Y < 50)
+            if (projectile.velocity.Y < 50)
             {
                 projectile.velocity.Y += 0.25f;
             }
             projectile.velocity.X *= 0.995f;
         }
 
-        public override void ModifyHitNPC(NPC target,ref int damage,ref float knockback,ref bool crit,ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             damage *= ScaleMult;
         }
@@ -72,7 +71,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 1f * ScaleMult, dustDensity: 0.5f, pointDepthMult: 0.3f);
             Main.PlaySound(SoundID.Item4, projectile.Center);
-            for (int k = 0; k < 35 ; k++)
+            for (int k = 0; k < 35; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, dustType, Vector2.One.RotatedByRandom(6.28f) * (Main.rand.NextFloat(0.25f, 1.2f) * ScaleMult), 0, default, 1.5f);
             }

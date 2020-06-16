@@ -8,7 +8,7 @@ namespace StarlightRiver.Items.Overgrow
     public class FaeShard : QuickMaterial { public FaeShard() : base("Fae Shard", "Tooltip Placeholder", 999, 100, 1) { } }
 
     public class MossyBone : QuickMaterial { public MossyBone() : base("Mossy Bone", "Tooltip Placeholder", 999, 100, 1) { } }
-       
+
     public class Volatiles : ModItem
     {
         public override void SetStaticDefaults()

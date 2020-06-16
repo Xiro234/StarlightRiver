@@ -1,7 +1,6 @@
 using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Accessories
 {

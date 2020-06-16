@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Core;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.Guardian
 {

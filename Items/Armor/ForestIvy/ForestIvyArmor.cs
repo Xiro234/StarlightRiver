@@ -1,8 +1,8 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+﻿using StarlightRiver.Core;
 using StarlightRiver.Items.Herbology;
-using StarlightRiver.Core;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Armor.ForestIvy
 {

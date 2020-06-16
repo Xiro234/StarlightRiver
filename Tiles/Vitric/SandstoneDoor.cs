@@ -2,10 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -17,7 +15,7 @@ namespace StarlightRiver.Tiles.Vitric
             return true;
         }
 
-        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 8, 2, DustID.Stone, SoundID.Tink, false, new Color(130, 85, 45)); 
+        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 8, 2, DustID.Stone, SoundID.Tink, false, new Color(130, 85, 45));
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

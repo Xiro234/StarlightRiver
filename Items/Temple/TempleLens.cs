@@ -1,14 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StarlightRiver.Core;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -29,7 +22,7 @@ namespace StarlightRiver.Items.Temple
         {
             StarlightPlayer.ModifyHitNPCEvent += ModifyHurtLens;
             StarlightProjectile.ModifyHitNPCEvent += ModifyProjectileLens;
-            return true; 
+            return true;
         }
 
         private void ModifyHurtLens(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)

@@ -1,18 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
+using StarlightRiver.Abilities;
 using StarlightRiver.Items;
 using StarlightRiver.Projectiles.Dummies;
-using StarlightRiver.Abilities;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Temple
 {
@@ -21,7 +15,7 @@ namespace StarlightRiver.Tiles.Temple
         public override int DummyType => ModContent.ProjectileType<JarDummy>();
 
         public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 4, ModContent.DustType<Dusts.Stamina>(), SoundID.Shatter, false, new Color(204, 91, 50), false, false, "Stamina Jar");
-        
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Lighting.AddLight(new Vector2(i, j) * 16, new Vector3(1, 0.5f, 0.2f) * 0.3f);
@@ -36,7 +30,7 @@ namespace StarlightRiver.Tiles.Temple
 
                 spriteBatch.End();
                 spriteBatch.Begin(default, BlendState.Additive);
-                
+
                 spriteBatch.End();
                 spriteBatch.Begin();
 

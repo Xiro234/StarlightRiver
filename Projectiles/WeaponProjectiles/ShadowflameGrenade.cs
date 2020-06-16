@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -28,9 +26,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.ShadowFlame, 200); 
+            target.AddBuff(BuffID.ShadowFlame, 200);
         }
-        public void makeSpirals(int spiralCount, float length, float angleIntensity,float rotationOffset, Dust dust)
+        public void makeSpirals(int spiralCount, float length, float angleIntensity, float rotationOffset, Dust dust)
         {
             Vector2 cachedPos = dust.position;
             for (float k = 0; k <= spiralCount; k++)
@@ -56,7 +54,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Main.PlaySound(SoundID.Item62, projectile.position);
             Main.PlaySound(SoundID.Item103, projectile.position);
             int max = 4 + Main.rand.Next(4);
-            for (int i = 0;i<=max; i++)
+            for (int i = 0; i <= max; i++)
             {
                 spawnShadowflame((360 / max) * i);
             }

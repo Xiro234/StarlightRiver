@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Terraria.ObjectData;
 using Terraria.DataStructures;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles
 {
@@ -56,7 +50,7 @@ namespace StarlightRiver.Tiles
             for (int k = 0; k < height; k++)
             {
                 TileObjectData.newTile.CoordinateHeights[k] = 16;
-            }   
+            }
 
             if (tallBottom) TileObjectData.newTile.CoordinateHeights[height - 1] = 18;
             TileObjectData.newTile.UsesCustomCanPlace = true;

@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using StarlightRiver.Core;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
-using System;
 
 namespace StarlightRiver.Items.Overgrow
 {
@@ -24,7 +23,7 @@ namespace StarlightRiver.Items.Overgrow
 
         private void HealMoss(Item item, Player player, bool quickHeal, ref int healValue)
         {
-            if(item.potion && Equipped(player)) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
+            if (item.potion && Equipped(player)) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
         }
     }
 }

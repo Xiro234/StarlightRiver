@@ -4,7 +4,6 @@ using StarlightRiver.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -61,7 +60,7 @@ namespace StarlightRiver.Items.Armor.Palestone
         {
             player.setBonus = "anyway palestone set bonus i had in mind was that getting kills forms a big stone tablet to spin around the player (not in a circle, more like an orbit (think the overgrowth enemy that throws boulders)) which would provide damage resistance per tablet with a cap of 3, and taking damage would damage the tablets (a tablet can be damaged 3x before breaking)";
             PalestonePlayer palestonePlayer = player.GetModPlayer<PalestonePlayer>();
-            foreach(int i in palestonePlayer.tablets)
+            foreach (int i in palestonePlayer.tablets)
             {
                 if (i > 0)
                 {

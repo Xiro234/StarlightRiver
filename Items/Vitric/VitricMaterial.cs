@@ -3,7 +3,8 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Vitric
 {
-    public class VitricOre : QuickMaterial {
+    public class VitricOre : QuickMaterial
+    {
         public VitricOre() : base("Vitric Ore", "", 999, 200, 2)
         {
         }
