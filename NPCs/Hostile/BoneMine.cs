@@ -63,7 +63,7 @@ namespace StarlightRiver.NPCs.Hostile
             {
                 npc.ai[2]++;
                 if (npc.ai[2] % 10 == 0) Main.PlaySound(SoundID.MaxMana, (int)npc.Center.X, (int)npc.Center.Y, 1, 1, 0.5f); //warning beep
-                if (npc.ai[2] >= 45) Helper.Kill(npc); //detonate
+                if (npc.ai[2] >= 45) npc.Kill(); //detonate
             }
         }
 

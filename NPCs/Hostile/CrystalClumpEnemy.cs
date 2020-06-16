@@ -235,7 +235,7 @@ namespace StarlightRiver.NPCs.Hostile
                     }
                     if (npc.Hitbox.Intersects(wisp.Hitbox))
                     {
-                        Helper.Kill(wisp);
+                        //Helper.Kill(wisp);
                     }
                 }
             }

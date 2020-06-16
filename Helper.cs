@@ -20,7 +20,16 @@ namespace StarlightRiver
         public static Vector2 TileAdj => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12;
         public static bool IsTargetValid(NPC npc) => npc.active && !npc.friendly && !npc.immortal && !npc.dontTakeDamage;
         public static bool OnScreen(Vector2 pos) => (pos.X > 0 && pos.X < Main.screenWidth && pos.Y > 0 && pos.Y < Main.screenHeight);
-
+        public static void Kill(this NPC npc)
+        {
+            bool modNPCDontDie = npc.modNPC?.CheckDead() == false;
+            if (modNPCDontDie)
+                return;
+            npc.life = 0;
+            npc.checkDead();
+            npc.HitEffect();
+            npc.active = false;
+        }
         public static void PlaceMultitile(Point16 position, int type, int style = 0)
         {
             TileObjectData data = TileObjectData.GetTileData(type, style); //magic numbers and uneccisary params begone!
