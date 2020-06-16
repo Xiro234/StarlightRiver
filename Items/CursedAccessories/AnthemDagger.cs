@@ -28,6 +28,7 @@ namespace StarlightRiver.Items.CursedAccessories
             StarlightPlayer.PreHurtEvent += PreHurtDagger;
             return true;
         }
+
         private bool PreHurtDagger(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             if (Equipped(player))
