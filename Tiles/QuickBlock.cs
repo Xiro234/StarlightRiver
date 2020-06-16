@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using Terraria.ObjectData;
+using Terraria.DataStructures;
 
 namespace StarlightRiver.Tiles
 {
@@ -36,6 +38,32 @@ namespace StarlightRiver.Tiles
             wall.drop = drop;
             Main.wallHouse[wall.Type] = safe;
             wall.AddMapEntry(mapColor);
+        }
+        /// <summary>
+        /// Note that this should be called at the END of setdefaults so that any additional TileObjectData takes effect.
+        /// </summary>
+        public static void QuickSetFurniture(this ModTile tile, int width, int height, int dustType, int soundType, bool tallBottom, int drop, Color mapColor, bool solidTop = false, bool solid = false, string mapName = "")
+        {
+            Main.tileLavaDeath[tile.Type] = false;
+            Main.tileFrameImportant[tile.Type] = true;
+
+            TileObjectData.newTile.Width = width;
+            TileObjectData.newTile.Height = height;
+            TileObjectData.newTile.CoordinateHeights = new int[height];
+            Array.ForEach<int>(TileObjectData.newTile.CoordinateHeights, n => n = 16);
+            if (tallBottom) TileObjectData.newTile.CoordinateHeights[height - 1] = 18;
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.addTile(tile.Type);
+
+            ModTranslation name = tile.CreateMapEntryName();
+            name.SetDefault(mapName);
+            tile.AddMapEntry(mapColor, name);
+            tile.dustType = dustType;
+            tile.soundType = soundType;
+            tile.disableSmartCursor = true;
         }
     }
 }
