@@ -11,7 +11,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
     {
         public override void SetDefaults()
         {
-            QuickBlock.QuickSet(this, 200, DustType<Dusts.Glass>(), SoundID.Tink, new Color(95, 162, 138), -1);
+            QuickBlock.QuickSet(this, 200, DustType<Dusts.Glass3>(), SoundID.Tink, new Color(95, 162, 138), -1);
             Main.tileMerge[Type][TileType<VitricSand>()] = true;
         }
 
