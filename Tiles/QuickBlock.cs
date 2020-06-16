@@ -46,11 +46,20 @@ namespace StarlightRiver.Tiles
         {
             Main.tileLavaDeath[tile.Type] = false;
             Main.tileFrameImportant[tile.Type] = true;
+            Main.tileSolidTop[tile.Type] = solidTop;
+            Main.tileSolid[tile.Type] = solid;
+
+            tile.drop = drop;
 
             TileObjectData.newTile.Width = width;
             TileObjectData.newTile.Height = height;
             TileObjectData.newTile.CoordinateHeights = new int[height];
-            Array.ForEach<int>(TileObjectData.newTile.CoordinateHeights, n => n = 16);
+
+            for (int k = 0; k < height; k++)
+            {
+                TileObjectData.newTile.CoordinateHeights[k] = 16;
+            }   
+
             if (tallBottom) TileObjectData.newTile.CoordinateHeights[height - 1] = 18;
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.CoordinateWidth = 16;

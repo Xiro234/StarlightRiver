@@ -41,7 +41,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
     internal class BigHatchOvergrow : DummyTile
     {
-        public BigHatchOvergrow() : base(ModContent.ProjectileType<Projectiles.Dummies.BigHatchDummy>()) { }
+        public override int DummyType => ModContent.ProjectileType<Projectiles.Dummies.BigHatchDummy>();
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = false;

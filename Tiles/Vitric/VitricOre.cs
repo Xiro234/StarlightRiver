@@ -11,7 +11,7 @@ namespace StarlightRiver.Tiles.Vitric
 {
     internal class VitricOre : DummyTile
     {
-        public VitricOre() : base(ModContent.ProjectileType<VitricOreDummy>()) { }
+        public override int DummyType => ModContent.ProjectileType<VitricOreDummy>();
         public override void SetDefaults()
         {
             QuickBlock.QuickSetFurniture(this, 2, 3, ModContent.DustType<Dusts.Air>(), SoundID.Shatter, false, ModContent.ItemType<Items.Vitric.VitricOre>(), new Color(200, 255, 230));
@@ -32,7 +32,7 @@ namespace StarlightRiver.Tiles.Vitric
 
     internal class VitricOreFloat : DummyTile
     {
-        public VitricOreFloat() : base(ModContent.ProjectileType<VitricOreFloatDummy>()) { }
+        public override int DummyType => ModContent.ProjectileType<VitricOreFloatDummy>();
         public override void SetDefaults()
         {
             QuickBlock.QuickSetFurniture(this, 2, 2, ModContent.DustType<Dusts.Air>(), SoundID.Shatter, false, ModContent.ItemType<Items.Vitric.VitricOre>(), new Color(200, 255, 230));
