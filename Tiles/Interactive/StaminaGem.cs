@@ -1,25 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
+using StarlightRiver.Items;
+using StarlightRiver.Projectiles.Dummies;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    internal class StaminaGem : ModTile
+    internal class StaminaGem : DummyTile
     {
-        public override void SetDefaults()
-        {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileBlockLight[Type] = false;
-            Main.tileLighted[Type] = true;
+        public override int DummyType => ProjectileType<StaminaGemDummy>();
 
-            drop = mod.ItemType("StaminaGemItem");
-            dustType = mod.DustType("Stamina");
-            AddMapEntry(new Color(255, 186, 66));
-        }
+        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 1, 1, DustType<Dusts.Stamina>(), SoundID.Shatter, false, new Color(255, 186, 66));
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i,j) * 16, ItemType<StaminaGemItem>());
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -27,24 +26,41 @@ namespace StarlightRiver.Tiles.Interactive
             g = 0.144f / 1.1f;
             b = 0.071f / 1.1f;
         }
+    }
+    internal class StaminaGemItem : QuickTileItem { public StaminaGemItem() : base("Stamina Gem", "Restores stamina when hit with an ability", TileType<StaminaGem>(), 8) { } }
 
-        public override void NearbyEffects(int i, int j, bool closer)
+    internal class StaminaGemDummy : Dummy
+    {
+        public StaminaGemDummy() : base(TileType<StaminaGem>(), 16, 16) { }
+        public override void Update()
         {
-            Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -11);
-            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>() && proj.active))
+            if (projectile.ai[0] > 0) { projectile.ai[0]--; }
+            else if (Main.rand.Next(3) == 0) Dust.NewDust(projectile.position, 16, 16, DustType<Dusts.Stamina>());
+        }
+        public override void Collision(Player player)
+        {
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+
+            if (projectile.ai[0] == 0 && projectile.Hitbox.Intersects(player.Hitbox) && mp.StatStamina < mp.StatStaminaMax && mp.Abilities.Any(a => a.Active))
             {
-                Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>(), 0, 0);
+                mp.StatStamina++;
+                if (mp.wisp.Active) { mp.wisp.Timer = 60 * mp.StatStamina - 1; }
+                projectile.ai[0] = 300;
+
+                Main.PlaySound(SoundID.Shatter, projectile.Center);
+                Main.PlaySound(SoundID.Item112, projectile.Center);
+                CombatText.NewText(player.Hitbox, new Color(255, 170, 60), "+1");
+                for (float k = 0; k <= 6.28; k += 0.1f)
+                {
+                    Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * (Main.rand.Next(50) * 0.1f), 0, default, 3f);
+                }
             }
         }
-
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaGemDummy>() && proj.active && proj.ai[0] == 0))
-            {
-                Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime * 3f);
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemGlow"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, color);
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemOn"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, Color.White);
-            }
+            Color color = Color.White * (float)Math.Sin(StarlightWorld.rottime * 3f);
+            spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemGlow"), projectile.position - Main.screenPosition, color);
+            if(projectile.ai[0] == 0) spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemOn"), projectile.position - Main.screenPosition, Color.White);
         }
     }
 }

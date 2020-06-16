@@ -1,37 +1,64 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
+using StarlightRiver.Items;
+using StarlightRiver.Projectiles.Dummies;
 using System;
 using System.Linq;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Interactive
 {
-    internal class Bounce : ModTile
+    internal class Bouncer : DummyTile
     {
-        public override void SetDefaults()
-        {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
+        public override int DummyType => ProjectileType<BouncerDummy>();
+        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 1, 1, DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(115, 182, 158));
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<BouncerItem>());
+    }
 
-            drop = mod.ItemType("Bounce");
-            dustType = mod.DustType("Air");
-            AddMapEntry(new Color(115, 182, 158));
-        }
+    internal class BouncerItem : QuickTileItem { public BouncerItem() : base("Vitric Bouncer", "Dash into this to go flying!\nResets jump accessories", TileType<Bouncer>(), 8) { } }
 
-        public override void NearbyEffects(int i, int j, bool closer)
+    internal class BouncerDummy : Dummy
+    {
+        public BouncerDummy() : base(TileType<Bouncer>(), 16, 16) { }
+
+        public override void Collision(Player player)
         {
-            Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -11);
-            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.BouncerDummy>() && proj.active))
+            AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
+
+            if (AbilityHelper.CheckDash(player, projectile.Hitbox))
             {
-                Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.BouncerDummy>(), 0, 0);
+                mp.dash.Active = false;
+
+                if (player.velocity.Length() != 0)
+                {
+                    player.velocity = Vector2.Normalize(player.velocity) * -18f;
+                    player.wingTime = player.wingTimeMax;
+                    player.rocketTime = player.rocketTimeMax;
+                    player.jumpAgainCloud = true;
+                    player.jumpAgainBlizzard = true;
+                    player.jumpAgainSandstorm = true;
+                    player.jumpAgainFart = true;
+                    player.jumpAgainSail = true;
+                }
+
+                Main.PlaySound(SoundID.Shatter, projectile.Center);
+                for (int k = 0; k <= 30; k++)
+                {
+                    int dus = Dust.NewDust(projectile.position, 48, 32, mod.DustType("Glass"), Main.rand.Next(-16, 15), Main.rand.Next(-16, 15), 0, default, 1.3f);
+                    Main.dust[dus].customData = projectile.Center;
+                }
             }
         }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime);
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/BounceGlow"), (new Vector2(i, j) + Helper.TileAdj) * 16 - Vector2.One - Main.screenPosition, color);
+            Texture2D tex = GetTexture("StarlightRiver/Tiles/Interactive/BouncerGlow");
+            Color color = Color.White * (float)Math.Sin(StarlightWorld.rottime);
+            spriteBatch.Draw(tex, projectile.position - Vector2.One - Main.screenPosition, color);
         }
     }
 }
