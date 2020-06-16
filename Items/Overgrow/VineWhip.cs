@@ -4,6 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Overgrow
 {
@@ -30,10 +31,7 @@ namespace StarlightRiver.Items.Overgrow
             item.shoot = ProjectileID.WoodenArrowFriendly;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return !Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.type == ModContent.ProjectileType<WhipSegment1>() && proj.active);
-        }
+        public override bool CanUseItem(Player player) => !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<WhipSegment1>());
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

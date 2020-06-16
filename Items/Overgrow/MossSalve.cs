@@ -1,39 +1,30 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
+using System;
 
 namespace StarlightRiver.Items.Overgrow
 {
-    internal class MossSalve : ModItem
+    internal class MossSalve : SmartAccessory
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Moss Salve");
-            Tooltip.SetDefault("Health potions grant a short regeneration effect");
-        }
+        public MossSalve() : base("Moss Salve", "Health potions grant a short regeneration effect") { }
 
-        public override void SetDefaults()
+        public override void SafeSetDefaults()
         {
-            item.width = 16;
-            item.height = 16;
             item.rare = ItemRarityID.Green;
             item.value = 10000;
-            item.accessory = true;
         }
 
-        public override void UpdateEquip(Player player)
+        public override bool Autoload(ref string name)
         {
+            StarlightItem.GetHealLifeEvent += HealMoss;
+            return true;
         }
-    }
 
-    internal class OnHealItem : GlobalItem
-    {
-        public override void OnConsumeItem(Item item, Player player)
+        private void HealMoss(Item item, Player player, bool quickHeal, ref int healValue)
         {
-            if (item.healLife > 0 && item.potion)
-            {
-                if (Helper.HasEquipped(player, ModContent.ItemType<MossSalve>())) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
-            }
+            if(item.potion && Equipped(player)) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
         }
     }
 }
