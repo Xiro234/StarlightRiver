@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
+using StarlightRiver.Items.Vitric;
+using StarlightRiver.Tiles.Vitric.Blocks;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Armor.Vitric
 {
@@ -62,8 +65,8 @@ namespace StarlightRiver.Items.Armor.Vitric
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricSandItem>(), 20);
+            recipe.AddIngredient(ItemType<VitricGem>(), 10);
+            recipe.AddIngredient(ItemType<VitricSandItem>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -96,8 +99,8 @@ namespace StarlightRiver.Items.Armor.Vitric
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricSandItem>(), 20);
+            recipe.AddIngredient(ItemType<VitricGem>(), 10);
+            recipe.AddIngredient(ItemType<VitricSandItem>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -130,8 +133,8 @@ namespace StarlightRiver.Items.Armor.Vitric
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricSandItem>(), 20);
+            recipe.AddIngredient(ItemType<VitricGem>(), 10);
+            recipe.AddIngredient(ItemType<VitricSandItem>(), 20);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();

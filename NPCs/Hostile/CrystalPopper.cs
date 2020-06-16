@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using StarlightRiver.Tiles.Vitric.Blocks;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -108,8 +109,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextFloat() < 0.5f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(1, 3)); }
-            if (Main.rand.NextFloat() < 0.8f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricSandItem>(), Main.rand.Next(10, 12)); }
+            Item.NewItem(npc.getRect(), ModContent.ItemType<VitricSandItem>(), Main.rand.Next(10, 12));
         }
 
         public override void FindFrame(int frameHeight)
