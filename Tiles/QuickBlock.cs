@@ -42,14 +42,12 @@ namespace StarlightRiver.Tiles
         /// <summary>
         /// Note that this should be called at the END of setdefaults so that any additional TileObjectData takes effect.
         /// </summary>
-        public static void QuickSetFurniture(this ModTile tile, int width, int height, int dustType, int soundType, bool tallBottom, int drop, Color mapColor, bool solidTop = false, bool solid = false, string mapName = "")
+        public static void QuickSetFurniture(this ModTile tile, int width, int height, int dustType, int soundType, bool tallBottom, Color mapColor, bool solidTop = false, bool solid = false, string mapName = "")
         {
             Main.tileLavaDeath[tile.Type] = false;
             Main.tileFrameImportant[tile.Type] = true;
             Main.tileSolidTop[tile.Type] = solidTop;
             Main.tileSolid[tile.Type] = solid;
-
-            tile.drop = drop;
 
             TileObjectData.newTile.Width = width;
             TileObjectData.newTile.Height = height;
@@ -65,6 +63,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Origin = new Point16(0, 0);
+
             TileObjectData.addTile(tile.Type);
 
             ModTranslation name = tile.CreateMapEntryName();

@@ -15,7 +15,7 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void SetDefaults()
         {
-            QuickBlock.QuickSetFurniture(this, 5, 7, ModContent.DustType<Dusts.Air>(), SoundID.Tink, false, -1, new Color(200, 113, 113), false, false, "Ceiro's Altar");
+            QuickBlock.QuickSetFurniture(this, 5, 7, ModContent.DustType<Dusts.Air>(), SoundID.Tink, false, new Color(200, 113, 113), false, false, "Ceiro's Altar");
             minPick = int.MaxValue;
         }
 

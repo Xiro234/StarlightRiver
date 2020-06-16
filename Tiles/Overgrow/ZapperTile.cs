@@ -10,7 +10,7 @@ namespace StarlightRiver.Tiles.Overgrow
 {
     internal class ZapperTile : ModTile
     {
-        public override void SetDefaults() { QuickBlock.QuickSetFurniture(this, 5, 2, DustID.Stone, SoundID.Tink, false, -1, new Color(100, 100, 80)); }
+        public override void SetDefaults() { QuickBlock.QuickSetFurniture(this, 5, 2, DustID.Stone, SoundID.Tink, false, new Color(100, 100, 80)); }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

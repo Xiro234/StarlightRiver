@@ -20,7 +20,7 @@ namespace StarlightRiver.Tiles.Temple
     {
         public override int DummyType => ModContent.ProjectileType<JarDummy>();
 
-        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 4, ModContent.DustType<Dusts.Stamina>(), SoundID.Shatter, false, -1, new Color(204, 91, 50), false, false, "Stamina Jar");
+        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 4, ModContent.DustType<Dusts.Stamina>(), SoundID.Shatter, false, new Color(204, 91, 50), false, false, "Stamina Jar");
         
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
@@ -62,7 +62,7 @@ namespace StarlightRiver.Tiles.Temple
         public void DrawAdditive(SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + Vector2.UnitY * 8, tex.Frame(), Color.OrangeRed * 0.7f, 0, tex.Size() / 2, 0.8f, 0, 0);
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + Vector2.UnitY * 16, tex.Frame(), Color.OrangeRed * 0.7f, 0, tex.Size() / 2, 0.8f, 0, 0);
         }
     }
 
