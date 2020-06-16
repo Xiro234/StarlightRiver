@@ -258,11 +258,10 @@ namespace StarlightRiver
                 }
             } //Clears whole biome
 
-            int minCeilDepth = (int)((biomeTarget.Y + (biomeTarget.Height / 2)) - (17f * Math.Log(VitricSlopeOffset - 8))); //Various informational variables - not to be changed
-            int maxCeilDepth = minCeilDepth + 7;
+            int minCeilingDepth = (int)((biomeTarget.Y + (biomeTarget.Height / 2)) - (17f * Math.Log(VitricSlopeOffset - 8))); //Various informational variables - not to be changed
+            int maxCeilingDepth = minCeilingDepth + 7;
             int minFloorDepth = (int)(biomeTarget.Y + (13f * Math.Log(VitricSlopeOffset - 8))) + (biomeTarget.Height / 2);
             int maxFloorDepth = (int)(biomeTarget.Y + (13f * Math.Log(VitricSlopeOffset - 30))) + (biomeTarget.Height / 2);
-            int dune = 0; //Controls dune
 
             //0 is the top of the biome, 1 is the bottom of the top layer of sand, 2 is the top of the bottom layer of sand, and 3 is the bottom of the bottom layer of sand
             int[] layers = new int[4] { biomeTarget.Y, biomeTarget.Y + biomeTarget.Height / 2, biomeTarget.Y + biomeTarget.Height / 2, biomeTarget.Y + biomeTarget.Height };
@@ -284,16 +283,16 @@ namespace StarlightRiver
                 }
                 else if (xDif == VitricSlopeOffset) //Begin flatway
                 {
-                    layers[1] = minCeilDepth;
+                    layers[1] = minCeilingDepth;
                     layers[2] = minFloorDepth;
                 }
                 else if (xDif > VitricSlopeOffset && xDif < biomeTarget.Width - VitricSlopeOffset) //Flatway
                 {
                     if (genRand.Next(3) == 0 && x % 2 == 1)
                     {
-                        if (layers[1] >= minCeilDepth && layers[1] <= maxCeilDepth) layers[1] += genRand.Next(-1, 2);
-                        else if (layers[1] < minCeilDepth) layers[1] += genRand.Next(2);
-                        else if (layers[1] > maxCeilDepth || biomeTarget.Width - VitricSlopeOffset - 30 < xDif) layers[1] += genRand.Next(-1, 1);
+                        if (layers[1] >= minCeilingDepth && layers[1] <= maxCeilingDepth) layers[1] += genRand.Next(-1, 2);
+                        else if (layers[1] < minCeilingDepth) layers[1] += genRand.Next(2);
+                        else if (layers[1] > maxCeilingDepth || biomeTarget.Width - VitricSlopeOffset - 30 < xDif) layers[1] += genRand.Next(-1, 1);
                     }
 
                     if (genRand.Next(3) == 0 && x % 2 == 1)
@@ -333,53 +332,46 @@ namespace StarlightRiver
             for (int x = biomeTarget.X + biomeTarget.Width / 2 - 40; x < biomeTarget.X + biomeTarget.Width / 2 + 40; x++) //Flat part of the centre - Ceiros's Arena
             {
                 int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 40);
-                for (int y = biomeTarget.Y + biomeTarget.Height - 76; y < biomeTarget.Y + biomeTarget.Height; y++)
-                    PlaceTile(x, y, TileType<VitricSand>(), false, true);
+                for (int y = biomeTarget.Y + biomeTarget.Height - 76; y < biomeTarget.Y + biomeTarget.Height; y++) PlaceTile(x, y, TileType<VitricSand>(), false, true);
 
-                if (xRel == 38)
-                    Helper.PlaceMultitile(new Point16(x, biomeTarget.Y + 57), TileType<VitricBossAltar>());
+                if (xRel == 38) Helper.PlaceMultitile(new Point16(x, biomeTarget.Y + 57), TileType<VitricBossAltar>());
             }
 
             for (int x = biomeTarget.X + biomeTarget.Width / 2 - 35; x <= biomeTarget.X + biomeTarget.Width / 2 + 36; x++) //Entrance from Desert 
-                for (int y = biomeTarget.Y; y < biomeTarget.Y + 20; y++)
-                    KillTile(x, y);
+                for (int y = biomeTarget.Y; y < biomeTarget.Y + 20; y++) KillTile(x, y);
 
             for (int x = biomeTarget.X + biomeTarget.Width / 2 - 51; x <= biomeTarget.X + biomeTarget.Width / 2 + 52; x++) //Sandstone Cubes (Pillar Ground)
             {
                 int xRel = x - (biomeTarget.X + biomeTarget.Width / 2 - 51);
                 if (xRel < 16 || xRel > 87)
                 {
-                    for (int y = biomeTarget.Y + biomeTarget.Height - 77; y < biomeTarget.Y + biomeTarget.Height - 67; y++) //Bottom
-                    {
-                        PlaceTile(x, y, TileType<AncientSandstone>(), false, true);
-                    }
-                    for (int y = biomeTarget.Y - 1; y < biomeTarget.Y + 9; y++) //Top
-                    {
-                        PlaceTile(x, y, TileType<AncientSandstone>(), false, true);
-                    }
+                    for (int y = biomeTarget.Y + biomeTarget.Height - 77; y < biomeTarget.Y + biomeTarget.Height - 67; y++) PlaceTile(x, y, TileType<AncientSandstone>(), false, true);
+                    for (int y = biomeTarget.Y - 1; y < biomeTarget.Y + 9; y++) PlaceTile(x, y, TileType<AncientSandstone>(), false, true);
                 }
             } //Adjusted from prior code
 
             List<Point> islands = new List<Point>(); //List for island positions
             for (int i = 0; i < 12; ++i)
             {
-                int rX;
-                int rY;
+                int x;
+                int y;
+                bool repeat = false;
 
-                bool rep = false;
                 do
                 {
-                    rX = biomeTarget.X + (int)(VitricSlopeOffset * 0.8f) + genRand.Next((int)(biomeTarget.Width / 2.7f));
-                    if (genRand.Next(2) == 0) rX += (int)(biomeTarget.Width / 2f);
-                    rY = (maxCeilDepth + 18) + (genRand.Next((int)(biomeTarget.Height / 3f)));
-                    if (islands.Any(v => Vector2.Distance(new Vector2(rX, rY), v.ToVector2()) < 32) || (rX > biomeTarget.X + biomeTarget.Width / 2 - 71 && rX < biomeTarget.X + biomeTarget.Width / 2 + 70))
-                        rep = true;
-                    else
-                        rep = false;
-                } while (rep); //Gets a valid island position
+                    x = biomeTarget.X + (int)(VitricSlopeOffset * 0.8f) + genRand.Next((int)(biomeTarget.Width / 2.7f));
+                    if (genRand.Next(2) == 0) x += (int)(biomeTarget.Width / 2f);
 
-                islands.Add(new Point(rX, rY));
-                CreateIsland(rX, rY); //Adds island pos to list and places island
+                    y = (maxCeilingDepth + 18) + (genRand.Next((int)(biomeTarget.Height / 3f)));
+
+                    if (islands.Any(v => Vector2.Distance(new Vector2(x, y), v.ToVector2()) < 32) || (x > biomeTarget.X + biomeTarget.Width / 2 - 71 && x < biomeTarget.X + biomeTarget.Width / 2 + 70))
+                        repeat = true;
+                    else repeat = false;
+                }
+                while (repeat); //Gets a valid island position
+
+                islands.Add(new Point(x, y));
+                CreateIsland(x, y); //Adds island pos to list and places island
             }
 
             for (int i = biomeTarget.X + VitricSlopeOffset; i < biomeTarget.X + (biomeTarget.Width - VitricSlopeOffset); ++i) //Add large crystals
