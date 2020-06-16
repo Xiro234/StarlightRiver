@@ -329,7 +329,7 @@ namespace StarlightRiver
                 for (int y = layers[2] - (9 - spikeOff); y < layers[3]; ++y)
                 {
                     bool validSpike = y < layers[2] && y >= (biomeTarget.Y + (biomeTarget.Height / 2f));
-                    WorldGen.PlaceTile(x, y, validSpike ? ModContent.TileType<Tiles.Vitric.VitricSpike>() : ModContent.TileType<VitricSand>(), false, true);
+                    WorldGen.PlaceTile(x, y, validSpike ? ModContent.TileType<VitricSpike>() : ModContent.TileType<VitricSand>(), false, true);
                 }
             }
 
