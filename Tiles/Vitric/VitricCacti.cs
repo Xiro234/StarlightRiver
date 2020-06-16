@@ -27,7 +27,7 @@ namespace StarlightRiver.Tiles.Vitric
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(2, 5));
     }
 
-    public class VitricSmolCactus : ModTile
+    public class VitricSmallCactus : ModTile
     {
         public override void SetDefaults()
         {
