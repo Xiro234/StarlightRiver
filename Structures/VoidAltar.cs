@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Tiles.Void;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Structures
 {
@@ -33,16 +35,14 @@ namespace StarlightRiver.Structures
                     switch (rawData[x].R) //select block
                     {
                         case 10: placeType = TileID.Ash; break;
-                        case 20: placeType = (ushort)ModContent.TileType<Tiles.Void.Void1>(); break;
-                        case 30: placeType = (ushort)ModContent.TileType<Tiles.Void.Void2>(); break;
+                        case 20: placeType = (ushort)TileType<VoidBrick>(); break;
+                        case 30: placeType = (ushort)TileType<VoidStone>(); break;
                         case 40: placeType = TileID.Platforms; break;
                             //case 50: placeType = (ushort)ModContent.TileType<Tiles.Rift.MainRift>(); break;
                     }
                     switch (rawData[x].B) //select wall
                     {
                         case 10: wallType = (ushort)ModContent.WallType<Tiles.Void.VoidWall>(); break;
-                        case 20: wallType = (ushort)ModContent.WallType<Tiles.Void.VoidWallPillar>(); break;
-                        case 30: wallType = (ushort)ModContent.WallType<Tiles.Void.VoidWallPillarS>(); break;
                     }
 
                     if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block
