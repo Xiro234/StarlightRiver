@@ -58,9 +58,12 @@ namespace StarlightRiver.Tiles.Interactive
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color = Color.White * (float)Math.Sin(StarlightWorld.rottime * 3f);
-            spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemGlow"), projectile.position - Main.screenPosition, color);
-            if(projectile.ai[0] == 0) spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemOn"), projectile.position - Main.screenPosition, Color.White);
+            if (projectile.ai[0] == 0)
+            {
+                Color color = Color.White * (float)Math.Sin(StarlightWorld.rottime * 3f);
+                spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemGlow"), projectile.position - Main.screenPosition, color);
+                spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/StaminaGemOn"), projectile.position - Main.screenPosition, Color.White);
+            }
         }
     }
 }
