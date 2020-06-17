@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Tiles.Vitric.Blocks;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -13,11 +14,11 @@ namespace StarlightRiver.Tiles.Vitric
         public override void SetDefaults()
         {
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>(), ModContent.TileType<VitricSoftSand>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { TileType<VitricSand>(), TileType<VitricSoftSand>() };
             TileObjectData.newTile.RandomStyleRange = 4;
             TileObjectData.newTile.StyleHorizontal = true;
 
-            QuickBlock.QuickSetFurniture(this, 2, 2, ModContent.DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
+            QuickBlock.QuickSetFurniture(this, 2, 2, DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
         }
     }
 
@@ -26,11 +27,11 @@ namespace StarlightRiver.Tiles.Vitric
         public override void SetDefaults()
         {
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>(), ModContent.TileType<VitricSoftSand>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { TileType<VitricSand>(), TileType<VitricSoftSand>() };
             TileObjectData.newTile.RandomStyleRange = 6;
             TileObjectData.newTile.StyleHorizontal = true;
 
-            QuickBlock.QuickSetFurniture(this, 3, 2, ModContent.DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
+            QuickBlock.QuickSetFurniture(this, 3, 2, DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
         }
     }
 }

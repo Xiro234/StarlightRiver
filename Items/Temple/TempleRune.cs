@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -24,7 +24,7 @@ namespace StarlightRiver.Items.Temple
                 for (float k = (RuneTimer % 5) * 0.1f; k < 6.28f; k += 0.5f)
                 {
                     Vector2 off = new Vector2((float)Math.Cos(k + RuneTimer / 100f) * player.width, (float)Math.Sin(k + RuneTimer / 100f) * player.height);
-                    Dust d = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.PlayerFollowOrange>(), off);
+                    Dust d = Dust.NewDustPerfect(player.Center, DustType<Dusts.PlayerFollowOrange>(), off);
                     d.customData = player.whoAmI;
                 }
             }

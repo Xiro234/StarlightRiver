@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Tiles.Vitric;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Structures
 {
@@ -10,7 +10,7 @@ namespace StarlightRiver.Structures
     {
         public static void CrystalGen(Vector2 topLeft)
         {
-            Texture2D Altar = ModContent.GetTexture("StarlightRiver/Structures/Crystal");
+            Texture2D Altar = GetTexture("StarlightRiver/Structures/Crystal");
             Vector2 spawn = topLeft;
 
             for (int y = 0; y < Altar.Height; y++) // for every row
@@ -25,8 +25,8 @@ namespace StarlightRiver.Structures
 
                     switch (rawData[x].R) //select block
                     {
-                        case 10: placeType = (ushort)ModContent.TileType<VitricCrystalCollision>(); break;
-                        case 20: WorldGen.PlaceWall((int)spawn.X + x, (int)spawn.Y + y, ModContent.WallType<Tiles.Vitric.VitricCrystalBig>()); break;
+                        case 10: placeType = (ushort)TileType<VitricCrystalCollision>(); break;
+                        case 20: WorldGen.PlaceWall((int)spawn.X + x, (int)spawn.Y + y, WallType<VitricCrystalBig>()); break;
                     }
 
                     switch (rawData[x].G)

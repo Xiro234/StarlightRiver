@@ -1,4 +1,5 @@
-﻿using StarlightRiver.Core;
+﻿using static Terraria.ModLoader.ModContent;
+using StarlightRiver.Core;
 using StarlightRiver.Items.Herbology;
 using Terraria;
 using Terraria.ID;
@@ -29,7 +30,7 @@ namespace StarlightRiver.Items.Armor.ForestIvy
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Ivy>(), 8);
+            recipe.AddIngredient(ItemType<Ivy>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -58,7 +59,7 @@ namespace StarlightRiver.Items.Armor.ForestIvy
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return head.type == ModContent.ItemType<ForestIvyHead>() && legs.type == ModContent.ItemType<ForestIvyLegs>();
+            return head.type == ItemType<ForestIvyHead>() && legs.type == ItemType<ForestIvyLegs>();
         }
         public override void UpdateArmorSet(Player player)
         {
@@ -69,7 +70,7 @@ namespace StarlightRiver.Items.Armor.ForestIvy
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Ivy>(), 12);
+            recipe.AddIngredient(ItemType<Ivy>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -99,7 +100,7 @@ namespace StarlightRiver.Items.Armor.ForestIvy
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Ivy>(), 8);
+            recipe.AddIngredient(ItemType<Ivy>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

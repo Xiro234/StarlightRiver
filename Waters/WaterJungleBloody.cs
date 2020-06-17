@@ -1,3 +1,4 @@
+using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -19,7 +20,7 @@ namespace StarlightRiver.Waters
 
         public override int GetSplashDust()
         {
-            return ModContent.DustType<Dusts.BloodyJungleSplash>();
+            return DustType<Dusts.BloodyJungleSplash>();
         }
 
         public override int GetDropletGore()

@@ -1,8 +1,8 @@
-﻿using StarlightRiver.Buffs;
+﻿using static Terraria.ModLoader.ModContent;
+using StarlightRiver.Buffs;
 using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Accessories
 {
@@ -14,7 +14,7 @@ namespace StarlightRiver.Items.Accessories
             StarlightPlayer modplayer = player.GetModPlayer<StarlightPlayer>();
             if (modplayer.Timer - modplayer.LastHit >= 1200)
             {
-                if (!player.HasBuff(ModContent.BuffType<GhastlyCloakBuff>())) //activation thing
+                if (!player.HasBuff(BuffType<GhastlyCloakBuff>())) //activation thing
                 {
                     Main.PlaySound(SoundID.Item123, player.position);
                     for (int i = 0; i <= 30; i++)
@@ -22,7 +22,7 @@ namespace StarlightRiver.Items.Accessories
                         Dust.NewDust(player.position, player.width, player.height, 62);
                     }
                 }
-                player.AddBuff(ModContent.BuffType<GhastlyCloakBuff>(), 2, false);
+                player.AddBuff(BuffType<GhastlyCloakBuff>(), 2, false);
             }
         }
     }

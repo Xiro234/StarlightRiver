@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +23,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Dust.NewDustPerfect(new Vector2(4 + i * 16, 2 + j * 16), ModContent.DustType<Dusts.Gold2>());
+            Dust.NewDustPerfect(new Vector2(4 + i * 16, 2 + j * 16), DustType<Dusts.Gold2>());
             Lighting.AddLight(new Vector2(i * 16, j * 16), new Vector3(255, 200, 110) * 0.004f);
         }
     }

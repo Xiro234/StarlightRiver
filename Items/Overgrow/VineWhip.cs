@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles.WeaponProjectiles;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Overgrow
 {
@@ -38,7 +38,7 @@ namespace StarlightRiver.Items.Overgrow
             for (int k = 0; k <= 10; k++)
             {
                 Vector2 vel = Vector2.Normalize(Main.MouseWorld - player.Center);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, vel.X, vel.Y, ModContent.ProjectileType<WhipSegment1>(), damage, 0, player.whoAmI, k, vel.ToRotation());
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, vel.X, vel.Y, ProjectileType<WhipSegment1>(), damage, 0, player.whoAmI, k, vel.ToRotation());
             }
             return false;
         }

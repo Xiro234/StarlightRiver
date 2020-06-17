@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -32,8 +33,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             };
             projectile.velocity = relativeRot.RotatedBy(projectile.rotation - 1.57f);
 
-            Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Stamina>(), projectile.velocity * Main.rand.NextFloat(0.2f, 1.1f), 0, default, 1f);
-            Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Sand>(), projectile.velocity * Main.rand.NextFloat(0.8f, 1.2f), 140, default, 0.7f);
+            Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Stamina>(), projectile.velocity * Main.rand.NextFloat(0.2f, 1.1f), 0, default, 1f);
+            Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Sand>(), projectile.velocity * Main.rand.NextFloat(0.8f, 1.2f), 140, default, 0.7f);
 
             Lighting.AddLight(projectile.Center, new Vector3(0.3f, 0.2f, 0));
         }

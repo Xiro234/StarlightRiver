@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using Terraria;
@@ -24,7 +25,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         //These stats get scaled when empowered
         private int ScaleMult = 2;
         private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
-        private int dustType = ModContent.DustType<Dusts.Stamina>();
+        private int dustType = DustType<Dusts.Stamina>();
 
 
         public override void SetDefaults()
@@ -54,7 +55,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.frame = 1;
                 lightColor = new Vector3(0.1f, 0.2f, 0.4f);
                 ScaleMult = 3;
-                dustType = ModContent.DustType<Dusts.BlueStamina>();
+                dustType = DustType<Dusts.BlueStamina>();
             }
 
             Lighting.AddLight(projectile.Center, lightColor * 0.5f);
@@ -200,11 +201,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         #endregion
 
         //private Texture2D LightTrailTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/glow");
-        private Texture2D GlowingTrail => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlowTrail");
+        private Texture2D GlowingTrail => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlowTrail");
 
         //private static Texture2D MainTexture => ModContent.GetTexture("StarlightRiver/Items/StarwoodBoomerang");
-        private Texture2D GlowingTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
-        private Texture2D AuraTexture => ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+        private Texture2D GlowingTexture => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
+        private Texture2D AuraTexture => GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

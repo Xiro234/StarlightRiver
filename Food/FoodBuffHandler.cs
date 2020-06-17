@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using static Terraria.ModLoader.ModContent;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
@@ -16,7 +17,7 @@ namespace StarlightRiver.Food
 
         public override void ResetEffects()
         {
-            if (!player.HasBuff(ModContent.BuffType<Buffs.FoodBuff>()) && Consumed.Count > 0) { Consumed.Clear(); Multiplier = 1; } //clears the player's "belly" if they're not under the effects of food anymore, also resets the multiplier just in case.
+            if (!player.HasBuff(BuffType<Buffs.FoodBuff>()) && Consumed.Count > 0) { Consumed.Clear(); Multiplier = 1; } //clears the player's "belly" if they're not under the effects of food anymore, also resets the multiplier just in case.
             foreach (Item item in Consumed.Where(n => n.modItem is Ingredient))
             {
                 (item.modItem as Ingredient).ResetBuffEffects(player, Multiplier);

@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using StarlightRiver.GUI;
+﻿using StarlightRiver.GUI;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;

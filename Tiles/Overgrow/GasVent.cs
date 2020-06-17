@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -13,7 +14,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = true;
 
-            dustType = ModContent.DustType<Dusts.Gas>();
+            dustType = DustType<Dusts.Gas>();
             AddMapEntry(new Color(255, 186, 66));
         }
     }

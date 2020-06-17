@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +12,7 @@ namespace StarlightRiver.Tiles.Misc
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
-            drop = ModContent.ItemType<Items.Misc.Sandscript>();
+            drop = ItemType<Items.Misc.Sandscript>();
             dustType = DustID.Gold;
         }
 

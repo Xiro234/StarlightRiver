@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Configs;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Core
 {
@@ -17,14 +17,14 @@ namespace StarlightRiver.Core
         private readonly int Styles;
         public ParticleSystem(string texture, Update updateDelegate, int styles = 1)
         {
-            Texture = ModContent.GetTexture(texture);
+            Texture = GetTexture(texture);
             UpdateDelegate = updateDelegate;
             Styles = styles;
         }
 
         public void DrawParticles(SpriteBatch spriteBatch)
         {
-            if (ModContent.GetInstance<Config>().Active)
+            if (GetInstance<Config>().Active)
                 for (int k = 0; k < Particles.Count; k++)
                 {
                     Particle particle = Particles[k];
@@ -40,7 +40,7 @@ namespace StarlightRiver.Core
         }
         public void AddParticle(Particle particle)
         {
-            if (ModContent.GetInstance<Config>().Active)
+            if (GetInstance<Config>().Active)
                 Particles.Add(particle);
         }
 

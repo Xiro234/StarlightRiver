@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using System;
@@ -78,7 +79,7 @@ namespace StarlightRiver.NPCs.Pickups
             }
         }
 
-        public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+        public static Texture2D wind = GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
         private float timer = 0;
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -94,11 +95,11 @@ namespace StarlightRiver.NPCs.Pickups
             if (mp.sdash.Locked)
             {
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 4), Color.White);
-                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 4), npc.width, npc.height, ModContent.DustType<Dusts.Darkness>(), 0, 0, 0, default, 0.5f);
+                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 4), npc.width, npc.height, DustType<Dusts.Darkness>(), 0, 0, 0, default, 0.5f);
 
                 for (float k = 0; k < 6.28f; k += 6.28f / 5)
                 {
-                    Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(k + (float)Math.Sin((timer + k) * 2) * 0.25f) * 10, ModContent.DustType<Dusts.Void>(), Vector2.One.RotatedBy(k + (float)Math.Sin(timer) * .5f) * 0.5f, 0, default, 0.5f);
+                    Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(k + (float)Math.Sin((timer + k) * 2) * 0.25f) * 10, DustType<Dusts.Void>(), Vector2.One.RotatedBy(k + (float)Math.Sin(timer) * .5f) * 0.5f, 0, default, 0.5f);
                 }
             }
         }

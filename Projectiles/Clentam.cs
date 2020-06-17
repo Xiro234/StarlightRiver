@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using static Terraria.ModLoader.ModContent;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -32,7 +33,7 @@ namespace StarlightRiver.Projectiles
                     Tile target = Main.tile[x + (int)projectile.Center.X / 16, y + (int)projectile.Center.Y / 16];
 
                     if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleCorrupt"); }
-                    if (target.wall == WallID.JungleUnsafe) { target.wall = (ushort)ModContent.WallType<Tiles.JungleCorrupt.WallJungleCorrupt>(); }
+                    if (target.wall == WallID.JungleUnsafe) { target.wall = (ushort)WallType<Tiles.JungleCorrupt.WallJungleCorrupt>(); }
                 }
             }
         }
@@ -66,7 +67,7 @@ namespace StarlightRiver.Projectiles
                     Tile target = Main.tile[x + (int)projectile.Center.X / 16, y + (int)projectile.Center.Y / 16];
 
                     if (target.type == TileID.JungleGrass) { target.type = (ushort)mod.TileType("GrassJungleBloody"); }
-                    if (target.wall == WallID.JungleUnsafe) { target.wall = (ushort)ModContent.WallType<Tiles.JungleBloody.WallJungleBloody>(); }
+                    if (target.wall == WallID.JungleUnsafe) { target.wall = (ushort)WallType<Tiles.JungleBloody.WallJungleBloody>(); }
                 }
             }
         }

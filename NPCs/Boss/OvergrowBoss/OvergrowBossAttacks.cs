@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using System;
@@ -47,9 +48,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 if (npc.ai[3] > 165 && npc.ai[3] < 250)
                 {
                     for (int k = 0; k < 3; k++)
-                        Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, ModContent.DustType<Dusts.Gold2>());
+                        Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, DustType<Dusts.Gold2>());
                     for (int k = 0; k < 8; k++)
-                        Dust.NewDustPerfect(Vector2.Lerp(flail.npc.Center, flail.npc.oldPosition + flail.npc.Size / 2, k / 8f), ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * 0.5f);
+                        Dust.NewDustPerfect(Vector2.Lerp(flail.npc.Center, flail.npc.oldPosition + flail.npc.Size / 2, k / 8f), DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * 0.5f);
                 }
             }
             if (npc.ai[3] == 280)
@@ -109,7 +110,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (npc.ai[3] <= 30)
             {
                 float rot = Main.rand.NextFloat(6.28f); //random rotation for the dust
-                Dust.NewDustPerfect(handpos + Vector2.One.RotatedBy(rot) * 50, ModContent.DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 2); //"suck in" charging effect
+                Dust.NewDustPerfect(handpos + Vector2.One.RotatedBy(rot) * 50, DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 2); //"suck in" charging effect
             }
             if (npc.ai[3] == 30)
             {
@@ -127,7 +128,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 for (float k = -0.6f; k <= 0.6f; k += 0.3f) //5 projectiles in even spread
                 {
                     Vector2 trajectory = Vector2.Normalize(targetPoint - handpos).RotatedBy(k + (npc.ai[3] == 90 ? 0.15f : 0)) * 1.6f; //towards the target, alternates on the second round
-                    Projectile.NewProjectile(handpos, trajectory, ModContent.ProjectileType<OvergrowBossProjectile.Phase1Bolt>(), 20, 0.2f);
+                    Projectile.NewProjectile(handpos, trajectory, ProjectileType<OvergrowBossProjectile.Phase1Bolt>(), 20, 0.2f);
                 }
             }
             if (npc.ai[3] == 200) ResetAttack();
@@ -161,8 +162,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 //visuals
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, ModContent.DustType<Dusts.Stone>(), Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
-                    Dust.NewDustPerfect(flail.npc.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 1);
+                    Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, DustType<Dusts.Stone>(), Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
+                    Dust.NewDustPerfect(flail.npc.Center, DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 1);
                 }
 
                 //audio
@@ -181,7 +182,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         {
             float glow = npc.ai[3] > 90 ? (1 - (npc.ai[3] - 90) / 30f) : ((npc.ai[3] - 60) / 30f);
             Color color = new Color(255, 70, 70) * glow;
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Gores/TellBeam");
+            Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
             sb.End();
             sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
             for (float k = 0; 1 == 1; k++)
@@ -216,9 +217,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 //dusts
                 for (float k = 0; k < 6.28f; k += 0.1f)
                 {
-                    Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * 90, ModContent.DustType<Dusts.Leaf>(), null, 0, default, 1.5f);
-                    Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * Main.rand.NextFloat(95, 105), ModContent.DustType<Dusts.Gold2>(), null, 0, default, 0.6f);
-                    if (Main.rand.Next(4) == 0) Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * Main.rand.Next(100), ModContent.DustType<Dusts.Leaf>());
+                    Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * 90, DustType<Dusts.Leaf>(), null, 0, default, 1.5f);
+                    Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * Main.rand.NextFloat(95, 105), DustType<Dusts.Gold2>(), null, 0, default, 0.6f);
+                    if (Main.rand.Next(4) == 0) Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * Main.rand.Next(100), DustType<Dusts.Leaf>());
                 }
             }
             if (npc.ai[3] >= 180) ResetAttack();
@@ -228,7 +229,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         {
             float glow = npc.ai[3] > 45 ? (1 - (npc.ai[3] - 45) / 45f) : ((npc.ai[3]) / 45f);
             Color color = new Color(255, 40, 40) * glow;
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Gores/TellCircle");
+            Texture2D tex = GetTexture("StarlightRiver/Gores/TellCircle");
             sb.End();
             sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
 
@@ -269,8 +270,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 //visuals
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, ModContent.DustType<Dusts.Stone>(), Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
-                    Dust.NewDustPerfect(flail.npc.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 1);
+                    Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, DustType<Dusts.Stone>(), Main.rand.NextFloat(-3, 3), Main.rand.NextFloat(-3, 3));
+                    Dust.NewDustPerfect(flail.npc.Center, DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5), 0, default, 1);
                 }
 
                 //audio

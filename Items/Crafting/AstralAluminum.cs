@@ -1,4 +1,5 @@
-﻿using System;
+﻿using static Terraria.ModLoader.ModContent;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -15,7 +16,7 @@ namespace StarlightRiver.Items.Crafting
 
     public class AluminumBar : QuickTileItem
     {
-        public AluminumBar() : base("Astral Aluminum Bar", "'Shimmering with Beautiful Light'", ModContent.TileType<Tiles.AluminumBar>(), 3)
+        public AluminumBar() : base("Astral Aluminum Bar", "'Shimmering with Beautiful Light'", TileType<Tiles.AluminumBar>(), 3)
         {
         }
 
@@ -23,8 +24,8 @@ namespace StarlightRiver.Items.Crafting
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AluminumOre>(), 5);
-            recipe.AddTile(ModContent.TileType<Tiles.Crafting.Oven>());
+            recipe.AddIngredient(ItemType<AluminumOre>(), 5);
+            recipe.AddTile(TileType<Tiles.Crafting.Oven>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

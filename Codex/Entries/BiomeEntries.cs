@@ -1,5 +1,5 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using static Terraria.ModLoader.ModContent;
+using Terraria;
 
 namespace StarlightRiver.Codex.Entries
 {
@@ -13,8 +13,8 @@ namespace StarlightRiver.Codex.Entries
                 500, Main.fontDeathText, 0.8f);
             Hint = "Found beneath the underground desert...";
 
-            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/BiomeImageVitric");
-            Icon = ModContent.GetTexture("StarlightRiver/Codex/Entries/BiomeIconVitric");
+            Image = GetTexture("StarlightRiver/Codex/Entries/BiomeImageVitric");
+            Icon = GetTexture("StarlightRiver/Codex/Entries/BiomeIconVitric");
         }
     }
 
@@ -28,8 +28,8 @@ namespace StarlightRiver.Codex.Entries
                 500, Main.fontDeathText, 0.8f);
             Hint = "Found beyond a sealed door in the dungeon...";
 
-            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/BiomeImageOvergrow");
-            Icon = ModContent.GetTexture("StarlightRiver/Codex/Entries/BiomeIconOvergrow");
+            Image = GetTexture("StarlightRiver/Codex/Entries/BiomeImageOvergrow");
+            Icon = GetTexture("StarlightRiver/Codex/Entries/BiomeIconOvergrow");
         }
     }
 }

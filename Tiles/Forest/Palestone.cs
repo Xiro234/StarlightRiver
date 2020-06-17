@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -6,7 +7,7 @@ namespace StarlightRiver.Tiles.Forest
 {
     internal class PalestoneItem : Items.QuickTileItem
     {
-        public PalestoneItem() : base("Palestone", "", ModContent.TileType<Palestone>(), 0)
+        public PalestoneItem() : base("Palestone", "", TileType<Palestone>(), 0)
         {
         }
     }
@@ -23,7 +24,7 @@ namespace StarlightRiver.Tiles.Forest
             soundType = Terraria.ID.SoundID.Tink;
 
             dustType = Terraria.ID.DustID.Stone;
-            drop = ModContent.ItemType<PalestoneItem>();
+            drop = ItemType<PalestoneItem>();
 
             AddMapEntry(new Color(167, 180, 191));
         }

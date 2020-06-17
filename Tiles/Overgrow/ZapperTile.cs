@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -16,7 +17,7 @@ namespace StarlightRiver.Tiles.Overgrow
             {
                 if (!(Main.projectile.Any(proj => proj.modProjectile is Projectiles.Zapper && (proj.modProjectile as Projectiles.Zapper).parent == Main.tile[i, j] && proj.active)))
                 {
-                    int proj = Projectile.NewProjectile(new Vector2(i + 2, j + 2) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Zapper>(), 1, 1);
+                    int proj = Projectile.NewProjectile(new Vector2(i + 2, j + 2) * 16, Vector2.Zero, ProjectileType<Projectiles.Zapper>(), 1, 1);
                     (Main.projectile[proj].modProjectile as Projectiles.Zapper).parent = Main.tile[i, j];
                 }
             }

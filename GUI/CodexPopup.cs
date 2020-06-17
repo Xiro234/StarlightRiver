@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Codex;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace StarlightRiver.GUI
@@ -15,7 +15,7 @@ namespace StarlightRiver.GUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             CodexHandler mp = Main.LocalPlayer.GetModPlayer<CodexHandler>();
-            Texture2D tex = mp.CodexState == 1 ? ModContent.GetTexture("StarlightRiver/GUI/Assets/Book1Closed") : ModContent.GetTexture("StarlightRiver/GUI/Assets/Book2Closed");
+            Texture2D tex = mp.CodexState == 1 ? GetTexture("StarlightRiver/GUI/Assets/Book1Closed") : GetTexture("StarlightRiver/GUI/Assets/Book2Closed");
             string str = "New Entry: " + Text;
             float xOff = Main.screenWidth / 2 - Main.fontDeathText.MeasureString(str).X / 4;
 

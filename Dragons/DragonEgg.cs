@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Tiles.Dragons;
 using System;
@@ -49,8 +50,8 @@ namespace StarlightRiver.Dragons
         {
             if (nest == null) return false;
             DragonData data = nest.Dragon.data;
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Items/Dragons/Egg");
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Items/Dragons/EggOver");
+            Texture2D tex = GetTexture("StarlightRiver/Items/Dragons/Egg");
+            Texture2D tex2 = GetTexture("StarlightRiver/Items/Dragons/EggOver");
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), data.scaleColor.MultiplyRGB(drawColor), npc.rotation, new Vector2(tex.Width / 2, tex.Height), 1, 0, 0);
             spriteBatch.Draw(tex2, npc.Center - Main.screenPosition, tex2.Frame(), data.bellyColor.MultiplyRGB(drawColor), npc.rotation, new Vector2(tex.Width / 2, tex.Height), 1, 0, 0);
             return false;

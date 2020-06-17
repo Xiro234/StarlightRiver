@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Food;
@@ -7,7 +8,6 @@ using System.Linq;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace StarlightRiver.GUI
@@ -20,10 +20,10 @@ namespace StarlightRiver.GUI
         private readonly CookingSlot SideSlot0 = new CookingSlot(IngredientType.Side);
         private readonly CookingSlot SideSlot1 = new CookingSlot(IngredientType.Side);
         private readonly CookingSlot SeasonSlot = new CookingSlot(IngredientType.Seasoning);
-        private readonly UIImageButton CookButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/Assets/CookPrep"));
-        private readonly UIImageButton ExitButton = new UIImageButton(ModContent.GetTexture("StarlightRiver/GUI/Assets/CookExit"));
-        private readonly UIImage StatBack = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/CookStatWindow"));
-        private readonly UIImage TopBar = new UIImage(ModContent.GetTexture("StarlightRiver/GUI/Assets/CookTop"));
+        private readonly UIImageButton CookButton = new UIImageButton(GetTexture("StarlightRiver/GUI/Assets/CookPrep"));
+        private readonly UIImageButton ExitButton = new UIImageButton(GetTexture("StarlightRiver/GUI/Assets/CookExit"));
+        private readonly UIImage StatBack = new UIImage(GetTexture("StarlightRiver/GUI/Assets/CookStatWindow"));
+        private readonly UIImage TopBar = new UIImage(GetTexture("StarlightRiver/GUI/Assets/CookTop"));
         private Vector2 Basepos = new Vector2(Main.screenWidth / 2 - 173, Main.screenHeight / 2 - 122);
 
         public override void OnInitialize()
@@ -106,7 +106,7 @@ namespace StarlightRiver.GUI
             if (!MainSlot.Item.IsAir) //make sure were cooking SOMETHING!
             {
                 Item item = new Item();
-                item.SetDefaults(ModContent.ItemType<Meal>()); //let TML hanlde making the item properly
+                item.SetDefaults(ItemType<Meal>()); //let TML hanlde making the item properly
                 (item.modItem as Meal).Ingredients = new List<Item>();
                 CookIngredient(item, MainSlot);
                 CookIngredient(item, SideSlot0);
@@ -147,18 +147,18 @@ namespace StarlightRiver.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotY");
+            Texture2D tex = GetTexture("StarlightRiver/GUI/Assets/CookSlotY");
             switch (Type)
             {
-                case IngredientType.Main: tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotY"); break;
-                case IngredientType.Side: tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotG"); break;
-                case IngredientType.Seasoning: tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/CookSlotB"); break;
+                case IngredientType.Main: tex = GetTexture("StarlightRiver/GUI/Assets/CookSlotY"); break;
+                case IngredientType.Side: tex = GetTexture("StarlightRiver/GUI/Assets/CookSlotG"); break;
+                case IngredientType.Seasoning: tex = GetTexture("StarlightRiver/GUI/Assets/CookSlotB"); break;
             }
 
             spriteBatch.Draw(tex, GetDimensions().Position(), tex.Frame(), Color.White, 0, Vector2.Zero, 1, 0, 0);
             if (!Item.IsAir)
             {
-                Texture2D tex2 = ModContent.GetTexture(Item.modItem.Texture);
+                Texture2D tex2 = GetTexture(Item.modItem.Texture);
                 spriteBatch.Draw(tex2, new Rectangle((int)GetDimensions().X + 16, (int)GetDimensions().Y + 16, 28, 28), tex2.Frame(), Color.White);
                 if (Item.stack > 1) spriteBatch.DrawString(Main.fontItemStack, Item.stack.ToString(), GetDimensions().Position() + Vector2.One * 28, Color.White);
             }

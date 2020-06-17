@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles.WeaponProjectiles;
 using Terraria;
 using Terraria.ID;
@@ -33,7 +34,7 @@ namespace StarlightRiver.Items.Overgrow
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<LeafSpawner>(), damage, knockBack, player.whoAmI);
+            int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ProjectileType<LeafSpawner>(), damage, knockBack, player.whoAmI);
             LeafSpawner spawner = Main.projectile[proj].modProjectile as LeafSpawner;
             spawner.Proj = Projectile.NewProjectile(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             return false;

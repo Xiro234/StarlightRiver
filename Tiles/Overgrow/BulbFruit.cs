@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Items;
 using System;
@@ -30,7 +31,7 @@ namespace StarlightRiver.Tiles.Overgrow
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Orb Fruit");//Map name
             AddMapEntry(new Color(255, 255, 200), name);
-            dustType = ModContent.DustType<Dusts.Gold2>();
+            dustType = DustType<Dusts.Gold2>();
             disableSmartCursor = true;
         }
 
@@ -41,19 +42,19 @@ namespace StarlightRiver.Tiles.Overgrow
             {
                 if (tile.frameX == 0)
                 {
-                    Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/BulbFruitGlow");
+                    Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/BulbFruitGlow");
                     spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16 + new Vector2(3, 12) - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime));
                 }
 
                 for (int k = 1; k <= 30; k++)
                 {
                     if (Main.tile[i, j - k].active()) break;
-                    Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow");
+                    Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow");
                     float sway = (float)Math.Sin(StarlightWorld.rottime + (15 - k) / 4) * (15 - k) / 150;
                     spriteBatch.Draw(tex, (new Vector2(i + 0.5f + sway, j - k) + Helper.TileAdj) * 16 - Main.screenPosition, new Rectangle(16 * k % 3, 0, 16, 16), Lighting.GetColor(i, j - k));
 
                     if (tile.frameX == 0 && Main.rand.Next(5) == 0)
-                        Dust.NewDust(new Vector2(i + 0.5f, j - k) * 16, 16, 16, ModContent.DustType<Dusts.Gold2>(), 0, -3, 0, default, 0.3f);
+                        Dust.NewDust(new Vector2(i + 0.5f, j - k) * 16, 16, 16, DustType<Dusts.Gold2>(), 0, -3, 0, default, 0.3f);
                 }
             }
             return true;
@@ -61,13 +62,13 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (!Main.projectile.Any(p => p.active && p.type == ModContent.ProjectileType<Projectiles.Dummies.BulbDummy>() && p.Hitbox.Contains((new Vector2(i, j) * 16).ToPoint())))
+            if (!Main.projectile.Any(p => p.active && p.type == ProjectileType<Projectiles.Dummies.BulbDummy>() && p.Hitbox.Contains((new Vector2(i, j) * 16).ToPoint())))
             {
-                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.BulbDummy>(), 0, 0);
+                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ProjectileType<Projectiles.Dummies.BulbDummy>(), 0, 0);
             }
 
             if (Main.tile[i, j].frameX < 34)
-                Dust.NewDust(new Vector2(i, j) * 16, 16, 16, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
+                Dust.NewDust(new Vector2(i, j) * 16, 16, 16, DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -93,7 +94,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Debug.DebugPotion>());
+            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ItemType<Items.Debug.DebugPotion>());
         }
     }
     internal class BulbFruitItem : QuickTileItem
