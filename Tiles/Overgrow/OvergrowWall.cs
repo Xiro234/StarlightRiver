@@ -39,4 +39,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
     public class WallOvergrowBrickItem : QuickWallItem
     { public WallOvergrowBrickItem() : base("Overgrow Brick Wall", "", WallType<WallOvergrowBrick>(), 0) { } }
+
+    public class WallOvergrowGrassItem : QuickWallItem
+    { public WallOvergrowGrassItem() : base("Overgrow Grass Wall", "", WallType<WallOvergrowGrass>(), 0) { } }
 }
