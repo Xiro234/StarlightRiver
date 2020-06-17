@@ -90,4 +90,12 @@ namespace StarlightRiver.Tiles.Vitric
             Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Vitric.VitricOre>(), 1);
         }
     }
+
+    public class VitricCactus : ModCactus
+    {
+        public override Texture2D GetTexture()
+        {
+            return ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricCactus");
+        }
+    }
 }

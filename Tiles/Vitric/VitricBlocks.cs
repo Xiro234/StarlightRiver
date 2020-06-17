@@ -136,4 +136,69 @@ namespace StarlightRiver.Tiles.Vitric
             Main.tileMerge[Type][ModContent.TileType<VitricSand>()] = true;
         }
     }
+
+    internal class VitricMoss : VitricTile
+    {
+        public VitricMoss() : base(ItemID.Eggnog, 30, 50)
+        {
+            //Should never be killed in-game lol so eggnog
+        }
+
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileLighted[Type] = true;
+            drop = ModContent.ItemType<VitricSandItem>(); //TBC
+            SetModCactus(new VitricCactus());
+            AddMapEntry(new Color(172, 131, 105));
+
+            Main.tileMerge[Type][ModContent.TileType<VitricSpike>()] = true;
+            Main.tileMerge[Type][ModContent.TileType<AncientSandstone>()] = true;
+            Main.tileMerge[Type][ModContent.TileType<VitricSand>()] = true;
+            Main.tileMerge[Type][ModContent.TileType<VitricSoftSand>()] = true;
+        }
+
+        public override void RandomUpdate(int i, int j)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                for (int x1 = -1; x1 <= 1; x1++)
+                {
+                    int tileX = i + x1;
+                    int tileY = j + y;
+                    if (!WorldGen.InWorld(i, j, 0)) continue;
+                    if (Main.tile[tileX, tileY].type == (ushort)ModContent.TileType<VitricSand>() && Main.rand.Next(3) == 0)
+                    {
+                        Main.tile[tileX, tileY].type = (ushort)ModContent.TileType<VitricMoss>();
+                        WorldGen.SquareTileFrame(tileX, tileY, true);
+                    }
+                }
+            }
+
+            if (!Main.tile[i, j + 1].active() && Main.rand.Next(10) == 0)
+                WorldGen.PlaceTile(i, j + 1, Type);
+        }
+
+        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            if (!effectOnly)
+            {
+                fail = true;
+                Main.tile[i, j].type = (ushort)ModContent.TileType<VitricSand>();
+                WorldGen.SquareTileFrame(i, j, true);
+                Dust.NewDust(new Vector2(i * 16, j * 16), 16, 16, mod.DustType("Air3"), 0f, 0f, 0, new Color(121, 121, 121), 1f);
+            }
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Texture2D moss = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricMoss_Glow");
+            Tile t = Main.tile[i, j];
+            Color col = Lighting.GetColor(i, j);
+            Color realCol = new Color(((col.R / 255f) * 1.4f) + 0.1f, ((col.G / 255f) * 1.4f) + 0.1f, ((col.B / 255f) * 1.4f) + 0.1f);
+            spriteBatch.Draw(moss, ((new Vector2(i, j) + Helper.TileAdj) * 16) - Main.screenPosition, new Rectangle(t.frameX, t.frameY, 16, 16), realCol, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+        }
+    }
 }
