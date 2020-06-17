@@ -4,6 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -13,7 +14,7 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void SetDefaults()
         {
-            QuickBlock.QuickSetFurniture(this, 5, 7, ModContent.DustType<Dusts.Air>(), SoundID.Tink, false, new Color(200, 113, 113), false, false, "Ceiro's Altar");
+            QuickBlock.QuickSetFurniture(this, 5, 7, DustType<Dusts.Air>(), SoundID.Tink, false, new Color(200, 113, 113), false, false, "Ceiro's Altar");
             minPick = int.MaxValue;
         }
 
@@ -24,7 +25,7 @@ namespace StarlightRiver.Tiles.Vitric
             {
                 if (!(Dummy.modProjectile is VitricAltarDummy && Main.projectile.Any(n => n == Dummy) && Dummy.active && Dummy.Hitbox.Contains(new Point(i * 16 + 30, j * 16 + 30))))
                 {
-                    Dummy = Main.projectile[Projectile.NewProjectile(new Vector2(i, j) * 16 + new Vector2(40, 56), Vector2.Zero, ModContent.ProjectileType<VitricAltarDummy>(), 0, 0)];
+                    Dummy = Main.projectile[Projectile.NewProjectile(new Vector2(i, j) * 16 + new Vector2(40, 56), Vector2.Zero, ProjectileType<VitricAltarDummy>(), 0, 0)];
                 }
             }
         }

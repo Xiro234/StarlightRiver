@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -36,7 +37,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             int pos = (int)projectile.localAI[0];
             Player player = Main.player[projectile.owner];
 
-            Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Air>(), 0, 0, 0, default, 0.35f);
+            Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType<Dusts.Air>(), 0, 0, 0, default, 0.35f);
             if (((float)player.statLife / player.statLifeMax2) > 0.2f * pos)
             {
                 projectile.position += Vector2.Normalize(player.Center - projectile.Center) * 5;

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Configs;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Core
 {
@@ -15,16 +15,17 @@ namespace StarlightRiver.Core
         private readonly Texture2D Texture;
         private readonly Update UpdateDelegate;
         private readonly int Styles;
+
         public ParticleSystem(string texture, Update updateDelegate, int styles = 1)
         {
-            Texture = ModContent.GetTexture(texture);
+            Texture = GetTexture(texture);
             UpdateDelegate = updateDelegate;
             Styles = styles;
         }
 
         public void DrawParticles(SpriteBatch spriteBatch)
         {
-            if (ModContent.GetInstance<Config>().Active)
+            if (GetInstance<Config>().Active)
                 for (int k = 0; k < Particles.Count; k++)
                 {
                     Particle particle = Particles[k];
@@ -38,13 +39,14 @@ namespace StarlightRiver.Core
                     if (particle.Timer <= 0) Particles.Remove(particle);
                 }
         }
+
         public void AddParticle(Particle particle)
         {
-            if (ModContent.GetInstance<Config>().Active)
+            if (GetInstance<Config>().Active)
                 Particles.Add(particle);
         }
-
     }
+
     public class Particle
     {
         internal Vector2 Position;
@@ -54,6 +56,7 @@ namespace StarlightRiver.Core
         internal float Scale;
         internal Color Color;
         internal int Timer;
+
         public Particle(Vector2 position, Vector2 velocity, float rotation, float scale, Color color, int timer, Vector2 storedPosition)
         {
             Position = position; Velocity = velocity; Rotation = rotation; Scale = scale; Color = color; Timer = timer; StoredPosition = storedPosition;

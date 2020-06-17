@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.StarJuice
 {
@@ -20,7 +21,7 @@ namespace StarlightRiver.Tiles.StarJuice
             Main.tileLighted[Type] = true;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TankEntity>().Hook_AfterPlacement, -1, 0, false);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(GetInstance<TankEntity>().Hook_AfterPlacement, -1, 0, false);
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.addTile(Type);
             dustType = DustID.Stone;
@@ -33,14 +34,14 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<Items.Crafting.OvenItem>());
+            Item.NewItem(i * 16, j * 16, 32, 32, ItemType<Items.Crafting.OvenItem>());
         }
 
         public override bool NewRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
             Tile tile = Main.tile[i, j];
-            int index = ModContent.GetInstance<TankEntity>().Find(i - tile.frameX / 18 * 16, j - tile.frameY / 18 * 16);
+            int index = GetInstance<TankEntity>().Find(i - tile.frameX / 18 * 16, j - tile.frameY / 18 * 16);
             if (index == -1) return true;
             TankEntity entity = (TankEntity)TileEntity.ByID[index];
 
@@ -60,7 +61,7 @@ namespace StarlightRiver.Tiles.StarJuice
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
-            int index = ModContent.GetInstance<TankEntity>().Find(i, j);
+            int index = GetInstance<TankEntity>().Find(i, j);
             if (index == -1) return true;
             TankEntity entity = (TankEntity)TileEntity.ByID[index];
 
@@ -72,15 +73,15 @@ namespace StarlightRiver.Tiles.StarJuice
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
 
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/RiftCrafting/Glow0"), pos + Vector2.One * -16, new Color(80, 150, 200) * (entity.charge / 5000f * 0.7f));
+                spriteBatch.Draw(GetTexture("StarlightRiver/RiftCrafting/Glow0"), pos + Vector2.One * -16, new Color(80, 150, 200) * (entity.charge / 5000f * 0.7f));
 
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
 
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/StarJuice/OrbIn"), new Rectangle((int)pos.X, (int)pos.Y + (32 - charge), 32, charge),
+                spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/StarJuice/OrbIn"), new Rectangle((int)pos.X, (int)pos.Y + (32 - charge), 32, charge),
                     new Rectangle(0, 0, 32, charge), Color.White, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
 
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/StarJuice/OrbOut"), pos, Lighting.GetColor(i + 1, j - 2));
+                spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/StarJuice/OrbOut"), pos, Lighting.GetColor(i + 1, j - 2));
 
                 if (new Rectangle(i * 16, (j - 2) * 16, 48, 64).Contains(Main.MouseWorld.ToPoint()))
                 {
@@ -102,7 +103,7 @@ namespace StarlightRiver.Tiles.StarJuice
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.type == ModContent.TileType<Tank>() && tile.active() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.type == TileType<Tank>() && tile.active() && tile.frameX == 0 && tile.frameY == 0;
         }
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
@@ -126,7 +127,7 @@ namespace StarlightRiver.Tiles.StarJuice
             if (!Main.dayTime && charge < maxCharge)
             {
                 float rot = Main.rand.NextFloat(6.28f);
-                Dust.NewDustPerfect(pos + Vector2.One.RotatedBy(rot) * 20, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(rot) * -10, 0, default, 0.5f);
+                Dust.NewDustPerfect(pos + Vector2.One.RotatedBy(rot) * 20, DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(rot) * -10, 0, default, 0.5f);
 
                 if (Main.time % 10 == 0 && !Main.fastForwardTime) charge++;
             }
@@ -135,7 +136,7 @@ namespace StarlightRiver.Tiles.StarJuice
             {
                 for (int k = 0; k < 4; k++)
                 {
-                    Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(StarlightWorld.rottime + 1.58f * k) * 5, 0, default, 0.7f);
+                    Dust.NewDustPerfect(pos, DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(StarlightWorld.rottime + 1.58f * k) * 5, 0, default, 0.7f);
                 }
             }
 

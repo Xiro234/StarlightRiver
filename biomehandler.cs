@@ -32,9 +32,9 @@ namespace StarlightRiver
             ZoneJungleCorrupt = (StarlightWorld.corruptJungleTiles > 50);
             ZoneJungleBloody = (StarlightWorld.bloodJungleTiles > 50);
             ZoneJungleHoly = (StarlightWorld.holyJungleTiles > 50);
-            ZoneOvergrow = Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowGrass>() ||
-                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>() ||
-                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == ModContent.WallType<Tiles.Overgrow.WallOvergrowInvisible>();
+            ZoneOvergrow = Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallType<Tiles.Overgrow.WallOvergrowGrass>() ||
+                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallType<Tiles.Overgrow.WallOvergrowBrick>() ||
+                Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallType<Tiles.Overgrow.WallOvergrowInvisible>();
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -127,7 +127,7 @@ namespace StarlightRiver
             if (ZoneOvergrow && Main.rand.Next(5) == 0)
             {
                 Dust.NewDustPerfect(Main.screenPosition - Vector2.One * 100 + new Vector2(Main.rand.Next(Main.screenWidth + 200), Main.rand.Next(Main.screenHeight + 200)),
-                ModContent.DustType<Dusts.OvergrowDust>(), Vector2.Zero, 0, new Color(255, 255, 205) * 0.05f, 2);
+                DustType<Dusts.OvergrowDust>(), Vector2.Zero, 0, new Color(255, 255, 205) * 0.05f, 2);
             }
 
             //Codex Unlocks

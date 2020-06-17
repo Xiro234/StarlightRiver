@@ -15,5 +15,9 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
         }
     }
 
-    public class VitricGlassItem : QuickTileItem { public VitricGlassItem() : base("Fuseglass", "", TileType<VitricGlass>(), 0) { } }
+    public class VitricGlassItem : QuickTileItem {
+        public VitricGlassItem() : base("Fuseglass", "", TileType<VitricGlass>(), 0)
+        {
+        }
+    }
 }

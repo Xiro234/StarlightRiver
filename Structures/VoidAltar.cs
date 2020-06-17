@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Tiles.Void;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.World.Generation;
 using static Terraria.ModLoader.ModContent;
 
@@ -15,7 +14,7 @@ namespace StarlightRiver.Structures
         {
             progress.Message = "Opening the Gates...";
 
-            Texture2D Courtyard = ModContent.GetTexture("StarlightRiver/Structures/VoidAltar");
+            Texture2D Courtyard = GetTexture("StarlightRiver/Structures/VoidAltar");
             Vector2 spawn = new Vector2(Main.maxTilesX / 4, Main.maxTilesY - 100);
             StarlightWorld.RiftLocation = (spawn + new Vector2(25.5f, 3.5f)) * 16;
 
@@ -42,7 +41,7 @@ namespace StarlightRiver.Structures
                     }
                     switch (rawData[x].B) //select wall
                     {
-                        case 10: wallType = (ushort)ModContent.WallType<Tiles.Void.VoidWall>(); break;
+                        case 10: wallType = (ushort)WallType<VoidWall>(); break;
                     }
 
                     if (placeType != 0) { WorldGen.PlaceTile((int)spawn.X + x, (int)spawn.Y + y, placeType, true, true); } //place block

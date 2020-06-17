@@ -4,6 +4,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -20,8 +21,8 @@ namespace StarlightRiver
                     Point16 target = ScanTrees(x, y);
                     if (y != 0 && target != new Point16(0, 0))
                     {
-                        WorldGen.PlaceTile(x, y - 1, ModContent.TileType<VineBanner>(), true, true);
-                        TileEntity.PlaceEntityNet(x, y - 1, ModContent.TileEntityType<VineBannerEntity>());
+                        WorldGen.PlaceTile(x, y - 1, TileType<VineBanner>(), true, true);
+                        TileEntity.PlaceEntityNet(x, y - 1, TileEntityType<VineBannerEntity>());
 
                         if (TileEntity.ByPosition.ContainsKey(new Point16(x, y - 1)))
                         {

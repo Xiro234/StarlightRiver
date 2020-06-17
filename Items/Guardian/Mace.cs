@@ -4,6 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Guardian
 {
@@ -83,11 +84,11 @@ namespace StarlightRiver.Items.Guardian
                 }
                 for (int k = 0; k <= 100; k++)
                 {
-                    Dust.NewDustPerfect(player.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(HealRadius), ModContent.DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, Main.rand.NextFloat(0.6f));
+                    Dust.NewDustPerfect(player.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(HealRadius), DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, Main.rand.NextFloat(0.6f));
                 }
                 for (int k = 0; k <= HealRadius * 6.28f; k += 2)
                 {
-                    Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(k / (HealRadius * 6.28f) * 6.28f) * HealRadius, ModContent.DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, 0.8f);
+                    Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(k / (HealRadius * 6.28f) * 6.28f) * HealRadius, DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, 0.8f);
                 }
                 Main.PlaySound(SoundID.NPCHit5.WithPitchVariance(0.6f), player.Center);
                 HealedTeam = true;

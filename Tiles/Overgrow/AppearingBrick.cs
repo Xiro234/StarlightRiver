@@ -4,6 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -20,13 +21,13 @@ namespace StarlightRiver.Tiles.Overgrow
         {
             if (Main.tile[i, j].frameX == 20 && Main.rand.Next(2) == 0)
             {
-                Dust.NewDustPerfect(new Vector2(i + 0.5f, j + 0.5f) * 16, ModContent.DustType<Dusts.Gold2>(), new Vector2(0, 1));
+                Dust.NewDustPerfect(new Vector2(i + 0.5f, j + 0.5f) * 16, DustType<Dusts.Gold2>(), new Vector2(0, 1));
             }
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == (int)NPCs.Boss.OvergrowBoss.OvergrowBoss.OvergrowBossPhase.FirstGuard))
+            if (!Main.npc.Any(n => n.active && n.type == NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == (int)NPCs.Boss.OvergrowBoss.OvergrowBoss.OvergrowBossPhase.FirstGuard))
                 Main.tile[i, j].frameX = 0;
 
             if (Main.tile[i, j].frameX == 20)

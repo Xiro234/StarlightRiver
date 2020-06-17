@@ -2,6 +2,8 @@
 {
     public class PowerCell : SmartAccessory
     {
-        public PowerCell() : base("Power Cell", "NaN") { }
+        public PowerCell() : base("Power Cell", "NaN")
+        {
+        }
     }
 }

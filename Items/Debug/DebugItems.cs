@@ -2,25 +2,35 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Debug
 {
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", ModContent.TileType<VitricOre>(), 0) { }
+
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", TileType<VitricOre>(), 0)
+        {
+        }
     }
 
     public class DebugPlacer2 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", ModContent.TileType<VitricOreFloat>(), 0) { }
+
+        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", TileType<VitricOreFloat>(), 0)
+        {
+        }
     }
 
     public class DebugPlacer3 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<Tiles.Temple.TempleChestSimple>(), 0) { }
+
+        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", TileType<Tiles.Temple.TempleChestSimple>(), 0)
+        {
+        }
     }
 
     public class DebugPlacer4 : QuickTileItem
@@ -40,7 +50,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.rare = ItemRarityID.Green;
             item.autoReuse = true;
-            item.createTile = ModContent.TileType<Tiles.Misc.SandscriptTile>();
+            item.createTile = TileType<Tiles.Misc.SandscriptTile>();
         }
 
         public override string Texture => "StarlightRiver/MarioCumming";

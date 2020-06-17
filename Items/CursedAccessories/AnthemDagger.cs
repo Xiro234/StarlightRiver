@@ -2,13 +2,15 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
     internal class AnthemDagger : CursedAccessory
     {
-        public AnthemDagger() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow")) { }
+        public AnthemDagger() : base(GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow"))
+        {
+        }
 
         public override void SetStaticDefaults()
         {

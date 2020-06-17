@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Food
 {
@@ -35,7 +36,7 @@ namespace StarlightRiver.Food
         {
             FoodBuffHandler mp = player.GetModPlayer<FoodBuffHandler>();
 
-            if (player.HasBuff(ModContent.BuffType<Full>())) { return false; }
+            if (player.HasBuff(BuffType<Full>())) { return false; }
 
             if (Ingredients.Count > 0)
             {
@@ -43,9 +44,9 @@ namespace StarlightRiver.Food
                 {
                     mp.Consumed.Add(item.DeepClone());
                 }
-                player.AddBuff(ModContent.BuffType<FoodBuff>(), Fullness);
+                player.AddBuff(BuffType<FoodBuff>(), Fullness);
 
-                player.AddBuff(ModContent.BuffType<Full>(), (int)(Fullness * 1.5f));
+                player.AddBuff(BuffType<Full>(), (int)(Fullness * 1.5f));
             }
             else Main.NewText("Bad food! Please report me to the mod devs.", Color.Red);
 

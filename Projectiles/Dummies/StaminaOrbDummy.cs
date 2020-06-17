@@ -5,6 +5,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -32,7 +33,7 @@ namespace StarlightRiver.Projectiles.Dummies
             else
             {
                 float rot = Main.rand.NextFloat(0, 6.28f);
-                Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * 0.4f, 0, default, 2f);
+                Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(rot), (float)Math.Sin(rot)) * 0.4f, 0, default, 2f);
             }
 
             foreach (Player player in Main.player.Where(player => Vector2.Distance(player.Center, projectile.Center) <= 100))
@@ -48,7 +49,7 @@ namespace StarlightRiver.Projectiles.Dummies
 
                     for (float k = 0; k <= 6.28; k += 0.1f)
                     {
-                        Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * (Main.rand.Next(25) * 0.1f), 0, default, 3f);
+                        Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Stamina>(), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)) * (Main.rand.Next(25) * 0.1f), 0, default, 3f);
                     }
                 }
             }

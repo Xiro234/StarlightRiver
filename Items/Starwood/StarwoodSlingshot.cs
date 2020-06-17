@@ -1,12 +1,14 @@
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Starwood
 {
     public class StarwoodSlingshot : StarwoodItem
     {
-        public StarwoodSlingshot() : base(ModContent.GetTexture("StarlightRiver/Items/Starwood/StarwoodSlingshot_Alt")) { }
+        public StarwoodSlingshot() : base(GetTexture("StarlightRiver/Items/Starwood/StarwoodSlingshot_Alt"))
+        {
+        }
 
         public override void SetStaticDefaults()
         {
@@ -25,7 +27,7 @@ namespace StarlightRiver.Items.Starwood
             item.useStyle = ItemUseStyleID.HoldingOut; ;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item19;
-            item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.StarwoodSlingshotProjectile>();
+            item.shoot = ProjectileType<Projectiles.WeaponProjectiles.StarwoodSlingshotProjectile>();
             item.shootSpeed = 16f;
             item.useAmmo = ItemID.FallenStar;
         }

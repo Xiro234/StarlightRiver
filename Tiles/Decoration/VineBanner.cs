@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Decoration
 {
@@ -44,8 +45,8 @@ namespace StarlightRiver.Tiles.Decoration
             }
             else if (!SecondPoint)
             {
-                WorldGen.PlaceTile((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16), ModContent.TileType<VineBanner>());
-                TileEntity.PlaceEntityNet((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16), ModContent.TileEntityType<VineBannerEntity>());
+                WorldGen.PlaceTile((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16), TileType<VineBanner>());
+                TileEntity.PlaceEntityNet((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16), TileEntityType<VineBannerEntity>());
                 if (TileEntity.ByPosition.ContainsKey((Main.MouseWorld / 16).ToPoint16())) target = (VineBannerEntity)TileEntity.ByPosition[(Main.MouseWorld / 16).ToPoint16()];
                 SecondPoint = true;
             }
@@ -61,7 +62,7 @@ namespace StarlightRiver.Tiles.Decoration
             Main.tileSolid[Type] = false;
             Main.tileFrameImportant[Type] = true;
 
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<VineBannerEntity>().Hook_AfterPlacement, -1, 0, false);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(GetInstance<VineBannerEntity>().Hook_AfterPlacement, -1, 0, false);
             TileObjectData.addTile(Type);
         }
 
@@ -71,7 +72,7 @@ namespace StarlightRiver.Tiles.Decoration
             {
                 VineBannerEntity entity = TileEntity.ByPosition[new Point16(i, j)] as VineBannerEntity;
 
-                Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Decoration/VineBanner");
+                Texture2D tex2 = GetTexture("StarlightRiver/Tiles/Decoration/VineBanner");
                 Vector2 end = new Vector2(i - 0.5f, j) * 16 + entity.Endpoint.ToVector2() * 16;
                 Vector2 oldPos = new Vector2(i, j) * 16;
                 //Vector2 olderPos = new Vector2(i, j) * 16;
@@ -86,7 +87,7 @@ namespace StarlightRiver.Tiles.Decoration
 
                     if (Main.rand.Next(120) == 0)
                     {
-                        Dust.NewDustPerfect(pos + new Vector2(0, 16), ModContent.DustType<Dusts.GreenLeaf>(), new Vector2(1, 0));
+                        Dust.NewDustPerfect(pos + new Vector2(0, 16), DustType<Dusts.GreenLeaf>(), new Vector2(1, 0));
                     }
 
                     pos += Helper.TileAdj * 16;
@@ -121,7 +122,7 @@ namespace StarlightRiver.Tiles.Decoration
 
         public override bool ValidTile(int i, int j)
         {
-            return (Main.tile[i, j].active() && Main.tile[i, j].type == ModContent.TileType<VineBanner>());
+            return (Main.tile[i, j].active() && Main.tile[i, j].type == TileType<VineBanner>());
         }
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)

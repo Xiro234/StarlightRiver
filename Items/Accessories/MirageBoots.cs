@@ -5,8 +5,15 @@ namespace StarlightRiver.Items.Accessories
 {
     public class MirageBoots : SmartAccessory
     {
-        public MirageBoots() : base("Mirage Boots", "NaN") { }
-        public override void SafeSetDefaults() { item.rare = ItemRarityID.Orange; }
+        public MirageBoots() : base("Mirage Boots", "NaN")
+        {
+        }
+
+        public override void SafeSetDefaults()
+        {
+            item.rare = ItemRarityID.Orange;
+        }
+
         public override void SafeUpdateEquip(Player player)
         {
             player.rocketBoots = 4;

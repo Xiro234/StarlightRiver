@@ -34,6 +34,7 @@ namespace StarlightRiver
             particle.Rotation += 0.02f;
             //particle.Position -= Main.screenPosition;
         }
+
         private static void UpdateBackgroundBody(Particle particle)
         {
             particle.Timer--;
@@ -76,7 +77,6 @@ namespace StarlightRiver
                     {
                         ForegroundParticles.DrawParticles(Main.spriteBatch);
                     }
-
                 }
 
                 int screenCenterX = (int)(Main.screenPosition.X + Main.screenWidth / 2);
@@ -107,6 +107,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         public static void DrawLayer(Vector2 basepoint, Texture2D texture, float parallax, int offY = 0, Color color = default, bool flip = false)
         {
             if (color == default) color = Color.White;
@@ -120,11 +121,13 @@ namespace StarlightRiver
                 }
             }
         }
+
         public static int GetParallaxOffset(float startpoint, float factor)
         {
             float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;
             return (int)((Main.screenPosition.X + Main.screenWidth / 2 - startpoint) * factor * vanillaParallax);
         }
+
         public static int GetParallaxOffsetY(float startpoint, float factor)
         {
             //float vanillaParallax = 1 - (Main.caveParallax - 0.8f) / 0.2f;

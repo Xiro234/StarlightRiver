@@ -1,6 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Guardian
 {
@@ -28,7 +28,7 @@ namespace StarlightRiver.Items.Guardian
 
         public override bool UseItem(Player player)
         {
-            SpawnProjectile(ModContent.ProjectileType<ExampleMaceProjectile>(), player);
+            SpawnProjectile(ProjectileType<ExampleMaceProjectile>(), player);
             return true;
         }
     }

@@ -3,16 +3,19 @@ using StarlightRiver.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles
 {
     public class ShadowflameTendril : ModProjectile
     {
         public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 48;
@@ -27,15 +30,18 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 200);
         }
-        float randomRotation = Main.rand.NextFloat(0.1f) - 0.05f;
-        float randomSpeed = 5f + Main.rand.NextFloat(6f);
 
-        bool picked = false;
-        NPC target = Main.npc[0];
+        private float randomRotation = Main.rand.NextFloat(0.1f) - 0.05f;
+        private float randomSpeed = 5f + Main.rand.NextFloat(6f);
+
+        private bool picked = false;
+        private NPC target = Main.npc[0];
+
         public override void AI()
         {
             if (!picked)
@@ -75,7 +81,7 @@ namespace StarlightRiver.Projectiles
             }
             for (int k = 0; k < projectile.scale * 5f; k++)
             {
-                Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, ModContent.DustType<Shadowflame>(), projectile.velocity.X, projectile.velocity.Y, 100, default, 2f)];
+                Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, DustType<Shadowflame>(), projectile.velocity.X, projectile.velocity.Y, 100, default, 2f)];
                 dust.position = (dust.position + projectile.Center) / 2f;
                 dust.velocity *= 0.1f;
                 dust.velocity -= projectile.velocity * (1.3f - projectile.scale);

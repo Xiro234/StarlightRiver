@@ -2,6 +2,8 @@
 {
     public class ShockAbsorber : SmartAccessory
     {
-        public ShockAbsorber() : base("Shock Absorber", "NaN") { }
+        public ShockAbsorber() : base("Shock Absorber", "NaN")
+        {
+        }
     }
 }

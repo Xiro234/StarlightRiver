@@ -11,7 +11,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             return false;
         }
-        public override void DrawEffects(ref Color drawColor) { drawColor *= 1.4f; }
+
+        public override void DrawEffects(ref Color drawColor)
+        {
+            drawColor *= 1.4f;
+        }
 
         public override void SafeSetDefaults()
         {

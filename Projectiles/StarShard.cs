@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles
 {
@@ -32,11 +33,11 @@ namespace StarlightRiver.Projectiles
             {
                 if (Main.rand.Next(1) == 0)
                 {
-                    Item.NewItem(projectile.position, ModContent.ItemType<Items.Crafting.AluminumOre>(), Main.rand.Next(4));
+                    Item.NewItem(projectile.position, ItemType<Items.Crafting.AluminumOre>(), Main.rand.Next(4));
                 }
                 if (Main.rand.Next(4) == 0)
                 {
-                    Item.NewItem(projectile.position, ModContent.ItemType<Items.Crafting.Starlight>(), 1);
+                    Item.NewItem(projectile.position, ItemType<Items.Crafting.Starlight>(), 1);
                 }
             }
         }

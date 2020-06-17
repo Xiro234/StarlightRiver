@@ -3,6 +3,7 @@ using StarlightRiver.Projectiles.WeaponProjectiles.Summons;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.EbonyIvory
 {
@@ -29,13 +30,13 @@ namespace StarlightRiver.Items.EbonyIvory
             item.knockBack = 2f;
             item.value = 10000;
             item.summon = true;
-            item.shoot = ModContent.ProjectileType<EbonyPrismSummon>();
+            item.shoot = ProjectileType<EbonyPrismSummon>();
             item.shootSpeed = 0f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<EbonyPrismSummon>()] > 0)
+            if (player.ownedProjectileCounts[ProjectileType<EbonyPrismSummon>()] > 0)
             {
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
@@ -45,14 +46,12 @@ namespace StarlightRiver.Items.EbonyIvory
                         {
                             if (Main.projectile[i].owner == player.whoAmI)
                             {
-
                                 Main.projectile[i].minionSlots += 1;
 
                                 if (Main.projectile[i].minionSlots < player.maxMinions)
                                 {
                                     Main.projectile[i].minionSlots += 1;
                                 }
-
                             }
                         }
                     }

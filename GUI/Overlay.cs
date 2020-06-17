@@ -88,7 +88,7 @@ namespace StarlightRiver.GUI
                             Bootlegdust.Add(dus);
                         }
                     }
-                }            
+                }
             }*/
         }
     }
@@ -217,6 +217,6 @@ namespace StarlightRiver.GUI
             scl *= (Parallax > 0.2) ? 0.997f : 0.999f;
             rot += 0.015f;
             time--;
-        }   
+        }
     }*/
 }

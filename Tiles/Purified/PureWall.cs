@@ -1,19 +1,21 @@
 ﻿using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Purified
 {
-    class WallStonePure : ModWall
+    internal class WallStonePure : ModWall
     {
         public override void SetDefaults()
         {
-            dustType = ModContent.DustType<Dusts.Purify>();
+            dustType = DustType<Dusts.Purify>();
         }
     }
-    class WallGrassPure : ModWall
+
+    internal class WallGrassPure : ModWall
     {
         public override void SetDefaults()
         {
-            dustType = ModContent.DustType<Dusts.Purify>();
+            dustType = DustType<Dusts.Purify>();
         }
     }
 }

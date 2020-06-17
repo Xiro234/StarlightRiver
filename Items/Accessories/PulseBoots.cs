@@ -3,13 +3,16 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shoes)]
     public class PulseBoots : SmartAccessory
     {
-        public PulseBoots() : base("Pulse Boots", "Rocket Power!") { }
+        public PulseBoots() : base("Pulse Boots", "Rocket Power!")
+        {
+        }
 
         private bool doubleJumped = false;
         private bool releaseJump = false;
@@ -51,11 +54,11 @@ namespace StarlightRiver.Items.Accessories
                     float x = (float)Math.Cos(k + rand) * 30;
                     float y = (float)Math.Sin(k + rand) * 10;
                     float rot = (!player.controlLeft ? (player.controlRight ? 1 : 0) : -1);
-                    Dust.NewDustPerfect(player.Center + new Vector2(0, 16), ModContent.DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.07f, 0, default, 1.6f);
-                    Dust.NewDustPerfect(player.Center + new Vector2(0, 32), ModContent.DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.09f, 0, default, 1.2f);
-                    Dust.NewDustPerfect(player.Center + new Vector2(0, 48), ModContent.DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.11f, 0, default, 0.8f);
+                    Dust.NewDustPerfect(player.Center + new Vector2(0, 16), DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.07f, 0, default, 1.6f);
+                    Dust.NewDustPerfect(player.Center + new Vector2(0, 32), DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.09f, 0, default, 1.2f);
+                    Dust.NewDustPerfect(player.Center + new Vector2(0, 48), DustType<Dusts.Stamina>(), new Vector2(x, y).RotatedBy(rot) * 0.11f, 0, default, 0.8f);
                 }
-                Main.PlaySound(Terraria.ID.SoundID.DD2_BetsyFireballShot);
+                Main.PlaySound(SoundID.DD2_BetsyFireballShot);
 
                 if ((player.controlLeft && player.controlRight) || (!player.controlLeft && !player.controlRight))
                 {

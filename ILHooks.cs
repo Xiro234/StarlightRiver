@@ -39,7 +39,9 @@ namespace StarlightRiver
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
         }
+
         #region IL edits
+
         private void GrapplePlatforms(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -54,7 +56,9 @@ namespace StarlightRiver
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<UngrapplePlatformDelegate>(EmitUngrapplePlatformDelegate);
         }
+
         private delegate bool GrapplePlatformDelegate(bool fail, Projectile proj);
+
         private bool EmitGrapplePlatformDelegate(bool fail, Projectile proj)
         {
             if (proj.timeLeft < 36000 - 3)
@@ -69,7 +73,9 @@ namespace StarlightRiver
                 }
             return fail;
         }
+
         private delegate void UngrapplePlatformDelegate(Projectile proj);
+
         private void EmitUngrapplePlatformDelegate(Projectile proj)
         {
             Player player = Main.player[proj.owner];
@@ -85,6 +91,7 @@ namespace StarlightRiver
             ProjectileLoader.NumGrappleHooks(proj, player, ref numHooks);
             if (player.grapCount > numHooks) Main.projectile[player.grappling.OrderBy(n => (Main.projectile[n].active ? 0 : 999999) + Main.projectile[n].timeLeft).ToArray()[0]].Kill();
         }
+
         private void DrawTitleScreen(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -93,7 +100,9 @@ namespace StarlightRiver
             c.Index++;
             c.EmitDelegate<TitleScreenDelegate>(EmitTitleScreenDelegate);
         }
+
         private delegate void TitleScreenDelegate();
+
         private void EmitTitleScreenDelegate()
         {
             if (Main.menuMode == 0)
@@ -103,12 +112,14 @@ namespace StarlightRiver
                     case TitleScreenStyle.Starlight:
                         Main.bgStyle = 4;
                         break;
+
                     case TitleScreenStyle.CorruptJungle:
                         Main.bgStyle = GetSurfaceBgStyleSlot<Backgrounds.JungleCorruptBgStyle>();
                         break;
                 }
             }
         }
+
         private void JungleGrassSpread(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -132,6 +143,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private void JungleGrassConvert(ILContext il) //Fun stuff.
         {
             ILCursor c = new ILCursor(il);
@@ -168,7 +180,9 @@ namespace StarlightRiver
             c.EmitDelegate<GrassConvertDelegate>(EmitGrassConvertDelegate);
             c.Emit(OpCodes.Pop);
         }
+
         private delegate bool GrassConvertDelegate(int type, int x, int y);
+
         private bool EmitGrassConvertDelegate(int type, int x, int y)
         {
             Tile tile = Main.tile[x, y];
@@ -179,6 +193,7 @@ namespace StarlightRiver
             }
             return false;
         }
+
         private void DynamicBossIcon(ILContext il)
         {
             //Hillariously repetitive IL edit to draw custom icons dynamically. Funny. Fuck vanilla.
@@ -203,9 +218,10 @@ namespace StarlightRiver
             c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex"));
 
             c.EmitDelegate<DynamicIconDelegate>(EmitDynamicIconDelegateFullmap);
-
         }
+
         private delegate NPC DynamicIconDelegate(NPC npc);
+
         private NPC EmitDynamicIconDelegateOverlay(NPC npc)
         {
             if (npc?.active == true && npc.modNPC is NPCs.IDynamicMapIcon)
@@ -220,6 +236,7 @@ namespace StarlightRiver
             }
             return npc;
         }
+
         private NPC EmitDynamicIconDelegateMinimap(NPC npc)
         {
             if (npc?.active == true && npc.modNPC is NPCs.IDynamicMapIcon)
@@ -242,6 +259,7 @@ namespace StarlightRiver
             }
             return npc;
         }
+
         private NPC EmitDynamicIconDelegateFullmap(NPC npc)
         {
             if (npc?.active == true && npc.modNPC is NPCs.IDynamicMapIcon)
@@ -267,6 +285,7 @@ namespace StarlightRiver
             }
             return npc;
         }
+
         private void PreventSoulboundStack(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -281,11 +300,14 @@ namespace StarlightRiver
             c.EmitDelegate<SoulboundDelegate>(EmitSoulboundDel);
             c.Emit(OpCodes.Brtrue_S, target);
         }
+
         private delegate bool SoulboundDelegate(int index);
+
         private bool EmitSoulboundDel(int index)
         {
             return Main.LocalPlayer.inventory[index].modItem is Items.SoulboundItem;
         }
+
         //IL edit for dragon customization
         private void DragonMenuAttach(ILContext il)
         {
@@ -295,9 +317,12 @@ namespace StarlightRiver
 
             c.EmitDelegate<DragonMenuDelegate>(EmitDragonDel);
         }
+
         private delegate void DragonMenuDelegate();
+
         private DragonMenu dragonMenu = new DragonMenu();
         private UserInterface dragonMenuUI = new UserInterface();
+
         private void EmitDragonDel()
         {
             if (Main.menuMode == 2 || DragonMenu.visible)
@@ -319,7 +344,6 @@ namespace StarlightRiver
                 {
                     dragonMenu.Draw(spriteBatch);
                 }
-
             }
             else
             {
@@ -331,6 +355,7 @@ namespace StarlightRiver
 
         // IL edit to get the overgrow boss window drawing correctly
         private delegate void DrawWindowDelegate();
+
         private void DrawMoonlordLayer(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -339,6 +364,7 @@ namespace StarlightRiver
 
             c.EmitDelegate<DrawWindowDelegate>(EmitMoonlordLayerDel);
         }
+
         //private readonly List<BootlegDust> WindowDust = new List<BootlegDust>();
         private void EmitMoonlordLayerDel()
         {
@@ -461,6 +487,7 @@ namespace StarlightRiver
 
         //IL edit for vitric biome lighting
         private delegate void ModLightingStateDelegate(float from, ref float to);
+
         private delegate void ModColorDelegate(int i, int j, ref float r, ref float g, ref float b);
 
         private void VitricLighting(ILContext il)
@@ -478,9 +505,9 @@ namespace StarlightRiver
             // Emit the values of I and J.
             /* To emit local variables, you have to know the indeces of where those variables are stored.
              * These are stated at the very top of the method, in a format like below:
-             * .locals init ( 
-             *      [0] = float32 FstName, 
-             *      [1] = ScdName, 
+             * .locals init (
+             *      [0] = float32 FstName,
+             *      [1] = ScdName,
              *      [2] = ThdName
              * )
             */
@@ -502,6 +529,7 @@ namespace StarlightRiver
             c.EmitDelegate<ModColorDelegate>(EmitVitricDel);
 
             #region DEPRECATED
+
             //// This following code is hacky just because I dislike writing "if"s in IL :)
             //EmitLightingState3("r2", 32); // [32] = num18 (R)
             //EmitLightingState3("g2", 33); // [33] = num19 (G)
@@ -521,7 +549,8 @@ namespace StarlightRiver
             //    c.Emit(OpCodes.Ldflda, field);
             //    c.EmitDelegate<ModLightingStateDelegate>(EmitLightingStateDel);
             //}
-            #endregion
+
+            #endregion DEPRECATED
 
             // Not much more than that.
             // EmitVitricDel has the actual logic inside of it.
@@ -613,11 +642,10 @@ namespace StarlightRiver
                             Dust.NewDustPerfect(new Vector2(i * 16 + Main.rand.Next(16), j * 16 + Main.rand.Next(-1, 20)), ModContent.DustType<Dusts.AirDash>(), new Vector2(0, Main.rand.NextFloat(-1, -0.1f)), 120, default, Main.rand.NextFloat(1.1f, 2.4f));
                     }
                 }
-
             }
 
             //trees, 100% not the right place to do this. I should probably move this later. I wont. Kill me.
-            if (Main.tile[i, j].type == Terraria.ID.TileID.Trees && Main.tile[i, j - 1].type != Terraria.ID.TileID.Trees && Main.tile[i, j + 1].type == Terraria.ID.TileID.Trees
+            if (Main.tile[i, j].type == TileID.Trees && Main.tile[i, j - 1].type != TileID.Trees && Main.tile[i, j + 1].type == TileID.Trees
                 && Helper.ScanForTypeDown(i, j, ModContent.TileType<Tiles.JungleHoly.GrassJungleHoly>())) //at the top of trees in the holy jungle
             {
                 Color color = new Color();
@@ -638,6 +666,7 @@ namespace StarlightRiver
                 b = color.B / 555f;
             }
         }
-        #endregion
+
+        #endregion IL edits
     }
 }

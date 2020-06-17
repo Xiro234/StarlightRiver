@@ -9,8 +9,16 @@ namespace StarlightRiver.Projectiles
         private readonly int Duration;
         private readonly float Min;
         private readonly float Max;
-        public SpearProjectile(int duration, float minOff, float maxOff) { Duration = duration; Min = minOff; Max = maxOff; }
-        public virtual void SafeSetDefaults() { }
+
+        public SpearProjectile(int duration, float minOff, float maxOff)
+        {
+            Duration = duration; Min = minOff; Max = maxOff;
+        }
+
+        public virtual void SafeSetDefaults()
+        {
+        }
+
         public sealed override void SetDefaults()
         {
             projectile.width = 16;
@@ -23,6 +31,7 @@ namespace StarlightRiver.Projectiles
 
             SafeSetDefaults();
         }
+
         public sealed override void AI()
         {
             int realDuration = (int)(Duration * Main.player[projectile.owner].meleeSpeed);

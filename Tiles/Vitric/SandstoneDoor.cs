@@ -4,6 +4,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -19,7 +20,7 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (StarlightWorld.DesertOpen && !Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>() && n.active)) Main.tileSolid[Type] = false;
+            if (StarlightWorld.DesertOpen && !Main.npc.Any(n => n.type == NPCType<NPCs.Boss.VitricBoss.VitricBoss>() && n.active)) Main.tileSolid[Type] = false;
             else Main.tileSolid[Type] = true;
         }
 
@@ -27,7 +28,7 @@ namespace StarlightRiver.Tiles.Vitric
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/SandstoneDoor");
+                Texture2D tex = GetTexture("StarlightRiver/Tiles/Vitric/SandstoneDoor");
                 Vector2 basepos = (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition;
                 int off = StarlightWorld.DesertOpen ? 46 : 0;
                 spriteBatch.Draw(tex, basepos + new Vector2(-off, 0), tex.Frame(), drawColor, 0, Vector2.Zero, 1, 0, 0);

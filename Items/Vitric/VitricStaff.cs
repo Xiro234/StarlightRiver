@@ -3,6 +3,7 @@ using StarlightRiver.Projectiles.WeaponProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Vitric
 {
@@ -21,7 +22,7 @@ namespace StarlightRiver.Items.Vitric
             item.shootSpeed = 12f;
             item.knockBack = 2f;
             item.damage = 12;
-            item.shoot = ModContent.ProjectileType<VitricStaffProjectile>();
+            item.shoot = ProjectileType<VitricStaffProjectile>();
             item.rare = ItemRarityID.Green;
             item.noMelee = true;
             item.magic = true;
