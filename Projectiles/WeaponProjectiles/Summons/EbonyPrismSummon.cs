@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
 {
@@ -14,16 +13,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
         public static int prismsPerSlot = 2;
 
         #region tml hooks
-
         public override string Texture => "StarlightRiver/Invisible";
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ebony Prism");
         }
-
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
-
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -38,7 +33,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             projectile.ignoreWater = true;
             projectile.netImportant = true;
         }
-
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D glowmask = mod.GetTexture("Projectiles/WeaponProjectiles/Summons/EbonyPrism");
@@ -49,16 +43,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             }
             base.PostDraw(spriteBatch, lightColor);
         }
-
         public override bool? CanHitNPC(NPC target)
         {
             return false;
         }
-
-        #endregion tml hooks
+        #endregion
 
         #region helper methods
-
         public Vector2 getPrismPosition(int currentPrism)
         {
             float speed = 80;
@@ -74,14 +65,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             float posY = projectile.Center.Y - 10 + (float)(Math.Sin(rot) * dist) * 0.6f;
             return new Vector2(posX, posY);
         }
-
         public void ChangeState(AIStates state)
         {
             projectile.ai[1] = 0;
             projectile.ai[0] = (int)state;
         }
-
-        #endregion helper methods
+        #endregion
 
         #region AI
 
@@ -90,13 +79,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             Charging = 0,
             Shooting = 1
         }
-
-        private NPC target = Main.npc[0];
-        private int lastShot;
-
+        NPC target = Main.npc[0];
+        int lastShot;
         public override void AI()
         {
-            //to-do
+            //to-do 
             //fix this stupid ass projectile ass looking ass randomly getting NAN position, caching pos and then setting p. pos to it if it has NANs in it donest seem to work
             projectile.timeLeft = 100;
             /*
@@ -104,9 +91,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
              * 0: State
              * 1: Timer
              */
-
             #region targetting
-
             if (projectile.OwnerMinionAttackTargetNPC == null || !projectile.OwnerMinionAttackTargetNPC.active)//automatically choose target
             {
                 for (int k = 0; k < Main.npc.Length; k++)
@@ -131,11 +116,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             {
                 target = Main.npc[0];
             }
-
-            #endregion targetting
+            #endregion
 
             #region attacking
-
             if (Helper.IsTargetValid(target))
             {
                 if (projectile.ai[0] == (int)AIStates.Charging)
@@ -154,7 +137,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
                     {
                         if (Collision.CanHitLine(projectile.Center, 2, 2, target.Center, 2, 2))
                         {
-                            Projectile.NewProjectile(getPrismPosition(lastShot), Vector2.Normalize(target.Center - getPrismPosition(lastShot)) * 20f, ProjectileType<EbonyPrismProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, target.whoAmI);
+                            Projectile.NewProjectile(getPrismPosition(lastShot), Vector2.Normalize(target.Center - getPrismPosition(lastShot)) * 20f, ModContent.ProjectileType<EbonyPrismProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, target.whoAmI);
                         }
                         lastShot++;
                         projectile.ai[1] = 0;
@@ -165,11 +148,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
                     }
                 }
             }
-
-            #endregion attacking
+            #endregion
 
             #region movement and rotation
-
             Player player = Main.player[projectile.owner];
             Vector2 targetPos = player.Center - new Vector2(player.direction * 20, 0);
             projectile.velocity = Vector2.Zero;
@@ -185,15 +166,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             {
                 projectile.rotation = 0;
             }
-
-            #endregion movement and rotation
-
+            #endregion
             Main.NewText(projectile.position);
         }
-
-        #endregion AI
+        #endregion
     }
-
     public class EbonyPrismProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
@@ -202,7 +179,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 40;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
-
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -228,7 +204,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.7f;
             projectile.velocity = Vector2.Normalize(projectile.velocity) * (5 + projectile.ai[1]);
         }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             for (int k = 0; k < projectile.oldPos.Length; k++)
@@ -239,7 +214,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
             }
             return false;
         }
-
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 12; k++)

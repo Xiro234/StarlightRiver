@@ -3,16 +3,12 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
     internal class ZapperTile : ModTile
     {
-        public override void SetDefaults()
-        {
-            QuickBlock.QuickSetFurniture(this, 5, 2, DustID.Stone, SoundID.Tink, false, new Color(100, 100, 80));
-        }
+        public override void SetDefaults() { QuickBlock.QuickSetFurniture(this, 5, 2, DustID.Stone, SoundID.Tink, false, new Color(100, 100, 80)); }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
@@ -20,7 +16,7 @@ namespace StarlightRiver.Tiles.Overgrow
             {
                 if (!(Main.projectile.Any(proj => proj.modProjectile is Projectiles.Zapper && (proj.modProjectile as Projectiles.Zapper).parent == Main.tile[i, j] && proj.active)))
                 {
-                    int proj = Projectile.NewProjectile(new Vector2(i + 2, j + 2) * 16, Vector2.Zero, ProjectileType<Projectiles.Zapper>(), 1, 1);
+                    int proj = Projectile.NewProjectile(new Vector2(i + 2, j + 2) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Zapper>(), 1, 1);
                     (Main.projectile[proj].modProjectile as Projectiles.Zapper).parent = Main.tile[i, j];
                 }
             }

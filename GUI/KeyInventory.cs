@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Keys;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.GUI
 {
@@ -42,7 +42,7 @@ namespace StarlightRiver.GUI
         public void DrawKey(SpriteBatch spriteBatch, Vector2 pos)
         {
             Vector2 center = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-            Texture2D tex = GetTexture(parent.Texture);
+            Texture2D tex = ModContent.GetTexture(parent.Texture);
             float x = (timer - 30) / 30f;
             float scale = 1 + (0.7f - 0.7f * (x * x));
             Color color = parent.ShowCondition ? Color.White : Color.White * 0.2f;

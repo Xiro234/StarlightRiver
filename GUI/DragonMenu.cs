@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dragons;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.GUI
 {
@@ -36,7 +36,7 @@ namespace StarlightRiver.GUI
         {
             Main.menuMode = 2;
             visible = false;
-            RemoveAllChildren();
+            base.RemoveAllChildren();
             QuickAddButton("Customize Dragon", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
 
             Main.PlaySound(SoundID.MenuClose);
@@ -46,7 +46,7 @@ namespace StarlightRiver.GUI
         {
             Main.menuMode = 888;
             visible = true;
-            RemoveAllChildren();
+            base.RemoveAllChildren();
 
             QuickAddButton("Customize Player", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToHuman));
             QuickAddButton("Name", new Vector2(Main.screenWidth / 2, 300), new MouseEvent(Customize0));
@@ -65,7 +65,7 @@ namespace StarlightRiver.GUI
 
         private void Customize0(UIMouseEvent evt, UIElement listeningElement)
         {
-            RemoveAllChildren();
+            base.RemoveAllChildren();
             part = ActivePart.name;
 
             QuickAddButton("Back", new Vector2(Main.screenWidth / 2, 700), new MouseEvent(ChangeToDragon));
@@ -73,7 +73,7 @@ namespace StarlightRiver.GUI
 
         private void Customize1(UIMouseEvent evt, UIElement listeningElement)
         {
-            RemoveAllChildren();
+            base.RemoveAllChildren();
             QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.data.hornColor.R);
             QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.data.hornColor.G);
             QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.data.hornColor.B);
@@ -86,7 +86,7 @@ namespace StarlightRiver.GUI
 
         private void Customize2(UIMouseEvent evt, UIElement listeningElement)
         {
-            RemoveAllChildren();
+            base.RemoveAllChildren();
             QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.data.scaleColor.R);
             QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.data.scaleColor.G);
             QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.data.scaleColor.B);
@@ -99,7 +99,7 @@ namespace StarlightRiver.GUI
 
         private void Customize3(UIMouseEvent evt, UIElement listeningElement)
         {
-            RemoveAllChildren();
+            base.RemoveAllChildren();
             QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.data.bellyColor.R);
             QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.data.bellyColor.G);
             QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.data.bellyColor.B);
@@ -112,7 +112,7 @@ namespace StarlightRiver.GUI
 
         private void Customize4(UIMouseEvent evt, UIElement listeningElement)
         {
-            RemoveAllChildren();
+            base.RemoveAllChildren();
             QuickAddColor(ColorChannel.r, new Vector2(Main.screenWidth / 2, 300), dragon.data.eyeColor.R);
             QuickAddColor(ColorChannel.g, new Vector2(Main.screenWidth / 2, 340), dragon.data.eyeColor.G);
             QuickAddColor(ColorChannel.b, new Vector2(Main.screenWidth / 2, 380), dragon.data.eyeColor.B);
@@ -137,10 +137,10 @@ namespace StarlightRiver.GUI
         {
             if (visible)
             {
-                Texture2D tex = GetTexture("StarlightRiver/Dragons/DragonHorn");
-                Texture2D tex2 = GetTexture("StarlightRiver/Dragons/DragonScale");
-                Texture2D tex3 = GetTexture("StarlightRiver/Dragons/DragonBelly");
-                Texture2D tex4 = GetTexture("StarlightRiver/Dragons/DragonEye");
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/Dragons/DragonHorn");
+                Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Dragons/DragonScale");
+                Texture2D tex3 = ModContent.GetTexture("StarlightRiver/Dragons/DragonBelly");
+                Texture2D tex4 = ModContent.GetTexture("StarlightRiver/Dragons/DragonEye");
                 spriteBatch.Draw(tex, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.data.hornColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
                 spriteBatch.Draw(tex2, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.data.scaleColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
                 spriteBatch.Draw(tex3, new Vector2(Main.screenWidth / 2, 220), tex.Frame(), dragon.data.bellyColor, 0, tex.Frame().Size() / 2, 1, 0, 0);
@@ -178,7 +178,7 @@ namespace StarlightRiver.GUI
             button.Left.Set(pos.X - (int)Main.fontMouseText.MeasureString(text).X * 2f / 2, 0);
             button.Top.Set(pos.Y - (int)Main.fontMouseText.MeasureString(text).Y * 1.2f / 2, 0);
             button.OnClick += OnClick;
-            Append(button);
+            base.Append(button);
         }
 
         private void QuickAddColor(ColorChannel channel, Vector2 pos, int initialValue = 0)
@@ -190,7 +190,7 @@ namespace StarlightRiver.GUI
             slider.Height.Set(32, 0);
             slider.sliderPos = initialValue;
 
-            Append(slider);
+            base.Append(slider);
         }
     }
 
@@ -257,10 +257,10 @@ namespace StarlightRiver.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex0 = GetTexture("StarlightRiver/GUI/Assets/SliderBack");
-            Texture2D tex1 = GetTexture("StarlightRiver/GUI/Assets/SliderGradient");
-            Texture2D tex2 = GetTexture("StarlightRiver/GUI/Assets/Slider");
-            Texture2D tex3 = GetTexture("StarlightRiver/GUI/Assets/SliderOver");
+            Texture2D tex0 = ModContent.GetTexture("StarlightRiver/GUI/Assets/SliderBack");
+            Texture2D tex1 = ModContent.GetTexture("StarlightRiver/GUI/Assets/SliderGradient");
+            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/GUI/Assets/Slider");
+            Texture2D tex3 = ModContent.GetTexture("StarlightRiver/GUI/Assets/SliderOver");
 
             Color backColor = (Parent as DragonMenu).currentColor;
             if (Channel == ColorChannel.r) backColor.R = 0;

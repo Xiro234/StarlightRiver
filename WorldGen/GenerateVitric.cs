@@ -24,6 +24,7 @@ namespace StarlightRiver
 
             StarlightWorld.VitricBiome = biomeTarget;
 
+
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++)
             {
                 for (int y = biomeTarget.Y; y < biomeTarget.Y + biomeTarget.Height; y++)
@@ -34,7 +35,6 @@ namespace StarlightRiver
             }
 
             #region Main shape
-
             int row = genRand.Next(512);
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++) //base sand + spikes
             {
@@ -118,7 +118,7 @@ namespace StarlightRiver
                 }
             }
 
-            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 35; x <= biomeTarget.X + biomeTarget.Width / 2 + 36; x++) //entrance hole
+            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 35; x <= biomeTarget.X + biomeTarget.Width / 2 + 36; x++) //entrance hole 
                 for (int y = biomeTarget.Y; y < biomeTarget.Y + 20; y++)
                     KillTile(x, y);
 
@@ -143,9 +143,7 @@ namespace StarlightRiver
                 PlaceTile(biomeTarget.X + biomeTarget.Width / 2 - 40, y, TileType<VitricBossBarrier>(), false, false);
                 PlaceTile(biomeTarget.X + biomeTarget.Width / 2 + 41, y, TileType<VitricBossBarrier>(), false, false);
             }
-
-            #endregion Main shape
-
+            #endregion
             #region Floating islands
 
             WormFromIsland(VitricBiome.TopLeft().ToPoint16(), 60);
@@ -205,6 +203,7 @@ namespace StarlightRiver
                         PlaceTile(x, y, TileType<VitricSand>());
                     }
                 }
+
             }
 
             bool CheckIsland(Point16 topLeft, int width, int height)
@@ -238,8 +237,7 @@ namespace StarlightRiver
 
                 return true;
             }
-
-            #endregion Floating islands
+            #endregion
         }*/
 
         private const int VitricSlopeOffset = 48;
@@ -314,6 +312,7 @@ namespace StarlightRiver
 
                     if (xDif < 10) layers[2] = biomeTarget.Y + biomeTarget.Height / 2;
                     else if (xDif < 17) layers[2] += genRand.Next(-1, 2);
+
                 }
 
                 if (layers[1] > biomeTarget.Y + biomeTarget.Height / 2) layers[1] = biomeTarget.Y + biomeTarget.Height / 2;
@@ -338,7 +337,7 @@ namespace StarlightRiver
                 if (xRel == 38) Helper.PlaceMultitile(new Point16(x, biomeTarget.Y + 57), TileType<VitricBossAltar>());
             }
 
-            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 35; x <= biomeTarget.X + biomeTarget.Width / 2 + 36; x++) //Entrance from Desert
+            for (int x = biomeTarget.X + biomeTarget.Width / 2 - 35; x <= biomeTarget.X + biomeTarget.Width / 2 + 36; x++) //Entrance from Desert 
                 for (int y = biomeTarget.Y; y < biomeTarget.Y + 20; y++) KillTile(x, y);
 
             for (int x = biomeTarget.X + biomeTarget.Width / 2 - 51; x <= biomeTarget.X + biomeTarget.Width / 2 + 52; x++) //Sandstone Cubes (Pillar Ground)

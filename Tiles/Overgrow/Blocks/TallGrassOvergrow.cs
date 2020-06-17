@@ -7,7 +7,6 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow.Blocks
 {
@@ -18,7 +17,6 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
             texture = "StarlightRiver/Invisible";
             return true;
         }
-
         public override void SetDefaults()
         {
             Main.tileCut[Type] = true;
@@ -27,18 +25,17 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                TileType<GrassOvergrow>(),
-                TileType<VineOvergrow>()
+                ModContent.TileType<GrassOvergrow>(),
+                ModContent.TileType<VineOvergrow>()
             };
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
-            dustType = DustType<Dusts.Leaf>();
+            dustType = ModContent.DustType<Dusts.Leaf>();
             AddMapEntry(new Color(202, 157, 49));
         }
-
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle((i + (int)Helper.TileAdj.X) * 16 - (int)Main.screenPosition.X + 8,
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle((i + (int)Helper.TileAdj.X) * 16 - (int)Main.screenPosition.X + 8,
                 (j + (int)Helper.TileAdj.Y + 1) * 16 - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle(i % 2 * 16, 0, 16, 16), drawColor, (float)Math.Sin(StarlightWorld.rottime + i % 6.28f) * 0.25f,
                 new Vector2(8, 16), 0, 0);
         }

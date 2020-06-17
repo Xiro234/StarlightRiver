@@ -3,7 +3,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -36,7 +35,7 @@ namespace StarlightRiver.NPCs.Hostile
         {
             if (Main.rand.NextFloat() < 0.50f)
             {
-                Item.NewItem(npc.getRect(), ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(2, 7));
+                Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(2, 7));
             }
         }
 

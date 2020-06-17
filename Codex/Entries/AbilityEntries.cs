@@ -1,4 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
+﻿using Terraria.ModLoader;
 
 namespace StarlightRiver.Codex.Entries
 {
@@ -9,8 +9,8 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Starlight Codex";
             Body = "A mysterious compendium containing lost knowledge, it seems to write itself as you travel. Click the codex icon in your inventory to view the codex.";
-            Image = GetTexture("StarlightRiver/Codex/Entries/AbilityImageLore");
-            Icon = GetTexture("StarlightRiver/GUI/Assets/Book1Closed");
+            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/AbilityImageLore");
+            Icon = ModContent.GetTexture("StarlightRiver/GUI/Assets/Book1Closed");
         }
     }
 
@@ -22,8 +22,8 @@ namespace StarlightRiver.Codex.Entries
             Title = "Forbidden Winds";
             Body = "A collection of strange energies found deeep within a tomb buried in the vitric desert. These 'winds' hold the power to shatter certain objects on touch and propel you forward at great speeds.";
             Hint = "Sealed away in an ancient glass temple";
-            Image = GetTexture("StarlightRiver/MarioCumming");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
+            Image = ModContent.GetTexture("StarlightRiver/MarioCumming");
+            Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         }
     }
 
@@ -35,8 +35,8 @@ namespace StarlightRiver.Codex.Entries
             Title = "Faeflame";
             Body = "NO TEXT";
             Hint = "Found upon an altar in an overgrown dungeon";
-            Image = GetTexture("StarlightRiver/Codex/Entries/AbilityImageWisp");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
+            Image = ModContent.GetTexture("StarlightRiver/Codex/Entries/AbilityImageWisp");
+            Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
         }
     }
 
@@ -47,8 +47,8 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Corona of Purity";
             Body = "NO TEXT";
-            Image = GetTexture("StarlightRiver/MarioCumming");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
+            Image = ModContent.GetTexture("StarlightRiver/MarioCumming");
+            Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
         }
     }
 
@@ -59,8 +59,8 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Gaia's Fist";
             Body = "NO TEXT";
-            Image = GetTexture("StarlightRiver/MarioCumming");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
+            Image = ModContent.GetTexture("StarlightRiver/MarioCumming");
+            Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         }
     }
 
@@ -71,8 +71,8 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Rift Codex";
             Body = "NO TEXT";
-            Image = GetTexture("StarlightRiver/GUI/Assets/Book2Closed");
-            Icon = GetTexture("StarlightRiver/GUI/Assets/Book2Closed");
+            Image = ModContent.GetTexture("StarlightRiver/GUI/Assets/Book2Closed");
+            Icon = ModContent.GetTexture("StarlightRiver/GUI/Assets/Book2Closed");
             RequiresUpgradedBook = true;
         }
     }
@@ -84,8 +84,8 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Zzelera's Cloak";
             Body = "NO TEXT";
-            Image = GetTexture("StarlightRiver/MarioCumming");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+            Image = ModContent.GetTexture("StarlightRiver/MarioCumming");
+            Icon = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
             RequiresUpgradedBook = true;
         }
     }

@@ -11,27 +11,20 @@ namespace StarlightRiver.Items
                 if (player.armor[k].type == item.type) return true;
             return false;
         }
-
         private readonly string ThisName;
         private readonly string ThisTooltip;
-
         //public override bool CloneNewInstances => true;
         public SmartAccessory(string name, string tooltip) : base()
         {
             ThisName = name;
             ThisTooltip = tooltip;
         }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(ThisName);
             Tooltip.SetDefault(ThisTooltip);
         }
-
-        public virtual void SafeSetDefaults()
-        {
-        }
-
+        public virtual void SafeSetDefaults() { }
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();
@@ -39,11 +32,7 @@ namespace StarlightRiver.Items
             item.height = 32;
             item.accessory = true;
         }
-
-        public virtual void SafeUpdateEquip(Player player)
-        {
-        }
-
+        public virtual void SafeUpdateEquip(Player player) { }
         public sealed override void UpdateEquip(Player player)
         {
             SafeUpdateEquip(player);

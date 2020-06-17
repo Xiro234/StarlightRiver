@@ -3,7 +3,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Vitric
 {
@@ -38,7 +37,7 @@ namespace StarlightRiver.Items.Vitric
             foreach (Item item in Main.item.Where(item => Vector2.Distance(item.Center, player.Center) <= 120 && item.active))
             {
                 item.velocity = Vector2.Normalize(item.Center - player.Center) * -2;
-                Dust.NewDust(item.Center, 4, 4, DustType<Dusts.Air>());
+                Dust.NewDust(item.Center, 4, 4, ModContent.DustType<Dusts.Air>());
             }
             return true;
         }
@@ -47,7 +46,7 @@ namespace StarlightRiver.Items.Vitric
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FossilOre, 10);
-            recipe.AddIngredient(ItemType<VitricGem>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<Items.Vitric.VitricGem>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

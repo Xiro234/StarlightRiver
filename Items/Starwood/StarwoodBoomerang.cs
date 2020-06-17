@@ -1,13 +1,11 @@
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Starwood
 {
     public class StarwoodBoomerang : StarwoodItem
     {
-        public StarwoodBoomerang() : base(GetTexture("StarlightRiver/Items/Starwood/StarwoodBoomerang_Alt"))
-        {
-        }
+        public StarwoodBoomerang() : base(ModContent.GetTexture("StarlightRiver/Items/Starwood/StarwoodBoomerang_Alt")) { }
 
         public override void SetStaticDefaults()
         {
@@ -27,7 +25,7 @@ namespace StarlightRiver.Items.Starwood
             item.shootSpeed = 10f;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item19;
-            item.shoot = ProjectileType<Projectiles.WeaponProjectiles.StarwoodBoomerangProjectile>();
+            item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.StarwoodBoomerangProjectile>();
             item.useAnimation = 10;
         }
     }

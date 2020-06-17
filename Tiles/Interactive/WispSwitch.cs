@@ -8,7 +8,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Interactive
 {
@@ -19,7 +18,7 @@ namespace StarlightRiver.Tiles.Interactive
             Main.tileLavaDeath[Type] = false;
             Main.tileFrameImportant[Type] = true;
 
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(GetInstance<WispSwitchEntity>().Hook_AfterPlacement, -1, 0, false);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<WispSwitchEntity>().Hook_AfterPlacement, -1, 0, false);
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
@@ -32,7 +31,7 @@ namespace StarlightRiver.Tiles.Interactive
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("");//Map name
             AddMapEntry(new Color(0, 0, 0), name);
-            dustType = DustType<Dusts.Gold2>();
+            dustType = ModContent.DustType<Dusts.Gold2>();
             disableSmartCursor = true;
         }
 
@@ -43,7 +42,7 @@ namespace StarlightRiver.Tiles.Interactive
                 Tile tile = Main.tile[i, j];
                 int left = i - (tile.frameX / 18);
                 int top = j - (tile.frameY / 18);
-                int index = GetInstance<WispSwitchEntity>().Find(left, top);
+                int index = ModContent.GetInstance<WispSwitchEntity>().Find(left, top);
 
                 if (index == -1)
                 {
@@ -55,12 +54,12 @@ namespace StarlightRiver.Tiles.Interactive
                 Vector2 pos = (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition;
                 Color color = Color.White * (0.2f + (timer / 300f * 0.8f));
 
-                spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchReal"), pos, Lighting.GetColor(i, j));
-                spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow0"), pos - Vector2.One, Color.White * (float)Math.Sin(StarlightWorld.rottime));
-                spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow1"), pos, color);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchReal"), pos, Lighting.GetColor(i, j));
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow0"), pos - Vector2.One, Color.White * (float)Math.Sin(StarlightWorld.rottime));
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow1"), pos, color);
                 if (timer > 0)
                 {
-                    spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2"), pos + Vector2.One * 16, new Rectangle(0, 0, 96, 96), Color.LightYellow * (timer / 300f), 0, new Vector2(48, 48), timer * 0.002f, 0, 0);
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2"), pos + Vector2.One * 16, new Rectangle(0, 0, 96, 96), Color.LightYellow * (timer / 300f), 0, new Vector2(48, 48), timer * 0.002f, 0, 0);
                 }
             }
 
@@ -69,7 +68,7 @@ namespace StarlightRiver.Tiles.Interactive
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ItemType<Items.Debug.DebugPotion>());
+            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Debug.DebugPotion>());
         }
     }
 
@@ -80,7 +79,7 @@ namespace StarlightRiver.Tiles.Interactive
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == TileType<WispSwitch>() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.active() && tile.type == ModContent.TileType<WispSwitch>() && tile.frameX == 0 && tile.frameY == 0;
         }
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
@@ -108,7 +107,7 @@ namespace StarlightRiver.Tiles.Interactive
                     Wiring.TripWire(Position.X, Position.Y, 2, 2);
                 }
 
-                Dust.NewDust(Position.ToVector2() * 16 + new Vector2(10, 10), 2, 2, DustType<Dusts.Gold2>(), 0, 0, 0, default, timer / 300f);
+                Dust.NewDust(Position.ToVector2() * 16 + new Vector2(10, 10), 2, 2, ModContent.DustType<Dusts.Gold2>(), 0, 0, 0, default, timer / 300f);
                 Lighting.AddLight(Position.ToVector2() * 16 + new Vector2(10, 10), new Vector3(10, 8, 2) * timer / 300f * 0.06f);
             }
         }

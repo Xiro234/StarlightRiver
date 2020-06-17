@@ -3,7 +3,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -64,7 +63,7 @@ namespace StarlightRiver.Tiles.Overgrow
             {
                 if (!(Main.projectile.Any(proj => proj.modProjectile is Projectiles.DartShooter && (proj.modProjectile as Projectiles.DartShooter).parent == Main.tile[i, j] && proj.active)))
                 {
-                    int proj = Projectile.NewProjectile(new Vector2(i + 0.5f, j + 0.5f) * 16, Vector2.Zero, ProjectileType<Projectiles.DartShooter>(), 0, 0);
+                    int proj = Projectile.NewProjectile(new Vector2(i + 0.5f, j + 0.5f) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.DartShooter>(), 0, 0);
                     (Main.projectile[proj].modProjectile as Projectiles.DartShooter).parent = Main.tile[i, j];
                     (Main.projectile[proj].modProjectile as Projectiles.DartShooter).direction = Main.tile[i, j].frameX;
                 }

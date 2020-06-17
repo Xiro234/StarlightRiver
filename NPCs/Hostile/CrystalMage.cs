@@ -3,7 +3,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -51,7 +50,7 @@ namespace StarlightRiver.NPCs.Hostile
             {
                 if (npc.localAI[2] == 0)
                 {
-                    Projectile.NewProjectile(npc.Center, -Vector2.Normalize(npc.Center - target.Center) * 5, ProjectileType<Projectiles.SandBolt>(), 5, 0.5f);
+                    Projectile.NewProjectile(npc.Center, -Vector2.Normalize(npc.Center - target.Center) * 5, ModContent.ProjectileType<Projectiles.SandBolt>(), 5, 0.5f);
                 }
                 else
                 {
@@ -64,7 +63,7 @@ namespace StarlightRiver.NPCs.Hostile
                     for (int k = 0; k <= Vector2.Distance(npc.Center, target.Center); k += 5)
                     {
                         Vector2 check = Vector2.Lerp(npc.Center, target.Center, (k / Vector2.Distance(npc.Center, target.Center)));
-                        Dust.NewDust(check, 8, 8, DustType<Dusts.Air4>());
+                        Dust.NewDust(check, 8, 8, ModContent.DustType<Dusts.Air4>());
                     }
                 }
             }

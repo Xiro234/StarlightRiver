@@ -1,6 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Herbology
 {
@@ -27,7 +26,7 @@ namespace StarlightRiver.Items.Herbology
 
     public class BerryBush : QuickTileItem
     {
-        public BerryBush() : base("Berry bush", "Plant to grow your own berries!", TileType<Tiles.Herbology.ForestBerryBush>(), 1)
+        public BerryBush() : base("Berry bush", "Plant to grow your own berries!", ModContent.TileType<Tiles.Herbology.ForestBerryBush>(), 1)
         {
         }
     }

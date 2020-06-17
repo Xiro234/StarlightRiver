@@ -11,7 +11,6 @@ namespace StarlightRiver.Dusts
             texture = "StarlightRiver/Dusts/FireDust";
             return true;
         }
-
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

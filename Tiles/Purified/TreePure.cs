@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Purified
 {
@@ -11,7 +10,7 @@ namespace StarlightRiver.Tiles.Purified
 
         public override int CreateDust()
         {
-            return DustType<Dusts.Purify>();
+            return ModContent.DustType<Dusts.Purify>();
         }
 
         public override int GrowthFXGore()
@@ -36,6 +35,7 @@ namespace StarlightRiver.Tiles.Purified
             xOffsetLeft = 48;
             yOffset = 2;
             return mod.GetTexture("Tiles/Purified/TreePure_Tops");
+
         }
 
         public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)

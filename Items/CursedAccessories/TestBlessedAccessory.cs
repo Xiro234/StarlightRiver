@@ -1,11 +1,11 @@
 ﻿using Terraria;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
     internal class TestBlessedAccessory : BlessedAccessory
     {
-        public TestBlessedAccessory() : base(GetTexture("StarlightRiver/Items/CursedAccessories/TestBlessedAccessoryGlow"))
+        public TestBlessedAccessory() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/TestBlessedAccessoryGlow"))
         {
         }
 

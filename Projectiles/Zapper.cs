@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles
 {
@@ -77,12 +76,12 @@ namespace StarlightRiver.Projectiles
                     }
                     for (float k2 = 0; k2 <= 1; k2 += 0.1f)
                     {
-                        Dust.NewDustPerfect(Vector2.Lerp(joints[k], joints[k - 1], k2), DustType<Dusts.Gold>(), null, 0, default, 0.5f);
+                        Dust.NewDustPerfect(Vector2.Lerp(joints[k], joints[k - 1], k2), ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.5f);
                     }
                 }
                 for (float k = 0; k <= 3.14f; k += 0.1f)
                 {
-                    Dust.NewDustPerfect(joints[(int)dims.Y / 20], DustType<Dusts.Gold2>(), new Vector2(-1, 0).RotatedBy(k) * Main.rand.NextFloat(2), 0, default, 0.6f);
+                    Dust.NewDustPerfect(joints[(int)dims.Y / 20], ModContent.DustType<Dusts.Gold2>(), new Vector2(-1, 0).RotatedBy(k) * Main.rand.NextFloat(2), 0, default, 0.6f);
                 }
                 Main.PlaySound(SoundID.NPCHit53.WithVolume(0.2f), joints[(int)dims.Y / 20]);
             }
@@ -91,8 +90,8 @@ namespace StarlightRiver.Projectiles
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 pos = projectile.position - Main.screenPosition + new Vector2(1, -23);
-            spriteBatch.Draw(GetTexture("StarlightRiver/Projectiles/ZapperGlow0"), pos, Color.White * (float)Math.Sin(StarlightWorld.rottime));
-            spriteBatch.Draw(GetTexture("StarlightRiver/Projectiles/ZapperGlow1"), pos + Vector2.One * 3, Color.White * 0.8f);
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/ZapperGlow0"), pos, Color.White * (float)Math.Sin(StarlightWorld.rottime));
+            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/ZapperGlow1"), pos + Vector2.One * 3, Color.White * 0.8f);
         }
     }
 }

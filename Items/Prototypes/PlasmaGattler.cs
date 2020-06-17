@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Prototypes
 {
@@ -33,7 +33,7 @@ namespace StarlightRiver.Items.Prototypes
         {
             player.channel = true;
             Vector2 dir = Vector2.Normalize(player.Center - Main.MouseWorld);
-            Projectile.NewProjectile(player.Center + dir * -10, dir.RotatedByRandom(Heat / 250f) * -4, ProjectileType<Projectiles.WeaponProjectiles.PlasmaGattlerPulse>(),
+            Projectile.NewProjectile(player.Center + dir * -10, dir.RotatedByRandom(Heat / 250f) * -4, ModContent.ProjectileType<Projectiles.WeaponProjectiles.PlasmaGattlerPulse>(),
                 item.damage, item.knockBack, player.whoAmI, Heat);
             //Main.NewText(Heat, new Color(Heat, 100, 200 - Heat));
             if (Heat <= 200) Heat += 10;

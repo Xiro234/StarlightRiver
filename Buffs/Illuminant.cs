@@ -3,18 +3,14 @@ using Terraria;
 
 namespace StarlightRiver.Buffs
 {
-    internal class Illuminant : SmartBuff
+    class Illuminant : SmartBuff
     {
-        public Illuminant() : base("Illuminant", "Glowing brightly!", true)
-        {
-        }
-
+        public Illuminant() : base("Illuminant", "Glowing brightly!", true) { }
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Invisible";
             return true;
         }
-
         public override void Update(NPC npc, ref int buffIndex)
         {
             if (Main.rand.Next(4) == 0)
@@ -23,7 +19,6 @@ namespace StarlightRiver.Buffs
                 Main.dust[i].noGravity = true;
             }
         }
-
         public override void Update(Player player, ref int buffIndex)
         {
             if (Main.rand.Next(4) == 0)

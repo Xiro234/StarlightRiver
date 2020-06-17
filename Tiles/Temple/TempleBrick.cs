@@ -6,13 +6,6 @@ using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Temple
 {
-    internal class TempleBrick : ModTile
-    { public override void SetDefaults() => QuickBlock.QuickSet(this, 0, DustID.Stone, SoundID.Tink, new Color(160, 160, 150), ItemType<TempleBrickItem>()); }
-
-    internal class TempleBrickItem : QuickTileItem
-    {
-        public TempleBrickItem() : base("Ancient Temple Bricks", "", TileType<TempleBrick>(), 0)
-        {
-        }
-    }
+    class TempleBrick : ModTile { public override void SetDefaults() => QuickBlock.QuickSet(this, 0, DustID.Stone, SoundID.Tink, new Color(160, 160, 150), ItemType<TempleBrickItem>()); }
+    class TempleBrickItem : QuickTileItem { public TempleBrickItem() : base("Ancient Temple Bricks", "", TileType<TempleBrick>(), 0) { } }
 }

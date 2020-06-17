@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -26,7 +25,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void AI()
         {
-            Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Starlight>(), Vector2.Zero);
+            Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.Zero);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

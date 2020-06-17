@@ -3,7 +3,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Vitric
 {
@@ -71,7 +70,7 @@ namespace StarlightRiver.Items.Vitric
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FossilOre, 10);
-            recipe.AddIngredient(ItemType<VitricGem>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<VitricGem>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -4,11 +4,10 @@ using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    internal class StarwoodBoomerangProjectile : ModProjectile
+    class StarwoodBoomerangProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -24,9 +23,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         //These stats get scaled when empowered
         private int ScaleMult = 2;
-
         private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
-        private int dustType = DustType<Dusts.Stamina>();
+        private int dustType = ModContent.DustType<Dusts.Stamina>();
+
 
         public override void SetDefaults()
         {
@@ -42,6 +41,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.aiStyle = -1;
         }
 
+
         public override void AI()
         {
             Player projOwner = Main.player[projectile.owner];
@@ -54,7 +54,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.frame = 1;
                 lightColor = new Vector3(0.1f, 0.2f, 0.4f);
                 ScaleMult = 3;
-                dustType = DustType<Dusts.BlueStamina>();
+                dustType = ModContent.DustType<Dusts.BlueStamina>();
             }
 
             Lighting.AddLight(projectile.Center, lightColor * 0.5f);
@@ -76,7 +76,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         NextPhase(0);
                     }
                     break;
-
                 case 1://has hit something
                     if (projOwner.controlUseItem || projectile.ai[1] >= maxChargeTime - 5)
                     {
@@ -122,7 +121,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         NextPhase(1); // ai[]s and damage reset here
                     }
                     break;
-
                 case 2://heading back
                     if (Vector2.Distance(projOwner.Center, projectile.Center) < 24)
                     { //if close enough delete projectile
@@ -184,33 +182,29 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             }
         }
 
-        #region on any collide start next phase
 
+        #region on any collide start next phase
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             NextPhase(0, true);
             return false;
         }
-
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             NextPhase(0, true);
         }
-
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             NextPhase(0, true);
         }
-
-        #endregion on any collide start next phase
+        #endregion
 
         //private Texture2D LightTrailTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/glow");
-        private Texture2D GlowingTrail => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlowTrail");
+        private Texture2D GlowingTrail => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlowTrail");
 
         //private static Texture2D MainTexture => ModContent.GetTexture("StarlightRiver/Items/StarwoodBoomerang");
-        private Texture2D GlowingTexture => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
-
-        private Texture2D AuraTexture => GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+        private Texture2D GlowingTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
+        private Texture2D AuraTexture => ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -268,7 +262,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
 
         #region phase change void
-
         private void NextPhase(int phase, bool bounce = false)
         {
             if (phase == 0 && projectile.ai[0] == phase)
@@ -290,7 +283,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.ai[1] = 0;
             }
         }
-
-        #endregion phase change void
+        #endregion
     }
 }

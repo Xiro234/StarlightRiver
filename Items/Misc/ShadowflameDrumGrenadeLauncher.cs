@@ -3,7 +3,6 @@ using StarlightRiver.Projectiles.WeaponProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Misc
 {
@@ -26,7 +25,7 @@ namespace StarlightRiver.Items.Misc
             item.autoReuse = true;
             item.useAmmo = 168;
             item.ranged = true;
-            item.shoot = ProjectileType<ShadowflameGrenade>();
+            item.shoot = ModContent.ProjectileType<ShadowflameGrenade>();
         }
 
         public override bool ConsumeAmmo(Player player)
@@ -52,7 +51,7 @@ namespace StarlightRiver.Items.Misc
             {
                 position += muzzleOffset;
             }
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ProjectileType<ShadowflameGrenade>(), damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<ShadowflameGrenade>(), damage, knockBack, player.whoAmI);
             return false;
         }
     }

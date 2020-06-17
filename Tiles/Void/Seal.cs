@@ -5,7 +5,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Void
 {
@@ -34,9 +33,9 @@ namespace StarlightRiver.Tiles.Void
         public override void NearbyEffects(int i, int j, bool closer)
         {
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0 && !Main.projectile.Any
-                (proj => proj.type == ProjectileType<Projectiles.Dummies.SealDummy>() && proj.Center == new Vector2(i + 5.5f, j) * 16 && proj.active))
+                (proj => proj.type == ModContent.ProjectileType<Projectiles.Dummies.SealDummy>() && proj.Center == new Vector2(i + 5.5f, j) * 16 && proj.active))
             {
-                Projectile.NewProjectile(new Vector2(i + 5.5f, j) * 16, Vector2.Zero, ProjectileType<Projectiles.Dummies.SealDummy>(), 0, 0);
+                Projectile.NewProjectile(new Vector2(i + 5.5f, j) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.SealDummy>(), 0, 0);
             }
             if (StarlightWorld.SealOpen)
             {
@@ -56,11 +55,11 @@ namespace StarlightRiver.Tiles.Void
                 Vector2 Seal = new Vector2((i + 12) * 16, (j + 12) * 16);
                 if (!StarlightWorld.SealOpen)
                 {
-                    spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Void/SealClosed"), Seal - Main.screenPosition, drawColor);
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Void/SealClosed"), Seal - Main.screenPosition, drawColor);
                 }
                 else
                 {
-                    spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Void/SealOpen"), Seal - Main.screenPosition, drawColor);
+                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Void/SealOpen"), Seal - Main.screenPosition, drawColor);
                 }
             }
         }

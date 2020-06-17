@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -24,16 +23,16 @@ namespace StarlightRiver.Tiles.Overgrow
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.addTile(Type);
 
-            dustType = DustType<Dusts.Gold2>();
+            dustType = ModContent.DustType<Dusts.Gold2>();
             disableSmartCursor = true;
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (!Main.projectile.Any(proj => proj.active && proj.type == ProjectileType<Projectiles.Dummies.HatchDummy>() &&
+            if (!Main.projectile.Any(proj => proj.active && proj.type == ModContent.ProjectileType<Projectiles.Dummies.HatchDummy>() &&
              proj.Hitbox.Intersects(new Rectangle(i * 16, j * 16, 16, 16))) && Main.tile[i, j].frameX == 18)
             {
-                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ProjectileType<Projectiles.Dummies.HatchDummy>(), 0, 0);
+                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.HatchDummy>(), 0, 0);
             }
 
             Lighting.AddLight(new Vector2(i, j + 2) * 16, new Vector3(0.6f, 0.6f, 0.5f));
@@ -42,8 +41,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
     internal class BigHatchOvergrow : DummyTile
     {
-        public override int DummyType => ProjectileType<Projectiles.Dummies.BigHatchDummy>();
-
+        public override int DummyType => ModContent.ProjectileType<Projectiles.Dummies.BigHatchDummy>();
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = false;

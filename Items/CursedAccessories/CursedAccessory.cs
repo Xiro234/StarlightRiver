@@ -18,7 +18,6 @@ namespace StarlightRiver.Items.CursedAccessories
         {
             Glow = glow;
         }
-
         private static ParticleSystem.Update UpdateCursed => UpdateCursedBody;
 
         private static void UpdateCursedBody(Particle particle)
@@ -54,7 +53,6 @@ namespace StarlightRiver.Items.CursedAccessories
 
             return true;
         }
-
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             TooltipLine line = new TooltipLine(mod, "StarlightRiverCursedWarning", "Cursed, Cannot be removed normally once equipped")

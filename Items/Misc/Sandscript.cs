@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Misc
 {
@@ -24,13 +23,13 @@ namespace StarlightRiver.Items.Misc
             item.shootSpeed = 1f;
             item.knockBack = 7f;
             item.damage = 12;
-            item.shoot = ProjectileType<Projectiles.WeaponProjectiles.SandSlash>();
+            item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.SandSlash>();
             item.rare = ItemRarityID.Blue;
             item.noMelee = true;
             item.magic = true;
             item.mana = 10;
 
-            item.UseSound = SoundID.Item45;
+            item.UseSound = Terraria.ID.SoundID.Item45;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -8,7 +8,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -59,7 +58,7 @@ namespace StarlightRiver
 
                 if (Main.tile[x, y].type == TileID.Dirt && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6)
                 {
-                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 11), 1, TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 11), 1, ModContent.TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
                 }
             }
         }
@@ -78,24 +77,24 @@ namespace StarlightRiver
 
         public override void PostUpdate()
         {
-            if (!Main.projectile.Any(proj => proj.type == ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
+            if (!Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
             {
                 PureTiles.Clear();
             }
 
-            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Wind>() && n.active == true))
+            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wind>() && n.active == true))
             {
-                NPC.NewNPC((int)DashSP.X, (int)DashSP.Y, NPCType<NPCs.Pickups.Wind>());
+                NPC.NewNPC((int)DashSP.X, (int)DashSP.Y, ModContent.NPCType<NPCs.Pickups.Wind>());
             }
 
-            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Lore>() && n.active == true))
+            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Lore>() && n.active == true))
             {
-                NPC.NewNPC((int)BookSP.X, (int)BookSP.Y, NPCType<NPCs.Pickups.Lore>());
+                NPC.NewNPC((int)BookSP.X, (int)BookSP.Y, ModContent.NPCType<NPCs.Pickups.Lore>());
             }
 
-            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Wisp>() && n.active == true))
+            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wisp>() && n.active == true))
             {
-                NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, NPCType<NPCs.Pickups.Wisp>());
+                NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, ModContent.NPCType<NPCs.Pickups.Wisp>());
             }
 
             //Keys

@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -119,15 +118,15 @@ namespace StarlightRiver
                 {
                     Tile tile = Framing.GetTileSafely(x, y);
                     tile.ClearEverything();
-                    tile.wall = (ushort)WallType<Tiles.Overgrow.WallOvergrowBrick>();
+                    tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
                     if (y - target.Y <= HallThickness || y - target.Y >= HallWidth - HallThickness)
                     {
-                        tile.type = (ushort)TileType<BrickOvergrow>();
+                        tile.type = (ushort)ModContent.TileType<BrickOvergrow>();
                         tile.active(true);
                     }
                     if (y - target.Y == HallWidth / 2 && (x == target.X + 1 || x == target.X + target.Width - 1))
                     {
-                        tile.type = (ushort)TileType<Tiles.Overgrow.MarkerGem>();
+                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.MarkerGem>();
                         tile.active(true);
                     }
                 }
@@ -142,15 +141,15 @@ namespace StarlightRiver
                 {
                     Tile tile = Framing.GetTileSafely(x, y);
                     tile.ClearEverything();
-                    tile.wall = (ushort)WallType<Tiles.Overgrow.WallOvergrowBrick>();
+                    tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
                     if (x - target.X <= HallThickness || x - target.X >= HallWidth - HallThickness)
                     {
-                        tile.type = (ushort)TileType<BrickOvergrow>();
+                        tile.type = (ushort)ModContent.TileType<BrickOvergrow>();
                         tile.active(true);
                     }
                     if (x - target.X == HallWidth / 2 && (y == target.Y + 1 || y == target.Y + target.Height - 1))
                     {
-                        tile.type = (ushort)TileType<Tiles.Overgrow.MarkerGem>();
+                        tile.type = (ushort)ModContent.TileType<Tiles.Overgrow.MarkerGem>();
                         tile.active(true);
                     }
                 }
@@ -166,8 +165,8 @@ namespace StarlightRiver
                 {
                     Tile tile = Framing.GetTileSafely(x, y);
                     tile.ClearEverything();
-                    tile.wall = (ushort)WallType<Tiles.Overgrow.WallOvergrowBrick>();
-                    tile.type = (ushort)TileType<BrickOvergrow>();
+                    tile.wall = (ushort)ModContent.WallType<Tiles.Overgrow.WallOvergrowBrick>();
+                    tile.type = (ushort)ModContent.TileType<BrickOvergrow>();
                     tile.active(true);
                 }
             }
@@ -193,10 +192,10 @@ namespace StarlightRiver
                     }
                     Tile tile = Framing.GetTileSafely(x, y);
                     //keeps us from running into ourselves or the dungeon. Essentially playing snake.
-                    if (tile.type == TileID.BlueDungeonBrick || tile.type == TileID.GreenDungeonBrick || tile.type == TileID.PinkDungeonBrick || tile.type == TileType<BrickOvergrow>())
+                    if (tile.type == TileID.BlueDungeonBrick || tile.type == TileID.GreenDungeonBrick || tile.type == TileID.PinkDungeonBrick || tile.type == ModContent.TileType<BrickOvergrow>())
                     {
                         Debug.WriteLine("Failed to find a safe place within the rectangle: " + rect +
-                            " due to: " + (tile.type == TileType<BrickOvergrow>() ? "other overgrow tiles" : "vanilla dungeon tiles"));
+                            " due to: " + (tile.type == ModContent.TileType<BrickOvergrow>() ? "other overgrow tiles" : "vanilla dungeon tiles"));
                         return false;
                     }
                 }
@@ -212,7 +211,7 @@ namespace StarlightRiver
             bool left = false;
             bool right = false;
             //bool isLong = room.Width > 20;
-            int type = TileType<Tiles.Overgrow.MarkerGem>();
+            int type = ModContent.TileType<Tiles.Overgrow.MarkerGem>();
 
             for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y - 2).type == type) up = true;
             for (int x = room.X; x <= room.X + room.Width; x++) if (Framing.GetTileSafely(x, room.Y + room.Height + 2).type == type) down = true;

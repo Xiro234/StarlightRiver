@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Hostile
 {
@@ -91,7 +90,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextFloat() < 0.50f) { Item.NewItem(npc.getRect(), ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(4, 5)); }
+            if (Main.rand.NextFloat() < 0.50f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(4, 5)); }
             Item.NewItem(npc.getRect(), ItemID.Gel, Main.rand.Next(5, 6));
         }
 
@@ -100,8 +99,8 @@ namespace StarlightRiver.NPCs.Hostile
             if (shielded)
             {
                 Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime);
-                spriteBatch.Draw(GetTexture("StarlightRiver/NPCs/Hostile/Crystal"), npc.position - Main.screenPosition + new Vector2(-2, -5), Lighting.GetColor((int)npc.position.X / 16, (int)npc.position.Y / 16));
-                spriteBatch.Draw(GetTexture("StarlightRiver/NPCs/Hostile/CrystalGlow"), npc.position - Main.screenPosition + new Vector2(-3, -6), color);
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Hostile/Crystal"), npc.position - Main.screenPosition + new Vector2(-2, -5), Lighting.GetColor((int)npc.position.X / 16, (int)npc.position.Y / 16));
+                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Hostile/CrystalGlow"), npc.position - Main.screenPosition + new Vector2(-3, -6), color);
             }
         }
     }

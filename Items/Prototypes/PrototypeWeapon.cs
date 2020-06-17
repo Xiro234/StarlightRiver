@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Prototypes
 {
@@ -81,7 +80,7 @@ namespace StarlightRiver.Items.Prototypes
             Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, spawnpos);
             for (int k = 0; k <= 40; k++)
             {
-                Dust.NewDustPerfect(spawnpos, DustType<Dusts.Stone>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5));
+                Dust.NewDustPerfect(spawnpos, ModContent.DustType<Dusts.Stone>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(5));
                 Dust.NewDustPerfect(spawnpos, 133, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10));
             }
             item.TurnToAir();

@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using static StarlightRiver.NPCs.Boss.VitricBoss.VitricBoss;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -83,7 +82,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
                     {
                         Main.PlaySound(Terraria.ID.SoundID.DD2_WitherBeastCrystalImpact);
-                        for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8), 0, default, 2.2f);
+                        for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8), 0, default, 2.2f);
                         npc.ai[0] = 1; //It's all broken and on the floor!
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
@@ -144,7 +143,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                             for (float k = 0; k < 1; k += 0.03f) //dust visuals
                             {
-                                Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), DustType<Dusts.Starlight>());
+                                Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), ModContent.DustType<Dusts.Starlight>());
                             }
                         }
                         npc.ai[2] = 0; //go back to doing nothing
@@ -171,7 +170,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         if (npc.rotation >= 5f) npc.rotation = 0;
                     }
 
-                    Dust.NewDustPerfect(npc.Center, DustType<Dusts.Starlight>());
+                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Starlight>());
 
                     if (npc.Center.Y > TargetPos.Y)
                         foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
@@ -201,7 +200,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 case 5: //transforming the boss
                     for (float k = 0; k < 1; k += 0.03f)
                     {
-                        Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), DustType<Dusts.Air>());
+                        Dust.NewDustPerfect(Vector2.Lerp(npc.Center, Parent.npc.Center, k), ModContent.DustType<Dusts.Air>());
                     }
                     break;
             }
@@ -215,7 +214,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline
             if (npc.ai[0] == 0)
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
 
@@ -229,7 +228,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             sb.End();
             sb.Begin(default, BlendState.Additive);
-            Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/Gores/TellBeam");
             for (float k = 0; k < 1; k += 1 / Vector2.Distance(p1, p2) * tex.Width)
             {
                 sb.Draw(tex, Vector2.Lerp(p1, p2, k) - Main.screenPosition, tex.Frame(), new Color(180, 220, 250) * 0.8f, (p1 - p2).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);

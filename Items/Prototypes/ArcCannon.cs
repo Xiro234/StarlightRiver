@@ -2,7 +2,7 @@
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Prototypes
 {
@@ -29,9 +29,9 @@ namespace StarlightRiver.Items.Prototypes
 
         public override bool SafeUseItem(Player player)
         {
-            int index = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<Projectiles.WeaponProjectiles.LightningNode>(), 120, 0, player.whoAmI, 1, 500);
+            int index = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<Projectiles.WeaponProjectiles.LightningNode>(), 120, 0, player.whoAmI, 1, 500);
             NPC npc = Main.npc.FirstOrDefault(n => n.Hitbox.Contains(Main.MouseWorld.ToPoint()));
-            Helper.DrawElectricity(player.Center, npc == null ? Main.projectile[index].Center : npc.Center, DustType<Dusts.Electric>());
+            Helper.DrawElectricity(player.Center, npc == null ? Main.projectile[index].Center : npc.Center, ModContent.DustType<Dusts.Electric>());
             return true;
         }
     }

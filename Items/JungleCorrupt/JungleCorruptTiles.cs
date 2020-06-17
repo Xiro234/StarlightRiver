@@ -1,6 +1,5 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.JungleCorrupt
 {
@@ -22,7 +21,7 @@ namespace StarlightRiver.Items.JungleCorrupt
             item.useTime = 10;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
-            item.createWall = WallType<Tiles.JungleCorrupt.WallJungleCorrupt>();
+            item.createWall = ModContent.WallType<Tiles.JungleCorrupt.WallJungleCorrupt>();
         }
     }
 }

@@ -6,20 +6,17 @@ namespace StarlightRiver.Dusts
 {
     public class Shadowflame : ModDust
     {
-        private float startingScale;
-
+        float startingScale;
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;
             dust.noLight = false;
             startingScale = dust.scale;
         }
-
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
             return Color.Purple * dust.fadeIn;
         }
-
         public override bool Update(Dust dust)
         {
             if (dust.scale <= 0)

@@ -2,7 +2,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Ammo
 {
@@ -46,7 +45,7 @@ namespace StarlightRiver.Projectiles.Ammo
                 picked = true;
                 anglediff = (projectile.velocity.ToRotation() - (target.Center - projectile.Center).ToRotation() + 9.42f) % 6.28f - 3.14f;
             }
-            Dust.NewDust(projectile.position, 1, 1, DustType<Dusts.Starlight>(), 0, 0, 0, default, 0.4f);
+            Dust.NewDust(projectile.position, 1, 1, ModContent.DustType<Dusts.Starlight>(), 0, 0, 0, default, 0.4f);
             if (Vector2.Distance(target.Center, projectile.Center) <= 800 && anglediff <= 0.55f && anglediff >= -0.55f)
             {
                 projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.06f;

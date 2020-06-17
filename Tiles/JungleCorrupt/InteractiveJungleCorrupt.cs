@@ -4,7 +4,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.JungleCorrupt
 {
@@ -16,7 +15,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
             Main.tileFrameImportant[Type] = true;
             Main.tileCut[Type] = true;
 
-            dustType = DustType<Dusts.Corrupt>();
+            dustType = ModContent.DustType<Dusts.Corrupt>();
             soundType = SoundID.NPCDeath13.SoundId;
             animationFrameHeight = 16;
 
@@ -70,7 +69,7 @@ namespace StarlightRiver.Tiles.JungleCorrupt
             {
                 if (Main.rand.Next(1) == 0)
                 {
-                    WorldGen.PlaceTile(i + x, j + y, TileType<ThornJungleCorrupt>(), true);
+                    WorldGen.PlaceTile(i + x, j + y, ModContent.TileType<ThornJungleCorrupt>(), true);
                 }
             }
         }

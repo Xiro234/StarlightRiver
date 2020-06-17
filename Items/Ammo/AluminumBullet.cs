@@ -1,7 +1,6 @@
 using StarlightRiver.Items.Crafting;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Ammo
 {
@@ -24,7 +23,7 @@ namespace StarlightRiver.Items.Ammo
             item.knockBack = 0.5f;
             item.value = 10;
             item.rare = ItemRarityID.Green;
-            item.shoot = ProjectileType<Projectiles.Ammo.AluminumBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Ammo.AluminumBullet>();
             item.shootSpeed = 0.01f;
             item.ammo = AmmoID.Bullet;
         }
@@ -32,8 +31,8 @@ namespace StarlightRiver.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<AluminumBar>(), 1);
-            recipe.AddTile(TileType<Tiles.Crafting.Oven>());
+            recipe.AddIngredient(ModContent.ItemType<AluminumBar>(), 1);
+            recipe.AddTile(ModContent.TileType<Tiles.Crafting.Oven>());
             recipe.SetResult(this, 25);
             recipe.AddRecipe();
         }

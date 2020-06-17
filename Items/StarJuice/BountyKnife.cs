@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.StarJuice
 {
@@ -25,7 +25,7 @@ namespace StarlightRiver.Items.StarJuice
             item.useAnimation = 10;
             item.useTime = 10;
             item.rare = ItemRarityID.Orange;
-            item.shoot = ProjectileType<Projectiles.WeaponProjectiles.BountyKnife>();
+            item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.BountyKnife>();
             item.shootSpeed = 2;
             item.damage = 1;
         }

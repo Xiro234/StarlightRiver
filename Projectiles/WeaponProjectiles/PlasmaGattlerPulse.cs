@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -29,7 +28,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = GetTexture(Texture);
+            Texture2D tex = ModContent.GetTexture(Texture);
             Color color = new Color(projectile.ai[0] / 200f, (300 - projectile.ai[0]) / 255f, (300 - projectile.ai[0]) / 255f);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), color * 0.9f, projectile.rotation, tex.Size() / 2, 1.4f, 0, 0);
         }

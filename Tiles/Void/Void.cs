@@ -11,30 +11,15 @@ using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Void
 {
-    internal class VoidBrick : ModTile
-    { public override void SetDefaults() => QuickBlock.QuickSet(this, 200, DustType<Dusts.Darkness>(), SoundID.Tink, new Color(45, 50, 30), ItemType<VoidBrickItem>()); }
+    class VoidBrick : ModTile { public override void SetDefaults() => QuickBlock.QuickSet(this, 200, DustType<Dusts.Darkness>(), SoundID.Tink, new Color(45, 50, 30), ItemType<VoidBrickItem>()); }
+    class VoidBrickItem : QuickTileItem { public VoidBrickItem() : base("Void Bricks", "", TileType<VoidBrick>(), 1) { } }
 
-    internal class VoidBrickItem : QuickTileItem
-    {
-        public VoidBrickItem() : base("Void Bricks", "", TileType<VoidBrick>(), 1)
-        {
-        }
-    }
-
-    internal class VoidStone : ModTile
-    { public override void SetDefaults() => QuickBlock.QuickSet(this, 200, DustType<Dusts.Darkness>(), SoundID.Tink, new Color(35, 40, 20), ItemType<VoidStoneItem>()); }
-
-    internal class VoidStoneItem : QuickTileItem
-    {
-        public VoidStoneItem() : base("Void Stone", "", TileType<VoidStone>(), 1)
-        {
-        }
-    }
+    class VoidStone : ModTile { public override void SetDefaults() => QuickBlock.QuickSet(this, 200, DustType<Dusts.Darkness>(), SoundID.Tink, new Color(35, 40, 20), ItemType<VoidStoneItem>()); }
+    class VoidStoneItem : QuickTileItem { public VoidStoneItem() : base("Void Stone", "", TileType<VoidStone>(), 1) { } }
 
     internal class VoidTorch : ModTile
     {
         public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 1, 2, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
-
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidTorchItem>());
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
@@ -51,18 +36,11 @@ namespace StarlightRiver.Tiles.Void
             }
         }
     }
-
-    internal class VoidTorchItem : QuickTileItem
-    {
-        public VoidTorchItem() : base("Void Torch", "", TileType<VoidTorch>(), 1)
-        {
-        }
-    }
+    class VoidTorchItem : QuickTileItem { public VoidTorchItem() : base("Void Torch", "", TileType<VoidTorch>(), 1) { } }
 
     internal class VoidBrazier : ModTile
     {
         public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 1, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
-
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidBrazierItem>());
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
@@ -79,13 +57,7 @@ namespace StarlightRiver.Tiles.Void
             }
         }
     }
-
-    internal class VoidBrazierItem : QuickTileItem
-    {
-        public VoidBrazierItem() : base("Void Brazier", "", TileType<VoidBrazier>(), 1)
-        {
-        }
-    }
+    class VoidBrazierItem : QuickTileItem { public VoidBrazierItem() : base("Void Brazier", "", TileType<VoidBrazier>(), 1) { } }
 
     internal class VoidPillarBase : ModTile
     {
@@ -97,13 +69,7 @@ namespace StarlightRiver.Tiles.Void
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidPillarBaseItem>());
     }
-
-    internal class VoidPillarBaseItem : QuickTileItem
-    {
-        public VoidPillarBaseItem() : base("Void Pillar Base", "", TileType<VoidPillarBase>(), 1)
-        {
-        }
-    }
+    class VoidPillarBaseItem : QuickTileItem { public VoidPillarBaseItem() : base("Void Pillar Base", "", TileType<VoidPillarBase>(), 1) { } }
 
     internal class VoidPillarMiddle : ModTile
     {
@@ -120,13 +86,7 @@ namespace StarlightRiver.Tiles.Void
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidPillarMiddleItem>());
     }
-
-    internal class VoidPillarMiddleItem : QuickTileItem
-    {
-        public VoidPillarMiddleItem() : base("Void Pillar", "", TileType<VoidPillarMiddle>(), 1)
-        {
-        }
-    }
+    class VoidPillarMiddleItem : QuickTileItem { public VoidPillarMiddleItem() : base("Void Pillar", "", TileType<VoidPillarMiddle>(), 1) { } }
 
     internal class VoidPillarTop : ModTile
     {
@@ -143,13 +103,7 @@ namespace StarlightRiver.Tiles.Void
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidPillarTopItem>());
     }
-
-    internal class VoidPillarTopItem : QuickTileItem
-    {
-        public VoidPillarTopItem() : base("Void Pillar Support", "", TileType<VoidPillarTop>(), 1)
-        {
-        }
-    }
+    class VoidPillarTopItem : QuickTileItem { public VoidPillarTopItem() : base("Void Pillar Support", "", TileType<VoidPillarTop>(), 1) { } }
 
     internal class VoidPillarTopAlt : ModTile
     {
@@ -166,11 +120,5 @@ namespace StarlightRiver.Tiles.Void
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidPillarTopAltItem>());
     }
-
-    internal class VoidPillarTopAltItem : QuickTileItem
-    {
-        public VoidPillarTopAltItem() : base("Void Pillar Pedestal", "", TileType<VoidPillarTopAlt>(), 1)
-        {
-        }
-    }
+    class VoidPillarTopAltItem : QuickTileItem { public VoidPillarTopAltItem() : base("Void Pillar Pedestal", "", TileType<VoidPillarTopAlt>(), 1) { } }
 }

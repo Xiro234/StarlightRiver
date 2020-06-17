@@ -5,7 +5,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Armor.Overgrow
 {
@@ -68,7 +67,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return head.type == ItemType<OvergrowHead>() && legs.type == ItemType<OvergrowLegs>();
+            return head.type == ModContent.ItemType<OvergrowHead>() && legs.type == ModContent.ItemType<OvergrowLegs>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -98,7 +97,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
     {
         public override void OnHitNPC(Projectile projectile, NPC target, int damage, float knockback, bool crit)
         {
-            foreach (Player player in Main.player.Where(player => player.armor[1].type == ItemType<OvergrowChest>()))
+            foreach (Player player in Main.player.Where(player => player.armor[1].type == ModContent.ItemType<OvergrowChest>()))
             {
                 if (projectile.owner == player.whoAmI && projectile.active && projectile.ranged && player.velocity.Y != 0 && player.armor[1].modItem is OvergrowChest)
                 {
@@ -106,7 +105,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
                 }
             }
 
-            foreach (Player player in Main.player.Where(player => player.armor[1].type == ItemType<OvergrowRobe>()))
+            foreach (Player player in Main.player.Where(player => player.armor[1].type == ModContent.ItemType<OvergrowRobe>()))
             {
                 if (projectile.owner == player.whoAmI && projectile.active && projectile.magic && player.armor[1].modItem is OvergrowRobe && (player.armor[1].modItem as OvergrowRobe).leaves < 10)
                 {
@@ -144,7 +143,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return head.type == ItemType<OvergrowHead>() && legs.type == ItemType<OvergrowLegs>();
+            return head.type == ModContent.ItemType<OvergrowHead>() && legs.type == ModContent.ItemType<OvergrowLegs>();
         }
 
         public override void UpdateArmorSet(Player player)
@@ -154,7 +153,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
             for (int k = 0; k < leaves; k++)
             {
                 Dust dus = Dust.NewDustPerfect(player.Center + (new Vector2((float)Math.Cos(StarlightWorld.rottime) * 2, (float)Math.Sin(StarlightWorld.rottime)) * 20).RotatedBy(k / (float)leaves * 6.28f),
-                DustType<Dusts.GenericFollow>(), Vector2.Zero, 0, default, leaves == 10 ? 1.2f : 0.8f);
+                ModContent.DustType<Dusts.GenericFollow>(), Vector2.Zero, 0, default, leaves == 10 ? 1.2f : 0.8f);
                 dus.customData = player;
             }
 
@@ -162,7 +161,7 @@ namespace StarlightRiver.Items.Armor.Overgrow
             {
                 for (int k = 0; k < leaves; k++)
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(6.28f) * 3, ProjectileType<Projectiles.WeaponProjectiles.ArmorLeaf>(), 10, 0);
+                    Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(6.28f) * 3, ModContent.ProjectileType<Projectiles.WeaponProjectiles.ArmorLeaf>(), 10, 0);
                 }
                 leaves = 0;
             }

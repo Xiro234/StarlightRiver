@@ -4,7 +4,6 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles
 {
@@ -22,7 +21,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
             //dustType = 0;
-            drop = ItemType<Items.Crafting.AluminumBar>();
+            drop = ModContent.ItemType<Items.Crafting.AluminumBar>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Metal Bar"); //all bars are called metal bar in vanilla
             AddMapEntry(new Color(156, 172, 177), name);
@@ -43,7 +42,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
             //dustType = 0;
-            drop = ItemType<Items.EbonyIvory.BarEbony>();
+            drop = ModContent.ItemType<Items.EbonyIvory.BarEbony>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Metal Bar");
             AddMapEntry(new Color(156, 172, 177), name);
@@ -64,7 +63,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
             //dustType = 0;
-            drop = ItemType<Items.Crafting.AluminumBar>();
+            drop = ModContent.ItemType<Items.Crafting.AluminumBar>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Metal Bar");
             AddMapEntry(new Color(156, 172, 177), name);

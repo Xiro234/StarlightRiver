@@ -12,7 +12,6 @@ using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -54,14 +53,8 @@ namespace StarlightRiver
         public readonly string MessageString = Helper.WrapString("Poop.", Main.screenWidth / 4, Main.fontDeathText, 1);
 
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
-
         public static StarlightRiver Instance { get; set; }
-
-        public StarlightRiver()
-        {
-            Instance = this;
-        }
-
+        public StarlightRiver() { Instance = this; }
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
@@ -110,10 +103,9 @@ namespace StarlightRiver
             }
             return;
         }
-
         public static void AutoloadRiftRecipes(List<RiftRecipe> target)
         {
-            Mod mod = GetInstance<StarlightRiver>();
+            Mod mod = ModContent.GetInstance<StarlightRiver>();
             if (mod.Code != null)
             {
                 foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))
@@ -122,7 +114,6 @@ namespace StarlightRiver
                 }
             }
         }
-
         public override void Load()
         {
             //Shaders
@@ -209,7 +200,6 @@ namespace StarlightRiver
             HookOn();
             HookIL();
         }
-
         public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
             if (Rotation != 0)
@@ -226,7 +216,6 @@ namespace StarlightRiver
                 Helper.UpdateTilt();
             }
         }
-
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
@@ -244,7 +233,6 @@ namespace StarlightRiver
                 AddLayer(layers, LootUserInterface, lootUI, MouseTextIndex, LootUI.Visible);
             }
         }
-
         private void AddLayer(List<GameInterfaceLayer> layers, UserInterface userInterface, UIState state, int index, bool visible)
         {
             layers.Insert(index, new LegacyGameInterfaceLayer("StarlightRiver: " + state.ToString(),
@@ -258,7 +246,6 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
         }
-
         public override void Unload()
         {
             if (!Main.dedServ)
@@ -296,7 +283,6 @@ namespace StarlightRiver
         }
 
         #region NetEasy
-
         public override void PostSetupContent()
         {
             NetEasy.NetEasy.Register(this);
@@ -306,7 +292,6 @@ namespace StarlightRiver
         {
             NetEasy.NetEasy.HandleModule(reader, whoAmI);
         }
-
-        #endregion NetEasy
+        #endregion
     }
 }

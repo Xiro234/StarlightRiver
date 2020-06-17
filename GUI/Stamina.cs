@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.GUI
 {
@@ -19,7 +19,7 @@ namespace StarlightRiver.GUI
             Stam1.Left.Set(-303, 1);
             Stam1.Top.Set(110, 0);
             Stam1.Width.Set(30, 0f);
-            Append(Stam1);
+            base.Append(Stam1);
         }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -72,8 +72,8 @@ namespace StarlightRiver.GUI
             Player player = Main.LocalPlayer;
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
-            Texture2D emptyTex = GetTexture("StarlightRiver/GUI/Assets/StaminaEmpty");
-            Texture2D fillTex = GetTexture("StarlightRiver/GUI/Assets/Stamina");
+            Texture2D emptyTex = ModContent.GetTexture("StarlightRiver/GUI/Assets/StaminaEmpty");
+            Texture2D fillTex = ModContent.GetTexture("StarlightRiver/GUI/Assets/Stamina");
 
             int row = 0;
             for (int k = 0; k < mp.StatStaminaMax; k++)

@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.World.Generation;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Structures
 {
@@ -14,7 +14,7 @@ namespace StarlightRiver.Structures
         {
             progress.Message = "Setting ancient traps...";
 
-            Texture2D BoulderSlope = GetTexture("StarlightRiver/Structures/BoulderSlope");
+            Texture2D BoulderSlope = ModContent.GetTexture("StarlightRiver/Structures/BoulderSlope");
             Vector2 spawn = new Vector2(0, 0);
             List<int> allowedBlocks = new List<int> {
                 TileID.Stone,

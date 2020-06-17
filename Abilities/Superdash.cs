@@ -5,7 +5,7 @@ using System;
 using System.Runtime.Serialization;
 using Terraria;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Abilities
 {
@@ -20,7 +20,7 @@ namespace StarlightRiver.Abilities
         {
         }
 
-        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
         public override bool CanUse => !player.mount.Active;
 
         public override void OnCast()
@@ -31,7 +31,7 @@ namespace StarlightRiver.Abilities
 
             for (int k = 0; k <= 10; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(100, 100), 200, 200, DustType<Void2>(), 0, 0, 0, default, 1.2f);
+                Dust.NewDust(player.Center - new Vector2(100, 100), 200, 200, ModContent.DustType<Void2>(), 0, 0, 0, default, 1.2f);
             }
 
             objective = new Vector2
@@ -67,16 +67,16 @@ namespace StarlightRiver.Abilities
                 float x = player.Center.X + (float)Math.Sin(rot) * ((float)Math.Sin(timer) * 20);
                 float y = player.Center.Y + (float)Math.Cos(rot) * ((float)Math.Sin(timer) * -20);
 
-                Dust.NewDustPerfect(new Vector2(x, y), DustType<Dusts.Void>());
+                Dust.NewDustPerfect(new Vector2(x, y), ModContent.DustType<Dusts.Void>());
 
                 for (int k = 0; k <= 10; k++)
                 {
-                    Dust.NewDust(new Vector2(x, y), 10, 10, DustType<Dusts.Void>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 0.5f);
+                    Dust.NewDust(new Vector2(x, y), 10, 10, ModContent.DustType<Dusts.Void>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 0.5f);
                 }
 
                 for (int k = 0; k <= 10; k++)
                 {
-                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, DustType<Dusts.Void>(), Main.rand.Next(-50, 50), Main.rand.Next(-50, 50), 0, default, 0.4f);
+                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Dusts.Void>(), Main.rand.Next(-50, 50), Main.rand.Next(-50, 50), 0, default, 0.4f);
                 }
             }
 
@@ -91,7 +91,7 @@ namespace StarlightRiver.Abilities
         {
             for (float k = 0; k <= 6.28f; k += 0.05f)
             {
-                Dust dus = Dust.NewDustPerfect(player.Center, DustType<Void4>(), Vector2.One.RotatedBy(k));
+                Dust dus = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.Void4>(), Vector2.One.RotatedBy(k));
                 dus.customData = player;
             }
             Main.PlaySound(SoundID.Item105);
@@ -109,7 +109,7 @@ namespace StarlightRiver.Abilities
 
             for (int k = 0; k <= 100; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, DustType<Dusts.Void>(), Main.rand.Next(-70, 70), Main.rand.Next(-70, 70), 0, default, 1.2f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Dusts.Void>(), Main.rand.Next(-70, 70), Main.rand.Next(-70, 70), 0, default, 1.2f);
             }
 
             Main.PlaySound(SoundID.Item38);

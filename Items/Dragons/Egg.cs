@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Dragons
 {
@@ -29,7 +28,7 @@ namespace StarlightRiver.Items.Dragons
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            Texture2D tex = GetTexture("StarlightRiver/Items/Dragons/EggOver");
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/Items/Dragons/EggOver");
             spriteBatch.Draw(tex, position, tex.Frame(), Main.LocalPlayer.GetModPlayer<DragonHandler>().data.bellyColor, 0, Vector2.Zero, scale, 0, 0);
         }
 

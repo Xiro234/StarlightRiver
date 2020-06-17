@@ -3,7 +3,6 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Herbology
 {
@@ -33,7 +32,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
                 mod.TileType(Type.ToString()),
-                TileType<Planter>()
+                ModContent.TileType<Planter>()
             };
             TileObjectData.addTile(Type);
             drop = mod.ItemType(ItemDrop);
@@ -70,7 +69,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.newTile.AnchorValidTiles = new int[]
             {
-                TileType<Soil>()
+                ModContent.TileType<Soil>()
             };
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {

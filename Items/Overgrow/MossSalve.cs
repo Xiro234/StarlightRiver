@@ -1,15 +1,13 @@
 ﻿using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Overgrow
 {
     internal class MossSalve : SmartAccessory
     {
-        public MossSalve() : base("Moss Salve", "Health potions grant a short regeneration effect")
-        {
-        }
+        public MossSalve() : base("Moss Salve", "Health potions grant a short regeneration effect") { }
 
         public override void SafeSetDefaults()
         {
@@ -25,7 +23,7 @@ namespace StarlightRiver.Items.Overgrow
 
         private void HealMoss(Item item, Player player, bool quickHeal, ref int healValue)
         {
-            if (item.potion && Equipped(player)) player.AddBuff(BuffType<Buffs.MossRegen>(), 60 * 6);
+            if (item.potion && Equipped(player)) player.AddBuff(ModContent.BuffType<Buffs.MossRegen>(), 60 * 6);
         }
     }
 }

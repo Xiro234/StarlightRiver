@@ -2,8 +2,6 @@
 {
     public class LegBrace : SmartAccessory
     {
-        public LegBrace() : base("Leg Brace", "NaN")
-        {
-        }
+        public LegBrace() : base("Leg Brace", "NaN") { }
     }
 }

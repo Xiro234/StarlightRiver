@@ -7,7 +7,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Dragons
 {
@@ -18,7 +17,7 @@ namespace StarlightRiver.Tiles.Dragons
             Main.tileLavaDeath[Type] = false;
             Main.tileFrameImportant[Type] = true;
 
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(GetInstance<NestEntity>().Hook_AfterPlacement, -1, 0, false);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<NestEntity>().Hook_AfterPlacement, -1, 0, false);
             TileObjectData.newTile.Width = 3;
             TileObjectData.newTile.Height = 1;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
@@ -31,7 +30,7 @@ namespace StarlightRiver.Tiles.Dragons
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Dragon Nest");//Map name
             AddMapEntry(new Color(255, 255, 100), name);
-            dustType = DustType<Dusts.Gold2>();
+            dustType = ModContent.DustType<Dusts.Gold2>();
             disableSmartCursor = true;
         }
 
@@ -42,11 +41,11 @@ namespace StarlightRiver.Tiles.Dragons
 
             Item item = Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem];
 
-            if (entity.owner == null && item.type == ItemType<Items.Dragons.Egg>())
+            if (entity.owner == null && item.type == ModContent.ItemType<Items.Dragons.Egg>())
             {
                 entity.owner = Main.LocalPlayer; //Sets the ID if the nest has not yet been claimed
                 entity.Dragon.data.stage = GrowthStage.baby;
-                int index = NPC.NewNPC(entity.Position.X * 16 + 27, entity.Position.Y * 16, NPCType<DragonEgg>());
+                int index = NPC.NewNPC(entity.Position.X * 16 + 27, entity.Position.Y * 16, ModContent.NPCType<DragonEgg>());
                 (Main.npc[index].modNPC as DragonEgg).nest = entity;
                 item.TurnToAir(); //Absorbs the egg
             }
@@ -72,7 +71,7 @@ namespace StarlightRiver.Tiles.Dragons
             Tile tile = Main.tile[i, j];
             int left = i - (tile.frameX / 18);
             int top = j - (tile.frameY / 18);
-            int index = GetInstance<NestEntity>().Find(left, top);
+            int index = ModContent.GetInstance<NestEntity>().Find(left, top);
 
             return index == -1 ? null : (NestEntity)TileEntity.ByID[index];
         }
@@ -86,7 +85,7 @@ namespace StarlightRiver.Tiles.Dragons
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == TileType<Nest>() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.active() && tile.type == ModContent.TileType<Nest>() && tile.frameX == 0 && tile.frameY == 0;
         }
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)

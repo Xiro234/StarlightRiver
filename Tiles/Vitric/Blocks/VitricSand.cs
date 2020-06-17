@@ -17,7 +17,6 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
             Main.tileMerge[Type][TileType<AncientSandstone>()] = true;
             Main.tileMerge[Type][TileType<VitricSoftSand>()] = true;
         }
-
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Color light = Lighting.GetColor(i, j);
@@ -28,10 +27,5 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
             }
         }
     }
-
-    internal class VitricSandItem : QuickTileItem {
-        public VitricSandItem() : base("Glassy Sand", "", TileType<VitricSand>(), 0)
-        {
-        }
-    }
+    internal class VitricSandItem : QuickTileItem { public VitricSandItem() : base("Glassy Sand", "", TileType<VitricSand>(), 0) { } }
 }

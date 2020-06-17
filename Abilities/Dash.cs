@@ -5,7 +5,7 @@ using System;
 using System.Runtime.Serialization;
 using Terraria;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Abilities
 {
@@ -19,7 +19,7 @@ namespace StarlightRiver.Abilities
         {
         }
 
-        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
+        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
         public override bool CanUse => (player.controlLeft || player.controlRight || player.controlUp || player.controlDown) && !player.mount.Active;
 
         public override void OnCast()
@@ -59,7 +59,7 @@ namespace StarlightRiver.Abilities
             for (int k = 0; k < 60; k++)
             {
                 float rot = (0.1f * k) * direction;
-                Dust dus = Dust.NewDustPerfect(prevPos + Vector2.Normalize(player.velocity).RotatedBy(rot) * (k / 2) * (0.5f + Timer / 8f), DustType<AirDash>());
+                Dust dus = Dust.NewDustPerfect(prevPos + Vector2.Normalize(player.velocity).RotatedBy(rot) * (k / 2) * (0.5f + Timer / 8f), ModContent.DustType<AirDash>());
                 dus.fadeIn = k - Timer * 3;
             }
         }
@@ -101,13 +101,13 @@ namespace StarlightRiver.Abilities
 
         public override void UseEffectsDragon()
         {
-            Dust.NewDust(player.position, 50, 50, DustType<Air>());
+            Dust.NewDust(player.position, 50, 50, ModContent.DustType<Air>());
             if (Math.Abs(X) < 1)
             {
                 for (int k = 0; k <= 10; k++)
                 {
                     float rot = ((Timer - k / 10f) / 10f * 6.28f) + new Vector2(X, Y).ToRotation();
-                    Dust.NewDustPerfect(Vector2.Lerp(player.Center, player.Center + player.velocity, k / 10f) + Vector2.One.RotatedBy(rot) * 30, DustType<Air>(), Vector2.Zero);
+                    Dust.NewDustPerfect(Vector2.Lerp(player.Center, player.Center + player.velocity, k / 10f) + Vector2.One.RotatedBy(rot) * 30, ModContent.DustType<Air>(), Vector2.Zero);
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace StarlightRiver.Abilities
         {
             for (int k = 0; k <= 60; k++)
             {
-                Dust dus = Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(k / 60f * 6.28f) * Main.rand.NextFloat(50), DustType<Air2>(), Vector2.Zero);
+                Dust dus = Dust.NewDustPerfect(player.Center + Vector2.One.RotatedBy(k / 60f * 6.28f) * Main.rand.NextFloat(50), ModContent.DustType<Air2>(), Vector2.Zero);
                 dus.customData = player;
             }
             Main.PlaySound(SoundID.Item45, player.Center);

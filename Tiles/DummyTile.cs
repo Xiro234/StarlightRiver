@@ -14,11 +14,7 @@ namespace StarlightRiver.Tiles
             Tile tile = Main.tile[i, j];
             return tile.frameX == 0 && tile.frameY == 0;
         }
-
-        public virtual void SafeNearbyEffects(int i, int j, bool closer)
-        {
-        }
-
+        public virtual void SafeNearbyEffects(int i, int j, bool closer) { }
         public sealed override void NearbyEffects(int i, int j, bool closer)
         {
             if (!Main.tileFrameImportant[Type] || SpawnConditions(i, j))

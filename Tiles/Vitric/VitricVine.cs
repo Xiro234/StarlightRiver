@@ -3,7 +3,6 @@ using StarlightRiver.Tiles.Vitric.Blocks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -15,10 +14,10 @@ namespace StarlightRiver.Tiles.Vitric
             Main.tileCut[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = false;
-            TileObjectData.newTile.AnchorValidTiles = new int[] { TileType<VitricSand>(), Type };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>(), Type };
             drop = 0;
             AddMapEntry(new Color(199, 224, 190));
-            dustType = DustType<Dusts.Air>();
+            dustType = ModContent.DustType<Dusts.Air>();
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

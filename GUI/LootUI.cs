@@ -7,8 +7,8 @@ using System.Linq;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.GUI
 {
@@ -34,7 +34,6 @@ namespace StarlightRiver.GUI
                 "Not a mimmic!"
             };
         }
-
         public override void Update(GameTime gameTime)
         {
             if (Selections[1] != null)
@@ -46,10 +45,9 @@ namespace StarlightRiver.GUI
             }
             base.Update(gameTime);
         }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = GetTexture("StarlightRiver/GUI/Assets/LootSlotOn");
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/LootSlotOn");
 
             Utils.DrawBorderStringBig(spriteBatch, Quotes[QuoteID], GetDimensions().Center() + new Vector2(0, -80) - 2.2f * Main.fontItemStack.MeasureString(Quotes[QuoteID]) / 2, Color.White, 0.75f);
 
@@ -62,7 +60,7 @@ namespace StarlightRiver.GUI
             spriteBatch.Draw(tex, GetDimensions().Center(), tex.Frame(), Color.White * 0.75f, 0, tex.Size() / 2, 1, 0, 0);
             if (!BigItem.IsAir)
             {
-                Texture2D tex2 = BigItem.type > ItemID.Count ? GetTexture(BigItem.modItem.Texture) : GetTexture("Terraria/Item_" + BigItem.type);
+                Texture2D tex2 = BigItem.type > ItemID.Count ? ModContent.GetTexture(BigItem.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + BigItem.type);
                 float scale = tex2.Frame().Size().Length() < 52 ? 1 : 52f / tex2.Frame().Size().Length();
 
                 spriteBatch.Draw(tex2, GetDimensions().Center(), tex2.Frame(), Color.White, 0, tex2.Frame().Size() / 2, scale, 0, 0);
@@ -84,7 +82,6 @@ namespace StarlightRiver.GUI
             base.Draw(spriteBatch);
             Recalculate();
         }
-
         public void SetItems(Loot bigItemID, Loot[] smallItemIDs)
         {
             Elements.Clear();
@@ -104,7 +101,6 @@ namespace StarlightRiver.GUI
             }
             QuoteID = Main.rand.Next(Quotes.Count);
         }
-
         private void AppendSlot(Item item, int offX)
         {
             LootSelection slot = new LootSelection(item);
@@ -112,31 +108,25 @@ namespace StarlightRiver.GUI
             slot.Top.Set(60, 0.5f);
             slot.Width.Set(60, 0);
             slot.Height.Set(60, 0);
-            Append(slot);
+            base.Append(slot);
         }
     }
-
-    internal class LootSelection : UIElement
+    class LootSelection : UIElement
     {
         internal Item Item;
-
-        public LootSelection(Item item)
-        {
-            Item = item;
-        }
-
+        public LootSelection(Item item) { Item = item; }
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (Parent is LootUI)
             {
                 LootUI parent = Parent as LootUI;
-                Texture2D tex = parent.Selections.Any(n => n == Item) ? GetTexture("StarlightRiver/GUI/Assets/LootSlotOn") : GetTexture("StarlightRiver/GUI/Assets/LootSlot");
+                Texture2D tex = parent.Selections.Any(n => n == Item) ? ModContent.GetTexture("StarlightRiver/GUI/Assets/LootSlotOn") : ModContent.GetTexture("StarlightRiver/GUI/Assets/LootSlot");
                 float opacity = IsMouseHovering ? 1 : 0.6f;
 
                 spriteBatch.Draw(tex, GetDimensions().Position(), tex.Frame(), Color.White * opacity, 0, Vector2.Zero, 1, 0, 0);
                 if (!Item.IsAir)
                 {
-                    Texture2D tex2 = Item.type > ItemID.Count ? GetTexture(Item.modItem.Texture) : GetTexture("Terraria/Item_" + Item.type);
+                    Texture2D tex2 = Item.type > ItemID.Count ? ModContent.GetTexture(Item.modItem.Texture) : ModContent.GetTexture("Terraria/Item_" + Item.type);
                     float scale = tex2.Frame().Size().Length() < 52 ? 1 : 52f / tex2.Frame().Size().Length();
 
                     spriteBatch.Draw(tex2, GetDimensions().Center(), tex2.Frame(), Color.White, 0, tex2.Frame().Size() / 2, 1, 0, 0);
@@ -154,7 +144,6 @@ namespace StarlightRiver.GUI
                 }
             }
         }
-
         public override void Click(UIMouseEvent evt)
         {
             if (Parent is LootUI)

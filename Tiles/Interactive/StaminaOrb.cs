@@ -2,7 +2,6 @@
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Interactive
 {
@@ -30,9 +29,9 @@ namespace StarlightRiver.Tiles.Interactive
         public override void NearbyEffects(int i, int j, bool closer)
         {
             Vector2 pos = new Vector2(i * 16, j * 16) - new Vector2(-8, -11);
-            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ProjectileType<Projectiles.Dummies.StaminaOrbDummy>() && proj.active))
+            if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.StaminaOrbDummy>() && proj.active))
             {
-                Projectile.NewProjectile(pos, Vector2.Zero, ProjectileType<Projectiles.Dummies.StaminaOrbDummy>(), 0, 0);
+                Projectile.NewProjectile(pos, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.StaminaOrbDummy>(), 0, 0);
             }
         }
     }

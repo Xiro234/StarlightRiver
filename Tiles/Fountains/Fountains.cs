@@ -5,7 +5,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Fountains
 {
@@ -133,7 +132,7 @@ namespace StarlightRiver.Tiles.Fountains
 
     public class JungleCorruptFountain : BiomeFountain
     {
-        public JungleCorruptFountain() : base(ItemType<Items.Fountains.JungleCorruptFountainItem>())
+        public JungleCorruptFountain() : base(ModContent.ItemType<Items.Fountains.JungleCorruptFountainItem>())
         {
         }
 
@@ -148,7 +147,7 @@ namespace StarlightRiver.Tiles.Fountains
 
     public class JungleBloodyFountain : BiomeFountain
     {
-        public JungleBloodyFountain() : base(ItemType<Items.Fountains.JungleBloodyFountainItem>())
+        public JungleBloodyFountain() : base(ModContent.ItemType<Items.Fountains.JungleBloodyFountainItem>())
         {
         }
 
@@ -163,7 +162,7 @@ namespace StarlightRiver.Tiles.Fountains
 
     public class JungleHolyFountain : BiomeFountain
     {
-        public JungleHolyFountain() : base(ItemType<Items.Fountains.JungleHolyFountainItem>())
+        public JungleHolyFountain() : base(ModContent.ItemType<Items.Fountains.JungleHolyFountainItem>())
         {
         }
 

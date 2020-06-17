@@ -3,7 +3,6 @@ using StarlightRiver.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Misc
 {
@@ -26,7 +25,7 @@ namespace StarlightRiver.Items.Misc
             item.autoReuse = true;
             item.mana = 24;
             item.magic = true;
-            item.shoot = ProjectileType<Flamebolt>();
+            item.shoot = ModContent.ProjectileType<Flamebolt>();
         }
 
         public override void SetStaticDefaults()

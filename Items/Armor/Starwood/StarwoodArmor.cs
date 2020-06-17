@@ -4,17 +4,13 @@ using StarlightRiver.Items.Armor.Starwood;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Armor.Starwood
 {
     [AutoloadEquip(EquipType.Head)]
     public class StarwoodHat : StarwoodItem, IArmorLayerDrawable
     {
-        public StarwoodHat() : base(GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodHat_Alt"))
-        {
-        }
-
+        public StarwoodHat() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodHat_Alt")) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Hat");
@@ -28,7 +24,6 @@ namespace StarlightRiver.Items.Armor.Starwood
             item.value = 8000;
             item.defense = 2;
         }
-
         public override void UpdateEquip(Player player)
         {
             player.magicDamage += 0.05f;
@@ -49,22 +44,17 @@ namespace StarlightRiver.Items.Armor.Starwood
     [AutoloadEquip(EquipType.Body)]
     public class StarwoodChest : StarwoodItem
     {
-        public StarwoodChest() : base(GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodChest_Alt"))
-        {
-        }
-
+        public StarwoodChest() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodChest_Alt")) { }
         public override bool Autoload(ref string name)
         {
             StarlightPlayer.ModifyHitNPCEvent += ModifyHitNPCStarwood;
             return true;
         }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Robes");
             Tooltip.SetDefault("Increases max mana by 20");
         }
-
         public override void SetDefaults()
         {
             item.width = 38;
@@ -72,18 +62,15 @@ namespace StarlightRiver.Items.Armor.Starwood
             item.value = 6000;
             item.defense = 3;
         }
-
         public override void UpdateEquip(Player player)
         {
             player.statManaMax2 += 20;
             isEmpowered = player.GetModPlayer<StarlightPlayer>().Empowered;
         }
-
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return head.type == ItemType<StarwoodHat>() && legs.type == ItemType<StarwoodBoots>();
+            return head.type == ModContent.ItemType<StarwoodHat>() && legs.type == ModContent.ItemType<StarwoodBoots>();
         }
-
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Picking up mana stars empowers starwood items";
@@ -93,13 +80,12 @@ namespace StarlightRiver.Items.Armor.Starwood
             {
                 for (int k = 0; k < 1; k++)//temp sfx
                 {
-                    Dust.NewDustPerfect(player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), DustType<Dusts.BlueStamina>(), -Vector2.UnitY.RotatedByRandom(0.8f) * Main.rand.NextFloat(1.0f, 1.4f), 0, default, 1.2f);
+                    Dust.NewDustPerfect(player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), ModContent.DustType<Dusts.BlueStamina>(), -Vector2.UnitY.RotatedByRandom(0.8f) * Main.rand.NextFloat(1.0f, 1.4f), 0, default, 1.2f);
                 }
                 mp.EmpowermentTimer--;
             }
             else { mp.EmpowermentTimer = 0; mp.Empowered = false; }
         }
-
         private void ModifyHitNPCStarwood(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             if (ArmorHelper.IsSetEquipped(this, player))
@@ -112,10 +98,7 @@ namespace StarlightRiver.Items.Armor.Starwood
     [AutoloadEquip(EquipType.Legs)]
     public class StarwoodBoots : StarwoodItem
     {
-        public StarwoodBoots() : base(GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodBoots_Alt"))
-        {
-        }
-
+        public StarwoodBoots() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodBoots_Alt")) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Boots");
@@ -149,12 +132,10 @@ namespace StarlightRiver.Items.Armor.Starwood
             return base.OnPickup(item, player);
         }
     }
-
     internal class ManastarDrops : GlobalNPC
     {
         public bool DropStar = false;
         public override bool InstancePerEntity => true;
-
         public override void NPCLoot(NPC npc)
         {
             if (DropStar && Main.rand.Next(2) == 0)
@@ -164,7 +145,6 @@ namespace StarlightRiver.Items.Armor.Starwood
         }
     }
 }
-
 namespace StarlightRiver.Core
 {
     public partial class StarlightPlayer : ModPlayer
@@ -181,14 +161,14 @@ namespace StarlightRiver.Core
                 {
                     for (int k = 0; k < 80; k++)//pickup sfx
                     {
-                        Dust.NewDustPerfect(player.Center, DustType<Dusts.BlueStamina>(), (Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.8f, 1.2f)) * new Vector2(1f, 1.5f), 0, default, 1.5f);
+                        Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.BlueStamina>(), (Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.8f, 1.2f)) * new Vector2(1f, 1.5f), 0, default, 1.5f);
                     }
                 }
                 else
                 {
                     for (int k = 0; k < 40; k++)//reduced pickup sfx if its already active
                     {
-                        Dust.NewDustPerfect(player.Center, DustType<Dusts.BlueStamina>(), (Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.5f, 0.8f)) * new Vector2(1f, 1.5f), 0, default, 1.5f);
+                        Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.BlueStamina>(), (Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.5f, 0.8f)) * new Vector2(1f, 1.5f), 0, default, 1.5f);
                     }
                 }
                 Empowered = true;

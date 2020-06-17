@@ -36,9 +36,5 @@ namespace StarlightRiver.Tiles.Interactive
         }
     }
 
-    public class VoidDoorItem : QuickTileItem {
-        public VoidDoorItem() : base("Void Barrier", "Dissappears when Purified", TileType<VoidDoorOn>(), 8)
-        {
-        }
-    }
+    public class VoidDoorItem : QuickTileItem { public VoidDoorItem() : base("Void Barrier", "Dissappears when Purified", TileType<VoidDoorOn>(), 8) { } }
 }

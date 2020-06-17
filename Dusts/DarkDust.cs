@@ -13,7 +13,6 @@ namespace StarlightRiver.Dusts
             dust.noLight = false;
             dust.color = Color.White;
         }
-
         public override Color? GetAlpha(Dust dust, Color lightColor) => dust.color * (dust.alpha / 255f);
 
         public override bool Update(Dust dust)

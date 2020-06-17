@@ -5,7 +5,6 @@ using System;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Pickups
 {
@@ -115,7 +114,7 @@ namespace StarlightRiver.NPCs.Pickups
         {
             if (Visible)
             {
-                Texture2D tex = GetTexture(Texture);
+                Texture2D tex = ModContent.GetTexture(Texture);
                 Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5);
                 spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
             }
@@ -126,7 +125,7 @@ namespace StarlightRiver.NPCs.Pickups
         {
             if (Visible)
             {
-                Texture2D tex = GetTexture("StarlightRiver/RiftCrafting/Glow0");
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/RiftCrafting/Glow0");
                 Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5);
 
                 spriteBatch.End();

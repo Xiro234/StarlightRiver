@@ -4,7 +4,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -80,16 +79,16 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 float y = (float)Math.Sin(StarlightWorld.rottime + k) * projectile.ai[0] / 30f * 10;
                 Vector2 pos = (new Vector2(x, y)).RotatedBy(k / 12f * 6.28f);
 
-                Dust d = Dust.NewDustPerfect(projectile.Center, DustType<Dusts.GemFocusDust>(), pos, 0, color, 1f);
+                Dust d = Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.GemFocusDust>(), pos, 0, color, 1f);
                 d.customData = projectile;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D over = GetTexture("StarlightRiver/Items/Misc/GemFocusOver");
-            Texture2D under = GetTexture("StarlightRiver/Items/Misc/GemFocusUnder");
-            Texture2D glow = GetTexture("StarlightRiver/RiftCrafting/Glow0");
+            Texture2D over = ModContent.GetTexture("StarlightRiver/Items/Misc/GemFocusOver");
+            Texture2D under = ModContent.GetTexture("StarlightRiver/Items/Misc/GemFocusUnder");
+            Texture2D glow = ModContent.GetTexture("StarlightRiver/RiftCrafting/Glow0");
 
             Vector2 position = projectile.position - Main.screenPosition;
             float scale = projectile.scale;

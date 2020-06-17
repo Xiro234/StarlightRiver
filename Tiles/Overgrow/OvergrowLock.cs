@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -27,7 +26,7 @@ namespace StarlightRiver.Tiles.Overgrow
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("");//Map name
             AddMapEntry(new Color(200, 200, 200), name);
-            dustType = DustType<Dusts.Gold2>();
+            dustType = ModContent.DustType<Dusts.Gold2>();
             disableSmartCursor = true;
         }
 

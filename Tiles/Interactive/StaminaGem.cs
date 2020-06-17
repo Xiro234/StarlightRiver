@@ -26,25 +26,16 @@ namespace StarlightRiver.Tiles.Interactive
             b = 0.071f / 1.1f;
         }
     }
-
-    internal class StaminaGemItem : QuickTileItem {
-        public StaminaGemItem() : base("Stamina Gem", "Restores stamina when hit with an ability", TileType<StaminaGem>(), 8)
-        {
-        }
-    }
+    internal class StaminaGemItem : QuickTileItem { public StaminaGemItem() : base("Stamina Gem", "Restores stamina when hit with an ability", TileType<StaminaGem>(), 8) { } }
 
     internal class StaminaGemDummy : Dummy
     {
-        public StaminaGemDummy() : base(TileType<StaminaGem>(), 16, 16)
-        {
-        }
-
+        public StaminaGemDummy() : base(TileType<StaminaGem>(), 16, 16) { }
         public override void Update()
         {
             if (projectile.ai[0] > 0) { projectile.ai[0]--; }
             else if (Main.rand.Next(3) == 0) Dust.NewDust(projectile.position, 16, 16, DustType<Dusts.Stamina>());
         }
-
         public override void Collision(Player player)
         {
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
@@ -64,7 +55,6 @@ namespace StarlightRiver.Tiles.Interactive
                 }
             }
         }
-
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.ai[0] == 0)
