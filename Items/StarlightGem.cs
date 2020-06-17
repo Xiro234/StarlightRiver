@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -25,7 +26,7 @@ namespace StarlightRiver.Items
 
         public override void PostUpdate()
         {
-            Dust.NewDust(item.position - new Vector2(1, 1), 18, 20, ModContent.DustType<Dusts.Starlight>(), 0, 0, 0, default, 0.5f);
+            Dust.NewDust(item.position - new Vector2(1, 1), 18, 20, DustType<Dusts.Starlight>(), 0, 0, 0, default, 0.5f);
         }
 
         public override bool CanPickup(Player player)
@@ -40,14 +41,14 @@ namespace StarlightRiver.Items
             CombatText.NewText(player.Hitbox, new Color(120, 245 - gemID, 175 + gemID), "Starlight Gem #" + (gemID + 1) + " Accquired!");
             for (float k = 0; k <= 6.28f; k += 0.1f)
             {
-                Dust.NewDustPerfect(item.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(k) * (k % 0.79f) * 15, 0, new Color(120, 245 - gemID, 175 + gemID), 3 - (k % 0.79f) * 3);
+                Dust.NewDustPerfect(item.Center, DustType<Dusts.Starlight>(), Vector2.One.RotatedBy(k) * (k % 0.79f) * 15, 0, new Color(120, 245 - gemID, 175 + gemID), 3 - (k % 0.79f) * 3);
             }
             return false;
         }
 
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Items/StarlightGem"), item.Center - Main.screenPosition, new Rectangle(0, 0, 18, 20), new Color(120, 245 - gemID, 175 + gemID) * 0.7f,
+            spriteBatch.Draw(GetTexture("StarlightRiver/Items/StarlightGem"), item.Center - Main.screenPosition, new Rectangle(0, 0, 18, 20), new Color(120, 245 - gemID, 175 + gemID) * 0.7f,
                 rotation, new Vector2(9, 10), 1, 0, 0);
             return false;
         }

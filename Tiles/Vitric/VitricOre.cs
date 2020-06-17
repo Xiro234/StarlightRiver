@@ -1,12 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Projectiles.Dummies;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -18,7 +17,7 @@ namespace StarlightRiver.Tiles.Vitric
             QuickBlock.QuickSetFurniture(this, 2, 3, DustType<Dusts.Air>(), SoundID.Shatter, false, new Color(200, 255, 230));
             minPick = int.MaxValue;
         }
-        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Vitric.VitricOre>(), 12);
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Vitric.VitricOre>(), 12);
     }
 
     internal class VitricOreFloat : DummyTile
@@ -29,7 +28,7 @@ namespace StarlightRiver.Tiles.Vitric
             QuickBlock.QuickSetFurniture(this, 2, 2, DustType<Dusts.Air>(), SoundID.Shatter, false, new Color(200, 255, 230));
             minPick = int.MaxValue;
         }
-        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Vitric.VitricOre>(), 6);
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Vitric.VitricOre>(), 6);
     }
 
     internal class VitricOreDummy : Dummy

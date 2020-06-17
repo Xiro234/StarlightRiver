@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Tiles.Purified;
 using System;
@@ -51,7 +52,7 @@ namespace StarlightRiver.Projectiles.Ability
 
             Filters.Scene["PurityFilter"].GetShader().UseProgress((projectile.ai[0] / 255) * 0.125f).UseIntensity((projectile.ai[0] / 255) * 0.006f);
 
-            Dust.NewDust(projectile.Center - Vector2.One * 32, 32, 32, ModContent.DustType<Dusts.Purify>());
+            Dust.NewDust(projectile.Center - Vector2.One * 32, 32, 32, DustType<Dusts.Purify>());
 
             for (int x = -40; x < 40; x++)
             {
@@ -79,10 +80,10 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 for (int k = 0; k <= 50; k++)
                 {
-                    Dust.NewDustPerfect(projectile.Center - Vector2.One * 8, ModContent.DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2.4f), 0, default, 1.2f);
+                    Dust.NewDustPerfect(projectile.Center - Vector2.One * 8, DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2.4f), 0, default, 1.2f);
                 }
                 Projectile.NewProjectile(projectile.Center - Vector2.One * 16, Vector2.Normalize((projectile.Center - Vector2.One * 16) - Main.player[projectile.owner].Center).RotatedBy(0.3f) * 6,
-                    ModContent.ProjectileType<PurifierReturn>(), 0, 0, projectile.owner);
+                    ProjectileType<PurifierReturn>(), 0, 0, projectile.owner);
 
             }
             else if (projectile.timeLeft == 60)
@@ -98,15 +99,15 @@ namespace StarlightRiver.Projectiles.Ability
         {
             Tile target = Main.tile[x, y];
             {
-                if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)ModContent.TileType<StonePure>(); SpawnDust(x, y); }
-                if (target.type == TileID.Grass || target.type == TileID.CorruptGrass || target.type == TileID.FleshGrass || target.type == TileID.HallowedGrass) { target.type = (ushort)ModContent.TileType<GrassPure>(); SpawnDust(x, y); }
-                if (target.type == TileID.Sand || target.type == TileID.Ebonsand || target.type == TileID.Crimsand || target.type == TileID.Pearlsand) { target.type = (ushort)ModContent.TileType<SandPure>(); SpawnDust(x, y); }
+                if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)TileType<StonePure>(); SpawnDust(x, y); }
+                if (target.type == TileID.Grass || target.type == TileID.CorruptGrass || target.type == TileID.FleshGrass || target.type == TileID.HallowedGrass) { target.type = (ushort)TileType<GrassPure>(); SpawnDust(x, y); }
+                if (target.type == TileID.Sand || target.type == TileID.Ebonsand || target.type == TileID.Crimsand || target.type == TileID.Pearlsand) { target.type = (ushort)TileType<SandPure>(); SpawnDust(x, y); }
                 if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); SpawnDust(x, y); }
                 if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }//No Dust.
 
                 //walls
-                if (target.wall == WallID.Stone || target.wall == WallID.EbonstoneUnsafe || target.wall == WallID.CrimstoneUnsafe || target.wall == WallID.PearlstoneBrickUnsafe) { target.wall = (ushort)ModContent.WallType<WallStonePure>(); SpawnDust(x, y); }
-                if (target.wall == WallID.GrassUnsafe || target.wall == WallID.CorruptGrassUnsafe || target.wall == WallID.CrimsonGrassUnsafe || target.wall == WallID.HallowedGrassUnsafe) { target.wall = (ushort)ModContent.WallType<WallGrassPure>(); SpawnDust(x, y); }
+                if (target.wall == WallID.Stone || target.wall == WallID.EbonstoneUnsafe || target.wall == WallID.CrimstoneUnsafe || target.wall == WallID.PearlstoneBrickUnsafe) { target.wall = (ushort)WallType<WallStonePure>(); SpawnDust(x, y); }
+                if (target.wall == WallID.GrassUnsafe || target.wall == WallID.CorruptGrassUnsafe || target.wall == WallID.CrimsonGrassUnsafe || target.wall == WallID.HallowedGrassUnsafe) { target.wall = (ushort)WallType<WallGrassPure>(); SpawnDust(x, y); }
             }
         }
 
@@ -114,15 +115,15 @@ namespace StarlightRiver.Projectiles.Ability
         {
             Tile target = Main.tile[x, y];
             {
-                if (target.type == (ushort)ModContent.TileType<StonePure>()) { target.type = TileID.Stone; SpawnDust(x, y); }
-                if (target.type == (ushort)ModContent.TileType<GrassPure>()) { target.type = TileID.Grass; SpawnDust(x, y); }
-                if (target.type == (ushort)ModContent.TileType<SandPure>()) { target.type = TileID.Sand; SpawnDust(x, y); }
+                if (target.type == (ushort)TileType<StonePure>()) { target.type = TileID.Stone; SpawnDust(x, y); }
+                if (target.type == (ushort)TileType<GrassPure>()) { target.type = TileID.Grass; SpawnDust(x, y); }
+                if (target.type == (ushort)TileType<SandPure>()) { target.type = TileID.Sand; SpawnDust(x, y); }
                 if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); SpawnDust(x, y); }
                 if (target.type == (ushort)mod.TileType("VoidDoorOff")) { target.type = (ushort)mod.TileType("VoidDoorOn"); SpawnDust(x, y); }
 
                 //walls
-                if (target.wall == ModContent.WallType<WallStonePure>()) { target.wall = WallID.Stone; SpawnDust(x, y); }
-                if (target.wall == ModContent.WallType<WallGrassPure>()) { target.wall = WallID.GrassUnsafe; SpawnDust(x, y); }
+                if (target.wall == WallType<WallStonePure>()) { target.wall = WallID.Stone; SpawnDust(x, y); }
+                if (target.wall == WallType<WallGrassPure>()) { target.wall = WallID.GrassUnsafe; SpawnDust(x, y); }
             }
         }
 
@@ -130,12 +131,12 @@ namespace StarlightRiver.Projectiles.Ability
         {
             for (int k = 0; k <= 4; k++)
             {
-                Dust.NewDustPerfect(new Vector2(x, y) * 16 + Main.rand.NextVector2Square(-2, 18), ModContent.DustType<Dusts.Purify2>(), new Vector2(Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(-0.1f, -0.5f)), 0, Color.White, 0.5f);
+                Dust.NewDustPerfect(new Vector2(x, y) * 16 + Main.rand.NextVector2Square(-2, 18), DustType<Dusts.Purify2>(), new Vector2(Main.rand.NextFloat(-0.2f, 0.2f), Main.rand.NextFloat(-0.1f, -0.5f)), 0, Color.White, 0.5f);
             }
         }
 
-        private readonly Texture2D cirTex = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle");
-        private readonly Texture2D cirTex2 = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle2");
+        private readonly Texture2D cirTex = GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle");
+        private readonly Texture2D cirTex2 = GetTexture("StarlightRiver/Projectiles/Ability/ArcaneCircle2");
         //private readonly Texture2D starTex = ModContent.GetTexture("StarlightRiver/Projectiles/Ability/ArcaneStar");
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -143,7 +144,7 @@ namespace StarlightRiver.Projectiles.Ability
             spriteBatch.Draw(cirTex, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex.Frame(), Color.White, -(projectile.timeLeft / 900f), cirTex.Size() / 2, (projectile.ai[0] / cirTex.Width * 2.1f), 0, 0);
             spriteBatch.Draw(cirTex2, projectile.Center - Vector2.One * 16 - Main.screenPosition, cirTex2.Frame(), Color.White, projectile.timeLeft / 900f, cirTex2.Size() / 2, (projectile.ai[0] / cirTex.Width * 2.1f), 0, 0);
 
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
             spriteBatch.Draw(tex, projectile.Center + new Vector2(-16, -16 + (float)Math.Sin(StarlightWorld.rottime) * 2) - Main.screenPosition, tex.Frame(),
                 Color.White * ((projectile.timeLeft < 500) ? 1 : (projectile.ai[0] / 250f)), 0, tex.Size() / 2, 1, 0, 0);
 
@@ -184,7 +185,7 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 for (int k = 0; k <= 8; k++)
                 {
-                    Dust.NewDustPerfect(Vector2.Lerp(projectile.position, projectile.oldPosition, k / 8f), ModContent.DustType<Dusts.Purify>(), Vector2.Zero, 0, default, 2.4f);
+                    Dust.NewDustPerfect(Vector2.Lerp(projectile.position, projectile.oldPosition, k / 8f), DustType<Dusts.Purify>(), Vector2.Zero, 0, default, 2.4f);
                 }
             }
 
@@ -200,12 +201,12 @@ namespace StarlightRiver.Projectiles.Ability
             {
                 for (int k = 0; k <= 50; k++)
                 {
-                    Dust.NewDustPerfect(player.Center + new Vector2(0, -16), ModContent.DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1.4f));
+                    Dust.NewDustPerfect(player.Center + new Vector2(0, -16), DustType<Dusts.Purify2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1.4f));
                 }
                 for (int k = 0; k <= Vector2.Distance(player.Center + new Vector2(0, -16), projectile.position); k++)
                 {
                     Dust.NewDustPerfect(Vector2.Lerp(player.Center + new Vector2(0, -16), projectile.Center, k / Vector2.Distance(player.Center + new Vector2(0, -16), projectile.position))
-                        , ModContent.DustType<Dusts.Purify>());
+                        , DustType<Dusts.Purify>());
                 }
 
                 projectile.timeLeft = 0;

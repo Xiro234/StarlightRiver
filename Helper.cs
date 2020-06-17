@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Codex;
@@ -9,7 +10,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.UI;
 
@@ -94,15 +94,15 @@ namespace StarlightRiver
         }
         public static void SpawnGem(int ID, Vector2 position)
         {
-            int item = Item.NewItem(position, ModContent.ItemType<Items.StarlightGem>());
+            int item = Item.NewItem(position, ItemType<Items.StarlightGem>());
             (Main.item[item].modItem as Items.StarlightGem).gemID = ID;
         }
         public static void DrawSymbol(SpriteBatch spriteBatch, Vector2 position, Color color)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Symbol");
+            Texture2D tex = GetTexture("StarlightRiver/Symbol");
             spriteBatch.Draw(tex, position, tex.Frame(), color * 0.8f, 0, tex.Size() / 2, 1, 0, 0);
 
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+            Texture2D tex2 = GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
             float fade = StarlightWorld.rottime / 6.28f;
             spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 1.1f, 0, 0);

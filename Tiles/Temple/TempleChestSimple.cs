@@ -1,9 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
-using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace StarlightRiver.Tiles.Temple
 {
@@ -13,10 +11,10 @@ namespace StarlightRiver.Tiles.Temple
         {
             get => new List<Loot>
             {
-                new Loot(ModContent.ItemType<Items.Temple.TemplePick>(), 1),
-                new Loot(ModContent.ItemType<Items.Temple.TempleSpear>(), 1),
-                new Loot(ModContent.ItemType<Items.Temple.TempleRune>(), 1),
-                new Loot(ModContent.ItemType<Items.Temple.TempleLens>(), 1)
+                new Loot(ItemType<Items.Temple.TemplePick>(), 1),
+                new Loot(ItemType<Items.Temple.TempleSpear>(), 1),
+                new Loot(ItemType<Items.Temple.TempleRune>(), 1),
+                new Loot(ItemType<Items.Temple.TempleLens>(), 1)
             };
         }
         internal override List<Loot> SmallLootPool
@@ -29,7 +27,7 @@ namespace StarlightRiver.Tiles.Temple
                 new Loot(ItemID.SilverBullet, 20, 30),
                 new Loot(ItemID.Dynamite, 2, 4),
                 new Loot(ItemID.SpelunkerGlowstick, 15),
-                new Loot(ModContent.ItemType<Items.Herbology.IvySeeds>(), 4, 8)
+                new Loot(ItemType<Items.Herbology.IvySeeds>(), 4, 8)
             };
         }
         public override void SafeSetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 2, DustID.GoldCoin, SoundID.Tink, false, new Color(151, 151, 151));

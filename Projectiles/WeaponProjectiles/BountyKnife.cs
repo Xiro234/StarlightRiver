@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -25,7 +26,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void AI()
         {
-            Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Starlight>(), Vector2.Zero);
+            Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Starlight>(), Vector2.Zero);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

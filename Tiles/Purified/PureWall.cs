@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Purified
 {
@@ -6,14 +7,14 @@ namespace StarlightRiver.Tiles.Purified
     {
         public override void SetDefaults()
         {
-            dustType = ModContent.DustType<Dusts.Purify>();
+            dustType = DustType<Dusts.Purify>();
         }
     }
     class WallGrassPure : ModWall
     {
         public override void SetDefaults()
         {
-            dustType = ModContent.DustType<Dusts.Purify>();
+            dustType = DustType<Dusts.Purify>();
         }
     }
 }

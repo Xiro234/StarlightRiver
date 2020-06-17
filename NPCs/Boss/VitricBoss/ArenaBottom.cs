@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using System;
@@ -72,7 +73,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     npc.ai[0] += 8; //timer is now used to track where we are in the crystal wave
                     if (npc.ai[0] % 32 == 0) //summons a crystal at every tile covered by the NPC
                     {
-                        Projectile.NewProjectile(new Vector2(npc.position.X + npc.ai[0], npc.position.Y + 48), Vector2.Zero, ModContent.ProjectileType<CrystalWave>(), 20, 1);
+                        Projectile.NewProjectile(new Vector2(npc.position.X + npc.ai[0], npc.position.Y + 48), Vector2.Zero, ProjectileType<CrystalWave>(), 20, 1);
                     }
                     if (npc.ai[0] > npc.width)
                     {
@@ -85,7 +86,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.ai[0] < 120) npc.ai[0]++; //cap timer at 120
                     if (npc.ai[0] < 90) //dust before rising
                     {
-                        Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Air>());
+                        Dust.NewDust(npc.position, npc.width, npc.height, DustType<Dusts.Air>());
                     }
                     if (npc.ai[0] >= 120)
                     {
@@ -123,7 +124,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 {
                     Vector2 pos = npc.position + new Vector2(k, 32 - off) - Main.screenPosition; //actually draw the crystals lol
                     Vector2 pos2 = npc.position + new Vector2(k, -940 + 32 + off) - Main.screenPosition; //actually draw the crystals lol
-                    Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalWave");
+                    Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalWave");
                     spriteBatch.Draw(tex, pos, Color.White);
                     spriteBatch.Draw(tex, pos2, Color.White);
                 }
@@ -162,7 +163,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.position - Main.screenPosition, Color.White);
+            spriteBatch.Draw(GetTexture(Texture), projectile.position - Main.screenPosition, Color.White);
         }
     }
 }

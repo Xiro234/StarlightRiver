@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using static Terraria.ModLoader.ModContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Vitric
@@ -19,7 +20,7 @@ namespace StarlightRiver.Items.Vitric
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<VitricOre>(), 8);
+            recipe.AddIngredient(ItemType<VitricOre>(), 8);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();

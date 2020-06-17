@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
@@ -29,10 +30,10 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override void AI()
         {
-            if (Main.npc.Any(n => n.active && n.type == ModContent.NPCType<OvergrowBossFlail>() && n.ai[0] == 1 && n.Hitbox.Intersects(npc.Hitbox) && (n.modNPC as OvergrowBossFlail).holder == null))
+            if (Main.npc.Any(n => n.active && n.type == NPCType<OvergrowBossFlail>() && n.ai[0] == 1 && n.Hitbox.Intersects(npc.Hitbox) && (n.modNPC as OvergrowBossFlail).holder == null))
             {
                 for (int k = 0; k < 100; k++)
-                    Dust.NewDustPerfect(npc.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), default, default, 6.4f);
+                    Dust.NewDustPerfect(npc.Center, DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), default, default, 6.4f);
 
                 npc.Kill();
             }

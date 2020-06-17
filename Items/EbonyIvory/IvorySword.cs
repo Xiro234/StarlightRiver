@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,7 +19,7 @@ namespace StarlightRiver.Items.EbonyIvory
             item.useTime = 16;
             item.knockBack = 2f;
             item.damage = 46;
-            item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.IvorySwordProjectile>();
+            item.shoot = ProjectileType<Projectiles.WeaponProjectiles.IvorySwordProjectile>();
             item.rare = ItemRarityID.LightRed;
             item.autoReuse = false;
             item.useTurn = true;

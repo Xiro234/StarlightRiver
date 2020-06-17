@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
@@ -15,9 +16,9 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>() && n.Hitbox.Contains(new Point(i * 16, j * 16))))
+            if (!Main.npc.Any(n => n.active && n.type == NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>() && n.Hitbox.Contains(new Point(i * 16, j * 16))))
             {
-                NPC.NewNPC(i * 16 + 8, j * 16 + 72, ModContent.NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>(), 0, StarlightWorld.OvergrowBossOpen ? 360 : 0);
+                NPC.NewNPC(i * 16 + 8, j * 16 + 72, NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>(), 0, StarlightWorld.OvergrowBossOpen ? 360 : 0);
             }
         }
     }

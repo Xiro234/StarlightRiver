@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -9,7 +10,7 @@ namespace StarlightRiver.Tiles.Vitric
 {
     public class AncientSandstoneTorchItem : Items.QuickTileItem
     {
-        public AncientSandstoneTorchItem() : base("Ancient Vitric Illuminator", "It has an entrancing glow", ModContent.TileType<AncientSandstoneTorch>(), 0)
+        public AncientSandstoneTorchItem() : base("Ancient Vitric Illuminator", "It has an entrancing glow", TileType<AncientSandstoneTorch>(), 0)
         {
         }
 
@@ -37,8 +38,8 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/RiftCrafting/Glow0");
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/RiftCrafting/Glow1");
+            Texture2D tex = GetTexture("StarlightRiver/RiftCrafting/Glow0");
+            Texture2D tex2 = GetTexture("StarlightRiver/RiftCrafting/Glow1");
 
             spriteBatch.End();
             spriteBatch.Begin(default, BlendState.Additive);

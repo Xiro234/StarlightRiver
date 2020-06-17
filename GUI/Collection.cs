@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace StarlightRiver.GUI
@@ -30,7 +30,7 @@ namespace StarlightRiver.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/back");
+            Texture2D tex = GetTexture("StarlightRiver/GUI/Assets/back");
             spriteBatch.Draw(tex, new Vector2(100, 300), tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
             base.Draw(spriteBatch);
 
@@ -73,7 +73,7 @@ namespace StarlightRiver.GUI
         public override void Draw(SpriteBatch spriteBatch)
         {
             Vector2 pos = GetDimensions().Center() - Vector2.One;
-            Texture2D tex = Ability.Locked ? ModContent.GetTexture("StarlightRiver/GUI/Assets/blank") : Ability.Texture;
+            Texture2D tex = Ability.Locked ? GetTexture("StarlightRiver/GUI/Assets/blank") : Ability.Texture;
 
             spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
 

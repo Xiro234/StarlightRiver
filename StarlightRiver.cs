@@ -1,3 +1,4 @@
+using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
@@ -105,7 +106,7 @@ namespace StarlightRiver
         }
         public static void AutoloadRiftRecipes(List<RiftRecipe> target)
         {
-            Mod mod = ModContent.GetInstance<StarlightRiver>();
+            Mod mod = GetInstance<StarlightRiver>();
             if (mod.Code != null)
             {
                 foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using Terraria;
@@ -211,7 +212,7 @@ namespace StarlightRiver.Items.Ultrashark
         #region player
         public override void PostUpdate()
         {
-            if (player.HeldItem.type == ModContent.ItemType<Ultrashark>())
+            if (player.HeldItem.type == ItemType<Ultrashark>())
             {
                 Ultrashark item = (Ultrashark)player.HeldItem.modItem;
                 if (item.turretDeployed)
@@ -225,7 +226,7 @@ namespace StarlightRiver.Items.Ultrashark
         }
         public override void PreUpdate()
         {
-            if (player.HeldItem.type == ModContent.ItemType<Ultrashark>())
+            if (player.HeldItem.type == ItemType<Ultrashark>())
             {
                 Ultrashark item = (Ultrashark)player.HeldItem.modItem;
                 if (player.releaseUseItem) //reset spinup

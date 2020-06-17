@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Items;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +11,7 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
     {
         public override void SetDefaults()
         {
-            QuickBlock.QuickSet(this, 210, DustID.Stone, SoundID.Tink, new Color(79, 76, 71), ModContent.ItemType<BrickOvergrowItem>(), true, true);
+            QuickBlock.QuickSet(this, 210, DustID.Stone, SoundID.Tink, new Color(79, 76, 71), ItemType<BrickOvergrowItem>(), true, true);
             Main.tileMerge[Type][mod.GetTile("GrassOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("BrickOvergrow").Type] = true;
             Main.tileMerge[Type][mod.GetTile("LeafOvergrow").Type] = true;
@@ -30,5 +31,5 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
             frameYOffset = 270 * ((j + Main.tileFrame[type]) % 6);
         }
     }
-    internal class GlowBrickOvergrowItem : QuickTileItem { public GlowBrickOvergrowItem() : base("Awoken Runic Bricks", "They have a pulse...", ModContent.TileType<GlowBrickOvergrow>(), 1) { } }
+    internal class GlowBrickOvergrowItem : QuickTileItem { public GlowBrickOvergrowItem() : base("Awoken Runic Bricks", "They have a pulse...", TileType<GlowBrickOvergrow>(), 1) { } }
 }

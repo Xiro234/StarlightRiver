@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -31,7 +32,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (projectile.ai[0] == 45 + k * 3)
                     {
                         float rot = (k - 4) / 10f; //rotational offset
-                        Projectile.NewProjectile(projectile.Center, new Vector2(-3.5f, 0).RotatedBy(projectile.rotation + rot), ModContent.ProjectileType<GlassVolleyShard>(), 20, 0); //fire the flurry of projectiles
+                        Projectile.NewProjectile(projectile.Center, new Vector2(-3.5f, 0).RotatedBy(projectile.rotation + rot), ProjectileType<GlassVolleyShard>(), 20, 0); //fire the flurry of projectiles
                         Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, projectile.Center);
                     }
                 }
@@ -46,7 +47,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             if (projectile.ai[0] <= 46) //draws the proejctile's tell ~0.75 seconds before it goes off
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VolleyTell");
+                Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VolleyTell");
                 float alpha = ((projectile.ai[0] * 2 / 23) - ((float)Math.Pow(projectile.ai[0], 2) / 529)) * 0.5f;
                 spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White * alpha, projectile.rotation - 1.57f, new Vector2(tex.Width / 2, tex.Height), 1, 0, 0);
             }
@@ -71,7 +72,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + 1.58f;
-            Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Starlight>());
+            Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Starlight>());
         }
     }
 }

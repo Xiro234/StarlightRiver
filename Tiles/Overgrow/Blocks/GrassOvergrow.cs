@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
@@ -11,11 +12,11 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
     {
         public override void SetDefaults()
         {
-            QuickBlock.QuickSet(this, 210, ModContent.DustType<Dusts.Leaf>(), SoundID.Tink, new Color(202, 157, 49), ModContent.ItemType<BrickOvergrowItem>(), true, true);
-            Main.tileMerge[Type][ModContent.TileType<BrickOvergrow>()] = true;
-            Main.tileMerge[Type][ModContent.TileType<LeafOvergrow>()] = true;
+            QuickBlock.QuickSet(this, 210, DustType<Dusts.Leaf>(), SoundID.Tink, new Color(202, 157, 49), ItemType<BrickOvergrowItem>(), true, true);
+            Main.tileMerge[Type][TileType<BrickOvergrow>()] = true;
+            Main.tileMerge[Type][TileType<LeafOvergrow>()] = true;
             Main.tileMerge[Type][mod.GetTile("CrusherTile").Type] = true;
-            Main.tileMerge[Type][ModContent.TileType<GlowBrickOvergrow>()] = true;
+            Main.tileMerge[Type][TileType<GlowBrickOvergrow>()] = true;
 
             TileID.Sets.Grass[Type] = true;
         }
@@ -32,7 +33,7 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
         public static void CustomDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/GrassOvergrowMoss");
+            Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/GrassOvergrowMoss");
             Rectangle source = new Rectangle(0 + i % 5 * 8, 0, 8, 16);
             Color color = Lighting.GetColor(i, j);
 
@@ -54,19 +55,19 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
             Vector2 playerFeet = player.Center + new Vector2(-8, player.height / 2);
             if (player.velocity.X != 0)
             {
-                if (Main.rand.Next(3) == 0) Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Stamina>(), 0, -2);
-                if (Main.rand.Next(10) == 0) Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, 0.6f);
+                if (Main.rand.Next(3) == 0) Dust.NewDust(playerFeet, 16, 1, DustType<Dusts.Stamina>(), 0, -2);
+                if (Main.rand.Next(10) == 0) Dust.NewDust(playerFeet, 16, 1, DustType<Dusts.Leaf>(), 0, 0.6f);
             }
 
             if (player.GetModPlayer<Abilities.AbilityHandler>().dash.Cooldown == 90)
                 for (int k = 0; k < 20; k++)
-                    Dust.NewDust(playerFeet, 16, 1, ModContent.DustType<Dusts.Leaf>(), 0, -2);
+                    Dust.NewDust(playerFeet, 16, 1, DustType<Dusts.Leaf>(), 0, -2);
         }
         public override void RandomUpdate(int i, int j)
         {
             if (!Main.tile[i, j - 1].active())
                 if (Main.rand.Next(1) == 0)
-                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<TallgrassOvergrow>(), true);
+                    WorldGen.PlaceTile(i, j - 1, TileType<TallgrassOvergrow>(), true);
         }
     }
 }

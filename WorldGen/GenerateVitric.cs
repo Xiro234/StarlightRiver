@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Tiles.Vitric;
 using StarlightRiver.Tiles.Vitric.Blocks;
 using System;
@@ -8,7 +9,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using static Terraria.ModLoader.ModContent;
 using static Terraria.WorldGen;
 
 namespace StarlightRiver

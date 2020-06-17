@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using System;
@@ -47,7 +48,7 @@ namespace StarlightRiver.NPCs.Traps
                     Vector2 vel = new Vector2(1, 0).RotatedBy(-k) * Main.rand.NextFloat(8);
                     if (Main.rand.Next(2) == 0) { vel = new Vector2(-1, 0).RotatedBy(k) * Main.rand.NextFloat(8); }
                     Dust.NewDustPerfect(npc.Center + new Vector2(vel.X * 3, 5), DustID.Stone, vel * 0.7f);
-                    Dust.NewDustPerfect(npc.Center + new Vector2(vel.X * 3, 5), ModContent.DustType<Dusts.Stamina>(), vel);
+                    Dust.NewDustPerfect(npc.Center + new Vector2(vel.X * 3, 5), DustType<Dusts.Stamina>(), vel);
                 }
                 Main.PlaySound(SoundID.Item70.WithPitchVariance(0.6f), npc.Center);
 
@@ -61,8 +62,8 @@ namespace StarlightRiver.NPCs.Traps
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Traps/CrusherGlow");
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Traps/CrusherTile");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Traps/CrusherGlow");
+            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Traps/CrusherTile");
 
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, -24), tex.Bounds, Color.White * 0.8f, 0, tex.Size() / 2, 1.2f + (float)Math.Sin(npc.ai[0] / 80f * 6.28f) * 0.2f, 0, 0);
 

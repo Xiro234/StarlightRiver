@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
 using StarlightRiver.Core;
 using Terraria;
@@ -53,7 +54,7 @@ namespace StarlightRiver.Projectiles.Dummies
             }
             projectile.timeLeft = 2;
 
-            if (Main.tile[(int)projectile.Center.X / 16, (int)(projectile.Center.Y) / 16].type != ModContent.TileType<Tiles.Void.Seal>())
+            if (Main.tile[(int)projectile.Center.X / 16, (int)(projectile.Center.Y) / 16].type != TileType<Tiles.Void.Seal>())
             {
                 projectile.timeLeft = 0;
             }

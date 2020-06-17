@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
@@ -32,13 +33,13 @@ namespace StarlightRiver.NPCs.Hostile
         public override bool CheckDead()
         {
             Main.PlaySound(SoundID.Item14, npc.Center);
-            Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.AOEExplosionHostile>(), npc.damage, 3, 255, 128);
+            Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileType<Projectiles.AOEExplosionHostile>(), npc.damage, 3, 255, 128);
             return true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(ModContent.GetTexture(Texture), npc.position - Main.screenPosition + new Vector2((float)Math.Sin(npc.ai[0]) * 4f, 0), drawColor);
+            spriteBatch.Draw(GetTexture(Texture), npc.position - Main.screenPosition + new Vector2((float)Math.Sin(npc.ai[0]) * 4f, 0), drawColor);
             return false;
         }
 
@@ -56,7 +57,7 @@ namespace StarlightRiver.NPCs.Hostile
 
                 if (Main.player.Any(player => Vector2.Distance(player.Center, npc.Center) <= 128)) //warning ring
                 {
-                    Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedByRandom(6.28f) * 42, ModContent.DustType<Dusts.Stamina>());
+                    Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedByRandom(6.28f) * 42, DustType<Dusts.Stamina>());
                 }
             }
             else
@@ -73,7 +74,7 @@ namespace StarlightRiver.NPCs.Hostile
             Vector2 spawnPos = new Vector2(spawnInfo.spawnTileX * 16, spawnInfo.spawnTileY * 16);
 
             return player.position.Y >= Main.maxTilesY - 200 && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].liquid != 0 &&
-                !Main.npc.Any(npc => npc.active && npc.type == ModContent.NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)
+                !Main.npc.Any(npc => npc.active && npc.type == NPCType<BoneMine>() && Vector2.Distance(npc.Center, spawnPos) <= 128)
                 ? 1
                 : (float)0;
         }

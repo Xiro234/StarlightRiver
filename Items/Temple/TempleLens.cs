@@ -1,7 +1,7 @@
-﻿using StarlightRiver.Core;
+﻿using static Terraria.ModLoader.ModContent;
+using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -29,7 +29,7 @@ namespace StarlightRiver.Items.Temple
         {
             if (Equipped(player) && crit)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 300);
+                target.AddBuff(BuffType<Buffs.Illuminant>(), 300);
             }
         }
 
@@ -37,7 +37,7 @@ namespace StarlightRiver.Items.Temple
         {
             if (Equipped(Main.player[projectile.owner]) && crit)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 300);
+                target.AddBuff(BuffType<Buffs.Illuminant>(), 300);
             }
         }
     }

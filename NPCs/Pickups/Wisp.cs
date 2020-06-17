@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
 using StarlightRiver.Core;
 using System;
@@ -26,9 +27,9 @@ namespace StarlightRiver.NPCs.Pickups
 
         public override void Visuals()
         {
-            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime), (float)Math.Sin(StarlightWorld.rottime)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
-            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime + 3) / 2, (float)Math.Sin(StarlightWorld.rottime + 3)) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
-            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime + 2), (float)Math.Sin(StarlightWorld.rottime + 2) / 2) * 32, ModContent.DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime), (float)Math.Sin(StarlightWorld.rottime)) * 32, DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime + 3) / 2, (float)Math.Sin(StarlightWorld.rottime + 3)) * 32, DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime + 2), (float)Math.Sin(StarlightWorld.rottime + 2) / 2) * 32, DustType<Dusts.Gold>(), null, 0, default, 0.4f);
         }
 
         public override void PickupVisuals(int timer)

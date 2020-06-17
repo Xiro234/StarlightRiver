@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Abilities;
@@ -6,7 +7,6 @@ using StarlightRiver.Items.Infusions;
 using Terraria;
 using Terraria.GameContent.UI;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace StarlightRiver.GUI
@@ -22,12 +22,12 @@ namespace StarlightRiver.GUI
             slot0.Width.Set(32, 0);
             slot0.Height.Set(32, 0);
             slot0.TargetSlot = 0;
-            base.Append(slot0);
+            Append(slot0);
 
             slot1.Width.Set(32, 0);
             slot1.Height.Set(32, 0);
             slot1.TargetSlot = 1;
-            base.Append(slot1);
+            Append(slot1);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -77,7 +77,7 @@ namespace StarlightRiver.GUI
             if (Equipped != null)
             {
                 //Draws the item itself
-                Texture2D tex2 = ModContent.GetTexture(Equipped.modItem.Texture);
+                Texture2D tex2 = GetTexture(Equipped.modItem.Texture);
                 spriteBatch.Draw(tex2, GetDimensions().Center(), tex2.Frame(), Color.White, 0f, tex2.Frame().Center(), 0.8f, SpriteEffects.None, 0);
                 if (IsMouseHovering && Main.mouseItem.IsAir)
                 {

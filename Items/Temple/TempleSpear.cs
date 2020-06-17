@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +28,7 @@ namespace StarlightRiver.Items.Temple
             item.noMelee = true;
             item.knockBack = 2;
             item.rare = ItemRarityID.Blue;
-            item.shoot = ModContent.ProjectileType<TempleSpearProjectile>();
+            item.shoot = ProjectileType<TempleSpearProjectile>();
             item.shootSpeed = 4;
             item.UseSound = SoundID.Item15;
         }
@@ -51,10 +52,10 @@ namespace StarlightRiver.Items.Temple
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             //inflicting debuff + light orbs on kill
-            target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 600);
+            target.AddBuff(BuffType<Buffs.Illuminant>(), 600);
             if (damage >= target.life)
             {
-                Projectile.NewProjectile(target.Center, new Vector2(0, -1), ModContent.ProjectileType<TempleSpearLight>(), 0, 0);
+                Projectile.NewProjectile(target.Center, new Vector2(0, -1), ProjectileType<TempleSpearLight>(), 0, 0);
             }
         }
     }
