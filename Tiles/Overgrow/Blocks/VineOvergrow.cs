@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Items;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -44,5 +45,10 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
                     new Rectangle(Main.tile[i, j + 1].type != ModContent.TileType<VineOvergrow>() ? 32 : j % 2 * 16, 0, 16, 16), Lighting.GetColor(i, j));
             return false;
         }
+    }
+    internal class VineOvergrowItem : QuickTileItem
+    {
+        public override string Texture => "StarlightRiver/MarioCumming";
+        public VineOvergrowItem() : base("OG Vine", "", ModContent.TileType<VineOvergrow>(), 0) { }
     }
 }

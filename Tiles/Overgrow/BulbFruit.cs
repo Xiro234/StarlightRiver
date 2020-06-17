@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Items;
 using System;
 using System.Linq;
 using Terraria;
@@ -94,5 +95,10 @@ namespace StarlightRiver.Tiles.Overgrow
         {
             Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Debug.DebugPotion>());
         }
+    }
+    internal class BulbFruitItem : QuickTileItem
+    {
+        public override string Texture => "StarlightRiver/MarioCumming";
+        public BulbFruitItem() : base("Bulb Fruit", "", ModContent.TileType<BulbFruit>(), 1) { }
     }
 }

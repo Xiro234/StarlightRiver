@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
@@ -52,7 +53,7 @@ namespace StarlightRiver
             byte attempts = 0;
             while (1 == 1)
             {
-                int roomWidth = WorldGen.genRand.Next(4) == 0 ? 92 : 46;
+                int roomWidth = 46;
                 int hallSize = WorldGen.genRand.Next(25, 45);
                 switch (direction % 4) //the 4 possible directions that the hallway can generate in, this generates the rectangles for the hallway and room to safety check them.
                 {
@@ -226,34 +227,23 @@ namespace StarlightRiver
                     int yRel = y - room.Y;
 
                     #region openings
+                    int halfWidth = HallWidth / 2 - 2;
 
                     if (up)
                     {
-                        if (xRel > (room.Width / 2) - HallWidth / 2 && xRel < (room.Width / 2) + HallWidth / 2 && yRel < 3)
-                        {
-                            WorldGen.KillTile(x, y);
-                        }
+                        if (xRel > (room.Width / 2) - halfWidth && xRel < (room.Width / 2) + halfWidth && yRel < 3) WorldGen.KillTile(x, y);
                     }
                     if (down)
                     {
-                        if (xRel > (room.Width / 2) - HallWidth / 2 && xRel < (room.Width / 2) + HallWidth / 2 && yRel > room.Height - 3)
-                        {
-                            WorldGen.KillTile(x, y);
-                        }
+                        if (xRel > (room.Width / 2) - halfWidth && xRel < (room.Width / 2) + halfWidth && yRel > room.Height - 3) WorldGen.KillTile(x, y);
                     }
                     if (left)
                     {
-                        if (yRel > (room.Height / 2) - HallWidth / 2 && yRel < (room.Height / 2) + HallWidth / 2 && xRel < 3)
-                        {
-                            WorldGen.KillTile(x, y);
-                        }
+                        if (yRel > (room.Height / 2) - halfWidth && yRel < (room.Height / 2) + halfWidth && xRel < 3) WorldGen.KillTile(x, y);
                     }
                     if (right)
                     {
-                        if (yRel > (room.Height / 2) - HallWidth / 2 && yRel < (room.Height / 2) + HallWidth / 2 && xRel > room.Width - 3)
-                        {
-                            WorldGen.KillTile(x, y);
-                        }
+                        if (yRel > (room.Height / 2) - halfWidth && yRel < (room.Height / 2) + halfWidth && xRel > room.Width - 3) WorldGen.KillTile(x, y);
                     }
 
                     #endregion openings
@@ -264,7 +254,7 @@ namespace StarlightRiver
                     }
                 }
             }
-            //lots left to do here
+            StructureHelper.StructureHelper.GenerateMultistructureRandom("Structures/OvergrowRooms", room.TopLeft().ToPoint16() + new Point16(3, 3), StarlightRiver.Instance);
         }
     }
 }

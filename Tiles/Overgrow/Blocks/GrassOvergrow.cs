@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Items;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -69,4 +70,5 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
                     WorldGen.PlaceTile(i, j - 1, ModContent.TileType<TallgrassOvergrow>(), true);
         }
     }
+    internal class GrassOvergrowItem : QuickTileItem { public GrassOvergrowItem() : base("Overgrowth Grass", "They have a pulse...", ModContent.TileType<GrassOvergrow>(), 1) { } }
 }
