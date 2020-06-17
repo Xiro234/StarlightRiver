@@ -12,7 +12,7 @@ namespace StarlightRiver.Tiles.Hell
         {
             get => new List<Loot>
             {
-                new Loot(ItemType<Items.Temple.TemplePick>(), 1)
+                new Loot(ItemType<Items.Hell.MagmaSword>(), 1)
             };
         }
         internal override List<Loot> SmallLootPool

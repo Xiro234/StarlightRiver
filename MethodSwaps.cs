@@ -217,14 +217,6 @@ namespace StarlightRiver
             }
             Main.spriteBatch.End();
             orig(self, gameTime);
-
-            if (!Main.playerInventory)
-            {
-                Main.spriteBatch.Begin();
-                Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 120), Color.White);
-                Main.spriteBatch.DrawString(Main.fontItemStack, MessageString, new Vector2(20, 140), Color.White);
-                Main.spriteBatch.End();
-            }
         }
 
         /*private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
