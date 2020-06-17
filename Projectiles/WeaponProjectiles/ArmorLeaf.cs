@@ -2,6 +2,7 @@
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -42,7 +43,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 picked = true;
             }
 
-            Dust.NewDust(projectile.position, 1, 1, ModContent.DustType<Dusts.Gold>(), 0, 0, 0, default, 0.4f);
+            Dust.NewDust(projectile.position, 1, 1, DustType<Dusts.Gold>(), 0, 0, 0, default, 0.4f);
             if (Vector2.Distance(target.Center, projectile.Center) <= 800)
             {
                 projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.4f;

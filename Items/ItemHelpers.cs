@@ -87,11 +87,13 @@ namespace StarlightRiver.Items
             Walltype = placetype;
             Rare = rare;
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(Itemname);
             Tooltip.SetDefault(Itemtooltip);
         }
+
         public override void SetDefaults()
         {
             item.width = 16;

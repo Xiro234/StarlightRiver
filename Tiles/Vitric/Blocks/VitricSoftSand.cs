@@ -18,5 +18,9 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
         }
     }
 
-    internal class VitricSoftSandItem : QuickTileItem { public VitricSoftSandItem() : base("Soft Glassy Sand", "", TileType<VitricSoftSand>(), 0) { } }
+    internal class VitricSoftSandItem : QuickTileItem {
+        public VitricSoftSandItem() : base("Soft Glassy Sand", "", TileType<VitricSoftSand>(), 0)
+        {
+        }
+    }
 }

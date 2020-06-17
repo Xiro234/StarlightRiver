@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -71,7 +72,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player player = Main.player[projectile.owner];
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/BarbedYoyoChain");
+            Texture2D tex = GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/BarbedYoyoChain");
 
             if (targets.Count == 0) DrawBetween(spriteBatch, tex, player.Center, projectile.Center, lightColor);
             else

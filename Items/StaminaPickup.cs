@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items
 {
@@ -25,7 +26,7 @@ namespace StarlightRiver.Items
 
             for (int k = 0; k <= 20; k++)
             {
-                Dust.NewDust(player.Center, 1, 1, ModContent.DustType<Dusts.Stamina>(), 0, 0, 0, default, 1.2f);
+                Dust.NewDust(player.Center, 1, 1, DustType<Dusts.Stamina>(), 0, 0, 0, default, 1.2f);
             }
             CombatText.NewText(player.Hitbox, new Color(255, 170, 60), "+1");
             Main.PlaySound(SoundID.Item112, player.Center);
@@ -34,7 +35,7 @@ namespace StarlightRiver.Items
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/GUI/Stamina"), item.Center - Vector2.One * 11 - Main.screenPosition, new Rectangle(0, 0, 22, 22), Color.White * (0.7f + (float)Math.Sin(StarlightWorld.rottime) * 0.1f),
+            spriteBatch.Draw(GetTexture("StarlightRiver/GUI/Stamina"), item.Center - Vector2.One * 11 - Main.screenPosition, new Rectangle(0, 0, 22, 22), Color.White * (0.7f + (float)Math.Sin(StarlightWorld.rottime) * 0.1f),
                 rotation, Vector2.One * 11, 0.9f + (float)Math.Sin(StarlightWorld.rottime) * 0.1f, 0, 0);
         }
     }
@@ -43,11 +44,12 @@ namespace StarlightRiver.Items
     {
         public bool DropStamina = false;
         public override bool InstancePerEntity => true;
+
         public override void NPCLoot(NPC npc)
         {
             if (DropStamina)
             {
-                Item.NewItem(npc.Center, ModContent.ItemType<StaminaPickup>());
+                Item.NewItem(npc.Center, ItemType<StaminaPickup>());
             }
         }
     }

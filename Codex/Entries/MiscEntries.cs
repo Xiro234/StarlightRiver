@@ -1,4 +1,4 @@
-﻿using Terraria.ModLoader;
+﻿using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Codex.Entries
 {
@@ -14,8 +14,8 @@ namespace StarlightRiver.Codex.Entries
                 "Stamina is consumed when an ability is used, and\n" +
                 "can be passively regenerated over time.";
 
-            Image = ModContent.GetTexture("StarlightRiver/GUI/Assets/Stamina");
-            Icon = ModContent.GetTexture("StarlightRiver/GUI/Assets/Stamina");
+            Image = GetTexture("StarlightRiver/GUI/Assets/Stamina");
+            Icon = GetTexture("StarlightRiver/GUI/Assets/Stamina");
         }
     }
 
@@ -31,8 +31,8 @@ namespace StarlightRiver.Codex.Entries
                 "abilities. Each ability has 2 major infusions, which\n" +
                 "grant special abilities to them.";
 
-            Image = ModContent.GetTexture("StarlightRiver/Items/Infusions/DashAstralItem");
-            Icon = ModContent.GetTexture("StarlightRiver/Items/Infusions/DashAstralItem");
+            Image = GetTexture("StarlightRiver/Items/Infusions/DashAstralItem");
+            Icon = GetTexture("StarlightRiver/Items/Infusions/DashAstralItem");
         }
     }
 }

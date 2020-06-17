@@ -6,6 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Pickups
 {
@@ -88,7 +89,7 @@ namespace StarlightRiver.NPCs.Pickups
             }
         }
 
-        public static Texture2D wind = ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
+        public static Texture2D wind = GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
         private float timer = 0;
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -98,19 +99,19 @@ namespace StarlightRiver.NPCs.Pickups
                 //darkness
                 if (animate >= 400)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (100 - ((float)animate - 400)) / 100));
+                    spriteBatch.Draw(GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (100 - ((float)animate - 400)) / 100));
                     Lighting.brightness = (float)(animate - 400) / 100;
                 }
 
                 if (animate >= 30 && animate < 400)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, 0.99f));
+                    spriteBatch.Draw(GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, 0.99f));
                     Lighting.brightness = 0f;
                 }
 
                 if (animate < 30 && animate > 0)
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (float)animate / 30));
+                    spriteBatch.Draw(GetTexture("StarlightRiver/NPCs/Pickups/Overlay"), new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(0, 0, 0, (float)animate / 30));
                     Lighting.brightness = (float)(30 - animate) / 30;
                 }
 
@@ -132,10 +133,10 @@ namespace StarlightRiver.NPCs.Pickups
             if (mp.pure.Locked && animate == 0)
             {
                 spriteBatch.Draw(wind, npc.position - Main.screenPosition + new Vector2(0, (float)Math.Sin(timer) * 4), Color.White);
-                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, ModContent.DustType<Dusts.Purify>());
+                Dust.NewDust(npc.position + new Vector2(0, (float)Math.Sin(timer) * 16), npc.width, npc.height, DustType<Dusts.Purify>());
 
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer) * 40, (float)Math.Sin(timer) * 20), ModContent.DustType<Dusts.Purify>(), null, 0, default, 2f);
-                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer) * 40, (float)Math.Sin(timer) * 20) * -1, ModContent.DustType<Dusts.Purify>(), null, 0, default, 2f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer) * 40, (float)Math.Sin(timer) * 20), DustType<Dusts.Purify>(), null, 0, default, 2f);
+                Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(timer) * 40, (float)Math.Sin(timer) * 20) * -1, DustType<Dusts.Purify>(), null, 0, default, 2f);
             }
         }
     }

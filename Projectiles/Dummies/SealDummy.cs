@@ -4,6 +4,7 @@ using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -53,7 +54,7 @@ namespace StarlightRiver.Projectiles.Dummies
             }
             projectile.timeLeft = 2;
 
-            if (Main.tile[(int)projectile.Center.X / 16, (int)(projectile.Center.Y) / 16].type != ModContent.TileType<Tiles.Void.Seal>())
+            if (Main.tile[(int)projectile.Center.X / 16, (int)(projectile.Center.Y) / 16].type != TileType<Tiles.Void.Seal>())
             {
                 projectile.timeLeft = 0;
             }

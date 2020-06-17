@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -23,7 +24,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.ai[0]++;
             if (!Main.projectile[Proj].active) projectile.Kill();
             projectile.position = Main.projectile[Proj].position;
-            if (projectile.ai[0] % 10 == 0) Projectile.NewProjectile(projectile.Center, new Vector2(0, 0), ModContent.ProjectileType<Leaf>(), projectile.damage, projectile.knockBack, projectile.owner);
+            if (projectile.ai[0] % 10 == 0) Projectile.NewProjectile(projectile.Center, new Vector2(0, 0), ProjectileType<Leaf>(), projectile.damage, projectile.knockBack, projectile.owner);
         }
     }
 }

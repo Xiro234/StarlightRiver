@@ -3,16 +3,18 @@ using StarlightRiver.Projectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Temple
 {
-    class TempleSpear : ModItem
+    internal class TempleSpear : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Point of Light");
             Tooltip.SetDefault("Struck foes glow\nSlain foes leave behind a bright light");
         }
+
         public override void SetDefaults()
         {
             item.melee = true;
@@ -27,14 +29,18 @@ namespace StarlightRiver.Items.Temple
             item.noMelee = true;
             item.knockBack = 2;
             item.rare = ItemRarityID.Blue;
-            item.shoot = ModContent.ProjectileType<TempleSpearProjectile>();
+            item.shoot = ProjectileType<TempleSpearProjectile>();
             item.shootSpeed = 4;
             item.UseSound = SoundID.Item15;
         }
     }
-    class TempleSpearProjectile : SpearProjectile
+
+    internal class TempleSpearProjectile : SpearProjectile
     {
-        public TempleSpearProjectile() : base(30, 7, 25) { }
+        public TempleSpearProjectile() : base(30, 7, 25)
+        {
+        }
+
         public override void PostAI()
         {
             //Dust effects
@@ -48,17 +54,19 @@ namespace StarlightRiver.Items.Temple
             d.color = new Color(255, 255, 200) * (projectile.timeLeft / (30f * Main.player[projectile.owner].meleeSpeed));
             d.scale = projectile.timeLeft / (30f * Main.player[projectile.owner].meleeSpeed);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             //inflicting debuff + light orbs on kill
-            target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 600);
+            target.AddBuff(BuffType<Buffs.Illuminant>(), 600);
             if (damage >= target.life)
             {
-                Projectile.NewProjectile(target.Center, new Vector2(0, -1), ModContent.ProjectileType<TempleSpearLight>(), 0, 0);
+                Projectile.NewProjectile(target.Center, new Vector2(0, -1), ProjectileType<TempleSpearLight>(), 0, 0);
             }
         }
     }
-    class TempleSpearLight : ModProjectile
+
+    internal class TempleSpearLight : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -66,6 +74,7 @@ namespace StarlightRiver.Items.Temple
             projectile.height = 16;
             projectile.timeLeft = 3600;
         }
+
         public override void AI()
         {
             projectile.velocity *= 0.99f;
@@ -75,5 +84,4 @@ namespace StarlightRiver.Items.Temple
             d.color = new Color(255, 255, 200) * (projectile.timeLeft / 3600f);
         }
     }
-
 }

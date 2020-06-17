@@ -25,6 +25,7 @@ namespace StarlightRiver.Tiles
             name.SetDefault(mapName);
             tile.AddMapEntry(mapColor, name);
         }
+
         public static void QuickSetWall(this ModWall wall, int dustType, int soundType, int drop, bool safe, Color mapColor)
         {
             wall.dustType = dustType;
@@ -33,6 +34,7 @@ namespace StarlightRiver.Tiles
             Main.wallHouse[wall.Type] = safe;
             wall.AddMapEntry(mapColor);
         }
+
         /// <summary>
         /// Note that this should be called at the END of setdefaults so that any additional TileObjectData takes effect.
         /// </summary>

@@ -47,14 +47,12 @@ namespace StarlightRiver.Items.Armor.Vitric
                 if ((float)player.statLife / player.statLifeMax2 > k)
                 {
                     player.statDefense += 3;
-
-
                 }
                 if ((float)player.statLife / player.statLifeMax2 < k)
                 {
-                    if (!Main.projectile.Any(projectile => projectile.type == ModContent.ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>() && projectile.active && projectile.localAI[0] == (int)(k * 5) && projectile.owner == player.whoAmI))
+                    if (!Main.projectile.Any(projectile => projectile.type == ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>() && projectile.active && projectile.localAI[0] == (int)(k * 5) && projectile.owner == player.whoAmI))
                     {
-                        int proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>(), 15, 0);
+                        int proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Projectiles.WeaponProjectiles.VitricArmorProjectile>(), 15, 0);
                         Main.projectile[proj].localAI[0] = (int)(k * 5);
                         Main.projectile[proj].owner = player.whoAmI;
                     }

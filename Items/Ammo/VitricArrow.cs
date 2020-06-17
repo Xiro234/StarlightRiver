@@ -1,5 +1,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Ammo
 {
@@ -22,7 +23,7 @@ namespace StarlightRiver.Items.Ammo
             item.knockBack = 0.5f;
             item.value = 10;
             item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<Projectiles.Ammo.VitricArrow>();
+            item.shoot = ProjectileType<Projectiles.Ammo.VitricArrow>();
             item.shootSpeed = 1f;
             item.ammo = AmmoID.Arrow;
         }
@@ -30,7 +31,7 @@ namespace StarlightRiver.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Vitric.VitricGem>(), 1);
+            recipe.AddIngredient(ItemType<Vitric.VitricGem>(), 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 50);
             recipe.AddRecipe();

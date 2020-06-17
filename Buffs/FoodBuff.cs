@@ -6,7 +6,10 @@ namespace StarlightRiver.Buffs
 {
     public class FoodBuff : SmartBuff
     {
-        public FoodBuff() : base("Nourished", "Nourised by rich food, granting:\n", false) { }
+        public FoodBuff() : base("Nourished", "Nourised by rich food, granting:\n", false)
+        {
+        }
+
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
             FoodBuffHandler mp = Main.LocalPlayer.GetModPlayer<FoodBuffHandler>();
@@ -25,5 +28,10 @@ namespace StarlightRiver.Buffs
             }
         }
     }
-    public class Full : SmartBuff { public Full() : base("Stuffed", "Cannot consume any more rich food", true) { } }
+
+    public class Full : SmartBuff {
+        public Full() : base("Stuffed", "Cannot consume any more rich food", true)
+        {
+        }
+    }
 }

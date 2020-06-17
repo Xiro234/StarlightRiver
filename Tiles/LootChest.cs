@@ -9,6 +9,7 @@ namespace StarlightRiver.Tiles
     {
         internal virtual List<Loot> GoldLootPool { get; }
         internal virtual List<Loot> SmallLootPool { get; }
+
         public override bool NewRightClick(int i, int j)
         {
             WorldGen.KillTile(i, j);
@@ -25,14 +26,27 @@ namespace StarlightRiver.Tiles
             return true;
         }
     }
+
     public struct Loot
     {
         public int Type;
         public int Count;
         public int Min;
         public int Max;
-        public Loot(int ID, int count) { Type = ID; Count = count; Min = 0; Max = 0; }
-        public Loot(int ID, int min, int max) { Type = ID; Min = min; Max = max; Count = 0; }
-        public int GetCount() { return Count == 0 ? Main.rand.Next(Min, Max) : Count; }
+
+        public Loot(int ID, int count)
+        {
+            Type = ID; Count = count; Min = 0; Max = 0;
+        }
+
+        public Loot(int ID, int min, int max)
+        {
+            Type = ID; Min = min; Max = max; Count = 0;
+        }
+
+        public int GetCount()
+        {
+            return Count == 0 ? Main.rand.Next(Min, Max) : Count;
+        }
     }
 }

@@ -5,10 +5,11 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    class VitricBomb : ModProjectile
+    internal class VitricBomb : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -17,28 +18,31 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.hostile = true;
             projectile.timeLeft = 300;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Rectangle rect = new Rectangle(0, 46 * projectile.frame, 46, 46);
-            spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.Center - Main.screenPosition, rect, lightColor, 0, Vector2.One * 23, 1, 0, 0);
+            spriteBatch.Draw(GetTexture(Texture), projectile.Center - Main.screenPosition, rect, lightColor, 0, Vector2.One * 23, 1, 0, 0);
             return false;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBombGlow");
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BombTell");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBombGlow");
+            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BombTell");
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, tex.Size() / 2, 1, 0, 0);
 
             float bright = ((300 - projectile.timeLeft) / 300f * 0.5f);
             if (projectile.timeLeft < 60) bright += (float)Math.Sin(StarlightWorld.rottime * 6) * 0.2f;
             spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, tex2.Frame(), (projectile.timeLeft < 60 ? Color.Red : Color.White) * bright, 0, tex2.Size() / 2, 2, 0, 0);
         }
+
         public override bool CanHitPlayer(Player target)
         {
             if (Abilities.AbilityHelper.CheckDash(target, projectile.Hitbox))
             {
                 projectile.active = false;
-                for (int k = 0; k < 20; k++) Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Glass2>());
+                for (int k = 0; k < 20; k++) Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType<Dusts.Glass2>());
                 Item.NewItem(projectile.Center, ItemID.Heart);
                 Main.PlaySound(SoundID.Shatter, projectile.Center);
                 return false;
@@ -55,12 +59,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 if (projectile.frame >= 8) projectile.frame = 0;
             }
         }
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, projectile.Center);
             for (int k = 0; k < 80; k++)
             {
-                Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(4));
+                Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(4));
             }
             foreach (Player player in Main.player.Where(n => Vector2.Distance(n.Center, projectile.Center) < 400))
             {

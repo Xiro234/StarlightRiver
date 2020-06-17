@@ -5,32 +5,33 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    class VitricDecor : ModTile
+    internal class VitricDecor : ModTile
     {
         public override void SetDefaults()
         {
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>(), ModContent.TileType<VitricSoftSand>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { TileType<VitricSand>(), TileType<VitricSoftSand>() };
             TileObjectData.newTile.RandomStyleRange = 4;
             TileObjectData.newTile.StyleHorizontal = true;
 
-            QuickBlock.QuickSetFurniture(this, 2, 2, ModContent.DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
+            QuickBlock.QuickSetFurniture(this, 2, 2, DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
         }
     }
 
-    class VitricDecorLarge : ModTile
+    internal class VitricDecorLarge : ModTile
     {
         public override void SetDefaults()
         {
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<VitricSand>(), ModContent.TileType<VitricSoftSand>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { TileType<VitricSand>(), TileType<VitricSoftSand>() };
             TileObjectData.newTile.RandomStyleRange = 6;
             TileObjectData.newTile.StyleHorizontal = true;
 
-            QuickBlock.QuickSetFurniture(this, 3, 2, ModContent.DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
+            QuickBlock.QuickSetFurniture(this, 3, 2, DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
         }
     }
 }

@@ -8,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -64,7 +65,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                 npc.velocity.Y = (float)Math.Sin((npc.ai[1] % 120) / 120f * 6.28f) * 0.6f;
 
-                if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<OvergrowBossAnchor>())) //once the chains are broken
+                if (!Main.npc.Any(n => n.active && n.type == NPCType<OvergrowBossAnchor>())) //once the chains are broken
                 {
                     npc.velocity *= 0;
                     npc.Center = spawnPoint;
@@ -89,7 +90,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             {
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/OvergrowBoss");
 
-                int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<OvergrowBossFlail>()); //spawn the flail after intro
+                int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<OvergrowBossFlail>()); //spawn the flail after intro
                 (Main.npc[index].modNPC as OvergrowBossFlail).parent = this; //set the flail's parent
                 flail = Main.npc[index].modNPC as OvergrowBossFlail; //tells the boss what flail it owns
 
@@ -134,7 +135,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     npc.ai[0] = (int)OvergrowBossPhase.FirstToss; //move to next phase once the flail is depleated
                     ResetAttack();
-                    foreach (Projectile proj in Main.projectile.Where(p => p.type == ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>())) proj.ai[1] = 1; //opens the pits
+                    foreach (Projectile proj in Main.projectile.Where(p => p.type == ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>())) proj.ai[1] = 1; //opens the pits
                 }
             }
 
@@ -167,30 +168,30 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     npc.position = spawnPoint;
                     music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
                     //spawn moving platforms
-                    NPC.NewNPC((int)npc.Center.X + 500, (int)npc.Center.Y + 200, ModContent.NPCType<OvergrowBossVerticalPlatform>());
-                    NPC.NewNPC((int)npc.Center.X - 500, (int)npc.Center.Y + 200, ModContent.NPCType<OvergrowBossVerticalPlatform>());
+                    NPC.NewNPC((int)npc.Center.X + 500, (int)npc.Center.Y + 200, NPCType<OvergrowBossVerticalPlatform>());
+                    NPC.NewNPC((int)npc.Center.X - 500, (int)npc.Center.Y + 200, NPCType<OvergrowBossVerticalPlatform>());
 
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 100, ModContent.NPCType<OvergrowBossCircularPlatform>());
+                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 100, NPCType<OvergrowBossCircularPlatform>());
 
                     //spawn guardians
-                    NPC.NewNPC((int)npc.Center.X + 600, (int)npc.Center.Y - 300, ModContent.NPCType<OvergrowBossGuardian>());
-                    NPC.NewNPC((int)npc.Center.X - 600, (int)npc.Center.Y - 300, ModContent.NPCType<OvergrowBossGuardian>());
-                    NPC.NewNPC((int)npc.Center.X + 600, (int)npc.Center.Y + 300, ModContent.NPCType<OvergrowBossGuardian>());
-                    NPC.NewNPC((int)npc.Center.X - 600, (int)npc.Center.Y + 300, ModContent.NPCType<OvergrowBossGuardian>());
+                    NPC.NewNPC((int)npc.Center.X + 600, (int)npc.Center.Y - 300, NPCType<OvergrowBossGuardian>());
+                    NPC.NewNPC((int)npc.Center.X - 600, (int)npc.Center.Y - 300, NPCType<OvergrowBossGuardian>());
+                    NPC.NewNPC((int)npc.Center.X + 600, (int)npc.Center.Y + 300, NPCType<OvergrowBossGuardian>());
+                    NPC.NewNPC((int)npc.Center.X - 600, (int)npc.Center.Y + 300, NPCType<OvergrowBossGuardian>());
 
                     //make platforms appear
                     for (int x = (int)npc.Center.X / 16 - 100; x <= (int)npc.Center.X / 16 + 100; x++)
                     {
                         for (int y = (int)npc.Center.Y / 16 - 100; y <= (int)npc.Center.Y / 16 + 100; y++)
                         {
-                            if (Main.tile[x, y].type == ModContent.TileType<Tiles.Overgrow.AppearingBrick>() && Main.tile[x, y].frameX == 0)
+                            if (Main.tile[x, y].type == TileType<Tiles.Overgrow.AppearingBrick>() && Main.tile[x, y].frameX == 0)
                             {
                                 Main.tile[x, y].frameX = 20;
                             }
                         }
                     }
                 }
-                else if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<OvergrowBossGuardian>()))
+                else if (!Main.npc.Any(n => n.active && n.type == NPCType<OvergrowBossGuardian>()))
                 {
                     npc.ai[0] = 7;
                     ResetIntermission();
@@ -202,7 +203,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         {
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
 
-            foreach (NPC npc in Main.npc.Where(n => n.active && (n.type == ModContent.NPCType<OvergrowBossCircularPlatform>() || n.type == ModContent.NPCType<OvergrowBossVerticalPlatform>())))
+            foreach (NPC npc in Main.npc.Where(n => n.active && (n.type == NPCType<OvergrowBossCircularPlatform>() || n.type == NPCType<OvergrowBossVerticalPlatform>())))
             {
                 npc.active = false;
             }
@@ -212,7 +213,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             {
                 for (int y = (int)npc.Center.Y / 16 - 100; y <= (int)npc.Center.Y / 16 + 100; y++)
                 {
-                    if (Main.tile[x, y].type == ModContent.TileType<Tiles.Overgrow.AppearingBrick>() && Main.tile[x, y].frameX == 20)
+                    if (Main.tile[x, y].type == TileType<Tiles.Overgrow.AppearingBrick>() && Main.tile[x, y].frameX == 20)
                     {
                         Main.tile[x, y].frameX = 0;
                     }

@@ -4,21 +4,23 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Temple
 {
-    class TempleChestSimple : LootChest
+    internal class TempleChestSimple : LootChest
     {
         internal override List<Loot> GoldLootPool
         {
             get => new List<Loot>
             {
-                new Loot(ModContent.ItemType<Items.Temple.TemplePick>(), 1),
-                new Loot(ModContent.ItemType<Items.Temple.TempleSpear>(), 1),
-                new Loot(ModContent.ItemType<Items.Temple.TempleRune>(), 1),
-                new Loot(ModContent.ItemType<Items.Temple.TempleLens>(), 1)
+                new Loot(ItemType<Items.Temple.TemplePick>(), 1),
+                new Loot(ItemType<Items.Temple.TempleSpear>(), 1),
+                new Loot(ItemType<Items.Temple.TempleRune>(), 1),
+                new Loot(ItemType<Items.Temple.TempleLens>(), 1)
             };
         }
+
         internal override List<Loot> SmallLootPool
         {
             get => new List<Loot>
@@ -29,9 +31,10 @@ namespace StarlightRiver.Tiles.Temple
                 new Loot(ItemID.SilverBullet, 20, 30),
                 new Loot(ItemID.Dynamite, 2, 4),
                 new Loot(ItemID.SpelunkerGlowstick, 15),
-                new Loot(ModContent.ItemType<Items.Herbology.IvySeeds>(), 4, 8)
+                new Loot(ItemType<Items.Herbology.IvySeeds>(), 4, 8)
             };
         }
+
         public override void SetDefaults()
         {
             Main.tileLavaDeath[Type] = true;
@@ -45,6 +48,5 @@ namespace StarlightRiver.Tiles.Temple
             name.SetDefault("Ancient Chest");
             AddMapEntry(new Color(151, 151, 151), name);
         }
-
     }
 }

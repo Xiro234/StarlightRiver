@@ -3,6 +3,7 @@ using StarlightRiver.Dusts;
 using StarlightRiver.Items;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Ability
 {
@@ -32,7 +33,7 @@ namespace StarlightRiver.Projectiles.Ability
 
         public override void AI()
         {
-            Dust.NewDust(projectile.position, 1, 1, ModContent.DustType<Stamina>(), 0, 0, 0, Color.White * 0.25f, 0.035f * projectile.timeLeft);
+            Dust.NewDust(projectile.position, 1, 1, DustType<Stamina>(), 0, 0, 0, Color.White * 0.25f, 0.035f * projectile.timeLeft);
 
             projectile.velocity = projectile.velocity.RotatedBy(0.030f * (1 - projectile.timeLeft / 40));
         }

@@ -15,5 +15,9 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
         }
     }
 
-    internal class VitricBrickItem : QuickTileItem { public VitricBrickItem() : base("Vitric Brick", "", TileType<VitricBrick>(), 0) { } }
+    internal class VitricBrickItem : QuickTileItem {
+        public VitricBrickItem() : base("Vitric Brick", "", TileType<VitricBrick>(), 0)
+        {
+        }
+    }
 }

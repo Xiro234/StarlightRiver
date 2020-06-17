@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -34,7 +35,7 @@ namespace StarlightRiver.Projectiles.Dummies
                 Dust.NewDustPerfect(projectile.Center + new Vector2(0, 10).RotatedBy(rot), 244, new Vector2(0, 1).RotatedBy(rot), 0, default, 0.7f);
             }
 
-            if (Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != ModContent.TileType<Tiles.Overgrow.HatchOvergrow>())
+            if (Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != TileType<Tiles.Overgrow.HatchOvergrow>())
             {
                 projectile.timeLeft = 0;
             }
@@ -48,7 +49,7 @@ namespace StarlightRiver.Projectiles.Dummies
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 pos = projectile.Center - Main.screenPosition;
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Shine");
+            Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/Shine");
             Color col = new Color(160, 160, 120);
 
             spriteBatch.End();

@@ -4,6 +4,7 @@ using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -11,9 +12,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public const int Scrolltime = 1000;
         public const int Risetime = 360;
+
         public override bool CheckActive() => false;
+
         public override bool? CanBeHitByProjectile(Projectile projectile) => false;
+
         public override bool? CanBeHitByItem(Player player, Item item) => false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
@@ -56,7 +61,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 if (npc.ai[0] % 10 == 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += npc.ai[0] < 100 ? 5 : 3;
                 for (int k = 0; k < 18; k++)
-                    Dust.NewDust(npc.position, 560, 1, ModContent.DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f)); //spawns dust
+                    Dust.NewDust(npc.position, 560, 1, DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f)); //spawns dust
             }
             if (npc.ai[1] == 2) npc.ai[0] = Risetime;
             if (npc.ai[1] == 3) npc.ai[2]++;
@@ -72,7 +77,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             if (npc.ai[1] != 3) //animation for rising out of the sand
             {
-                Texture2D tex = ModContent.GetTexture(Texture);
+                Texture2D tex = GetTexture(Texture);
                 int targetHeight = (int)(npc.ai[0] / Risetime * tex.Height);
                 Rectangle target = new Rectangle((int)(npc.position.X - Main.screenPosition.X), (int)(npc.position.Y - targetHeight - Main.screenPosition.Y), tex.Width, targetHeight);
                 Rectangle source = new Rectangle(0, 0, tex.Width, targetHeight);
@@ -85,7 +90,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public virtual void ScrollDraw(SpriteBatch sb) //im lazy
         {
-            Texture2D tex = ModContent.GetTexture(Texture);
+            Texture2D tex = GetTexture(Texture);
             int height1 = (int)(npc.ai[2] / Scrolltime * tex.Height);
             int height2 = tex.Height - height1;
             Color color = new Color(180, 225, 255);
@@ -101,14 +106,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public virtual void SpawnPlatforms(bool rising = true)
         {
-            PlacePlatform(205, 136, ModContent.NPCType<VitricBossPlatformUp>(), rising);
-            PlacePlatform(140, 420, ModContent.NPCType<VitricBossPlatformUp>(), rising);
-            PlacePlatform(440, 668, ModContent.NPCType<VitricBossPlatformUp>(), rising);
-            PlacePlatform(210, 30, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
-            PlacePlatform(400, 230, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
-            PlacePlatform(280, 310, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
-            PlacePlatform(230, 570, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
-            PlacePlatform(260, 790, ModContent.NPCType<VitricBossPlatformUpSmall>(), rising);
+            PlacePlatform(205, 136, NPCType<VitricBossPlatformUp>(), rising);
+            PlacePlatform(140, 420, NPCType<VitricBossPlatformUp>(), rising);
+            PlacePlatform(440, 668, NPCType<VitricBossPlatformUp>(), rising);
+            PlacePlatform(210, 30, NPCType<VitricBossPlatformUpSmall>(), rising);
+            PlacePlatform(400, 230, NPCType<VitricBossPlatformUpSmall>(), rising);
+            PlacePlatform(280, 310, NPCType<VitricBossPlatformUpSmall>(), rising);
+            PlacePlatform(230, 570, NPCType<VitricBossPlatformUpSmall>(), rising);
+            PlacePlatform(260, 790, NPCType<VitricBossPlatformUpSmall>(), rising);
         }
 
         public void PlacePlatform(int x, int y, int type, bool rising)
@@ -122,7 +127,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
     {
         public override void ScrollDraw(SpriteBatch sb)
         {
-            Texture2D tex = ModContent.GetTexture(Texture);
+            Texture2D tex = GetTexture(Texture);
             int height1 = (int)(npc.ai[2] / Scrolltime * tex.Height);
             int height2 = tex.Height - height1;
             Color color = new Color(180, 225, 255);
@@ -138,13 +143,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void SpawnPlatforms(bool rising = true)
         {
-            PlacePlatform(176, 90, ModContent.NPCType<VitricBossPlatformDown>(), rising);
-            PlacePlatform(288, 330, ModContent.NPCType<VitricBossPlatformDown>(), rising);
-            PlacePlatform(208, 580, ModContent.NPCType<VitricBossPlatformDown>(), rising);
-            PlacePlatform(410, 198, ModContent.NPCType<VitricBossPlatformDownSmall>(), rising);
-            PlacePlatform(110, 440, ModContent.NPCType<VitricBossPlatformDownSmall>(), rising);
-            PlacePlatform(440, 660, ModContent.NPCType<VitricBossPlatformDownSmall>(), rising);
-            PlacePlatform(310, 760, ModContent.NPCType<VitricBossPlatformDownSmall>(), rising);
+            PlacePlatform(176, 90, NPCType<VitricBossPlatformDown>(), rising);
+            PlacePlatform(288, 330, NPCType<VitricBossPlatformDown>(), rising);
+            PlacePlatform(208, 580, NPCType<VitricBossPlatformDown>(), rising);
+            PlacePlatform(410, 198, NPCType<VitricBossPlatformDownSmall>(), rising);
+            PlacePlatform(110, 440, NPCType<VitricBossPlatformDownSmall>(), rising);
+            PlacePlatform(440, 660, NPCType<VitricBossPlatformDownSmall>(), rising);
+            PlacePlatform(310, 760, NPCType<VitricBossPlatformDownSmall>(), rising);
         }
     }
 }

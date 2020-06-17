@@ -22,7 +22,6 @@ using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 
 namespace StarlightRiver
 {
-
     public partial class StarlightRiver : Mod
     {
         private void HookOn()
@@ -70,14 +69,14 @@ namespace StarlightRiver
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
-
-
         #region hooks
+
         private void DrawInventoryParticles(On.Terraria.Main.orig_DrawInterface_27_Inventory orig, Terraria.Main self)
         {
             orig(self);
             CursedAccessory.CursedSystem.DrawParticles(Main.spriteBatch);
         }
+
         private void DrawAdditive(On.Terraria.Main.orig_DrawDust orig, Main self)
         {
             orig(self);
@@ -91,14 +90,17 @@ namespace StarlightRiver
 
             Main.spriteBatch.End();
         }
+
         private bool NoSoulboundFrame(On.Terraria.Player.orig_ItemFitsItemFrame orig, Player self, Item i)
         {
             return i.modItem is Items.SoulboundItem ? false : orig(self, i);
         }
+
         private bool NoSoulboundRack(On.Terraria.Player.orig_ItemFitsWeaponRack orig, Player self, Item i)
         {
             return i.modItem is Items.SoulboundItem ? false : orig(self, i);
         }
+
         private void SoulboundPriority(On.Terraria.Player.orig_dropItemCheck orig, Player self)
         {
             if (Main.mouseItem.type > ItemID.None && !Main.playerInventory && Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem)
@@ -118,16 +120,19 @@ namespace StarlightRiver
             }
             orig(self);
         }
+
         private void DontDropSoulbound(On.Terraria.Player.orig_DropSelectedItem orig, Player self)
         {
             if (self.inventory[self.selectedItem].modItem is Items.SoulboundItem || Main.mouseItem.modItem is Items.SoulboundItem) return;
             else orig(self);
         }
+
         private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
         {
             dragonMenuUI?.Update(gameTime);
             orig(self, gameTime);
         }
+
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
         {
             if (self.controlDown) self.GetModPlayer<StarlightPlayer>().platformTimer = 5;
@@ -150,10 +155,12 @@ namespace StarlightRiver
 
             orig(self);
         }
+
         private bool UpdateMatrixFirst(On.Terraria.Graphics.SpriteViewMatrix.orig_ShouldRebuild orig, SpriteViewMatrix self)
         {
             return Rotation != 0 ? false : orig(self);
         }
+
         private void PostDrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
             orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
@@ -166,6 +173,7 @@ namespace StarlightRiver
                     }
                 }
         }
+
         private void DrawKeys(On.Terraria.Main.orig_DrawItems orig, Main self)
         {
             foreach (Key key in StarlightWorld.Keys)
@@ -174,6 +182,7 @@ namespace StarlightRiver
             }
             orig(self);
         }
+
         public static Vector2 FindOffset(Vector2 basepos, float factor)
         {
             Vector2 origin = Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
@@ -184,6 +193,7 @@ namespace StarlightRiver
 
         internal static ParticleSystem.Update UpdateOvergrowWells => UpdateOvergrowWellsBody;
         internal ParticleSystem ForegroundSystem;
+
         private static void UpdateOvergrowWellsBody(Particle particle)
         {
             particle.Position.Y = particle.Velocity.Y * (600 - particle.Timer) + particle.StoredPosition.Y - Main.screenPosition.Y + (particle.StoredPosition.Y - Main.screenPosition.Y) * particle.Velocity.X * 0.5f;
@@ -193,6 +203,7 @@ namespace StarlightRiver
 
             particle.Timer--;
         }
+
         private void DrawForeground(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
             Main.spriteBatch.Begin();
@@ -294,7 +305,6 @@ namespace StarlightRiver
                             }
                             if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, -220, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(200, 70, 70) * 0.75f, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
                             break;
-
                     }
 
                     Main.spriteBatch.End();
@@ -311,13 +321,14 @@ namespace StarlightRiver
             }
             catch
             {
-
             }
         }*/
+
         private void DrawProto(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_refItem_int_Vector2_Color orig, SpriteBatch spriteBatch, ref Item inv, int context, Vector2 position, Color lightColor)
         {
             orig(spriteBatch, ref inv, context, position, lightColor);
         }
+
         private Texture2D VoidIcon(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_GetIcon orig, UIWorldListItem self)
         {
             /*FieldInfo datainfo = self.GetType().GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -339,6 +350,7 @@ namespace StarlightRiver
 
             return orig(self);
         }
+
         private void DrawBlackFade(On.Terraria.Main.orig_DrawUnderworldBackground orig, Main self, bool flat)
         {
             orig(self, flat);
@@ -352,6 +364,7 @@ namespace StarlightRiver
 
             Main.spriteBatch.Draw(tex, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), tex.Frame(), color);
         }
+
         private void DrawUnderwaterNPCs(On.Terraria.Main.orig_drawWaters orig, Main self, bool bg, int styleOverride, bool allowUpdate)
         {
             orig(self, bg, styleOverride, allowUpdate);
@@ -369,6 +382,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, UICharacterListItem self, SpriteBatch spriteBatch)
         {
             orig(self, spriteBatch);
@@ -430,19 +444,18 @@ namespace StarlightRiver
                 Utils.DrawBorderString(spriteBatch, "???", origin + new Vector2(212, 68), Color.White);
             }
 
-
             //Draw ability Icons
             for (int k = 0; k < textures.Count; k++)
             {
                 spriteBatch.Draw(textures[(textures.Count - 1) - k], origin + new Vector2(536 - k * 32, 62), Color.White);
             }
 
-
             if (player.statLifeMax > 400) //why vanilla dosent do this I dont know
             {
                 spriteBatch.Draw(Main.heart2Texture, origin + new Vector2(80, 37), Color.White);
             }
         }
+
         private void HandleSpecialItemInteractions(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
             if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is Blocker) && context == 10) return;
@@ -453,6 +466,7 @@ namespace StarlightRiver
 
             orig(inv, context, slot);
         }
+
         private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
         {
             Player player = Main.player[Main.myPlayer];
@@ -468,6 +482,7 @@ namespace StarlightRiver
             }
             orig(inv, context, slot);
         }
+
         private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Terraria.Item[] inv, int context, int slot, Vector2 position, Color color)
         {
             if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is BlessedAccessory) && context == 10)
@@ -496,6 +511,7 @@ namespace StarlightRiver
                 orig(sb, inv, context, slot, position, color);
             }
         }
+
         private static void RedrawItem(SpriteBatch sb, Item[] inv, Texture2D back, Vector2 position, int slot, Color color)
         {
             Item item = inv[slot];
@@ -519,6 +535,7 @@ namespace StarlightRiver
             }
             ItemLoader.PostDrawInInventory(item, sb, position2, rectangle2, item.GetAlpha(currentColor), item.GetColor(color), origin, num8 * scale3);
         }
-        #endregion
+
+        #endregion hooks
     }
 }

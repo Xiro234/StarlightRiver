@@ -93,7 +93,9 @@ namespace StarlightRiver.Core
         }
 
         public delegate void ResetEffectsDelegate(StarlightPlayer player);
+
         public static event ResetEffectsDelegate ResetEffectsEvent;
+
         public override void ResetEffects()
         {
             ResetEffectsEvent?.Invoke(this);
@@ -116,6 +118,7 @@ namespace StarlightRiver.Core
         }
 
         public override void PostUpdateEquips() => JustHit = false;
+
         public override void ModifyScreenPosition()
         {
             if (ScreenMoveTime > 0 && ScreenMoveTarget != Vector2.Zero)
@@ -144,6 +147,7 @@ namespace StarlightRiver.Core
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
         }
+
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;
@@ -156,7 +160,9 @@ namespace StarlightRiver.Core
             {
                 if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem) (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
             }
+
             #region armor masks
+
             Action<PlayerDrawInfo> helmetTarget = DrawHelmetMask;
             layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Head")) + 1, new PlayerLayer("SLRHelmet", "Helmet mask layer", helmetTarget));
 
@@ -165,7 +171,6 @@ namespace StarlightRiver.Core
 
             Action<PlayerDrawInfo> legTarget = DrawLegMask;
             layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Legs")) + 1, new PlayerLayer("SLRLeg", "Leg mask layer", legTarget));
-
 
             void DrawHelmetMask(PlayerDrawInfo info)
             {
@@ -182,7 +187,8 @@ namespace StarlightRiver.Core
                 if (info.drawPlayer.armor[12].IsAir && info.drawPlayer.armor[2].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[2].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
                 else if (info.drawPlayer.armor[12].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[12].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
             }
-            #endregion
+
+            #endregion armor masks
         }
 
         public override void OnEnterWorld(Player player)

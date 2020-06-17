@@ -3,6 +3,7 @@ using StarlightRiver.Abilities;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -32,7 +33,7 @@ namespace StarlightRiver.Projectiles.Dummies
 
             if (Main.player.Any(p => AbilityHelper.CheckWisp(p, projectile.Hitbox)) && hostTile.frameX == 0)
             {
-                for (int k = 0; k < 40; k++) Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1.2f, 1.4f));
+                for (int k = 0; k < 40; k++) Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1.2f, 1.4f));
 
                 for (int x = hostX; x <= hostX + 1; x++)
                     for (int y = hostY; y <= hostY + 1; y++)
@@ -42,7 +43,7 @@ namespace StarlightRiver.Projectiles.Dummies
             }
             projectile.timeLeft = 2;
 
-            if (hostTile.type != ModContent.TileType<Tiles.Overgrow.BulbFruit>())
+            if (hostTile.type != TileType<Tiles.Overgrow.BulbFruit>())
             {
                 projectile.timeLeft = 0;
             }

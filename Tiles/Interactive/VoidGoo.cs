@@ -38,5 +38,9 @@ namespace StarlightRiver.Tiles.Interactive
         }
     }
 
-    internal class VoidGooItem : QuickTileItem { public VoidGooItem() : base("Void Goo", "", TileType<VoidGoo>(), 0) { } }
+    internal class VoidGooItem : QuickTileItem {
+        public VoidGooItem() : base("Void Goo", "", TileType<VoidGoo>(), 0)
+        {
+        }
+    }
 }

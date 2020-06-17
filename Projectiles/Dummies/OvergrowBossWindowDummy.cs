@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -38,12 +39,12 @@ namespace StarlightRiver.Projectiles.Dummies
         public override void AI()
         {
             //Dust
-            if (npc.ai[0] > 0 && npc.ai[0] < 359) Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedByRandom(6.28f) * 412, ModContent.DustType<Dusts.Stone>());
+            if (npc.ai[0] > 0 && npc.ai[0] < 359) Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedByRandom(6.28f) * 412, DustType<Dusts.Stone>());
 
             if (Main.rand.Next(4) == 0 && npc.ai[0] >= 360)
             {
                 float rot = Main.rand.NextFloat(-1.5f, 1.5f);
-                Dust.NewDustPerfect(npc.Center + new Vector2(0, 1).RotatedBy(rot) * 500, ModContent.DustType<Dusts.Gold4>(), (new Vector2(0, 1).RotatedBy(rot) + new Vector2(0, 1.6f)) * (0.1f + Math.Abs(rot / 5f)), 0, default, 0.23f + Math.Abs(rot / 5f));
+                Dust.NewDustPerfect(npc.Center + new Vector2(0, 1).RotatedBy(rot) * 500, DustType<Dusts.Gold4>(), (new Vector2(0, 1).RotatedBy(rot) + new Vector2(0, 1.6f)) * (0.1f + Math.Abs(rot / 5f)), 0, default, 0.23f + Math.Abs(rot / 5f));
             }
 
             //Screenshake
@@ -81,14 +82,14 @@ namespace StarlightRiver.Projectiles.Dummies
                     Lighting.AddLight(npc.Center + new Vector2(-40, 550 + k * 10), new Vector3(1, 1, 0.7f) * bright);
                 }
             }
-            if (Main.player.Any(p => Vector2.Distance(p.Center, npc.Center) < 2000) && !Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>()) && !StarlightWorld.OvergrowBossFree)
+            if (Main.player.Any(p => Vector2.Distance(p.Center, npc.Center) < 2000) && !Main.npc.Any(n => n.active && n.type == NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>()) && !StarlightWorld.OvergrowBossFree)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 250, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>());
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 250, NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>());
 
-                NPC.NewNPC((int)npc.Center.X - 790, (int)npc.Center.Y + 450, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
-                NPC.NewNPC((int)npc.Center.X + 790, (int)npc.Center.Y + 450, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
-                NPC.NewNPC((int)npc.Center.X - 300, (int)npc.Center.Y + 600, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
-                NPC.NewNPC((int)npc.Center.X + 300, (int)npc.Center.Y + 600, ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
+                NPC.NewNPC((int)npc.Center.X - 790, (int)npc.Center.Y + 450, NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
+                NPC.NewNPC((int)npc.Center.X + 790, (int)npc.Center.Y + 450, NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
+                NPC.NewNPC((int)npc.Center.X - 300, (int)npc.Center.Y + 600, NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
+                NPC.NewNPC((int)npc.Center.X + 300, (int)npc.Center.Y + 600, NPCType<NPCs.Boss.OvergrowBoss.OvergrowBossAnchor>());
             }
 
             if (StarlightWorld.OvergrowBossOpen && npc.ai[0] <= 360) npc.ai[0]++;
@@ -99,8 +100,8 @@ namespace StarlightRiver.Projectiles.Dummies
             Vector2 pos = npc.Center;
             Vector2 dpos = pos - Main.screenPosition;
 
-            Texture2D frametex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowFrame");
-            Texture2D glasstex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/WindowGlass");
+            Texture2D frametex = GetTexture("StarlightRiver/Tiles/Overgrow/WindowFrame");
+            Texture2D glasstex = GetTexture("StarlightRiver/Tiles/Overgrow/WindowGlass");
 
             spriteBatch.Draw(glasstex, dpos, glasstex.Frame(), Color.White * 0.2f, 0, glasstex.Frame().Size() / 2, 1, 0, 0); //glass
 

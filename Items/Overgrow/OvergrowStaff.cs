@@ -1,6 +1,7 @@
 ﻿using StarlightRiver.Projectiles.WeaponProjectiles;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Overgrow
 {
@@ -23,7 +24,7 @@ namespace StarlightRiver.Items.Overgrow
             item.noMelee = true;
             item.knockBack = 4;
             item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<EntangleThorn>();
+            item.shoot = ProjectileType<EntangleThorn>();
             item.shootSpeed = 5;
         }
     }

@@ -32,7 +32,7 @@ namespace StarlightRiver.Abilities
             {
                 handler.StatStamina -= StaminaCost; //Consume the stamina
                                                     //if (dragon.DragonMounted) OnCastDragon(); //Do what the ability should do when it starts
-                                                    /*else*/
+                /*else*/
                 OnCast();
                 Active = true; //Ability is activated
 

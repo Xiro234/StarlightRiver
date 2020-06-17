@@ -3,6 +3,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
+
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     public class ShadowflameGrenade : ModProjectile
@@ -19,15 +21,18 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.extraUpdates = 2;
             projectile.ignoreWater = true;
         }
+
         public void spawnShadowflame(int angle)
         {
             Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.ToRadians((angle + Main.rand.Next(40) - 20)));
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ShadowflameTendril>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileType<ShadowflameTendril>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 200);
         }
+
         public void makeSpirals(int spiralCount, float length, float angleIntensity, float rotationOffset, Dust dust)
         {
             Vector2 cachedPos = dust.position;
@@ -49,6 +54,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             }
             dust.active = false;
         }
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item62, projectile.position);
@@ -60,6 +66,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             }
             //makeSpirals(5, 40, 0.04f + Main.rand.NextFloat(0.03f), Main.rand.NextFloat(6.28f), Dust.NewDustPerfect(projectile.Center, Main.rand.Next(59, 65), Vector2.Zero, 0, default, 4));
         }
+
         public override void AI()
         {
             if (projectile.timeLeft <= 565)
@@ -67,6 +74,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.velocity.Y += 0.04f;
             }
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shadowflame Grenade");

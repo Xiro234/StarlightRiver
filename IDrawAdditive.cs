@@ -2,7 +2,7 @@
 
 namespace StarlightRiver
 {
-    interface IDrawAdditive
+    internal interface IDrawAdditive
     {
         void DrawAdditive(SpriteBatch spriteBatch);
     }

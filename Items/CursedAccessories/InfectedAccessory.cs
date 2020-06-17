@@ -5,12 +5,16 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
     internal abstract class InfectedAccessory : SmartAccessory
     {
-        public InfectedAccessory() : base("Unnamed Infected Accessory", "you forgot to set a display name/tooltip dingus!") { }
+        public InfectedAccessory() : base("Unnamed Infected Accessory", "you forgot to set a display name/tooltip dingus!")
+        {
+        }
+
         public override bool CanEquipAccessory(Player player, int slot)
         {
             Main.NewText("Slot: " + slot, 255, 255, 0);
@@ -20,9 +24,9 @@ namespace StarlightRiver.Items.CursedAccessories
 
             Item blocker = new Item
             {
-                type = ModContent.ItemType<Blocker>()
+                type = ItemType<Blocker>()
             };
-            blocker.SetDefaults(ModContent.ItemType<Blocker>());
+            blocker.SetDefaults(ItemType<Blocker>());
             (blocker.modItem as Blocker).Parent = item;
             player.armor[slot - 1] = blocker;
             return true;
@@ -46,7 +50,7 @@ namespace StarlightRiver.Items.CursedAccessories
         {
             if (Main.LocalPlayer.armor.Any(n => n == item))
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/InfectedGoop");
+                Texture2D tex = GetTexture("StarlightRiver/GUI/Assets/InfectedGoop");
                 spriteBatch.Draw(tex, position + new Vector2(-10, -35), tex.Frame(), Color.White);
             }
 

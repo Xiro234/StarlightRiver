@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.StarJuice
 {
@@ -16,7 +17,7 @@ namespace StarlightRiver.Tiles.StarJuice
             Main.tileFrameImportant[Type] = true;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<SiphonEntity>().Hook_AfterPlacement, -1, 0, false);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(GetInstance<SiphonEntity>().Hook_AfterPlacement, -1, 0, false);
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.addTile(Type);
             dustType = DustID.Stone;
@@ -29,9 +30,9 @@ namespace StarlightRiver.Tiles.StarJuice
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Main.tile[i, j + 2].type == ModContent.TileType<CrystalBlock>() && Main.tile[i, j].frameY == 0)
+            if (Main.tile[i, j + 2].type == TileType<CrystalBlock>() && Main.tile[i, j].frameY == 0)
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/StarJuice/SiphonGlow");
+                Texture2D tex = GetTexture("StarlightRiver/Tiles/StarJuice/SiphonGlow");
                 spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16 + new Vector2(8, 12) - Main.screenPosition, tex.Frame(), Color.White * 0.8f, 0, tex.Frame().Size() / 2, 1.2f, 0, 0);
             }
         }
@@ -46,7 +47,7 @@ namespace StarlightRiver.Tiles.StarJuice
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.type == ModContent.TileType<Siphon>() && tile.active() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.type == TileType<Siphon>() && tile.active() && tile.frameX == 0 && tile.frameY == 0;
         }
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
@@ -70,12 +71,12 @@ namespace StarlightRiver.Tiles.StarJuice
                 {
                     for (int j = -6; j <= 6; j++)
                     {
-                        int index = ModContent.GetInstance<TankEntity>().Find(Position.X + i, Position.Y + j);
-                        if (index != -1) { tank = (TankEntity)TileEntity.ByID[index]; i = 7; j = 7; }
+                        int index = GetInstance<TankEntity>().Find(Position.X + i, Position.Y + j);
+                        if (index != -1) { tank = (TankEntity)ByID[index]; i = 7; j = 7; }
                     }
                 }
             }
-            else if (Main.tile[Position.X, Position.Y + 2].type == ModContent.TileType<CrystalBlock>() && tank.charge < tank.maxCharge)
+            else if (Main.tile[Position.X, Position.Y + 2].type == TileType<CrystalBlock>() && tank.charge < tank.maxCharge)
             {
                 Vector2 pos = Position.ToVector2() * 16 + Vector2.One * 8;
                 Vector2 tankpos = tank.Position.ToVector2() * 16 + new Vector2(24, -16);
@@ -83,7 +84,7 @@ namespace StarlightRiver.Tiles.StarJuice
                 timer++;
                 if (timer > 100 + variation)
                 {
-                    Dust.NewDustPerfect(Vector2.Lerp(pos, tankpos, (timer - (100 + variation)) / 20f), ModContent.DustType<Dusts.Starlight>());
+                    Dust.NewDustPerfect(Vector2.Lerp(pos, tankpos, (timer - (100 + variation)) / 20f), DustType<Dusts.Starlight>());
                 }
 
                 if (timer >= 120 + variation)
