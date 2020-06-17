@@ -23,6 +23,12 @@ namespace StarlightRiver.Items.Debug
         public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", ModContent.TileType<Tiles.Temple.TempleChestSimple>(), 0) { }
     }
 
+    public class DebugPlacer4 : QuickTileItem
+    {
+        public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
+        public DebugPlacer4() : base("Debug Placer 4", "Suck my huge dragon dong", ModContent.TileType<Tiles.Hell.HellChest>(), 0) { }
+    }
+
     public class DebugPotion : ModItem
     {
         public override void SetDefaults()

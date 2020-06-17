@@ -32,19 +32,6 @@ namespace StarlightRiver.Tiles.Temple
                 new Loot(ModContent.ItemType<Items.Herbology.IvySeeds>(), 4, 8)
             };
         }
-        public override void SetDefaults()
-        {
-            Main.tileLavaDeath[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-            TileObjectData.addTile(Type);
-            dustType = DustID.GoldCoin;
-            disableSmartCursor = true;
-
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Ancient Chest");
-            AddMapEntry(new Color(151, 151, 151), name);
-        }
-
+        public override void SafeSetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 2, DustID.GoldCoin, SoundID.Tink, false, new Color(151, 151, 151));
     }
 }

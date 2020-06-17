@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Items;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -23,7 +25,9 @@ namespace StarlightRiver.Tiles.Overgrow
         }
     }
 
-    public class WallOvergrowBrick : ModWall { public override void SetDefaults() { QuickBlock.QuickSetWall(this, ModContent.DustType<Dusts.Stone>(), SoundID.Tink, 0, false, new Color(62, 68, 55)); } }
+    public class WallOvergrowBrick : ModWall
+    { public override void SetDefaults() { QuickBlock.QuickSetWall(this, ModContent.DustType<Dusts.Stone>(), SoundID.Tink, 0, false, new Color(62, 68, 55)); } }
+
     public class WallOvergrowInvisible : ModWall
     {
         public override void SetDefaults()
@@ -32,4 +36,7 @@ namespace StarlightRiver.Tiles.Overgrow
             WallID.Sets.Transparent[Type] = true;
         }
     }
+
+    public class WallOvergrowBrickItem : QuickWallItem
+    { public WallOvergrowBrickItem() : base("Overgrow Brick Wall", "", WallType<WallOvergrowBrick>(), 0) { } }
 }
