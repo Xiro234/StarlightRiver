@@ -18,7 +18,7 @@ namespace StarlightRiver.Tiles.Vitric
             TileObjectData.newTile.RandomStyleRange = 4;
             TileObjectData.newTile.StyleHorizontal = true;
 
-            QuickBlock.QuickSetFurniture(this, 2, 2, DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
+            QuickBlock.QuickSetFurniture(this, 2, 2, DustType<Dusts.Glass3>(), SoundID.Shatter, false, new Color(172, 131, 105));
         }
     }
 
@@ -31,7 +31,7 @@ namespace StarlightRiver.Tiles.Vitric
             TileObjectData.newTile.RandomStyleRange = 6;
             TileObjectData.newTile.StyleHorizontal = true;
 
-            QuickBlock.QuickSetFurniture(this, 3, 2, DustType<Dusts.Glass>(), SoundID.Shatter, false, new Color(172, 131, 105));
+            QuickBlock.QuickSetFurniture(this, 3, 2, DustType<Dusts.Glass3>(), SoundID.Shatter, false, new Color(172, 131, 105));
         }
     }
 }
