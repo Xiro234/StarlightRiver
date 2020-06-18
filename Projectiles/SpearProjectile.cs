@@ -20,14 +20,13 @@ namespace StarlightRiver.Projectiles
             projectile.friendly = true;
             projectile.timeLeft = Duration;
             projectile.tileCollide = false;
-            projectile.velocity = Vector2.Normalize(projectile.velocity);
-
             SafeSetDefaults();
         }
         public sealed override void AI()
         {
             int realDuration = (int)(Duration * Main.player[projectile.owner].meleeSpeed);
             if (projectile.timeLeft == Duration) projectile.timeLeft = realDuration;
+            projectile.velocity = Vector2.Normalize(projectile.velocity);
 
             projectile.rotation = 3.14f + projectile.velocity.ToRotation() - 1.57f / 2;
             float progress = projectile.timeLeft > (realDuration / 2f) ? (realDuration - projectile.timeLeft) / (realDuration / 2f) : projectile.timeLeft / (realDuration / 2f);
