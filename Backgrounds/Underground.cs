@@ -1,71 +1,46 @@
 using Terraria;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Backgrounds
 {
     public class BlankBG : ModUgBgStyle
     {
-        public override bool ChooseBgStyle()
-        {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().GlassBG;
-        }
+        public override bool ChooseBgStyle() => StarlightWorld.VitricBiome.Intersects(new Rectangle((int)Main.screenPosition.X / 16, (int)Main.screenPosition.Y / 16, Main.screenWidth / 16, Main.screenHeight / 16));
 
         public override void FillTextureArray(int[] textureSlots)
         {
-            for (int k = 0; k <= 5; k++)
-            {
-                textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/Blank");
-            }
+            for (int k = 0; k <= 5; k++) textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/Blank");
         }
     }
 
     public class JungleCorruptBG : ModUgBgStyle
     {
-        public override bool ChooseBgStyle()
-        {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
-        }
+        public override bool ChooseBgStyle() => Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;
 
         public override void FillTextureArray(int[] textureSlots)
         {
-            for (int k = 0; k <= 5; k++)
-            {
-                textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            }
+            for (int k = 0; k <= 5; k++) textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
         }
     }
 
     public class JungleBloodyBG : ModUgBgStyle
     {
-        public override bool ChooseBgStyle()
-        {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody;
-        }
+        public override bool ChooseBgStyle() => Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody;
 
         public override void FillTextureArray(int[] textureSlots)
         {
-            for (int k = 0; k <= 5; k++)
-            {
-                textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/bloodyjunglebackground");
-            }
+            for (int k = 0; k <= 5; k++) textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/bloodyjunglebackground");
         }
     }
 
     public class JungleHolyBG : ModUgBgStyle
     {
-        public override bool ChooseBgStyle()
-        {
-            return Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly;
-        }
+        public override bool ChooseBgStyle() => Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly;
 
         public override void FillTextureArray(int[] textureSlots)
         {
-            textureSlots[0] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[1] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[2] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[3] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[4] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
-            textureSlots[5] = mod.GetBackgroundSlot("Backgrounds/corruptjunglebackground");
+            for (int k = 0; k <= 5; k++) textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/bloodyjunglebackground");
         }
     }
 }
