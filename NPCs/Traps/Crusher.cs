@@ -24,6 +24,7 @@ namespace StarlightRiver.NPCs.Traps
             npc.width = 160;
             npc.height = 10;
             npc.immortal = true;
+            npc.dontTakeDamage = true;
             npc.lifeMax = 1;
             npc.dontCountMe = true;
             npc.aiStyle = -1;
@@ -57,6 +58,18 @@ namespace StarlightRiver.NPCs.Traps
                     player.GetModPlayer<StarlightPlayer>().Shake = (250 - (int)Vector2.Distance(player.Center, npc.Center)) / 12;
                 }
                 npc.ai[1] = 1;
+            }
+        }
+
+        public override bool? CanHitNPC(NPC target) => true;
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (target.type == NPCID.Bunny)
+            {
+                damage *= 99;
+                crit = true;
+                for (int k = 0; k < 1000; k++) Dust.NewDustPerfect(target.Center, DustID.Blood, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(20), 0, default, 3);
             }
         }
 

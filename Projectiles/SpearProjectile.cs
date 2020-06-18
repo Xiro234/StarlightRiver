@@ -20,6 +20,7 @@ namespace StarlightRiver.Projectiles
             projectile.friendly = true;
             projectile.timeLeft = Duration;
             projectile.tileCollide = false;
+            projectile.velocity = Vector2.Normalize(projectile.velocity);
 
             SafeSetDefaults();
         }

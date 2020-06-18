@@ -29,13 +29,13 @@ namespace StarlightRiver.Items.Temple
             item.knockBack = 2;
             item.rare = ItemRarityID.Blue;
             item.shoot = ProjectileType<TempleSpearProjectile>();
-            item.shootSpeed = 4;
+            item.shootSpeed = 1;
             item.UseSound = SoundID.Item15;
         }
     }
     class TempleSpearProjectile : SpearProjectile
     {
-        public TempleSpearProjectile() : base(30, 7, 25) { }
+        public TempleSpearProjectile() : base(30, 25, 100) { }
         public override void PostAI()
         {
             //Dust effects
@@ -53,10 +53,7 @@ namespace StarlightRiver.Items.Temple
         {
             //inflicting debuff + light orbs on kill
             target.AddBuff(BuffType<Buffs.Illuminant>(), 600);
-            if (damage >= target.life)
-            {
-                Projectile.NewProjectile(target.Center, new Vector2(0, -1), ProjectileType<TempleSpearLight>(), 0, 0);
-            }
+            if (damage >= target.life) Projectile.NewProjectile(target.Center, new Vector2(0, -1), ProjectileType<TempleSpearLight>(), 0, 0);
         }
     }
     class TempleSpearLight : ModProjectile

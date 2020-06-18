@@ -21,6 +21,7 @@ namespace StarlightRiver.Items.Hell
             DisplayName.SetDefault("[PH] Magma Sword");
             Tooltip.SetDefault("Launches blobs of burning magma");
         }
+
         public override void SetDefaults()
         {
             item.melee = true;
@@ -30,6 +31,7 @@ namespace StarlightRiver.Items.Hell
             item.noUseGraphic = true;
             item.damage = 32;
             item.crit = 4;
+            item.knockBack = 0.5f;
             item.useTime = 45;
             item.useAnimation = 45;
             item.useStyle = ItemUseStyleID.SwingThrow;
@@ -73,6 +75,7 @@ namespace StarlightRiver.Items.Hell
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -141,6 +144,7 @@ namespace StarlightRiver.Items.Hell
             projectile.tileCollide = false;
             projectile.damage = 1;
         }
+
         public override void AI()
         {
             Tile tile = Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16];

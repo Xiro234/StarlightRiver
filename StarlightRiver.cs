@@ -55,7 +55,9 @@ namespace StarlightRiver
 
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
         public static StarlightRiver Instance { get; set; }
+
         public StarlightRiver() { Instance = this; }
+
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
