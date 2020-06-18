@@ -406,20 +406,20 @@ namespace StarlightRiver
                         if (type == 0)
                         {
                             if (validGround.Any(x => x == Main.tile[i, j].type) && Helper.CheckAirRectangle(new Point16(i, j - 1), new Point16(1, 1)))
-                                PlaceTile(i, j - 1, genRand.Next(2) == 0 ? TileType<VitricSmallCactus>() : TileType<VitricRock>());
+                                PlaceTile(i, j - 1, genRand.Next(2) == 0 ? TileType<VitricSmallCactus>() : TileType<VitricRock>(), false, false, -1, genRand.Next(4));
                         }
                         else if (type == 1)
                         {
                             if (validGround.Any(x => x == Main.tile[i, j].type) && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(2, 2)) && validGround.Any(x => x == Main.tile[i + 1, j].type))
-                                PlaceTile(i, j - 2, genRand.Next(2) == 0 ? TileType<VitricRoundCactus>() : TileType<VitricDecor>());
+                                PlaceTile(i, j - 2, genRand.Next(2) == 0 ? TileType<VitricRoundCactus>() : TileType<VitricDecor>(), false, false, -1, genRand.Next(4));
                         }
                         else if (type == 2)
                         {
                             bool vGround = true;
                             for (int k = 0; k < 3; ++k)
 
-                            if (!Main.tile[i + k, j].active() || !validGround.Any(x => x == Main.tile[i + k, j].type)) vGround = false;
-                            if (vGround && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(3, 2))) PlaceTile(i, j - 2, TileType<VitricDecorLarge>());
+                                if (!Main.tile[i + k, j].active() || !validGround.Any(x => x == Main.tile[i + k, j].type)) vGround = false;
+                            if (vGround && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(3, 2))) PlaceTile(i, j - 2, TileType<VitricDecorLarge>(), true, false, -1, genRand.Next(6));
                         }
                     }
                 }
