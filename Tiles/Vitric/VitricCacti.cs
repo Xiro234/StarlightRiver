@@ -37,4 +37,12 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Vitric.VitricOre>(), 1);
     }
+
+    public class VitricCactus : ModCactus
+    {
+        public override Texture2D GetTexture()
+        {
+            return ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricCactus");
+        }
+    }
 }

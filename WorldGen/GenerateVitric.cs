@@ -19,11 +19,8 @@ namespace StarlightRiver
         {
             int vitricHeight = 140;
             Rectangle biomeTarget = new Rectangle(UndergroundDesertLocation.X - 80, UndergroundDesertLocation.Y + UndergroundDesertLocation.Height, UndergroundDesertLocation.Width + 160, vitricHeight);
-
             VitricBiome = biomeTarget;
-
             StarlightWorld.VitricBiome = biomeTarget;
-
 
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++)
             {
@@ -263,7 +260,7 @@ namespace StarlightRiver
             int minFloorDepth = (int)(biomeTarget.Y + (13f * Math.Log(VitricSlopeOffset - 8))) + (biomeTarget.Height / 2);
             int maxFloorDepth = (int)(biomeTarget.Y + (13f * Math.Log(VitricSlopeOffset - 30))) + (biomeTarget.Height / 2);
 
-            //0 is the top of the biome, 1 is the bottom of the top layer of sand, 2 is the top of the bottom layer of sand, and 3 is the bottom of the bottom layer of sand
+            //(VitricLayer.Top - 0) Top of the biome, (VitricLayer.TopLow - 1) bottom of the top layer of sand, top of the bottom layer of sand (VitricLayer.BottomHigh), and 3 is the bottom of the bottom layer of sand (VitricLayer.Bottom)
             int[] layers = new int[4] { biomeTarget.Y, biomeTarget.Y + biomeTarget.Height / 2, biomeTarget.Y + biomeTarget.Height / 2, biomeTarget.Y + biomeTarget.Height };
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++)
             {
@@ -420,8 +417,8 @@ namespace StarlightRiver
                         {
                             bool vGround = true;
                             for (int k = 0; k < 3; ++k)
-                                if (!Main.tile[i + k, j].active() || !validGround.Any(x => x == Main.tile[i + k, j].type)) vGround = false;
 
+                            if (!Main.tile[i + k, j].active() || !validGround.Any(x => x == Main.tile[i + k, j].type)) vGround = false;
                             if (vGround && Helper.CheckAirRectangle(new Point16(i, j - 2), new Point16(3, 2))) PlaceTile(i, j - 2, TileType<VitricDecorLarge>());
                         }
                     }
@@ -433,6 +430,14 @@ namespace StarlightRiver
                 PlaceTile(biomeTarget.X + biomeTarget.Width / 2 - 40, y, TileType<VitricBossBarrier>(), false, false);
                 PlaceTile(biomeTarget.X + biomeTarget.Width / 2 + 41, y, TileType<VitricBossBarrier>(), false, false);
             }
+        }
+
+        private enum VitricLayer : int
+        {
+            Top = 0,
+            TopLow,
+            BottomHigh,
+            Bottom
         }
 
         private static void CreateIsland(int rX, int rY)
