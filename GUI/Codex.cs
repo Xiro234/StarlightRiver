@@ -26,7 +26,7 @@ namespace StarlightRiver.GUI
         private readonly UIScrollbar EntryScroll = new UIScrollbar();
         public override void OnInitialize()
         {
-            AddElement(BookButton, 300, 100, 26, 32, this);
+            AddElement(BookButton, 570, 240, 26, 32, this);
             BookButton.OnClick += OpenCodex;
             BookButton.SetVisibility(1, 1);
 
@@ -93,7 +93,6 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            AddElement(BookButton, 570, 240, 26, 32, this);
             CodexHandler player = Main.LocalPlayer.GetModPlayer<CodexHandler>();
 
             switch (player.CodexState)
