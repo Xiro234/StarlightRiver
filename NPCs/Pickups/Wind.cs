@@ -90,6 +90,7 @@ namespace StarlightRiver.NPCs.Pickups
 
                 StarlightRiver.Instance.textcard.Display("Forbidden Winds", message, Main.LocalPlayer.GetModPlayer<AbilityHandler>().dash);
                 Helper.UnlockEntry<WindsEntry>(Main.LocalPlayer);
+                Helper.UnlockEntry<StaminaEntry>(Main.LocalPlayer);
             }
             // audio fade shenanigans
 

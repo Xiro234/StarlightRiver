@@ -36,6 +36,8 @@ namespace StarlightRiver
 
         public static bool SealOpen = false;
 
+        public static float Chungus = 0;
+
         //Voidsmith
         public static int[] NPCUpgrades = new int[] { 0, 0 };
 
@@ -155,7 +157,9 @@ namespace StarlightRiver
                 [nameof(BookSP)] = BookSP,
                 [nameof(DashSP)] = DashSP,
 
-                [nameof(RiftLocation)] = RiftLocation
+                [nameof(RiftLocation)] = RiftLocation,
+
+                ["Chungus"] = Chungus
             };
         }
 
@@ -187,6 +191,8 @@ namespace StarlightRiver
             DashSP = tag.Get<Vector2>(nameof(DashSP));
 
             RiftLocation = tag.Get<Vector2>(nameof(RiftLocation));
+
+            Chungus = Main.rand.NextFloat();
 
             for (int k = 0; k <= PureTiles.Count - 1; k++)
             {

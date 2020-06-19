@@ -386,6 +386,18 @@ namespace StarlightRiver
             }
             return item;
         }
+
+        public static Player FindNearestPlayer(Vector2 position)
+        {
+            Player player = null;
+
+            for(int k = 0; k < Main.maxPlayers; k++)
+            {
+                if (Main.player[k] != null && Main.player[k].active && (player == null || Vector2.DistanceSquared(position, Main.player[k].Center) < Vector2.DistanceSquared(position, player.Center)))
+                    player = Main.player[k];
+            }
+            return player;
+        }
     }
 }
 
