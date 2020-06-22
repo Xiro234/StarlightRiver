@@ -26,6 +26,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private int ScaleMult = 2;
         private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
         private int dustType = ModContent.DustType<Dusts.Stamina>();
+        private bool empowered = false;
 
 
         public override void SetDefaults()
@@ -46,16 +47,20 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void AI()
         {
             Player projOwner = Main.player[projectile.owner];
-            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
 
             projectile.rotation += 0.3f;
 
-            if (projectile.timeLeft == 1200 && mp.Empowered)
+            if (projectile.timeLeft == 1200)
             {
-                projectile.frame = 1;
-                lightColor = new Vector3(0.1f, 0.2f, 0.4f);
-                ScaleMult = 3;
-                dustType = ModContent.DustType<Dusts.BlueStamina>();
+                StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
+                if (mp.Empowered)
+                {
+                    projectile.frame = 1;
+                    lightColor = new Vector3(0.1f, 0.2f, 0.4f);
+                    ScaleMult = 3;
+                    dustType = ModContent.DustType<Dusts.BlueStamina>();
+                    empowered = true;
+                }
             }
 
             Lighting.AddLight(projectile.Center, lightColor * 0.5f);
@@ -63,7 +68,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             switch (projectile.ai[0])
             {
                 case 0://flying outward
-                    if (mp.Empowered)
+                    if (empowered)
                     {
                         projectile.velocity += Vector2.Normalize(Main.MouseWorld - projectile.Center);
                         if (projectile.velocity.Length() > 10)//swap this for shootspeed or something
@@ -149,12 +154,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void ModifyHitNPC(NPC target,ref int damage,ref float knockback,ref bool crit,ref int hitDirection)
         {
-            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
             if (projectile.ai[0] == 1)
             {
                 if(projectile.ai[1] >= maxChargeTime - 3 && projectile.ai[1] <= maxChargeTime + 3)
                 {
-                    if (mp.Empowered)
+                    if (empowered)
                     {
                         damage *= ScaleMult;
                         knockback *= ScaleMult;
@@ -171,7 +175,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     knockback *= 0.1f;
                 }
             }
-            else if (mp.Empowered)
+            else if (empowered)
             {
                 damage += 3;
             }

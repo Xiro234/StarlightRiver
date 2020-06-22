@@ -14,14 +14,15 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             DisplayName.SetDefault("Shooting Star");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;   
-            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         //These stats get scaled when empowered
-        private int ScaleMult = 1;
+        private float ScaleMult = 1;
         private Color glowColor = new Color(255, 220, 200, 150);
         private Vector3 lightColor = new Vector3(0.2f, 0.1f, 0.05f);
         private int dustType = ModContent.DustType<Dusts.Stamina>();
+        private bool empowered;
 
 
         public override void SetDefaults()
@@ -31,7 +32,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.width = 22;
             projectile.height = 24;
             projectile.friendly = true;
-            projectile.penetrate = 1;
+            projectile.penetrate = 2;
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
             projectile.aiStyle = -1;
@@ -41,19 +42,21 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void AI()
         {
-            Player projOwner = Main.player[projectile.owner];
-            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
-
             projectile.rotation += 0.2f;
 
-            if (projectile.timeLeft == 600 && mp.Empowered)
+            if (projectile.timeLeft == 600)
             {
-                projectile.frame = 1;
-                glowColor = new Color(220, 200, 255, 150);
-                lightColor = new Vector3(0.05f, 0.1f, 0.2f);
-                ScaleMult = 2;
-                dustType = ModContent.DustType<Dusts.BlueStamina>();
-                projectile.velocity *= 1.2f;
+                StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
+                if (mp.Empowered)
+                {
+                    projectile.frame = 1;
+                    glowColor = new Color(220, 200, 255, 150);
+                    lightColor = new Vector3(0.05f, 0.1f, 0.2f);
+                    ScaleMult = 1.5f;
+                    dustType = ModContent.DustType<Dusts.BlueStamina>();
+                    projectile.velocity *= 1.35f;
+                    empowered = true;
+                }
             }
             Lighting.AddLight(projectile.Center, lightColor);
             if(projectile.velocity.Y < 50)
@@ -65,7 +68,19 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void ModifyHitNPC(NPC target,ref int damage,ref float knockback,ref bool crit,ref int hitDirection)
         {
-            damage *= ScaleMult;
+            if (empowered)
+            {
+                damage += 5;
+                if (projectile.penetrate <= 1)
+                {
+                    for (int k = 0; k < 4; k++)
+                    {
+                        Main.NewText(k);
+                        Projectile.NewProjectile(projectile.position, projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.25f, 0.25f)) * Main.rand.NextFloat(0.5f, 0.8f), ModContent.ProjectileType<WeaponProjectiles.StarwoodSlingshotFragment>(), damage / 2, knockback, projectile.owner, Main.rand.Next(2));
+
+                    }
+                }
+            }
         }
 
         public override void Kill(int timeLeft)
@@ -81,20 +96,16 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
-
             Texture2D tex = ModContent.GetTexture(Texture);
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, mp.Empowered ? 22 : 0, 22, 24), Color.White, projectile.rotation, new Vector2(11, 12), projectile.scale, default, default);
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, empowered ? 24 : 0, 22, 24), Color.White, projectile.rotation, new Vector2(11, 12), projectile.scale, default, default);
             return false;
         }
 
         public void DrawAdditive(SpriteBatch spriteBatch)
         {
-            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
-
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
-                Color color = (mp.Empowered ? new Color(200, 220, 255) * 0.35f : new Color(255, 255, 200) * 0.3f) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                Color color = (empowered ? new Color(200, 220, 255) * 0.35f : new Color(255, 255, 200) * 0.3f) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
                 if (k <= 4) color *= 1.2f;
                 float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.8f;
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
@@ -102,5 +113,60 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
             }
         }
+    }
+
+    class StarwoodSlingshotFragment : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Star Fragment");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+        }
+
+        public override void SetDefaults()
+        {
+            projectile.timeLeft = 9;
+            projectile.width = 12;
+            projectile.height = 10;
+            projectile.friendly = true;
+            projectile.penetrate = 2;
+            projectile.tileCollide = true;
+            projectile.ignoreWater = false;
+            projectile.aiStyle = -1;
+            projectile.rotation = Main.rand.NextFloat(4f);
+        }
+        public override void AI()
+        {
+            projectile.rotation += 0.3f;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                Dust.NewDustPerfect(projectile.position, ModContent.DustType<Dusts.StarFragment>(), projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.2f, 0.2f)) * Main.rand.NextFloat(0.3f, 0.5f), 0, Color.White, 1.5f);
+            }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D tex = ModContent.GetTexture(Texture);
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, projectile.ai[0] > 0 ? 10 : 0, 12, 10), Color.White, projectile.rotation, new Vector2(6, 5), projectile.scale, default, default);
+            return false;
+        }
+
+        //public void DrawAdditive(SpriteBatch spriteBatch)
+        //{
+        //    for (int k = 0; k < projectile.oldPos.Length; k++)
+        //    {
+        //        Color color = (new Color(200, 220, 255, 220) * 0.35f * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length));
+        //        if (k <= 4) color *= 1.2f;
+        //        float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.4f;
+        //        Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
+
+        //        spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
+        //    }
+        //}
     }
 }

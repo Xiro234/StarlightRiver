@@ -22,8 +22,8 @@ namespace StarlightRiver.Items
             item.magic = true;
             item.width = 18;
             item.height = 34;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 25;
+            item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item19;
