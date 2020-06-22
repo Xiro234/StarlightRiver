@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -34,7 +29,30 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 
             if(relTimer < 60) npc.velocity = Vector2.Normalize(npc.Center - moveTarget) * (-0.1f * (60 - relTimer));
 
-            if (AttackTimer >= 179) ResetAttack();
+            if (AttackTimer >= 239) ResetAttack();
+        }
+
+        private void CastOrb()
+        {
+            if(AttackTimer == 1)
+            {
+                moveStart = npc.Center;
+                npc.TargetClosest();
+                moveTarget = spawnPos + new Vector2(Main.player[npc.target].Center.X > spawnPos.X ? -250 : 250, 20);
+            }
+
+            if(AttackTimer <= 60)
+            {
+                npc.Center = Vector2.SmoothStep(moveStart, moveTarget, AttackTimer / 60f);
+            }
+
+            if(AttackTimer == 120)
+            {
+                int i = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<WeaverOrb>());
+                Main.npc[i].velocity = Vector2.UnitX * (npc.Center.X > spawnPos.X ? -3 : 3);
+            }
+
+            if (AttackTimer >= 240) ResetAttack();
         }
 
         private void MoltenSwords()

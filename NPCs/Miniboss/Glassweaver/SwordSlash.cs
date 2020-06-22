@@ -38,8 +38,8 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
                 Player player = Main.player[k];
                 if (player.active && player.itemAnimation > 0 && player.HeldItem.GetGlobalItem<StarlightItem>().meleeHitbox.Intersects(projectile.Hitbox))
                 {
-                    parent.ai[3] = (int)GlassMiniboss.AttackState.Recoil;
-                    parent.ai[2] = 2;
+                    parent.ai[2] = (int)GlassMiniboss.AttackState.Recoil;
+                    parent.ai[3] = 2;
                     parent.velocity = Vector2.Normalize(parent.Center - player.Center) * 5;
 
                     for (int m = 0; m < 100; m++) Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Glass3>());

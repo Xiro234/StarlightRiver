@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
         internal ref float AttackPhase => ref npc.ai[2];
         internal ref float AttackTimer => ref npc.ai[3];
 
+        Vector2 spawnPos;
+
         public enum PhaseEnum
         {
             SpawnEffects = 0,
@@ -29,10 +32,9 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
         {
             CastSwords = 0,
             SwordSlash = 1,
-            Recoil = 2
+            CastOrb = 2,
+            Recoil = 3
         }
-
-        public override string Texture => "StarlightRiver/MarioCumming";
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Glassweaver");
 
@@ -47,6 +49,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             npc.knockBackResist = 0;
             npc.boss = true;
             npc.defense = 14;
+            npc.noTileCollide = true;
         }
 
         public override void AI()
@@ -58,6 +61,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             {
                 case (int)PhaseEnum.SpawnEffects:
 
+                    spawnPos = npc.Center;
                     SetPhase(PhaseEnum.SpawnAnimation);
 
                     break;
@@ -73,13 +77,14 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
                     if(AttackTimer == 1)
                     {
                         AttackPhase++;
-                        if (AttackPhase > 1) AttackPhase = 1;
+                        if (AttackPhase > 2) AttackPhase = 0;
                     }
 
                     switch (AttackPhase)
                     {
                         case (int)AttackState.CastSwords: CastSwords(); break;
                         case (int)AttackState.SwordSlash: SwingSword(); break;
+                        case (int)AttackState.CastOrb: CastOrb(); break;
                         case (int)AttackState.Recoil: Recoil(); break;
                     }
 

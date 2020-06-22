@@ -16,103 +16,91 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
     {
         private void Phase1Spin()
         {
-            if (npc.ai[3] <= 60)
-            {
-                npc.Center = Vector2.SmoothStep(npc.Center, spawnPoint, npc.ai[3] / 60f);
-                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, spawnPoint, npc.ai[3] / 60f);
-                if (npc.Center == spawnPoint) npc.ai[3] = 61;
-            }
-            if (npc.ai[3] == 61)
+            if (AttackTimer <= 60) flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, AttackTimer / 60f);
+
+            if (AttackTimer == 61)
             {
                 npc.TargetClosest();
                 targetPoint = Main.player[npc.target].Center;
                 Main.NewText(targetPoint);
             }
+
             float size = Vector2.Distance(targetPoint, npc.Center);
             if (size > 400) size = 400;
-            //Main.NewText(size);
 
-            if (npc.ai[3] <= 120)
-                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, (npc.ai[3] - 60) / 40);
-
-            if (npc.ai[3] > 120 && npc.ai[3] <= 160)
-                flail.npc.Center = Vector2.SmoothStep(npc.Center, npc.Center + new Vector2(0, size), (npc.ai[3] - 120) / 40f);
-
-            if (npc.ai[3] > 160 && npc.ai[3] <= 280)
+            if(AttackTimer > 61)
             {
-                int x = (int)npc.ai[3] - 160;
-                float rot = 0.314f * -0.042f * x + 0.003f * (float)Math.Pow(x, 2) - 0.00002f * (float)Math.Pow(x, 3);
-                //function to model the desired rotation, thanks wolfram alpha :3
-                flail.npc.Center = npc.Center + new Vector2(0, 1).RotatedBy(rot) * size;
+                //following in X direction only
+                Player player = Main.player[npc.target];
 
-                if (npc.ai[3] > 165 && npc.ai[3] < 250)
-                {
-                    for (int k = 0; k < 3; k++)
-                        Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, DustType<Dusts.Gold2>());
-                    for (int k = 0; k < 8; k++)
-                        Dust.NewDustPerfect(Vector2.Lerp(flail.npc.Center, flail.npc.oldPosition + flail.npc.Size / 2, k / 8f), DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * 0.5f);
-                }
-            }
-            if (npc.ai[3] == 280)
-            {
-                flail.npc.velocity = flail.npc.position - flail.npc.oldPosition;
-                flail.npc.velocity.X *= 0.2f;
-            }
-            if (npc.ai[3] > 280 && npc.ai[3] <= 450)
-            {
-                if (Vector2.Distance(flail.npc.Center, npc.Center) < size) flail.npc.velocity.Y += 0.8f;
-                else
-                {
-                    float cos = (float)Math.Cos((npc.Center - flail.npc.Center).ToRotation());
-                    flail.npc.velocity.X += flail.npc.velocity.Y * cos;
-                    flail.npc.velocity.Y *= -0.1f;
-                }
+                if (player.Center.X > npc.Center.X) npc.velocity.X += 0.2f;
+                else npc.velocity.X -= 0.2f;
 
-                flail.npc.velocity.X += (npc.Center.X - flail.npc.Center.X) * 0.01f;
-                flail.npc.velocity *= 0.96f;
+                if (npc.velocity.LengthSquared() > 16) npc.velocity = Vector2.Normalize(npc.velocity) * 4;
+
+                //movement of the flail
+                float progress = 0;
+                if (AttackTimer < 180) progress = (AttackTimer - 60) / 120f;
+                if (AttackTimer >= 180 && AttackTimer < 400) progress = 1;
+                if (AttackTimer >= 400) progress = (60 - (AttackTimer - 400)) / 60f;
+
+                float rot = 3.14f + (AttackTimer - 60) / 400f * 6.28f * 6;
+                Vector2 target = Vector2.SmoothStep(npc.Center, npc.Center + Vector2.UnitY.RotatedBy(rot) * size, progress);
+                flail.npc.Center = target;
+
+                //dust
+                for (int k = 0; k < 3; k++) Dust.NewDust(flail.npc.position, flail.npc.width, flail.npc.height, DustType<Dusts.Gold2>());
+                for (int k = 0; k < 8; k++) Dust.NewDustPerfect(Vector2.Lerp(flail.npc.Center, flail.npc.oldPosition + flail.npc.Size / 2, k / 8f), DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * 0.5f);
             }
-            if (npc.ai[3] == 451) ResetAttack();
+
+            if(AttackTimer > 400) //deceleration
+            {
+                float length = 4 - (AttackTimer - 400) / 90f * 4;
+                if (npc.velocity.LengthSquared() > length * length) npc.velocity = Vector2.Normalize(npc.velocity) * length;
+            }
+
+            if (AttackTimer >= 490) ResetAttack();
         }
 
         private void Phase1Pendulum()
         {
-            if (npc.ai[3] > 1 && npc.ai[3] <= 60)
+            if (AttackTimer > 1 && AttackTimer <= 60)
             {
-                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, npc.ai[3] / 60f);
+                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, AttackTimer / 60f);
             }
 
-            if (npc.ai[3] == 60) targetPoint = Main.player[npc.target].Center;
+            if (AttackTimer == 60) targetPoint = Main.player[npc.target].Center;
             int direction = -Math.Sign(targetPoint.X - spawnPoint.X);
 
-            if (npc.ai[3] > 60 && npc.ai[3] <= 90)
+            if (AttackTimer > 60 && AttackTimer <= 90)
             {
                 if (targetPoint.Y > npc.Center.Y)
                 {
-                    flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, targetPoint.Y - npc.Center.Y), (npc.ai[3] - 60) / 30f);
+                    flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, targetPoint.Y - npc.Center.Y), (AttackTimer - 60) / 30f);
                 }
                 else
                 {
-                    flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, 150), (npc.ai[3] - 60) / 30f);
+                    flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, 150), (AttackTimer - 60) / 30f);
                 }
             }
-            if (npc.ai[3] > 90 && npc.ai[3] <= 160)
+            if (AttackTimer > 90 && AttackTimer <= 160)
             {
-                npc.Center = Vector2.SmoothStep(npc.Center, spawnPoint + new Vector2((500) * -direction, 0), (npc.ai[3] - 90) / 70f);
-                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, spawnPoint + new Vector2((500) * -direction, flail.npc.Center.Y - npc.Center.Y), (npc.ai[3] - 90) / 60f);
+                npc.Center = Vector2.SmoothStep(npc.Center, spawnPoint + new Vector2((500) * -direction, 0), (AttackTimer - 90) / 70f);
+                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, spawnPoint + new Vector2((500) * -direction, flail.npc.Center.Y - npc.Center.Y), (AttackTimer - 90) / 60f);
             }
-            if (npc.ai[3] == 210) ResetAttack();
+            if (AttackTimer == 210) ResetAttack();
         }
 
         private void Phase1Bolts()
         {
             Vector2 handpos = npc.Center; //used as a basepoint for this attack to match the animation
 
-            if (npc.ai[3] <= 30)
+            if (AttackTimer <= 30)
             {
                 float rot = Main.rand.NextFloat(6.28f); //random rotation for the dust
                 Dust.NewDustPerfect(handpos + Vector2.One.RotatedBy(rot) * 50, DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 2); //"suck in" charging effect
             }
-            if (npc.ai[3] == 30)
+            if (AttackTimer == 30)
             {
                 RandomTarget(); //pick a random target
                 if (Main.player[npc.target] == null) //safety check
@@ -121,43 +109,51 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     return;
                 }
             }
-            if (npc.ai[3] == 60) targetPoint = Main.player[npc.target].Center;
-            if (npc.ai[3] >= 60 && npc.ai[3] <= 120 && npc.ai[3] % 30 == 0) //3 rounds of projectiles
+            if (AttackTimer == 60) targetPoint = Main.player[npc.target].Center;
+            if (AttackTimer >= 60 && AttackTimer <= 120 && AttackTimer % 30 == 0) //3 rounds of projectiles
             {
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ProjectileLaunch1"), npc.Center);
                 for (float k = -0.6f; k <= 0.6f; k += 0.3f) //5 projectiles in even spread
                 {
-                    Vector2 trajectory = Vector2.Normalize(targetPoint - handpos).RotatedBy(k + (npc.ai[3] == 90 ? 0.15f : 0)) * 1.6f; //towards the target, alternates on the second round
+                    Vector2 trajectory = Vector2.Normalize(targetPoint - handpos).RotatedBy(k + (AttackTimer == 90 ? 0.15f : 0)) * 1.6f; //towards the target, alternates on the second round
                     Projectile.NewProjectile(handpos, trajectory, ProjectileType<OvergrowBossProjectile.Phase1Bolt>(), 20, 0.2f);
                 }
             }
-            if (npc.ai[3] == 200) ResetAttack();
+            if (AttackTimer == 200) ResetAttack();
         }
 
         private void Phase1Toss()
         {
-            if (npc.ai[3] <= 60)
-                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, npc.ai[3] / 50);
-            if (npc.ai[3] == 60)
+            if (AttackTimer <= 60) flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, AttackTimer / 60);
+
+            if (AttackTimer == 60)
             {
                 npc.TargetClosest();
+                if (Main.player[npc.target] == null) { ResetAttack(); return; } //safety check
+
                 targetPoint = Main.player[npc.target].Center + Main.player[npc.target].velocity * 30; //sets the target to the closest player
-                if (Vector2.Distance(Main.player[npc.target].Center, targetPoint) > 300) targetPoint = Main.player[npc.target].Center + Vector2.Normalize(Main.player[npc.target].Center + targetPoint) * 300; //clamp to 3d00 pixels away
+
+                if (Vector2.Distance(Main.player[npc.target].Center, targetPoint) > 300)
+                    targetPoint = Main.player[npc.target].Center + Vector2.Normalize(Main.player[npc.target].Center + targetPoint) * 300; //clamp to 300 pixels away
             }
 
-            if (Main.player[npc.target] == null && npc.ai[3] == 60) ResetAttack(); //defensive programminginging!!
+            Vector2 trajectory = -Vector2.Normalize(flail.npc.Center - targetPoint); //boss' toss direction
 
-            Vector2 trajectory = -Vector2.Normalize(npc.Center - targetPoint); //boss' toss direction
-            if (npc.ai[3] > 60 && npc.ai[3] < 120)
+            if (AttackTimer > 60 && AttackTimer < 120)
             {
-                flail.npc.Center = Vector2.Lerp(npc.Center, npc.Center + trajectory * -20, (npc.ai[3] - 60) / 120f); //pull it back
+                float time = AttackTimer - 60; 
+                float rot = 0.418667f * time - 0.00348889f * (float)Math.Pow(time, 2); //quadratic regression of {0, 0}, {60, 12.56}, {120, 0} over the range [0, 60]
+
+                flail.npc.Center = npc.Center + -Vector2.UnitY.RotatedBy(rot) * (AttackTimer - 60) * 1.8f; //spinup animation
             }
-            if (npc.ai[3] == 120) flail.npc.velocity = trajectory * 20;
+
+            if (AttackTimer >= 120 && AttackTimer < 130) flail.npc.velocity += trajectory * 2; //accelerate the flail towards it's intended path
+
             if ((flail.npc.velocity.Y == 0 || flail.npc.velocity.X == 0 || Main.tile[(int)flail.npc.Center.X / 16, (int)flail.npc.Center.Y / 16 + 1].collisionType == 1) && !(flail.npc.velocity.Y == 0 && flail.npc.velocity.X == 0)) //hit the ground
             {
                 //updates
                 flail.npc.velocity *= 0;
-                npc.ai[3] = 180;
+                AttackTimer = 180;
 
                 //visuals
                 for (int k = 0; k < 50; k++)
@@ -172,22 +168,23 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                 //screenshake
                 int distance = (int)Vector2.Distance(Main.LocalPlayer.Center, flail.npc.Center);
-                Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += distance < 100 ? distance / 20 : 5;
+                Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += distance < 500 ? (500 - distance) / 15 : 20;
             }
 
-            if (npc.ai[3] == 240) ResetAttack();
+            if (AttackTimer == 200) ResetAttack();
         }
 
         private void DrawTossTell(SpriteBatch sb)
         {
-            float glow = npc.ai[3] > 90 ? (1 - (npc.ai[3] - 90) / 30f) : ((npc.ai[3] - 60) / 30f);
+            float glow = AttackTimer > 90 ? (1 - (AttackTimer - 90) / 30f) : ((AttackTimer - 60) / 30f);
             Color color = new Color(255, 70, 70) * glow;
             Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
             sb.End();
             sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
             for (float k = 0; 1 == 1; k++)
             {
-                Vector2 point = Vector2.Lerp(npc.Center, npc.Center + Vector2.Normalize(targetPoint - npc.Center) * tex.Frame().Width, k);
+                Vector2 start = npc.Center;
+                Vector2 point = Vector2.Lerp(start, start + Vector2.Normalize(targetPoint - npc.Center) * tex.Frame().Width, k);
                 sb.Draw(tex, point - Main.screenPosition, tex.Frame(), color, (targetPoint - npc.Center).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
 
                 if (!WorldGen.InWorld((int)point.X / 16, (int)point.Y / 16)) break;
@@ -200,13 +197,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         private void Phase1Trap()
         {
-            Main.NewText(npc.ai[3]);
-            if (npc.ai[3] == 1)
+            if (AttackTimer == 1)
             {
                 RandomTarget();
                 targetPoint = Main.player[npc.target].Center + new Vector2(0, -50);
             }
-            if (npc.ai[3] == 90)
+            if (AttackTimer == 90)
             {
                 foreach (Player player in Main.player.Where(p => p.active && Helper.CheckCircularCollision(targetPoint, 100, p.Hitbox))) //circular collision
                 {
@@ -222,50 +218,47 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     if (Main.rand.Next(4) == 0) Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * Main.rand.Next(100), DustType<Dusts.Leaf>());
                 }
             }
-            if (npc.ai[3] >= 180) ResetAttack();
+            if (AttackTimer >= 180) ResetAttack();
         }
 
         private void DrawTrapTell(SpriteBatch sb)
         {
-            float glow = npc.ai[3] > 45 ? (1 - (npc.ai[3] - 45) / 45f) : ((npc.ai[3]) / 45f);
+            float glow = AttackTimer > 45 ? (1 - (AttackTimer - 45) / 45f) : ((AttackTimer) / 45f);
             Color color = new Color(255, 40, 40) * glow;
             Texture2D tex = GetTexture("StarlightRiver/Gores/TellCircle");
-            sb.End();
-            sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
 
-            if (npc.ai[3] <= 90) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), color, 0, tex.Frame().Size() / 2, 2, 0, 0);
-            else if (npc.ai[3] <= 100) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), new Color(255, 200, 30) * (1 - (npc.ai[3] - 90) / 10f), 0, tex.Frame().Size() / 2, 2, 0, 0);
-
-            sb.End();
-            sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
+            if (AttackTimer <= 90) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), color, 0, tex.Frame().Size() / 2, 2, 0, 0);
+            else if (AttackTimer <= 100) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), new Color(255, 200, 30) * (1 - (AttackTimer - 90) / 10f), 0, tex.Frame().Size() / 2, 2, 0, 0);
         }
 
         private void RapidToss()
         {
-            if (npc.ai[3] <= 15)
-                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, npc.ai[3] / 15);
-            if (npc.ai[3] == 15)
+            if (AttackTimer <= 15)
+                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, AttackTimer / 15);
+            if (AttackTimer == 15)
             {
                 npc.TargetClosest();
                 targetPoint = Main.player[npc.target].Center + Main.player[npc.target].velocity * 10; //sets the target to the closest player
                 if (Vector2.Distance(Main.player[npc.target].Center, targetPoint) > 300) targetPoint = Main.player[npc.target].Center + Vector2.Normalize(Main.player[npc.target].Center + targetPoint) * 300; //clamp to 3d00 pixels away
-                npc.ai[3] = 60; //i am lazy
             }
-
-            if (Main.player[npc.target] == null && npc.ai[3] == 20) ResetAttack(); //defensive programminginging!!
 
             Vector2 trajectory = -Vector2.Normalize(npc.Center - targetPoint); //boss' toss direction
-            if (npc.ai[3] > 60 && npc.ai[3] < 120)
+
+            if (AttackTimer > 15 && AttackTimer < 45)
             {
-                flail.npc.Center = Vector2.Lerp(npc.Center, npc.Center + trajectory * -10, (npc.ai[3] - 60) / 120f); //pull it back
-                npc.ai[3]++; //double time! im lazy.
+                float time = 2 * (AttackTimer - 15);
+                float rot = 0.418667f * time - 0.00348889f * (float)Math.Pow(time, 2); //quadratic regression of {0, 0}, {60, 12.56}, {120, 0} over the range [0, 60]
+
+                flail.npc.Center = npc.Center + -Vector2.UnitY.RotatedBy(rot) * (AttackTimer - 15) * 2.8f; //spinup animation
             }
-            if (npc.ai[3] == 120) flail.npc.velocity = trajectory * 24;
+
+            if (AttackTimer >= 45 && AttackTimer < 55) flail.npc.velocity += trajectory * 2.4f;
+
             if ((flail.npc.velocity.Y == 0 || flail.npc.velocity.X == 0 || Main.tile[(int)flail.npc.Center.X / 16, (int)flail.npc.Center.Y / 16 + 1].collisionType == 1) && !(flail.npc.velocity.Y == 0 && flail.npc.velocity.X == 0)) //hit the ground
             {
                 //updates
                 flail.npc.velocity *= 0;
-                npc.ai[3] = 160;
+                AttackTimer = 85;
 
                 //visuals
                 for (int k = 0; k < 50; k++)
@@ -283,7 +276,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += distance < 100 ? distance / 20 : 5;
             }
 
-            if (npc.ai[3] == 180) ResetAttack();
+            if (AttackTimer == 95) ResetAttack();
         }
 
         private void RandomTarget()
@@ -292,15 +285,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             foreach (Player player in Main.player.Where(p => Vector2.Distance(npc.Center, p.Center) < 2000)) players.Add(player.whoAmI);
             if (players.Count == 0) return;
             npc.target = players[Main.rand.Next(players.Count)];
-
-            Main.NewText("Random target chosen!");
         }
 
         public void ResetAttack()
         {
             flail.npc.velocity *= 0;
-            npc.ai[3] = 0;
-            npc.ai[2] = 0;
+            AttackTimer = 0;
         }
     }
 }

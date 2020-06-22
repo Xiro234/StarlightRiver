@@ -9,19 +9,19 @@ namespace StarlightRiver.Items.Debug
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", TileType<VitricOre>(), 0) { }
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", TileType<Tiles.Overgrow.BossPit>(), 0) { }
     }
 
     public class DebugPlacer2 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", TileType<VitricOreFloat>(), 0) { }
+        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", TileType<Tiles.Overgrow.AppearingBrick>(), 0) { }
     }
 
     public class DebugPlacer3 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", TileType<Tiles.Temple.TempleChestSimple>(), 0) { }
+        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", TileType<Tiles.Overgrow.OvergrowDoorLocked>(), 0) { }
     }
 
     public class DebugPlacer4 : QuickTileItem
@@ -41,7 +41,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.rare = ItemRarityID.Green;
             item.autoReuse = true;
-            item.createTile = TileType<Tiles.Misc.SandscriptTile>();
+            item.createTile = 0;
         }
 
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -54,8 +54,14 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StarlightWorld.SealOpen = true;
+            StarlightWorld.OvergrowBossOpen = true;
+            StarlightWorld.OvergrowBossFree = false;
             return true;
+        }
+
+        public override void HoldItem(Player player)
+        {
+
         }
     }
 
@@ -82,15 +88,12 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            //foreach (NPC wall in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBackdropLeft)) wall.ai[1] = 3; //make the walls scroll
-            //foreach (NPC plat in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBossPlatformUp)) plat.ai[0] = 1; //make the platforms scroll
-            //Helper.NewItemPerfect(player.Center + new Vector2(10, -30), Vector2.Normalize(player.Center - Main.MouseWorld).RotatedByRandom(0.3f) * -25, Main.rand.Next(ItemID.Count), 1);
             return true;
         }
 
         public override void HoldItem(Player player)
         {
-            //StarlightRiver.Rotation = (player.Center - Main.MouseWorld).ToRotation() - 1.58f;
+
         }
     }
 }

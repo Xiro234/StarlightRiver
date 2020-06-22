@@ -323,12 +323,24 @@ namespace StarlightRiver
 
             string path = data.Path.Replace(".wld", ".twld");
 
-            byte[] buf = FileUtilities.ReadAllBytes(path, data.IsCloudSave);
-            TagCompound tag = TagIO.FromStream(new MemoryStream(buf), true);
+            TagCompound tag;
+
+            try
+            {
+                byte[] buf = FileUtilities.ReadAllBytes(path, data.IsCloudSave);
+                tag = TagIO.FromStream(new MemoryStream(buf), true);
+            }
+
+            catch
+            {
+                tag = null;
+            }
+
             TagCompound tag2 = tag?.GetList<TagCompound>("modData").FirstOrDefault(k => k.GetString("mod") == "StarlightRiver" && k.GetString("name") == "StarlightWorld");
             TagCompound tag3 = tag2?.Get<TagCompound>("data");
 
-            float chungosity = (float) tag3?.GetFloat("Chungus");
+            float chungosity = 0;
+            if (tag3 != null) chungosity = tag3.GetFloat("Chungus");
 
             Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/ChungusMeter");
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/GUI/Assets/ChungusMeterFill");
