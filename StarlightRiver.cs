@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
 using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.RiftCrafting;
+using StarlightRiver.Trails;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,6 +46,7 @@ namespace StarlightRiver
         public static ModHotKey Purify;
         public static ModHotKey Smash;
         public static ModHotKey Superdash;
+        public static TrailManager TrailManager;
 
         public List<RiftRecipe> RiftRecipes;
 
@@ -143,6 +145,7 @@ namespace StarlightRiver
                 Terraria.Graphics.Effects.Filters.Scene["PurityFilter"].Load();
             }
 
+
             //Autoload Rift Recipes
             RiftRecipes = new List<RiftRecipe>();
             AutoloadRiftRecipes(RiftRecipes);
@@ -200,6 +203,27 @@ namespace StarlightRiver
             //Hooking
             HookOn();
             HookIL();
+
+            TrailManager = new TrailManager(this);
+        }
+        private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
+        {
+            TrailManager.DrawTrails(Main.spriteBatch);
+            orig(self);
+        }
+        //ugh this name
+        private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
+        {
+            int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
+            Projectile projectile = Main.projectile[index];
+
+            TrailManager.DoTrailCreation(projectile);
+
+            return index;
+        }
+        public override void MidUpdateProjectileItem()
+        {
+            TrailManager.UpdateTrails();
         }
         public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
@@ -280,6 +304,7 @@ namespace StarlightRiver
                 Smash = null;
                 Purify = null;
             }
+            TrailManager = null;
             IL.Terraria.Lighting.PreRenderPhase -= VitricLighting;
         }
 
