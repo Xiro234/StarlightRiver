@@ -10,6 +10,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using static Terraria.WorldGen;
+using StarlightRiver.Noise;
 
 namespace StarlightRiver
 {
@@ -237,13 +238,17 @@ namespace StarlightRiver
             #endregion
         }*/
 
+        public static FastNoise genNoise = new FastNoise(_genRandSeed);
         private const int VitricSlopeOffset = 48;
+        private const float VitricNoiseHeight = 10f;
+
+        public static List<Point> VitricIslandLocations { get; private set; }
 
         public static void VitricGen(GenerationProgress progress)
         {
             int[] validGround = new int[] { TileType<VitricSand>(), TileType<VitricSoftSand>() };
             int vitricHeight = 140;
-            Rectangle biomeTarget = new Rectangle(UndergroundDesertLocation.X - 80, UndergroundDesertLocation.Y + UndergroundDesertLocation.Height, UndergroundDesertLocation.Width + 160, vitricHeight);
+            Rectangle biomeTarget = new Rectangle(UndergroundDesertLocation.X - 80, UndergroundDesertLocation.Y + UndergroundDesertLocation.Height, UndergroundDesertLocation.Width + 150, vitricHeight);
             VitricBiome = biomeTarget; //Sets up biome information - adjusted from prior code
 
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++)
@@ -260,6 +265,18 @@ namespace StarlightRiver
             int minFloorDepth = (int)(biomeTarget.Y + (13f * Math.Log(VitricSlopeOffset - 8))) + (biomeTarget.Height / 2);
             int maxFloorDepth = (int)(biomeTarget.Y + (13f * Math.Log(VitricSlopeOffset - 30))) + (biomeTarget.Height / 2);
 
+            genNoise.Seed = _genRandSeed;
+            genNoise.NoiseType = FastNoise.NoiseTypes.SimplexFractal; //Sets noise to proper type
+            genNoise.FractalGain = 0.01f;
+            genNoise.Frequency = 0.01f;
+            float[] heights = new float[biomeTarget.Width]; //2D heightmap to create terrain
+
+            float leftCurveConst = 15f - ((0.3f + heights[0]) * VitricNoiseHeight); //For curving down into the noise properly, left side
+            float rightCurveConst = 15f - ((0.3f + heights[heights.Length - 1]) * VitricNoiseHeight); //Right side
+
+            for (int x = 0; x < heights.Length; x++)
+                heights[x] = genNoise.GetNoise(x, 0);
+
             //(VitricLayer.Top - 0) Top of the biome, (VitricLayer.TopLow - 1) bottom of the top layer of sand, top of the bottom layer of sand (VitricLayer.BottomHigh), and 3 is the bottom of the bottom layer of sand (VitricLayer.Bottom)
             int[] layers = new int[4] { biomeTarget.Y, biomeTarget.Y + biomeTarget.Height / 2, biomeTarget.Y + biomeTarget.Height / 2, biomeTarget.Y + biomeTarget.Height };
             for (int x = biomeTarget.X; x < biomeTarget.X + biomeTarget.Width; x++)
@@ -268,12 +285,12 @@ namespace StarlightRiver
 
                 if (xDif < VitricSlopeOffset) //Start curve
                 {
-                    layers[1] = (int)((biomeTarget.Y + (biomeTarget.Height / 2)) - (17f * Math.Log(-8 + xDif)));
+                    layers[1] = (int)((biomeTarget.Y + (biomeTarget.Height / 2)) - (17f * Math.Log(-8 + xDif))); //17f is the constant that goes to the roof
 
                     if (xDif < 10) layers[1] = biomeTarget.Y + biomeTarget.Height / 2;
                     else if (xDif < 17) layers[1] += genRand.Next(-1, 2);
 
-                    layers[2] = (int)(biomeTarget.Y + (13f * Math.Log(-8 + xDif))) + (biomeTarget.Height / 2);
+                    layers[2] = (int)(biomeTarget.Y + (leftCurveConst * Math.Log(-8 + xDif))) + (biomeTarget.Height / 2); //Curves down towards floor
 
                     if (xDif < 10) layers[2] = biomeTarget.Y + biomeTarget.Height / 2;
                     else if (xDif < 17) layers[2] += genRand.Next(-1, 2);
@@ -281,20 +298,20 @@ namespace StarlightRiver
                 else if (xDif == VitricSlopeOffset) //Begin flatway
                 {
                     layers[1] = minCeilingDepth;
-                    layers[2] = minFloorDepth;
+                    //layers[2] = minFloorDepth;
                 }
                 else if (xDif > VitricSlopeOffset && xDif < biomeTarget.Width - VitricSlopeOffset) //Flatway
                 {
                     if (genRand.Next(3) == 0 && x % 2 == 1)
                     {
-                        if (layers[1] >= minCeilingDepth && layers[1] <= maxCeilingDepth) layers[1] += genRand.Next(-1, 2);
+                        if (layers[(int)VitricLayer.TopLow] >= minCeilingDepth && layers[1] <= maxCeilingDepth) layers[1] += genRand.Next(-1, 2);
                         else if (layers[1] < minCeilingDepth) layers[1] += genRand.Next(2);
                         else if (layers[1] > maxCeilingDepth || biomeTarget.Width - VitricSlopeOffset - 30 < xDif) layers[1] += genRand.Next(-1, 1);
                     }
 
                     if (genRand.Next(3) == 0 && x % 2 == 1)
                     {
-                        //IMPLEMENT FASTNOISE
+                        layers[(int)VitricLayer.BottomHigh] = (int)Math.Floor(minFloorDepth - ((0.3f + heights[x - biomeTarget.X]) * VitricNoiseHeight));
                     }
                 }
                 else //End curve
@@ -305,7 +322,7 @@ namespace StarlightRiver
                     if (xDif > biomeTarget.Width - 10) layers[1] = biomeTarget.Y + biomeTarget.Height / 2;
                     else if (xDif > biomeTarget.Width - 17) layers[1] += genRand.Next(-1, 2);
 
-                    layers[2] = (int)(biomeTarget.Y + (13f * Math.Log(-8 + adjXDif))) + (biomeTarget.Height / 2);
+                    layers[2] = (int)(biomeTarget.Y + (rightCurveConst * Math.Log(-8 + adjXDif))) + (biomeTarget.Height / 2);
 
                     if (xDif < 10) layers[2] = biomeTarget.Y + biomeTarget.Height / 2;
                     else if (xDif < 17) layers[2] += genRand.Next(-1, 2);
@@ -348,7 +365,7 @@ namespace StarlightRiver
             } //Adjusted from prior code
 
             List<Point> islands = new List<Point>(); //List for island positions
-            for (int i = 0; i < 12; ++i)
+            for (int i = 0; i < 11; ++i)
             {
                 int x;
                 int y;
@@ -359,7 +376,7 @@ namespace StarlightRiver
                     x = biomeTarget.X + (int)(VitricSlopeOffset * 0.8f) + genRand.Next((int)(biomeTarget.Width / 2.7f));
                     if (genRand.Next(2) == 0) x += (int)(biomeTarget.Width / 2f);
 
-                    y = (maxCeilingDepth + 18) + (genRand.Next((int)(biomeTarget.Height / 3f)));
+                    y = (maxCeilingDepth + 18) + (genRand.Next((int)(biomeTarget.Height / 3.2f)));
 
                     if (islands.Any(v => Vector2.Distance(new Vector2(x, y), v.ToVector2()) < 32) || (x > biomeTarget.X + biomeTarget.Width / 2 - 71 && x < biomeTarget.X + biomeTarget.Width / 2 + 70))
                         repeat = true;
@@ -370,6 +387,7 @@ namespace StarlightRiver
                 islands.Add(new Point(x, y));
                 CreateIsland(x, y); //Adds island pos to list and places island
             }
+            VitricIslandLocations = islands;
 
             for (int i = biomeTarget.X + VitricSlopeOffset; i < biomeTarget.X + (biomeTarget.Width - VitricSlopeOffset); ++i) //Add large crystals
             {
@@ -429,6 +447,35 @@ namespace StarlightRiver
             {
                 PlaceTile(biomeTarget.X + biomeTarget.Width / 2 - 40, y, TileType<VitricBossBarrier>(), false, false);
                 PlaceTile(biomeTarget.X + biomeTarget.Width / 2 + 41, y, TileType<VitricBossBarrier>(), false, false);
+            }
+
+            for (int i = 0; i < 8; ++i) //Moss. This is ugly and I'm sorry.
+            {
+                Point pos = VitricIslandLocations[genRand.Next(VitricIslandLocations.Count)]; //Random island position
+                pos.X += genRand.Next(-10, 11);
+                int bot = (pos.Y + genRand.Next(12, 24)); //Depth scan
+                int siz = genRand.Next(2, 5); //Width/2
+                for (int j = -siz + pos.X; j < pos.X + siz; ++j)
+                {
+                    for (int k = pos.Y; k < bot; ++k)
+                    {
+                        bool endCheck = false;
+                        for (int x = -1; x < 1; ++x)
+                        {
+                            for (int y = -1; y < 1; ++y)
+                            {
+                                if (Main.tile[j, k].type == TileType<VitricSand>() && !Main.tile[j - x, k - y].active())
+                                {
+                                    Main.tile[j, k].type = (ushort)TileType<VitricMoss>();
+                                    endCheck = true;
+                                    break;
+                                }
+                            }
+                            if (endCheck)
+                                break;
+                        }
+                    }
+                }
             }
         }
 
@@ -491,9 +538,15 @@ namespace StarlightRiver
 
                 if (top < 3) top = 3;
 
+                if (i > rX + (wid / 2f) - 4 && depth > 4)
+                    depth--;
+                if (i > rX + (wid / 2f) - 4 && depth > 8)
+                    depth--;
+
                 for (int j = rY - top + offset; j < rY + depth + offset; j++)
                 {
-                    PlaceTile(i, j, j > (rY + depth + offset) - 4 ? TileType<VitricSand>() : TileType<VitricSoftSand>(), false, true);
+                    int t = j > (rY + depth + offset) - 4 ? TileType<VitricSand>() : TileType<VitricSoftSand>();
+                    PlaceTile(i, j, t, false, true);
                 }
             }
         }

@@ -14,6 +14,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
             QuickBlock.QuickSet(this, 0, DustType<Dusts.Air>(), SoundID.Dig, new Color(172, 131, 105), ItemType<VitricSandItem>());
             Main.tileMerge[Type][TileType<VitricSpike>()] = true;
             Main.tileMerge[Type][TileType<AncientSandstone>()] = true;
+            Main.tileMerge[Type][TileType<VitricMoss>()] = true;
             Main.tileMerge[Type][TileType<VitricSand>()] = true;
         }
     }

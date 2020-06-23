@@ -16,6 +16,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
             Main.tileMerge[Type][TileType<VitricSpike>()] = true;
             Main.tileMerge[Type][TileType<AncientSandstone>()] = true;
             Main.tileMerge[Type][TileType<VitricSoftSand>()] = true;
+            Main.tileMerge[Type][TileType<VitricMoss>()] = true;
         }
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
