@@ -109,7 +109,14 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     AttackPhase++;
                     if (AttackPhase == 1 && Main.rand.Next(2) == 0) AttackPhase++;
                     if (AttackPhase > 6) AttackPhase = 0;
-                    Main.NewText(AttackPhase);
+
+                    if (flail.npc.life <= 1) //move to next phase once the flail is depleated
+                    {
+                        Phase = (int)OvergrowBossPhase.FirstToss;
+                        AttackPhase = 0;
+                        ResetAttack();
+                        foreach (Projectile proj in Main.projectile.Where(p => p.type == ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>())) proj.ai[1] = 1; //opens the pits
+                    }
                 }
                 switch (AttackPhase) //attack pattern
                 {
@@ -121,19 +128,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     case 5: Phase1Bolts(); break;
                     case 6: Phase1Toss(); break;
                 }
-
-                if (flail.npc.life <= 1)
-                {
-                    Phase = (int)OvergrowBossPhase.FirstToss; //move to next phase once the flail is depleated
-                    ResetAttack();
-                    foreach (Projectile proj in Main.projectile.Where(p => p.type == ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>())) proj.ai[1] = 1; //opens the pits
-                }
             }
 
-            if (Phase == (int)OvergrowBossPhase.FirstToss)
-            {
-                RapidToss();
-            }
+            if (Phase == (int)OvergrowBossPhase.FirstToss) RapidToss(); //toss rapidly till thrown into a pit
 
             if (Phase == (int)OvergrowBossPhase.FirstStun)
             {
@@ -214,10 +211,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (AttackTimer > 60 && AttackTimer < 120 && ((AttackPhase == 3 || AttackPhase == 4 || AttackPhase == 6) || Phase == (int)OvergrowBossPhase.FirstToss)) //if the boss is using a flail toss
+            if (AttackTimer > 60 && AttackTimer < 120 && (AttackPhase == 3 || AttackPhase == 4 || AttackPhase == 6)) //if the boss is using a flail toss
                 DrawTossTell(spriteBatch);
 
             if (AttackPhase == 2) DrawTrapTell(spriteBatch);
+
+            if (Phase == (int)OvergrowBossPhase.FirstToss) DrawRapidTossTell(spriteBatch);
 
             return Phase != (int)OvergrowBossPhase.FirstGuard;
         }

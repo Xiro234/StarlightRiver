@@ -195,6 +195,28 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
         }
 
+        private void DrawRapidTossTell(SpriteBatch sb)
+        {
+            float glow = AttackTimer < 15 ? (AttackTimer) / 15f : (1 - (AttackTimer - 15) / 15f);
+            Color color = new Color(255, 70, 70) * glow;
+            Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
+
+            sb.End();
+            sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
+            for (float k = 0; 1 == 1; k++)
+            {
+                Vector2 start = npc.Center;
+                Vector2 point = Vector2.Lerp(start, start + Vector2.Normalize(targetPoint - npc.Center) * tex.Frame().Width, k);
+                sb.Draw(tex, point - Main.screenPosition, tex.Frame(), color, (targetPoint - npc.Center).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
+
+                if (!WorldGen.InWorld((int)point.X / 16, (int)point.Y / 16)) break;
+                Tile tile = Framing.GetTileSafely(point / 16);
+                if (tile.active()) break;
+            }
+            sb.End();
+            sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
+        }
+
         private void Phase1Trap()
         {
             if (AttackTimer == 1)
@@ -242,7 +264,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 if (Vector2.Distance(Main.player[npc.target].Center, targetPoint) > 300) targetPoint = Main.player[npc.target].Center + Vector2.Normalize(Main.player[npc.target].Center + targetPoint) * 300; //clamp to 3d00 pixels away
             }
 
-            Vector2 trajectory = -Vector2.Normalize(npc.Center - targetPoint); //boss' toss direction
+            Vector2 trajectory = -Vector2.Normalize(flail.npc.Center - targetPoint); //boss' toss direction
 
             if (AttackTimer > 15 && AttackTimer < 45)
             {

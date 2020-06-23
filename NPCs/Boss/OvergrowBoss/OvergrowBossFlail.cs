@@ -136,7 +136,11 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     Vector2 pos = Vector2.Lerp(npc.Center, parent.npc.Center, k) - Main.screenPosition;
                     //shake the chain when tossed
-                    if ((parent.npc.ai[2] == 3 || parent.npc.ai[0] == 4) && npc.velocity.Length() > 0) pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float)Math.Sin(StarlightWorld.rottime + k * 20) * 10;
+                    if ((parent.npc.ai[0] == (int)OvergrowBoss.OvergrowBossPhase.FirstAttack && (parent.npc.ai[2] == 3 || parent.npc.ai[2] == 4 || parent.npc.ai[2] == 6) ||
+                        parent.npc.ai[0] == (int)OvergrowBoss.OvergrowBossPhase.FirstToss) && npc.velocity.Length() > 0)
+                    {
+                        pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float)Math.Sin(StarlightWorld.rottime + k * 20) * 10;
+                    }
 
                     spriteBatch.Draw(GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), pos,
                         new Rectangle(0, 0, 8, 16), drawColor, (npc.Center - parent.npc.Center).ToRotation() + 1.58f, new Vector2(4, 8), 1, 0, 0);
