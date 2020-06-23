@@ -76,7 +76,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     for (int k = 0; k < 4; k++)
                     {
                         Main.NewText(k);
-                        Projectile.NewProjectile(projectile.position, projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.25f, 0.25f)) * Main.rand.NextFloat(0.5f, 0.8f), ModContent.ProjectileType<WeaponProjectiles.StarWShard>(), damage / 2, knockback, projectile.owner, Main.rand.Next(2));
+                        Projectile.NewProjectile(projectile.position, projectile.velocity.RotatedBy(Main.rand.NextFloat(-0.25f, 0.25f)) * Main.rand.NextFloat(0.5f, 0.8f), ModContent.ProjectileType<WeaponProjectiles.StarwoodSlingshotFragment>(), damage / 2, knockback, projectile.owner, Main.rand.Next(2));
 
                     }
                 }
@@ -115,7 +115,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
     }
 
-    class StarWShard : ModProjectile
+    class StarwoodSlingshotFragment : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -127,8 +127,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void SetDefaults()
         {
             projectile.timeLeft = 9;
-            projectile.width = 14;
-            projectile.height = 14;
+            projectile.width = 12;
+            projectile.height = 10;
             projectile.friendly = true;
             projectile.penetrate = 2;
             projectile.tileCollide = true;
@@ -153,13 +153,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             Texture2D tex = ModContent.GetTexture(Texture);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, projectile.ai[0] > 0 ? 10 : 0, 12, 10), Color.White, projectile.rotation, new Vector2(6, 5), projectile.scale, default, default);
-            //Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            //for (int k = 0; k < projectile.oldPos.Length; k++)
-            //{
-            //    Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-            //    Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-            //    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-            //}
             return false;
         }
 
@@ -175,9 +168,5 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         //        spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
         //    }
         //}
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(160, 160, 160, 100);
-        }
     }
 }

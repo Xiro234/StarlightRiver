@@ -367,15 +367,6 @@ namespace StarlightRiver
             }
             return item;
         }
-        public static Vector2 TurnRight(this Vector2 vec)
-        {
-            return new Vector2(-vec.Y, vec.X);
-        }
-
-        public static Vector2 TurnLeft(this Vector2 vec)
-        {
-            return new Vector2(vec.Y, -vec.X);
-        }
     }
 }
 
