@@ -245,6 +245,19 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             return false;
         }
 
+        public void DrawAdditive(SpriteBatch spriteBatch)
+        {
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Color color = (empowered ? new Color(200, 220, 255) * 0.35f : new Color(255, 255, 200) * 0.3f) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
+                if (k <= 4) color *= 1.2f;
+                float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.8f;
+                Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
+
+                spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
+            }
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Color color = Color.White * chargeMult;

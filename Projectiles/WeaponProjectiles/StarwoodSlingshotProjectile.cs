@@ -94,10 +94,52 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         }
 
+        //private Texture2D LightTrailTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/glow");
+        private Texture2D GlowingTrail => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodSlingshotGlowTrail");
+
+        //private static Texture2D MainTexture => ModContent.GetTexture("StarlightRiver/Items/StarwoodBoomerang");
+        private Texture2D GlowingTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodSlingshotProjectile");
+        private Texture2D AuraTexture => ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = ModContent.GetTexture(Texture);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, empowered ? 24 : 0, 22, 24), Color.White, projectile.rotation, new Vector2(11, 12), projectile.scale, default, default);
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+
+            if (projectile.ai[0] != 1)
+            {
+                for (int k = 0; k < projectile.oldPos.Length; k++)
+                {
+                    Color color = projectile.GetAlpha(Color.White) * (((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length) * 0.5f);
+                    float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length;
+
+                    spriteBatch.Draw(GlowingTrail,
+                    projectile.oldPos[k] + drawOrigin - Main.screenPosition,
+                    new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
+                    color,
+                    projectile.rotation,
+                    new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
+                    scale, default, default);
+
+                    //spriteBatch.Draw(LightTrailTexture,
+                    //projectile.oldPos[k] + drawOrigin - Main.screenPosition,
+                    //LightTrailTexture.Frame(),
+                    //Color.White * 0.3f,
+                    //0f,
+                    //new Vector2(LightTrailTexture.Width / 2, LightTrailTexture.Height / 2),
+                    //scale, default, default);
+                }
+            }
+
+            spriteBatch.Draw(Main.projectileTexture[projectile.type],
+                projectile.Center - Main.screenPosition,
+                new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
+                lightColor,
+                projectile.rotation,
+                new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
+                1f, default, default);
+
             return false;
         }
 
