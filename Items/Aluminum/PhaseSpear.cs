@@ -37,10 +37,11 @@ namespace StarlightRiver.Items.Aluminum
         {
             item.width = 32;
             item.height = 32;
-            item.damage = 24;
+            item.damage = 16;
             item.useTime = 30;
             item.useAnimation = 30;
             item.reuseDelay = 40;
+            item.knockBack = 4;
             item.shoot = projectileType;
             item.shootSpeed = 1;
             item.noUseGraphic = true;
@@ -100,6 +101,57 @@ namespace StarlightRiver.Items.Aluminum
 
             spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, tex2.Frame(), Color.White, projectile.rotation, Vector2.Zero, 1, 0, 0);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), glowColor, projectile.rotation, Vector2.Zero, 1, 0, 0);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (projectile.ai[0] == 0)
+            {
+                int i = Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<PhasespearNode>(), projectile.damage / 2, 0, projectile.owner, 3, 250);
+                Projectile proj = Main.projectile[i];
+                if (proj.modProjectile is PhasespearNode) (proj.modProjectile as PhasespearNode).color = glowColor;
+
+                projectile.ai[0] = 1;
+            }
+        }
+    }
+
+    internal class PhasespearNode : ModProjectile
+    {
+        public override string Texture => "StarlightRiver/Invisible";
+        public Color color;
+
+        public override void SetDefaults()
+        {
+            projectile.width = 8;
+            projectile.height = 8;
+            projectile.timeLeft = 1;
+            projectile.friendly = true;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            //AI Fields:
+            //0: jumps remaining
+            //1: jump radius
+
+            List<NPC> possibleTargets = new List<NPC>();
+            foreach (NPC npc in Main.npc.Where(npc => npc.active && !npc.immortal && Vector2.Distance(npc.Center, projectile.Center) < projectile.ai[1] && npc != target))
+            {
+                possibleTargets.Add(npc); //This grabs all possible targets, which includes all NPCs in the appropriate raidus which are alive and vulnerable, excluding the hit NPC
+            }
+            if (possibleTargets.Count == 0) return; //kill if no targets are available
+            NPC chosenTarget = possibleTargets[Main.rand.Next(possibleTargets.Count)];
+
+            if (projectile.ai[0] > 0 && chosenTarget != null) //spawns the next node and VFX if more nodes are available and a target is also available
+            {
+                int i = Projectile.NewProjectile(chosenTarget.Center, Vector2.Zero, ProjectileType<PhasespearNode>(), damage, knockback, projectile.owner, projectile.ai[0] - 1, projectile.ai[1]);
+                Projectile proj = Main.projectile[i];
+                if (proj.modProjectile is PhasespearNode) (proj.modProjectile as PhasespearNode).color = color;
+
+                Helper.DrawElectricity(target.Center, chosenTarget.Center, DustType<Dusts.ElectricColor>(), 1, 20, color);
+            }
+            projectile.timeLeft = 0;
         }
     }
 

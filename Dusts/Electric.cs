@@ -9,7 +9,7 @@ namespace StarlightRiver.Dusts
         public override bool Autoload(ref string name, ref string texture)
         {
             texture = "StarlightRiver/Dusts/Stamina";
-            return base.Autoload(ref name, ref texture);
+            return true;
         }
 
         public override void OnSpawn(Dust dust)
@@ -21,10 +21,7 @@ namespace StarlightRiver.Dusts
             dust.color.B = 255;
         }
 
-        public override Color? GetAlpha(Dust dust, Color lightColor)
-        {
-            return dust.color;
-        }
+        public override Color? GetAlpha(Dust dust, Color lightColor) => dust.color;
 
         public override bool Update(Dust dust)
         {
@@ -53,6 +50,34 @@ namespace StarlightRiver.Dusts
 
             dust.scale *= 0.98f;
             if (dust.scale < 0.1f)
+            {
+                dust.active = false;
+            }
+            return false;
+        }
+    }
+
+    public class ElectricColor : Electric
+    {
+        public override void OnSpawn(Dust dust)
+        {
+            dust.noGravity = true;
+            dust.noLight = false;
+        }
+
+        public override Color? GetAlpha(Dust dust, Color lightColor)
+        {
+            Vector3 vector = Vector3.Lerp(Color.White.ToVector3(), dust.color.ToVector3(), 1 - dust.scale);
+            return new Color(vector.X, vector.Y, vector.Z) * dust.scale;
+        }
+
+        public override bool Update(Dust dust)
+        {
+            Lighting.AddLight(dust.position, dust.color.ToVector3() * dust.scale);
+            dust.rotation += Main.rand.NextFloat(2f);
+
+            dust.scale *= 0.92f;
+            if (dust.scale < 0.2f)
             {
                 dust.active = false;
             }
