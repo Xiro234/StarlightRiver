@@ -24,6 +24,7 @@ namespace StarlightRiver.Items.Aluminum
             item.crit = 20;
             item.shoot = ProjectileType<StarSniperBolt>();
             item.shootSpeed = 5;
+            item.knockBack = 20;
             item.UseSound = SoundID.Item40;
         }
 

@@ -82,6 +82,9 @@ namespace StarlightRiver
         #region hooks
         private bool AluminumMeteor(On.Terraria.WorldGen.orig_meteor orig, int i, int j)
         {
+            Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 80;
+            Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode);
+
             if (StarlightWorld.AluminumMeteors)
             {
                 Point16 target = new Point16();
