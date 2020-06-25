@@ -14,6 +14,20 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
     public partial class OvergrowBoss : ModNPC
     {
+        private void RandomTarget()
+        {
+            List<int> players = new List<int>();
+            foreach (Player player in Main.player.Where(p => Vector2.Distance(npc.Center, p.Center) < 2000)) players.Add(player.whoAmI);
+            if (players.Count == 0) return;
+            npc.target = players[Main.rand.Next(players.Count)];
+        }
+
+        public void ResetAttack()
+        {
+            flail.npc.velocity *= 0;
+            AttackTimer = 0;
+        }
+
         private void Phase1Spin()
         {
             if (AttackTimer <= 60) flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, AttackTimer / 60f);
@@ -60,35 +74,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
 
             if (AttackTimer >= 490) ResetAttack();
-        }
-
-        private void Phase1Pendulum()
-        {
-            if (AttackTimer > 1 && AttackTimer <= 60)
-            {
-                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, AttackTimer / 60f);
-            }
-
-            if (AttackTimer == 60) targetPoint = Main.player[npc.target].Center;
-            int direction = -Math.Sign(targetPoint.X - spawnPoint.X);
-
-            if (AttackTimer > 60 && AttackTimer <= 90)
-            {
-                if (targetPoint.Y > npc.Center.Y)
-                {
-                    flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, targetPoint.Y - npc.Center.Y), (AttackTimer - 60) / 30f);
-                }
-                else
-                {
-                    flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center + new Vector2(0, 150), (AttackTimer - 60) / 30f);
-                }
-            }
-            if (AttackTimer > 90 && AttackTimer <= 160)
-            {
-                npc.Center = Vector2.SmoothStep(npc.Center, spawnPoint + new Vector2((500) * -direction, 0), (AttackTimer - 90) / 70f);
-                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, spawnPoint + new Vector2((500) * -direction, flail.npc.Center.Y - npc.Center.Y), (AttackTimer - 90) / 60f);
-            }
-            if (AttackTimer == 210) ResetAttack();
         }
 
         private void Phase1Bolts()
@@ -155,6 +140,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 flail.npc.velocity *= 0;
                 AttackTimer = 180;
 
+                //adds
+                for(int k = 0; k < 3; k++)
+                {
+                    NPC.NewNPC((int)flail.npc.Center.X + Main.rand.Next(-100, 100), (int)flail.npc.Center.Y, NPCType<SkeletonMinion>());
+                }
+
                 //visuals
                 for (int k = 0; k < 50; k++)
                 {
@@ -179,28 +170,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             float glow = AttackTimer > 90 ? (1 - (AttackTimer - 90) / 30f) : ((AttackTimer - 60) / 30f);
             Color color = new Color(255, 70, 70) * glow;
             Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
-            sb.End();
-            sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
-            for (float k = 0; 1 == 1; k++)
-            {
-                Vector2 start = npc.Center;
-                Vector2 point = Vector2.Lerp(start, start + Vector2.Normalize(targetPoint - npc.Center) * tex.Frame().Width, k);
-                sb.Draw(tex, point - Main.screenPosition, tex.Frame(), color, (targetPoint - npc.Center).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
-
-                if (!WorldGen.InWorld((int)point.X / 16, (int)point.Y / 16)) break;
-                Tile tile = Framing.GetTileSafely(point / 16);
-                if (tile.active()) break;
-            }
-            sb.End();
-            sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
-        }
-
-        private void DrawRapidTossTell(SpriteBatch sb)
-        {
-            float glow = AttackTimer < 15 ? (AttackTimer) / 15f : (1 - (AttackTimer - 15) / 15f);
-            Color color = new Color(255, 70, 70) * glow;
-            Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
-
             sb.End();
             sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
             for (float k = 0; 1 == 1; k++)
@@ -255,6 +224,16 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         private void RapidToss()
         {
+            //following in X direction only
+            Player player = Main.player[npc.target];
+
+            if (player.Center.X > npc.Center.X) npc.velocity.X += 0.3f;
+            else npc.velocity.X -= 0.3f;
+
+            if (npc.velocity.LengthSquared() > 25) npc.velocity = Vector2.Normalize(npc.velocity) * 5;
+            npc.velocity.Y = (float)Math.Sin(GlobalTimer / 100f * 6.283f) * 2;
+
+            //attack
             if (AttackTimer <= 15)
                 flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, AttackTimer / 15);
             if (AttackTimer == 15)
@@ -298,21 +277,29 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += distance < 100 ? distance / 20 : 5;
             }
 
-            if (AttackTimer == 95) ResetAttack();
+            if (AttackTimer >= 95) ResetAttack();
         }
 
-        private void RandomTarget()
+        private void DrawRapidTossTell(SpriteBatch sb)
         {
-            List<int> players = new List<int>();
-            foreach (Player player in Main.player.Where(p => Vector2.Distance(npc.Center, p.Center) < 2000)) players.Add(player.whoAmI);
-            if (players.Count == 0) return;
-            npc.target = players[Main.rand.Next(players.Count)];
-        }
+            float glow = AttackTimer < 15 ? (AttackTimer) / 15f : (1 - (AttackTimer - 15) / 15f);
+            Color color = new Color(255, 70, 70) * glow;
+            Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
 
-        public void ResetAttack()
-        {
-            flail.npc.velocity *= 0;
-            AttackTimer = 0;
+            sb.End();
+            sb.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
+            for (float k = 0; 1 == 1; k++)
+            {
+                Vector2 start = npc.Center;
+                Vector2 point = Vector2.Lerp(start, start + Vector2.Normalize(targetPoint - npc.Center) * tex.Frame().Width, k);
+                sb.Draw(tex, point - Main.screenPosition, tex.Frame(), color, (targetPoint - npc.Center).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
+
+                if (!WorldGen.InWorld((int)point.X / 16, (int)point.Y / 16)) break;
+                Tile tile = Framing.GetTileSafely(point / 16);
+                if (tile.active()) break;
+            }
+            sb.End();
+            sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
         }
     }
 }

@@ -51,6 +51,8 @@ namespace StarlightRiver.Items
             Rare = rare;
         }
 
+        public virtual void SafeSetDefaults() { }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault(Itemname);
@@ -70,6 +72,8 @@ namespace StarlightRiver.Items
             item.consumable = true;
             item.createTile = Tiletype;
             item.rare = Rare;
+
+            SafeSetDefaults();
         }
     }
 

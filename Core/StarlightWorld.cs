@@ -22,7 +22,7 @@ namespace StarlightRiver
 
         public static Vector2 RiftLocation;
 
-        public static bool ForceStarfall = false;
+        public static bool AluminumMeteors = false;
 
         //Boss Flags
         public static bool DesertOpen = false;
@@ -37,6 +37,8 @@ namespace StarlightRiver
         public static bool SealOpen = false;
 
         public static float Chungus = 0;
+
+        public static float rottime = 0;
 
         //Voidsmith
         public static int[] NPCUpgrades = new int[] { 0, 0 };
@@ -65,9 +67,6 @@ namespace StarlightRiver
                 }
             }
         }
-
-        public static float rottime = 0;
-        public static bool starfall = false;
 
         public override void PreUpdate()
         {
@@ -122,7 +121,7 @@ namespace StarlightRiver
 
             SealOpen = false;
 
-            ForceStarfall = false;
+            AluminumMeteors = false;
 
             NPCUpgrades = new int[] { 0, 0 };
             PureTiles = new List<Vector2>();
@@ -148,7 +147,7 @@ namespace StarlightRiver
 
                 [nameof(SealOpen)] = SealOpen,
 
-                [nameof(ForceStarfall)] = ForceStarfall,
+                [nameof(AluminumMeteors)] = AluminumMeteors,
 
                 [nameof(NPCUpgrades)] = NPCUpgrades,
 
@@ -181,7 +180,7 @@ namespace StarlightRiver
 
             SealOpen = tag.GetBool(nameof(SealOpen));
 
-            ForceStarfall = tag.GetBool(nameof(ForceStarfall));
+            AluminumMeteors = tag.GetBool(nameof(AluminumMeteors));
 
             NPCUpgrades = tag.GetIntArray(nameof(NPCUpgrades));
 

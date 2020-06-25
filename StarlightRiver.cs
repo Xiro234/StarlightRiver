@@ -98,9 +98,9 @@ namespace StarlightRiver
                     priority = MusicPriority.BiomeHigh;
                 }
 
-                if (Main.LocalPlayer.ZoneOverworldHeight && StarlightWorld.starfall)
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().zoneAluminum)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starlight");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/AluminumPassive");
                     priority = MusicPriority.BiomeHigh;
                 }
             }

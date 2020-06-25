@@ -18,7 +18,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("[PH]Boss Shaker");
+            DisplayName.SetDefault("The Shaker");
             NPCID.Sets.TrailCacheLength[npc.type] = 10;
             NPCID.Sets.TrailingMode[npc.type] = 1;
         }
@@ -60,6 +60,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (npc.ai[2] == 1) //if zapped
             {
                 parent.npc.ai[1] = 0; //resets the boss' timer constatnly, effectively freezing it
+                parent.npc.velocity *= 0;
                 parent.ResetAttack(); //also reset's their attack just incase
 
                 if (npc.ai[1] % 5 == 0 && npc.ai[1] < 60) Helper.DrawElectricity(npc.Center, parent.npc.Center, DustType<Dusts.Gold>(), 0.5f); //draw zap effects

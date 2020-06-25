@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    public class VitricBackdropLeft : ModNPC
+    public class VitricBackdropLeft : ModNPC, IMoonlordLayerDrawable
     {
         public const int Scrolltime = 1000;
         public const int Risetime = 360;
@@ -69,7 +69,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             return false;
         }
 
-        public void SpecialDraw(SpriteBatch spriteBatch)
+        public void DrawMoonlordLayer(SpriteBatch spriteBatch)
         {
             if (npc.ai[1] != 3) //animation for rising out of the sand
             {

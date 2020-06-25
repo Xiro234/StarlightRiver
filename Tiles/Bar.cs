@@ -22,7 +22,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
             //dustType = 0;
-            drop = ItemType<Items.Crafting.AluminumBar>();
+            drop = ItemType<Items.Aluminum.AluminumBar>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Metal Bar"); //all bars are called metal bar in vanilla
             AddMapEntry(new Color(156, 172, 177), name);
@@ -64,7 +64,7 @@ namespace StarlightRiver.Tiles
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
             //dustType = 0;
-            drop = ItemType<Items.Crafting.AluminumBar>();
+            drop = ItemType<Items.Aluminum.AluminumBar>();
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Metal Bar");
             AddMapEntry(new Color(156, 172, 177), name);

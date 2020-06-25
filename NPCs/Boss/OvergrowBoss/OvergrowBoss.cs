@@ -12,6 +12,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
+    [AutoloadBossHead]
     public partial class OvergrowBoss : ModNPC
     {
         public OvergrowBossFlail flail; //the flail which the boss owns, allows direct manipulation in the boss' partial attack class, much nicer than trying to sync between two NPCs
@@ -36,17 +37,17 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             FirstGuard = 7
         };
 
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Horny God");
+
         public override void SetDefaults()
         {
             npc.lifeMax = 6000;
             npc.width = 86;
             npc.height = 176;
             npc.dontTakeDamage = true;
-            npc.boss = true;
             npc.aiStyle = -1;
             npc.knockBackResist = 0;
             npc.noGravity = true;
-            music = default;
         }
 
         public override void AI()
@@ -72,7 +73,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     mp.ScreenMoveTime = 320;
                     mp.ScreenMoveTarget = npc.Center;
 
-                    StarlightRiver.Instance.textcard.Display("Titty Elongator", "MmmMmmm Yes I will swing my elongated TIT at you fool! you poor stinky baby poopoo head! Face my titty!", null, 200);
+                    string message = "Faerie Guardian";
+                    if (Main.rand.Next(10000) == 0) message = "Titty Elongator";
+                    StarlightRiver.Instance.textcard.Display("Horny God", message, null, 260);
 
                     StarlightWorld.OvergrowBossFree = true;
                     Phase = (int)OvergrowBossPhase.spawnAnimation;
@@ -86,6 +89,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (Phase == (int)OvergrowBossPhase.Setup)
             {
+                npc.boss = true;
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/OvergrowBoss");
 
                 int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<OvergrowBossFlail>()); //spawn the flail after intro
@@ -154,7 +158,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 if (GlobalTimer == 0) //at the start of the phase, spawn in our mechanics!
                 {
                     npc.position = spawnPoint;
-                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
+                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Overgrow");
                     //spawn moving platforms
                     NPC.NewNPC((int)npc.Center.X + 500, (int)npc.Center.Y + 200, NPCType<OvergrowBossVerticalPlatform>());
                     NPC.NewNPC((int)npc.Center.X - 500, (int)npc.Center.Y + 200, NPCType<OvergrowBossVerticalPlatform>());
@@ -189,7 +193,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         private void ResetIntermission()
         {
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/OvergrBoss");
 
             foreach (NPC npc in Main.npc.Where(n => n.active && (n.type == NPCType<OvergrowBossCircularPlatform>() || n.type == NPCType<OvergrowBossVerticalPlatform>())))
             {

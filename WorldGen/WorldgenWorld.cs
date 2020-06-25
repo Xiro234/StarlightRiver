@@ -1,5 +1,6 @@
 ﻿using StarlightRiver.Structures;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
@@ -21,9 +22,8 @@ namespace StarlightRiver
                 tasks.Insert(DesertIndex + 1, new PassLegacy("Starlight River Vitric Desert", VitricGen));
                 tasks.Insert(DesertIndex + 2, new PassLegacy("Starlight River Overgrowth", OvergrowGen));
                 tasks.Insert(DesertIndex + 3, new PassLegacy("Starlight River Codex", GenHelper.BookAltarGen));
-                tasks.Insert(DesertIndex + 5, new PassLegacy("Starlight River Debug", GenHelper.DebugWispGen));
 
-                tasks.Insert(DesertIndex + 6, new PassLegacy("Starlight River Vines", VineGen));
+                tasks.Insert(DesertIndex + 4, new PassLegacy("Starlight River Vines", VineGen));
 
                 tasks.Insert(ShiniesIndex + 1, new PassLegacy("Starlight River Ores", EbonyGen));
                 //tasks.Insert(ShiniesIndex + 2, new PassLegacy("Starlight River Caves", DolomiteGen));
@@ -38,6 +38,7 @@ namespace StarlightRiver
 
         public override void PostWorldGen()
         {
+            AluminumMeteors = WorldGen.genRand.NextBool();
         }
     }
 }

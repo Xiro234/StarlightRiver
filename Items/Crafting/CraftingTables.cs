@@ -32,7 +32,7 @@ namespace StarlightRiver.Items.Crafting
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemType<OvenItem>());
-            recipe.AddIngredient(ItemType<AluminumBar>(), 15);
+            recipe.AddIngredient(ItemType<Aluminum.AluminumBar>(), 15);
             recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

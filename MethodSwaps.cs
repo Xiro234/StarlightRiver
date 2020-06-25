@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex;
 using StarlightRiver.Core;
@@ -14,10 +13,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.IO;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
@@ -70,11 +71,85 @@ namespace StarlightRiver
             On.Terraria.Main.DrawDust += DrawAdditive;
             //Particle System Batching for Inventory
             On.Terraria.Main.DrawInterface_27_Inventory += DrawInventoryParticles;
+            //Astral metoers
+            On.Terraria.WorldGen.meteor += AluminumMeteor;
 
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
+
+
         #region hooks
+        private bool AluminumMeteor(On.Terraria.WorldGen.orig_meteor orig, int i, int j)
+        {
+            if (StarlightWorld.AluminumMeteors)
+            {
+                Point16 target = new Point16();
+
+                while (!CheckAroundMeteor(target))
+                {
+                    int x = Main.rand.Next(Main.maxTilesX);
+
+                    for (int y = 0; y < Main.maxTilesY; y++)
+                    {
+                        if (Framing.GetTileSafely(x, y).active())
+                        {
+                            target = new Point16(x, y);
+                            break;
+                        }
+                    }
+                }
+
+                for (int x = -35; x < 35; x++)
+                    for (int y = -35; y < 35; y++)
+                    {
+                        if (WorldGen.InWorld(target.X + x, target.Y + y) && Framing.GetTileSafely(target.X + x, target.Y + y).collisionType == 1)
+                        {
+                            float dist = new Vector2(x, y).Length();
+                            if (dist < 8) WorldGen.KillTile(target.X + x, target.Y + y);
+
+                            if (dist > 8 && dist < 15)
+                            {
+                                WorldGen.PlaceTile(target.X + x, target.Y + y, ModContent.TileType<Tiles.OreAluminum>(), true, true);
+                                WorldGen.SlopeTile(target.X + x, target.Y + y, 0);
+                            }
+
+                            if (dist > 15 && dist < 30 && Main.rand.Next((int)dist - 15) == 0)
+                            {
+                                WorldGen.PlaceTile(target.X + x, target.Y + y, ModContent.TileType<Tiles.OreAluminum>(), true, true);
+                                WorldGen.SlopeTile(target.X + x, target.Y + y, 0);
+                            }
+                        }
+                    }
+
+                if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText("An asteroid has landed!", new Color(107, 233, 231));
+                else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("An asteroid has landed!"), new Color(107, 233, 231));
+
+                return true;
+            }
+
+            else return orig(i, j);
+        }
+
+        private bool CheckAroundMeteor(Point16 test)
+        {
+            if (test == Point16.Zero) return false;
+
+            for(int x = -35; x < 35; x++)
+                for (int y = -35; y < 35; y++)
+                {
+                    if(WorldGen.InWorld(test.X + x, test.Y + y))
+                    {
+                        Tile tile = Framing.GetTileSafely(test + new Point16(x, y));
+                        if (tile.type == TileID.Containers || tile.type == TileID.Containers2) return false;
+                    }
+                }
+
+            if (Main.npc.Any(n => n.active && n.friendly && Vector2.Distance(n.Center, test.ToVector2() * 16) <= 35 * 16)) return false;
+
+            return true;
+        }
+
         private void DrawInventoryParticles(On.Terraria.Main.orig_DrawInterface_27_Inventory orig, Main self)
         {
             orig(self);
@@ -175,14 +250,6 @@ namespace StarlightRiver
                 key.Draw(Main.spriteBatch);
             }
             orig(self);
-        }
-
-        public static Vector2 FindOffset(Vector2 basepos, float factor)
-        {
-            Vector2 origin = Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-            float x = (origin.X - basepos.X) * factor;
-            float y = (origin.Y - basepos.Y) * factor * 0.4f;
-            return new Vector2(x, y);
         }
 
         internal static ParticleSystem.Update UpdateOvergrowWells => UpdateOvergrowWellsBody;

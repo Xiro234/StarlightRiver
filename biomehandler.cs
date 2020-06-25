@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using StarlightRiver.Tiles;
 
 namespace StarlightRiver
 {
@@ -19,6 +20,7 @@ namespace StarlightRiver
         public bool ZoneJungleBloody = false;
         public bool ZoneJungleHoly = false;
         public bool ZoneOvergrow = false;
+        public bool zoneAluminum = false;
 
         public bool FountainJungleCorrupt = false;
         public bool FountainJungleBloody = false;
@@ -35,6 +37,7 @@ namespace StarlightRiver
             ZoneOvergrow = Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallType<Tiles.Overgrow.WallOvergrowGrass>() ||
                 Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallType<Tiles.Overgrow.WallOvergrowBrick>() ||
                 Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallType<Tiles.Overgrow.WallOvergrowInvisible>();
+            zoneAluminum = StarlightWorld.aluminumTiles > 50;
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -47,6 +50,7 @@ namespace StarlightRiver
             allMatch &= ZoneJungleBloody == modOther.ZoneJungleBloody;
             allMatch &= ZoneJungleHoly == modOther.ZoneJungleHoly;
             allMatch &= ZoneOvergrow == modOther.ZoneOvergrow;
+            allMatch &= zoneAluminum == modOther.zoneAluminum;
             return allMatch;
         }
 
@@ -59,6 +63,7 @@ namespace StarlightRiver
             modOther.ZoneJungleBloody = ZoneJungleBloody;
             modOther.ZoneJungleHoly = ZoneJungleHoly;
             modOther.ZoneOvergrow = ZoneOvergrow;
+            modOther.zoneAluminum = zoneAluminum;
         }
 
         public override void SendCustomBiomes(BinaryWriter writer)
@@ -70,6 +75,7 @@ namespace StarlightRiver
             flags[3] = ZoneJungleBloody;
             flags[4] = ZoneJungleHoly;
             flags[5] = ZoneOvergrow;
+            flags[6] = zoneAluminum;
             writer.Write(flags);
         }
 
@@ -82,6 +88,7 @@ namespace StarlightRiver
             ZoneJungleBloody = flags[3];
             ZoneJungleHoly = flags[4];
             ZoneOvergrow = flags[5];
+            zoneAluminum = flags[6];
         }
 
         public override void PreUpdate()
@@ -124,7 +131,7 @@ namespace StarlightRiver
                 Overlay.state = (int)OverlayState.HolyJungle;
             }
 
-            if (ZoneOvergrow && Main.rand.Next(5) == 0)
+            if (ZoneOvergrow && Main.rand.Next(10) == 0)
             {
                 Dust.NewDustPerfect(Main.screenPosition - Vector2.One * 100 + new Vector2(Main.rand.Next(Main.screenWidth + 200), Main.rand.Next(Main.screenHeight + 200)),
                 DustType<Dusts.OvergrowDust>(), Vector2.Zero, 0, new Color(255, 255, 205) * 0.05f, 2);
@@ -146,6 +153,7 @@ namespace StarlightRiver
         public static int corruptJungleTiles;
         public static int bloodJungleTiles;
         public static int holyJungleTiles;
+        public static int aluminumTiles;
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
@@ -154,6 +162,7 @@ namespace StarlightRiver
             corruptJungleTiles = tileCounts[TileType<Tiles.JungleCorrupt.GrassJungleCorrupt>()];
             bloodJungleTiles = tileCounts[TileType<Tiles.JungleBloody.GrassJungleBloody>()];
             holyJungleTiles = tileCounts[TileType<Tiles.JungleHoly.GrassJungleHoly>()];
+            aluminumTiles = tileCounts[TileType<OreAluminum>()];
         }
 
         public override void ResetNearbyTileEffects()
@@ -186,16 +195,10 @@ namespace StarlightRiver
                 backgroundColor = backgroundColor.MultiplyRGB(new Color(30, 60, 65));
             }
 
-            if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
+            if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().zoneAluminum)
             {
-                tileColor = tileColor.MultiplyRGB(Color.Purple);
-                backgroundColor = backgroundColor.MultiplyRGB(Color.Purple);
-            }
-
-            if (StarlightWorld.starfall)
-            {
-                tileColor = new Color(20, 50, 60);
-                backgroundColor = new Color(10, 15, 20);
+                tileColor = tileColor.MultiplyRGB(new Color(100, 150, 220));
+                backgroundColor = backgroundColor.MultiplyRGB(new Color(70, 100, 120));
             }
         }
     }

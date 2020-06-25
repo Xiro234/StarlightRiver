@@ -1,0 +1,49 @@
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Core;
+using StarlightRiver.Projectiles.WeaponProjectiles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
+using static Terraria.ModLoader.ModContent;
+
+namespace StarlightRiver.Buffs
+{
+    class AstralBuff : SmartBuff
+    {
+        public AstralBuff() : base("Zapped!", "Losing life, but zapping nearby enemies!", true) { }
+
+        public override bool Autoload(ref string name, ref string texture)
+        {
+            texture = "StarlightRiver/MarioCumming";
+            return true;
+        }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.lifeRegen -= 40;
+
+            if (Main.rand.Next(10) == 0)
+            {
+                Vector2 pos = player.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(player.width);
+                Helper.DrawElectricity(pos, pos + Vector2.One.RotatedByRandom(6.28f) * Main.rand.Next(5, 10), DustType<Dusts.Electric>(), 0.8f, 3);
+            }
+
+            if (Main.rand.Next(20) == 0)
+            {
+                for (int k = 0; k < Main.maxNPCs; k++)
+                {
+                    NPC npc = Main.npc[k];
+                    if (npc.active && Vector2.Distance(npc.Center, player.Center) < 100)
+                    {
+                        Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileType<LightningNode>(), 20, 0, player.whoAmI, 2, 100);
+                        Helper.DrawElectricity(player.Center, npc.Center, DustType<Dusts.Electric>());
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -148,9 +148,9 @@ namespace StarlightRiver
             return (sec / 60) + ":" + (sec % 60 < 10 ? "0" + sec % 60 : "" + sec % 60);
         }
 
-        public static void DrawElectricity(Vector2 point1, Vector2 point2, int dusttype, float scale = 1)
+        public static void DrawElectricity(Vector2 point1, Vector2 point2, int dusttype, float scale = 1, int armLength = 30)
         {
-            int nodeCount = (int)Vector2.Distance(point1, point2) / 30;
+            int nodeCount = (int)Vector2.Distance(point1, point2) / armLength;
             Vector2[] nodes = new Vector2[nodeCount + 1];
 
             nodes[nodeCount] = point2; //adds the end as the last point
@@ -158,7 +158,8 @@ namespace StarlightRiver
             for (int k = 1; k < nodes.Count(); k++)
             {
                 //Sets all intermediate nodes to their appropriate randomized dot product positions
-                nodes[k] = Vector2.Lerp(point1, point2, k / (float)nodeCount) + (k == nodes.Count() - 1 ? Vector2.Zero : Vector2.Normalize(point1 - point2).RotatedBy(1.58f) * Main.rand.NextFloat(-18, 18));
+                nodes[k] = Vector2.Lerp(point1, point2, k / (float)nodeCount) + 
+                    (k == nodes.Count() - 1 ? Vector2.Zero : Vector2.Normalize(point1 - point2).RotatedBy(1.58f) * Main.rand.NextFloat(-armLength / 2, armLength / 2));
 
                 //Spawns the dust between each node
                 Vector2 prevPos = k == 1 ? point1 : nodes[k - 1];

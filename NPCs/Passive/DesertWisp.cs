@@ -3,6 +3,7 @@ using StarlightRiver.Abilities;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Passive
 {
@@ -15,20 +16,18 @@ namespace StarlightRiver.NPCs.Passive
 
         public override void SetDefaults()
         {
-            npc.width = 18;
-            npc.height = 18;
+            npc.width = 8;
+            npc.height = 8;
             npc.damage = 0;
             npc.defense = 0;
             npc.lifeMax = 1;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.immortal = true;
+            npc.dontTakeDamage = true;
             npc.value = 0f;
             npc.knockBackResist = 0f;
             npc.aiStyle = 65;
         }
-
-        private bool fleeing = false;
 
         public override void AI()
         {
@@ -37,62 +36,22 @@ namespace StarlightRiver.NPCs.Passive
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             Vector2 distance = player.Center - npc.Center;
 
-            Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-20, 20) * 0.01f, Main.rand.Next(-20, 20) * 0.01f));
-            if (StarlightWorld.rottime == 0)
-            {
-                for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 20)
-                {
-                    Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)), 0, default, 0.5f);
-                }
-            }
-            float range = 180;
-            if (npc.localAI[2] > 0)
-            {
-                npc.localAI[2] -= 3.5f;
-                return;
-            }
-            if ((distance.Length() <= range && !(mp.wisp.Active)) || Main.dayTime)
-            {
-                fleeing = true;
-            }
-            if (fleeing)
+            Dust.NewDustPerfect(npc.Center, DustType<Dusts.Air>(), Vector2.Zero);
+
+            if ((distance.Length() <= 180 && !(mp.wisp.Active)) || Main.dayTime) npc.ai[3] = 1;
+
+            if (npc.ai[3] == 1)
             {
                 npc.velocity.Y = 10;
                 npc.velocity.X = 0;
-                Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-10, 10) * 0.1f, Main.rand.Next(-10, 10) * 0.1f));
             }
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return (spawnInfo.player.ZoneOverworldHeight && !Main.dayTime && spawnInfo.player.ZoneDesert) ? 1f : 0f;
-        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.player.ZoneOverworldHeight && !Main.dayTime && spawnInfo.player.ZoneDesert) ? 0.2f : 0f;
     }
 
-    internal class DesertWisp2 : ModNPC
+    internal class DesertWisp2 : DesertWisp
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Greater Desert Wisp");
-        }
-
-        public override void SetDefaults()
-        {
-            npc.width = 24;
-            npc.height = 24;
-            npc.damage = 0;
-            npc.defense = 0;
-            npc.lifeMax = 1;
-            npc.noGravity = true;
-            npc.noTileCollide = true;
-            npc.immortal = true;
-            npc.value = 0f;
-            npc.knockBackResist = 0f;
-            npc.aiStyle = 65;
-        }
-
-        private bool fleeing = false;
-
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -100,38 +59,11 @@ namespace StarlightRiver.NPCs.Passive
             AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
             Vector2 distance = player.Center - npc.Center;
 
-            Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-40, 40) * 0.01f, Main.rand.Next(-40, 40) * 0.01f));
-            if (StarlightWorld.rottime == 0)
-            {
-                for (float k = 0; k <= Math.PI * 2; k += (float)Math.PI / 20)
-                {
-                    Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2((float)Math.Cos(k), (float)Math.Sin(k)), 0, default, 0.6f);
-                }
-            }
-            float range = 120;
-            if (npc.localAI[2] > 0)
-            {
-                npc.localAI[2] -= 3.5f;
-                return;
-            }
-            if (distance.Length() <= range && !(mp.wisp.Active))
-            {
-                fleeing = true;
-            }
-            else
-            {
-                fleeing = false;
-            }
-            if (fleeing)
-            {
-                npc.velocity += Vector2.Normalize(distance) * -10;
-                Dust.NewDustPerfect(npc.Center, mod.DustType("Air"), new Vector2(Main.rand.Next(-10, 10) * 0.1f, Main.rand.Next(-10, 10) * 0.1f));
-            }
+            Dust.NewDustPerfect(npc.Center, DustType<Dusts.Air>(), Vector2.Zero);
+
+            if (distance.Length() <= 120 && !mp.wisp.Active) npc.velocity += Vector2.Normalize(distance) * -10;
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 3f : 0f;
-        }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo) => (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 1f : 0f;
     }
 }
