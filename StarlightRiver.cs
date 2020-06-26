@@ -1,7 +1,7 @@
+using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
-using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.RiftCrafting;
 using System;
 using System.Collections.Generic;
@@ -55,7 +55,9 @@ namespace StarlightRiver
 
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
         public static StarlightRiver Instance { get; set; }
+
         public StarlightRiver() { Instance = this; }
+
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
@@ -96,9 +98,9 @@ namespace StarlightRiver
                     priority = MusicPriority.BiomeHigh;
                 }
 
-                if (Main.LocalPlayer.ZoneOverworldHeight && StarlightWorld.starfall)
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().zoneAluminum)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starlight");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/AluminumPassive");
                     priority = MusicPriority.BiomeHigh;
                 }
             }
@@ -106,7 +108,7 @@ namespace StarlightRiver
         }
         public static void AutoloadRiftRecipes(List<RiftRecipe> target)
         {
-            Mod mod = ModContent.GetInstance<StarlightRiver>();
+            Mod mod = GetInstance<StarlightRiver>();
             if (mod.Code != null)
             {
                 foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))

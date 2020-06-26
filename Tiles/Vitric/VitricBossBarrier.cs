@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using static Terraria.ModLoader.ModContent;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +22,7 @@ namespace StarlightRiver.Tiles.Vitric
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            Main.tileSolid[Type] = Main.npc.Any(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>());
+            Main.tileSolid[Type] = Main.npc.Any(n => n.active && n.type == NPCType<NPCs.Boss.VitricBoss.VitricBoss>());
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Traps
 {
@@ -23,6 +24,7 @@ namespace StarlightRiver.NPCs.Traps
             npc.width = 160;
             npc.height = 10;
             npc.immortal = true;
+            npc.dontTakeDamage = true;
             npc.lifeMax = 1;
             npc.dontCountMe = true;
             npc.aiStyle = -1;
@@ -47,7 +49,7 @@ namespace StarlightRiver.NPCs.Traps
                     Vector2 vel = new Vector2(1, 0).RotatedBy(-k) * Main.rand.NextFloat(8);
                     if (Main.rand.Next(2) == 0) { vel = new Vector2(-1, 0).RotatedBy(k) * Main.rand.NextFloat(8); }
                     Dust.NewDustPerfect(npc.Center + new Vector2(vel.X * 3, 5), DustID.Stone, vel * 0.7f);
-                    Dust.NewDustPerfect(npc.Center + new Vector2(vel.X * 3, 5), ModContent.DustType<Dusts.Stamina>(), vel);
+                    Dust.NewDustPerfect(npc.Center + new Vector2(vel.X * 3, 5), DustType<Dusts.Stamina>(), vel);
                 }
                 Main.PlaySound(SoundID.Item70.WithPitchVariance(0.6f), npc.Center);
 
@@ -59,10 +61,22 @@ namespace StarlightRiver.NPCs.Traps
             }
         }
 
+        public override bool? CanHitNPC(NPC target) => true;
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (target.type == NPCID.Bunny)
+            {
+                damage *= 99;
+                crit = true;
+                for (int k = 0; k < 1000; k++) Dust.NewDustPerfect(target.Center, DustID.Blood, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(20), 0, default, 3);
+            }
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Traps/CrusherGlow");
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Traps/CrusherTile");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Traps/CrusherGlow");
+            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Traps/CrusherTile");
 
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, -24), tex.Bounds, Color.White * 0.8f, 0, tex.Size() / 2, 1.2f + (float)Math.Sin(npc.ai[0] / 80f * 6.28f) * 0.2f, 0, 0);
 

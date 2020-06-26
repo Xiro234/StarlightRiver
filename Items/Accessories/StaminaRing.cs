@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StarlightRiver.Abilities;
 using Terraria;
-using StarlightRiver.Abilities;
 using Terraria.ID;
 
 namespace StarlightRiver.Items.Accessories

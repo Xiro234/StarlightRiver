@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
@@ -15,7 +16,7 @@ namespace StarlightRiver.Tiles.Overgrow
             Main.tileBlockLight[Type] = false;
             Main.tileLighted[Type] = true;
 
-            dustType = ModContent.DustType<Dusts.Gold>();
+            dustType = DustType<Dusts.Gold>();
             AddMapEntry(new Color(255, 255, 80));
         }
 
@@ -39,8 +40,8 @@ namespace StarlightRiver.Tiles.Overgrow
 
             if (tile.frameX == 20)
             {
-                Dust.NewDust(new Vector2(i, j) * 16, 16, 16, ModContent.DustType<Dusts.Gold2>(), 0, -1);
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/MarkerGem");
+                Dust.NewDust(new Vector2(i, j) * 16, 16, 16, DustType<Dusts.Gold2>(), 0, -1);
+                Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/MarkerGem");
                 spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16, new Rectangle(20, 0, 16, 16), Color.White);
             }
         }

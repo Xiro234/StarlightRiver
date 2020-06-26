@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -6,14 +7,13 @@ using StarlightRiver.Configs;
 using StarlightRiver.Dragons;
 using StarlightRiver.GUI;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
+using StarlightRiver.Core;
 
 namespace StarlightRiver
 {
@@ -160,7 +160,7 @@ namespace StarlightRiver
                 c.Emit(OpCodes.Brtrue, il.Instrs[index]);
                 c.Emit(OpCodes.Ldsfld, typeof(TileID.Sets.Conversion).GetField("Grass"));
             }
-            c.TryGotoNext(i => i.MatchLdfld<Tile>("wall"), i => i.MatchLdcI4(69));
+            c.TryGotoNext(i => i.MatchLdfld<Tile>("wall"), i => i.MatchLdcI4(69)); //funny sex number!!!
             c.TryGotoPrev(i => i.MatchLdsfld<Main>("tile"));
             c.Index++;
             c.Emit(OpCodes.Ldc_I4, TileID.JungleGrass);
@@ -343,120 +343,16 @@ namespace StarlightRiver
         //private readonly List<BootlegDust> WindowDust = new List<BootlegDust>();
         private void EmitMoonlordLayerDel()
         {
-            for (int i = 0; i < Main.maxNPCs; i++)
+            for(int k = 0; k < Main.maxProjectiles; k++)
             {
-                if (!Main.npc[i].active) return;
+                if(Main.projectile[k].modProjectile is IMoonlordLayerDrawable)
+                    (Main.projectile[k].modProjectile as IMoonlordLayerDrawable).DrawMoonlordLayer(Main.spriteBatch);           
+            }
 
-                if (Main.npc[i].type == ModContent.NPCType<Projectiles.Dummies.OvergrowBossWindowDummy>())
-                {
-                    NPC npc = Main.npc[i];
-                    Vector2 pos = npc.Center;
-                    Vector2 dpos = pos - Main.screenPosition;
-                    SpriteBatch spriteBatch = Main.spriteBatch;
-
-                    //background
-                    Texture2D backtex1 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window4");
-                    spriteBatch.Draw(backtex1, dpos, new Rectangle(0, 0, 100, 100), new Color(205, 165, 70), 0, Vector2.One * 50, 10, 0, 0);
-
-                    for (int k = -5; k < 5; k++)//back row
-                    {
-                        Texture2D backtex2 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window3");
-                        Vector2 thispos = dpos + new Vector2(k * backtex2.Width, 300) + FindOffset(pos, 0.4f);
-                        if (Vector2.Distance(thispos, dpos) < 800)
-                            spriteBatch.Draw(backtex2, thispos, backtex2.Frame(), Color.White, 0, backtex2.Frame().Size() / 2, 1, 0, 0);
-                    }
-                    for (int k = -5; k < 5; k++)//mid row
-                    {
-                        Texture2D backtex3 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window2");
-                        Vector2 thispos = dpos + new Vector2(k * backtex3.Width, 350) + FindOffset(pos, 0.3f);
-                        if (Vector2.Distance(thispos, dpos) < 800)
-                            spriteBatch.Draw(backtex3, thispos, backtex3.Frame(), Color.White, 0, backtex3.Frame().Size() / 2, 1, 0, 0);
-                    }
-
-                    //sun
-                    spriteBatch.End();
-                    spriteBatch.Begin(default, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
-
-                    Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
-
-                    // Update + draw dusts
-                    /*foreach (BootlegDust dust in WindowDust)
-                    {
-                        dust.SafeDraw(spriteBatch);
-                        dust.Update();
-                    }
-                    WindowDust.RemoveAll(n => n.time == 0);
-
-                    if (Main.rand.Next(10) == 0) WindowDust.Add(new WindowLightDust(npc.Center + new Vector2(Main.rand.Next(-350, 350), -650), new Vector2(0, Main.rand.NextFloat(0.8f, 1.6f))));
-                    */
-
-                    for (int k = -2; k < 3; k++)
-                    {
-                        Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/PitGlow");
-                        float rot = (float)Main.time / 50 % 6.28f;
-                        float sin = (float)Math.Sin(rot + k);
-                        float sin2 = (float)Math.Sin(rot + k * 1.4f);
-                        float cos = (float)Math.Cos(rot + k * 1.8f);
-                        Vector2 beampos = dpos + FindOffset(pos, 0.4f + Math.Abs(k) * 0.05f) + new Vector2(k * 85 + (k % 2 == 0 ? sin : sin2) * 30, -300);
-                        Rectangle beamrect = new Rectangle((int)beampos.X - (int)(sin * 30), (int)beampos.Y + (int)(sin2 * 70), 90 + (int)(sin * 30), 700 + (int)(sin2 * 140));
-
-                        spriteBatch.Draw(tex2, beamrect, tex2.Frame(), new Color(255, 255, 200) * (1.4f + cos) * 0.8f, 0, tex2.Frame().Size() / 2, SpriteEffects.FlipVertically, 0);
-                    }
-
-                    spriteBatch.End();
-                    spriteBatch.Begin(default, default, SamplerState.PointWrap, default, default, default, Main.GameViewMatrix.TransformationMatrix);
-
-                    for (int k = -10; k < 10; k++)// small waterfalls
-                    {
-                        Texture2D watertex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
-                        int frame = (int)Main.time % 16 / 2;
-                        spriteBatch.Draw(watertex, dpos + new Vector2(100, k * 64) + FindOffset(pos, 0.22f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 2, 0, 0);
-                    }
-
-                    for (int k = -5; k < 5; k++) //front row
-                    {
-                        Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
-                        Vector2 thispos = dpos + new Vector2(k * backtex4.Width, 380) + FindOffset(pos, 0.2f);
-                        if (Vector2.Distance(thispos, dpos) < 800)
-                            spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
-                    }
-
-                    for (int k = -5; k < 5; k++) //top row
-                    {
-                        Texture2D backtex4 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Window1");
-                        Vector2 thispos = dpos + new Vector2(k * backtex4.Width, -450) + FindOffset(pos, 0.25f);
-                        if (Vector2.Distance(thispos, dpos) < 800)
-                            spriteBatch.Draw(backtex4, thispos, backtex4.Frame(), Color.White, 0, backtex4.Frame().Size() / 2, 1, 0, 0);
-                    }
-
-                    for (int k = -7; k < 7; k++) //big waterfall
-                    {
-                        Texture2D watertex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
-                        int frame = (int)Main.time % 16 / 2;
-                        spriteBatch.Draw(watertex, dpos + new Vector2(300, k * 96) + FindOffset(pos, 0.1f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 3, 0, 0);
-                    }
-
-                    foreach (NPC boss in Main.npc.Where(n => n.active && n.type == ModContent.NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == (int)NPCs.Boss.OvergrowBoss.OvergrowBoss.OvergrowBossPhase.FirstGuard)) //boss behind
-                    {
-                        Texture2D bosstex = ModContent.GetTexture(boss.modNPC.Texture);
-                        spriteBatch.Draw(bosstex, boss.Center - Main.screenPosition, bosstex.Frame(), Color.White, boss.rotation, bosstex.Frame().Size() / 2, boss.scale, 0, 0);
-                    }
-
-                    if (npc.ai[0] <= 360) //wall
-                    {
-                        Texture2D walltex = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Dor2");
-                        Texture2D walltex2 = ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/Dor1");
-                        Rectangle sourceRect = new Rectangle(0, 0, walltex.Width, walltex.Height - (int)(npc.ai[0] / 360 * 764));
-                        Rectangle sourceRect2 = new Rectangle(0, (int)(npc.ai[0] / 360 * 564), walltex2.Width, walltex2.Height - (int)(npc.ai[0] / 360 * 564));
-                        spriteBatch.Draw(walltex, dpos + new Vector2(0, 176 + npc.ai[0] / 360 * 764), sourceRect, new Color(255, 255, 200), 0, walltex.Frame().Size() / 2, 1, 0, 0); //frame
-                        spriteBatch.Draw(walltex2, dpos + new Vector2(0, -282 - npc.ai[0] / 360), sourceRect2, new Color(255, 255, 200), 0, walltex2.Frame().Size() / 2, 1, 0, 0); //frame
-                    }
-                }
-
-                if (Main.npc[i].modNPC is NPCs.Boss.VitricBoss.VitricBackdropLeft)
-                {
-                    (Main.npc[i].modNPC as NPCs.Boss.VitricBoss.VitricBackdropLeft).SpecialDraw(Main.spriteBatch);
-                }
+            for (int k = 0; k < Main.maxNPCs; k++)
+            {
+                if (Main.npc[k].modNPC is IMoonlordLayerDrawable)
+                    (Main.npc[k].modNPC as IMoonlordLayerDrawable).DrawMoonlordLayer(Main.spriteBatch);
             }
         }
 
@@ -618,7 +514,7 @@ namespace StarlightRiver
             }
 
             //trees, 100% not the right place to do this. I should probably move this later. I wont. Kill me.
-            if (Main.tile[i, j].type == Terraria.ID.TileID.Trees && Main.tile[i, j - 1].type != Terraria.ID.TileID.Trees && Main.tile[i, j + 1].type == Terraria.ID.TileID.Trees
+            if (Main.tile[i, j].type == TileID.Trees && Main.tile[i, j - 1].type != TileID.Trees && Main.tile[i, j + 1].type == TileID.Trees
                 && Helper.ScanForTypeDown(i, j, ModContent.TileType<Tiles.JungleHoly.GrassJungleHoly>())) //at the top of trees in the holy jungle
             {
                 Color color = new Color();

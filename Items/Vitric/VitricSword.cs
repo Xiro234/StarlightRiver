@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -70,7 +71,7 @@ namespace StarlightRiver.Items.Vitric
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.FossilOre, 10);
-            recipe.AddIngredient(ModContent.ItemType<VitricGem>(), 4);
+            recipe.AddIngredient(ItemType<VitricGem>(), 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

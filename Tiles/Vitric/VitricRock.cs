@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
+using StarlightRiver.Tiles.Vitric.Blocks;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -21,11 +23,11 @@ namespace StarlightRiver.Tiles.Vitric
             TileObjectData.newTile.RandomStyleRange = 6;
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                ModContent.TileType<VitricSand>()
+                TileType<VitricSand>()
             };
             TileObjectData.addTile(Type);
             soundType = SoundID.Shatter;
-            dustType = ModContent.DustType<Dusts.Glass2>();
+            dustType = DustType<Dusts.Glass2>();
             AddMapEntry(new Color(115, 182, 158));
         }
     }

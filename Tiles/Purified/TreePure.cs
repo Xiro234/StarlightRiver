@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -10,7 +11,7 @@ namespace StarlightRiver.Tiles.Purified
 
         public override int CreateDust()
         {
-            return ModContent.DustType<Dusts.Purify>();
+            return DustType<Dusts.Purify>();
         }
 
         public override int GrowthFXGore()

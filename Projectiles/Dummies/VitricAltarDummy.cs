@@ -1,12 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using StarlightRiver.NPCs.Boss.VitricBoss;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -38,7 +39,7 @@ namespace StarlightRiver.Projectiles.Dummies
             if (parent.frameX == 0 && Main.player.Any(n => Abilities.AbilityHelper.CheckDash(n, projectile.Hitbox)))
             {
                 Main.PlaySound(Terraria.ID.SoundID.Shatter);
-                for (int k = 0; k < 100; k++) Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Glass2>(), 0, 0, 0, default, 1.2f);
+                for (int k = 0; k < 100; k++) Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType<Dusts.Glass2>(), 0, 0, 0, default, 1.2f);
                 for (int x = parentPos.X; x < parentPos.X + 5; x++)
                 {
                     for (int y = parentPos.Y; y < parentPos.Y + 7; y++)
@@ -51,8 +52,8 @@ namespace StarlightRiver.Projectiles.Dummies
             if (parent.frameX == 90 && !StarlightWorld.GlassBossOpen)
             {
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 1;
-                Dust.NewDust(projectile.Center + new Vector2(-632, projectile.height / 2), 560, 1, ModContent.DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f));
-                Dust.NewDust(projectile.Center + new Vector2(72, projectile.height / 2), 560, 1, ModContent.DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f));
+                Dust.NewDust(projectile.Center + new Vector2(-632, projectile.height / 2), 560, 1, DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f));
+                Dust.NewDust(projectile.Center + new Vector2(72, projectile.height / 2), 560, 1, DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f));
                 //Main.PlaySound(SoundID.); TODO: Rumble sound
                 projectile.ai[1]++;
                 if (projectile.ai[1] > 120)
@@ -69,21 +70,21 @@ namespace StarlightRiver.Projectiles.Dummies
             }
 
             //This controls spawning the rest of the arena
-            if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBackdropLeft>())) //Need to find a better check
+            if (!Main.npc.Any(n => n.active && n.type == NPCType<VitricBackdropLeft>())) //Need to find a better check
             {
                 Main.NewText("Debug");
                 Vector2 center = projectile.Center + new Vector2(0, 60);
                 int timerset = StarlightWorld.GlassBossOpen ? 360 : 0; //the arena should already be up if it was opened before
 
-                int index = NPC.NewNPC((int)center.X + 352, (int)center.Y, ModContent.NPCType<VitricBackdropRight>(), 0, timerset);
+                int index = NPC.NewNPC((int)center.X + 352, (int)center.Y, NPCType<VitricBackdropRight>(), 0, timerset);
                 if (StarlightWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropRight) (Main.npc[index].modNPC as VitricBackdropRight).SpawnPlatforms(false);
 
-                index = NPC.NewNPC((int)center.X - 352, (int)center.Y, ModContent.NPCType<VitricBackdropLeft>(), 0, timerset);
+                index = NPC.NewNPC((int)center.X - 352, (int)center.Y, NPCType<VitricBackdropLeft>(), 0, timerset);
                 if (StarlightWorld.GlassBossOpen && Main.npc[index].modNPC is VitricBackdropLeft) (Main.npc[index].modNPC as VitricBackdropLeft).SpawnPlatforms(false);
             }
 
             //controls the drawing of the barriers
-            if (projectile.ai[0] < 120 && Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>()))
+            if (projectile.ai[0] < 120 && Main.npc.Any(n => n.active && n.type == NPCType<VitricBoss>()))
             {
                 projectile.ai[0]++;
                 if (projectile.ai[0] % 3 == 0) Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 2; //screenshake
@@ -93,7 +94,7 @@ namespace StarlightRiver.Projectiles.Dummies
                     for (int k = 0; k < 5; k++) Main.PlaySound(Terraria.ID.SoundID.Tink);
                 }
             }
-            else if (!Main.npc.Any(n => n.active && n.type == ModContent.NPCType<VitricBoss>())) projectile.ai[0] = 0; //TODO fix this later
+            else if (!Main.npc.Any(n => n.active && n.type == NPCType<VitricBoss>())) projectile.ai[0] = 0; //TODO fix this later
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor) //actually drawing the barriers and item indicator
@@ -101,18 +102,18 @@ namespace StarlightRiver.Projectiles.Dummies
             Point16 parentPos = new Point16((int)projectile.position.X / 16, (int)projectile.position.Y / 16);
             Tile parent = Framing.GetTileSafely(parentPos.X, parentPos.Y);
 
-            if (parent.frameX >= 90 && !NPC.AnyNPCs(ModContent.NPCType<NPCs.Boss.VitricBoss.VitricBoss>()))
+            if (parent.frameX >= 90 && !NPC.AnyNPCs(NPCType<VitricBoss>()))
             {
                 Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5 - 20), new Color(150, 220, 250));
             }
             else if (parent.frameX < 90)
             {
-                Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricBossAltarGlow");
+                Texture2D glow = GetTexture("StarlightRiver/Tiles/Vitric/VitricBossAltarGlow");
                 spriteBatch.Draw(glow, projectile.position - Main.screenPosition + new Vector2(3, -9), glow.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, Vector2.Zero, 1, 0, 0);
             }
 
             Vector2 center = projectile.Center + new Vector2(0, 56);
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBossBarrier");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBossBarrier");
             Color color = new Color(180, 225, 255);
             int off = (int)(projectile.ai[0] / 120f * 880);
             spriteBatch.Draw(tex, new Rectangle((int)center.X - 790 - (int)Main.screenPosition.X, (int)center.Y - off - (int)Main.screenPosition.Y, tex.Width, off),
@@ -124,7 +125,7 @@ namespace StarlightRiver.Projectiles.Dummies
 
         public void SpawnBoss()
         {
-            NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 500, ModContent.NPCType<VitricBoss>());
+            NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 500, NPCType<VitricBoss>());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -71,16 +72,16 @@ namespace StarlightRiver.Tiles.Herbology
                 for (int k = 0; k < 2; k++)
                     for (int l = 0; l < 2; ++l)
                         Main.tile[newX + k, newY + l].frameX -= 36; //Changes frames to berry-less
-                Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.ForestBerries>()); //Drops berries
+                Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Herbology.ForestBerries>()); //Drops berries
             }
             return true;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), ModContent.ItemType<Items.Herbology.BerryBush>()); //drop a bush item
+            Item.NewItem(new Vector2(i * 16, j * 16), ItemType<Items.Herbology.BerryBush>()); //drop a bush item
             if (frameX > 35)
-                Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.ForestBerries>()); //Drops berries if harvestable
+                Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Herbology.ForestBerries>()); //Drops berries if harvestable
         }
     }
 }

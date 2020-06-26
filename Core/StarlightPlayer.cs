@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
 using StarlightRiver.GUI;
+using StarlightRiver.Items.Armor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -91,47 +91,17 @@ namespace StarlightRiver.Core
             }
             DarkSlow = false;
         }
-        #region ResetEffects
-        public delegate void ResetEffectsDelegate(Player player);
+
+        public delegate void ResetEffectsDelegate(StarlightPlayer player);
         public static event ResetEffectsDelegate ResetEffectsEvent;
         public override void ResetEffects()
         {
-            ResetEffectsEvent?.Invoke(player);
+            ResetEffectsEvent?.Invoke(this);
             GuardDamage = 1;
             GuardCrit = 0;
             GuardBuff = 1;
             GuardRad = 0;
         }
-        #endregion
-        #region ModifyHitByProjectile
-        //for on-hit effects that require more specific effects, projectiles
-        public delegate void ModifyHitByProjectileDelegate(Player player, Projectile proj, ref int damage, ref bool crit);
-        public static event ModifyHitByProjectileDelegate ModifyHitByProjectileEvent;
-        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit) { ModifyHitByProjectileEvent?.Invoke(player, proj, ref damage, ref crit); }
-
-        #endregion
-        #region ModifyHitByNPC
-        //for on-hit effects that require more specific effects, contact damage
-        public delegate void ModifyHitByNPCDelegate(Player player, NPC npc, ref int damage, ref bool crit);
-        public static event ModifyHitByNPCDelegate ModifyHitByNPCEvent;
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit) { ModifyHitByNPCEvent?.Invoke(player, npc, ref damage, ref crit); }
-        #endregion
-        #region ModifyHitNPC
-        //For stuff like fire gauntlet
-        public delegate void ModifyHitNPCDelegate(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit);
-        public static event ModifyHitNPCDelegate ModifyHitNPCEvent;
-        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
-        { ModifyHitNPCEvent?.Invoke(player, item, target, ref damage, ref knockback, ref crit); }
-        #endregion
-        #region PreHurt
-        //this is the grossest one. I am sorry, little ones.
-        public delegate bool PreHurtDelegate(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource);
-        public static event PreHurtDelegate PreHurtEvent;
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
-        {
-            return (bool)PreHurtEvent?.Invoke(player, pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
-        }
-        #endregion
 
         public override void PostUpdate()
         {
@@ -145,11 +115,7 @@ namespace StarlightRiver.Core
             LastHit = Timer;
         }
 
-        public override void PostUpdateEquips()
-        {
-            JustHit = false;
-        }
-
+        public override void PostUpdateEquips() => JustHit = false;
         public override void ModifyScreenPosition()
         {
             if (ScreenMoveTime > 0 && ScreenMoveTarget != Vector2.Zero)
@@ -178,19 +144,45 @@ namespace StarlightRiver.Core
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
         }
-
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;
 
-            Action<PlayerDrawInfo> layerTarget = DrawGlowmasks; //the Action<T> of our layer. This is the delegate which will actually do the drawing of the layer.
-            PlayerLayer layer = new PlayerLayer("ExampleSwordLayer", "Sword Glowmask", layerTarget); //Instantiate a new instance of PlayerLayer to insert into the list
-            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Arms")), layer); //Insert the layer at the appropriate index.
+            Action<PlayerDrawInfo> layerTarget = DrawGlowmasks;
+            PlayerLayer layer = new PlayerLayer("ItemLayer", "Starlight River Item Drawing Layer", layerTarget);
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Arms")), layer);
 
             void DrawGlowmasks(PlayerDrawInfo info)
             {
                 if (info.drawPlayer.HeldItem.modItem is Items.IGlowingItem) (info.drawPlayer.HeldItem.modItem as Items.IGlowingItem).DrawGlowmask(info);
             }
+            #region armor masks
+            Action<PlayerDrawInfo> helmetTarget = DrawHelmetMask;
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Head")) + 1, new PlayerLayer("SLRHelmet", "Helmet mask layer", helmetTarget));
+
+            Action<PlayerDrawInfo> chestTarget = DrawChestMask;
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Body")) + 1, new PlayerLayer("SLRChest", "Chest mask layer", chestTarget));
+
+            Action<PlayerDrawInfo> legTarget = DrawLegMask;
+            layers.Insert(layers.IndexOf(layers.FirstOrDefault(n => n.Name == "Legs")) + 1, new PlayerLayer("SLRLeg", "Leg mask layer", legTarget));
+
+
+            void DrawHelmetMask(PlayerDrawInfo info)
+            {
+                if (info.drawPlayer.armor[10].IsAir && info.drawPlayer.armor[0].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[0].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+                else if (info.drawPlayer.armor[10].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[10].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+            }
+            void DrawChestMask(PlayerDrawInfo info)
+            {
+                if (info.drawPlayer.armor[11].IsAir && info.drawPlayer.armor[1].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[1].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+                else if (info.drawPlayer.armor[11].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[11].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+            }
+            void DrawLegMask(PlayerDrawInfo info)
+            {
+                if (info.drawPlayer.armor[12].IsAir && info.drawPlayer.armor[2].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[2].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+                else if (info.drawPlayer.armor[12].modItem is IArmorLayerDrawable) (info.drawPlayer.armor[12].modItem as IArmorLayerDrawable).DrawArmorLayer(info);
+            }
+            #endregion
         }
 
         public override void OnEnterWorld(Player player)
@@ -199,4 +191,3 @@ namespace StarlightRiver.Core
         }
     }
 }
- 

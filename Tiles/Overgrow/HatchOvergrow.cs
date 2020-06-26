@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -23,24 +24,26 @@ namespace StarlightRiver.Tiles.Overgrow
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.addTile(Type);
 
-            dustType = ModContent.DustType<Dusts.Gold2>();
+            dustType = DustType<Dusts.Gold2>();
             disableSmartCursor = true;
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (!Main.projectile.Any(proj => proj.active && proj.type == ModContent.ProjectileType<Projectiles.Dummies.HatchDummy>() &&
+            if (!Main.projectile.Any(proj => proj.active && proj.type == ProjectileType<Projectiles.Dummies.HatchDummy>() &&
              proj.Hitbox.Intersects(new Rectangle(i * 16, j * 16, 16, 16))) && Main.tile[i, j].frameX == 18)
             {
-                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.HatchDummy>(), 0, 0);
+                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ProjectileType<Projectiles.Dummies.HatchDummy>(), 0, 0);
             }
 
             Lighting.AddLight(new Vector2(i, j + 2) * 16, new Vector3(0.6f, 0.6f, 0.5f));
         }
     }
 
-    internal class BigHatchOvergrow : ModTile
+    internal class BigHatchOvergrow : DummyTile
     {
+        public override int DummyType => ProjectileType<Projectiles.Dummies.BigHatchDummy>();
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = false;
@@ -50,14 +53,8 @@ namespace StarlightRiver.Tiles.Overgrow
             AddMapEntry(new Color(255, 255, 220));
         }
 
-        public override void NearbyEffects(int i, int j, bool closer)
+        public override void SafeNearbyEffects(int i, int j, bool closer)
         {
-            if (!Main.projectile.Any(proj => proj.active && proj.type == ModContent.ProjectileType<Projectiles.Dummies.BigHatchDummy>() &&
-             proj.Hitbox.Intersects(new Rectangle(i * 16, j * 16, 16, 16))))
-            {
-                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.BigHatchDummy>(), 0, 0);
-            }
-
             Lighting.AddLight(new Vector2(i - 8, j + 4) * 16, new Vector3(0.6f, 0.6f, 0.5f) * 2);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -32,7 +33,7 @@ namespace StarlightRiver.Tiles.Overgrow
             {
                 if (!Main.projectile.Any(proj => proj.modProjectile is Projectiles.Dummies.OvergrowGateDummy && proj.active))
                 {
-                    Projectile.NewProjectile(new Vector2(i + 1, j + 3.5f) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.OvergrowGateDummy>(), 1, 1);
+                    Projectile.NewProjectile(new Vector2(i + 1, j + 3.5f) * 16, Vector2.Zero, ProjectileType<Projectiles.Dummies.OvergrowGateDummy>(), 1, 1);
                 }
             }
         }

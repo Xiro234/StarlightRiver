@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
@@ -37,7 +38,7 @@ namespace StarlightRiver.Tiles.Overgrow
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            int dummyType = ModContent.ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>();
+            int dummyType = ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>();
             Tile tile = Main.tile[i, j];
             if (tile.frameX == 0 && tile.frameY == 0)
             {

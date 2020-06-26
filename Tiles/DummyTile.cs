@@ -1,18 +1,14 @@
-﻿using System.Linq;
+﻿using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Tiles
 {
     internal abstract class DummyTile : ModTile
     {
-        private readonly int DummyType;
+        public virtual int DummyType { get; }
 
-        public DummyTile(int dummyType)
-        {
-            DummyType = dummyType;
-        }
         public virtual bool SpawnConditions(int i, int j)
         {
             Tile tile = Main.tile[i, j];

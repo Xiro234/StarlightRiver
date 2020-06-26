@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Items;
 using System.Linq;
 using Terraria;
@@ -11,11 +12,12 @@ namespace StarlightRiver.Food
     {
         public override void NPCLoot(NPC npc)
         {
-            if (npc.type == NPCID.DD2OgreT3 || npc.type == NPCID.DD2OgreT2) Item.NewItem(npc.Center, ModContent.ItemType<Onion>());
+            if (npc.type == NPCID.DD2OgreT3 || npc.type == NPCID.DD2OgreT2) Item.NewItem(npc.Center, ItemType<Onion>());
         }
     }
 
-    public class Onion : QuickMaterial {
+    public class Onion : QuickMaterial
+    {
         public Onion() : base("Onion", "Does this mod add any drops to ogre?", 69420, 69420, -12)
         {
         }
@@ -36,14 +38,14 @@ namespace StarlightRiver.Food
                     npc.StrikeNPC((int)(5 * multiplier), 0, 0);
                 }
             }
-            Dust.NewDustPerfect(player.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(100), ModContent.DustType<Dusts.GasGreen>(), null, 0, default, 10);
+            Dust.NewDustPerfect(player.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(100), DustType<Dusts.GasGreen>(), null, 0, default, 10);
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Onion>());
-            recipe.AddTile(ModContent.TileType<Tiles.Crafting.Oven>());
+            recipe.AddIngredient(ItemType<Onion>());
+            recipe.AddTile(TileType<Tiles.Crafting.Oven>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

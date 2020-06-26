@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +9,6 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -68,7 +69,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             npc.frame.Width = 128;
             npc.frame.Height = 128;
-            spriteBatch.Draw(ModContent.GetTexture(Texture), npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, 0, 0);
+            spriteBatch.Draw(GetTexture(Texture), npc.Center - Main.screenPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, 0, 0);
 
             //debug drawing
 
@@ -105,7 +106,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             if (Phase == (int)AIStates.FirstPhase && npc.dontTakeDamage) //draws the npc's shield when immune and in the first phase
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/Shield");
+                Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/Shield");
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (0.55f + ((float)Math.Sin(StarlightWorld.rottime * 2) * 0.15f)), 0, tex.Size() / 2, 1, 0, 0);
             }
         }
@@ -186,7 +187,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     for (int k = 0; k < Main.maxNPCs; k++) //finds all the large platforms to add them to the list of possible locations for the nuke attack
                     {
                         NPC npc = Main.npc[k];
-                        if (npc?.active == true && (npc.type == ModContent.NPCType<VitricBossPlatformUp>() || npc.type == ModContent.NPCType<VitricBossPlatformDown>())) CrystalLocations.Add(npc.Center + new Vector2(0, -48));
+                        if (npc?.active == true && (npc.type == NPCType<VitricBossPlatformUp>() || npc.type == NPCType<VitricBossPlatformDown>())) CrystalLocations.Add(npc.Center + new Vector2(0, -48));
                     }
 
                     ChangePhase(AIStates.SpawnAnimation, true);
@@ -214,7 +215,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                             if (GlobalTimer == 280 + k * 30)
                             {
                                 Vector2 target = new Vector2(npc.Center.X + (-100 + k * 50), StarlightWorld.VitricBiome.Top * 16 + 1100);
-                                int index = NPC.NewNPC((int)target.X, (int)target.Y, ModContent.NPCType<VitricBossCrystal>(), 0, 2); //spawn in state 2: sandstone forme
+                                int index = NPC.NewNPC((int)target.X, (int)target.Y, NPCType<VitricBossCrystal>(), 0, 2); //spawn in state 2: sandstone forme
                                 (Main.npc[index].modNPC as VitricBossCrystal).Parent = this;
                                 (Main.npc[index].modNPC as VitricBossCrystal).StartPos = target;
                                 (Main.npc[index].modNPC as VitricBossCrystal).TargetPos = npc.Center + new Vector2(0, -120).RotatedBy(6.28f / 4 * k);
@@ -227,7 +228,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         npc.dontTakeDamage = false; //make him vulnerable
                         npc.friendly = false; //and hurt when touched
                         homePos = npc.Center; //set the NPCs home so it can return here after attacks
-                        int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<ArenaBottom>());
+                        int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<ArenaBottom>());
                         (Main.npc[index].modNPC as ArenaBottom).Parent = this;
                         ChangePhase(AIStates.FirstPhase, true);
                     }
@@ -399,7 +400,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             if (IconFrameCounter++ >= 5) { IconFrame++; IconFrameCounter = 0; }
             if (IconFrame > 3) IconFrame = 0;
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBoss_Head_Boss");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBoss_Head_Boss");
             spriteBatch.Draw(tex, center, new Rectangle(0, IconFrame * 30, 30, 30), color, npc.rotation, Vector2.One * 15, scale, 0, 0);
         }
     }

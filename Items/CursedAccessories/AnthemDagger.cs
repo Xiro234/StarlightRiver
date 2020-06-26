@@ -1,15 +1,14 @@
-﻿using System;
+﻿using static Terraria.ModLoader.ModContent;
+using StarlightRiver.Core;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.Items.CursedAccessories
 {
     internal class AnthemDagger : CursedAccessory
     {
-        public AnthemDagger() : base(ModContent.GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow")) { }
+        public AnthemDagger() : base(GetTexture("StarlightRiver/Items/CursedAccessories/AnthemDaggerGlow")) { }
 
         public override void SetStaticDefaults()
         {
@@ -28,6 +27,7 @@ namespace StarlightRiver.Items.CursedAccessories
             StarlightPlayer.PreHurtEvent += PreHurtDagger;
             return true;
         }
+
         private bool PreHurtDagger(Player player, bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
             if (Equipped(player))

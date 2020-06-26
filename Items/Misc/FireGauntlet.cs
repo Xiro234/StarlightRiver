@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles;
 using Terraria;
 using Terraria.ID;
@@ -25,7 +26,7 @@ namespace StarlightRiver.Items.Misc
             item.autoReuse = true;
             item.mana = 24;
             item.magic = true;
-            item.shoot = ModContent.ProjectileType<Flamebolt>();
+            item.shoot = ProjectileType<Flamebolt>();
         }
 
         public override void SetStaticDefaults()

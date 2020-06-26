@@ -1,16 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Codex;
+using StarlightRiver.Core;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Pickups
 {
     internal class Lore : AbilityPickup
     {
-        public override string Texture => "StarlightRiver/GUI/Book1Closed";
+        public override string Texture => "StarlightRiver/GUI/Assets/Book1Closed";
         public override Color GlowColor => new Color(200, 130, 40);
 
         public override bool CanPickup(Player player)
@@ -26,7 +27,7 @@ namespace StarlightRiver.NPCs.Pickups
         public override void Visuals()
         {
             float rot = Main.rand.NextFloat(6.28f);
-            Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(rot) * 20, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedBy(rot) * -1);
+            Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedBy(rot) * 20, DustType<Dusts.Stamina>(), Vector2.One.RotatedBy(rot) * -1);
 
             Lighting.AddLight(npc.Center, new Vector3(1, 0.5f, 0));
         }

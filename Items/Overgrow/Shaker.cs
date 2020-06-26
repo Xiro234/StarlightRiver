@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
+using StarlightRiver.Projectiles.WeaponProjectiles;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -16,7 +18,7 @@ namespace StarlightRiver.Items.Overgrow
 
         public override void SetDefaults()
         {
-            item.damage = 150;
+            item.damage = 100;
             item.melee = true;
             item.width = 40;
             item.height = 20;
@@ -28,14 +30,11 @@ namespace StarlightRiver.Items.Overgrow
             item.rare = ItemRarityID.Orange;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return !Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.WeaponProjectiles.ShakerBall>() && proj.active && Main.player[proj.owner] == player);
-        }
+        public override bool CanUseItem(Player player) => !Main.projectile.Any(n => n.active && Main.player[n.owner] == player && n.type == ProjectileType<ShakerBall>());
 
         public override bool UseItem(Player player)
         {
-            int proj = Projectile.NewProjectile(player.position + new Vector2(0, -32), Vector2.Zero, ModContent.ProjectileType<Projectiles.WeaponProjectiles.ShakerBall>(), item.damage, item.knockBack);
+            int proj = Projectile.NewProjectile(player.position + new Vector2(0, -32), Vector2.Zero, ProjectileType<ShakerBall>(), item.damage, item.knockBack);
             player.channel = true;
             Main.projectile[proj].owner = player.whoAmI;
             return true;
@@ -63,10 +62,7 @@ namespace StarlightRiver.Items.Overgrow
 
         public override void PostUpdate()
         {
-            if (Lifting)
-            {
-                player.bodyFrame = new Rectangle(0, 56 * 5, 40, 56);
-            }
+            if (Lifting) player.bodyFrame = new Rectangle(0, 56 * 5, 40, 56);
         }
 
         public override void ResetEffects()

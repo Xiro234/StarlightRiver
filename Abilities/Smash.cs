@@ -1,12 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using StarlightRiver.Dusts;
 using System;
 using System.Runtime.Serialization;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using StarlightRiver.Core;
 
 namespace StarlightRiver.Abilities
 {
@@ -18,7 +18,7 @@ namespace StarlightRiver.Abilities
         }
 
         public override bool CanUse => player.velocity.Y != 0;
-        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
+        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         public const int ChargeTime = 30;
 
         public override void OnCast()
@@ -91,9 +91,9 @@ namespace StarlightRiver.Abilities
                 for (int k = 0; k < 3; k++)
                 {
                     float rot = (Timer * 3 - k) / ((float)(ChargeTime - 1) * 3) * 6.28f;
-                    Dust d = Dust.NewDustPerfect(player.Center, ModContent.DustType<JungleEnergyFollow>(), Vector2.One.RotatedBy(rot) * 20, 0, default, 0.7f);
-                    Dust d2 = Dust.NewDustPerfect(player.Center, ModContent.DustType<JungleEnergyFollow>(), Vector2.One.RotatedBy(rot) * 30, 0, default, 0.7f);
-                    Dust d3 = Dust.NewDustPerfect(player.Center, ModContent.DustType<JungleEnergyFollow>(), Vector2.One.RotatedBy(rot) * (25 + (float)Math.Sin(rot * 8f) * 5), 0, default, 0.7f);
+                    Dust d = Dust.NewDustPerfect(player.Center, DustType<JungleEnergyFollow>(), Vector2.One.RotatedBy(rot) * 20, 0, default, 0.7f);
+                    Dust d2 = Dust.NewDustPerfect(player.Center, DustType<JungleEnergyFollow>(), Vector2.One.RotatedBy(rot) * 30, 0, default, 0.7f);
+                    Dust d3 = Dust.NewDustPerfect(player.Center, DustType<JungleEnergyFollow>(), Vector2.One.RotatedBy(rot) * (25 + (float)Math.Sin(rot * 8f) * 5), 0, default, 0.7f);
                     d.customData = player;
                     d2.customData = player;
                     d3.customData = player;
@@ -103,7 +103,7 @@ namespace StarlightRiver.Abilities
 
             if (Timer == ChargeTime)
             {
-                Dust.NewDustPerfect(player.Center + Vector2.One.RotatedByRandom(6.28f), ModContent.DustType<JungleEnergy>(), Vector2.One.RotatedByRandom(6.28f), 200, default, 0.8f);
+                Dust.NewDustPerfect(player.Center + Vector2.One.RotatedByRandom(6.28f), DustType<JungleEnergy>(), Vector2.One.RotatedByRandom(6.28f), 200, default, 0.8f);
                 Lighting.AddLight(player.Center, new Vector3(0.3f, 0.6f, 0.2f));
             }
 
@@ -111,10 +111,10 @@ namespace StarlightRiver.Abilities
             {
                 for (int k = 0; k <= 5; k++)
                 {
-                    Dust.NewDustPerfect(player.Center + new Vector2(0, 64), ModContent.DustType<Grass>(), new Vector2(0, -k).RotatedByRandom(0.5f), 0, default, 2);
+                    Dust.NewDustPerfect(player.Center + new Vector2(0, 64), DustType<Grass>(), new Vector2(0, -k).RotatedByRandom(0.5f), 0, default, 2);
 
-                    Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * 8 * k, ModContent.DustType<JungleEnergy>(), new Vector2(0, -1).RotatedBy(-1), 200);
-                    Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * 8 * k, ModContent.DustType<JungleEnergy>(), new Vector2(0, -1).RotatedBy(1), 200);
+                    Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * 8 * k, DustType<JungleEnergy>(), new Vector2(0, -1).RotatedBy(-1), 200);
+                    Dust.NewDustPerfect(player.Center + Vector2.Normalize(player.velocity) * 8 * k, DustType<JungleEnergy>(), new Vector2(0, -1).RotatedBy(1), 200);
                 }
             }
             else
@@ -129,8 +129,8 @@ namespace StarlightRiver.Abilities
             int power = (Timer > 120) ? 12 : (int)(Timer / 120f * 12);
             for (float k = 0; k <= 6.28; k += 0.1f - (power * 0.005f))
             {
-                Dust.NewDust(player.Center, 1, 1, ModContent.DustType<Stone>(), (float)Math.Cos(k) * power, (float)Math.Sin(k) * power, 0, default, 0.5f + power / 7f);
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, ModContent.DustType<Grass>(), (float)Math.Cos(k) * power * 0.75f, (float)Math.Sin(k) * power * 0.75f, 0, default, 0.5f + power / 7f);
+                Dust.NewDust(player.Center, 1, 1, DustType<Stone>(), (float)Math.Cos(k) * power, (float)Math.Sin(k) * power, 0, default, 0.5f + power / 7f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, -32), player.height, player.height, DustType<Grass>(), (float)Math.Cos(k) * power * 0.75f, (float)Math.Sin(k) * power * 0.75f, 0, default, 0.5f + power / 7f);
             }
 
             Main.PlaySound(SoundID.Item70, player.Center);

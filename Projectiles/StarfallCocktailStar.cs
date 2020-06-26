@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
 using StarlightRiver.Dusts;
 using Terraria;
 using Terraria.ID;
@@ -27,7 +27,7 @@ namespace StarlightRiver.Projectiles
 
         public override void AI()
         {
-            Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Starlight>(), 0, 0, 25, default, 2);
+            Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType<Starlight>(), 0, 0, 25, default, 2);
             base.AI();
         }
     }

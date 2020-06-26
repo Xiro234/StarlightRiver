@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -44,15 +45,15 @@ namespace StarlightRiver.Projectiles
         {
             for (int k = 0; k <= 10; k++)
             {
-                Dust.NewDust(projectile.position, 22, 22, ModContent.DustType<Dusts.Glass2>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-                Dust.NewDust(projectile.position, 22, 22, ModContent.DustType<Dusts.Air>());
+                Dust.NewDust(projectile.position, 22, 22, DustType<Dusts.Glass2>(), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position, 22, 22, DustType<Dusts.Air>());
             }
             Main.PlaySound(SoundID.Shatter, projectile.Center);
         }
 
         public void DrawAdditive(SpriteBatch spriteBatch)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Projectiles/GlassSpikeGlow");
+            Texture2D tex = GetTexture("StarlightRiver/Projectiles/GlassSpikeGlow");
             spriteBatch.Draw(tex, projectile.Center + Vector2.Normalize(projectile.velocity) * -10 - Main.screenPosition, null,
                 new Color(150, 255, 255) * (projectile.timeLeft / 140f), projectile.rotation + 3.14f, tex.Size() / 2, 1.4f + (2 - projectile.timeLeft / 90f), 0, 0);
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Codex;
@@ -9,7 +10,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.UI;
 
@@ -17,23 +17,20 @@ namespace StarlightRiver
 {
     public static class Helper
     {
-        /// <summary>
-        /// Kills the NPC.
-        /// </summary>
-        /// <param name="npc"></param>
+        private static int tiltTime;
+        private static float tiltMax;
 
         public static Vector2 TileAdj => Lighting.lightMode > 1 ? Vector2.Zero : Vector2.One * 12;
-        public static bool OnScreen(Vector2 pos)
-        {
-            if (pos.X > 0 && pos.X < Main.screenWidth && pos.Y > 0 && pos.Y < Main.screenHeight) return true;
-            return false;
-        }
+
+        public static bool IsTargetValid(NPC npc) => npc.active && !npc.friendly && !npc.immortal && !npc.dontTakeDamage;
+
+        public static bool OnScreen(Vector2 pos) => (pos.X > 0 && pos.X < Main.screenWidth && pos.Y > 0 && pos.Y < Main.screenHeight);
+
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC?.CheckDead() == false;
             if (modNPCDontDie)
                 return;
-
             npc.life = 0;
             npc.checkDead();
             npc.HitEffect();
@@ -108,16 +105,16 @@ namespace StarlightRiver
 
         public static void SpawnGem(int ID, Vector2 position)
         {
-            int item = Item.NewItem(position, ModContent.ItemType<Items.StarlightGem>());
+            int item = Item.NewItem(position, ItemType<Items.StarlightGem>());
             (Main.item[item].modItem as Items.StarlightGem).gemID = ID;
         }
 
         public static void DrawSymbol(SpriteBatch spriteBatch, Vector2 position, Color color)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Symbol");
+            Texture2D tex = GetTexture("StarlightRiver/Symbol");
             spriteBatch.Draw(tex, position, tex.Frame(), color * 0.8f, 0, tex.Size() / 2, 1, 0, 0);
 
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+            Texture2D tex2 = GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
             float fade = StarlightWorld.rottime / 6.28f;
             spriteBatch.Draw(tex2, position, tex2.Frame(), color * (1 - fade), 0, tex2.Size() / 2f, fade * 1.1f, 0, 0);
@@ -151,9 +148,9 @@ namespace StarlightRiver
             return (sec / 60) + ":" + (sec % 60 < 10 ? "0" + sec % 60 : "" + sec % 60);
         }
 
-        public static void DrawElectricity(Vector2 point1, Vector2 point2, int dusttype, float scale = 1)
+        public static void DrawElectricity(Vector2 point1, Vector2 point2, int dusttype, float scale = 1, int armLength = 30, Color color = default)
         {
-            int nodeCount = (int)Vector2.Distance(point1, point2) / 30;
+            int nodeCount = (int)Vector2.Distance(point1, point2) / armLength;
             Vector2[] nodes = new Vector2[nodeCount + 1];
 
             nodes[nodeCount] = point2; //adds the end as the last point
@@ -161,19 +158,17 @@ namespace StarlightRiver
             for (int k = 1; k < nodes.Count(); k++)
             {
                 //Sets all intermediate nodes to their appropriate randomized dot product positions
-                nodes[k] = Vector2.Lerp(point1, point2, k / (float)nodeCount) + (k == nodes.Count() - 1 ? Vector2.Zero : Vector2.Normalize(point1 - point2).RotatedBy(1.58f) * Main.rand.NextFloat(-18, 18));
+                nodes[k] = Vector2.Lerp(point1, point2, k / (float)nodeCount) + 
+                    (k == nodes.Count() - 1 ? Vector2.Zero : Vector2.Normalize(point1 - point2).RotatedBy(1.58f) * Main.rand.NextFloat(-armLength / 2, armLength / 2));
 
                 //Spawns the dust between each node
                 Vector2 prevPos = k == 1 ? point1 : nodes[k - 1];
                 for (float i = 0; i < 1; i += 0.05f)
                 {
-                    Dust.NewDustPerfect(Vector2.Lerp(prevPos, nodes[k], i), dusttype, Vector2.Zero, 0, default, scale);
+                    Dust d = Dust.NewDustPerfect(Vector2.Lerp(prevPos, nodes[k], i), dusttype, Vector2.Zero, 0, color, scale);
                 }
             }
         }
-
-        private static int tiltTime;
-        private static float tiltMax;
 
         public static void DoTilt(float intensity)
         {
@@ -322,6 +317,7 @@ namespace StarlightRiver
             }
             return input;
         }
+
         public static Item NewItemPerfect(Vector2 position, Vector2 velocity, int type, int stack = 1, bool noBroadcast = false, int prefixGiven = 0, bool noGrabDelay = false, bool reverseLookup = false)
         {
             int targetIndex = 400;
@@ -354,7 +350,7 @@ namespace StarlightRiver
             }
             if (targetIndex == 400 && Main.netMode != NetmodeID.MultiplayerClient) //some sort of vanilla failsafe if no safe index is found it seems?
             {
-                int num2 = 0; 
+                int num2 = 0;
                 for (int k = 0; k < 400; k++)
                 {
                     if (Main.item[k].spawnTime - Main.itemLockoutTime[k] > num2)
@@ -373,7 +369,7 @@ namespace StarlightRiver
             item.active = true;
             item.spawnTime = 0;
             item.stack = stack;
-            
+
             item.wet = Collision.WetCollision(item.position, item.width, item.height); //not sure what this is, from vanilla
 
             if (ItemSlot.Options.HighlightNewItems && item.type >= ItemID.None && !ItemID.Sets.NeverShiny[item.type]) //vanilla item highlight system
@@ -391,5 +387,18 @@ namespace StarlightRiver
             }
             return item;
         }
+
+        public static Player FindNearestPlayer(Vector2 position)
+        {
+            Player player = null;
+
+            for(int k = 0; k < Main.maxPlayers; k++)
+            {
+                if (Main.player[k] != null && Main.player[k].active && (player == null || Vector2.DistanceSquared(position, Main.player[k].Center) < Vector2.DistanceSquared(position, player.Center)))
+                    player = Main.player[k];
+            }
+            return player;
+        }
     }
 }
+

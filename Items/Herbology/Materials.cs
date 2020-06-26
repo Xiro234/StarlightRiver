@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using static Terraria.ModLoader.ModContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Herbology
@@ -15,7 +16,7 @@ namespace StarlightRiver.Items.Herbology
             recipe.AddIngredient(ItemID.Daybloom, 1);
             recipe.AddIngredient(ItemID.GrassSeeds, 1);
             recipe.AddIngredient(mod.ItemType("Ivy"), 5);
-            recipe.AddTile(ModContent.TileType<Tiles.Crafting.HerbStation>());
+            recipe.AddTile(TileType<Tiles.Crafting.HerbStation>());
             recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }
@@ -33,7 +34,7 @@ namespace StarlightRiver.Items.Herbology
             recipe.AddIngredient(ItemID.Deathweed, 1);
             recipe.AddIngredient(ItemID.Shiverthorn, 1);
             recipe.AddIngredient(mod.ItemType("Deathstalk"), 5);
-            recipe.AddTile(ModContent.TileType<Tiles.Crafting.HerbStation>());
+            recipe.AddTile(TileType<Tiles.Crafting.HerbStation>());
             recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }

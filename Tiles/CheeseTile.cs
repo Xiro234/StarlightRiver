@@ -1,20 +1,11 @@
+using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
-using Terraria;
+using StarlightRiver.Items;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles
 {
-    internal class CheeseTile : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = false;
-            Main.tileBlockLight[Type] = true;
-            drop = mod.ItemType("CheeseTileItem");
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cheese");
-            AddMapEntry(new Color(270, 270, 200), name);
-        }
-    }
+    internal class CheeseTile : ModTile { public override void SetDefaults() { QuickBlock.QuickSet(this, 0, DustID.AmberBolt, SoundID.Drown, new Color(255, 255, 200), ItemType<CheeseTileItem>(), true); } }
+    internal class CheeseTileItem : QuickTileItem { public CheeseTileItem() : base("Cheese", "A chunk of the moon", TileType<CheeseTile>(), ItemRarityID.Expert) { } }
 }

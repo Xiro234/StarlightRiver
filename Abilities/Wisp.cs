@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Dusts;
 using System.Runtime.Serialization;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Abilities
 {
@@ -17,7 +17,7 @@ namespace StarlightRiver.Abilities
         {
         }
 
-        public override Texture2D Texture => ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
+        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
 
         public override void OnCast()
         {
@@ -27,7 +27,7 @@ namespace StarlightRiver.Abilities
 
             for (int k = 0; k <= 50; k++)
             {
-                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Gold2>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 1.2f);
+                Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, DustType<Gold2>(), Main.rand.Next(-20, 20), Main.rand.Next(-20, 20), 0, default, 1.2f);
             }
         }
 
@@ -67,14 +67,14 @@ namespace StarlightRiver.Abilities
             {
                 for (int k = 0; k <= 2; k++)
                 {
-                    Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, ModContent.DustType<Gold>());
+                    Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, DustType<Gold>());
                 }
             }
             else
             {
                 for (int k = 0; k <= 2; k++)
                 {
-                    Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, ModContent.DustType<Dusts.Void>());
+                    Dust.NewDust(player.Center - new Vector2(4, 4), 8, 8, DustType<Void>());
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace StarlightRiver.Abilities
 
                 for (int k = 0; k <= 30; k++)
                 {
-                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, ModContent.DustType<Gold2>(), Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default, 1.2f);
+                    Dust.NewDust(player.Center - new Vector2(player.height / 2, player.height / 2), player.height, player.height, DustType<Gold2>(), Main.rand.Next(-5, 5), Main.rand.Next(-5, 5), 0, default, 1.2f);
                 }
                 Active = false;
             }

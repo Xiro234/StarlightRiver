@@ -1,9 +1,7 @@
-﻿using Terraria.ModLoader;
-
-namespace StarlightRiver.Items.Accessories
+﻿namespace StarlightRiver.Items.Accessories
 {
     public class ShockAbsorber : SmartAccessory
     {
-        public ShockAbsorber() : base("Shock Absorber", "NaN"){}
+        public ShockAbsorber() : base("Shock Absorber", "NaN") { }
     }
 }

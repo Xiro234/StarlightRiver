@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
+﻿using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -40,7 +36,7 @@ namespace StarlightRiver.Items.Temple
         }
         public override bool UseItem(Player player)
         {
-            if(player.altFunctionUse == 2)
+            if (player.altFunctionUse == 2)
             {
                 item.noUseGraphic = true;
                 item.noMelee = true;
@@ -58,7 +54,7 @@ namespace StarlightRiver.Items.Temple
             {
                 if (Main.mouseRight && Charge < 120) //this is gonna go to shiiittt in MPPPPP
                 {
-                    Dust d = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.PickCharge>(), Vector2.UnitY.RotatedBy(Charge / 120f * 6.28f) * 30, 0, Color.LightYellow, 2);
+                    Dust d = Dust.NewDustPerfect(player.Center, DustType<Dusts.PickCharge>(), Vector2.UnitY.RotatedBy(Charge / 120f * 6.28f) * 30, 0, Color.LightYellow, 2);
                     d.customData = player.whoAmI;
 
                     if (Charge == 119)
@@ -66,7 +62,7 @@ namespace StarlightRiver.Items.Temple
                         Main.PlaySound(SoundID.MaxMana, player.Center);
                         for (int k = 0; k < 100; k++)
                         {
-                            Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10));
+                            Dust.NewDustPerfect(player.Center, DustType<Dusts.Stamina>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10));
                         }
                     }
                 }

@@ -1,4 +1,6 @@
+using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
+using StarlightRiver.Tiles.Vitric.Blocks;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -71,7 +73,7 @@ namespace StarlightRiver.NPCs.Hostile
                         npc.ai[0] = 2;
                         for (int k = -1; k <= 1; k++)
                         {
-                            Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center - npc.Center).RotatedBy(k * 0.5f) * 6, ModContent.ProjectileType<Projectiles.GlassSpike>(), 10, 0);
+                            Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center - npc.Center).RotatedBy(k * 0.5f) * 6, ProjectileType<Projectiles.GlassSpike>(), 10, 0);
                         }
                         npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * -5.5f;
                     }
@@ -108,8 +110,7 @@ namespace StarlightRiver.NPCs.Hostile
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextFloat() < 0.5f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(1, 3)); }
-            if (Main.rand.NextFloat() < 0.8f) { Item.NewItem(npc.getRect(), ModContent.ItemType<Items.Vitric.VitricSandItem>(), Main.rand.Next(10, 12)); }
+            Item.NewItem(npc.getRect(), ItemType<VitricSandItem>(), Main.rand.Next(10, 12));
         }
 
         public override void FindFrame(int frameHeight)

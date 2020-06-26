@@ -1,4 +1,4 @@
-﻿using Terraria.ModLoader;
+﻿using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Codex.Entries
 {
@@ -8,14 +8,10 @@ namespace StarlightRiver.Codex.Entries
         {
             Category = Categories.Misc;
             Title = "Stamina";
-            Body =
-                "All of your abilities utilize stamina, represtented\n" +
-                "by the orange crystals to the left of your mana bar.\n" +
-                "Stamina is consumed when an ability is used, and\n" +
-                "can be passively regenerated over time.";
-
-            Image = ModContent.GetTexture("StarlightRiver/GUI/Stamina");
-            Icon = ModContent.GetTexture("StarlightRiver/GUI/Stamina");
+            Body = "All of your abilities utilize stamina, a resource represented by the orange diamonds to the right of your mana bar. Your stamina will replenish itself over time. You can gain additional stamina by unlocking new abilities and equipping certain armors and accessories.";
+            Hint = "Unlock an ability...";
+            Image = GetTexture("StarlightRiver/GUI/Assets/Stamina");
+            Icon = GetTexture("StarlightRiver/GUI/Assets/Stamina");
         }
     }
 
@@ -25,14 +21,10 @@ namespace StarlightRiver.Codex.Entries
         {
             Category = Categories.Misc;
             Title = "Infusions";
-            Body =
-                "Infusions are special upgrades which, when slotted\n" +
-                "into their appropriate slots, will upgrade your\n" +
-                "abilities. Each ability has 2 major infusions, which\n" +
-                "grant special abilities to them.";
-
-            Image = ModContent.GetTexture("StarlightRiver/Items/Infusions/DashAstralItem");
-            Icon = ModContent.GetTexture("StarlightRiver/Items/Infusions/DashAstralItem");
+            Body = "";
+            Hint = "Find a mysterious altar...";
+            Image = GetTexture("StarlightRiver/Items/Infusions/DashAstralItem");
+            Icon = GetTexture("StarlightRiver/Items/Infusions/DashAstralItem");
         }
     }
 }

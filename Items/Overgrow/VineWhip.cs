@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles.WeaponProjectiles;
 using System.Linq;
 using Terraria;
@@ -30,17 +31,14 @@ namespace StarlightRiver.Items.Overgrow
             item.shoot = ProjectileID.WoodenArrowFriendly;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return !Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.type == ModContent.ProjectileType<WhipSegment1>() && proj.active);
-        }
+        public override bool CanUseItem(Player player) => !Main.projectile.Any(n => n.active && n.owner == player.whoAmI && n.type == ProjectileType<WhipSegment1>());
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int k = 0; k <= 10; k++)
             {
                 Vector2 vel = Vector2.Normalize(Main.MouseWorld - player.Center);
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, vel.X, vel.Y, ModContent.ProjectileType<WhipSegment1>(), damage, 0, player.whoAmI, k, vel.ToRotation());
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, vel.X, vel.Y, ProjectileType<WhipSegment1>(), damage, 0, player.whoAmI, k, vel.ToRotation());
             }
             return false;
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Dusts;
 using Terraria;
 using Terraria.ModLoader;
@@ -31,7 +32,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Nanocomposite
         public override void AI()
         {
             NPC target = Main.npc[(int)projectile.ai[0]];
-            Dust.NewDustPerfect(projectile.Center, ModContent.DustType<NanocompositeDust>(), Vector2.Zero, 0, default, 1.8f);
+            Dust.NewDustPerfect(projectile.Center, DustType<NanocompositeDust>(), Vector2.Zero, 0, default, 1.8f);
             projectile.velocity += Vector2.Normalize(target.Center - projectile.Center);
             projectile.velocity = Vector2.Normalize(projectile.velocity) * 12;
         }

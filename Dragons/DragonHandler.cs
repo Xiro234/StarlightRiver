@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -84,7 +85,7 @@ namespace StarlightRiver.Dragons
     public class DragonHandler : ModPlayer
     {
         public DragonData data = new DragonData();
-        public bool DragonMounted => player.mount.Type == ModContent.MountType<YoungDragon>();
+        public bool DragonMounted => player.mount.Type == MountType<YoungDragon>();
         public bool jumpAgainDragon = true;
 
         public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
@@ -92,7 +93,7 @@ namespace StarlightRiver.Dragons
             if (!mediumcoreDeath)
             {
                 Item egg = new Item();
-                egg.SetDefaults(ModContent.ItemType<Items.Dragons.Egg>());
+                egg.SetDefaults(ItemType<Items.Dragons.Egg>());
                 items.Add(egg);
             }
         }

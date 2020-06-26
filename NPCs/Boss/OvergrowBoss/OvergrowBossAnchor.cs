@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
@@ -30,8 +31,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (!StarlightWorld.OvergrowBossOpen) npc.dontTakeDamage = true;
             else npc.dontTakeDamage = false;
 
-            if (!(Main.npc.Any(n => n.active && n.type == ModContent.NPCType<OvergrowBoss>()))) return;
-            NPC boss = Main.npc.FirstOrDefault(n => n.active && n.type == ModContent.NPCType<OvergrowBoss>());
+            if (!(Main.npc.Any(n => n.active && n.type == NPCType<OvergrowBoss>()))) return;
+            NPC boss = Main.npc.FirstOrDefault(n => n.active && n.type == NPCType<OvergrowBoss>());
 
             if (npc.immortal) npc.ai[0]++;
             if (npc.ai[0] >= 30) npc.active = false;
@@ -40,8 +41,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 Vector2 pos = Vector2.Lerp(npc.Center, boss.Center + Vector2.Normalize(npc.Center - boss.Center) * 80, npc.ai[0] / 30f);
                 for (int k = 0; k < 5; k++)
                 {
-                    Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedByRandom(6.28f));
-                    if (Main.rand.Next(2) == 0) Dust.NewDustPerfect(pos, ModContent.DustType<Dusts.Stone>(), Vector2.One.RotatedByRandom(6.28f));
+                    Dust.NewDustPerfect(pos, DustType<Dusts.Stamina>(), Vector2.One.RotatedByRandom(6.28f));
+                    if (Main.rand.Next(2) == 0) Dust.NewDustPerfect(pos, DustType<Dusts.Stone>(), Vector2.One.RotatedByRandom(6.28f));
                 }
                 if (npc.ai[0] % 3 == 0) Gore.NewGore(pos, new Vector2(0, 1), mod.GetGoreSlot("Gores/ChainGore"));
                 if (npc.ai[0] % 8 == 0) Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ChainHit").WithPitchVariance(0.4f), pos);
@@ -53,10 +54,10 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (!(Main.npc.Any(n => n.active && n.type == ModContent.NPCType<OvergrowBoss>()))) return;
-            NPC boss = Main.npc.FirstOrDefault(n => n.active && n.type == ModContent.NPCType<OvergrowBoss>());
+            if (!(Main.npc.Any(n => n.active && n.type == NPCType<OvergrowBoss>()))) return;
+            NPC boss = Main.npc.FirstOrDefault(n => n.active && n.type == NPCType<OvergrowBoss>());
 
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/OvergrowBoss/Chain");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/OvergrowBoss/Chain");
             for (float k = 0; k < 1; k += tex.Height / Vector2.Distance(npc.Center, boss.Center + Vector2.Normalize(npc.Center - boss.Center) * 80))
             {
                 if (k > npc.ai[0] / 30f)

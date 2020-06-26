@@ -1,24 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ModLoader;
-using Terraria;
-using Terraria.ID;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using StarlightRiver.Items;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.Tiles.Temple
 {
-    class TempleBrick : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileBlockLight[Type] = true;
-            Main.tileSolid[Type] = true;
-            soundType = SoundID.Tink;
-            dustType = DustID.Stone;
-        }
-    }
-    public class TempleBrickItem : QuickTileItem { public TempleBrickItem() : base("Ancient Temple Bricks", "", ModContent.TileType<TempleBrick>(), 0) { } }
+    class TempleBrick : ModTile { public override void SetDefaults() => QuickBlock.QuickSet(this, 0, DustID.Stone, SoundID.Tink, new Color(160, 160, 150), ItemType<TempleBrickItem>()); }
+    class TempleBrickItem : QuickTileItem { public TempleBrickItem() : base("Ancient Temple Bricks", "", TileType<TempleBrick>(), 0) { } }
 }

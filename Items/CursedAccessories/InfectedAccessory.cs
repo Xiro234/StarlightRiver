@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using static Terraria.ModLoader.ModContent;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace StarlightRiver.Items.CursedAccessories
 
             Item blocker = new Item
             {
-                type = ModContent.ItemType<Blocker>()
+                type = ItemType<Blocker>()
             };
-            blocker.SetDefaults(ModContent.ItemType<Blocker>());
+            blocker.SetDefaults(ItemType<Blocker>());
             (blocker.modItem as Blocker).Parent = item;
             player.armor[slot - 1] = blocker;
             return true;
@@ -46,7 +47,7 @@ namespace StarlightRiver.Items.CursedAccessories
         {
             if (Main.LocalPlayer.armor.Any(n => n == item))
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/InfectedGoop");
+                Texture2D tex = GetTexture("StarlightRiver/GUI/Assets/InfectedGoop");
                 spriteBatch.Draw(tex, position + new Vector2(-10, -35), tex.Frame(), Color.White);
             }
 
