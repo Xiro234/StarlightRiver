@@ -24,7 +24,6 @@ namespace StarlightRiver.Abilities
             Active = true;
             Timer = mp.StatStamina * 60 + (int)((1 - mp.StatStaminaRegen / (float)mp.StatStaminaRegenMax) * 60) - 1; //allows the use of fractional stamina
 
-            //Sets the player's stamina if full to prevent spamming the ability to abuse it and to draw the UI correctly.
             if (mp.StatStamina == mp.StatStaminaMax)
             {
                 mp.StatStamina--;

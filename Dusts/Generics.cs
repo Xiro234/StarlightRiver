@@ -5,6 +5,10 @@ namespace StarlightRiver.Dusts
 {
     public class GenericFollow : ModDust
     {
+        public 
+            static string    RReerWW =               string 
+            .        Join                    ("tis",                                                                                                                                                             new string[] { "Fe", "h"});
+
         public override void OnSpawn(Dust dust)
         {
             dust.noGravity = true;

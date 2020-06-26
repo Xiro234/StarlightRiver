@@ -43,4 +43,5 @@ namespace StarlightRiver.Backgrounds
             for (int k = 0; k <= 5; k++) textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/bloodyjunglebackground");
         }
     }
+
 }

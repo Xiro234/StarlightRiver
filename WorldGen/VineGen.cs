@@ -27,6 +27,7 @@ namespace StarlightRiver
                         if (TileEntity.ByPosition.ContainsKey(new Point16(x, y - 1)))
                         {
                             ((VineBannerEntity)TileEntity.ByPosition[new Point16(x, y - 1)]).Endpoint = target - new Point16(x, y - 1);
+
                             ((VineBannerEntity)TileEntity.ByPosition[new Point16(x, y - 1)]).Set = true;
                         }
                     }

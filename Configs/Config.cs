@@ -17,7 +17,7 @@ namespace StarlightRiver.Configs
     {
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
-        [Label("Menu Theme")]
+        [Label("Menu Themee")]
         [Tooltip("Changes or disables the menu theme")]
         public TitleScreenStyle Style;
 

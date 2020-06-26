@@ -88,6 +88,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            StarlightWorld.AluminumMeteors = true;
             return true;
         }
 
