@@ -60,7 +60,6 @@ namespace StarlightRiver.Dragons
         public override bool CheckDead()
         {
             for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, DustID.Marble, Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, nest.Dragon.data.scaleColor);
-
             Main.PlaySound(SoundID.Camera, npc.Center);
             Main.NewText(nest.owner.name + "'s dragon ''" + nest.Dragon.data.name + "'' hatched!", new Color(255, 240, 100));
             return true;

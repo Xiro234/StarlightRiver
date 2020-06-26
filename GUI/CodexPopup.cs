@@ -23,7 +23,6 @@ namespace StarlightRiver.GUI
             Color col = Timer > 120 ? Color.White : Color.White * (Timer / 120f);
             spriteBatch.Draw(tex, pos, col);
             Utils.DrawBorderString(spriteBatch, str, pos + new Vector2(40, 8), col);
-
             Timer--;
         }
 
