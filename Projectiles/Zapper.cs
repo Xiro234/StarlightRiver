@@ -27,7 +27,10 @@ namespace StarlightRiver.Projectiles
             projectile.ignoreWater = true;
         }
 
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Zapper");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Zapper");
+        }
 
         public override void AI()
         {
