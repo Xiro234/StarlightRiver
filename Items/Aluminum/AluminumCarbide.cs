@@ -33,6 +33,8 @@ namespace StarlightRiver.Items.Aluminum
             item.rare = ItemRarityID.Blue;
             item.autoReuse = true;
             item.channel = true;
+            item.noMelee = true;
+            item.value = Item.sellPrice(0, 0, 40, 0);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -67,6 +69,15 @@ namespace StarlightRiver.Items.Aluminum
                 float turn = info.spriteEffects == SpriteEffects.None ? 10 : tex.Width - 10;
                 Main.playerDrawData.Add(new DrawData(tex, player.Center - Main.screenPosition, tex.Frame(), Color.White, player.itemRotation, new Vector2(turn, tex.Height / 2), 1, info.spriteEffects, 0));
             }
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemType<AluminumBar>(), 20);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 

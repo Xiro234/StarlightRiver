@@ -25,6 +25,18 @@ namespace StarlightRiver.Items.Aluminum
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
+
+            //adds back neccisary vanilla recipies
+            ModRecipe recipe2 = new ModRecipe(mod);
+            recipe2.AddIngredient(ItemID.LunarBar, 40);
+            recipe2.AddIngredient(ItemID.ChlorophyteBar, 40);
+            recipe2.AddIngredient(ItemID.ShroomiteBar, 40);
+            recipe2.AddIngredient(ItemID.SpectreBar, 40);
+            recipe2.AddIngredient(ItemID.HellstoneBar, 40);
+            recipe2.AddIngredient(ItemType<AluminumBar>(), 40);
+            recipe2.AddTile(TileID.MythrilAnvil);
+            recipe2.SetResult(ItemID.DrillContainmentUnit);
+            recipe2.AddRecipe();
         }
     }
 }
