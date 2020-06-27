@@ -1,12 +1,9 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using StarlightRiver.Configs;
 using StarlightRiver.Dragons;
 using StarlightRiver.GUI;
-using System;
 using System.Linq;
 using System.Reflection;
 using Terraria;
@@ -23,24 +20,29 @@ namespace StarlightRiver
         {
             // Vitric lighting
             IL.Terraria.Lighting.PreRenderPhase += VitricLighting;
-            //IL.Terraria.Main.DrawInterface_14_EntityHealthBars += ForceRedDraw;
+
             //moonlord draw layer
             IL.Terraria.Main.DoDraw += DrawMoonlordLayer;
+
             //dragons
             IL.Terraria.Main.DrawMenu += DragonMenuAttach;
+
             //soulbound items
             IL.Terraria.UI.ChestUI.DepositAll += PreventSoulboundStack;
+
             //dynamic map icons
             IL.Terraria.Main.DrawMap += DynamicBossIcon;
+
             //jungle grass
             IL.Terraria.WorldGen.Convert += JungleGrassConvert;
             IL.Terraria.WorldGen.hardUpdateWorld += JungleGrassSpread;
-            //title screen BGs
-            //IL.Terraria.Main.DrawBG += DrawTitleScreen;
+
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
         }
         #region IL edits
+
+        //IL edits to allow grappling hooks to interact with moving platforms
         private void GrapplePlatforms(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -55,6 +57,7 @@ namespace StarlightRiver
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<UngrapplePlatformDelegate>(EmitUngrapplePlatformDelegate);
         }
+
         private delegate bool GrapplePlatformDelegate(bool fail, Projectile proj);
         private bool EmitGrapplePlatformDelegate(bool fail, Projectile proj)
         {
@@ -70,6 +73,7 @@ namespace StarlightRiver
                 }
             return fail;
         }
+
         private delegate void UngrapplePlatformDelegate(Projectile proj);
         private void EmitUngrapplePlatformDelegate(Projectile proj)
         {
@@ -86,30 +90,8 @@ namespace StarlightRiver
             ProjectileLoader.NumGrappleHooks(proj, player, ref numHooks);
             if (player.grapCount > numHooks) Main.projectile[player.grappling.OrderBy(n => (Main.projectile[n].active ? 0 : 999999) + Main.projectile[n].timeLeft).ToArray()[0]].Kill();
         }
-        private void DrawTitleScreen(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.TryGotoNext(i => i.MatchLdsfld<Main>("gameMenu"));
-            c.TryGotoNext(i => i.MatchLdsfld<Main>("quickBG"));
-            c.Index++;
-            c.EmitDelegate<TitleScreenDelegate>(EmitTitleScreenDelegate);
-        }
-        private delegate void TitleScreenDelegate();
-        private void EmitTitleScreenDelegate()
-        {
-            if (Main.menuMode == 0)
-            {
-                switch (GetInstance<Config>().Style)
-                {
-                    case TitleScreenStyle.Starlight:
-                        Main.bgStyle = 4;
-                        break;
-                    case TitleScreenStyle.CorruptJungle:
-                        Main.bgStyle = GetSurfaceBgStyleSlot<Backgrounds.JungleCorruptBgStyle>();
-                        break;
-                }
-            }
-        }
+
+        //IL edit for the conversion and spread of specialized jungle grasses
         private void JungleGrassSpread(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -133,6 +115,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private void JungleGrassConvert(ILContext il) //Fun stuff.
         {
             ILCursor c = new ILCursor(il);
@@ -169,6 +152,7 @@ namespace StarlightRiver
             c.EmitDelegate<GrassConvertDelegate>(EmitGrassConvertDelegate);
             c.Emit(OpCodes.Pop);
         }
+
         private delegate bool GrassConvertDelegate(int type, int x, int y);
         private bool EmitGrassConvertDelegate(int type, int x, int y)
         {
@@ -180,6 +164,8 @@ namespace StarlightRiver
             }
             return false;
         }
+
+        //IL edit for dynamic map icons
         private void DynamicBossIcon(ILContext il)
         {
             //Hillariously repetitive IL edit to draw custom icons dynamically. Funny. Fuck vanilla.
@@ -206,6 +192,7 @@ namespace StarlightRiver
             c.EmitDelegate<DynamicIconDelegate>(EmitDynamicIconDelegateFullmap);
 
         }
+
         private delegate NPC DynamicIconDelegate(NPC npc);
         private NPC EmitDynamicIconDelegateOverlay(NPC npc)
         {
@@ -268,6 +255,8 @@ namespace StarlightRiver
             }
             return npc;
         }
+
+        //IL edit to prevent quickstacking of soulbound items
         private void PreventSoulboundStack(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -282,11 +271,13 @@ namespace StarlightRiver
             c.EmitDelegate<SoulboundDelegate>(EmitSoulboundDel);
             c.Emit(OpCodes.Brtrue_S, target);
         }
+
         private delegate bool SoulboundDelegate(int index);
         private bool EmitSoulboundDel(int index)
         {
             return Main.LocalPlayer.inventory[index].modItem is Items.SoulboundItem;
         }
+
         //IL edit for dragon customization
         private void DragonMenuAttach(ILContext il)
         {
@@ -296,7 +287,9 @@ namespace StarlightRiver
 
             c.EmitDelegate<DragonMenuDelegate>(EmitDragonDel);
         }
+
         private delegate void DragonMenuDelegate();
+
         private DragonMenu dragonMenu = new DragonMenu();
         private UserInterface dragonMenuUI = new UserInterface();
         private void EmitDragonDel()
@@ -330,8 +323,7 @@ namespace StarlightRiver
             }
         }
 
-        // IL edit to get the overgrow boss window drawing correctly
-        private delegate void DrawWindowDelegate();
+        // IL edit to get the overgrow boss window drawing correctly   
         private void DrawMoonlordLayer(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -340,7 +332,8 @@ namespace StarlightRiver
 
             c.EmitDelegate<DrawWindowDelegate>(EmitMoonlordLayerDel);
         }
-        //private readonly List<BootlegDust> WindowDust = new List<BootlegDust>();
+
+        private delegate void DrawWindowDelegate();
         private void EmitMoonlordLayerDel()
         {
             for(int k = 0; k < Main.maxProjectiles; k++)

@@ -38,6 +38,8 @@ namespace StarlightRiver.Core
         public float GuardBuff;
         public int GuardRad;
 
+        public float itemSpeed;
+
         public override void PreUpdate()
         {
             if (PickupTarget != null)
@@ -101,6 +103,7 @@ namespace StarlightRiver.Core
             GuardCrit = 0;
             GuardBuff = 1;
             GuardRad = 0;
+            itemSpeed = 1;
         }
 
         public override void PostUpdate()
@@ -189,5 +192,7 @@ namespace StarlightRiver.Core
         {
             Collection.ShouldReset = true;
         }
+
+        public override float UseTimeMultiplier(Item item) => itemSpeed;
     }
 }

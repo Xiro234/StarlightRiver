@@ -25,7 +25,7 @@ namespace StarlightRiver.Tiles
                 Dust.NewDustPerfect(new Vector2(i + Main.rand.NextFloat(), j + Main.rand.NextFloat()) * 16, DustType<Dusts.Starlight>(), new Vector2(0, -Main.rand.NextFloat(4, 6)), 0, default, Main.rand.NextFloat(0.4f, 0.7f));
             }
 
-                if (Main.rand.Next(300) == 0)
+            if (Main.rand.Next(300) == 0)
             {
                 Vector2 pos = new Vector2(i + 0.5f, j + 0.5f) * 16;
                 Helper.DrawElectricity(pos, pos + Vector2.One.RotatedByRandom(6.28f) * Main.rand.Next(15, 35), DustType<Dusts.Electric2>(), 0.4f, 9);

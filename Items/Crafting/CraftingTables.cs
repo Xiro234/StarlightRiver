@@ -22,24 +22,6 @@ namespace StarlightRiver.Items.Crafting
         }
     }
 
-    public class OvenAstralItem : QuickTileItem
-    {
-        public OvenAstralItem() : base("Astral Oven", "Used to bake advanced items", TileType<Tiles.Crafting.OvenAstral>(), 0)
-        {
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<OvenItem>());
-            recipe.AddIngredient(ItemType<Aluminum.AluminumBar>(), 15);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
-
     public class HerbStationItem : QuickTileItem
     {
         public HerbStationItem() : base("Herbologist's Bench", "Used to refine herbs", TileType<Tiles.Crafting.HerbStation>(), 0)

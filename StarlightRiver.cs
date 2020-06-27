@@ -50,9 +50,6 @@ namespace StarlightRiver
 
         public static float Rotation;
 
-        public const string PatchString = "Starlight River Test Build #23     6/2/2020 - 01:45 EST";
-        public readonly string MessageString = Helper.WrapString("Poop.", Main.screenWidth / 4, Main.fontDeathText, 1);
-
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
         public static StarlightRiver Instance { get; set; }
 
@@ -106,6 +103,7 @@ namespace StarlightRiver
             }
             return;
         }
+
         public static void AutoloadRiftRecipes(List<RiftRecipe> target)
         {
             Mod mod = GetInstance<StarlightRiver>();
@@ -117,6 +115,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         public override void Load()
         {
             //Shaders
@@ -203,6 +202,7 @@ namespace StarlightRiver
             HookOn();
             HookIL();
         }
+
         public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
             if (Rotation != 0)
@@ -219,6 +219,7 @@ namespace StarlightRiver
                 Helper.UpdateTilt();
             }
         }
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
@@ -236,6 +237,7 @@ namespace StarlightRiver
                 AddLayer(layers, LootUserInterface, lootUI, MouseTextIndex, LootUI.Visible);
             }
         }
+
         private void AddLayer(List<GameInterfaceLayer> layers, UserInterface userInterface, UIState state, int index, bool visible)
         {
             layers.Insert(index, new LegacyGameInterfaceLayer("StarlightRiver: " + state.ToString(),
@@ -249,6 +251,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
         }
+
         public override void Unload()
         {
             if (!Main.dedServ)

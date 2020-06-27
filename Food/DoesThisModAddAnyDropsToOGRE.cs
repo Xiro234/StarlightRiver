@@ -17,17 +17,12 @@ namespace StarlightRiver.Food
     }
 
     public class Onion : QuickMaterial
-    {
-        public Onion() : base("Onion", "Does this mod add any drops to ogre?", 69420, 69420, -12)
-        {
-        }
-    }
+    { public Onion() : base("Onion", "Does this mod add any drops to ogre?", 69420, 69420, -12) { } }
+
 
     public class OnionRings : Ingredient
     {
-        public OnionRings() : base("Damaging stink aura", 60000, IngredientType.Side)
-        {
-        }
+        public OnionRings() : base("Damaging stink aura", 600, IngredientType.Side) { }
 
         public override void BuffEffects(Player player, float multiplier)
         {

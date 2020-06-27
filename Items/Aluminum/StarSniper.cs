@@ -26,6 +26,7 @@ namespace StarlightRiver.Items.Aluminum
             item.shootSpeed = 5;
             item.knockBack = 20;
             item.UseSound = SoundID.Item40;
+            item.rare = ItemRarityID.Blue;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);

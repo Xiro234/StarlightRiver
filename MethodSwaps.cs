@@ -54,8 +54,6 @@ namespace StarlightRiver
             On.Terraria.Main.DrawPlayer += PostDrawPlayer;
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
-            //Menu themes
-            //On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
@@ -130,7 +128,6 @@ namespace StarlightRiver
 
                 return true;
             }
-
             else return orig(i, j);
         }
 
@@ -149,8 +146,7 @@ namespace StarlightRiver
                 }
 
             if (Main.npc.Any(n => n.active && n.friendly && Vector2.Distance(n.Center, test.ToVector2() * 16) <= 35 * 16)) return false;
-
-            return true;
+            else return true;
         }
 
         private void DrawInventoryParticles(On.Terraria.Main.orig_DrawInterface_27_Inventory orig, Main self)
@@ -294,89 +290,6 @@ namespace StarlightRiver
             Main.spriteBatch.End();
             orig(self, gameTime);
         }
-
-        /*private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
-        {
-            orig(self, gameTime);
-
-            Main.spriteBatch.Begin();
-            Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 20), Color.White);
-            Main.spriteBatch.DrawString(Main.fontItemStack, MessageString, new Vector2(20, 40), Color.White);
-            Main.spriteBatch.End();
-
-            try
-            {
-                bool canDraw = Main.menuMode == 0;
-
-                if (canDraw)
-                {
-                    Main.spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
-
-                    switch (GetInstance<Config>().Style)
-                    {
-                        case TitleScreenStyle.None:
-                            break;
-
-                        case TitleScreenStyle.Starlight:
-                            Main.time = 0;
-                            if (Main.rand.Next(3) >= 1 && canDraw)
-                            {
-                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Light"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -Main.rand.NextFloat(1.4f))));
-                            }
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 160, 190) * 0.75f);
-                            break;
-
-                        case TitleScreenStyle.Vitric:
-                            if (Main.rand.Next(10) == 0 && canDraw)
-                                MenuDust.Add(new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), 0, 0.35f, 0.4f, 0));
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 180, 180) * 0.75f);
-                            break;
-
-                        case TitleScreenStyle.Overgrow:
-                            if (Main.rand.Next(3) >= 1 && canDraw)
-                            {
-                                MenuDust.Add(new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Holy"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight - Main.rand.Next(Main.screenHeight / 3)), Vector2.Zero));
-                            }
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(180, 170, 100) * 0.75f);
-                            break;
-
-                        case TitleScreenStyle.CorruptJungle:
-                            Main.time = 51000;
-                            if (Main.rand.Next(2) == 0 && canDraw)
-                            {
-                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Corrupt"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight), new Vector2(0, -1.4f)));
-                            }
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(160, 110, 220) * 0.75f);
-                            break;
-
-                        case TitleScreenStyle.CrimsonJungle:
-                            Main.time = 51000;
-                            if (Main.rand.Next(2) == 0 && canDraw)
-                            {
-                                MenuDust.Add(new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Blood"), new Vector2(Main.rand.Next(Main.screenWidth), -40), new Vector2(0, -1.4f), Main.rand.NextFloat(1, 2), Main.rand.NextFloat(0.2f)));
-                            }
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, -220, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(200, 70, 70) * 0.75f, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
-                            break;
-
-                    }
-
-                    Main.spriteBatch.End();
-                    Main.spriteBatch.Begin();
-
-                    foreach (BootlegDust dus in MenuDust) dus.SafeDraw(Main.spriteBatch);
-                    foreach (BootlegDust dus in MenuDust) dus.Update();
-
-                    List<BootlegDust> Removals = new List<BootlegDust>();
-                    foreach (BootlegDust dus in MenuDust.Where(dus => dus.time <= 0)) Removals.Add(dus);
-                    foreach (BootlegDust dus in Removals) MenuDust.Remove(dus);
-                    Main.spriteBatch.End();
-                }
-            }
-            catch
-            {
-
-            }
-        }*/
 
         private void DrawProto(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_refItem_int_Vector2_Color orig, SpriteBatch spriteBatch, ref Item inv, int context, Vector2 position, Color lightColor)
         {
