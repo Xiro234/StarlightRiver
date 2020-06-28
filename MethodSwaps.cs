@@ -75,9 +75,8 @@ namespace StarlightRiver
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
-
-
         #region hooks
+
         private bool AluminumMeteor(On.Terraria.WorldGen.orig_meteor orig, int i, int j)
         {
             Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 80;
