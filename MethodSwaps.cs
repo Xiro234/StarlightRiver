@@ -346,7 +346,7 @@ namespace StarlightRiver
 
             float distance = Vector2.Distance(Main.LocalPlayer.Center, StarlightWorld.RiftLocation);
             float val = ((1500 / distance - 1) / 3);
-            if (val > 0.8f) val = 0.8f;
+            //if (val > 0.7f) val = 0.7f;
             Color color = Color.Black * (distance <= 1500 ? val : 0);
 
             Main.spriteBatch.Draw(tex, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), tex.Frame(), color);

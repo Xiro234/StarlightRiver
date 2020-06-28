@@ -99,7 +99,7 @@ namespace StarlightRiver
                 float val = (1500 / distance - 1) * 2;
                 if (val <= 1) val = 1;
                 if (val >= 2.5f) val = 2.5f;
-                Lighting.brightness = 1 / val;
+                //Lighting.brightness = 1 / val;
             }
 
             if (ZoneVoidPre)

@@ -3,6 +3,7 @@ using StarlightRiver.Tiles.Vitric;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -56,6 +57,7 @@ namespace StarlightRiver.Items.Debug
         {
             StarlightWorld.OvergrowBossOpen = true;
             StarlightWorld.OvergrowBossFree = false;
+            StarlightWorld.RiftLocation = player.Center;
             return true;
         }
 
@@ -88,7 +90,10 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            return true;
+            for (int x = 0; x < Main.maxTilesX; x++)
+                for (int y = 0; y < Main.maxTilesY; y++) Main.tile[x, y].liquid = 0;
+
+                    return true;
         }
 
         public override void HoldItem(Player player)

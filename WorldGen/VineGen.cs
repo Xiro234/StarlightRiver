@@ -22,13 +22,8 @@ namespace StarlightRiver
                     if (y != 0 && target != new Point16(0, 0))
                     {
                         WorldGen.PlaceTile(x, y - 1, TileType<VineBanner>(), true, true);
-                        TileEntity.PlaceEntityNet(x, y - 1, TileEntityType<VineBannerEntity>());
-
-                        if (TileEntity.ByPosition.ContainsKey(new Point16(x, y - 1)))
-                        {
-                            ((VineBannerEntity)TileEntity.ByPosition[new Point16(x, y - 1)]).Endpoint = target - new Point16(x, y - 1);
-                            ((VineBannerEntity)TileEntity.ByPosition[new Point16(x, y - 1)]).Set = true;
-                        }
+                        Main.tile[x, y - 1].frameX = target.X;
+                        Main.tile[x, y - 1].frameY = target.Y;
                     }
                 }
             }

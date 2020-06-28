@@ -119,6 +119,7 @@ namespace StarlightRiver.Core
         }
 
         public override void PostUpdateEquips() => JustHit = false;
+
         public override void ModifyScreenPosition()
         {
             if (ScreenMoveTime > 0 && ScreenMoveTarget != Vector2.Zero)
@@ -147,6 +148,7 @@ namespace StarlightRiver.Core
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
         }
+
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;

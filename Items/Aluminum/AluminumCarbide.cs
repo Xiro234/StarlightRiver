@@ -18,6 +18,12 @@ namespace StarlightRiver.Items.Aluminum
     {
         float spinup = 0;
 
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Astral Carbine");
+            Tooltip.SetDefault("Winds up with use\nYour first shot inflicts zapped");
+        }
+
         public override void SetDefaults()
         {
             item.damage = 34;
