@@ -91,7 +91,7 @@ namespace StarlightRiver.Items.Debug
         public override bool UseItem(Player player)
         {
             for (int x = 0; x < Main.maxTilesX; x++)
-                for (int y = 0; y < Main.maxTilesY; y++) Main.tile[x, y].liquid = 0;
+                for (int y = 0; y < Main.maxTilesY; y++) if (Main.tile[x, y].type == TileID.IceBlock) Main.tile[x, y].type = (ushort)TileType<Tiles.Permafrost.PermafrostIce>();
 
                     return true;
         }

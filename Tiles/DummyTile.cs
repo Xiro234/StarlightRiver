@@ -9,6 +9,8 @@ namespace StarlightRiver.Tiles
     {
         public virtual int DummyType { get; }
 
+        public Projectile Dummy { get; set; }
+
         public virtual void SafeNearbyEffects(int i, int j, bool closer) { }
 
         public virtual bool SpawnConditions(int i, int j)
@@ -26,7 +28,8 @@ namespace StarlightRiver.Tiles
                     Projectile p = new Projectile();
                     p.SetDefaults(DummyType);
 
-                    Projectile.NewProjectile(new Vector2(i, j) * 16 + p.Size / 2, Vector2.Zero, DummyType, 1, 0);
+                    int n = Projectile.NewProjectile(new Vector2(i, j) * 16 + p.Size / 2, Vector2.Zero, DummyType, 1, 0);
+                    Dummy = Main.projectile[n];
                     p = null;
                 }
             }

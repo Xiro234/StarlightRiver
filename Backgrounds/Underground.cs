@@ -14,6 +14,16 @@ namespace StarlightRiver.Backgrounds
         }
     }
 
+    public class PermafrostBG : ModUgBgStyle
+    {
+        public override bool ChooseBgStyle() => Main.LocalPlayer.GetModPlayer<BiomeHandler>().zonePermafrost;
+
+        public override void FillTextureArray(int[] textureSlots)
+        {
+            for (int k = 0; k <= 5; k++) textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/PermafrostBack");
+        }
+    }
+
     public class JungleCorruptBG : ModUgBgStyle
     {
         public override bool ChooseBgStyle() => Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt;

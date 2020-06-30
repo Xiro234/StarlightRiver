@@ -62,7 +62,7 @@ namespace StarlightRiver
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
-                    priority = MusicPriority.BiomeMedium;
+                    priority = MusicPriority.BiomeHigh;
                 }
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow)
@@ -80,25 +80,31 @@ namespace StarlightRiver
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleCorrupt");
-                    priority = MusicPriority.BiomeHigh;
+                    priority = MusicPriority.BiomeMedium;
                 }
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleBloody");
-                    priority = MusicPriority.BiomeHigh;
+                    priority = MusicPriority.BiomeMedium;
                 }
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleHoly");
-                    priority = MusicPriority.BiomeHigh;
+                    priority = MusicPriority.BiomeMedium;
                 }
 
                 if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().zoneAluminum)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/AluminumPassive");
                     priority = MusicPriority.BiomeHigh;
+                }
+
+                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().zonePermafrost)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/PermafrostPassive");
+                    priority = MusicPriority.BiomeMedium;
                 }
             }
             return;

@@ -16,25 +16,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public VitricBoss Parent;
         public override string Texture => "StarlightRiver/Invisible";
 
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            return false;
-        }
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
 
-        public override bool? CanBeHitByItem(Player player, Item item)
-        {
-            return false;
-        }
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
 
-        public override bool CheckActive()
-        {
-            return false;
-        }
+        public override bool CheckActive() => false;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("");
 
         public override void SetDefaults()
         {
@@ -134,6 +122,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
     internal class CrystalWave : ModProjectile
     {
+        private float startY;
+
         public override void SetDefaults()
         {
             projectile.hostile = true;
@@ -142,8 +132,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.timeLeft = 30;
             projectile.hide = true;
         }
-
-        private float startY;
 
         public override void AI()
         {

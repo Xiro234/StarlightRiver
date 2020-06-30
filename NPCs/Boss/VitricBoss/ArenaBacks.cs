@@ -64,10 +64,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (npc.ai[2] > Scrolltime) npc.ai[2] = 0;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            return false;
-        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
 
         public void DrawMoonlordLayer(SpriteBatch spriteBatch)
         {

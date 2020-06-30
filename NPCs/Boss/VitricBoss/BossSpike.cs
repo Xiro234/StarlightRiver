@@ -43,10 +43,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 int i = Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, DustType<Dusts.AirDash>(), 0, -5);
                 Main.dust[i].fadeIn = 30;
             }
-            if (projectile.ai[0] == 90) //when this projectile goes off
-            {
-                projectile.hostile = true;
-            }
+
+            if (projectile.ai[0] == 90) projectile.hostile = true; //when this projectile goes off
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
