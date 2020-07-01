@@ -134,7 +134,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (Phase == (int)AIStates.FirstToSecond)
             {
                 Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/TransitionPhaseGlow");
-                spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, tex.Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(6, 3), tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, tex.Size() / 2, 1, 0, 0);
             }
         }
 
@@ -268,7 +268,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         ChangePhase(AIStates.FirstPhase, true);
 
                         const int arenaWidth = 1408;
-                        const int arenaHeight = 864;
+                        const int arenaHeight = 876;
                         arena = new Rectangle((int)npc.Center.X - arenaWidth / 2, (int)npc.Center.Y - arenaHeight / 2, arenaWidth, arenaHeight);
                     }
                     break;
@@ -345,14 +345,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         }
                     }
 
-                    if (GlobalTimer > 900) //after waiting too long, wipe all players
+                    /*if (GlobalTimer > 900) //after waiting too long, wipe all players
                     {
                         foreach (Player player in Main.player.Where(n => n.Hitbox.Intersects(arena)))
                         {
                             player.KillMe(Terraria.DataStructures.PlayerDeathReason.ByCustomReason(player.name + " was shattered..."), double.MaxValue, 0);
                         }
                         ChangePhase(AIStates.Leaving, true);
-                    }
+                    }*/
                     break;
 
                 case (int)AIStates.SecondPhase:
