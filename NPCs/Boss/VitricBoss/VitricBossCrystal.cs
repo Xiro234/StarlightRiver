@@ -8,7 +8,7 @@ using static StarlightRiver.NPCs.Boss.VitricBoss.VitricBoss;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    internal class VitricBossCrystal : ModNPC
+    internal class VitricBossCrystal : ModNPC, IDrawAdditive
     {
         public Vector2 StartPos;
         public Vector2 TargetPos;
@@ -224,24 +224,19 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline
             if (npc.ai[0] == 0)
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
-
-            if (npc.ai[2] == 1 && npc.ai[1] < 180) //tell line for going to a platform in the nuke attack
-            {
-                DrawLine(spriteBatch, npc.Center, TargetPos);
-            }
         }
 
-        private void DrawLine(SpriteBatch sb, Vector2 p1, Vector2 p2) //helper method to draw a tell line between two points.
+        public void DrawAdditive (SpriteBatch spriteBatch) //helper method to draw a tell line between two points.
         {
-            sb.End();
-            sb.Begin(default, BlendState.Additive);
-            Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
-            for (float k = 0; k < 1; k += 1 / Vector2.Distance(p1, p2) * tex.Width)
+            if (npc.ai[2] == 1 && npc.ai[1] < 180) //tell line for going to a platform in the nuke attack
             {
-                sb.Draw(tex, Vector2.Lerp(p1, p2, k) - Main.screenPosition, tex.Frame(), new Color(180, 220, 250) * 0.8f, (p1 - p2).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
+                Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
+                for (float k = 0; k < 1; k += 1 / Vector2.Distance(npc.Center, TargetPos) * tex.Width)
+                {
+                    spriteBatch.Draw(tex, Vector2.Lerp(npc.Center, TargetPos, k) - Main.screenPosition, tex.Frame(), new Color(180, 220, 250) * 0.8f,
+                        (npc.Center - TargetPos).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
+                }
             }
-            sb.End();
-            sb.Begin();
         }
     }
 }

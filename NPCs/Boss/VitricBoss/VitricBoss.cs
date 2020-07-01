@@ -404,7 +404,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 case (int)AIStates.Dying:
 
-                    if (GlobalTimer == 1) startPos = npc.Center;
+                    if (GlobalTimer == 1)
+                    {
+                        foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp)) npc.ai[1] = 4;
+                        startPos = npc.Center;
+                    }
 
                     if (GlobalTimer < 60) npc.Center = Vector2.SmoothStep(startPos, homePos, GlobalTimer / 60f);
 

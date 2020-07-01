@@ -58,7 +58,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.hostile = true;
             projectile.width = 32;
             projectile.height = 32;
-            projectile.timeLeft = 480;
+            projectile.timeLeft = 600;
             projectile.scale = 0.5f;
             projectile.extraUpdates = 4;
         }
@@ -66,7 +66,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + 1.58f;
-            Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, 1);
+            Dust d = Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Air>(), Vector2.Zero, 0, default, 1);
+            d.noGravity = true;
         }
     }
 }

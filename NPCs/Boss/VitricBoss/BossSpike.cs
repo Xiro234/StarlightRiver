@@ -52,10 +52,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (projectile.ai[0] > 90)
             {
                 Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BossSpike");
-                int off = projectile.ai[0] < 100 ? (int)((projectile.ai[0] - 90) / 10f * projectile.height) : projectile.height - (int)((projectile.ai[0] - 100) / 80f * projectile.height);
-                Rectangle targetRect = new Rectangle((int)(projectile.position.X - Main.screenPosition.X), (int)(projectile.position.Y - off - Main.screenPosition.Y + projectile.height), projectile.width, off);
-                Rectangle sourceRect = new Rectangle(0, 0, projectile.width, off);
-                spriteBatch.Draw(tex, targetRect, sourceRect, lightColor, 0, Vector2.Zero, 0, 0);
+
+                for (int k = 0; k < 4; k++)
+                {
+                    int off = projectile.ai[0] < 100 ? (int)((projectile.ai[0] - 90) / 10f * projectile.height) : projectile.height - (int)((projectile.ai[0] - 100) / 80f * projectile.height);
+                    Rectangle targetRect = new Rectangle((int)(projectile.position.X - Main.screenPosition.X + k * tex.Width), (int)(projectile.position.Y - off - Main.screenPosition.Y + projectile.height), tex.Width, off);
+                    Rectangle sourceRect = new Rectangle(0, 0, tex.Width, off);
+                    spriteBatch.Draw(tex, targetRect, sourceRect, lightColor, 0, Vector2.Zero, 0, 0);
+                }
             }
         }
     }
