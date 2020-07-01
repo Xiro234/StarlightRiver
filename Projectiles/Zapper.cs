@@ -40,6 +40,7 @@ namespace StarlightRiver.Projectiles
                 dims.Y++;
                 if (Main.tileSolid[Main.tile[((int)projectile.position.X + 4) / 16, (int)(projectile.position.Y + k) / 16].type] && Main.tile[(int)projectile.position.X / 16, (int)(projectile.position.Y + k) / 16].active()) break;
             }
+
             foreach (Player player in Main.player.Where(player => player.active))
             {
                 if (Collision.CheckAABBvAABBCollision(projectile.position, dims, player.position, player.Hitbox.Size()) && !player.GetModPlayer<AbilityHandler>().wisp.Active)
@@ -54,6 +55,7 @@ namespace StarlightRiver.Projectiles
                     player.GetModPlayer<AbilityHandler>().dash.Active = false;
                 }
             }
+
             projectile.timeLeft = 2;
             if (!parent.active())
             {

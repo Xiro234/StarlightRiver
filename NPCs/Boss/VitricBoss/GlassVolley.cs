@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    internal class GlassVolley : ModProjectile
+    internal class GlassVolley : ModProjectile, IDrawAdditive
     {
         public override string Texture => "StarlightRiver/Invisible";
 
@@ -40,20 +40,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (projectile.ai[0] == 65) projectile.Kill(); //kill it when it expires
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public void DrawAdditive(SpriteBatch spriteBatch)
         {
-            spriteBatch.End();
-            spriteBatch.Begin(default, BlendState.Additive);
-
             if (projectile.ai[0] <= 46) //draws the proejctile's tell ~0.75 seconds before it goes off
             {
                 Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VolleyTell");
-                float alpha = ((projectile.ai[0] * 2 / 23) - ((float)Math.Pow(projectile.ai[0], 2) / 529)) * 0.5f;
-                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White * alpha, projectile.rotation - 1.57f, new Vector2(tex.Width / 2, tex.Height), 1, 0, 0);
+                float alpha = ((projectile.ai[0] * 2 / 23) - ((float)Math.Pow(projectile.ai[0], 2) / 529)) * 0.75f;
+                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), new Color(200, 255, 255) * alpha, projectile.rotation - 1.57f, new Vector2(tex.Width / 2, tex.Height), 1, 0, 0);
             }
-
-            spriteBatch.End();
-            spriteBatch.Begin();
         }
     }
 
@@ -72,7 +66,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + 1.58f;
-            Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Starlight>());
+            Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, 1);
         }
     }
 }

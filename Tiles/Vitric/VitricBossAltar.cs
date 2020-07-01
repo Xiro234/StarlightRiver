@@ -85,7 +85,7 @@ namespace StarlightRiver.Tiles.Vitric
             }
 
             //This controls spawning the rest of the arena
-            if (!Main.npc.Any(n => n.active && n.type == NPCType<VitricBackdropLeft>())) //TODO: Need to find a better check
+            if (!Main.npc.Any(n => n.active && (n.type == NPCType<VitricBackdropLeft>() || n.type == NPCType<VitricBoss>()) ) ) //TODO: Need to find a better check
             {
                 Vector2 center = projectile.Center + new Vector2(0, 60);
                 int timerset = StarlightWorld.GlassBossOpen ? 360 : 0; //the arena should already be up if it was opened before

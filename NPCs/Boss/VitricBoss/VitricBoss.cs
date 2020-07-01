@@ -9,11 +9,25 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Items.BossDrops.VitricBossDrops;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
     internal sealed partial class VitricBoss : ModNPC, IDynamicMapIcon
     {
+        public Vector2 startPos;
+        public Vector2 endPos;
+        public Vector2 homePos;
+        public List<NPC> Crystals = new List<NPC>();
+        public List<Vector2> CrystalLocations = new List<Vector2>();
+        public Rectangle arena;
+
+        internal ref float GlobalTimer => ref npc.ai[0];
+        internal ref float Phase => ref npc.ai[1];
+        internal ref float AttackPhase => ref npc.ai[2];
+        internal ref float AttackTimer => ref npc.ai[3];
+
+
         #region tml hooks
 
         public override bool CheckActive()
@@ -114,7 +128,32 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (Phase == (int)AIStates.FirstPhase && npc.dontTakeDamage) //draws the npc's shield when immune and in the first phase
             {
                 Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/Shield");
-                spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (0.55f + ((float)Math.Sin(StarlightWorld.rottime * 2) * 0.15f)), 0, tex.Size() / 2, 1, 0, 0);
+                spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (0.45f + ((float)Math.Sin(StarlightWorld.rottime * 2) * 0.1f)), 0, tex.Size() / 2, 1, 0, 0);
+            }
+
+            if (Phase == (int)AIStates.FirstToSecond)
+            {
+                Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/TransitionPhaseGlow");
+                spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, tex.Size() / 2, 1, 0, 0);
+            }
+        }
+
+        public override void NPCLoot()
+        {
+            if(Main.expertMode) npc.DropItemInstanced(npc.Center, Vector2.One, ItemType<VitricBossBag>());
+            else
+            {
+                int weapon = Main.rand.Next(5);
+                switch (weapon)
+                {
+                    case 0: Item.NewItem(npc.Center, ItemType<Items.Vitric.VitricPick>()); break;
+                    case 1: Item.NewItem(npc.Center, ItemType<Items.Vitric.VitricAxe>()); break;
+                    case 2: Item.NewItem(npc.Center, ItemType<Items.Vitric.VitricHammer>()); break;
+                    case 3: Item.NewItem(npc.Center, ItemType<Items.Vitric.VitricSword>()); break;
+                    case 4: Item.NewItem(npc.Center, ItemType<Items.Vitric.VitricBow>()); break;
+                }
+                Item.NewItem(npc.Center, ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(30, 50));
+                Item.NewItem(npc.Center, ItemType<Items.Accessories.StaminaUp>());
             }
         }
 
@@ -146,19 +185,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         #endregion helper methods
 
         #region AI
-
-        public Vector2 startPos;
-        public Vector2 endPos;
-        public Vector2 homePos;
-        public List<NPC> Crystals = new List<NPC>();
-        public List<Vector2> CrystalLocations = new List<Vector2>();
-        public Rectangle arena;
-
-        internal ref float GlobalTimer => ref npc.ai[0];
-        internal ref float Phase => ref npc.ai[1];
-        internal ref float AttackPhase => ref npc.ai[2];
-        internal ref float AttackTimer => ref npc.ai[3];
-
         public enum AIStates
         {
             SpawnEffects = 0,

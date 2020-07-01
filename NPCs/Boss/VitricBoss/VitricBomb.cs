@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    class VitricBomb : ModProjectile
+    class VitricBomb : ModProjectile, IDrawAdditive
     {
         public override void SetDefaults()
         {
@@ -18,22 +18,29 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.hostile = true;
             projectile.timeLeft = 300;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Rectangle rect = new Rectangle(0, 46 * projectile.frame, 46, 46);
             spriteBatch.Draw(GetTexture(Texture), projectile.Center - Main.screenPosition, rect, lightColor, 0, Vector2.One * 23, 1, 0, 0);
             return false;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/VitricBombGlow");
-            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BombTell");
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, tex.Size() / 2, 1, 0, 0);
+        }
 
-            float bright = ((300 - projectile.timeLeft) / 300f * 0.5f);
-            if (projectile.timeLeft < 60) bright += (float)Math.Sin(StarlightWorld.rottime * 6) * 0.2f;
+        public void DrawAdditive(SpriteBatch spriteBatch)
+        {
+            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BombTell");
+
+            float bright = ((300 - projectile.timeLeft) / 300f * 0.9f);
+            if (projectile.timeLeft < 60) bright += (float)Math.Sin(StarlightWorld.rottime * 6) * 0.1f;
             spriteBatch.Draw(tex2, projectile.Center - Main.screenPosition, tex2.Frame(), (projectile.timeLeft < 60 ? Color.Red : Color.White) * bright, 0, tex2.Size() / 2, 2, 0, 0);
         }
+
         public override bool CanHitPlayer(Player target)
         {
             if (Abilities.AbilityHelper.CheckDash(target, projectile.Hitbox))
