@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Core;
 using StarlightRiver.Items.Permafrost;
 using StarlightRiver.Tiles.Permafrost;
+using System;
+using System.Linq;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ModLoader;
@@ -79,7 +75,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             Vector2 pos = npc.Center + new Vector2(-800, 35 * 16) + new Vector2(0, -npc.ai[0]);
 
             //Lighting
-            for(int k = 0; k < 45; k++)
+            for (int k = 0; k < 45; k++)
             {
                 Vector2 target = pos + new Vector2(k / 45f * 3200, 0);
 
@@ -105,7 +101,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 player.AddBuff(BuffType<Buffs.PrismaticDrown>(), 4, false);
             }
 
-            for(int k = 0; k < Main.maxItems; k++)
+            for (int k = 0; k < Main.maxItems; k++)
             {
                 Item item = Main.item[k];
 
@@ -128,10 +124,10 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public void DrawWater(SpriteBatch spriteBatch)
         {
-            Vector2 pos = npc.Center + new Vector2(- 1600, 35 * 16) + new Vector2(0, -npc.ai[0]) - Main.screenPosition;
+            Vector2 pos = npc.Center + new Vector2(-1600, 35 * 16) + new Vector2(0, -npc.ai[0]) - Main.screenPosition;
 
             pos += Main.screenPosition;
-            for(int x = (int)pos.X / 16; x < (int)pos.X / 16 + 200; x++)
+            for (int x = (int)pos.X / 16; x < (int)pos.X / 16 + 200; x++)
             {
                 for (int y = (int)pos.Y / 16; y <= (int)pos.Y / 16 + (int)npc.ai[0] / 16; y++)
                 {
@@ -165,7 +161,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             }
         }
 
-        public void DrawWindow(SpriteBatch spriteBatch) 
+        public void DrawWindow(SpriteBatch spriteBatch)
         {
             Color color = new Color(230, 255, 255);
 
@@ -179,7 +175,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 {
                     Vector2 pos = npc.Center - (tex.Size() / 2) + new Vector2(x, y - 7) * 16;
 
-                    if(Helper.OnScreen(pos - Main.screenPosition))
+                    if (Helper.OnScreen(pos - Main.screenPosition))
                         spriteBatch.Draw(tex, pos - Main.screenPosition, new Rectangle(x * 16, y * 16, 16, 16), Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16), 0, Vector2.Zero, 1, 0, 0);
                 }
             }
@@ -197,7 +193,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 spriteBatch.Draw(tex3, npc.Center + new Vector2(450, -250) - Main.screenPosition, null, Color.White * 0.5f, 0.9f + (float)Math.Sin(npc.ai[2] * 2 + k) * 0.13f, Vector2.Zero, 1.5f, 0, 0);
                 spriteBatch.Draw(tex3, npc.Center + new Vector2(-450, -250) - Main.screenPosition, null, Color.White * 0.5f, 0.45f + (float)Math.Sin(npc.ai[2] * 2 + k) * 0.13f, Vector2.Zero, 1.5f, 0, 0);
 
-                spriteBatch.Draw(tex3, npc.Center + new Vector2(0, -450) - Main.screenPosition, null, Color.White * 0.5f, 0.68f + (float)Math.Sin(npc.ai[2] * 2 + (k / 4f *  6.28f)) * 0.13f, Vector2.Zero, 1.9f, 0, 0);
+                spriteBatch.Draw(tex3, npc.Center + new Vector2(0, -450) - Main.screenPosition, null, Color.White * 0.5f, 0.68f + (float)Math.Sin(npc.ai[2] * 2 + (k / 4f * 6.28f)) * 0.13f, Vector2.Zero, 1.9f, 0, 0);
             }
 
             spriteBatch.End();
@@ -235,7 +231,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     float tentacleRot = ((npc.Center + tentaclePos) - (npc.Center + off * 16 + new Vector2(0, 200))).ToRotation() + 1.57f;
 
                     for (int k = 0; k < 32; k++)
-                        spriteBatch.Draw(tex4, npc.Center + Vector2.Lerp(tentaclePos, off * 16 + new Vector2((float)Math.Sin(npc.ai[1] + k * 0.5f) * 5, 200), k / 20f) - Main.screenPosition, 
+                        spriteBatch.Draw(tex4, npc.Center + Vector2.Lerp(tentaclePos, off * 16 + new Vector2((float)Math.Sin(npc.ai[1] + k * 0.5f) * 5, 200), k / 20f) - Main.screenPosition,
                             null, Color.White, 0, tex4.Size() / 2, 1, 0, 0);
 
                     spriteBatch.Draw(tex2, npc.Center + tentaclePos - Main.screenPosition, null, Color.White, tentacleRot, tex2.Size() / 2, 1, 0, 0);
@@ -245,7 +241,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             spriteBatch.Draw(tex, npc.Center + new Vector2(off.X * 16, off.Y * 16) - Main.screenPosition, null, color * 0.5f, 0, tex.Size() / 2, 1, 0, 0);
 
-            for(int k = 0; k < 5; k++) Lighting.AddLight(npc.Center + new Vector2(off.X * 16, off.Y * 16) + new Vector2(0, -100 + k * 50), color.ToVector3() * 0.5f);
+            for (int k = 0; k < 5; k++) Lighting.AddLight(npc.Center + new Vector2(off.X * 16, off.Y * 16) + new Vector2(0, -100 + k * 50), color.ToVector3() * 0.5f);
 
             Texture2D tex6 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/SmallWindow");
 
@@ -262,8 +258,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         private void SpawnPlatform(int x, int y, bool small = false)
         {
-            if(small) NPC.NewNPC((int)(npc.Center.X + x), (int)(npc.Center.Y + y), NPCType<IcePlatformSmall>());
-            else NPC.NewNPC((int)(npc.Center.X + x), (int)(npc.Center.Y + y), NPCType<IcePlatform>() );
+            if (small) NPC.NewNPC((int)(npc.Center.X + x), (int)(npc.Center.Y + y), NPCType<IcePlatformSmall>());
+            else NPC.NewNPC((int)(npc.Center.X + x), (int)(npc.Center.Y + y), NPCType<IcePlatform>());
         }
     }
 }

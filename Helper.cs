@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using StarlightRiver.Codex;
@@ -12,6 +11,7 @@ using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.ObjectData;
 using Terraria.UI;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -158,7 +158,7 @@ namespace StarlightRiver
             for (int k = 1; k < nodes.Count(); k++)
             {
                 //Sets all intermediate nodes to their appropriate randomized dot product positions
-                nodes[k] = Vector2.Lerp(point1, point2, k / (float)nodeCount) + 
+                nodes[k] = Vector2.Lerp(point1, point2, k / (float)nodeCount) +
                     (k == nodes.Count() - 1 ? Vector2.Zero : Vector2.Normalize(point1 - point2).RotatedBy(1.58f) * Main.rand.NextFloat(-armLength / 2, armLength / 2));
 
                 //Spawns the dust between each node
@@ -392,7 +392,7 @@ namespace StarlightRiver
         {
             Player player = null;
 
-            for(int k = 0; k < Main.maxPlayers; k++)
+            for (int k = 0; k < Main.maxPlayers; k++)
             {
                 if (Main.player[k] != null && Main.player[k].active && (player == null || Vector2.DistanceSquared(position, Main.player[k].Center) < Vector2.DistanceSquared(position, player.Center)))
                     player = Main.player[k];

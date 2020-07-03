@@ -1,10 +1,10 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Tiles.Decoration;
+﻿using StarlightRiver.Tiles.Decoration;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {

@@ -27,7 +27,7 @@ namespace StarlightRiver.Structures
                         else break;
                     }
                 }
-            
+
             return new Vector2(WorldGen.UndergroundDesertLocation.X, 400);
         }
     }

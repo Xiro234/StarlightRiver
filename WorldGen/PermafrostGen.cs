@@ -1,12 +1,11 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Tiles.Decoration;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Tiles.Permafrost;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using StarlightRiver.Tiles.Permafrost;
-using Microsoft.Xna.Framework;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -32,7 +31,7 @@ namespace StarlightRiver
                     }
             }
 
-            for (int x = Main.maxTilesX - 1; x > 0; x--) 
+            for (int x = Main.maxTilesX - 1; x > 0; x--)
             {
                 if (iceRight != 0) break;
 
@@ -44,22 +43,19 @@ namespace StarlightRiver
                     }
             }
 
-            for(int y = Main.maxTilesY - 1; y > 0; y--)
-            {
-                if(Main.tile[iceLeft, y].type == TileID.IceBlock)
+            for (int y = Main.maxTilesY - 1; y > 0; y--)
+                if (Main.tile[iceLeft, y].type == TileID.IceBlock)
                 {
                     iceBottom = y;
                     break;
                 }
-            }
 
-            for(int x = iceLeft; x < iceRight; x++) //hey look the ice biome!
-            {
-                for(int y = iceBottom - 150; y < iceBottom + 50; y++)
+
+            for (int x = iceLeft; x < iceRight; x++) //hey look the ice biome!
+                for (int y = iceBottom - 150; y < iceBottom + 50; y++)
                 {
-                    if (Main.tile[x, y].active()) Main.tile[x, y].type = (ushort)TileType<PermafrostIce>();
+                    if (Main.tile[x, y].type == TileID.IceBlock) Main.tile[x, y].type = (ushort)TileType<PermafrostIce>();
                 }
-            }
 
             int center = iceLeft + (iceRight - iceLeft) / 2;
 

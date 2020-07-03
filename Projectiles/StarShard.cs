@@ -1,7 +1,7 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles
 {
@@ -24,7 +24,7 @@ namespace StarlightRiver.Projectiles
         {
             for (int k = 0; k <= 50; k++)
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("Starlight"), Main.rand.NextFloat(-30, 30), Main.rand.NextFloat(-30, 30), 0, default, 1.8f);
-            
+
             if (Vector2.Distance(projectile.position, Main.LocalPlayer.position) <= 800) Item.NewItem(projectile.position, ItemType<Items.Aluminum.AluminumOre>(), Main.rand.Next(4));
         }
 

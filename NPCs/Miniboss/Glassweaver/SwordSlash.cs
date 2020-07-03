@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 {
@@ -33,7 +28,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             float progress = projectile.timeLeft > (duration / 2f) ? (duration - projectile.timeLeft) / (duration / 2f) : projectile.timeLeft / (duration / 2f);
             projectile.Center = parent.Center + Vector2.SmoothStep(Vector2.Zero, Vector2.Normalize(projectile.velocity) * 128, progress);
 
-            for(int k = 0; k < Main.maxPlayers; k++)
+            for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
                 if (player.active && player.itemAnimation > 0 && player.HeldItem.GetGlobalItem<StarlightItem>().meleeHitbox.Intersects(projectile.Hitbox))

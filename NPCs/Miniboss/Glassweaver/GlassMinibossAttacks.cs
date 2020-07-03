@@ -27,26 +27,26 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
                 npc.velocity = Vector2.Normalize(npc.Center - moveTarget) * -0.1f;
             }
 
-            if(relTimer < 60) npc.velocity = Vector2.Normalize(npc.Center - moveTarget) * (-0.1f * (60 - relTimer));
+            if (relTimer < 60) npc.velocity = Vector2.Normalize(npc.Center - moveTarget) * (-0.1f * (60 - relTimer));
 
             if (AttackTimer >= 239) ResetAttack();
         }
 
         private void CastOrb()
         {
-            if(AttackTimer == 1)
+            if (AttackTimer == 1)
             {
                 moveStart = npc.Center;
                 npc.TargetClosest();
                 moveTarget = spawnPos + new Vector2(Main.player[npc.target].Center.X > spawnPos.X ? -250 : 250, 20);
             }
 
-            if(AttackTimer <= 60)
+            if (AttackTimer <= 60)
             {
                 npc.Center = Vector2.SmoothStep(moveStart, moveTarget, AttackTimer / 60f);
             }
 
-            if(AttackTimer == 120)
+            if (AttackTimer == 120)
             {
                 int i = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<WeaverOrb>());
                 Main.npc[i].velocity = Vector2.UnitX * (npc.Center.X > spawnPos.X ? -3 : 3);

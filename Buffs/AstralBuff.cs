@@ -1,11 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Core;
 using StarlightRiver.Projectiles.WeaponProjectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using static Terraria.ModLoader.ModContent;
 

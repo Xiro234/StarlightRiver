@@ -2,17 +2,17 @@
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using StarlightRiver.Core;
 using StarlightRiver.Dragons;
 using StarlightRiver.GUI;
+using StarlightRiver.NPCs;
+using StarlightRiver.NPCs.Boss.SquidBoss;
 using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
-using StarlightRiver.Core;
-using StarlightRiver.NPCs.Boss.SquidBoss;
-using StarlightRiver.NPCs;
 
 namespace StarlightRiver
 {
@@ -372,10 +372,10 @@ namespace StarlightRiver
         private delegate void DrawWindowDelegate();
         private void EmitMoonlordLayerDel()
         {
-            for(int k = 0; k < Main.maxProjectiles; k++)
+            for (int k = 0; k < Main.maxProjectiles; k++)
             {
-                if(Main.projectile[k].modProjectile is IMoonlordLayerDrawable)
-                    (Main.projectile[k].modProjectile as IMoonlordLayerDrawable).DrawMoonlordLayer(Main.spriteBatch);           
+                if (Main.projectile[k].modProjectile is IMoonlordLayerDrawable)
+                    (Main.projectile[k].modProjectile as IMoonlordLayerDrawable).DrawMoonlordLayer(Main.spriteBatch);
             }
 
             for (int k = 0; k < Main.maxNPCs; k++)

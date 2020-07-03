@@ -1,15 +1,14 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
-using StarlightRiver.Projectiles.Dummies;
-using System.Linq;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using StarlightRiver.NPCs.Boss.VitricBoss;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.DataStructures;
+using StarlightRiver.Projectiles.Dummies;
 using System;
+using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric
 {
@@ -50,11 +49,11 @@ namespace StarlightRiver.Tiles.Vitric
                 Main.PlaySound(SoundID.Shatter);
                 for (int k = 0; k < 100; k++) Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType<Dusts.Glass2>(), 0, 0, 0, default, 1.2f);
 
-                for (int x = parentPos.X; x < parentPos.X + 5; x++)              
+                for (int x = parentPos.X; x < parentPos.X + 5; x++)
                     for (int y = parentPos.Y; y < parentPos.Y + 7; y++)
                     {
                         Framing.GetTileSafely(x, y).frameX += 90;
-                    }                
+                    }
             }
         }
 
@@ -85,7 +84,7 @@ namespace StarlightRiver.Tiles.Vitric
             }
 
             //This controls spawning the rest of the arena
-            if (!Main.npc.Any(n => n.active && (n.type == NPCType<VitricBackdropLeft>() || n.type == NPCType<VitricBoss>()) ) ) //TODO: Need to find a better check
+            if (!Main.npc.Any(n => n.active && (n.type == NPCType<VitricBackdropLeft>() || n.type == NPCType<VitricBoss>()))) //TODO: Need to find a better check
             {
                 Vector2 center = projectile.Center + new Vector2(0, 60);
                 int timerset = StarlightWorld.GlassBossOpen ? 360 : 0; //the arena should already be up if it was opened before
@@ -118,7 +117,7 @@ namespace StarlightRiver.Tiles.Vitric
 
             if (parent.frameX >= 90 && !NPC.AnyNPCs(NPCType<VitricBoss>()))
                 Helper.DrawSymbol(spriteBatch, projectile.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5 - 20), new Color(150, 220, 250));
-            
+
             else if (parent.frameX < 90)
             {
                 Texture2D glow = GetTexture("StarlightRiver/Tiles/Vitric/VitricBossAltarGlow");
@@ -134,7 +133,7 @@ namespace StarlightRiver.Tiles.Vitric
             spriteBatch.Draw(tex, new Rectangle((int)center.X - 790 - (int)Main.screenPosition.X, (int)center.Y - off - 16 - (int)Main.screenPosition.Y, tex.Width, off),
                 new Rectangle(0, 0, tex.Width, off), color);
 
-            spriteBatch.Draw(tex, new Rectangle((int)center.X + 606 - (int)Main.screenPosition.X, (int)center.Y - off -16 - (int)Main.screenPosition.Y, tex.Width, off),
+            spriteBatch.Draw(tex, new Rectangle((int)center.X + 606 - (int)Main.screenPosition.X, (int)center.Y - off - 16 - (int)Main.screenPosition.Y, tex.Width, off),
                 new Rectangle(0, 0, tex.Width, off), color);
         }
 

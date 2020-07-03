@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using static Terraria.ModLoader.ModContent;
+using System;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Decoration
 {
@@ -60,7 +56,7 @@ namespace StarlightRiver.Tiles.Decoration
                     float sin = (float)Math.Sin(StarlightWorld.rottime + i % 6);
 
                     Vector2 pos;
-                    if(i < end.X / 16) pos = Vector2.CatmullRom(new Vector2(i + sin, j + off) * 16, end, new Vector2(i, j) * 16, new Vector2(i - sin, j + off) * 16, k / max);
+                    if (i < end.X / 16) pos = Vector2.CatmullRom(new Vector2(i + sin, j + off) * 16, end, new Vector2(i, j) * 16, new Vector2(i - sin, j + off) * 16, k / max);
                     else pos = Vector2.CatmullRom(new Vector2(i + sin, j + off) * 16, new Vector2(i, j) * 16, end, new Vector2(i - sin, j + off) * 16, k / max);
 
                     Color color = Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16) * colorMult;
@@ -119,7 +115,7 @@ namespace StarlightRiver.Tiles.Decoration
                 target.frameY = (short)(Main.MouseWorld.Y / 16);
                 target = null;
             }
-            else 
+            else
             {
                 WorldGen.PlaceTile((int)(Main.MouseWorld.X / 16), (int)(Main.MouseWorld.Y / 16), placeType);
 

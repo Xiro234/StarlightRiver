@@ -148,10 +148,10 @@ namespace StarlightRiver
         {
             if (test == Point16.Zero) return false;
 
-            for(int x = -35; x < 35; x++)
+            for (int x = -35; x < 35; x++)
                 for (int y = -35; y < 35; y++)
                 {
-                    if(WorldGen.InWorld(test.X + x, test.Y + y))
+                    if (WorldGen.InWorld(test.X + x, test.Y + y))
                     {
                         Tile tile = Framing.GetTileSafely(test + new Point16(x, y));
                         if (tile.type == TileID.Containers || tile.type == TileID.Containers2) return false;

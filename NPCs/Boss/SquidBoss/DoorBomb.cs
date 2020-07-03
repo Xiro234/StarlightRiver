@@ -22,7 +22,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public override void AI()
         {
-            if(projectile.timeLeft == 175) ValidPoints.Add(new Point16((int)projectile.Center.X / 16 + 11, (int)projectile.Center.Y / 16));
+            if (projectile.timeLeft == 175) ValidPoints.Add(new Point16((int)projectile.Center.X / 16 + 11, (int)projectile.Center.Y / 16));
 
             projectile.ai[1] += 0.1f;
             projectile.rotation = projectile.velocity.ToRotation() + 1.57f;

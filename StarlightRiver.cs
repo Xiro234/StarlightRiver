@@ -1,8 +1,8 @@
-using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
 using StarlightRiver.RiftCrafting;
+using StarlightRiver.Tiles.Permafrost;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +13,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.UI;
-using StarlightRiver.Tiles.Permafrost;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {

@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
     public partial class SquidBoss : ModNPC, IUnderwater
     {
-        public List<NPC> Tentacles = new List<NPC>(); //the tentacle NPCs which this boss controls
-        public List<NPC> Platforms = new List<NPC>(); //the big platforms the boss' arena has
-        Vector2 Spawn;
-        Vector2 SavedPoint;
+        public List<NPC> tentacles = new List<NPC>(); //the tentacle NPCs which this boss controls
+        public List<NPC> platforms = new List<NPC>(); //the big platforms the boss' arena has
+        Vector2 spawnPoint;
+        Vector2 savedPoint;
+        bool variantAttack;
 
         internal ref float Phase => ref npc.ai[0];
         internal ref float GlobalTimer => ref npc.ai[1];
@@ -63,7 +63,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRing");
 
             for (int k = 3; k > 0; k--) //handles the drawing of the jelly rings under the boss.
-            {          
+            {
                 Vector2 pos = npc.Center + new Vector2(0, 70 + k * 35).RotatedBy(npc.rotation) - Main.screenPosition;
                 int squish = k * 10 + (int)(Math.Sin(GlobalTimer / 10f - k / 4f * 6.28f) * 20);
                 Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, tex2.Width + (3 - k) * 20 - squish, tex2.Height + (int)(squish * 0.4f) + (3 - k) * 5);
@@ -81,7 +81,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White, npc.rotation, tex.Size() / 2, 1, 0, 0);
 
             Texture2D tex3 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyOver");
-            for(int k = 0; k < 5; k++) //draws the head blobs
+            for (int k = 0; k < 5; k++) //draws the head blobs
             {
                 Vector2 off = Vector2.Zero;
 
@@ -103,16 +103,16 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 0.8f;
 
                 if (Phase == (int)AIStates.ThirdPhase) color = new Color(1.2f + sin * 0.1f, 0.7f + sin * -0.25f, 0.25f) * 0.8f;
-             
+
                 spriteBatch.Draw(tex3, npc.Center + off - Main.screenPosition, new Rectangle(k * tex3.Width / 5, 0, tex3.Width / 5, tex3.Height), color, npc.rotation, new Vector2(tex3.Width / 10, tex3.Height), scale, 0, 0);
             }
 
-            if(Phase >= (int)AIStates.SecondPhase)
+            if (Phase >= (int)AIStates.SecondPhase)
             {
                 Texture2D tex4 = ModContent.GetTexture(Texture);
                 spriteBatch.Draw(tex4, npc.Center - Main.screenPosition, tex4.Frame(), Color.White, npc.rotation, tex4.Size() / 2, 1, 0, 0);
             }
-        }     
+        }
 
         #region AI
         public override void AI()
@@ -124,11 +124,11 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 Phase = (int)AIStates.SpawnAnimation;
 
                 npc.damage = 0;
-                foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC is IcePlatform)) Platforms.Add(npc);
+                foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC is IcePlatform)) platforms.Add(npc);
 
-                Spawn = npc.Center;
+                spawnPoint = npc.Center;
 
-                string title = Main.rand.Next(10000) == 0 ? "Sentient Rainbow Dildo" : "Aurora Calamari";
+                string title = Main.rand.Next(10000) == 0 ? "Sentient Rainbow Sex Toy" : "Aurora Calamari";
                 StarlightRiver.Instance.textcard.Display("Auroracle", title, null, 600);
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMoveTarget = npc.Center;
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMovePan = npc.Center + new Vector2(0, -600);
@@ -137,7 +137,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             if (Phase == (int)AIStates.SpawnAnimation)
             {
-                if (GlobalTimer < 200) npc.Center = Vector2.SmoothStep(Spawn, Spawn + new Vector2(0, -600), GlobalTimer / 200f); //rise up from the ground
+                if (GlobalTimer < 200) npc.Center = Vector2.SmoothStep(spawnPoint, spawnPoint + new Vector2(0, -600), GlobalTimer / 200f); //rise up from the ground
 
                 for (int k = 0; k < 4; k++) //each tenticle
                 {
@@ -160,13 +160,13 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                         (Main.npc[i].modNPC as Tentacle).Parent = this;
                         (Main.npc[i].modNPC as Tentacle).MovePoint = new Vector2((int)npc.Center.X + x, (int)npc.Center.Y - y);
                         (Main.npc[i].modNPC as Tentacle).OffBody = xb;
-                        Tentacles.Add(Main.npc[i]);
+                        tentacles.Add(Main.npc[i]);
                     }
                 }
 
                 if (GlobalTimer > 600) //tentacles returning back underwater
                 {
-                    foreach (NPC tentacle in Tentacles)
+                    foreach (NPC tentacle in tentacles)
                     {
                         Tentacle mt = tentacle.modNPC as Tentacle;
                         tentacle.Center = Vector2.SmoothStep(mt.MovePoint, mt.SavedPoint, (GlobalTimer - 600) / 100f);
@@ -186,7 +186,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                 if (AttackTimer == 1)
                 {
-                    if (Tentacles.Count(n => n.ai[0] == 2) == 2) //phasing logic
+                    if (tentacles.Count(n => n.ai[0] == 2) == 2) //phasing logic
                     {
                         Phase = (int)AIStates.FirstPhaseTwo;
                         GlobalTimer = 0;
@@ -201,7 +201,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                 switch (AttackPhase)
                 {
-                    case 1: TentacleSpike(); break;                      
+                    case 1: TentacleSpike(); break;
                     case 2: InkBurst(); break;
                     case 3: PlatformSweep(); break;
                     case 4: ArenaSweep(); break;
@@ -210,21 +210,21 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             if (Phase == (int)AIStates.FirstPhaseTwo) //first phase, part 2. Tentacle attacks and ink. Raise water first.
             {
-                if (GlobalTimer == 1) SavedPoint = npc.Center;
+                if (GlobalTimer == 1) savedPoint = npc.Center;
 
                 if (GlobalTimer < 325) //water rising up
                 {
                     Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).ai[0]++;
-                    npc.Center = Vector2.SmoothStep(SavedPoint, Spawn + new Vector2(0, -750), GlobalTimer / 325f);
+                    npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(0, -750), GlobalTimer / 325f);
                     if (GlobalTimer % 10 == 0) Main.PlaySound(SoundID.Splash, npc.Center);
                 }
 
-                if(GlobalTimer == 325) //make the remaining tentacles vulnerable
+                if (GlobalTimer == 325) //make the remaining tentacles vulnerable
                 {
-                    foreach (NPC tentacle in Tentacles.Where(n => n.ai[0] == 1)) tentacle.ai[0] = 0; 
+                    foreach (NPC tentacle in tentacles.Where(n => n.ai[0] == 1)) tentacle.ai[0] = 0;
                 }
 
-                if(GlobalTimer > 325) //continue attacking otherwise
+                if (GlobalTimer > 325) //continue attacking otherwise
                 {
                     AttackTimer++;
 
@@ -234,7 +234,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                     if (AttackTimer == 1)
                     {
-                        if (Tentacles.Count(n => n.ai[0] == 2) == 4) //phasing logic
+                        if (tentacles.Count(n => n.ai[0] == 2) == 4) //phasing logic
                         {
                             Phase = (int)AIStates.SecondPhase;
                             GlobalTimer = 0;
@@ -265,20 +265,20 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     if (GlobalTimer % 10 == 0) Main.PlaySound(SoundID.Splash, npc.Center);
                 }
 
-                if(GlobalTimer == 300) //reset
+                if (GlobalTimer == 300) //reset
                 {
                     npc.dontTakeDamage = false;
                     ResetAttack();
                     AttackPhase = 0;
                 }
 
-                if(GlobalTimer > 300)
+                if (GlobalTimer > 300)
                 {
                     if (npc.life < npc.lifeMax / 4) npc.dontTakeDamage = true; //health gate
 
                     AttackTimer++;
 
-                    if (AttackPhase != 2 && AttackPhase != 4) //when not lasering, passive movement
+                    if (AttackPhase != 2 && AttackPhase != 4 && !(AttackPhase == 3 && !variantAttack)) //when not lasering, passive movement
                     {
                         npc.velocity += Vector2.Normalize(npc.Center - (Main.player[npc.target].Center + new Vector2(0, 250))) * -0.2f;
                         if (npc.velocity.Length() > 5) npc.velocity = Vector2.Normalize(npc.velocity) * 5;
@@ -294,11 +294,12 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                             AttackPhase = 0;
                             ResetAttack();
 
-                            Platforms.RemoveAll(n => Math.Abs(n.Center.X - Main.npc.FirstOrDefault(l => l.active && l.modNPC is ArenaActor).Center.X) >= 550);
+                            platforms.RemoveAll(n => Math.Abs(n.Center.X - Main.npc.FirstOrDefault(l => l.active && l.modNPC is ArenaActor).Center.X) >= 550);
                             return;
                         }
 
                         AttackPhase++;
+                        variantAttack = Main.rand.NextBool();
                         if (AttackPhase > 4) AttackPhase = 1;
                     }
 
@@ -306,27 +307,27 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     {
                         case 1: Spew(); break;
                         case 2: Laser(); break;
-                        case 3: Spew(); break;
+                        case 3: if (variantAttack) Spew(); else Eggs(); break;
                         case 4: Leap(); break;
                     }
                 }
-            }    
+            }
 
-            if(Phase == (int)AIStates.ThirdPhase)
+            if (Phase == (int)AIStates.ThirdPhase)
             {
-                if(GlobalTimer == 1) //reset velocity + set movement points
+                if (GlobalTimer == 1) //reset velocity + set movement points
                 {
                     npc.velocity *= 0;
                     npc.rotation = 0;
-                    SavedPoint = npc.Center;
+                    savedPoint = npc.Center;
                 }
 
-                if(GlobalTimer < 240) npc.Center = Vector2.SmoothStep(SavedPoint, Spawn + new Vector2(0, -1400), GlobalTimer / 240f); //move to the top of the arena
+                if (GlobalTimer < 240) npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(0, -1400), GlobalTimer / 240f); //move to the top of the arena
 
-                if(GlobalTimer == 240) //roar and activate
+                if (GlobalTimer == 240) //roar and activate
                 {
                     npc.dontTakeDamage = false;
-                    foreach(Player player in Main.player.Where(n => n.active)) player.GetModPlayer<StarlightPlayer>().Shake += 40;
+                    foreach (Player player in Main.player.Where(n => n.active)) player.GetModPlayer<StarlightPlayer>().Shake += 40;
                     Main.PlaySound(SoundID.Roar, npc.Center, 0);
                 }
 
@@ -361,5 +362,15 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             }
         }
         #endregion
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(variantAttack);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            variantAttack = reader.ReadBoolean();
+        }
     }
 }

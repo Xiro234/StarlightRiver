@@ -1,6 +1,6 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Keys;
+using StarlightRiver.NPCs.Boss.SquidBoss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
-using StarlightRiver.NPCs.Boss.SquidBoss;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {

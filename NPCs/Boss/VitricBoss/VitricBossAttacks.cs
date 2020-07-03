@@ -1,6 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Core;
 using System;
 using System.Collections.Generic;
@@ -8,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -336,7 +335,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (AttackTimer == 1)
                 Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ProjectileType<VitricBomb>(), 15, 0);
 
-            if (AttackTimer == 10 && npc.life <= (npc.lifeMax - npc.lifeMax * (4/7)) / 3 * 2)
+            if (AttackTimer == 10 && npc.life <= (npc.lifeMax - npc.lifeMax * (4 / 7)) / 3 * 2)
                 Projectile.NewProjectile(npc.Center, new Vector2(-10, 4), ProjectileType<VitricBomb>(), 15, 0);
 
             if (AttackTimer == 20 && npc.life <= (npc.lifeMax - npc.lifeMax * (4 / 7)) / 3)

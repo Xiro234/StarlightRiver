@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Items;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Items;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.Tiles.Permafrost
 {

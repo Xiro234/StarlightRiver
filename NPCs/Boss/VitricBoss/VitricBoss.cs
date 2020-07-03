@@ -1,7 +1,7 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
+using StarlightRiver.Items.BossDrops.VitricBossDrops;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Items.BossDrops.VitricBossDrops;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -140,7 +140,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void NPCLoot()
         {
-            if(Main.expertMode) npc.DropItemInstanced(npc.Center, Vector2.One, ItemType<VitricBossBag>());
+            if (Main.expertMode) npc.DropItemInstanced(npc.Center, Vector2.One, ItemType<VitricBossBag>());
             else
             {
                 int weapon = Main.rand.Next(5);
@@ -416,7 +416,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                     if (GlobalTimer > 60 && GlobalTimer < 120) Main.musicFade[Main.curMusic] = 1 - (GlobalTimer - 60) / 60f;
 
-                    if(GlobalTimer > 120)
+                    if (GlobalTimer > 120)
                     {
                         Main.musicFade[Main.curMusic] = 0;
                         for (int k = 0; k < 10; k++) Dust.NewDustPerfect(npc.Center, DustType<Dusts.Sand>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10), 40, default, 2);

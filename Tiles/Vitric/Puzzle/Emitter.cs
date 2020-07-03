@@ -1,11 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Items;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +16,7 @@ namespace StarlightRiver.Tiles.Vitric.Puzzle
             Tile tile = Main.tile[i, j];
             Vector2 velocity;
 
-            switch(tile.frameX / 16)
+            switch (tile.frameX / 16)
             {
                 case 0: velocity = new Vector2(1, 0); break;
                 case 1: velocity = new Vector2(0, -1); break;

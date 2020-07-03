@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,11 +34,11 @@ namespace StarlightRiver.Tiles.Vitric.Puzzle
             {
                 Tile tile = Main.tile[x, y];
 
-                if(tile.type == TileType<Mirror>())
+                if (tile.type == TileType<Mirror>())
                 {
                     Vector2 velocity = Vector2.Zero;
 
-                    if(oldVelocity == new Vector2(0, 1))
+                    if (oldVelocity == new Vector2(0, 1))
                         switch (tile.frameX)
                         {
                             case 0: velocity = new Vector2(-1, 0); break;
@@ -79,7 +73,7 @@ namespace StarlightRiver.Tiles.Vitric.Puzzle
                     projectile.velocity = velocity;
                     projectile.position = new Vector2(x, y) * 16;
 
-                    for(int k = 0; k < 8; k++)
+                    for (int k = 0; k < 8; k++)
                         Dust.NewDustPerfect(Vector2.Lerp(projectile.position, projectile.oldPosition, k / 8f) + projectile.Size / 2, DustType<Dusts.Electric>(), Vector2.Zero);
 
                     Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, projectile.Center);
@@ -108,9 +102,9 @@ namespace StarlightRiver.Tiles.Vitric.Puzzle
 
                 if (tile.type == TileType<RecieverPlacable>())
                 {
-                    for(int k = 0; k < 50; k++)
+                    for (int k = 0; k < 50; k++)
                         Dust.NewDustPerfect(projectile.Center + oldVelocity * 16, DustType<Dusts.Starlight>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(20));
-                    
+
                     Main.PlaySound(SoundID.DD2_BetsyFireballImpact, projectile.Center);
 
                     Wiring.TripWire(x, y, 1, 1);

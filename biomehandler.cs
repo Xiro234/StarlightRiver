@@ -1,14 +1,14 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Codex;
 using StarlightRiver.Codex.Entries;
 using StarlightRiver.GUI;
+using StarlightRiver.Tiles;
+using StarlightRiver.Tiles.Permafrost;
 using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using StarlightRiver.Tiles;
-using StarlightRiver.Tiles.Permafrost;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {

@@ -1,11 +1,11 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -93,7 +93,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 Color color = new Color(180, 225, 255);
 
                 spriteBatch.Draw(tex, target, source, color, 0, Vector2.Zero, 0, 0);
-            }          
+            }
         }
 
         public virtual void ScrollDraw(SpriteBatch sb) //im lazy

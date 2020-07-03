@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using System;
@@ -9,6 +8,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -124,7 +124,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 }
                 switch (AttackPhase) //attack pattern
                 {
-                    case 0: Phase1Spin(); break; 
+                    case 0: Phase1Spin(); break;
                     case 1: Phase1Bolts(); break; //______randonly picks between these two
                     case 2: Phase1Trap(); break;  //___|
                     case 3: Phase1Toss(); break;

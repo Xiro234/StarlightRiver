@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Items;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Items;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.Tiles.Permafrost
 {
@@ -29,7 +25,7 @@ namespace StarlightRiver.Tiles.Permafrost
             int off = i + j;
 
             float sin = (float)Math.Sin(StarlightWorld.rottime + off * 0.2f * 0.2f);
-            Color color = new Color(1 - sin*0.5f, 1, 1);
+            Color color = new Color(1 - sin * 0.5f, 1, 1);
             float mult = 0.2f - Lighting.Brightness(i, j) * 0.2f;
 
             spriteBatch.Draw(Main.tileTexture[tile.type], (new Vector2(i, j) + Helper.TileAdj) * 16 - Main.screenPosition, new Rectangle(tile.frameX, tile.frameY, 16, 16), color * mult);

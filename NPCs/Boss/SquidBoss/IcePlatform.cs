@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
@@ -29,7 +29,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 return;
             }
 
-            if(Main.npc.Any(n => n.active && n.type == ModContent.NPCType<ArenaActor>()))
+            if (Main.npc.Any(n => n.active && n.type == ModContent.NPCType<ArenaActor>()))
             {
                 ArenaActor actor = Main.npc.FirstOrDefault(n => n.active && n.type == ModContent.NPCType<ArenaActor>()).modNPC as ArenaActor;
 
@@ -59,16 +59,16 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public override void SafeAI()
         {
-            if(npc.ai[0] == 0) npc.ai[0] = npc.position.Y;
+            if (npc.ai[0] == 0) npc.ai[0] = npc.position.Y;
 
             if (Main.player.Any(player => player.active && player.Hitbox.Intersects(npc.Hitbox)))
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, Terraria.ID.DustID.Ice);
                 npc.ai[1]++;
             }
-            else if( npc.ai[1] > 0 )npc.ai[1]--;
+            else if (npc.ai[1] > 0) npc.ai[1]--;
 
-            if(npc.ai[1] >= 20) npc.velocity.Y += 0.3f;
+            if (npc.ai[1] >= 20) npc.velocity.Y += 0.3f;
             else if (npc.position.Y > npc.ai[0]) npc.velocity.Y = -1;
             else npc.velocity.Y = 0;
         }

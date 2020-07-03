@@ -1,9 +1,7 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Tiles.Vitric;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Linq;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -63,7 +61,7 @@ namespace StarlightRiver.Items.Debug
                 for (int y = 0; y < Main.maxTilesY; y++)
                 {
                     Tile tile = Main.tile[x, y];
-                    if(tile.type == type) tile.type = (ushort)TileType<Tiles.Permafrost.AuroraBrick>();
+                    if (tile.type == type) tile.type = (ushort)TileType<Tiles.Permafrost.AuroraBrick>();
                 }
 
             return true;
@@ -101,7 +99,7 @@ namespace StarlightRiver.Items.Debug
             for (int x = 0; x < Main.maxTilesX; x++)
                 for (int y = 0; y < Main.maxTilesY; y++) if (Main.tile[x, y].type == TileID.IceBlock) Main.tile[x, y].type = (ushort)TileType<Tiles.Permafrost.PermafrostIce>();
 
-                    return true;
+            return true;
         }
 
         public override void HoldItem(Player player)

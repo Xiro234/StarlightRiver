@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -61,7 +58,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     underMax = (int)(actor.Center.Y - Parent.npc.Center.Y / 10f);
                 }
 
-                if(Parent.npc.ai[0] == (int)SquidBoss.AIStates.ThirdPhase && Parent.npc.ai[1] > 240) underMax = 0;
+                if (Parent.npc.ai[0] == (int)SquidBoss.AIStates.ThirdPhase && Parent.npc.ai[1] > 240) underMax = 0;
 
                 for (int k = 0; k < underMax; k++)
                 {
@@ -113,7 +110,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             Main.PlaySound(Terraria.ID.SoundID.NPCDeath1, npc.Center);
 
-            for(int k = 0; k < 40; k++)
+            for (int k = 0; k < 40; k++)
                 Dust.NewDust(npc.position + new Vector2(0, 30), npc.width, 16, 131, 0, 0, 0, default, 0.5f);
 
             return false;

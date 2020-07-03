@@ -15,6 +15,6 @@ namespace StarlightRiver.Buffs
         {
             player.lifeRegen -= 60;
             player.slow = true;
-        } 
+        }
     }
 }

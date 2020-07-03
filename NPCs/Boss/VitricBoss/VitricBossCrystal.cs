@@ -1,10 +1,10 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 using static StarlightRiver.NPCs.Boss.VitricBoss.VitricBoss;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -226,7 +226,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
         }
 
-        public void DrawAdditive (SpriteBatch spriteBatch) //helper method to draw a tell line between two points.
+        public void DrawAdditive(SpriteBatch spriteBatch) //helper method to draw a tell line between two points.
         {
             if (npc.ai[2] == 1 && npc.ai[1] < 180) //tell line for going to a platform in the nuke attack
             {
