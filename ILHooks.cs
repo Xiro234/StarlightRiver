@@ -11,6 +11,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using StarlightRiver.Core;
+using StarlightRiver.NPCs.Boss.SquidBoss;
+using StarlightRiver.NPCs;
 
 namespace StarlightRiver
 {
@@ -23,6 +25,9 @@ namespace StarlightRiver
 
             //moonlord draw layer
             IL.Terraria.Main.DoDraw += DrawMoonlordLayer;
+
+            //Auroracle layer
+            IL.Terraria.Main.DoDraw += DrawWater;
 
             //dragons
             IL.Terraria.Main.DrawMenu += DragonMenuAttach;
@@ -151,6 +156,37 @@ namespace StarlightRiver
             c.Emit(OpCodes.Ldloc_1);
             c.EmitDelegate<GrassConvertDelegate>(EmitGrassConvertDelegate);
             c.Emit(OpCodes.Pop);
+        }
+
+        //IL edit for auroracle arena
+        private void DrawWater(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(n => n.MatchLdfld<Main>("DrawCacheNPCsBehindNonSolidTiles"));
+            c.Index--;
+
+            c.EmitDelegate<DrawWaterDelegate>(DrawWater);
+        }
+
+        private delegate void DrawWaterDelegate();
+        private void DrawWater()
+        {
+            foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC is ArenaActor))
+            {
+                (Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).modNPC as ArenaActor).DrawWindow(Main.spriteBatch);
+
+                foreach (NPC npc2 in Main.npc.Where(n => n.active && n.modNPC is IUnderwater && !(n.modNPC is SquidBoss)))
+                    (npc2.modNPC as IUnderwater).DrawUnderWater(Main.spriteBatch);
+
+                foreach (Projectile proj in Main.projectile.Where(n => n.active && n.modProjectile is IUnderwater))
+                    (proj.modProjectile as IUnderwater).DrawUnderWater(Main.spriteBatch);
+
+
+                foreach (NPC npc3 in Main.npc.Where(n => n.active && n.modNPC is SquidBoss))
+                    (npc3.modNPC as IUnderwater).DrawUnderWater(Main.spriteBatch);
+
+                (Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).modNPC as ArenaActor).DrawWater(Main.spriteBatch);
+            }
         }
 
         private delegate bool GrassConvertDelegate(int type, int x, int y);

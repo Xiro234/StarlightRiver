@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using StarlightRiver.Tiles.Permafrost;
+using Microsoft.Xna.Framework;
 
 namespace StarlightRiver
 {
@@ -59,6 +60,11 @@ namespace StarlightRiver
                     if (Main.tile[x, y].active()) Main.tile[x, y].type = (ushort)TileType<PermafrostIce>();
                 }
             }
+
+            int center = iceLeft + (iceRight - iceLeft) / 2;
+
+            SquidBossArena = new Rectangle(center - 40, iceBottom - 100, 80, 200);
+            StructureHelper.StructureHelper.GenerateStructure("Structures/SquidBossArena", new Point16(center - 40, iceBottom - 150), mod);
         }
     }
 }

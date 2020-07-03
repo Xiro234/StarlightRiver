@@ -57,7 +57,15 @@ namespace StarlightRiver.Items.Debug
         {
             StarlightWorld.OvergrowBossOpen = true;
             StarlightWorld.OvergrowBossFree = false;
-            StarlightWorld.RiftLocation = player.Center;
+
+            int type = Main.tile[(int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16].type;
+            for (int x = 0; x < Main.maxTilesX; x++)
+                for (int y = 0; y < Main.maxTilesY; y++)
+                {
+                    Tile tile = Main.tile[x, y];
+                    if(tile.type == type) tile.type = (ushort)TileType<Tiles.Permafrost.AuroraBrick>();
+                }
+
             return true;
         }
 

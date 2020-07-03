@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace IceKracken.Boss
+namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
     class InkBlob : ModProjectile
     {
@@ -21,6 +21,7 @@ namespace IceKracken.Boss
             projectile.hostile = true;
             projectile.damage = 15;
         }
+
         public override void AI()
         {
             projectile.velocity.Y += 0.11f;
@@ -34,6 +35,7 @@ namespace IceKracken.Boss
             Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f);
             Lighting.AddLight(projectile.Center, color.ToVector3());
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = ModContent.GetTexture(Texture);
@@ -46,6 +48,7 @@ namespace IceKracken.Boss
             return false;
         }
     }
+
     class SpewBlob : ModProjectile
     {
         public override void SetDefaults()
@@ -57,6 +60,7 @@ namespace IceKracken.Boss
             projectile.hostile = true;
             projectile.damage = 15;
         }
+
         public override void AI()
         {
             projectile.velocity.Y -= 0.14f;
@@ -74,6 +78,7 @@ namespace IceKracken.Boss
             d.noGravity = true;
             d.rotation = Main.rand.NextFloat(6.28f);
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = ModContent.GetTexture(Texture);

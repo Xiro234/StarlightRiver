@@ -24,7 +24,7 @@ namespace StarlightRiver
 
         public static bool IsTargetValid(NPC npc) => npc.active && !npc.friendly && !npc.immortal && !npc.dontTakeDamage;
 
-        public static bool OnScreen(Vector2 pos) => (pos.X > 0 && pos.X < Main.screenWidth && pos.Y > 0 && pos.Y < Main.screenHeight);
+        public static bool OnScreen(Vector2 pos) => (pos.X > -16 && pos.X < Main.screenWidth + 16 && pos.Y > -16 && pos.Y < Main.screenHeight + 16);
 
         public static void Kill(this NPC npc)
         {

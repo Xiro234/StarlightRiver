@@ -15,11 +15,7 @@ namespace StarlightRiver.Tiles.Permafrost
 {
     class AuroraIce : ModTile
     {
-        public override void SetDefaults()
-        {
-            QuickBlock.QuickSet(this, 0, DustID.Ice, SoundID.Tink, new Color(100, 255, 255), ItemType<AuroraIceItem>());
-            Main.tileBlockLight[Type] = false;
-        }
+        public override void SetDefaults() => QuickBlock.QuickSet(this, 0, DustID.Ice, SoundID.Tink, new Color(100, 255, 255), ItemType<AuroraIceItem>());
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch) => false;
 

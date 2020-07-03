@@ -12,7 +12,7 @@ using StarlightRiver.Core;
 
 namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
-    public partial class SquidBoss : ModNPC
+    public partial class SquidBoss : ModNPC, IUnderwater
     {
         public List<NPC> Tentacles = new List<NPC>(); //the tentacle NPCs which this boss controls
         public List<NPC> Platforms = new List<NPC>(); //the big platforms the boss' arena has
@@ -24,7 +24,16 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         internal ref float AttackPhase => ref npc.ai[2];
         internal ref float AttackTimer => ref npc.ai[3];
 
-        #region TML hooks
+        public enum AIStates
+        {
+            SpawnEffects = 0,
+            SpawnAnimation = 1,
+            FirstPhase = 2,
+            FirstPhaseTwo = 3,
+            SecondPhase = 4,
+            ThirdPhase = 5
+        }
+
         public override void SetStaticDefaults() => DisplayName.SetDefault("Auroracle");
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(6500 * bossLifeScale);
@@ -51,42 +60,33 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public void DrawUnderWater(SpriteBatch spriteBatch)
         {
-            for (int k = 3; k > 0; k--)
+            for (int k = 3; k > 0; k--) //handles the drawing of the jelly rings under the boss.
             {
-                Texture2D tex2 = ModContent.GetTexture("IceKracken/Boss/BodyRing");
+                Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRing");
                 Vector2 pos = npc.Center + new Vector2(0, 70 + k * 35).RotatedBy(npc.rotation) - Main.screenPosition;
-                int squish = k * 10 + (int)(Math.Sin(npc.ai[1] / 10f - k / 4f * 6.28f) * 20);
+                int squish = k * 10 + (int)(Math.Sin(GlobalTimer / 10f - k / 4f * 6.28f) * 20);
                 Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, tex2.Width + (3 - k) * 20 - squish, tex2.Height + (int)(squish * 0.4f) + (3 - k) * 5);
 
-                float sin = 1 + (float)Math.Sin(npc.ai[1] / 10f - k);
-                float cos = 1 + (float)Math.Cos(npc.ai[1] / 10f + k);
+                float sin = 1 + (float)Math.Sin(GlobalTimer / 10f - k);
+                float cos = 1 + (float)Math.Cos(GlobalTimer / 10f + k);
                 Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 0.7f;
-                if (npc.ai[0] == (int)AIStates.ThirdPhase) color = new Color(0.8f + sin * 0.1f, 0.3f + sin * -0.25f, 0.05f) * 0.7f;
+
+                if (Phase == (int)AIStates.ThirdPhase) color = new Color(0.8f + sin * 0.1f, 0.3f + sin * -0.25f, 0.05f) * 0.7f;
 
                 spriteBatch.Draw(tex2, rect, tex2.Frame(), color, npc.rotation, tex2.Size() / 2, 0, 0);
             }
 
-            Texture2D tex = ModContent.GetTexture("IceKracken/Boss/BodyUnder");
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder"); //the drawing of the body
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White, npc.rotation, tex.Size() / 2, 1, 0, 0);
-            if(npc.ai[0] >= (int)AIStates.SecondPhase)
+
+            if(Phase >= (int)AIStates.SecondPhase)
             {
                 Texture2D tex2 = ModContent.GetTexture(Texture);
                 spriteBatch.Draw(tex2, npc.Center - Main.screenPosition, tex2.Frame(), Color.White, npc.rotation, tex2.Size() / 2, 1, 0, 0);
             }
         }     
-        #endregion
 
         #region AI
-        public enum AIStates
-        {
-            SpawnEffects = 0,
-            SpawnAnimation = 1,
-            FirstPhase = 2,
-            FirstPhaseTwo = 3,
-            SecondPhase = 4,
-            ThirdPhase = 5
-        }
-
         public override void AI()
         {
             GlobalTimer++;
@@ -233,7 +233,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                 if(GlobalTimer > 300)
                 {
-                    if (npc.life < npc.lifeMax / 7) npc.dontTakeDamage = true; //health gate
+                    if (npc.life < npc.lifeMax / 4) npc.dontTakeDamage = true; //health gate
 
                     AttackTimer++;
 
@@ -246,7 +246,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                     if (AttackTimer == 1)
                     {
-                        if (npc.life < npc.lifeMax / 7) //phasing logic
+                        if (npc.life < npc.lifeMax / 4) //phasing logic
                         {
                             Phase = (int)AIStates.ThirdPhase;
                             GlobalTimer = 0;
@@ -270,6 +270,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     }
                 }
             }    
+
             if(Phase == (int)AIStates.ThirdPhase)
             {
                 if(GlobalTimer == 1) //reset velocity + set movement points

@@ -6,7 +6,9 @@ using StarlightRiver.Core;
 using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.Items.Prototypes;
 using StarlightRiver.Keys;
+using StarlightRiver.NPCs.Boss.SquidBoss;
 using StarlightRiver.Tiles.Overgrow.Blocks;
+using StarlightRiver.Tiles.Permafrost;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -71,11 +73,23 @@ namespace StarlightRiver
             On.Terraria.Main.DrawInterface_27_Inventory += DrawInventoryParticles;
             //Astral metoers
             On.Terraria.WorldGen.meteor += AluminumMeteor;
+            //Nobuild
+            On.Terraria.Player.PlaceThing += PlacementRestriction;
 
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
         #region hooks
+        private void PlacementRestriction(On.Terraria.Player.orig_PlaceThing orig, Player self)
+        {
+            Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
+            if (tile.wall == ModContent.WallType<AuroraBrickWall>() &&
+                !Main.projectile.Any(n => n.active && n.timeLeft > 10 && n.modProjectile is InteractiveProjectile && (n.modProjectile as InteractiveProjectile).ValidPoints.Contains(new Point16(Player.tileTargetX, Player.tileTargetY))))
+            {
+                return;
+            }
+            else orig(self);
+        }
 
         private bool AluminumMeteor(On.Terraria.WorldGen.orig_meteor orig, int i, int j)
         {

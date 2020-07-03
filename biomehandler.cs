@@ -153,7 +153,7 @@ namespace StarlightRiver
         }
     }
 
-    public partial class StarlightWorld
+    public partial class StarlightWorld : ModWorld
     {
         public static int glassTiles;
         public static int voidTiles;

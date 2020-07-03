@@ -1,22 +1,17 @@
-﻿using System;
-using Terraria.ModLoader;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria;
+using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
 using StarlightRiver.Items;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace StarlightRiver.Tiles.Permafrost
 {
-    class PermafrostIce : ModTile
+    class AuroraBrick : ModTile
     {
-        public override void SetDefaults()
-        {
-            QuickBlock.QuickSet(this, 0, DustID.Ice, SoundID.Tink, new Color(200, 230, 255), ItemType<PermafrostIceItem>());
-            Main.tileMerge[Type][TileID.SnowBlock] = true;
-            Main.tileMerge[TileID.SnowBlock][Type] = true;
-        }
+        public override void SetDefaults() => QuickBlock.QuickSet(this, 0, DustID.Ice, SoundID.Tink, new Color(100, 255, 255), ItemType<AuroraBrickItem>());
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
@@ -36,8 +31,8 @@ namespace StarlightRiver.Tiles.Permafrost
         }
     }
 
-    class PermafrostIceItem : QuickTileItem
+    class AuroraBrickItem : QuickTileItem
     {
-        public PermafrostIceItem() : base("Permafrost Ice", "", TileType<PermafrostIce>(), ItemRarityID.White) { }
+        public AuroraBrickItem() : base("Aurora Brick", "Oooh... Preeetttyyy", TileType<AuroraBrick>(), ItemRarityID.White) { }
     }
 }
