@@ -8,7 +8,7 @@ using StarlightRiver.Core;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class StarwoodBoomerangProjectile : ModProjectile
+    class StarwoodBoomerangProjectile : ModProjectile, IDrawAdditive
     {
         public override void SetStaticDefaults()
         {
@@ -92,6 +92,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         projectile.ai[1]++;
                         projectile.velocity *= 0.75f;
                         Lighting.AddLight(projectile.Center, lightColor * chargeMult);
+                        
 
                         if (projectile.ai[1] >= maxChargeTime + 3)//reset stats and start return phase
                         {
@@ -99,6 +100,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                             projectile.width = 18;
                             projectile.height = 18;
                             projectile.Center = projectile.position;
+                            for (int k = 0; k < projectile.oldPos.Length; k++)
+                            {
+                                projectile.oldPos[k] = projectile.position;
+                            }
                             NextPhase(1);//ai[]s reset here
                         }
                         else if (projectile.ai[1] == maxChargeTime)//change hitbox size, stays for 3 frames
@@ -107,6 +112,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                             projectile.width = 67 * ScaleMult;
                             projectile.height = 67 * ScaleMult;
                             projectile.Center = projectile.position;
+                            for (int k = 0; k < projectile.oldPos.Length; k++)
+                            {
+                                projectile.oldPos[k] = projectile.position;
+                            }
                         }
                         else if(projectile.ai[1] == maxChargeTime - 5)//sfx
                         {
@@ -260,7 +269,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color = Color.White * chargeMult;
+            Color color = Color.White * (chargeMult + 0.25f);
 
             spriteBatch.Draw(GlowingTexture, 
                 projectile.Center - Main.screenPosition, 

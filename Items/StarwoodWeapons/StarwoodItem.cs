@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items
+namespace StarlightRiver.Items.StarwoodWeapons
 {
     public abstract class StarwoodItem : ModItem
     {
