@@ -60,9 +60,10 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public void DrawUnderWater(SpriteBatch spriteBatch)
         {
+            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRing");
+
             for (int k = 3; k > 0; k--) //handles the drawing of the jelly rings under the boss.
-            {
-                Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRing");
+            {          
                 Vector2 pos = npc.Center + new Vector2(0, 70 + k * 35).RotatedBy(npc.rotation) - Main.screenPosition;
                 int squish = k * 10 + (int)(Math.Sin(GlobalTimer / 10f - k / 4f * 6.28f) * 20);
                 Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, tex2.Width + (3 - k) * 20 - squish, tex2.Height + (int)(squish * 0.4f) + (3 - k) * 5);
@@ -71,7 +72,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 float cos = 1 + (float)Math.Cos(GlobalTimer / 10f + k);
                 Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 0.7f;
 
-                if (Phase == (int)AIStates.ThirdPhase) color = new Color(0.8f + sin * 0.1f, 0.3f + sin * -0.25f, 0.05f) * 0.7f;
+                if (Phase == (int)AIStates.ThirdPhase) color = new Color(1.2f + sin * 0.1f, 0.7f + sin * -0.25f, 0.25f) * 0.7f;
 
                 spriteBatch.Draw(tex2, rect, tex2.Frame(), color, npc.rotation, tex2.Size() / 2, 0, 0);
             }
@@ -79,10 +80,37 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder"); //the drawing of the body
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White, npc.rotation, tex.Size() / 2, 1, 0, 0);
 
+            Texture2D tex3 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyOver");
+            for(int k = 0; k < 5; k++) //draws the head blobs
+            {
+                Vector2 off = Vector2.Zero;
+
+                switch (k)
+                {
+                    case 0: off = new Vector2(-41, 45); break;
+                    case 1: off = new Vector2(-33, -11); break;
+                    case 2: off = new Vector2(-1, -65); break;
+                    case 3: off = new Vector2(32, -11); break;
+                    case 4: off = new Vector2(40, 45); break;
+                }
+
+                off = off.RotatedBy(npc.rotation);
+
+                float sin = 1 + (float)Math.Sin(GlobalTimer / 10f - (k * 0.5f));
+                float cos = 1 + (float)Math.Cos(GlobalTimer / 10f + (k * 0.5f));
+                float scale = 1 + sin * 0.04f;
+
+                Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 0.8f;
+
+                if (Phase == (int)AIStates.ThirdPhase) color = new Color(1.2f + sin * 0.1f, 0.7f + sin * -0.25f, 0.25f) * 0.8f;
+             
+                spriteBatch.Draw(tex3, npc.Center + off - Main.screenPosition, new Rectangle(k * tex3.Width / 5, 0, tex3.Width / 5, tex3.Height), color, npc.rotation, new Vector2(tex3.Width / 10, tex3.Height), scale, 0, 0);
+            }
+
             if(Phase >= (int)AIStates.SecondPhase)
             {
-                Texture2D tex2 = ModContent.GetTexture(Texture);
-                spriteBatch.Draw(tex2, npc.Center - Main.screenPosition, tex2.Frame(), Color.White, npc.rotation, tex2.Size() / 2, 1, 0, 0);
+                Texture2D tex4 = ModContent.GetTexture(Texture);
+                spriteBatch.Draw(tex4, npc.Center - Main.screenPosition, tex4.Frame(), Color.White, npc.rotation, tex4.Size() / 2, 1, 0, 0);
             }
         }     
 
@@ -151,6 +179,10 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             {
                 AttackTimer++;
 
+                //passive movement
+                npc.position.X += (float)Math.Sin(GlobalTimer * 0.03f);
+                npc.position.Y += (float)Math.Cos(GlobalTimer * 0.08f);
+
                 if (AttackTimer == 1)
                 {
                     if (Tentacles.Count(n => n.ai[0] == 2) == 2) //phasing logic
@@ -176,10 +208,12 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             if (Phase == (int)AIStates.FirstPhaseTwo) //first phase, part 2. Tentacle attacks and ink. Raise water first.
             {
+                if (GlobalTimer == 1) SavedPoint = npc.Center;
+
                 if (GlobalTimer < 325) //water rising up
                 {
                     Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).ai[0]++;
-                    npc.Center = Vector2.SmoothStep(Spawn + new Vector2(0, -600), Spawn + new Vector2(0, -750), GlobalTimer / 325f);
+                    npc.Center = Vector2.SmoothStep(SavedPoint, Spawn + new Vector2(0, -750), GlobalTimer / 325f);
                     if (GlobalTimer % 10 == 0) Main.PlaySound(SoundID.Splash, npc.Center);
                 }
 
@@ -191,6 +225,10 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 if(GlobalTimer > 325) //continue attacking otherwise
                 {
                     AttackTimer++;
+
+                    //passive movement
+                    npc.position.X += (float)Math.Sin(GlobalTimer * 0.03f);
+                    npc.position.Y += (float)Math.Cos(GlobalTimer * 0.08f);
 
                     if (AttackTimer == 1)
                     {
