@@ -13,7 +13,7 @@ namespace StarlightRiver.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.lifeRegen -= 20;
+            player.lifeRegen -= 60;
             player.slow = true;
         } 
     }

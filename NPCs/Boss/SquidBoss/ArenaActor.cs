@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
+using StarlightRiver.Items.Permafrost;
 using StarlightRiver.Tiles.Permafrost;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
     class ArenaActor : ModNPC
     {
-        int whitelistID = ModContent.WallType<AuroraBrickWall>();
+        int whitelistID = WallType<AuroraBrickWall>();
         public float WaterLevel { get => npc.Center.Y + 35 * 16 - npc.ai[0]; }
 
         public override string Texture => "StarlightRiver/Invisible";
@@ -71,7 +73,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 SpawnPlatform(-340, 240, true);
                 SpawnPlatform(340, 240, true);
 
-                NPC.NewNPC((int)(npc.Center.X), (int)(npc.Center.Y - 2000), ModContent.NPCType<GoldPlatform>());
+                NPC.NewNPC((int)(npc.Center.X), (int)(npc.Center.Y - 2000), NPCType<GoldPlatform>());
             }
 
             Vector2 pos = npc.Center + new Vector2(-1600, 35 * 16) + new Vector2(0, -npc.ai[0]);
@@ -100,15 +102,26 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             foreach (Player player in Main.player.Where(n => n.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y, 200 * 16, (int)npc.ai[0])))) //water collision
             {
                 player.wet = true;
-                player.AddBuff(ModContent.BuffType<Buffs.PrismaticDrown>(), 4, false);
+                player.AddBuff(BuffType<Buffs.PrismaticDrown>(), 4, false);
             }
 
-            if (npc.ai[0] == 150 && !Main.npc.Any(n => n.active && n.modNPC is SquidBoss)) //ready to spawn another squid
+            for(int k = 0; k < Main.maxItems; k++)
             {
-                if(Main.player.Any(n => n.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y, 200 * 16, (int)npc.ai[0]))))
+                Item item = Main.item[k];
+
+                if (item.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y + 8, 200 * 16, (int)npc.ai[0])) && item.velocity.Y > -4) item.velocity.Y -= 0.2f;
+
+                if (item.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y - 8, 200 * 16, 16)))
                 {
-                    Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 30;
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 630, ModContent.NPCType<SquidBoss>());
+                    item.position.Y = WaterLevel - 16 + (float)Math.Sin((npc.ai[1] + item.position.X) % 6.28f) * 4;
+
+                    if (item.type == ItemType<SquidBossSpawn>() && npc.ai[0] == 150 && !Main.npc.Any(n => n.active && n.modNPC is SquidBoss)) //ready to spawn another squid              
+                    {
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 630, NPCType<SquidBoss>());
+                        item.TurnToAir();
+
+                        for (int n = 0; n < 50; n++) Dust.NewDustPerfect(item.Center, DustType<Dusts.Starlight>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2));
+                    }
                 }
             }
         }
@@ -159,7 +172,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             Rectangle source = new Rectangle(0, 100, 512, 200);
             spriteBatch.Draw(TextureManager.Load("Images/Misc/Perlin"), new Rectangle((int)npc.Center.X - 520 - (int)Main.screenPosition.X, (int)npc.Center.Y - 400 - (int)Main.screenPosition.Y, 1040, 850), source, color * 0.8f);
 
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/Window");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/Window");
             for (int x = 0; x < tex.Width / 16; x++)
             {
                 for (int y = 0; y < tex.Height / 16; y++)
@@ -171,13 +184,13 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 }
             }
 
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/WindowIn");
+            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/WindowIn");
             spriteBatch.Draw(tex2, npc.Center + new Vector2(0, -7 * 16) - Main.screenPosition, null, Color.White * 0.4f, 0, tex2.Size() / 2, 1, 0, 0);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
 
-            Texture2D tex3 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/Godray");
+            Texture2D tex3 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/Godray");
 
             for (int k = 0; k < 4; k++)
             {
@@ -201,11 +214,11 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         private void DrawWindow(SpriteBatch spriteBatch, Vector2 off, Color color)
         {
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/SmallWindowIn");
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow");
-            Texture2D tex3 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleTop");
-            Texture2D tex4 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleBody");
-            Texture2D tex5 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder");
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/SmallWindowIn");
+            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow");
+            Texture2D tex3 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleTop");
+            Texture2D tex4 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleBody");
+            Texture2D tex5 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder");
 
             spriteBatch.Draw(tex, npc.Center + new Vector2(off.X * 16, off.Y * 16) + Vector2.One.RotatedBy(npc.ai[1] * 2) * 2 - Main.screenPosition, null, new Color(70, 95, 125), 0, tex.Size() / 2, 1, 0, 0);
 
@@ -234,7 +247,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             for(int k = 0; k < 5; k++) Lighting.AddLight(npc.Center + new Vector2(off.X * 16, off.Y * 16) + new Vector2(0, -100 + k * 50), color.ToVector3() * 0.5f);
 
-            Texture2D tex6 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/SmallWindow");
+            Texture2D tex6 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/SmallWindow");
 
             for (int x = 0; x < tex6.Width / 16; x++)
                 for (int y = 0; y < tex6.Height / 16; y++)
@@ -249,8 +262,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         private void SpawnPlatform(int x, int y, bool small = false)
         {
-            if(small) NPC.NewNPC((int)(npc.Center.X + x), (int)(npc.Center.Y + y), ModContent.NPCType<IcePlatformSmall>());
-            else NPC.NewNPC((int)(npc.Center.X + x), (int)(npc.Center.Y + y), ModContent.NPCType<IcePlatform>() );
+            if(small) NPC.NewNPC((int)(npc.Center.X + x), (int)(npc.Center.Y + y), NPCType<IcePlatformSmall>());
+            else NPC.NewNPC((int)(npc.Center.X + x), (int)(npc.Center.Y + y), NPCType<IcePlatform>() );
         }
     }
 }
