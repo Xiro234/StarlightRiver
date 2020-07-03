@@ -76,7 +76,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 NPC.NewNPC((int)(npc.Center.X), (int)(npc.Center.Y - 2000), NPCType<GoldPlatform>());
             }
 
-            Vector2 pos = npc.Center + new Vector2(-1600, 35 * 16) + new Vector2(0, -npc.ai[0]);
+            Vector2 pos = npc.Center + new Vector2(-800, 35 * 16) + new Vector2(0, -npc.ai[0]);
 
             //Lighting
             for(int k = 0; k < 45; k++)
@@ -99,7 +99,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 Lighting.AddLight(npc.Center + new Vector2(400, -200 + k * 60), new Vector3(1, 1, 1) * 0.2f);
             }
 
-            foreach (Player player in Main.player.Where(n => n.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y, 200 * 16, (int)npc.ai[0])))) //water collision
+            foreach (Player player in Main.player.Where(n => n.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y, 100 * 16, (int)npc.ai[0])))) //water collision
             {
                 player.wet = true;
                 player.AddBuff(BuffType<Buffs.PrismaticDrown>(), 4, false);
@@ -120,7 +120,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 630, NPCType<SquidBoss>());
                         item.TurnToAir();
 
-                        for (int n = 0; n < 50; n++) Dust.NewDustPerfect(item.Center, DustType<Dusts.Starlight>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2));
+                        for (int n = 0; n < 50; n++) Dust.NewDustPerfect(item.Center, DustType<Dusts.Starlight>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(20));
                     }
                 }
             }
