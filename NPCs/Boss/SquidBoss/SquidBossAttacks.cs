@@ -21,7 +21,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             npc.target = possible[Main.rand.Next(possible.Count - 1)];
         }
 
-        private void ResetAttack() => npc.ai[3] = 0;
+        private void ResetAttack() => AttackTimer = 0;
 
         private void ShufflePlatforms()
         {
@@ -44,7 +44,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             {
                 Tentacle tentacle = tentacles[k].modNPC as Tentacle;
 
-                if (npc.ai[3] == k * 100 || (k == 0 && npc.ai[3] == 1)) //teleport where needed
+                if (AttackTimer == k * 100 || (k == 0 && AttackTimer == 1)) //teleport where needed
                 {
                     int adj = (int)Main.player[npc.target].velocity.X * 60; if (adj > 200) adj = 200;
                     tentacles[k].Center = new Vector2(Main.player[npc.target].Center.X + adj, tentacles[k].Center.Y);
@@ -58,41 +58,41 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     Main.PlaySound(SoundID.Drown, npc.Center);
                 }
 
-                if (npc.ai[3] > k * 100 + 30 && npc.ai[3] < k * 100 + 90) //shooting up, first 30 frames are for tell
+                if (AttackTimer > k * 100 + 30 && AttackTimer < k * 100 + 90) //shooting up, first 30 frames are for tell
                 {
-                    if (npc.ai[3] == k * 100 + 40)
+                    if (AttackTimer == k * 100 + 40)
                     {
                         Main.PlaySound(SoundID.Splash, npc.Center);
                         Main.PlaySound(SoundID.Item81, npc.Center);
                     }
-                    int time = (int)npc.ai[3] - (k * 100 + 30);
+                    int time = (int)AttackTimer - (k * 100 + 30);
                     tentacles[k].Center = Vector2.SmoothStep(tentacle.SavedPoint, tentacle.MovePoint, time / 60f);
                     tentacles[k].ai[1] += 5f; //make it squirm faster
                 }
 
-                if (npc.ai[3] > k * 100 + 90 && npc.ai[3] < k * 100 + 300) //retracting
+                if (AttackTimer > k * 100 + 90 && AttackTimer < k * 100 + 300) //retracting
                 {
-                    int time = (int)npc.ai[3] - (k * 100 + 90);
+                    int time = (int)AttackTimer - (k * 100 + 90);
                     tentacles[k].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, time / 210f);
                 }
             }
 
-            if (npc.ai[3] == 600) ResetAttack();
+            if (AttackTimer == 600) ResetAttack();
         }
 
         private void InkBurst()
         {
             for (float k = 0; k <= 3.14f; k += 3.14f / 5f)
             {
-                if (npc.ai[3] % 3 == 0) Projectile.NewProjectile(npc.Center + new Vector2(0, 100), new Vector2(-10, 0).RotatedBy(k), ModContent.ProjectileType<InkBlob>(), 10, 0.2f, 255, 0, Main.rand.NextFloat(6.28f));
-                if (npc.ai[3] % 10 == 0) Main.PlaySound(SoundID.Item95, npc.Center);
-                if (npc.ai[3] == 60) ResetAttack();
+                if (AttackTimer % 3 == 0) Projectile.NewProjectile(npc.Center + new Vector2(0, 100), new Vector2(-10, 0).RotatedBy(k), ModContent.ProjectileType<InkBlob>(), 10, 0.2f, 255, 0, Main.rand.NextFloat(6.28f));
+                if (AttackTimer % 10 == 0) Main.PlaySound(SoundID.Item95, npc.Center);
+                if (AttackTimer == 60) ResetAttack();
             }
         }
 
         private void PlatformSweep()
         {
-            if (npc.ai[3] == 1) //start by randomizing the platform order and assigning targets
+            if (AttackTimer == 1) //start by randomizing the platform order and assigning targets
             {
                 ShufflePlatforms();
                 for (int k = 0; k < 4; k++)
@@ -105,9 +105,9 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 Main.PlaySound(SoundID.Drown, npc.Center);
             }
 
-            if (npc.ai[3] > 60 && npc.ai[3] < 120) //rising
+            if (AttackTimer > 60 && AttackTimer < 120) //rising
             {
-                if (npc.ai[3] == 61)
+                if (AttackTimer == 61)
                 {
                     Main.PlaySound(SoundID.Splash, npc.Center);
                     Main.PlaySound(SoundID.Item81, npc.Center);
@@ -116,29 +116,29 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 for (int k = 0; k < 4; k++)
                 {
                     Tentacle tentacle = tentacles[k].modNPC as Tentacle;
-                    tentacles[k].Center = Vector2.SmoothStep(tentacle.SavedPoint, tentacle.MovePoint, (npc.ai[3] - 60) / 60f);
+                    tentacles[k].Center = Vector2.SmoothStep(tentacle.SavedPoint, tentacle.MovePoint, (AttackTimer - 60) / 60f);
                 }
             }
 
-            if (npc.ai[3] > 120 && npc.ai[3] < 360) //waving around
+            if (AttackTimer > 120 && AttackTimer < 360) //waving around
             {
                 for (int k = 0; k < 4; k++)
                 {
-                    tentacles[k].position.X += (float)Math.Sin(npc.ai[3] / 10f + k) * 2;
-                    tentacles[k].position.Y += (float)Math.Cos(npc.ai[3] / 10f + k) * 4;
+                    tentacles[k].position.X += (float)Math.Sin(AttackTimer / 10f + k) * 2;
+                    tentacles[k].position.Y += (float)Math.Cos(AttackTimer / 10f + k) * 4;
                 }
             }
 
-            if (npc.ai[3] > 360 && npc.ai[3] < 420) //going back
+            if (AttackTimer > 360 && AttackTimer < 420) //going back
             {
                 for (int k = 0; k < 4; k++)
                 {
                     Tentacle tentacle = tentacles[k].modNPC as Tentacle;
-                    tentacles[k].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, (npc.ai[3] - 360) / 60f);
+                    tentacles[k].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, (AttackTimer - 360) / 60f);
                 }
             }
 
-            if (npc.ai[3] == 420) ResetAttack();
+            if (AttackTimer == 420) ResetAttack();
 
         }
 
@@ -183,7 +183,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         #region phase 2
         private void Spew()
         {
-            if (npc.ai[3] % 100 == 0)
+            if (AttackTimer % 100 == 0)
             {
                 Main.PlaySound(SoundID.Item9, npc.Center);
 
@@ -199,54 +199,54 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 }
             }
 
-            if (npc.ai[3] == 300) ResetAttack();
+            if (AttackTimer == 300) ResetAttack();
         }
 
         private void Laser()
         {
-            npc.ai[1]++;
+            GlobalTimer++;
 
-            if (npc.ai[3] == 1) //set movement points
+            if (AttackTimer == 1) //set movement points
             {
                 savedPoint = npc.Center;
                 npc.velocity *= 0;
                 npc.rotation = 0;
             }
 
-            if (npc.ai[3] < 60) //move to left of the arena
+            if (AttackTimer < 60) //move to left of the arena
             {
-                npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(-800, -500), npc.ai[3] / 60f);
+                npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(-800, -500), AttackTimer / 60f);
                 npc.rotation += 3.14f / 59f;
             }
 
-            if (npc.ai[3] == 60)
+            if (AttackTimer == 60)
             {
                 savedPoint = npc.Center; //leftmost point of laser
-                Projectile.NewProjectile(npc.Center + new Vector2(0, -200), Vector2.Zero, ModContent.ProjectileType<Laser>(), 10, 0.2f, 255, 0, npc.ai[3] * 0.1f);
+                Projectile.NewProjectile(npc.Center + new Vector2(0, -200), Vector2.Zero, ModContent.ProjectileType<Laser>(), 10, 0.2f, 255, 0, AttackTimer * 0.1f);
             }
 
             int laserTime = Main.expertMode ? 450 : 600; //faster in expert
 
-            if (npc.ai[3] > 60 && npc.ai[3] < 60 + laserTime) //lasering
+            if (AttackTimer > 60 && AttackTimer < 60 + laserTime) //lasering
             {
-                if (npc.ai[3] % 10 == 0) Main.PlaySound(SoundID.NPCHit53, npc.Center);
-                npc.Center = Vector2.Lerp(savedPoint, spawnPoint + new Vector2(800, -500), (npc.ai[3] - 60) / laserTime);
+                if (AttackTimer % 10 == 0) Main.PlaySound(SoundID.NPCHit53, npc.Center);
+                npc.Center = Vector2.Lerp(savedPoint, spawnPoint + new Vector2(800, -500), (AttackTimer - 60) / laserTime);
             }
 
-            if (npc.ai[3] == 60 + laserTime) savedPoint = npc.Center; //end of laser
+            if (AttackTimer == 60 + laserTime) savedPoint = npc.Center; //end of laser
 
-            if (npc.ai[3] > 60 + laserTime && npc.ai[3] < 120 + laserTime) //return to center of arena
+            if (AttackTimer > 60 + laserTime && AttackTimer < 120 + laserTime) //return to center of arena
             {
-                npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(0, -300), (npc.ai[3] - (laserTime + 60)) / 60f);
+                npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(0, -300), (AttackTimer - (laserTime + 60)) / 60f);
                 npc.rotation -= 3.14f / 59f;
             }
 
-            if (npc.ai[3] >= 120 + laserTime) ResetAttack();
+            if (AttackTimer >= 120 + laserTime) ResetAttack();
         }
 
         private void Leap()
         {
-            if (npc.ai[3] == 1)
+            if (AttackTimer == 1)
             {
                 savedPoint = npc.Center;
                 npc.velocity *= 0;
@@ -275,20 +275,20 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 }
             }
 
-            if (npc.ai[3] < 120) //go to center
+            if (AttackTimer < 120) //go to center
             {
-                npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(0, -500), npc.ai[3] / 120f);
+                npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(0, -500), AttackTimer / 120f);
 
                 for (int k = 0; k < 4; k++) //tentacles
                 {
                     Tentacle tentacle = tentacles[k].modNPC as Tentacle;
-                    tentacles[k].Center = Vector2.SmoothStep(tentacle.SavedPoint, tentacle.MovePoint, npc.ai[3] / 120f);
+                    tentacles[k].Center = Vector2.SmoothStep(tentacle.SavedPoint, tentacle.MovePoint, AttackTimer / 120f);
                 }
             }
 
-            if (npc.ai[3] == 120) npc.velocity.Y = -15; //jump
+            if (AttackTimer == 120) npc.velocity.Y = -15; //jump
 
-            if (npc.ai[3] == 150) //spawn projectiles
+            if (AttackTimer == 150) //spawn projectiles
             {
                 Main.PlaySound(SoundID.NPCDeath24, npc.Center);
 
@@ -296,27 +296,27 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     Projectile.NewProjectile(npc.Center + new Vector2(0, 100), new Vector2(-10, 0).RotatedBy(k), ModContent.ProjectileType<InkBlob>(), 10, 0.2f, 255, 0, Main.rand.NextFloat(6.28f));
             }
 
-            if (npc.ai[3] > 120 && npc.ai[3] < 220) npc.velocity.Y += 0.16f; //un-jump
+            if (AttackTimer > 120 && AttackTimer < 220) npc.velocity.Y += 0.16f; //un-jump
 
-            if (npc.ai[3] > 120)
+            if (AttackTimer > 120)
             {
                 for (int k = 0; k < 4; k++) //tentacles
                 {
                     Tentacle tentacle = tentacles[k].modNPC as Tentacle;
-                    tentacles[k].Center = new Vector2(tentacles[k].Center.X + (float)Math.Sin(npc.ai[3] / 10f + k) * 4f, tentacles[k].Center.Y + (float)Math.Cos(npc.ai[3] / 10f + k) * 2f);
+                    tentacles[k].Center = new Vector2(tentacles[k].Center.X + (float)Math.Sin(AttackTimer / 10f + k) * 4f, tentacles[k].Center.Y + (float)Math.Cos(AttackTimer / 10f + k) * 2f);
                 }
             }
 
-            if (npc.ai[3] > 540)
+            if (AttackTimer > 540)
             {
                 for (int k = 0; k < 4; k++) //tentacles
                 {
                     Tentacle tentacle = tentacles[k].modNPC as Tentacle;
-                    tentacles[k].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, (npc.ai[3] - 540) / 60f);
+                    tentacles[k].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, (AttackTimer - 540) / 60f);
                 }
             }
 
-            if (npc.ai[3] == 600) ResetAttack();
+            if (AttackTimer == 600) ResetAttack();
         }
 
         private void Eggs()
@@ -329,14 +329,14 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             if (AttackTimer < 60) npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + Vector2.UnitY * -800, AttackTimer / 60);
 
-            if (npc.ai[3] == 60)
+            if (AttackTimer == 60)
             {
                 Main.PlaySound(SoundID.Item9, npc.Center);
                 for (int k = 0; k < 5; k++)
                     Projectile.NewProjectile(npc.Center + new Vector2(0, 100), new Vector2(-50 + k * 25, 0), ModContent.ProjectileType<SquidEgg>(), 10, 0.2f);
             }
 
-            if (npc.ai[3] == 300) ResetAttack();
+            if (AttackTimer == 300) ResetAttack();
         }
         #endregion
 
@@ -347,7 +347,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             for (int k = 0; k < 4; k++)
             {
                 Tentacle tentacle = tentacles[k].modNPC as Tentacle;
-                if (npc.ai[3] == k * 80 || (k == 0 && npc.ai[3] == 1)) //teleport where needed
+                if (AttackTimer == k * 80 || (k == 0 && AttackTimer == 1)) //teleport where needed
                 {
                     tentacles[k].Center = new Vector2(Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).Center.X + (k % 2 == 0 ? -600 : 600), npc.Center.Y + Main.rand.Next(-200, 200));
                     tentacle.SavedPoint = tentacles[k].Center;
@@ -359,27 +359,27 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     Main.PlaySound(SoundID.Drown, npc.Center);
                 }
 
-                if (npc.ai[3] > k * 80 + 30 && npc.ai[3] < k * 80 + 90) //shooting up, first 30 frames are for tell
+                if (AttackTimer > k * 80 + 30 && AttackTimer < k * 80 + 90) //shooting up, first 30 frames are for tell
                 {
-                    if (npc.ai[3] == k * 80 + 40)
+                    if (AttackTimer == k * 80 + 40)
                     {
                         Main.PlaySound(SoundID.Splash, npc.Center);
                         Main.PlaySound(SoundID.Item81, npc.Center);
                     }
 
-                    int time = (int)npc.ai[3] - (k * 80 + 30);
+                    int time = (int)AttackTimer - (k * 80 + 30);
                     tentacles[k].Center = Vector2.SmoothStep(tentacle.SavedPoint, tentacle.MovePoint, time / 50f);
                     tentacles[k].ai[1] += 5f; //make it squirm faster
                 }
 
-                if (npc.ai[3] > k * 80 + 90 && npc.ai[3] < k * 80 + 150) //retracting
+                if (AttackTimer > k * 80 + 90 && AttackTimer < k * 80 + 150) //retracting
                 {
-                    int time = (int)npc.ai[3] - (k * 80 + 90);
+                    int time = (int)AttackTimer - (k * 80 + 90);
                     tentacles[k].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, time / 60f);
                 }
             }
 
-            if (npc.ai[3] == 400 && !Main.expertMode) ResetAttack(); //stop on normal mode only
+            if (AttackTimer == 400 && !Main.expertMode) ResetAttack(); //stop on normal mode only
 
             for (int k = 0; k < 4; k++)
             {
@@ -400,9 +400,9 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     Main.PlaySound(SoundID.Drown, npc.Center);
                 }
 
-                if (npc.ai[3] > 420 && npc.ai[3] < 460) //shooting out
+                if (AttackTimer > 420 && AttackTimer < 460) //shooting out
                 {
-                    if (npc.ai[3] == 401)
+                    if (AttackTimer == 401)
                     {
                         Main.PlaySound(SoundID.Splash, npc.Center);
                         Main.PlaySound(SoundID.Item81, npc.Center);
@@ -412,7 +412,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     tentacles[k].ai[1] += 5f; //make it squirm faster
                 }
 
-                if (npc.ai[3] > 460 && npc.ai[3] < 520) //retracting
+                if (AttackTimer > 460 && AttackTimer < 520) //retracting
                 {
                     tentacles[k].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, (AttackTimer - 460) / 60f);
                 }
@@ -423,7 +423,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         private void StealPlatform()
         {
-            if (npc.ai[3] == 1)
+            if (AttackTimer == 1)
             {
                 ShufflePlatforms();
 
@@ -432,50 +432,50 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 tentacle.SavedPoint = tentacles[0].Center;
             }
 
-            if (npc.ai[3] < 90)
+            if (AttackTimer < 90)
             {
                 Dust.NewDust(platforms[0].position, 200, 16, DustID.Fireworks, 0, 0, 0, default, 0.7f);
 
                 Tentacle tentacle = tentacles[0].modNPC as Tentacle;
-                tentacles[0].Center = Vector2.SmoothStep(tentacle.SavedPoint, platforms[0].Center, npc.ai[3] / 90f);
+                tentacles[0].Center = Vector2.SmoothStep(tentacle.SavedPoint, platforms[0].Center, AttackTimer / 90f);
             }
 
-            if (npc.ai[3] == 90)
+            if (AttackTimer == 90)
             {
                 Tentacle tentacle = tentacles[0].modNPC as Tentacle;
                 tentacle.MovePoint = tentacles[0].Center;
                 platforms[0].ai[3] = 450; //sets it into fall mode
             }
 
-            if (npc.ai[3] > 90)
+            if (AttackTimer > 90)
             {
                 Tentacle tentacle = tentacles[0].modNPC as Tentacle;
-                tentacles[0].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, (npc.ai[3] - 90) / 90f);
+                tentacles[0].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, (AttackTimer - 90) / 90f);
             }
 
-            if (npc.ai[3] == 180) ResetAttack();
+            if (AttackTimer == 180) ResetAttack();
         }
 
         private void InkBurst2()
         {
-            if (npc.ai[3] == 1)
+            if (AttackTimer == 1)
             {
                 npc.velocity *= 0;
                 npc.velocity.Y = -10;
             }
 
-            if (npc.ai[3] <= 61) npc.velocity.Y += 10 / 60f;
+            if (AttackTimer <= 61) npc.velocity.Y += 10 / 60f;
 
-            if (npc.ai[3] > 61)
+            if (AttackTimer > 61)
             {
                 for (float k = 0; k <= 3.14f; k += 2.14f / 3f)
                 {
-                    if (npc.ai[3] % 3 == 0) Projectile.NewProjectile(npc.Center + new Vector2(0, 100), new Vector2(10, 0).RotatedBy(k), ModContent.ProjectileType<InkBlob>(), 10, 0.2f, 255, 0, Main.rand.NextFloat(6.28f));
-                    if (npc.ai[3] % 10 == 0) Main.PlaySound(SoundID.Item95, npc.Center);
+                    if (AttackTimer % 3 == 0) Projectile.NewProjectile(npc.Center + new Vector2(0, 100), new Vector2(10, 0).RotatedBy(k), ModContent.ProjectileType<InkBlob>(), 10, 0.2f, 255, 0, Main.rand.NextFloat(6.28f));
+                    if (AttackTimer % 10 == 0) Main.PlaySound(SoundID.Item95, npc.Center);
                 }
             }
 
-            if (npc.ai[3] == 76) ResetAttack();
+            if (AttackTimer == 76) ResetAttack();
         }
         #endregion
     }
