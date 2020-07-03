@@ -144,6 +144,43 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             if (npc.ai[3] == 420) ResetAttack();
 
         }
+
+        private void ArenaSweep()
+        {
+            for (int k = 0; k < 4; k++)
+            {
+                Tentacle tentacle = Tentacles[k].modNPC as Tentacle;
+
+                if (AttackTimer == 1)
+                {
+                    Tentacles[k].Center = Spawn + new Vector2(850, 0);
+                    tentacle.SavedPoint = Tentacles[k].Center;
+                }
+
+                if(AttackTimer > 30 + k * 60 && AttackTimer < (30 + k * 60) + 400)
+                {
+                    if (AttackTimer % 60 == 0)
+                    {
+                        Main.PlaySound(SoundID.Splash, npc.Center);
+                        Main.PlaySound(SoundID.Item81, npc.Center);
+                    }
+
+                    Tentacles[k].position.X -= 4.25f;
+                    tentacle.SavedPoint.X -= 4.25f;
+                    Tentacles[k].position.Y = tentacle.SavedPoint.Y - (1 + (float)Math.Cos(AttackTimer / 20f + k * -60)) * 500;
+                }
+
+                if (AttackTimer == (30 + k * 60) + 400) tentacle.MovePoint = Tentacles[k].Center;
+
+                if (AttackTimer > (30 + k * 60) + 400 && AttackTimer < ((30 + k * 60) + 400) + 40)
+                {
+                    float rel = (AttackTimer - ((30 + k * 60) + 400)) / 40f;
+                    Tentacles[k].Center = Vector2.SmoothStep(tentacle.MovePoint, tentacle.SavedPoint, rel);
+                }
+            }
+
+            if (AttackTimer >= 660) ResetAttack();
+        }
         #endregion
 
         #region phase 2

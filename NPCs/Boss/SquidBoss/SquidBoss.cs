@@ -195,7 +195,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     else //else advance the attack pattern
                     {
                         AttackPhase++;
-                        if (AttackPhase > 3) AttackPhase = 1;
+                        if (AttackPhase > (Main.expertMode ? 4 : 3)) AttackPhase = 1;
                     }
                 }
 
@@ -204,6 +204,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     case 1: TentacleSpike(); break;                      
                     case 2: InkBurst(); break;
                     case 3: PlatformSweep(); break;
+                    case 4: ArenaSweep(); break;
                 }
             }
 
@@ -242,7 +243,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                         else //else advance the attack pattern
                         {
                             AttackPhase++;
-                            if (AttackPhase > 3) AttackPhase = 1;
+                            if (AttackPhase > (Main.expertMode ? 4 : 3)) AttackPhase = 1;
                         }
                     }
 
@@ -251,6 +252,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                         case 1: TentacleSpike(); break;
                         case 2: InkBurst(); break;
                         case 3: PlatformSweep(); break;
+                        case 4: ArenaSweep(); break;
                     }
                 }
             }

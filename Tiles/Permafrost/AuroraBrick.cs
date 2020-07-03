@@ -31,8 +31,20 @@ namespace StarlightRiver.Tiles.Permafrost
         }
     }
 
+    class AuroraBrickDoor : AuroraBrick
+    {
+        public override void NearbyEffects(int i, int j, bool closer) => Main.tile[i, j].inActive(StarlightWorld.SquidBossOpen);
+    }
+
     class AuroraBrickItem : QuickTileItem
     {
         public AuroraBrickItem() : base("Aurora Brick", "Oooh... Preeetttyyy", TileType<AuroraBrick>(), ItemRarityID.White) { }
+    }
+
+    class AuroraBrickDoorItem : QuickTileItem
+    {
+        public override string Texture => "StarlightRiver/MarioCumming";
+
+        public AuroraBrickDoorItem() : base("Debug Brick Placer", "", TileType<AuroraBrickDoor>(), ItemRarityID.White) { }
     }
 }
