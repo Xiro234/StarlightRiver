@@ -28,9 +28,6 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public override void AI()
         {
-            npc.ai[0]++;
-            //npc.frame = new Rectangle(26 * ((int)(npc.ai[0] / 5) % 3), 0, 26, 50);
-
             npc.TargetClosest();
             Player player = Main.player[npc.target];
 
@@ -39,6 +36,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 npc.velocity = Vector2.Normalize(npc.Center - player.Center) * -8f;
                 for(int k = 0; k < 10; k++) Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10), DustType<Dusts.Starlight>(), npc.velocity * Main.rand.NextFloat(-5, 5));
             }
+
+            npc.ai[0]++;
 
             npc.velocity *= 0.95f;
 

@@ -268,7 +268,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         ChangePhase(AIStates.FirstPhase, true);
 
                         const int arenaWidth = 1408;
-                        const int arenaHeight = 876;
+                        const int arenaHeight = 900;
                         arena = new Rectangle((int)npc.Center.X - arenaWidth / 2, (int)npc.Center.Y - arenaHeight / 2, arenaWidth, arenaHeight);
                     }
                     break;
