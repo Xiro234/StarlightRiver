@@ -26,7 +26,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public override void AI()
         {
-            if (projectile.timeLeft == 599)
+            if (projectile.timeLeft == 599 || (Main.expertMode && projectile.timeLeft == 449))
             {
                 int y = (int)projectile.Center.Y / 16 - 34;
 

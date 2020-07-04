@@ -299,7 +299,11 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                         }
 
                         AttackPhase++;
-                        variantAttack = Main.rand.NextBool();
+
+                        variantAttack = false;
+                        if(AttackPhase == 3) variantAttack = Main.rand.Next(3) >= 1;
+                        if (AttackPhase == 4 && Main.expertMode) variantAttack = Main.rand.NextBool();
+
                         if (AttackPhase > 4) AttackPhase = 1;
                     }
 
@@ -307,8 +311,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     {
                         case 1: Spew(); break;
                         case 2: Laser(); break;
-                        case 3: if (variantAttack) Spew(); else Eggs(); break;
-                        case 4: Leap(); break;
+                        case 3: if (variantAttack) Eggs(); else Spew(); break;
+                        case 4: if (variantAttack) Poke(); else Leap(); break;
                     }
                 }
             }

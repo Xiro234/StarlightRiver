@@ -338,6 +338,12 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             if (AttackTimer == 300) ResetAttack();
         }
+
+        private void Poke()
+        {
+            //TODO: implement attack
+            ResetAttack();
+        }
         #endregion
 
         #region phase 3
