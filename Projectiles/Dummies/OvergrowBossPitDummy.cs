@@ -1,11 +1,10 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -98,7 +97,7 @@ namespace StarlightRiver.Projectiles.Dummies
             {
                 //Texture2D tex2 = GetTexture("StarlightRiver/Exclamation");
                 //spriteBatch.Draw(tex2, pos + new Vector2(88, -100 + (float)Math.Sin(StarlightWorld.rottime) * 12), tex2.Frame(),
-                   // Color.White * (projectile.ai[0] / 88f) * 0.2f, 0, tex2.Frame().Size() / 2, 0.5f + (float)Math.Sin(StarlightWorld.rottime * 3) * 0.05f, 0, 0);
+                // Color.White * (projectile.ai[0] / 88f) * 0.2f, 0, tex2.Frame().Size() / 2, 0.5f + (float)Math.Sin(StarlightWorld.rottime * 3) * 0.05f, 0, 0);
             }
         }
     }

@@ -54,7 +54,7 @@ namespace StarlightRiver
             Player player = null;
             if (Main.playerLoaded) { player = Main.LocalPlayer; }
 
-            if (player != null && StarlightWorld.VitricBiome.Intersects(new Rectangle((int)Main.screenPosition.X / 16, (int)Main.screenPosition.Y /16, Main.screenWidth / 16, Main.screenHeight / 16)))
+            if (player != null && StarlightWorld.VitricBiome.Intersects(new Rectangle((int)Main.screenPosition.X / 16, (int)Main.screenPosition.Y / 16, Main.screenWidth / 16, Main.screenHeight / 16)))
             {
                 Vector2 basepoint = (StarlightWorld.VitricBiome != null) ? StarlightWorld.VitricBiome.TopLeft() * 16 + new Vector2(-2000, 0) : Vector2.Zero;
 
@@ -80,16 +80,16 @@ namespace StarlightRiver
                 for (int k = (int)(screenCenterX - basepoint.X) - (int)(Main.screenWidth * 1.5f); k <= (int)(screenCenterX - basepoint.X) + (int)(Main.screenWidth * 1.5f); k += 30)
                 {
                     Vector2 spawnPos = basepoint + new Vector2(2000 + Main.rand.Next(8000), 1800);
-                    if (Main.rand.Next(1200) == 0)                
+                    if (Main.rand.Next(1200) == 0)
                         BackgroundParticles.AddParticle(new Particle(new Vector2(0, basepoint.Y + 1550), new Vector2(0, Main.rand.NextFloat(-1.6f, -0.6f)), 0, 0, Color.White, 1800, spawnPos));
-                    
-                    if (Main.rand.Next(1000) == 0)                   
-                        ForegroundParticles.AddParticle(new Particle(new Vector2(0, basepoint.Y + 1550), new Vector2(0, Main.rand.NextFloat(-1.6f, -0.6f)), 0, 0, Color.White, 1800, spawnPos));                 
+
+                    if (Main.rand.Next(1000) == 0)
+                        ForegroundParticles.AddParticle(new Particle(new Vector2(0, basepoint.Y + 1550), new Vector2(0, Main.rand.NextFloat(-1.6f, -0.6f)), 0, 0, Color.White, 1800, spawnPos));
                 }
 
                 DrawTilingBackground();
                 DrawBlack();
-                        
+
             }
         }
 
@@ -145,8 +145,8 @@ namespace StarlightRiver
                 float x = basepoint.X + (k * 739 * 4) + GetParallaxOffset(basepoint.X, parallax * 0.1f) - (int)Main.screenPosition.X;
                 float y = basepoint.Y + offY - (int)Main.screenPosition.Y + GetParallaxOffsetY(basepoint.Y + StarlightWorld.VitricBiome.Height * 8, parallax * 0.04f);
 
-                if (x > -texture.Width && x < Main.screenWidth + 30)                
-                    Main.spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(0, 0, 2956, 1528), color, 0f, Vector2.Zero, 1f, flip ? SpriteEffects.FlipVertically : 0, 0);              
+                if (x > -texture.Width && x < Main.screenWidth + 30)
+                    Main.spriteBatch.Draw(texture, new Vector2(x, y), new Rectangle(0, 0, 2956, 1528), color, 0f, Vector2.Zero, 1f, flip ? SpriteEffects.FlipVertically : 0, 0);
             }
         }
 

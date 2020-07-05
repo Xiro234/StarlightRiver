@@ -1,8 +1,8 @@
-﻿using static Terraria.ModLoader.ModContent;
-using System.Linq;
+﻿using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric
 {

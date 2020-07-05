@@ -1,10 +1,9 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Items;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric.Blocks
 {
@@ -19,6 +18,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
             Main.tileMerge[Type][TileType<AncientSandstone>()] = true;
             Main.tileMerge[Type][TileType<VitricSand>()] = true;
             Main.tileMerge[Type][TileType<VitricSoftSand>()] = true;
+            TileID.Sets.Grass[Type] = true;
             SetModCactus(new VitricCactus());
             AddMapEntry(new Color(172, 131, 105));
         }
@@ -57,7 +57,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Texture2D moss = GetTexture("StarlightRiver/Tiles/Vitric/VitricMoss_Glow");
+            Texture2D moss = GetTexture("StarlightRiver/Tiles/Vitric/Blocks/VitricMoss_Glow");
             Tile t = Main.tile[i, j];
             Color col = Lighting.GetColor(i, j);
             Color realCol = new Color(((col.R / 255f) * 1.4f) + 0.1f, ((col.G / 255f) * 1.4f) + 0.1f, ((col.B / 255f) * 1.4f) + 0.1f);

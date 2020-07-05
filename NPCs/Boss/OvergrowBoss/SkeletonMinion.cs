@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -35,7 +30,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if(npc.ai[0] < 60)
+            if (npc.ai[0] < 60)
             {
                 Texture2D tex = GetTexture(Texture);
                 int progress = (int)(npc.ai[0] / 60f * npc.height);
@@ -52,7 +47,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         {
             npc.ai[0]++;
 
-            if(npc.ai[0] == 1) npc.ai[1] = Main.rand.NextFloat(2, 4);
+            if (npc.ai[0] == 1) npc.ai[1] = Main.rand.NextFloat(2, 4);
 
             if (npc.ai[0] < 60)
             {
@@ -79,12 +74,12 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                     //melee attack activation
                     if (npc.ai[2] == 0 && Vector2.Distance(player.Center, npc.Center) <= 32)
-                    {                      
+                    {
                         npc.ai[2] += 60;
                     }
 
                     //melee attack
-                    if(npc.ai[2] > 0)
+                    if (npc.ai[2] > 0)
                     {
                         npc.ai[2]--;
                         npc.velocity.X = 0;

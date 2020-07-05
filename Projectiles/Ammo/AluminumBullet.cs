@@ -1,8 +1,8 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Ammo
 {
@@ -51,7 +51,7 @@ namespace StarlightRiver.Projectiles.Ammo
 
             if (Vector2.Distance(target.Center, projectile.Center) <= 800 && anglediff <= 0.55f && anglediff >= -0.55f)
                 projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.04f;
-            
+
             projectile.velocity = Vector2.Normalize(projectile.velocity) * 1.5f;
         }
     }

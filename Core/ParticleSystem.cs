@@ -1,9 +1,9 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Configs;
 using System.Collections.Generic;
 using Terraria;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Core
 {
@@ -15,6 +15,7 @@ namespace StarlightRiver.Core
         private readonly Texture2D Texture;
         private readonly Update UpdateDelegate;
         private readonly int Styles;
+
         public ParticleSystem(string texture, Update updateDelegate, int styles = 1)
         {
             Texture = GetTexture(texture);
@@ -38,6 +39,7 @@ namespace StarlightRiver.Core
                     if (particle.Timer <= 0) Particles.Remove(particle);
                 }
         }
+
         public void AddParticle(Particle particle)
         {
             if (GetInstance<Config>().Active)
@@ -45,6 +47,7 @@ namespace StarlightRiver.Core
         }
 
     }
+
     public class Particle
     {
         internal Vector2 Position;
@@ -54,6 +57,7 @@ namespace StarlightRiver.Core
         internal float Scale;
         internal Color Color;
         internal int Timer;
+
         public Particle(Vector2 position, Vector2 velocity, float rotation, float scale, Color color, int timer, Vector2 storedPosition)
         {
             Position = position; Velocity = velocity; Rotation = rotation; Scale = scale; Color = color; Timer = timer; StoredPosition = storedPosition;

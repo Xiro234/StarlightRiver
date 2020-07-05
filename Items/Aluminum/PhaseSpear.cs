@@ -1,15 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Projectiles;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Projectiles;
 
 namespace StarlightRiver.Items.Aluminum
 {
@@ -50,6 +47,7 @@ namespace StarlightRiver.Items.Aluminum
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item15;
             item.rare = ItemRarityID.Blue;
+            item.value = Item.sellPrice(0, 0, 54, 0);
         }
 
         public override void AddRecipes()
@@ -157,7 +155,7 @@ namespace StarlightRiver.Items.Aluminum
 
     internal class RedPhasespear : Phasespear
     { public RedPhasespear() : base(Color.Red, ProjectileType<RedPhasespearProjectile>(), ItemID.Ruby) { } }
-    
+
     internal class RedPhasespearProjectile : PhasespearProjectile
     { public RedPhasespearProjectile() : base(Color.Red) { } }
 

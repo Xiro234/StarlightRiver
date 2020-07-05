@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Projectiles.WeaponProjectiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +9,11 @@ namespace StarlightRiver.Items.Aluminum
 {
     internal class AluminumReaver : ModItem
     {
-        public override void SetStaticDefaults() => DisplayName.SetDefault("Astral Reaver");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Astral Reaver");
+            Tooltip.SetDefault("Occasionally zaps nearby enemies on use");
+        }
 
         public override void SetDefaults()
         {
@@ -31,6 +32,23 @@ namespace StarlightRiver.Items.Aluminum
             item.autoReuse = true;
             item.UseSound = SoundID.Item18;
             item.useTurn = true;
+        }
+
+        public override bool UseItem(Player player)
+        {
+            if (Main.rand.Next(10) == 0)
+            {
+                for (int k = 0; k < Main.maxNPCs; k++)
+                {
+                    NPC target = Main.npc[k];
+                    if (target.active && Vector2.Distance(target.Center, player.Center) < 100)
+                    {
+                        Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<LightningNode>(), 20, 0, 0, 2, 100);
+                        Helper.DrawElectricity(player.Center, target.Center, DustType<Dusts.Electric>());
+                    }
+                }
+            }
+            return true;
         }
 
         public override void AddRecipes()

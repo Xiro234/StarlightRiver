@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
 using StarlightRiver.Items.Vitric;
 using StarlightRiver.Tiles.Vitric.Blocks;
@@ -7,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Armor.Vitric
 {

@@ -1,6 +1,6 @@
-﻿using static Terraria.ModLoader.ModContent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Terraria.ID;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.RiftCrafting.Tier1
 {

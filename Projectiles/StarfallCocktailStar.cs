@@ -1,8 +1,8 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Dusts;
+﻿using StarlightRiver.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles
 {

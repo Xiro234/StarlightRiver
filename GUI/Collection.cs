@@ -1,9 +1,9 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using Terraria;
 using Terraria.UI;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.GUI
 {

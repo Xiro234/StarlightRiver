@@ -1,6 +1,6 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace StarlightRiver.Backgrounds
 {
@@ -11,6 +11,16 @@ namespace StarlightRiver.Backgrounds
         public override void FillTextureArray(int[] textureSlots)
         {
             for (int k = 0; k <= 5; k++) textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/Blank");
+        }
+    }
+
+    public class PermafrostBG : ModUgBgStyle
+    {
+        public override bool ChooseBgStyle() => Main.LocalPlayer.GetModPlayer<BiomeHandler>().zonePermafrost;
+
+        public override void FillTextureArray(int[] textureSlots)
+        {
+            for (int k = 0; k <= 5; k++) textureSlots[k] = mod.GetBackgroundSlot("Backgrounds/PermafrostBack");
         }
     }
 

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
+using System;
+using System.Linq;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Hell
 {
@@ -42,7 +39,7 @@ namespace StarlightRiver.Items.Hell
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for(int k = 0; k < 4; k++)
+            for (int k = 0; k < 4; k++)
             {
                 int i = Projectile.NewProjectile(player.Center + new Vector2(0, -32), new Vector2(speedX, speedY).RotatedByRandom(0.25f) * ((k + 3) * 0.08f), type, damage, knockBack, player.whoAmI);
                 Main.projectile[i].scale = Main.rand.NextFloat(0.4f, 0.9f);
@@ -155,7 +152,7 @@ namespace StarlightRiver.Items.Hell
 
         public override bool? CanHitNPC(NPC target)
         {
-            if(target.Hitbox.Intersects(projectile.Hitbox)) target.GetGlobalNPC<StarlightNPC>().DoT += (int)(5f * projectile.timeLeft / 180f);
+            if (target.Hitbox.Intersects(projectile.Hitbox)) target.GetGlobalNPC<StarlightNPC>().DoT += (int)(5f * projectile.timeLeft / 180f);
             return false;
         }
 

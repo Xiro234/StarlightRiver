@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Abilities;
 using System;
@@ -8,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles
 {
@@ -40,6 +40,7 @@ namespace StarlightRiver.Projectiles
                 dims.Y++;
                 if (Main.tileSolid[Main.tile[((int)projectile.position.X + 4) / 16, (int)(projectile.position.Y + k) / 16].type] && Main.tile[(int)projectile.position.X / 16, (int)(projectile.position.Y + k) / 16].active()) break;
             }
+
             foreach (Player player in Main.player.Where(player => player.active))
             {
                 if (Collision.CheckAABBvAABBCollision(projectile.position, dims, player.position, player.Hitbox.Size()) && !player.GetModPlayer<AbilityHandler>().wisp.Active)
@@ -54,6 +55,7 @@ namespace StarlightRiver.Projectiles
                     player.GetModPlayer<AbilityHandler>().dash.Active = false;
                 }
             }
+
             projectile.timeLeft = 2;
             if (!parent.active())
             {
