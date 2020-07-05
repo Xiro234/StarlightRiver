@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using StarlightRiver.Projectiles.Dummies;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using static Terraria.ModLoader.ModContent;
@@ -12,6 +13,24 @@ namespace StarlightRiver.Tiles.Overgrow
     internal class BossWindowDummy : Dummy, IMoonlordLayerDrawable
     {
         public BossWindowDummy() : base(TileType<BossWindow>(), 16, 16) { }
+
+        public override void SafeSetDefaults() => projectile.hide = true;
+
+        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        {
+            drawCacheProjsBehindNPCs.Add(index);
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 dpos = projectile.Center - Main.screenPosition + Vector2.UnitY * 16;
+
+            Texture2D frametex = GetTexture("StarlightRiver/Tiles/Overgrow/WindowFrame");
+            Texture2D glasstex = GetTexture("StarlightRiver/Tiles/Overgrow/WindowGlass");
+
+            spriteBatch.Draw(glasstex, dpos, glasstex.Frame(), Color.White * 0.2f, 0, glasstex.Frame().Size() / 2, 1, 0, 0); //glass
+            spriteBatch.Draw(frametex, dpos, frametex.Frame(), new Color(255, 255, 200), 0, frametex.Frame().Size() / 2, 1, 0, 0); //frame
+        }
 
         public override void Update()
         {
