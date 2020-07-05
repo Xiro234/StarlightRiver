@@ -75,7 +75,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             if (Phase == (int)AIStates.Dying && GlobalTimer >= 659)
             {
-                if (Vector2.Distance(Main.LocalPlayer.Center, npc.Center) < 1500) Helper.UnlockEntry<Codex.Entries.CeirosEntry>(Main.LocalPlayer); //unlocks the entry if the local player is close enough. codex is clientside so this is fine.
                 foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBackdropLeft || n.modNPC is VitricBossPlatformUp)) npc.active = false; //reset arena
                 StarlightWorld.GlassBossDowned = true;
                 return true;

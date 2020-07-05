@@ -214,7 +214,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow");
             Texture2D tex3 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleTop");
             Texture2D tex4 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleBody");
-            Texture2D tex5 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder");
+            Texture2D tex5 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyPreview");
 
             spriteBatch.Draw(tex, npc.Center + new Vector2(off.X * 16, off.Y * 16) + Vector2.One.RotatedBy(npc.ai[1] * 2) * 2 - Main.screenPosition, null, new Color(70, 95, 125), 0, tex.Size() / 2, 1, 0, 0);
 

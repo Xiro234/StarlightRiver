@@ -35,7 +35,7 @@ namespace StarlightRiver.GUI
 
             AddElement(new CategoryButton(CodexEntry.Categories.Abilities, "Abilities"), 30, 10, 50, 28, Back);
             AddElement(new CategoryButton(CodexEntry.Categories.Biomes, "Biomes"), 90, 10, 50, 28, Back);
-            AddElement(new CategoryButton(CodexEntry.Categories.Bosses, "Bosses"), 150, 10, 50, 28, Back);
+            AddElement(new CategoryButton(CodexEntry.Categories.Removed, "[PH]REMOVED"), 150, 10, 50, 28, Back);
             AddElement(new CategoryButton(CodexEntry.Categories.Relics, "Relics"), 210, 10, 50, 28, Back);
             AddElement(new CategoryButton(CodexEntry.Categories.Misc, "Misc"), 270, 10, 50, 28, Back);
 

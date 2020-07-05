@@ -8,6 +8,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
@@ -15,6 +16,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
     {
         public List<NPC> tentacles = new List<NPC>(); //the tentacle NPCs which this boss controls
         public List<NPC> platforms = new List<NPC>(); //the big platforms the boss' arena has
+        private NPC arenaBlocker;
         Vector2 spawnPoint;
         Vector2 savedPoint;
         bool variantAttack;
@@ -60,7 +62,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public void DrawUnderWater(SpriteBatch spriteBatch)
         {
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRing");
+            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRing");
 
             for (int k = 3; k > 0; k--) //handles the drawing of the jelly rings under the boss.
             {
@@ -77,10 +79,10 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 spriteBatch.Draw(tex2, rect, tex2.Frame(), color, npc.rotation, tex2.Size() / 2, 0, 0);
             }
 
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder"); //the drawing of the body
+            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder"); //the drawing of the body
             spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White, npc.rotation, tex.Size() / 2, 1, 0, 0);
 
-            Texture2D tex3 = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyOver");
+            Texture2D tex3 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyOver");
             for (int k = 0; k < 5; k++) //draws the head blobs
             {
                 Vector2 off = Vector2.Zero;
@@ -109,7 +111,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             if (Phase >= (int)AIStates.SecondPhase)
             {
-                Texture2D tex4 = ModContent.GetTexture(Texture);
+                Texture2D tex4 = GetTexture(Texture);
                 spriteBatch.Draw(tex4, npc.Center - Main.screenPosition, tex4.Frame(), Color.White, npc.rotation, tex4.Size() / 2, 1, 0, 0);
             }
         }
@@ -133,6 +135,9 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMoveTarget = npc.Center;
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMovePan = npc.Center + new Vector2(0, -600);
                 Main.LocalPlayer.GetModPlayer<StarlightPlayer>().ScreenMoveTime = 600;
+
+                int i = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 1050, NPCType<ArenaBlocker>(), 0, 800);
+                arenaBlocker = Main.npc[i];
             }
 
             if (Phase == (int)AIStates.SpawnAnimation)
@@ -263,6 +268,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 {
                     Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).ai[0]++;
                     if (GlobalTimer % 10 == 0) Main.PlaySound(SoundID.Splash, npc.Center);
+                    arenaBlocker.position.Y -= 1f;
                 }
 
                 if (GlobalTimer == 300) //reset
@@ -295,6 +301,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                             ResetAttack();
 
                             platforms.RemoveAll(n => Math.Abs(n.Center.X - Main.npc.FirstOrDefault(l => l.active && l.modNPC is ArenaActor).Center.X) >= 550);
+                            arenaBlocker.ai[1] = 1;
                             return;
                         }
 
@@ -346,7 +353,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                     GlobalTimer++;
 
-                    if (GlobalTimer % 8 == 0) Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).ai[0]++; //rising water
+                    if (GlobalTimer % 6 == 0) Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).ai[0]++; //rising water
 
                     AttackTimer++;
 

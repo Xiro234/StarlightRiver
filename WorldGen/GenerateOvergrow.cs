@@ -17,6 +17,7 @@ namespace StarlightRiver
         private const int HallWidth = 16;
         private const int HallThickness = 2;
         private static List<Rectangle> Rooms = new List<Rectangle>();
+        private static int attempts = 0;
 
         public static void OvergrowGen(GenerationProgress progress)
         {
@@ -44,6 +45,7 @@ namespace StarlightRiver
             }
 
             Rooms.ForEach(PopulateRoom);
+            attempts = 0;
 
             //TODO:
             //      hallway prefabs
@@ -113,6 +115,9 @@ namespace StarlightRiver
 
         private static void WormFromRoom(Rectangle parent, byte initialDirection = 5)
         {
+            StarlightWorld.attempts++;
+            if (StarlightWorld.attempts > 1000) throw new Exception("Overgrow could not find space to generate. Aborting world generation.");
+
             byte direction = initialDirection >= 5 ? (byte)WorldGen.genRand.Next(4) : initialDirection;
             Rectangle hall;
             Rectangle room;
