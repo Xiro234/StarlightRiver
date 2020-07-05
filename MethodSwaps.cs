@@ -17,6 +17,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.UI.Elements;
+using Terraria.GameContent.UI.States;
 using Terraria.Graphics;
 using Terraria.ID;
 using Terraria.IO;
@@ -32,6 +33,8 @@ namespace StarlightRiver
 
     public partial class StarlightRiver : Mod
     {
+        Dictionary<UIWorldListItem, TagCompound> worldDataCache = new Dictionary<UIWorldListItem, TagCompound>();
+
         private void HookOn()
         {
             // Cursed Accessory Control Override
@@ -44,6 +47,8 @@ namespace StarlightRiver
             On.Terraria.GameContent.UI.Elements.UICharacterListItem.DrawSelf += DrawSpecialCharacter;
             // Seal World Indicator
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += VoidIcon;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += AddWorldData;
+            On.Terraria.GameContent.UI.States.UIWorldSelect.ctor += RefreshWorldData;
             // Vitric background
             On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
             //Rift fading
@@ -314,8 +319,28 @@ namespace StarlightRiver
             orig(self, spriteBatch);
             Vector2 pos = self.GetDimensions().ToRectangle().TopRight();
 
-            FieldInfo datainfo = self.GetType().GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance);
-            WorldFileData data = (WorldFileData)datainfo.GetValue(self);
+            float chungosity = 0;
+            TagCompound tag3;
+
+            if (worldDataCache.TryGetValue(self, out tag3) && tag3 != null) chungosity = tag3.GetFloat("Chungus");
+
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/ChungusMeter");
+            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/GUI/Assets/ChungusMeterFill");
+            spriteBatch.Draw(tex, pos + new Vector2(-122, 6), Color.White);
+            spriteBatch.Draw(tex2, pos + new Vector2(-108, 10), new Rectangle(0, 0, (int)(tex2.Width * chungosity), tex2.Height), Color.White);
+            spriteBatch.Draw(Main.magicPixel, new Rectangle((int)pos.X - 108 + (int)(tex2.Width * chungosity), (int)pos.Y + 10, 2, 10), Color.White);
+
+            Rectangle rect = new Rectangle((int)pos.X - 122, (int)pos.Y + 6, tex.Width, tex.Height);
+
+            if (rect.Contains(Main.MouseScreen.ToPoint()))
+            {
+                Utils.DrawBorderString(spriteBatch, "Chungosity: " + (int)(chungosity * 100) + "%", self.GetDimensions().Position() + new Vector2(110, 70), Color.White);
+            }
+        }
+
+        private void AddWorldData(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int snapPointIndex)
+        {
+            orig(self, data, snapPointIndex);
 
             string path = data.Path.Replace(".wld", ".twld");
 
@@ -326,7 +351,6 @@ namespace StarlightRiver
                 byte[] buf = FileUtilities.ReadAllBytes(path, data.IsCloudSave);
                 tag = TagIO.FromStream(new MemoryStream(buf), true);
             }
-
             catch
             {
                 tag = null;
@@ -335,20 +359,13 @@ namespace StarlightRiver
             TagCompound tag2 = tag?.GetList<TagCompound>("modData").FirstOrDefault(k => k.GetString("mod") == "StarlightRiver" && k.GetString("name") == "StarlightWorld");
             TagCompound tag3 = tag2?.Get<TagCompound>("data");
 
-            float chungosity = 0;
-            if (tag3 != null) chungosity = tag3.GetFloat("Chungus");
+            worldDataCache.Add(self, tag3);
+        }
 
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/ChungusMeter");
-            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/GUI/Assets/ChungusMeterFill");
-            spriteBatch.Draw(tex, pos + new Vector2(-122, 6), Color.White);
-            spriteBatch.Draw(tex2, pos + new Vector2(-108, 10), new Rectangle(0, 0, (int)(tex2.Width * chungosity), tex2.Height), Color.White);
-            spriteBatch.Draw(Main.magicPixel, new Rectangle((int)pos.X - 108 + (int)(tex2.Width * chungosity), (int)pos.Y + 10, 2, 10), Color.White);
-
-            Rectangle rect = new Rectangle((int)pos.X - 122, (int)pos.Y + 6, tex.Width, tex.Height);
-            if (rect.Contains(Main.MouseScreen.ToPoint()))
-            {
-                Utils.DrawBorderString(spriteBatch, "Chungosity: " + (int)(chungosity * 100) + "%", self.GetDimensions().Position() + new Vector2(110, 70), Color.White);
-            }
+        private void RefreshWorldData(On.Terraria.GameContent.UI.States.UIWorldSelect.orig_ctor orig, UIWorldSelect self)
+        {
+            orig(self);
+            worldDataCache.Clear();
         }
 
         private void DrawBlackFade(On.Terraria.Main.orig_DrawUnderworldBackground orig, Main self, bool flat)
