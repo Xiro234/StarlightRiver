@@ -18,7 +18,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         }
 
         //These stats get scaled when empowered
-        private float counterScore = 1f;
+        private int counterScore = 1;
         private Vector3 lightColor = new Vector3(0.2f, 0.1f, 0.05f);
         private int dustType = ModContent.DustType<Dusts.Stamina>();
         private bool empowered;
@@ -27,13 +27,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void SetDefaults()
         {
             projectile.timeLeft = 60;
-
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.penetrate = 2;
             projectile.tileCollide = true;
-            projectile.ignoreWater = false;
+            projectile.ignoreWater = true;
             projectile.aiStyle = -1;
             projectile.rotation = Main.rand.NextFloat(4f);
         }
@@ -48,7 +46,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 {
                     projectile.frame = 1;
                     lightColor = new Vector3(0.05f, 0.1f, 0.2f);
-                    counterScore = 1.7f;
+                    counterScore = 2;
                     dustType = ModContent.DustType<Dusts.BlueStamina>();
                     projectile.velocity *= 1.05f;
                     empowered = true;
@@ -62,7 +60,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void ModifyHitNPC(NPC target,ref int damage,ref float knockback,ref bool crit,ref int hitDirection)
         {
-            //++
+            target.GetGlobalNPC<StarwoodScoreCounter>().AddScore(counterScore, projectile.owner);
+            //Main.NewText(knockback);
         }
 
         public override void Kill(int timeLeft)
@@ -97,6 +96,43 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
 
                 spriteBatch.Draw(tex, (((projectile.oldPos[k] + projectile.Size / 2) + projectile.Center) * 0.5f) - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
+            }
+        }
+    }
+    internal class StarwoodScoreCounter : GlobalNPC
+    {
+        private int score = 0;
+        private int resetCounter = 0;
+        private int lasthitPlayer = 255;
+        public void AddScore(int scoreAmount, int playerIndex)
+        {
+            score += scoreAmount;
+            resetCounter = 0;
+            lasthitPlayer = playerIndex;
+        }
+        public override bool InstancePerEntity => true;
+        public override void PostAI(NPC npc)
+        {
+            if(score > 0)
+            {
+                resetCounter++;
+                if(score >= 3)
+                {
+                    float rotationAmount = Main.rand.NextFloat(-0.3f, 0.3f);
+                    Vector2 position = new Vector2(npc.Center.X, npc.Center.Y - 700).RotatedBy(rotationAmount, npc.Center);
+                    int speed = 10;
+                    Vector2 velocity = ((Vector2.Normalize((npc.Center + new Vector2(0, -20)) - position) * speed) + ((npc.velocity / speed) * 10)) * (Math.Abs(rotationAmount) + 1);
+                    Projectile.NewProjectile(position, velocity, ProjectileID.UnholyArrow, 2000, 1, lasthitPlayer);
+                    score = 0;
+                    resetCounter = 0;
+                    //Main.NewText("reset spawn");
+                }
+                else if(resetCounter > 60)
+                {
+                    score = 0;
+                    resetCounter = 0;
+                    //Main.NewText("reset time");
+                }
             }
         }
     }

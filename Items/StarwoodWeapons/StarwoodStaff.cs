@@ -27,7 +27,7 @@ namespace StarlightRiver.Items.StarwoodWeapons
             item.useTime = 25;
             item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 4f;
+            item.knockBack = 0f;
             item.UseSound = SoundID.Item19;
             item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.StarwoodStaffProjectile>();
             item.shootSpeed = 15f;
@@ -39,7 +39,7 @@ namespace StarlightRiver.Items.StarwoodWeapons
             int amount = Main.player[player.whoAmI].GetModPlayer<StarlightPlayer>().Empowered ? 4 : 3;
             for (int k = 0; k < amount; k++)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.1f, 0.1f) * ((k * 0.15f) + 1)) * Main.rand.NextFloat(0.9f, 1.1f) * ((k * 0.15f) + 1), type, damage, knockBack, player.whoAmI, Main.rand.NextFloat(-0.025f, 0.025f));
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.05f, 0.05f) * ((k * 0.10f) + 1)) * Main.rand.NextFloat(0.9f, 1.1f) * ((k * 0.15f) + 1), type, damage, knockBack, player.whoAmI, Main.rand.NextFloat(-0.025f, 0.025f));
             }
             return false;
         }
