@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
@@ -17,6 +14,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.ai[1] == 0;
+
+        public override bool CheckActive() => NPC.AnyNPCs(NPCType<SquidBoss>());
 
         public override void SetDefaults()
         {
@@ -38,9 +37,9 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         {
             if (npc.ai[0] > 150)
             {
-                Texture2D top = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleTop");
-                Texture2D glow = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow");
-                Texture2D body = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleBody");
+                Texture2D top = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleTop");
+                Texture2D glow = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow");
+                Texture2D body = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleBody");
 
                 for (int k = 0; k < (npc.ai[0] - top.Height); k += (body.Height + 2))
                 {

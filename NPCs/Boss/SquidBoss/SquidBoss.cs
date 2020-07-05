@@ -353,7 +353,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                     GlobalTimer++;
 
-                    if (GlobalTimer % 8 == 0) Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).ai[0]++; //rising water
+                    if (GlobalTimer % 6 == 0) Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).ai[0]++; //rising water
 
                     AttackTimer++;
 
