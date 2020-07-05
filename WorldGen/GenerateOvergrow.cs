@@ -1,14 +1,13 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Tiles.Overgrow.Blocks;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -18,6 +17,7 @@ namespace StarlightRiver
         private const int HallWidth = 16;
         private const int HallThickness = 2;
         private static List<Rectangle> Rooms = new List<Rectangle>();
+        private static int attempts = 0;
 
         public static void OvergrowGen(GenerationProgress progress)
         {
@@ -38,13 +38,14 @@ namespace StarlightRiver
 
             while (Rooms.Count <= 7) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)]);
 
-            for(int k = Rooms.Count -1; k >= 0; k--)
+            for (int k = Rooms.Count - 1; k >= 0; k--)
             {
                 if (WormBossRoom(Rooms[k])) break;
                 else if (k == 0) throw new Exception("Boss room could not find a safe place to generate.");
             }
 
             Rooms.ForEach(PopulateRoom);
+            attempts = 0;
 
             //TODO:
             //      hallway prefabs
@@ -66,7 +67,7 @@ namespace StarlightRiver
                 switch (direction % 4) //the 4 possible directions that the hallway can generate in, this generates the rectangles for the hallway and room to safety check them.
                 {
                     case 0: //up
-                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y - hallSize + 1, HallWidth, hallSize - 2); 
+                        hall = new Rectangle(parent.X + parent.Width / 2 - HallWidth / 2, parent.Y - hallSize + 1, HallWidth, hallSize - 2);
                         room = new Rectangle(parent.X + (parent.Width - roomWidth) / 2, parent.Y - hallSize - roomHeight, roomWidth, roomHeight);
                         break;
 
@@ -96,10 +97,10 @@ namespace StarlightRiver
                 {
                     StructureHelper.StructureHelper.GenerateStructure("Structures/OvergrowBossRoom", room.TopLeft().ToPoint16(), StarlightRiver.Instance);
 
-                    if (direction % 2 == 0) MakeHallTall(hall); 
+                    if (direction % 2 == 0) MakeHallTall(hall);
                     else MakeHallLong(hall);
 
-                    return true;        
+                    return true;
                 }
                 else //retry
                 {
@@ -114,6 +115,9 @@ namespace StarlightRiver
 
         private static void WormFromRoom(Rectangle parent, byte initialDirection = 5)
         {
+            StarlightWorld.attempts++;
+            if (StarlightWorld.attempts > 1000) throw new Exception("Overgrow could not find space to generate. Aborting world generation.");
+
             byte direction = initialDirection >= 5 ? (byte)WorldGen.genRand.Next(4) : initialDirection;
             Rectangle hall;
             Rectangle room;
@@ -252,8 +256,8 @@ namespace StarlightRiver
 
                     //keeps us from running into blacklisted tiles.
                     if (tile.type == TileID.BlueDungeonBrick || tile.type == TileID.GreenDungeonBrick || tile.type == TileID.PinkDungeonBrick || tile.type == TileType<BrickOvergrow>() ||
-                        tile.type == TileID.LihzahrdBrick || tile.type == TileType<Tiles.Vitric.Blocks.VitricSand>())
-                        return false; 
+                        tile.type == TileID.LihzahrdBrick || tile.type == TileType<Tiles.Vitric.Blocks.VitricSand>() || tile.type == TileType<Tiles.Permafrost.AuroraBrick>())
+                        return false;
                 }
             }
             return true;

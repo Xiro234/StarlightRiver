@@ -1,6 +1,6 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Crafting
 {
@@ -16,24 +16,6 @@ namespace StarlightRiver.Items.Crafting
             recipe.AddIngredient(ItemID.StoneBlock, 20);
             recipe.AddIngredient(ItemID.Gel, 5);
             recipe.AddIngredient(ItemID.Wood, 10);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
-
-    public class OvenAstralItem : QuickTileItem
-    {
-        public OvenAstralItem() : base("Astral Oven", "Used to bake advanced items", TileType<Tiles.Crafting.OvenAstral>(), 0)
-        {
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<OvenItem>());
-            recipe.AddIngredient(ItemType<Aluminum.AluminumBar>(), 15);
-            recipe.AddIngredient(ItemID.MeteoriteBar, 5);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();

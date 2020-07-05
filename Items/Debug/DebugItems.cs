@@ -1,8 +1,7 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Tiles.Vitric;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Debug
 {
@@ -56,6 +55,15 @@ namespace StarlightRiver.Items.Debug
         {
             StarlightWorld.OvergrowBossOpen = true;
             StarlightWorld.OvergrowBossFree = false;
+
+            int type = Main.tile[(int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16].type;
+            for (int x = 0; x < Main.maxTilesX; x++)
+                for (int y = 0; y < Main.maxTilesY; y++)
+                {
+                    Tile tile = Main.tile[x, y];
+                    if (tile.type == type) tile.type = (ushort)TileType<Tiles.Permafrost.AuroraBrick>();
+                }
+
             return true;
         }
 
@@ -88,6 +96,9 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
+            for (int x = 0; x < Main.maxTilesX; x++)
+                for (int y = 0; y < Main.maxTilesY; y++) if (Main.tile[x, y].type == TileID.IceBlock) Main.tile[x, y].type = (ushort)TileType<Tiles.Permafrost.PermafrostIce>();
+
             return true;
         }
 

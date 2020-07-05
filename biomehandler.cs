@@ -1,13 +1,14 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Codex;
 using StarlightRiver.Codex.Entries;
 using StarlightRiver.GUI;
+using StarlightRiver.Tiles;
+using StarlightRiver.Tiles.Permafrost;
 using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using StarlightRiver.Tiles;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -21,6 +22,7 @@ namespace StarlightRiver
         public bool ZoneJungleHoly = false;
         public bool ZoneOvergrow = false;
         public bool zoneAluminum = false;
+        public bool zonePermafrost = false;
 
         public bool FountainJungleCorrupt = false;
         public bool FountainJungleBloody = false;
@@ -38,6 +40,7 @@ namespace StarlightRiver
                 Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallType<Tiles.Overgrow.WallOvergrowBrick>() ||
                 Main.tile[(int)(player.Center.X / 16), (int)(player.Center.Y / 16)].wall == WallType<Tiles.Overgrow.WallOvergrowInvisible>();
             zoneAluminum = StarlightWorld.aluminumTiles > 50;
+            zonePermafrost = StarlightWorld.permafrostTiles > 50;
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -51,6 +54,7 @@ namespace StarlightRiver
             allMatch &= ZoneJungleHoly == modOther.ZoneJungleHoly;
             allMatch &= ZoneOvergrow == modOther.ZoneOvergrow;
             allMatch &= zoneAluminum == modOther.zoneAluminum;
+            allMatch &= zonePermafrost == modOther.zonePermafrost;
             return allMatch;
         }
 
@@ -64,6 +68,7 @@ namespace StarlightRiver
             modOther.ZoneJungleHoly = ZoneJungleHoly;
             modOther.ZoneOvergrow = ZoneOvergrow;
             modOther.zoneAluminum = zoneAluminum;
+            modOther.zonePermafrost = zonePermafrost;
         }
 
         public override void SendCustomBiomes(BinaryWriter writer)
@@ -76,6 +81,7 @@ namespace StarlightRiver
             flags[4] = ZoneJungleHoly;
             flags[5] = ZoneOvergrow;
             flags[6] = zoneAluminum;
+            flags[7] = zonePermafrost;
             writer.Write(flags);
         }
 
@@ -89,6 +95,7 @@ namespace StarlightRiver
             ZoneJungleHoly = flags[4];
             ZoneOvergrow = flags[5];
             zoneAluminum = flags[6];
+            zonePermafrost = flags[7];
         }
 
         public override void PreUpdate()
@@ -99,7 +106,7 @@ namespace StarlightRiver
                 float val = (1500 / distance - 1) * 2;
                 if (val <= 1) val = 1;
                 if (val >= 2.5f) val = 2.5f;
-                Lighting.brightness = 1 / val;
+                //Lighting.brightness = 1 / val;
             }
 
             if (ZoneVoidPre)
@@ -146,7 +153,7 @@ namespace StarlightRiver
         }
     }
 
-    public partial class StarlightWorld
+    public partial class StarlightWorld : ModWorld
     {
         public static int glassTiles;
         public static int voidTiles;
@@ -154,6 +161,7 @@ namespace StarlightRiver
         public static int bloodJungleTiles;
         public static int holyJungleTiles;
         public static int aluminumTiles;
+        public static int permafrostTiles;
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
@@ -163,6 +171,7 @@ namespace StarlightRiver
             bloodJungleTiles = tileCounts[TileType<Tiles.JungleBloody.GrassJungleBloody>()];
             holyJungleTiles = tileCounts[TileType<Tiles.JungleHoly.GrassJungleHoly>()];
             aluminumTiles = tileCounts[TileType<OreAluminum>()];
+            permafrostTiles = tileCounts[TileType<PermafrostIce>()];
         }
 
         public override void ResetNearbyTileEffects()

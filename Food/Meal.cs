@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Buffs;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Food
 {
@@ -36,16 +36,12 @@ namespace StarlightRiver.Food
         {
             FoodBuffHandler mp = player.GetModPlayer<FoodBuffHandler>();
 
-            if (player.HasBuff(BuffType<Full>())) { return false; }
+            if (player.HasBuff(BuffType<Full>())) return false;
 
             if (Ingredients.Count > 0)
             {
-                foreach (Item item in Ingredients)
-                {
-                    mp.Consumed.Add(item.DeepClone());
-                }
+                foreach (Item item in Ingredients) mp.Consumed.Add(item.DeepClone());
                 player.AddBuff(BuffType<FoodBuff>(), Fullness);
-
                 player.AddBuff(BuffType<Full>(), (int)(Fullness * 1.5f));
             }
             else Main.NewText("Bad food! Please report me to the mod devs.", Color.Red);
@@ -57,15 +53,20 @@ namespace StarlightRiver.Food
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
             string sidesName = "";
+
             if (Ingredients.Any(n => (n.modItem as Ingredient).ThisType == IngredientType.Side))
             {
                 List<Item> sides = Ingredients.FindAll(n => (n.modItem as Ingredient).ThisType == IngredientType.Side);
                 sidesName += " with " + sides[0].Name;
                 if (sides.Count == 2) sidesName += " and " + sides[1].Name;
             }
+
             string mainName = "";
+
             if (Ingredients.Any(n => (n.modItem as Ingredient).ThisType == IngredientType.Main)) mainName = Ingredients.FirstOrDefault(n => (n.modItem as Ingredient).ThisType == IngredientType.Main).Name;
+
             string fullName = mainName + sidesName;
+
             tooltips.FirstOrDefault(n => n.Name == "ItemName" && n.mod == "Terraria").text = fullName;
 
             foreach (Item item in Ingredients.Where(n => n.modItem is Ingredient))
@@ -77,16 +78,10 @@ namespace StarlightRiver.Food
                 tooltips.Add(line);
             }
 
-            TooltipLine durationLine = new TooltipLine(mod, "StarlightRiver: Duration", Fullness / 60 + " seconds duration")
-            {
-                overrideColor = new Color(110, 235, 255)
-            };
+            TooltipLine durationLine = new TooltipLine(mod, "StarlightRiver: Duration", Fullness / 60 + " seconds duration") { overrideColor = new Color(110, 235, 255) };
             tooltips.Add(durationLine);
 
-            TooltipLine cooldownLine = new TooltipLine(mod, "StarlightRiver: Cooldown", (int)(Fullness * 1.5f) / 60 + " seconds fullness")
-            {
-                overrideColor = new Color(255, 170, 120)
-            };
+            TooltipLine cooldownLine = new TooltipLine(mod, "StarlightRiver: Cooldown", (int)(Fullness * 1.5f) / 60 + " seconds fullness") { overrideColor = new Color(255, 170, 120) };
             tooltips.Add(cooldownLine);
         }
 

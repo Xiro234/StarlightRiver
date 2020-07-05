@@ -40,8 +40,10 @@ namespace StarlightRiver.Tiles
         public int Count;
         public int Min;
         public int Max;
+
         public Loot(int ID, int count) { Type = ID; Count = count; Min = 0; Max = 0; }
         public Loot(int ID, int min, int max) { Type = ID; Min = min; Max = max; Count = 0; }
+
         public int GetCount() { return Count == 0 ? Main.rand.Next(Min, Max) : Count; }
     }
 }

@@ -1,11 +1,11 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Ultrashark
 {
@@ -31,7 +31,7 @@ namespace StarlightRiver.Items.Ultrashark
             Gore.NewGore(position, (-velocity + new Vector2(0, -1) + new Vector2(Main.rand.NextFloat(3f) - 1.5f, -2)) * 0.25f, mod.GetGoreSlot("Gores/UltrasharkCasing"));
         }
 
-        private Vector2 GetSharkPos(Player player) => player.Center + new Vector2(turretDirection * player.width, -7); 
+        private Vector2 GetSharkPos(Player player) => player.Center + new Vector2(turretDirection * player.width, -7);
 
         public Vector2 GetStandPos(Player player) => player.Center + new Vector2(turretDirection * player.width, 7);
 

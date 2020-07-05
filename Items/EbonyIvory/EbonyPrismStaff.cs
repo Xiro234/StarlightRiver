@@ -1,9 +1,9 @@
-using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles.WeaponProjectiles.Summons;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.EbonyIvory
 {

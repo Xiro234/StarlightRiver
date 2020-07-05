@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;

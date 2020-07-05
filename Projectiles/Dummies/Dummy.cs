@@ -25,6 +25,8 @@ namespace StarlightRiver.Projectiles.Dummies
 
         public virtual void Collision(Player player) { }
 
+        public virtual void SafeSetDefaults() { }
+
         public sealed override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
@@ -32,6 +34,8 @@ namespace StarlightRiver.Projectiles.Dummies
 
         public sealed override void SetDefaults()
         {
+            SafeSetDefaults();
+
             projectile.width = Width;
             projectile.height = Height;
             projectile.hostile = true;

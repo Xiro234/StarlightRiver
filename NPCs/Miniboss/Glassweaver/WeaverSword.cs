@@ -1,8 +1,8 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
 
 namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 {
@@ -29,7 +29,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
         {
             int lifeTime = 600 - projectile.timeLeft;
 
-            if(lifeTime == 0) target = Helper.FindNearestPlayer(projectile.Center);
+            if (lifeTime == 0) target = Helper.FindNearestPlayer(projectile.Center);
 
             if (lifeTime <= 60)
             {
@@ -44,7 +44,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
                 Main.PlaySound(SoundID.DD2_WitherBeastAuraPulse, projectile.Center);
             }
 
-            if(lifeTime > 61) Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Air>(), Vector2.Zero, 0, default, 0.5f);
+            if (lifeTime > 61) Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Air>(), Vector2.Zero, 0, default, 0.5f);
         }
 
         public override void Kill(int timeLeft)

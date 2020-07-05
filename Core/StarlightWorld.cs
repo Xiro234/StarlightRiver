@@ -1,6 +1,6 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Keys;
+using StarlightRiver.NPCs.Boss.SquidBoss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -26,6 +27,9 @@ namespace StarlightRiver
 
         //Boss Flags
         public static bool DesertOpen = false;
+
+        public static bool SquidBossOpen = false;
+        public static bool SquidBossDowned = false;
 
         public static bool GlassBossOpen = false;
         public static bool GlassBossDowned = false;
@@ -46,6 +50,8 @@ namespace StarlightRiver
         public static List<Vector2> PureTiles = new List<Vector2> { };
 
         public static Rectangle VitricBiome = new Rectangle();
+
+        public static Rectangle SquidBossArena = new Rectangle();
 
         //Handling Keys
         public static List<Key> Keys = new List<Key>();
@@ -99,6 +105,12 @@ namespace StarlightRiver
                 NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, NPCType<NPCs.Pickups.Wisp>());
             }
 
+            //SquidBoss arena
+            if (!Main.npc.Any(n => n.active && n.type == NPCType<ArenaActor>()))
+            {
+                NPC.NewNPC(SquidBossArena.Center.X * 16 + 232, SquidBossArena.Center.Y * 16 - 64, NPCType<ArenaActor>());
+            }
+
             //Keys
             foreach (Key key in Keys)
             {
@@ -110,6 +122,9 @@ namespace StarlightRiver
         {
             VitricBiome.X = 0;
             VitricBiome.Y = 0;
+
+            SquidBossOpen = false;
+            SquidBossDowned = false;
 
             DesertOpen = false;
             GlassBossOpen = false;
@@ -136,6 +151,12 @@ namespace StarlightRiver
             {
                 ["VitricBiomePos"] = VitricBiome.TopLeft(),
                 ["VitricBiomeSize"] = VitricBiome.Size(),
+
+                ["SquidBossArenaPos"] = SquidBossArena.TopLeft(),
+                ["SquidBossArenaSize"] = SquidBossArena.Size(),
+
+                [nameof(SquidBossOpen)] = SquidBossOpen,
+                [nameof(SquidBossDowned)] = SquidBossDowned,
 
                 [nameof(DesertOpen)] = DesertOpen,
                 [nameof(GlassBossOpen)] = GlassBossOpen,
@@ -166,9 +187,16 @@ namespace StarlightRiver
         {
             VitricBiome.X = (int)tag.Get<Vector2>("VitricBiomePos").X;
             VitricBiome.Y = (int)tag.Get<Vector2>("VitricBiomePos").Y;
-
             VitricBiome.Width = (int)tag.Get<Vector2>("VitricBiomeSize").X;
             VitricBiome.Height = (int)tag.Get<Vector2>("VitricBiomeSize").Y;
+
+            SquidBossArena.X = (int)tag.Get<Vector2>("SquidBossArenaPos").X;
+            SquidBossArena.Y = (int)tag.Get<Vector2>("SquidBossArenaPos").Y;
+            SquidBossArena.Width = (int)tag.Get<Vector2>("SquidBossArenaSize").X;
+            SquidBossArena.Height = (int)tag.Get<Vector2>("SquidBossArenaSize").Y;
+
+            SquidBossOpen = tag.GetBool(nameof(SquidBossOpen));
+            SquidBossDowned = tag.GetBool(nameof(SquidBossDowned));
 
             DesertOpen = tag.GetBool(nameof(DesertOpen));
             GlassBossOpen = tag.GetBool(nameof(GlassBossOpen));

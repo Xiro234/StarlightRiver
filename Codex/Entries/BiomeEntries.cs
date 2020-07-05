@@ -1,5 +1,5 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Terraria;
+﻿using Terraria;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Codex.Entries
 {

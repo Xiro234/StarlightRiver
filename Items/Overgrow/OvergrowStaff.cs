@@ -1,7 +1,7 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Projectiles.WeaponProjectiles;
+﻿using StarlightRiver.Projectiles.WeaponProjectiles;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Overgrow
 {

@@ -1,9 +1,9 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Dusts;
 using StarlightRiver.Projectiles.Ability;
 using System.Runtime.Serialization;
 using Terraria;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Abilities
 {

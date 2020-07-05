@@ -1,6 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Core;
 using System;
 using System.Collections.Generic;
@@ -8,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -26,6 +25,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             npc.target = players[Main.rand.Next(players.Count)];
         }
+
         #region phase 1
         private void NukePlatforms()
         {
@@ -56,6 +56,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 ResetAttack();
             }
         }
+
         private void CrystalCage()
         {
             if (AttackTimer % 110 == 0 && AttackTimer != 0 && AttackTimer < 800) //the sand cones the boss fires
@@ -101,7 +102,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     {
                         for (int i = 0; i < 8; i++)
                         {
-                            Dust d = Dust.NewDustPerfect(npc.Center + (crystal.Center - npc.Center).RotatedBy(Main.rand.NextFloat(1.57f)), DustType<Dusts.Electric>(), Vector2.Zero, 0, default, 2);
+                            Dust d = Dust.NewDustPerfect(npc.Center + (crystal.Center - npc.Center).RotatedBy(Main.rand.NextFloat(1.57f)), DustType<Dusts.BlueStamina>(), Vector2.Zero, 0, default, 2);
                         }
                     }
                 }
@@ -138,6 +139,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 }
             }
         }
+
         private void CrystalSmash()
         {
             //boss during the attack
@@ -194,6 +196,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 ResetAttack();
             }
         }
+
         private void RandomSpikes()
         {
             List<Vector2> points = new List<Vector2>();
@@ -205,6 +208,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             ResetAttack();
         }
+
         private void PlatformDash()
         {
             if (AttackTimer == 1)
@@ -282,26 +286,17 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 ResetAttack(); //end after the third volley is fired
             }
         }
+
         private void ReverseCage()
         {
             Main.NewText("Poop Fard and Shidd");
             ResetAttack();
-            if (AttackTimer == 1)
-            {
-                FavoriteCrystal = Main.rand.Next(4); //not actually a crystal but is used to sync randomization here
-                for (int k = 0; k < 4; k++)
-                {
-                    int i = Projectile.NewProjectile(npc.Center, Vector2.One.RotatedBy(k * 1.57f), ProjectileType<GrowingCageMaster>(), 10, 0, 255, k == FavoriteCrystal ? 1 : 0);
-                    (Main.projectile[i].modProjectile as GrowingCageMaster).Parent = this;
-                }
-            }
         }
+
         private void Whirl()
         {
-            if (AttackTimer == 1)
-            {
-                FavoriteCrystal = Main.rand.Next(2); //bootleg but I dont feel like syncing another var
-            }
+            if (AttackTimer == 1) FavoriteCrystal = Main.rand.Next(2); //bootleg but I dont feel like syncing another var
+
             if (AttackTimer < 300)
             {
                 float rad = AttackTimer * 2.5f;
@@ -314,14 +309,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     Projectile.NewProjectile(npc.Center, Vector2.Normalize(npc.Center - Main.player[npc.target].Center) * -2, ProjectileType<GlassVolleyShard>(), 12, 1);
                 }
             }
-            if (AttackTimer == 300)
-            {
-                startPos = npc.Center;
-            }
-            if (AttackTimer > 300)
-            {
-                npc.Center = Vector2.Lerp(startPos, homePos + new Vector2(0, 400), (AttackTimer - 300) / 30f);
-            }
+
+            if (AttackTimer == 300) startPos = npc.Center;
+
+            if (AttackTimer > 300) npc.Center = Vector2.Lerp(startPos, homePos + new Vector2(0, 400), (AttackTimer - 300) / 30f);
+
             if (AttackTimer == 330)
             {
                 foreach (Player player in Main.player.Where(n => n.active && Vector2.Distance(n.Center, npc.Center) < 1500))
@@ -337,20 +329,22 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 ResetAttack();
             }
         }
+
         private void Mines()
         {
             if (AttackTimer == 1)
                 Projectile.NewProjectile(npc.Center, new Vector2(0, -10), ProjectileType<VitricBomb>(), 15, 0);
 
-            if (AttackTimer == 10 && npc.life <= npc.lifeMax / 5f)
+            if (AttackTimer == 10 && npc.life <= (npc.lifeMax - npc.lifeMax * (4 / 7)) / 3 * 2)
                 Projectile.NewProjectile(npc.Center, new Vector2(-10, 4), ProjectileType<VitricBomb>(), 15, 0);
 
-            if (AttackTimer == 20 && npc.life <= npc.lifeMax / 6f)
+            if (AttackTimer == 20 && npc.life <= (npc.lifeMax - npc.lifeMax * (4 / 7)) / 3)
                 Projectile.NewProjectile(npc.Center, new Vector2(10, 4), ProjectileType<VitricBomb>(), 15, 0);
 
             if (AttackTimer == 60) ResetAttack();
         }
         #endregion
+
         private void AngerAttack()
         {
             if (Crystals.Count(n => n.ai[0] == 2) == 0)
@@ -358,6 +352,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 Phase = (int)AIStates.FirstToSecond; //this is where we phase the boss
                 GlobalTimer = 0;
             }
+
             for (int i = 0; i < Crystals.Count(n => n.ai[0] == 1 || n.ai[0] == 3) + (Main.expertMode ? 1 : 0); i++)
             {
                 if (AttackTimer == 30 + i * 45)
@@ -368,6 +363,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     }
                 }
             }
+
             if (AttackTimer >= 240)
             {
                 Crystals.FirstOrDefault(n => n.ai[0] == 1).ai[0] = 3;

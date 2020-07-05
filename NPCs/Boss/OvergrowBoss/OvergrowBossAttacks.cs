@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using System;
@@ -9,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
@@ -42,7 +42,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             float size = Vector2.Distance(targetPoint, npc.Center);
             if (size > 400) size = 400;
 
-            if(AttackTimer > 61)
+            if (AttackTimer > 61)
             {
                 //following in X direction only
                 Player player = Main.player[npc.target];
@@ -67,7 +67,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 for (int k = 0; k < 8; k++) Dust.NewDustPerfect(Vector2.Lerp(flail.npc.Center, flail.npc.oldPosition + flail.npc.Size / 2, k / 8f), DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * 0.5f);
             }
 
-            if(AttackTimer > 400) //deceleration
+            if (AttackTimer > 400) //deceleration
             {
                 float length = 4 - (AttackTimer - 400) / 90f * 4;
                 if (npc.velocity.LengthSquared() > length * length) npc.velocity = Vector2.Normalize(npc.velocity) * length;
@@ -126,7 +126,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (AttackTimer > 60 && AttackTimer < 120)
             {
-                float time = AttackTimer - 60; 
+                float time = AttackTimer - 60;
                 float rot = 0.418667f * time - 0.00348889f * (float)Math.Pow(time, 2); //quadratic regression of {0, 0}, {60, 12.56}, {120, 0} over the range [0, 60]
 
                 flail.npc.Center = npc.Center + -Vector2.UnitY.RotatedBy(rot) * (AttackTimer - 60) * 1.8f; //spinup animation
@@ -141,7 +141,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 AttackTimer = 180;
 
                 //adds
-                for(int k = 0; k < 3; k++)
+                for (int k = 0; k < 3; k++)
                 {
                     NPC.NewNPC((int)flail.npc.Center.X + Main.rand.Next(-100, 100), (int)flail.npc.Center.Y, NPCType<SkeletonMinion>());
                 }

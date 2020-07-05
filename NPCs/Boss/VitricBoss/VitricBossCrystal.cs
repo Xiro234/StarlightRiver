@@ -1,14 +1,14 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 using static StarlightRiver.NPCs.Boss.VitricBoss.VitricBoss;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    internal class VitricBossCrystal : ModNPC
+    internal class VitricBossCrystal : ModNPC, IDrawAdditive
     {
         public Vector2 StartPos;
         public Vector2 TargetPos;
@@ -83,13 +83,19 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
                     {
                         Main.PlaySound(Terraria.ID.SoundID.DD2_WitherBeastCrystalImpact);
-                        for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8), 0, default, 2.2f);
+
+                        for (int k = 0; k < 20; k++) Dust.NewDustPerfect(npc.Center, DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(8), 0, default, 2.2f); //Crystal
+
+                        for (int k = 0; k < 40; k++) Dust.NewDustPerfect(Parent.npc.Center, DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(6), 0, default, 2.6f); //Boss
+                        for (int k = 0; k < 5; k++) Gore.NewGore(Parent.npc.Center, Vector2.One.RotatedBy(k / 4f * 6.28f) * 4, mod.GetGoreSlot("Gores/ShieldGore"));
+
                         npc.ai[0] = 1; //It's all broken and on the floor!
                         npc.ai[2] = 0; //go back to doing nothing
                         npc.ai[1] = 0; //reset timer
 
                         Parent.npc.ai[1] = (int)AIStates.Anger; //boss should go into it's angery phase
-                        (Parent.npc.modNPC as VitricBoss).ResetAttack();
+                        Parent.ResetAttack();
+
                         foreach (NPC npc in (Parent.npc.modNPC as VitricBoss).Crystals) //reset all our crystals to idle mode
                         {
                             npc.ai[2] = 0;
@@ -218,24 +224,19 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline
             if (npc.ai[0] == 0)
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
-
-            if (npc.ai[2] == 1 && npc.ai[1] < 180) //tell line for going to a platform in the nuke attack
-            {
-                DrawLine(spriteBatch, npc.Center, TargetPos);
-            }
         }
 
-        private void DrawLine(SpriteBatch sb, Vector2 p1, Vector2 p2) //helper method to draw a tell line between two points.
+        public void DrawAdditive(SpriteBatch spriteBatch) //helper method to draw a tell line between two points.
         {
-            sb.End();
-            sb.Begin(default, BlendState.Additive);
-            Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
-            for (float k = 0; k < 1; k += 1 / Vector2.Distance(p1, p2) * tex.Width)
+            if (npc.ai[2] == 1 && npc.ai[1] < 180) //tell line for going to a platform in the nuke attack
             {
-                sb.Draw(tex, Vector2.Lerp(p1, p2, k) - Main.screenPosition, tex.Frame(), new Color(180, 220, 250) * 0.8f, (p1 - p2).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
+                Texture2D tex = GetTexture("StarlightRiver/Gores/TellBeam");
+                for (float k = 0; k < 1; k += 1 / Vector2.Distance(npc.Center, TargetPos) * tex.Width)
+                {
+                    spriteBatch.Draw(tex, Vector2.Lerp(npc.Center, TargetPos, k) - Main.screenPosition, tex.Frame(), new Color(180, 220, 250) * 0.8f,
+                        (npc.Center - TargetPos).ToRotation(), tex.Frame().Size() / 2, 1, 0, 0);
+                }
             }
-            sb.End();
-            sb.Begin();
         }
     }
 }

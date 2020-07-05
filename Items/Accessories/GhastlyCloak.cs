@@ -1,8 +1,8 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Buffs;
+﻿using StarlightRiver.Buffs;
 using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Accessories
 {

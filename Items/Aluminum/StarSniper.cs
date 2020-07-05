@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,9 +21,23 @@ namespace StarlightRiver.Items.Aluminum
             item.shootSpeed = 5;
             item.knockBack = 20;
             item.UseSound = SoundID.Item40;
+            item.rare = ItemRarityID.Blue;
+            item.value = Item.sellPrice(0, 10, 0, 0);
+            item.noMelee = true;
         }
 
         public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Boomstick);
+            recipe.AddIngredient(ItemType<AluminumBar>(), 20);
+            recipe.AddIngredient(ItemID.FallenStar, 5);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 
     class StarSniperBolt : ModProjectile

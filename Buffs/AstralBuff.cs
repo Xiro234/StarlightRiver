@@ -1,11 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using StarlightRiver.Core;
 using StarlightRiver.Projectiles.WeaponProjectiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using static Terraria.ModLoader.ModContent;
 
@@ -40,6 +34,29 @@ namespace StarlightRiver.Buffs
                     {
                         Projectile.NewProjectile(npc.Center, Vector2.Zero, ProjectileType<LightningNode>(), 20, 0, player.whoAmI, 2, 100);
                         Helper.DrawElectricity(player.Center, npc.Center, DustType<Dusts.Electric>());
+                        return;
+                    }
+                }
+            }
+        }
+
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+            if (Main.rand.Next(10) == 0)
+            {
+                Vector2 pos = npc.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(npc.width);
+                Helper.DrawElectricity(pos, pos + Vector2.One.RotatedByRandom(6.28f) * Main.rand.Next(5, 10), DustType<Dusts.Electric>(), 0.8f, 3);
+            }
+
+            if (Main.rand.Next(20) == 0)
+            {
+                for (int k = 0; k < Main.maxNPCs; k++)
+                {
+                    NPC target = Main.npc[k];
+                    if (target.active && Vector2.Distance(target.Center, npc.Center) < 100)
+                    {
+                        Projectile.NewProjectile(target.Center, Vector2.Zero, ProjectileType<LightningNode>(), 20, 0, 0, 2, 100);
+                        Helper.DrawElectricity(npc.Center, target.Center, DustType<Dusts.Electric>());
                         return;
                     }
                 }
