@@ -342,6 +342,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         private void Poke()
         {
             //TODO: implement attack
+            Main.NewText("This is a debug message. There will be an attack here later.");
             ResetAttack();
         }
         #endregion

@@ -35,10 +35,11 @@ namespace StarlightRiver.Codex
             }
 
             if (entriesToLoad == null || entriesToLoad.Count == 0) return;
+
             foreach (TagCompound tagc in entriesToLoad)
             {
                 CodexEntry entry = CodexEntry.DeserializeData(tagc);
-                if (Entries.FirstOrDefault(n => n.GetType() == entry.GetType()) != null) //find and replace needed entries with save data
+                if (entry != null && Entries.FirstOrDefault(n => n.GetType() == entry.GetType()) != null) //find and replace needed entries with save data
                 {
                     int index = Entries.IndexOf(Entries.FirstOrDefault(n => n.GetType() == entry.GetType()));
                     Entries[index] = entry;
