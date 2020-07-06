@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using StarlightRiver.Items;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Interactive
 {
@@ -8,15 +11,8 @@ namespace StarlightRiver.Tiles.Interactive
     {
         public override void SetDefaults()
         {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = false;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = false;
-            drop = ModContent.ItemType<Items.VoidDoorItem>();
-            dustType = ModContent.DustType<Dusts.Void>();
-            Main.tileMerge[Type][ModContent.TileType<VoidDoorOff>()] = true;
-            AddMapEntry(new Color(0, 0, 0));
-
+            QuickBlock.QuickSet(this, int.MaxValue, DustType<Dusts.Void>(), SoundID.Drown, Color.Black, ItemType<VoidDoorItem>());
+            Main.tileMerge[Type][TileType<VoidDoorOff>()] = true;
             animationFrameHeight = 88;
         }
 
@@ -25,10 +21,7 @@ namespace StarlightRiver.Tiles.Interactive
             if (++frameCounter >= 5)
             {
                 frameCounter = 0;
-                if (++frame >= 3)
-                {
-                    frame = 0;
-                }
+                if (++frame >= 3) frame = 0;
             }
         }
     }
@@ -37,13 +30,11 @@ namespace StarlightRiver.Tiles.Interactive
     {
         public override void SetDefaults()
         {
-            Main.tileSolid[Type] = false;
-            Main.tileMergeDirt[Type] = false;
-            Main.tileBlockLight[Type] = false;
-            Main.tileLighted[Type] = false;
-            drop = ModContent.ItemType<Items.VoidDoorItem>();
-            dustType = ModContent.DustType<Dusts.Void>();
-            Main.tileMerge[Type][ModContent.TileType<VoidDoorOn>()] = true;
+            drop = ItemType<VoidDoorItem>();
+            dustType = DustType<Dusts.Void>();
+            Main.tileMerge[Type][TileType<VoidDoorOn>()] = true;
         }
     }
+
+    public class VoidDoorItem : QuickTileItem { public VoidDoorItem() : base("Void Barrier", "Dissappears when Purified", TileType<VoidDoorOn>(), 8) { } }
 }

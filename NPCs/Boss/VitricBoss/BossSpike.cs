@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -23,7 +24,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             {
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<Dusts.Glass2>());
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, DustType<Dusts.Glass2>());
                 }
                 Main.PlaySound(Terraria.ID.SoundID.Shatter, target.Center);
                 projectile.Kill();
@@ -38,25 +39,27 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             if (projectile.ai[0] < 90 && projectile.ai[0] > 10)
             {
-                Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, ModContent.DustType<Dusts.Glass2>());
-                int i = Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, ModContent.DustType<Dusts.AirDash>(), 0, -5);
+                Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, DustType<Dusts.Glass2>());
+                int i = Dust.NewDust(projectile.position + new Vector2(0, projectile.height), projectile.width, 1, DustType<Dusts.AirDash>(), 0, -5);
                 Main.dust[i].fadeIn = 30;
             }
-            if (projectile.ai[0] == 90) //when this projectile goes off
-            {
-                projectile.hostile = true;
-            }
+
+            if (projectile.ai[0] == 90) projectile.hostile = true; //when this projectile goes off
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.ai[0] > 90)
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BossSpike");
-                int off = projectile.ai[0] < 100 ? (int)((projectile.ai[0] - 90) / 10f * projectile.height) : projectile.height - (int)((projectile.ai[0] - 100) / 80f * projectile.height);
-                Rectangle targetRect = new Rectangle((int)(projectile.position.X - Main.screenPosition.X), (int)(projectile.position.Y - off - Main.screenPosition.Y + projectile.height), projectile.width, off);
-                Rectangle sourceRect = new Rectangle(0, 0, projectile.width, off);
-                spriteBatch.Draw(tex, targetRect, sourceRect, lightColor, 0, Vector2.Zero, 0, 0);
+                Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/BossSpike");
+
+                for (int k = 0; k < 4; k++)
+                {
+                    int off = projectile.ai[0] < 100 ? (int)((projectile.ai[0] - 90) / 10f * projectile.height) : projectile.height - (int)((projectile.ai[0] - 100) / 80f * projectile.height);
+                    Rectangle targetRect = new Rectangle((int)(projectile.position.X - Main.screenPosition.X + k * tex.Width), (int)(projectile.position.Y - off - Main.screenPosition.Y + projectile.height), tex.Width, off);
+                    Rectangle sourceRect = new Rectangle(0, 0, tex.Width, off);
+                    spriteBatch.Draw(tex, targetRect, sourceRect, lightColor, 0, Vector2.Zero, 0, 0);
+                }
             }
         }
     }

@@ -1,14 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using StarlightRiver.Core;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
-using StarlightRiver.Core;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -29,14 +22,14 @@ namespace StarlightRiver.Items.Temple
         {
             StarlightPlayer.ModifyHitNPCEvent += ModifyHurtLens;
             StarlightProjectile.ModifyHitNPCEvent += ModifyProjectileLens;
-            return true; 
+            return true;
         }
 
         private void ModifyHurtLens(Player player, Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
             if (Equipped(player) && crit)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 300);
+                target.AddBuff(BuffType<Buffs.Illuminant>(), 300);
             }
         }
 
@@ -44,7 +37,7 @@ namespace StarlightRiver.Items.Temple
         {
             if (Equipped(Main.player[projectile.owner]) && crit)
             {
-                target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 300);
+                target.AddBuff(BuffType<Buffs.Illuminant>(), 300);
             }
         }
     }

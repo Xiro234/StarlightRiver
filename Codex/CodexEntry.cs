@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Codex
 {
@@ -29,7 +29,7 @@ namespace StarlightRiver.Codex
             Abilities = 0,
             Biomes = 1,
             Relics = 2,
-            Bosses = 3,
+            Removed = 3,
             Misc = 4,
             None = 5
         }
@@ -60,7 +60,7 @@ namespace StarlightRiver.Codex
             {
                 spriteBatch.Draw(Main.magicPixel, new Rectangle((int)pos.X + 236, (int)pos.Y + 50 + Image.Height, 8, 300 - (50 + Image.Height)), new Rectangle(0, 0, 1, 1), new Color(30, 30, 70), 0, Vector2.Zero, 0, 0);
 
-                Texture2D arrow = ModContent.GetTexture("StarlightRiver/GUI/Assets/Arrow");
+                Texture2D arrow = GetTexture("StarlightRiver/GUI/Assets/Arrow");
                 float posY = LinePos / (float)(lines.Count - maxLines) * (300 - (50 + Image.Height));
                 spriteBatch.Draw(arrow, pos + new Vector2(234, 50 + Image.Height + posY - arrow.Height / 2), arrow.Frame(), Color.White, 0, Vector2.Zero, 1, 0, 0);
             }
@@ -77,10 +77,14 @@ namespace StarlightRiver.Codex
 
         public static CodexEntry DeserializeData(TagCompound tag)
         {
-            Type t = Type.GetType(tag.GetString("Name"));
-            CodexEntry entry = (CodexEntry)Activator.CreateInstance(t);
-            entry.Locked = tag.GetBool("Locked");
-            return entry;
+            try
+            {
+                Type t = Type.GetType(tag.GetString("Name"));
+                CodexEntry entry = (CodexEntry)Activator.CreateInstance(t);
+                entry.Locked = tag.GetBool("Locked");
+                return entry;
+            }
+            catch { return null; }
         }
     }
 }

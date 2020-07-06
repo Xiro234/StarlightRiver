@@ -1,128 +1,87 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
+using StarlightRiver.Projectiles.Dummies;
 using System;
-using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Vitric
 {
-    public class VitricOre : ModTile
+    internal class VitricOre : DummyTile
     {
+        public override int DummyType => ProjectileType<VitricOreDummy>();
         public override void SetDefaults()
         {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-
-            TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.Height = 3;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 18 };
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.addTile(Type);
-
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("");//Map name
-            AddMapEntry(new Color(0, 255, 255), name);
-            dustType = ModContent.DustType<Dusts.Air>();
-            soundType = SoundID.Shatter;
-            disableSmartCursor = true;
+            QuickBlock.QuickSetFurniture(this, 2, 3, DustType<Dusts.Air>(), SoundID.Shatter, false, new Color(200, 255, 230));
             minPick = int.MaxValue;
         }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Vitric.VitricOre>(), 12);
+    }
 
-        public override void NumDust(int i, int j, bool fail, ref int num)
+    internal class VitricOreFloat : DummyTile
+    {
+        public override int DummyType => ProjectileType<VitricOreFloatDummy>();
+        public override void SetDefaults()
         {
-            num = fail ? 1 : 3;
+            QuickBlock.QuickSetFurniture(this, 2, 2, DustType<Dusts.Air>(), SoundID.Shatter, false, new Color(200, 255, 230));
+            minPick = int.MaxValue;
         }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Vitric.VitricOre>(), 6);
+    }
 
-        public static Texture2D glow = ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricOreGlow");
+    internal class VitricOreDummy : Dummy
+    {
+        public VitricOreDummy() : base(TileType<VitricOre>(), 32, 48) { }
 
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        public override void Collision(Player player)
         {
-            Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime);
-            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            if (AbilityHelper.CheckDash(player, projectile.Hitbox))
             {
-                spriteBatch.Draw(glow, new Vector2((i + 12) * 16 - 1, (j + 12) * 16 - 1) - Main.screenPosition, color);
-            }
-        }
+                WorldGen.KillTile((int)projectile.position.X / 16, (int)projectile.position.Y / 16);
 
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
-            {
-                if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>() && proj.active))
+                for (int k = 0; k <= 10; k++)
                 {
-                    Projectile.NewProjectile(new Vector2(i + 1, j + 1) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>(), 0, 0);
+                    Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 1.3f);
+                    Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 0.8f);
                 }
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(4, 12));
+            Texture2D tex = GetTexture("StarlightRiver/Tiles/Vitric/VitricOreGlow");
+            Color color = Color.White * (float)Math.Sin(StarlightWorld.rottime);
+
+            spriteBatch.Draw(tex, projectile.position - Vector2.One - Main.screenPosition, color);
         }
     }
 
-    public class VitricOreFloat : ModTile
+    internal class VitricOreFloatDummy : Dummy
     {
-        public override void SetDefaults()
+        public VitricOreFloatDummy() : base(TileType<VitricOreFloat>(), 32, 32) { }
+
+        public override void Collision(Player player)
         {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-
-            TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.Height = 2;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.addTile(Type);
-
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("");//Map name
-            AddMapEntry(new Color(0, 0, 0), name);
-            dustType = ModContent.DustType<Dusts.Air>();
-            soundType = SoundID.Shatter;
-            disableSmartCursor = true;
-            minPick = int.MaxValue;
-        }
-
-        public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
-
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
-        {
-            Color color = new Color(255, 255, 255) * (float)Math.Sin(StarlightWorld.rottime);
-            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            if (AbilityHelper.CheckDash(player, projectile.Hitbox))
             {
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Vitric/VitricOreFloatGlow"), new Vector2((i + 12) * 16 - 1, (j + 12) * 16 - 1) - Main.screenPosition, color);
-            }
-        }
+                WorldGen.KillTile((int)projectile.position.X / 16, (int)projectile.position.Y / 16);
 
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
-            {
-                if (!Main.projectile.Any(proj => proj.Hitbox.Intersects(new Rectangle(i * 16 + 4, j * 16 + 4, 1, 1)) && proj.type == ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>() && proj.active))
+                for (int k = 0; k <= 10; k++)
                 {
-                    Projectile.NewProjectile(new Vector2(i + 1, j + 1) * 16, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dummies.VitricOreDummy>(), 0, 0);
+                    Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Glass2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 1.3f);
+                    Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Air>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 0.8f);
                 }
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ModContent.ItemType<Items.Vitric.VitricOre>(), Main.rand.Next(2, 6));
+            Texture2D tex = GetTexture("StarlightRiver/Tiles/Vitric/VitricOreFloatGlow");
+            Color color = Color.White * (float)Math.Sin(StarlightWorld.rottime);
+
+            spriteBatch.Draw(tex, projectile.position - Vector2.One - Main.screenPosition, color);
         }
     }
 }

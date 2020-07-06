@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
+using StarlightRiver.Items.Armor.Starwood;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,7 @@ namespace StarlightRiver.Items.Armor.Starwood
     [AutoloadEquip(EquipType.Head)]
     public class StarwoodHat : StarwoodItem, IArmorLayerDrawable
     {
-        public StarwoodHat() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodHat_Alt")) { }
+        public StarwoodHat() : base(GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodHat_Alt")) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Hat");
@@ -48,7 +49,7 @@ namespace StarlightRiver.Items.Armor.Starwood
     [AutoloadEquip(EquipType.Body)]
     public class StarwoodChest : StarwoodItem
     {
-        public StarwoodChest() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodChest_Alt")) { }
+        public StarwoodChest() : base(GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodChest_Alt")) { }
         public override bool Autoload(ref string name)
         {
             StarlightPlayer.ModifyHitNPCEvent += ModifyHitNPCStarwood;
@@ -73,7 +74,7 @@ namespace StarlightRiver.Items.Armor.Starwood
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return head.type == ModContent.ItemType<StarwoodHat>() && legs.type == ModContent.ItemType<StarwoodBoots>();
+            return head.type == ItemType<StarwoodHat>() && legs.type == ItemType<StarwoodBoots>();
         }
         public override void UpdateArmorSet(Player player)
         {
@@ -84,7 +85,7 @@ namespace StarlightRiver.Items.Armor.Starwood
             {
                 for (int k = 0; k < 1; k++)//temp sfx
                 {
-                    Dust.NewDustPerfect(player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), ModContent.DustType<Dusts.BlueStamina>(), -Vector2.UnitY.RotatedByRandom(0.8f) * Main.rand.NextFloat(1.0f, 1.4f), 0, default, 1.2f);
+                    Dust.NewDustPerfect(player.position + new Vector2(Main.rand.Next(player.width), Main.rand.Next(player.height)), DustType<Dusts.BlueStamina>(), -Vector2.UnitY.RotatedByRandom(0.8f) * Main.rand.NextFloat(1.0f, 1.4f), 0, default, 1.2f);
                 }
                 mp.EmpowermentTimer--;
             }
@@ -102,7 +103,7 @@ namespace StarlightRiver.Items.Armor.Starwood
     [AutoloadEquip(EquipType.Legs)]
     public class StarwoodBoots : StarwoodItem
     {
-        public StarwoodBoots() : base(ModContent.GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodBoots_Alt")) { }
+        public StarwoodBoots() : base(GetTexture("StarlightRiver/Items/Armor/Starwood/StarwoodBoots_Alt")) { }
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starwood Boots");
@@ -165,14 +166,14 @@ namespace StarlightRiver.Core
                 {
                     for (int k = 0; k < 80; k++)//pickup sfx
                     {
-                        Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.BlueStamina>(), (Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.8f, 1.2f)) * new Vector2(1f, 1.5f), 0, default, 1.5f);
+                        Dust.NewDustPerfect(player.Center, DustType<Dusts.BlueStamina>(), (Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.8f, 1.2f)) * new Vector2(1f, 1.5f), 0, default, 1.5f);
                     }
                 }
                 else
                 {
                     for (int k = 0; k < 40; k++)//reduced pickup sfx if its already active
                     {
-                        Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.BlueStamina>(), (Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.5f, 0.8f)) * new Vector2(1f, 1.5f), 0, default, 1.5f);
+                        Dust.NewDustPerfect(player.Center, DustType<Dusts.BlueStamina>(), (Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(0.5f, 0.8f)) * new Vector2(1f, 1.5f), 0, default, 1.5f);
                     }
                 }
                 Empowered = true;

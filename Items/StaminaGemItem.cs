@@ -1,18 +1,12 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
-using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items
 {
-    public class StaminaGemItem : QuickTileItem {
-        public StaminaGemItem() : base("Stamina Gem", "Use any ability on this to gain stamina!\n5 second cooldown", ModContent.TileType<Tiles.Interactive.StaminaGem>(), 8)
-        {
-        }
-    }
-
     public class StaminaOrbItem : QuickTileItem
     {
-        public StaminaOrbItem() : base("Stamina Orb", "Pass through this to gain stamina!\n5 second cooldown", ModContent.TileType<Tiles.Interactive.StaminaOrb>(), 8)
+        public StaminaOrbItem() : base("Stamina Orb", "Pass through this to gain stamina!\n5 second cooldown", TileType<Tiles.Interactive.StaminaOrb>(), 8)
         {
         }
 

@@ -5,6 +5,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.JungleBloody
 {
@@ -40,13 +41,13 @@ namespace StarlightRiver.Tiles.JungleBloody
                 if (Main.tile[i + x, j + y].type == TileID.JungleGrass)
                 {
                     //Main.NewText("Tile at: " + i + ", " + j + ". x/y: " + x + ", " + y + ". Placing at: " + (i + x) + ", " + (j + y));
-                    WorldGen.PlaceTile(i + x, j + y, ModContent.TileType<GrassJungleBloody>(), true, true);
+                    WorldGen.PlaceTile(i + x, j + y, TileType<GrassJungleBloody>(), true, true);
                 }
                 else if (Main.tile[i + x, j + y].type == TileID.Mud)
                 {
                     if (!Main.tileSolid[Main.tile[i + x + 1, j + y].type] || !Main.tileSolid[Main.tile[i + x - 1, j + y].type] || !Main.tileSolid[Main.tile[i + x, j + y + 1].type] || !Main.tileSolid[Main.tile[i + x, j + y - 1].type])
                     {
-                        WorldGen.PlaceTile(i + x, j + y, ModContent.TileType<GrassJungleBloody>(), true, true);
+                        WorldGen.PlaceTile(i + x, j + y, TileType<GrassJungleBloody>(), true, true);
                     }
                 }
                 else if (Main.tile[i + x, j + y].type == TileID.Stone)
@@ -71,7 +72,7 @@ namespace StarlightRiver.Tiles.JungleBloody
             {
                 if (Main.rand.Next(5) == 0)
                 {
-                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<VineJungleBloody>(), true);
+                    WorldGen.PlaceTile(i, j + 1, TileType<VineJungleBloody>(), true);
                 }
             }
 
@@ -79,7 +80,7 @@ namespace StarlightRiver.Tiles.JungleBloody
             {
                 if (Main.rand.Next(5) == 0)
                 {
-                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<TallgrassJungleBloody>(), true);
+                    WorldGen.PlaceTile(i, j - 1, TileType<TallgrassJungleBloody>(), true);
                 }
             }
         }
@@ -110,8 +111,8 @@ namespace StarlightRiver.Tiles.JungleBloody
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                ModContent.TileType<GrassJungleBloody>(),
-                ModContent.TileType<VineJungleBloody>()
+                TileType<GrassJungleBloody>(),
+                TileType<VineJungleBloody>()
             };
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
@@ -125,7 +126,7 @@ namespace StarlightRiver.Tiles.JungleBloody
             {
                 if (Main.rand.Next(1) == 0)
                 {
-                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<VineJungleBloody>(), true);
+                    WorldGen.PlaceTile(i, j + 1, TileType<VineJungleBloody>(), true);
                 }
             }
         }
@@ -137,7 +138,7 @@ namespace StarlightRiver.Tiles.JungleBloody
                 WorldGen.KillTile(i, j, false, false, false);
                 WorldGen.SquareTileFrame(i, j, true);
             }
-            else if (Main.tile[i, j - 1].type != ModContent.TileType<GrassJungleBloody>() && Main.tile[i, j - 1].type != ModContent.TileType<VineJungleBloody>())
+            else if (Main.tile[i, j - 1].type != TileType<GrassJungleBloody>() && Main.tile[i, j - 1].type != TileType<VineJungleBloody>())
             {
                 WorldGen.KillTile(i, j, false, false, false);
                 WorldGen.SquareTileFrame(i, j, true);
@@ -159,7 +160,7 @@ namespace StarlightRiver.Tiles.JungleBloody
             TileObjectData.newTile.RandomStyleRange = 9;
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                ModContent.TileType<GrassJungleBloody>()
+                TileType<GrassJungleBloody>()
             };
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;

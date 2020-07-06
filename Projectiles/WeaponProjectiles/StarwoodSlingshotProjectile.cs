@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using StarlightRiver.Core;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -60,14 +60,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.rotation += 0.2f;
 
             Lighting.AddLight(projectile.Center, lightColor);
-            if(projectile.velocity.Y < 50)
+            if (projectile.velocity.Y < 50)
             {
                 projectile.velocity.Y += 0.25f;
             }
             projectile.velocity.X *= 0.995f;
         }
 
-        public override void ModifyHitNPC(NPC target,ref int damage,ref float knockback,ref bool crit,ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (empowered)
             {
@@ -88,7 +88,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 1f * ScaleMult, dustDensity: 0.5f, pointDepthMult: 0.3f);
             Main.PlaySound(SoundID.Item4, projectile.Center);
-            for (int k = 0; k < 35 ; k++)
+            for (int k = 0; k < 35; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, dustType, Vector2.One.RotatedByRandom(6.28f) * (Main.rand.NextFloat(0.25f, 1.2f) * ScaleMult), 0, default, 1.5f);
             }
@@ -136,7 +136,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             //    projectile.rotation,
             //    new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
             //    1f, default, default);
-
             return false;
         }
 
@@ -147,7 +146,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 Color color = (empowered ? new Color(200, 220, 255) * 0.35f : new Color(255, 255, 200) * 0.3f) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
                 if (k <= 4) color *= 1.2f;
                 float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.8f;
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
+                Texture2D tex = GetTexture("StarlightRiver/Keys/Glow");
 
                 spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
             }

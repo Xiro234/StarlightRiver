@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -36,7 +37,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             if (projectile.ai[0] == 100)
             {
-                Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f));
+                Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f));
             }
 
             if (projectile.ai[1] == 0)
@@ -51,13 +52,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 {
                     for (int k = 0; k <= 100; k++)
                     {
-                        Dust.NewDustPerfect(projectile.Center, ModContent.DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 1.5f);
+                        Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(2), 0, default, 1.5f);
                     }
                     Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
                 }
                 projectile.velocity = Vector2.Zero;
                 float rot = Main.rand.NextFloat(6.28f);
-                Dust.NewDustPerfect(projectile.Center + Vector2.One.RotatedBy(rot) * 35, ModContent.DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 1.5f, 0, default, projectile.ai[0] / 100f);
+                Dust.NewDustPerfect(projectile.Center + Vector2.One.RotatedBy(rot) * 35, DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 1.5f, 0, default, projectile.ai[0] / 100f);
             }
 
             if (!player.channel && projectile.ai[1] == 0)
@@ -81,7 +82,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     player.GetModPlayer<StarlightPlayer>().Shake += (int)(projectile.ai[0] * 0.2f);
                     for (int k = 0; k <= 100; k++)
                     {
-                        Dust.NewDustPerfect(projectile.Center + new Vector2(0, 32), ModContent.DustType<Dusts.Stone>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
+                        Dust.NewDustPerfect(projectile.Center + new Vector2(0, 32), DustType<Dusts.Stone>(), new Vector2(0, 1).RotatedByRandom(1) * Main.rand.NextFloat(-1, 1) * projectile.ai[0] / 10f);
                     }
                     Main.PlaySound(SoundID.Item70, projectile.Center);
                     Main.PlaySound(SoundID.NPCHit42, projectile.Center);
@@ -127,7 +128,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 Player player = Main.player[projectile.owner];
                 for (float k = 0; k <= 1; k += 1 / (Vector2.Distance(player.Center, projectile.Center) / 16))
                 {
-                    spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), Vector2.Lerp(projectile.Center, player.Center, k) - Main.screenPosition,
+                    spriteBatch.Draw(GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), Vector2.Lerp(projectile.Center, player.Center, k) - Main.screenPosition,
                         new Rectangle(0, 0, 8, 16), lightColor, (projectile.Center - player.Center).ToRotation() + 1.58f, new Vector2(4, 8), 1, 0, 0);
                 }
             }
@@ -140,13 +141,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             {
                 float colormult = projectile.ai[0] / 100f * 0.7f;
                 float scale = 1.2f - projectile.ai[0] / 100f * 0.5f;
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+                Texture2D tex = GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
                 spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * colormult, 0, tex.Size() / 2, scale, 0, 0);
             }
 
             if (projectile.ai[0] == 100)
             {
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+                Texture2D tex = GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
                 spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - StarlightWorld.rottime) * 0.2f, 0, tex.Size() / 2, StarlightWorld.rottime * 0.17f, 0, 0);
                 spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - (StarlightWorld.rottime + 3.14f)) * 0.2f, 0, tex.Size() / 2, (StarlightWorld.rottime + 3.14f) * 0.17f, 0, 0);
                 spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.LightYellow * (6.28f - (StarlightWorld.rottime - 3.14f)) * 0.2f, 0, tex.Size() / 2, (StarlightWorld.rottime - 3.14f) * 0.17f, 0, 0);

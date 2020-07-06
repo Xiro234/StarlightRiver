@@ -4,10 +4,10 @@ using StarlightRiver.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Armor.Palestone
 {
@@ -55,13 +55,13 @@ namespace StarlightRiver.Items.Armor.Palestone
         }
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return head.type == ModContent.ItemType<PalestoneHead>() && legs.type == ModContent.ItemType<PalestoneLegs>();
+            return head.type == ItemType<PalestoneHead>() && legs.type == ItemType<PalestoneLegs>();
         }
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "anyway palestone set bonus i had in mind was that getting kills forms a big stone tablet to spin around the player (not in a circle, more like an orbit (think the overgrowth enemy that throws boulders)) which would provide damage resistance per tablet with a cap of 3, and taking damage would damage the tablets (a tablet can be damaged 3x before breaking)";
             PalestonePlayer palestonePlayer = player.GetModPlayer<PalestonePlayer>();
-            foreach(int i in palestonePlayer.tablets)
+            foreach (int i in palestonePlayer.tablets)
             {
                 if (i > 0)
                 {
@@ -146,7 +146,7 @@ namespace StarlightRiver.Items.Armor.Palestone
                     if ((back && rot % 6.28f < 3.14f || !back && rot % 6.28f >= 3.14f) && tablets[k] > 0)
                     {
                         Vector2 pos = getTabletPosition(k);
-                        Texture2D texture = ModContent.GetTexture("StarlightRiver/Items/Armor/Palestone/Tablet");
+                        Texture2D texture = GetTexture("StarlightRiver/Items/Armor/Palestone/Tablet");
                         Main.playerDrawData.Add(new DrawData(
                             texture,
                             pos,  //position

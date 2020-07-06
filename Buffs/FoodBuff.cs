@@ -1,13 +1,12 @@
 ﻿using StarlightRiver.Food;
 using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 
 namespace StarlightRiver.Buffs
 {
     public class FoodBuff : SmartBuff
     {
-        public FoodBuff() : base("Nourished", "Nourised by rich food, granting:\n", false){}
+        public FoodBuff() : base("Nourished", "Nourised by rich food, granting:\n", false) { }
         public override void ModifyBuffTip(ref string tip, ref int rare)
         {
             FoodBuffHandler mp = Main.LocalPlayer.GetModPlayer<FoodBuffHandler>();

@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Guardian
 {
@@ -88,14 +89,14 @@ namespace StarlightRiver.Items.Guardian
             }
             for (int k = 0; k <= projectile.ai[1]; k += 4)
             {
-                Dust.NewDustPerfect(projectile.Center + Vector2.One.RotatedByRandom(6.28f) * projectile.ai[1], ModContent.DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, 0.8f);
+                Dust.NewDustPerfect(projectile.Center + Vector2.One.RotatedByRandom(6.28f) * projectile.ai[1], DustType<Dusts.Starlight>(), Vector2.Zero, 0, default, 0.8f);
             }
             SafeAI();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = ModContent.GetTexture(projectile.modProjectile.Texture);
+            Texture2D tex = GetTexture(projectile.modProjectile.Texture);
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
 
             foreach (Player player in Main.player.Where(player => Helper.CheckCircularCollision(projectile.Center, (int)(projectile.ai[1] * 1.3f), player.Hitbox)))

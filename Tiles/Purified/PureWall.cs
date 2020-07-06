@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Purified
 {
@@ -14,14 +7,14 @@ namespace StarlightRiver.Tiles.Purified
     {
         public override void SetDefaults()
         {
-            dustType = ModContent.DustType<Dusts.Purify>();
+            dustType = DustType<Dusts.Purify>();
         }
     }
     class WallGrassPure : ModWall
     {
         public override void SetDefaults()
         {
-            dustType = ModContent.DustType<Dusts.Purify>();
+            dustType = DustType<Dusts.Purify>();
         }
     }
 }

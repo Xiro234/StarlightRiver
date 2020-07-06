@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Keys;
+using StarlightRiver.NPCs.Boss.SquidBoss;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -21,10 +23,13 @@ namespace StarlightRiver
 
         public static Vector2 RiftLocation;
 
-        public static bool ForceStarfall = false;
+        public static bool AluminumMeteors = false;
 
         //Boss Flags
         public static bool DesertOpen = false;
+
+        public static bool SquidBossOpen = false;
+        public static bool SquidBossDowned = false;
 
         public static bool GlassBossOpen = false;
         public static bool GlassBossDowned = false;
@@ -35,12 +40,18 @@ namespace StarlightRiver
 
         public static bool SealOpen = false;
 
+        public static float Chungus = 0;
+
+        public static float rottime = 0;
+
         //Voidsmith
         public static int[] NPCUpgrades = new int[] { 0, 0 };
 
         public static List<Vector2> PureTiles = new List<Vector2> { };
 
         public static Rectangle VitricBiome = new Rectangle();
+
+        public static Rectangle SquidBossArena = new Rectangle();
 
         //Handling Keys
         public static List<Key> Keys = new List<Key>();
@@ -58,70 +69,10 @@ namespace StarlightRiver
 
                 if (Main.tile[x, y].type == TileID.Dirt && Math.Abs(x - Main.maxTilesX / 2) >= Main.maxTilesX / 6)
                 {
-                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 11), 1, ModContent.TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 11), 1, TileType<Tiles.OreEbony>(), false, 0f, 0f, false, true);
                 }
             }
         }
-
-        //private void DolomiteGen(GenerationProgress progress)
-        //{
-        //    progress.Message = "Shifting Tectonic Plates...";
-        //    ushort Dolomite = (ushort)ModContent.TileType<Tiles.Dolomite.Dolomite>();
-
-        //    for (int k = 0; k < (Main.rand.Next(4, 8)); k++)
-        //    {
-        //        int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-        //        int y = WorldGen.genRand.Next((int)WorldGen.rockLayer, Main.maxTilesY);
-
-        //        for (int i = x - 200; i <= x + 200; i++)
-        //        {
-        //            for (int j = y - 100; j <= y + 100; j++)
-        //            {
-        //                if (i > 20 && j > 20 && i < Main.maxTilesX - 20 && j < Main.maxTilesY - 20)
-        //                {
-        //                    if (Main.tile[i, j].type is TileID.Stone) { Main.tile[i, j].type = Dolomite; }
-
-        //                    if (!Main.tile[i, j + 2].active() && Main.tile[i, j].type == Dolomite) { Main.tile[i, j + 1].type = (ushort)ModContent.TileType<Tiles.Dolomite.DolomiteHanging>(); }
-
-        //                    if (i % 15 == 0 && Main.tile[i, j].active() && Main.tile[i, j].type == Dolomite && !Main.tile[i, j - 1].active() && Main.rand.Next(3) == 0)
-        //                    {
-        //                        GenerateBeam(i, j);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private static void GenerateBeam(int x, int y)
-        //{
-        //    for (int j = y - 1; j >= y - 100; j--)
-        //    {
-        //        if (j % 10 == 0 && Main.rand.Next(2) == 0)
-        //        {
-        //            for (int k = -1; k <= 1; k++)
-        //            {
-        //                if (!Main.tile[x + k, j].active()) { Main.tile[x + k, j].type = TileID.WoodenBeam; }
-        //            }
-        //        }
-
-        //        if (x > 0 && j > 0 && x < Main.maxTilesX && j < Main.maxTilesY)
-        //        {
-        //            Main.tile[x, j].wall = WallID.Wood;
-        //            if (Main.tile[x, j].active() || j == y - 100)
-        //            {
-        //                for (int k = -2; k <= 2; k++)
-        //                {
-        //                    Main.tile[x + k, j].type = TileID.WoodBlock;
-        //                }
-        //                return;
-        //            }
-        //        }
-        //    }
-        //}
-
-        public static float rottime = 0;
-        public static bool starfall = false;
 
         public override void PreUpdate()
         {
@@ -134,24 +85,30 @@ namespace StarlightRiver
 
         public override void PostUpdate()
         {
-            if (!Main.projectile.Any(proj => proj.type == ModContent.ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
+            if (!Main.projectile.Any(proj => proj.type == ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
             {
                 PureTiles.Clear();
             }
 
-            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wind>() && n.active == true))
+            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Wind>() && n.active == true))
             {
-                NPC.NewNPC((int)DashSP.X, (int)DashSP.Y, ModContent.NPCType<NPCs.Pickups.Wind>());
+                NPC.NewNPC((int)DashSP.X, (int)DashSP.Y, NPCType<NPCs.Pickups.Wind>());
             }
 
-            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Lore>() && n.active == true))
+            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Lore>() && n.active == true))
             {
-                NPC.NewNPC((int)BookSP.X, (int)BookSP.Y, ModContent.NPCType<NPCs.Pickups.Lore>());
+                NPC.NewNPC((int)BookSP.X, (int)BookSP.Y, NPCType<NPCs.Pickups.Lore>());
             }
 
-            if (!Main.npc.Any(n => n.type == ModContent.NPCType<NPCs.Pickups.Wisp>() && n.active == true))
+            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Wisp>() && n.active == true))
             {
-                NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, ModContent.NPCType<NPCs.Pickups.Wisp>());
+                NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, NPCType<NPCs.Pickups.Wisp>());
+            }
+
+            //SquidBoss arena
+            if (!Main.npc.Any(n => n.active && n.type == NPCType<ArenaActor>()))
+            {
+                NPC.NewNPC(SquidBossArena.Center.X * 16 + 232, SquidBossArena.Center.Y * 16 - 64, NPCType<ArenaActor>());
             }
 
             //Keys
@@ -166,6 +123,9 @@ namespace StarlightRiver
             VitricBiome.X = 0;
             VitricBiome.Y = 0;
 
+            SquidBossOpen = false;
+            SquidBossDowned = false;
+
             DesertOpen = false;
             GlassBossOpen = false;
             GlassBossDowned = false;
@@ -176,7 +136,7 @@ namespace StarlightRiver
 
             SealOpen = false;
 
-            ForceStarfall = false;
+            AluminumMeteors = false;
 
             NPCUpgrades = new int[] { 0, 0 };
             PureTiles = new List<Vector2>();
@@ -192,6 +152,12 @@ namespace StarlightRiver
                 ["VitricBiomePos"] = VitricBiome.TopLeft(),
                 ["VitricBiomeSize"] = VitricBiome.Size(),
 
+                ["SquidBossArenaPos"] = SquidBossArena.TopLeft(),
+                ["SquidBossArenaSize"] = SquidBossArena.Size(),
+
+                [nameof(SquidBossOpen)] = SquidBossOpen,
+                [nameof(SquidBossDowned)] = SquidBossDowned,
+
                 [nameof(DesertOpen)] = DesertOpen,
                 [nameof(GlassBossOpen)] = GlassBossOpen,
                 [nameof(GlassBossDowned)] = GlassBossDowned,
@@ -202,7 +168,7 @@ namespace StarlightRiver
 
                 [nameof(SealOpen)] = SealOpen,
 
-                [nameof(ForceStarfall)] = ForceStarfall,
+                [nameof(AluminumMeteors)] = AluminumMeteors,
 
                 [nameof(NPCUpgrades)] = NPCUpgrades,
 
@@ -211,7 +177,9 @@ namespace StarlightRiver
                 [nameof(BookSP)] = BookSP,
                 [nameof(DashSP)] = DashSP,
 
-                [nameof(RiftLocation)] = RiftLocation
+                [nameof(RiftLocation)] = RiftLocation,
+
+                ["Chungus"] = Chungus
             };
         }
 
@@ -219,9 +187,16 @@ namespace StarlightRiver
         {
             VitricBiome.X = (int)tag.Get<Vector2>("VitricBiomePos").X;
             VitricBiome.Y = (int)tag.Get<Vector2>("VitricBiomePos").Y;
-
             VitricBiome.Width = (int)tag.Get<Vector2>("VitricBiomeSize").X;
             VitricBiome.Height = (int)tag.Get<Vector2>("VitricBiomeSize").Y;
+
+            SquidBossArena.X = (int)tag.Get<Vector2>("SquidBossArenaPos").X;
+            SquidBossArena.Y = (int)tag.Get<Vector2>("SquidBossArenaPos").Y;
+            SquidBossArena.Width = (int)tag.Get<Vector2>("SquidBossArenaSize").X;
+            SquidBossArena.Height = (int)tag.Get<Vector2>("SquidBossArenaSize").Y;
+
+            SquidBossOpen = tag.GetBool(nameof(SquidBossOpen));
+            SquidBossDowned = tag.GetBool(nameof(SquidBossDowned));
 
             DesertOpen = tag.GetBool(nameof(DesertOpen));
             GlassBossOpen = tag.GetBool(nameof(GlassBossOpen));
@@ -233,7 +208,7 @@ namespace StarlightRiver
 
             SealOpen = tag.GetBool(nameof(SealOpen));
 
-            ForceStarfall = tag.GetBool(nameof(ForceStarfall));
+            AluminumMeteors = tag.GetBool(nameof(AluminumMeteors));
 
             NPCUpgrades = tag.GetIntArray(nameof(NPCUpgrades));
 
@@ -243,6 +218,8 @@ namespace StarlightRiver
             DashSP = tag.Get<Vector2>(nameof(DashSP));
 
             RiftLocation = tag.Get<Vector2>(nameof(RiftLocation));
+
+            Chungus = Main.rand.NextFloat();
 
             for (int k = 0; k <= PureTiles.Count - 1; k++)
             {

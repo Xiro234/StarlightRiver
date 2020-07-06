@@ -1,200 +1,124 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Items;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Void
 {
-    internal class Void1 : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = false;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = true;
-            drop = mod.ItemType("Void1Item");
-            dustType = mod.DustType("Darkness");
-            AddMapEntry(new Color(35, 40, 20));
-        }
-    }
+    class VoidBrick : ModTile { public override void SetDefaults() => QuickBlock.QuickSet(this, 200, DustType<Dusts.Darkness>(), SoundID.Tink, new Color(45, 50, 30), ItemType<VoidBrickItem>()); }
+    class VoidBrickItem : QuickTileItem { public VoidBrickItem() : base("Void Bricks", "", TileType<VoidBrick>(), 1) { } }
 
-    internal class Void2 : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = false;
-            Main.tileBlockLight[Type] = true;
-            Main.tileLighted[Type] = true;
-            drop = mod.ItemType("Void2Item");
-            dustType = mod.DustType("Darkness");
-            AddMapEntry(new Color(45, 50, 30));
-        }
-    }
+    class VoidStone : ModTile { public override void SetDefaults() => QuickBlock.QuickSet(this, 200, DustType<Dusts.Darkness>(), SoundID.Tink, new Color(35, 40, 20), ItemType<VoidStoneItem>()); }
+    class VoidStoneItem : QuickTileItem { public VoidStoneItem() : base("Void Stone", "", TileType<VoidStone>(), 1) { } }
 
-    internal class VoidTorch1 : ModTile
+    internal class VoidTorch : ModTile
     {
-        public override void SetDefaults()
-        {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
-            TileObjectData.addTile(Type);
-            AddMapEntry(new Color(45, 50, 30));
-            dustType = mod.DustType("Darkness");
-            disableSmartCursor = true;
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidTorch1Item"));
-        }
+        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 1, 2, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidTorchItem>());
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
+            Lighting.AddLight(new Vector2(i, j) * 16, new Vector3(1, 0.5f, 1.2f) * 0.6f);
+            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            {
+                for (int k = 0; k <= 2; k++)
+                {
+                    float dist = Main.rand.NextFloat(8);
+                    float dist2 = dist > 4 ? 4 - (dist - 4) : dist;
+                    Dust.NewDustPerfect(new Vector2(i, j) * 16 + new Vector2(dist + 5, -6 + dist2), DustType<Dusts.Darkness>(), new Vector2(0, -0.04f * dist2), 0, default, 0.5f);
+                }
+            }
+        }
+    }
+    class VoidTorchItem : QuickTileItem { public VoidTorchItem() : base("Void Torch", "", TileType<VoidTorch>(), 1) { } }
+
+    internal class VoidBrazier : ModTile
+    {
+        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 1, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidBrazierItem>());
+
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
+        {
+            Lighting.AddLight(new Vector2(i, j) * 16, new Vector3(1, 0.5f, 1.2f) * 0.6f);
             if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
             {
                 for (int k = 0; k <= 3; k++)
                 {
-                    Dust.NewDust(new Vector2((i * 16) - 1, (j - 1) * 16), 12, 16, mod.DustType("Darkness"));
+                    float dist = Main.rand.NextFloat(10);
+                    float dist2 = dist > 5 ? 5 - (dist - 5) : dist;
+                    Dust.NewDustPerfect(new Vector2(i, j) * 16 + new Vector2(dist + 11, -10 + dist2), DustType<Dusts.Darkness>(), new Vector2(0, -0.05f * dist2));
                 }
             }
         }
     }
+    class VoidBrazierItem : QuickTileItem { public VoidBrazierItem() : base("Void Brazier", "", TileType<VoidBrazier>(), 1) { } }
 
-    internal class VoidTorch2 : ModTile
+    internal class VoidPillarBase : ModTile
     {
         public override void SetDefaults()
         {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
-            TileObjectData.newTile.AnchorWall = true;
-            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
-            TileObjectData.addTile(Type);
-            AddMapEntry(new Color(45, 50, 30));
-            dustType = mod.DustType("Darkness");
-            disableSmartCursor = true;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 3, 0);
+            QuickBlock.QuickSetFurniture(this, 3, 2, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidTorch2Item"));
-        }
-
-        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
-        {
-            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
-            {
-                for (int k = 0; k <= 6; k++)
-                {
-                    Dust.NewDust(new Vector2((i * 16) + 5, (j - 0.8f) * 16), 18, 14, mod.DustType("Darkness"));
-                }
-            }
-        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidPillarBaseItem>());
     }
+    class VoidPillarBaseItem : QuickTileItem { public VoidPillarBaseItem() : base("Void Pillar Base", "", TileType<VoidPillarBase>(), 1) { } }
 
-    internal class VoidPillarB : ModTile
+    internal class VoidPillarMiddle : ModTile
     {
         public override void SetDefaults()
         {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.addTile(Type);
-            AddMapEntry(new Color(45, 50, 30));
-            dustType = mod.DustType("Darkness");
-            disableSmartCursor = true;
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarBItem"));
-        }
-    }
-
-    internal class VoidPillarM : ModTile
-    {
-        public override void SetDefaults()
-        {
-            Main.tileFrameImportant[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, 3, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                ModContent.TileType<VoidPillarB>(),
-                ModContent.TileType<VoidPillarM>()
+                TileType<VoidPillarBase>(),
+                TileType<VoidPillarMiddle>()
             };
-            TileObjectData.addTile(Type);
-            dustType = mod.DustType("Darkness");
+            QuickBlock.QuickSetFurniture(this, 3, 2, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarMItem"));
-        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidPillarMiddleItem>());
     }
+    class VoidPillarMiddleItem : QuickTileItem { public VoidPillarMiddleItem() : base("Void Pillar", "", TileType<VoidPillarMiddle>(), 1) { } }
 
-    internal class VoidPillarT : ModTile
+    internal class VoidPillarTop : ModTile
     {
         public override void SetDefaults()
         {
-            Main.tileFrameImportant[Type] = true;
-
-            TileObjectData.newTile.Width = 3;
-            TileObjectData.newTile.Height = 1;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, 3, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                ModContent.TileType<VoidPillarM>()
+                TileType<VoidPillarBase>(),
+                TileType<VoidPillarMiddle>()
             };
-            TileObjectData.addTile(Type);
-            dustType = mod.DustType("Darkness");
+            QuickBlock.QuickSetFurniture(this, 3, 1, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40));
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarTItem"));
-        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidPillarTopItem>());
     }
+    class VoidPillarTopItem : QuickTileItem { public VoidPillarTopItem() : base("Void Pillar Support", "", TileType<VoidPillarTop>(), 1) { } }
 
-    internal class VoidPillarP : ModTile
+    internal class VoidPillarTopAlt : ModTile
     {
         public override void SetDefaults()
         {
-            Main.tileFrameImportant[Type] = true;
-
-            TileObjectData.newTile.Width = 3;
-            TileObjectData.newTile.Height = 1;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, 3, 0);
             TileObjectData.newTile.AnchorAlternateTiles = new int[]
             {
-                ModContent.TileType<VoidPillarM>()
+                TileType<VoidPillarBase>(),
+                TileType<VoidPillarMiddle>()
             };
-            TileObjectData.addTile(Type);
-            dustType = mod.DustType("Darkness");
+            QuickBlock.QuickSetFurniture(this, 3, 1, DustType<Dusts.Darkness>(), SoundID.Tink, false, new Color(55, 60, 40), true);
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-            Item.NewItem(i * 16, j * 16, 32, 32, mod.ItemType("VoidPillarPItem"));
-        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i, j) * 16, ItemType<VoidPillarTopAltItem>());
     }
+    class VoidPillarTopAltItem : QuickTileItem { public VoidPillarTopAltItem() : base("Void Pillar Pedestal", "", TileType<VoidPillarTopAlt>(), 1) { } }
 }

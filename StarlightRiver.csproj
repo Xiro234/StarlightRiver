@@ -18,7 +18,7 @@
       <HintPath>lib\NetEasy_v0.1.6.dll</HintPath>
     </Reference>
     <Reference Include="StructureHelper">
-      <HintPath>lib\StructureHelper_v0.1.4.dll</HintPath>
+      <HintPath>lib\StructureHelper_v0.1.8.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

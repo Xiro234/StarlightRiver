@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Dusts;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
     public class ShadowflameGrenade : ModProjectile
@@ -24,13 +23,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public void spawnShadowflame(int angle)
         {
             Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.ToRadians((angle + Main.rand.Next(40) - 20)));
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<ShadowflameTendril>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileType<ShadowflameTendril>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.ShadowFlame, 200); 
+            target.AddBuff(BuffID.ShadowFlame, 200);
         }
-        public void makeSpirals(int spiralCount, float length, float angleIntensity,float rotationOffset, Dust dust)
+        public void makeSpirals(int spiralCount, float length, float angleIntensity, float rotationOffset, Dust dust)
         {
             Vector2 cachedPos = dust.position;
             for (float k = 0; k <= spiralCount; k++)
@@ -56,7 +55,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Main.PlaySound(SoundID.Item62, projectile.position);
             Main.PlaySound(SoundID.Item103, projectile.position);
             int max = 4 + Main.rand.Next(4);
-            for (int i = 0;i<=max; i++)
+            for (int i = 0; i <= max; i++)
             {
                 spawnShadowflame((360 / max) * i);
             }

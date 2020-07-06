@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.World.Generation;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Structures
 {
@@ -13,7 +13,7 @@ namespace StarlightRiver.Structures
         public static void RuinsGen(GenerationProgress progress)
         {
             progress.Message = "Spicing up Forests...";
-            Texture2D Ruins = ModContent.GetTexture("StarlightRiver/Structures/Ruins");
+            Texture2D Ruins = GetTexture("StarlightRiver/Structures/Ruins");
 
             for (int x = 0; x + 16 < Main.maxTilesX; x += Main.rand.Next(8, 16))
             {

@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -49,7 +50,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             if (proj != null)
             {
                 Vector2 target = Vector2.Lerp(projectile.Center, proj.Center, 0.5f) - Main.screenPosition;
-                spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/WhipSegment1"), new Rectangle((int)target.X, (int)target.Y, 16, 12), new Rectangle(0, 0, 16, 12),
+                spriteBatch.Draw(GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/WhipSegment1"), new Rectangle((int)target.X, (int)target.Y, 16, 12), new Rectangle(0, 0, 16, 12),
                     Lighting.GetColor((int)projectile.position.X / 16, (int)projectile.position.Y / 16), projectile.rotation, new Vector2(8, 6), 0, 0);
             }
             return true;

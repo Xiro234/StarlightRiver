@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using Terraria;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace StarlightRiver.GUI
@@ -95,7 +91,7 @@ namespace StarlightRiver.GUI
                 }            
             }*/
         }
-}
+    }
 
     /*public class VoidDust : BootlegDust
     {

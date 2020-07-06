@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Dusts;
-using System;
-using System.Xml.Serialization;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles
 {
@@ -77,7 +76,7 @@ namespace StarlightRiver.Projectiles
             }
             for (int k = 0; k < projectile.scale * 5f; k++)
             {
-                Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, ModContent.DustType<Shadowflame>(), projectile.velocity.X, projectile.velocity.Y, 100, default, 2f)];
+                Dust dust = Main.dust[Dust.NewDust(new Vector2(projectile.Center.X, projectile.Center.Y), projectile.width, projectile.height, DustType<Shadowflame>(), projectile.velocity.X, projectile.velocity.Y, 100, default, 2f)];
                 dust.position = (dust.position + projectile.Center) / 2f;
                 dust.velocity *= 0.1f;
                 dust.velocity -= projectile.velocity * (1.3f - projectile.scale);

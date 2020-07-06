@@ -6,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Dummies
 {
@@ -47,7 +48,7 @@ namespace StarlightRiver.Projectiles.Dummies
             }
             projectile.timeLeft = 2;
 
-            if (Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != ModContent.TileType<Tiles.Overgrow.OvergrowGate>())
+            if (Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16].type != TileType<Tiles.Overgrow.OvergrowGate>())
             {
                 projectile.timeLeft = 0;
             }
@@ -55,7 +56,7 @@ namespace StarlightRiver.Projectiles.Dummies
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            spriteBatch.Draw(ModContent.GetTexture("StarlightRiver/Tiles/Overgrow/OvergrowGateGlow"), projectile.position + new Vector2(6, 53) - Main.screenPosition, Color.White * (float)Math.Sin(StarlightWorld.rottime));
+            spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Overgrow/OvergrowGateGlow"), projectile.position + new Vector2(6, 53) - Main.screenPosition, Color.White * (float)Math.Sin(StarlightWorld.rottime));
             return true;
         }
     }

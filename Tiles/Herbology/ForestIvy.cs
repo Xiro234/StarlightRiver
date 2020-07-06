@@ -7,10 +7,12 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Herbology
 {
-    internal class ForestIvy : HangingPlant {
+    internal class ForestIvy : HangingPlant
+    {
         public ForestIvy() : base("Ivy")
         {
         }
@@ -33,7 +35,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
             dustType = DustID.Grass;
-            drop = ModContent.ItemType<Items.Herbology.Ivy>();
+            drop = ItemType<Items.Herbology.Ivy>();
             AddMapEntry(new Color(0, 150, 40));
         }
 
@@ -43,7 +45,7 @@ namespace StarlightRiver.Tiles.Herbology
             tile.frameY = (short)(i % 3 * 18);
 
             Vector2 drawPos = (new Vector2(i, j) + Helper.TileAdj) * 16 + new Vector2(4, 20) - Main.screenPosition;
-            Texture2D tex = ModContent.GetTexture("StarlightRiver/Tiles/Herbology/ForestIvyWild");
+            Texture2D tex = GetTexture("StarlightRiver/Tiles/Herbology/ForestIvyWild");
 
             spriteBatch.Draw(tex, drawPos, new Rectangle(tile.frameX, tile.frameY, 16, 16), drawColor,
                 (float)Math.Sin(StarlightWorld.rottime + i % 6.28f) * 0.2f, new Vector2(8, 16), 1, SpriteEffects.FlipHorizontally, 0);
@@ -51,7 +53,7 @@ namespace StarlightRiver.Tiles.Herbology
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            if (Main.rand.Next(8) == 0) Item.NewItem(new Vector2(i, j) * 16, ModContent.ItemType<Items.Herbology.IvySeeds>());
+            if (Main.rand.Next(8) == 0) Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Herbology.IvySeeds>());
         }
     }
 }

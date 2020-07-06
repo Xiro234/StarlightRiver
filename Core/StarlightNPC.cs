@@ -1,15 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace StarlightRiver.Core
 {
     public partial class StarlightNPC : GlobalNPC
     {
+        public int DoT;
+
+        public override bool InstancePerEntity => true;
+
+        public override bool CloneNewInstances => true;
+
+        public override void UpdateLifeRegen(NPC npc, ref int damage)
+        {
+            npc.lifeRegen -= DoT * 2;
+            DoT = 0;
+        }
     }
 }

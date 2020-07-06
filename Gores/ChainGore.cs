@@ -5,9 +5,6 @@ namespace StarlightRiver.Gores
 {
     internal class ChainGore : ModGore
     {
-        public override void OnSpawn(Gore gore)
-        {
-            gore.timeLeft = 180;
-        }
+        public override void OnSpawn(Gore gore) => gore.timeLeft = 180;
     }
 }

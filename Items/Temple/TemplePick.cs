@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -15,11 +11,17 @@ namespace StarlightRiver.Items.Temple
         private int Charge;
         private bool Whirling;
         private int Direction;
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player) => !Whirling && Charge == 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whirlwind Pickaxe");
             Tooltip.SetDefault("Hold right click to charge up a spinning pickaxe dash");
         }
+
         public override void SetDefaults()
         {
             item.rare = ItemRarityID.Green;
@@ -33,14 +35,10 @@ namespace StarlightRiver.Items.Temple
             item.UseSound = SoundID.Item1;
             item.melee = true;
         }
-        public override bool AltFunctionUse(Player player) => true;
-        public override bool CanUseItem(Player player)
-        {
-            return !Whirling && Charge == 0;
-        }
+
         public override bool UseItem(Player player)
         {
-            if(player.altFunctionUse == 2)
+            if (player.altFunctionUse == 2)
             {
                 item.noUseGraphic = true;
                 item.noMelee = true;
@@ -52,29 +50,31 @@ namespace StarlightRiver.Items.Temple
             }
             return true;
         }
+
         public override void UpdateInventory(Player player) //strange hook to be doing this in but it seemeed the best solution at the time.
         {
             if (player.HeldItem == item) //bleghhh
             {
                 if (Main.mouseRight && Charge < 120) //this is gonna go to shiiittt in MPPPPP
                 {
-                    Dust d = Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.PickCharge>(), Vector2.UnitY.RotatedBy(Charge / 120f * 6.28f) * 30, 0, Color.LightYellow, 2);
+                    Dust d = Dust.NewDustPerfect(player.Center, DustType<Dusts.PickCharge>(), Vector2.UnitY.RotatedBy(Charge / 120f * 6.28f) * 30, 0, Color.LightYellow, 2);
                     d.customData = player.whoAmI;
 
                     if (Charge == 119)
                     {
                         Main.PlaySound(SoundID.MaxMana, player.Center);
+
                         for (int k = 0; k < 100; k++)
-                        {
-                            Dust.NewDustPerfect(player.Center, ModContent.DustType<Dusts.Stamina>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10));
-                        }
+                            Dust.NewDustPerfect(player.Center, DustType<Dusts.Stamina>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10));
                     }
                 }
+
                 if (!Main.mouseRight && !Whirling && Charge == 120)
                 {
                     Whirling = true;
                     Direction = Main.MouseWorld.X > player.Center.X ? 1 : -1;
                 }
+
                 if (Whirling)
                 {
                     Charge--;

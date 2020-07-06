@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
@@ -15,25 +16,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public VitricBoss Parent;
         public override string Texture => "StarlightRiver/Invisible";
 
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            return false;
-        }
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
 
-        public override bool? CanBeHitByItem(Player player, Item item)
-        {
-            return false;
-        }
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
 
-        public override bool CheckActive()
-        {
-            return false;
-        }
+        public override bool CheckActive() => false;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("");
 
         public override void SetDefaults()
         {
@@ -72,7 +61,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     npc.ai[0] += 8; //timer is now used to track where we are in the crystal wave
                     if (npc.ai[0] % 32 == 0) //summons a crystal at every tile covered by the NPC
                     {
-                        Projectile.NewProjectile(new Vector2(npc.position.X + npc.ai[0], npc.position.Y + 48), Vector2.Zero, ModContent.ProjectileType<CrystalWave>(), 20, 1);
+                        Projectile.NewProjectile(new Vector2(npc.position.X + npc.ai[0], npc.position.Y + 48), Vector2.Zero, ProjectileType<CrystalWave>(), 20, 1);
                     }
                     if (npc.ai[0] > npc.width)
                     {
@@ -85,7 +74,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (npc.ai[0] < 120) npc.ai[0]++; //cap timer at 120
                     if (npc.ai[0] < 90) //dust before rising
                     {
-                        Dust.NewDust(npc.position, npc.width, npc.height, ModContent.DustType<Dusts.Air>());
+                        Dust.NewDust(npc.position, npc.width, npc.height, DustType<Dusts.Air>());
                     }
                     if (npc.ai[0] >= 120)
                     {
@@ -123,7 +112,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 {
                     Vector2 pos = npc.position + new Vector2(k, 32 - off) - Main.screenPosition; //actually draw the crystals lol
                     Vector2 pos2 = npc.position + new Vector2(k, -940 + 32 + off) - Main.screenPosition; //actually draw the crystals lol
-                    Texture2D tex = ModContent.GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalWave");
+                    Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalWave");
                     spriteBatch.Draw(tex, pos, Color.White);
                     spriteBatch.Draw(tex, pos2, Color.White);
                 }
@@ -133,6 +122,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
     internal class CrystalWave : ModProjectile
     {
+        private float startY;
+
         public override void SetDefaults()
         {
             projectile.hostile = true;
@@ -141,8 +132,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             projectile.timeLeft = 30;
             projectile.hide = true;
         }
-
-        private float startY;
 
         public override void AI()
         {
@@ -162,7 +151,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            spriteBatch.Draw(ModContent.GetTexture(Texture), projectile.position - Main.screenPosition, Color.White);
+            spriteBatch.Draw(GetTexture(Texture), projectile.position - Main.screenPosition, Color.White);
         }
     }
 }

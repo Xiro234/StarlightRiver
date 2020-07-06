@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Dusts;
+using StarlightRiver.Core;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using StarlightRiver.Core;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
 {
@@ -138,7 +138,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles.Summons
                     {
                         if (Collision.CanHitLine(projectile.Center, 2, 2, target.Center, 2, 2))
                         {
-                            Projectile.NewProjectile(getPrismPosition(lastShot), Vector2.Normalize(target.Center - getPrismPosition(lastShot)) * 20f, ModContent.ProjectileType<EbonyPrismProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, target.whoAmI);
+                            Projectile.NewProjectile(getPrismPosition(lastShot), Vector2.Normalize(target.Center - getPrismPosition(lastShot)) * 20f, ProjectileType<EbonyPrismProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, target.whoAmI);
                         }
                         lastShot++;
                         projectile.ai[1] = 0;

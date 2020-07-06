@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Purified
 {
@@ -14,7 +15,7 @@ namespace StarlightRiver.Tiles.Purified
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileStone[Type] = true;
-            drop = ModContent.ItemType<Items.Pure.StonePureItem>();
+            drop = ItemType<Items.Pure.StonePureItem>();
             dustType = mod.DustType("Purify");
             AddMapEntry(new Color(208, 201, 199));
         }

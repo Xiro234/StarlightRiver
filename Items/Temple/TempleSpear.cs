@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Projectiles;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Temple
 {
@@ -32,14 +28,14 @@ namespace StarlightRiver.Items.Temple
             item.noMelee = true;
             item.knockBack = 2;
             item.rare = ItemRarityID.Blue;
-            item.shoot = ModContent.ProjectileType<TempleSpearProjectile>();
-            item.shootSpeed = 4;
+            item.shoot = ProjectileType<TempleSpearProjectile>();
+            item.shootSpeed = 1;
             item.UseSound = SoundID.Item15;
         }
     }
     class TempleSpearProjectile : SpearProjectile
     {
-        public TempleSpearProjectile() : base(30, 7, 25) { }
+        public TempleSpearProjectile() : base(30, 25, 100) { }
         public override void PostAI()
         {
             //Dust effects
@@ -56,11 +52,8 @@ namespace StarlightRiver.Items.Temple
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             //inflicting debuff + light orbs on kill
-            target.AddBuff(ModContent.BuffType<Buffs.Illuminant>(), 600);
-            if(damage >= target.life)
-            {
-                Projectile.NewProjectile(target.Center, new Vector2(0, -1), ModContent.ProjectileType<TempleSpearLight>(), 0, 0);
-            }
+            target.AddBuff(BuffType<Buffs.Illuminant>(), 600);
+            if (damage >= target.life) Projectile.NewProjectile(target.Center, new Vector2(0, -1), ProjectileType<TempleSpearLight>(), 0, 0);
         }
     }
     class TempleSpearLight : ModProjectile

@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.GUI;
-using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.RiftCrafting;
+using StarlightRiver.Tiles.Permafrost;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +13,7 @@ using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Terraria.UI;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -50,63 +51,77 @@ namespace StarlightRiver
 
         public static float Rotation;
 
-        public const string PatchString = "Starlight River Test Build #23     6/2/2020 - 01:45 EST";
-        public readonly string MessageString = Helper.WrapString("Poop.", Main.screenWidth / 4, Main.fontDeathText, 1);
-
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
         public static StarlightRiver Instance { get; set; }
+
         public StarlightRiver() { Instance = this; }
+
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
             {
-                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneGlass)
+                Player player = Main.LocalPlayer;
+
+                if (player.GetModPlayer<BiomeHandler>().ZoneGlass)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
-                    priority = MusicPriority.BiomeMedium;
+                    priority = MusicPriority.BiomeHigh;
                 }
 
-                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneOvergrow)
+                if (player.GetModPlayer<BiomeHandler>().ZoneOvergrow)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/Overgrow");
                     priority = MusicPriority.BiomeHigh;
                 }
 
-                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneVoidPre)
+                if (player.GetModPlayer<BiomeHandler>().ZoneVoidPre)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/VoidPre");
                     priority = MusicPriority.BossLow;
                 }
 
-                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt)
+                if (player.GetModPlayer<BiomeHandler>().ZoneJungleCorrupt)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleCorrupt");
-                    priority = MusicPriority.BiomeHigh;
+                    priority = MusicPriority.BiomeMedium;
                 }
 
-                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleBloody)
+                if (player.GetModPlayer<BiomeHandler>().ZoneJungleBloody)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleBloody");
-                    priority = MusicPriority.BiomeHigh;
+                    priority = MusicPriority.BiomeMedium;
                 }
 
-                if (Main.LocalPlayer.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
+                if (player.GetModPlayer<BiomeHandler>().ZoneJungleHoly)
                 {
                     music = GetSoundSlot(SoundType.Music, "Sounds/Music/JungleHoly");
+                    priority = MusicPriority.BiomeMedium;
+                }
+
+                if (player.GetModPlayer<BiomeHandler>().zoneAluminum)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/AluminumPassive");
                     priority = MusicPriority.BiomeHigh;
                 }
 
-                if (Main.LocalPlayer.ZoneOverworldHeight && StarlightWorld.starfall)
+                if (player.GetModPlayer<BiomeHandler>().zonePermafrost)
                 {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Starlight");
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/PermafrostPassive");
+                    priority = MusicPriority.BiomeMedium;
+                }
+
+                if (Main.tile[(int)player.Center.X / 16, (int)player.Center.Y / 16].wall == ModContent.WallType<AuroraBrickWall>() && !StarlightWorld.SquidBossDowned)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/SquidArena");
                     priority = MusicPriority.BiomeHigh;
                 }
             }
             return;
         }
+
         public static void AutoloadRiftRecipes(List<RiftRecipe> target)
         {
-            Mod mod = ModContent.GetInstance<StarlightRiver>();
+            Mod mod = GetInstance<StarlightRiver>();
             if (mod.Code != null)
             {
                 foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))
@@ -115,6 +130,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         public override void Load()
         {
             //Shaders
@@ -201,6 +217,7 @@ namespace StarlightRiver
             HookOn();
             HookIL();
         }
+
         public override void ModifyTransformMatrix(ref SpriteViewMatrix Transform)
         {
             if (Rotation != 0)
@@ -217,6 +234,7 @@ namespace StarlightRiver
                 Helper.UpdateTilt();
             }
         }
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
@@ -234,6 +252,7 @@ namespace StarlightRiver
                 AddLayer(layers, LootUserInterface, lootUI, MouseTextIndex, LootUI.Visible);
             }
         }
+
         private void AddLayer(List<GameInterfaceLayer> layers, UserInterface userInterface, UIState state, int index, bool visible)
         {
             layers.Insert(index, new LegacyGameInterfaceLayer("StarlightRiver: " + state.ToString(),
@@ -247,6 +266,7 @@ namespace StarlightRiver
                     return true;
                 }, InterfaceScaleType.UI));
         }
+
         public override void Unload()
         {
             if (!Main.dedServ)

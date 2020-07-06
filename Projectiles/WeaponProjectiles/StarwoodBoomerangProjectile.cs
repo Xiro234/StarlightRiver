@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using StarlightRiver.Core;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
@@ -27,6 +27,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
         private int dustType = ModContent.DustType<Dusts.Stamina>();
         private bool empowered = false;
+
 
 
         public override void SetDefaults()
@@ -77,13 +78,15 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         }
                     }
 
-                    if (projectile.timeLeft < maxDistTime) {//if it doesn't collide, start it over time
+                    if (projectile.timeLeft < maxDistTime)
+                    {//if it doesn't collide, start it over time
                         NextPhase(0);
                     }
                     break;
                 case 1://has hit something
-                    if (projOwner.controlUseItem || projectile.ai[1] >= maxChargeTime - 5) {
-                        if(projectile.ai[1] == 0)
+                    if (projOwner.controlUseItem || projectile.ai[1] >= maxChargeTime - 5)
+                    {
+                        if (projectile.ai[1] == 0)
                         {
                             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ImpactHeal"), projectile.Center);
                         }
@@ -117,7 +120,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                                 projectile.oldPos[k] = projectile.position;
                             }
                         }
-                        else if(projectile.ai[1] == maxChargeTime - 5)//sfx
+                        else if (projectile.ai[1] == maxChargeTime - 5)//sfx
                         {
                             DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 2.25f * ScaleMult, dustDensity: 2, pointDepthMult: 0.3f);
                             Lighting.AddLight(projectile.Center, lightColor * 2);
@@ -129,18 +132,22 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                             }
                         }
                     }
-                    else { //if mouse isnt held or let go, start next phase
+                    else
+                    { //if mouse isnt held or let go, start next phase
                         NextPhase(1); // ai[]s and damage reset here
                     }
                     break;
                 case 2://heading back
-                    if(Vector2.Distance(projOwner.Center, projectile.Center) < 24){ //if close enough delete projectile
+                    if (Vector2.Distance(projOwner.Center, projectile.Center) < 24)
+                    { //if close enough delete projectile
                         projectile.Kill();
                     }
-                    else if(Vector2.Distance(projOwner.Center, projectile.Center) < 200){ //faster turning if close enough
+                    else if (Vector2.Distance(projOwner.Center, projectile.Center) < 200)
+                    { //faster turning if close enough
                         projectile.velocity += Vector2.Normalize(projOwner.Center - projectile.Center) * 4;
                     }
-                    else{ //turning
+                    else
+                    { //turning
                         projectile.velocity += Vector2.Normalize(projOwner.Center - projectile.Center);
                     }
 
@@ -161,11 +168,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             }
         }
 
-        public override void ModifyHitNPC(NPC target,ref int damage,ref float knockback,ref bool crit,ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (projectile.ai[0] == 1)
             {
-                if(projectile.ai[1] >= maxChargeTime - 3 && projectile.ai[1] <= maxChargeTime + 3)
+                if (projectile.ai[1] >= maxChargeTime - 3 && projectile.ai[1] <= maxChargeTime + 3)
                 {
                     if (empowered)
                     {
@@ -208,11 +215,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         #endregion
 
         //private Texture2D LightTrailTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/glow");
-        private Texture2D GlowingTrail => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlowTrail");
+        private Texture2D GlowingTrail => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlowTrail");
 
         //private static Texture2D MainTexture => ModContent.GetTexture("StarlightRiver/Items/StarwoodBoomerang");
-        private Texture2D GlowingTexture => ModContent.GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
-        private Texture2D AuraTexture => ModContent.GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
+        private Texture2D GlowingTexture => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
+        private Texture2D AuraTexture => GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -243,12 +250,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 }
             }
 
-            spriteBatch.Draw(Main.projectileTexture[projectile.type], 
-                projectile.Center - Main.screenPosition, 
-                new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2), 
-                lightColor, 
-                projectile.rotation, 
-                new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4), 
+            spriteBatch.Draw(Main.projectileTexture[projectile.type],
+                projectile.Center - Main.screenPosition,
+                new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
+                lightColor,
+                projectile.rotation,
+                new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
                 1f, default, default);
 
             return false;
@@ -271,14 +278,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             Color color = Color.White * (chargeMult + 0.25f);
 
-            spriteBatch.Draw(GlowingTexture, 
-                projectile.Center - Main.screenPosition, 
-                new Rectangle(0, (GlowingTexture.Height / 2) * projectile.frame, GlowingTexture.Width, GlowingTexture.Height / 2), 
-                color, 
+            spriteBatch.Draw(GlowingTexture,
+                projectile.Center - Main.screenPosition,
+                new Rectangle(0, (GlowingTexture.Height / 2) * projectile.frame, GlowingTexture.Width, GlowingTexture.Height / 2),
+                color,
                 projectile.rotation,
                 new Vector2(GlowingTexture.Width / 2, GlowingTexture.Height / 4),
                 1f, default, default);
-            
+
             spriteBatch.Draw(AuraTexture, projectile.Center - Main.screenPosition, AuraTexture.Frame(), (Color.White * (projectile.ai[1] / maxChargeTime)), 0, AuraTexture.Size() / 2, (-chargeMult + 1) / 1.2f, 0, 0);
         }
 
