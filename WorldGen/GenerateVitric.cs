@@ -248,6 +248,7 @@ namespace StarlightRiver
         /// <param name="progress"></param>
         public static void VitricGen(GenerationProgress progress)
         {
+            progress.Message = "Digging Vitric Desert";
             int[] validGround = new int[] { TileType<VitricSand>(), TileType<VitricSoftSand>() };
             int vitricHeight = 140;
             //Basic biome information
@@ -268,7 +269,19 @@ namespace StarlightRiver
             }
 
             for (int x = VitricBiome.X + VitricBiome.Width / 2 - 35; x <= VitricBiome.X + VitricBiome.Width / 2 + 36; x++) //Entrance from Desert 
-                for (int y = VitricBiome.Y; y < VitricBiome.Y + 20; y++) KillTile(x, y);
+            {
+                for (int y = VitricBiome.Y - 6; y < VitricBiome.Y + 20; y++)
+                {
+                    KillTile(x, y);
+                    if (y > VitricBiome.Y + 5 && y < VitricBiome.Y + 9) PlaceTile(x, y, TileType<VitricBossBarrier>(), true, true);
+                }
+            }
+
+            for (int y = VitricBiome.Y + 9; y < VitricBiome.Y + VitricBiome.Height - 77; y++) //collision for pillars
+            {
+                PlaceTile(VitricBiome.X + VitricBiome.Width / 2 - 40, y, TileType<VitricBossBarrier>(), false, false);
+                PlaceTile(VitricBiome.X + VitricBiome.Width / 2 + 41, y, TileType<VitricBossBarrier>(), false, false);
+            }
 
             for (int x = VitricBiome.X + VitricBiome.Width / 2 - 51; x <= VitricBiome.X + VitricBiome.Width / 2 + 52; x++) //Sandstone Cubes (Pillar Ground)
             {
@@ -280,7 +293,7 @@ namespace StarlightRiver
                 }
             } //Adjusted from prior code
 
-            List<Point> islands = new List<Point>(); //List for island positions
+            VitricIslandLocations = new List<Point>(); //List for island positions
             for (int i = 0; i < 11; ++i)
             {
                 int x;
@@ -294,16 +307,15 @@ namespace StarlightRiver
 
                     y = (maxCeilingDepth + 18) + (genRand.Next((int)(VitricBiome.Height / 3.2f)));
 
-                    if (islands.Any(v => Vector2.Distance(new Vector2(x, y), v.ToVector2()) < 36) || (x > VitricBiome.X + VitricBiome.Width / 2 - 71 && x < VitricBiome.X + VitricBiome.Width / 2 + 70))
+                    if (VitricIslandLocations.Any(v => Vector2.Distance(new Vector2(x, y), v.ToVector2()) < 36) || (x > VitricBiome.X + VitricBiome.Width / 2 - 71 && x < VitricBiome.X + VitricBiome.Width / 2 + 70))
                         repeat = true;
                     else repeat = false;
                 }
                 while (repeat); //Gets a valid island position
 
-                islands.Add(new Point(x, y));
+                VitricIslandLocations.Add(new Point(x, y));
                 CreateIsland(x, y); //Adds island pos to list and places island
             }
-            VitricIslandLocations = islands;
 
             for (int i = 0; i < 6; ++i) //Mini islands
             {
@@ -330,6 +342,8 @@ namespace StarlightRiver
                 MiniIsland(x, y + 6);
             }
 
+            progress.Message = "Populating the Vitric";
+
             for (int i = VitricBiome.X + VitricSlopeOffset; i < VitricBiome.X + (VitricBiome.Width - VitricSlopeOffset); ++i) //Add large crystals
             {
                 for (int j = VitricBiome.Y + 2; j < VitricBiome.Y + VitricBiome.Height - 2; ++j)
@@ -347,12 +361,6 @@ namespace StarlightRiver
 
             GenConsistentMiniIslands();
             GenDecoration(validGround);
-
-            for (int y = VitricBiome.Y + 9; y < VitricBiome.Y + VitricBiome.Height - 77; y++) //collision for pillars
-            {
-                PlaceTile(VitricBiome.X + VitricBiome.Width / 2 - 40, y, TileType<VitricBossBarrier>(), false, false);
-                PlaceTile(VitricBiome.X + VitricBiome.Width / 2 + 41, y, TileType<VitricBossBarrier>(), false, false);
-            }
             GenMoss();
         }
 
@@ -366,8 +374,8 @@ namespace StarlightRiver
             genNoise.Frequency = 0.005f;
             float[] heights = new float[VitricBiome.Width]; //2D heightmap to create terrain
 
-            float leftCurveConst = 13f - ((0.3f + heights[0]) * VitricNoiseHeight); //For curving down into the noise properly, left side
-            float rightCurveConst = 13f - ((0.3f + heights[heights.Length - 1]) * VitricNoiseHeight); //Right side
+            float leftCurveConst = 15f - ((0.3f + heights[0]) * VitricNoiseHeight); //For curving down into the noise properly, left side
+            float rightCurveConst = 15f - ((0.3f + heights[heights.Length - 1]) * VitricNoiseHeight); //Right side
 
             for (int x = 0; x < heights.Length; x++)
                 heights[x] = genNoise.GetNoise(x, 0);
@@ -381,8 +389,8 @@ namespace StarlightRiver
 
                 if (xDif < VitricSlopeOffset) //Start curve
                 {
-                    layers["CEILING"] = (int)((VitricBiome.Y + (VitricBiome.Height / 2)) - (17f * Math.Log(-8 + xDif))); //17f is the constant that goes to the roof
-                    layers["TOP"] = (int)((VitricBiome.Y + (VitricBiome.Height / 2)) - (17f * Math.Log(-8 + (xDif + 12)))) - 8;
+                    layers["CEILING"] = (int)((VitricBiome.Center.Y) - (17f * Math.Log(-8 + xDif))); //17f is the constant that goes to the roof
+                    layers["TOP"] = (int)((VitricBiome.Center.Y) - (17f * Math.Log(-8 + (xDif + 12)))) - 8;
 
                     if (xDif < 10) layers["CEILING"] = VitricBiome.Y + VitricBiome.Height / 2;
                     else if (xDif < 17) layers["CEILING"] += genRand.Next(-1, 2);
@@ -390,18 +398,14 @@ namespace StarlightRiver
                     if (layers["TOP"] < VitricBiome.Y) layers["TOP"] = VitricBiome.Y; //Caps off top
 
                     layers["FLOOR"] = (int)(VitricBiome.Y + (leftCurveConst * Math.Log(-8 + xDif))) + (VitricBiome.Height / 2); //Curves down towards floor
-                    layers["BOTTOM"] = (int)(VitricBiome.Y + (leftCurveConst * Math.Log(-8 + (xDif + 12)))) + (VitricBiome.Height / 2) + 23;
+                    layers["BOTTOM"] = (int)(VitricBiome.Y + (leftCurveConst * Math.Log(-8 + (xDif + 12)))) + (VitricBiome.Height / 2) + 28;
 
                     if (xDif < 10) layers["FLOOR"] = VitricBiome.Y + VitricBiome.Height / 2;
                     else if (xDif < 17) layers["FLOOR"] += genRand.Next(-1, 2);
 
                     if (layers["BOTTOM"] > VitricBiome.Y + VitricBiome.Height) layers["BOTTOM"] = VitricBiome.Y + VitricBiome.Height; //Caps off bottom
                 }
-                else if (xDif == VitricSlopeOffset) //Begin flatway
-                {
-                    layers["CEILING"] = minCeilingDepth;
-                    //layers["FLOOR"] = minFloorDepth;
-                }
+                else if (xDif == VitricSlopeOffset) layers["CEILING"] = minCeilingDepth; //Flatway start
                 else if (xDif > VitricSlopeOffset && xDif < VitricBiome.Width - VitricSlopeOffset) //Flatway
                 {
                     if (genRand.Next(3) == 0 && x % 2 == 1)
@@ -409,6 +413,21 @@ namespace StarlightRiver
                         if (layers["CEILING"] >= minCeilingDepth && layers["CEILING"] <= maxCeilingDepth) layers["CEILING"] += genRand.Next(-1, 2);
                         else if (layers["CEILING"] < minCeilingDepth) layers["CEILING"] += genRand.Next(2);
                         else if (layers["CEILING"] > maxCeilingDepth || VitricBiome.Width - VitricSlopeOffset - 30 < xDif) layers["CEILING"] += genRand.Next(-1, 1);
+                        if (xDif < (VitricBiome.Width / 2) - 81 && xDif > (VitricBiome.Width / 2) + 84 && layers["CEILING"] > VitricBiome.Y + 9) //Adjust for boss pillars
+                            layers["CEILING"]--;
+
+                        if (xDif < VitricBiome.Width / 2 - 81)
+                            layers["TOP"] = VitricBiome.Y - WorldGen.genRand.Next(2);
+                        if (xDif < (VitricBiome.Width / 2) - 42)
+                            layers["TOP"] -= genRand.Next(2);
+                        else if (xDif < (VitricBiome.Width / 2) - 20)
+                            layers["TOP"]++;
+                        else if (xDif < (VitricBiome.Width / 2) + 42)
+                            layers["TOP"]--;
+                        else if (xDif < (VitricBiome.Width / 2) + 81)
+                            layers["TOP"] += genRand.Next(2);
+
+                        if (layers["TOP"] >= layers["CEILING"]) layers["TOP"] = layers["CEILING"];
                     }
 
                     if (genRand.Next(3) == 0 && x % 2 == 1)
@@ -460,7 +479,7 @@ namespace StarlightRiver
             }
         }
 
-        /// <summary>Gens decor of every type throughout the biome</summary>
+        /// <summary>Generates decor of every type throughout the biome</summary>
         /// <param name="validGround">Tiles that can be placed on validly</param>
         private static void GenDecoration(int[] validGround)
         {
@@ -509,17 +528,17 @@ namespace StarlightRiver
             int miniIslandX = VitricBiome.X + VitricBiome.Width / 2 - 81;
             int yVal = FindType(miniIslandX, VitricBiome.Y + (VitricBiome.Height / 2), VitricBiome.Y + VitricBiome.Height, TileType<VitricSpike>());
             if (yVal == -1) yVal = Main.maxTilesY - 200;
-            MiniIsland(miniIslandX, yVal); //Add 2 constant small islands in order to ease access to the Temple
+            MiniIsland(miniIslandX, yVal);
             miniIslandX = VitricBiome.X + VitricBiome.Width / 2 + 80;
             yVal = FindType(miniIslandX, VitricBiome.Y + (VitricBiome.Height / 2), VitricBiome.Y + VitricBiome.Height, TileType<VitricSpike>());
             if (yVal == -1) yVal = Main.maxTilesY - 200;
-            MiniIsland(miniIslandX, yVal); //without allowing crystals to potentially block or obstruct the entrance
+            MiniIsland(miniIslandX, yVal);
         }
 
-        /// <summary>Generates Vitric Moss at 7-9 random positions throughout the biome.</summary>
+        /// <summary>Generates Vitric Moss at 7-11 random positions throughout the biome.</summary>
         private static void GenMoss()
         {
-            int reps = genRand.Next(7, 10);
+            int reps = genRand.Next(7, 12);
             for (int i = 0; i < 8; ++i) //Moss. This is ugly and I'm sorry.
             {
                 Point pos = VitricIslandLocations[genRand.Next(VitricIslandLocations.Count)]; //Random island position
@@ -530,12 +549,14 @@ namespace StarlightRiver
                 {
                     for (int k = pos.Y; k < bot; ++k)
                     {
+                        if (Main.tile[j, k].type != TileType<VitricSand>())
+                            continue; //Skip not-sand tiles
                         bool endCheck = false;
                         for (int x = -1; x < 1; ++x)
                         {
                             for (int y = -1; y < 1; ++y)
                             {
-                                if (Main.tile[j, k].type == TileType<VitricSand>() && !Main.tile[j - x, k - y].active())
+                                if (!Main.tile[j - x, k - y].active())
                                 {
                                     Main.tile[j, k].type = (ushort)TileType<VitricMoss>();
                                     endCheck = true;
@@ -626,24 +647,81 @@ namespace StarlightRiver
             for (int i = -width / 2; i < width / 2; ++i)
             {
                 int pY = y;
-                while (Main.tile[x, pY].active())
+                while (Main.tile[x + i, pY].active())
                     pY--;
-                int depth = (int)Math.Pow((width / 2) - Math.Abs(i), 2);
-                for (int j = 0; j < depth; ++j)
+                int height = i == Math.Abs(width / 2) ? 0 : 1;
+                int depth = FindType(x + i, pY, VitricBiome.Bottom, TileType<VitricSand>()) - pY;
+                for (int j = -height; j < depth; ++j)
                 {
                     if (pY + j > VitricBiome.Y + VitricBiome.Height) break;
                     KillTile(x + i, pY + j, false, false, true);
                     KillTile(x + i, pY - (int)Math.Sqrt(j), false, false, true);
                     PlaceTile(x + i, pY + j, TileType<VitricSand>(), true, false, -1, 0);
                 }
+
+                if (!Main.tile[x + i - 1, pY - height].active() && Main.tile[x + i - 2, pY - height].active()) //Adjust for spike jaggies
+                {
+                    KillTile(x + i - 1, pY - height, false, false, true);
+                    PlaceTile(x + i - 1, pY - height, TileType<VitricSand>(), true, false, -1, 0);
+                }
             }
         }
 
-        /// <summary>Goes down until it hits a tile of any type in types; or until maxDepth is reached or somehow exceeded</summary>
+        /// <summary>
+        /// Generates a broken temple pillar. Only places between vitric sand.
+        /// </summary>
+        /// <param name="x">Center X position.</param>
+        /// <param name="y">Y position. Can be anywhere between a ceiling and floor; will generate appropriately.</param>
+        /// <returns>True if a pillar was successfully placed within an area</returns>
+        public static bool GenPillar(int x, int y)
+        {
+            int ceil = FindTypeUp(x, y, VitricBiome.Y - 20, TileType<VitricSand>(), TileType<VitricSoftSand>());
+            int floor = FindType(x, y, VitricBiome.Bottom + 20, TileType<VitricSand>(), TileType<VitricSoftSand>());
+            if (ceil == -1 || floor == -1 || ceil >= floor) return false; //If there's an invalid ceiling or floor, or if the floor is above or on the ceiling, kill
+            int height = floor - ceil; //Height of pillar
+            if (height < 7) return false; //If it's too short
+            int wid = genRand.Next(3, 6); //Width of pillar
+            for (int i = -wid; i < wid + 1; ++i) //Checks for crystals. If there's a crystal, kill this pillar before it gens
+                if (FindType(x + i, y, VitricBiome.Bottom, TileType<VitricCrystalCollision>()) != -1) return false; //Crystal found, can't place here
+            for (int i = -wid; i < wid + 1; ++i)
+            {
+                //Tile placement
+                int depth = genRand.Next(2) + 1;
+                if (Math.Abs(i) == wid || Math.Abs(i) == wid - 2) depth = (int)Math.Ceiling(height / 4f) + genRand.Next((int)Math.Ceiling(-height / 6f), (int)Math.Ceiling(height / 6f));
+                if (Math.Abs(i) == wid - 1) depth = (int)Math.Ceiling(height / 3f) + genRand.Next((int)Math.Ceiling(-height / 6f), (int)Math.Ceiling(height / 6f));
+                int ceilingY = FindTypeUp(x + i, y, VitricBiome.Y - 20, TileType<VitricSand>(), TileType<VitricSoftSand>());
+                int floorY = FindType(x + i, y, VitricBiome.Bottom + 20, TileType<VitricSand>(), TileType<VitricSoftSand>());
+
+                for (int j = 0; j < depth; ++j)
+                {
+                    KillTile(x + i, ceilingY + j, false, false, true);
+                    PlaceTile(x + i, ceilingY + j, TileType<AncientSandstone>(), true, false);
+                    KillTile(x + i, floorY - j, false, false, true);
+                    PlaceTile(x + i, floorY - j, TileType<AncientSandstone>(), true, false);
+                }
+
+                //Wall placement
+                depth = (int)Math.Ceiling(height / 2f) + 2;
+                if (Math.Abs(i) >= wid) depth = genRand.Next(2) + 1;
+                if (Math.Abs(i) == wid - 2) depth = (int)Math.Ceiling(height / 3f) + genRand.Next((int)Math.Ceiling(-height / 6f), (int)Math.Ceiling(height / 4f));
+                if (Math.Abs(i) == wid - 1) depth = (int)Math.Ceiling(height / 4f) + genRand.Next((int)Math.Ceiling(-height / 6f), (int)Math.Ceiling(height / 6f));
+
+                for (int j = 0; j < depth; ++j)
+                {
+                    KillWall(x + i, ceilingY + j, false);
+                    PlaceWall(x + i, ceilingY + j, WallType<AncientSandstoneWall>(), true);
+                    KillWall(x + i, floorY - j, false);
+                    PlaceWall(x + i, floorY - j, WallType<AncientSandstoneWall>(), true);
+                }
+            }
+            return true;
+        }
+
+        /// <summary>Goes down until it hits a tile of any type in types; or until maxDepth is reached or somehow exceeded.</summary>
         /// <param name="x">X position.</param>
         /// <param name="y">Initial Y position.</param>
         /// <param name="maxDepth">Max Y position in tile position before the loop fails gracefully.</param>
-        /// <param name="types">Dictates which tile types are valid to stop on</param>
+        /// <param name="types">Dictates which tile types are valid to stop on. Should have at least 1 element.</param>
         /// <returns>Resulting y position, if a tile is found, or -1 if not.</returns>
         private static int FindType(int x, int y, int maxDepth = -1, params int[] types)
         {
@@ -655,6 +733,26 @@ namespace StarlightRiver
                 if (Main.tile[x, y].active() && types.Any(i => i == Main.tile[x, y].type))
                     return y; //Returns first valid tile under intitial Y pos, -1 if max depth is reached
                 y++;
+            }
+            return -1; //fallout case
+        }
+
+        /// <summary>Goes up until it hits a tile of any type in types; or until minDepth is reached or somehow exceeded.</summary>
+        /// <param name="x">X position.</param>
+        /// <param name="y">Initial Y position.</param>
+        /// <param name="maxDepth">Minimum Y position in tile position before the loop cuts itself off.</param>
+        /// <param name="types">Dictates which tile types are valid to stop on. Should have at least 1 element.</param>
+        /// <returns>Resulting y position, if a tile is found, or -1 if not.</returns>
+        private static int FindTypeUp(int x, int y, int minDepth = -1, params int[] types)
+        {
+            if (minDepth == -1) minDepth = 20; //Set default
+            while (true)
+            {
+                if (y <= minDepth)
+                    break;
+                if (Main.tile[x, y].active() && types.Any(i => i == Main.tile[x, y].type))
+                    return y; //Returns first valid tile under intitial Y pos, -1 if max depth is reached
+                y--;
             }
             return -1; //fallout case
         }
