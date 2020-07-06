@@ -8,7 +8,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
 {
-    class StarwoodBoomerangProjectile : ModProjectile, IDrawAdditive
+    class StarwoodBoomerangProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -25,9 +25,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         //These stats get scaled when empowered
         private int ScaleMult = 2;
         private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
-        private int dustType = ModContent.DustType<Dusts.Stamina>();
-        private bool empowered = false;
-
+        private int dustType = DustType<Dusts.Stamina>();
 
 
         public override void SetDefaults()
@@ -48,20 +46,16 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void AI()
         {
             Player projOwner = Main.player[projectile.owner];
+            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
 
             projectile.rotation += 0.3f;
 
-            if (projectile.timeLeft == 1200)
+            if (projectile.timeLeft == 1200 && mp.Empowered)
             {
-                StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
-                if (mp.Empowered)
-                {
-                    projectile.frame = 1;
-                    lightColor = new Vector3(0.1f, 0.2f, 0.4f);
-                    ScaleMult = 3;
-                    dustType = ModContent.DustType<Dusts.BlueStamina>();
-                    empowered = true;
-                }
+                projectile.frame = 1;
+                lightColor = new Vector3(0.1f, 0.2f, 0.4f);
+                ScaleMult = 3;
+                dustType = DustType<Dusts.BlueStamina>();
             }
 
             Lighting.AddLight(projectile.Center, lightColor * 0.5f);
@@ -69,7 +63,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             switch (projectile.ai[0])
             {
                 case 0://flying outward
-                    if (empowered)
+                    if (mp.Empowered)
                     {
                         projectile.velocity += Vector2.Normalize(Main.MouseWorld - projectile.Center);
                         if (projectile.velocity.Length() > 10)//swap this for shootspeed or something
@@ -95,7 +89,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                         projectile.ai[1]++;
                         projectile.velocity *= 0.75f;
                         Lighting.AddLight(projectile.Center, lightColor * chargeMult);
-                        
 
                         if (projectile.ai[1] >= maxChargeTime + 3)//reset stats and start return phase
                         {
@@ -103,10 +96,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                             projectile.width = 18;
                             projectile.height = 18;
                             projectile.Center = projectile.position;
-                            for (int k = 0; k < projectile.oldPos.Length; k++)
-                            {
-                                projectile.oldPos[k] = projectile.position;
-                            }
                             NextPhase(1);//ai[]s reset here
                         }
                         else if (projectile.ai[1] == maxChargeTime)//change hitbox size, stays for 3 frames
@@ -115,10 +104,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                             projectile.width = 67 * ScaleMult;
                             projectile.height = 67 * ScaleMult;
                             projectile.Center = projectile.position;
-                            for (int k = 0; k < projectile.oldPos.Length; k++)
-                            {
-                                projectile.oldPos[k] = projectile.position;
-                            }
                         }
                         else if (projectile.ai[1] == maxChargeTime - 5)//sfx
                         {
@@ -170,11 +155,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            StarlightPlayer mp = Main.player[projectile.owner].GetModPlayer<StarlightPlayer>();
             if (projectile.ai[0] == 1)
             {
                 if (projectile.ai[1] >= maxChargeTime - 3 && projectile.ai[1] <= maxChargeTime + 3)
                 {
-                    if (empowered)
+                    if (mp.Empowered)
                     {
                         damage *= ScaleMult;
                         knockback *= ScaleMult;
@@ -191,7 +177,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     knockback *= 0.1f;
                 }
             }
-            else if (empowered)
+            else if (mp.Empowered)
             {
                 damage += 3;
             }
@@ -261,22 +247,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             return false;
         }
 
-        public void DrawAdditive(SpriteBatch spriteBatch)
-        {
-            for (int k = 0; k < projectile.oldPos.Length; k++)
-            {
-                Color color = (empowered ? new Color(200, 220, 255) * 0.35f : new Color(255, 255, 200) * 0.3f) * ((float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length);
-                if (k <= 4) color *= 1.2f;
-                float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.8f;
-                Texture2D tex = ModContent.GetTexture("StarlightRiver/Keys/Glow");
-
-                spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
-            }
-        }
-
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color = Color.White * (chargeMult + 0.25f);
+            Color color = Color.White * chargeMult;
 
             spriteBatch.Draw(GlowingTexture,
                 projectile.Center - Main.screenPosition,
