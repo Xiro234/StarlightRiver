@@ -17,6 +17,7 @@ namespace StarlightRiver.Tiles.Temple
                 new Loot(ItemType<Items.Temple.TempleLens>(), 1)
             };
         }
+
         internal override List<Loot> SmallLootPool
         {
             get => new List<Loot>
@@ -30,6 +31,7 @@ namespace StarlightRiver.Tiles.Temple
                 new Loot(ItemType<Items.Herbology.IvySeeds>(), 4, 8)
             };
         }
+
         public override void SafeSetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 2, DustID.GoldCoin, SoundID.Tink, false, new Color(151, 151, 151));
     }
 }

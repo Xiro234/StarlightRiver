@@ -45,8 +45,8 @@ namespace StarlightRiver
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
         }
-        #region IL edits
 
+        #region IL edits
         //IL edits to allow grappling hooks to interact with moving platforms
         private void GrapplePlatforms(ILContext il)
         {

@@ -53,17 +53,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StarlightWorld.OvergrowBossOpen = true;
-            StarlightWorld.OvergrowBossFree = false;
-
-            int type = Main.tile[(int)Main.MouseWorld.X / 16, (int)Main.MouseWorld.Y / 16].type;
-            for (int x = 0; x < Main.maxTilesX; x++)
-                for (int y = 0; y < Main.maxTilesY; y++)
-                {
-                    Tile tile = Main.tile[x, y];
-                    if (tile.type == type) tile.type = (ushort)TileType<Tiles.Permafrost.AuroraBrick>();
-                }
-
+            StarlightRiver.Instance.textcard.Display("Debug", "King of Debugging", null, 180, Main.rand.NextFloat(1, 3));
             return true;
         }
 
