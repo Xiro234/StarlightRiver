@@ -52,7 +52,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     lightColor = new Vector3(0.05f, 0.1f, 0.2f);
                     ScaleMult = 1.5f;
                     dustType = ModContent.DustType<Dusts.BlueStamina>();
-                    projectile.velocity *= 1.35f;
+                    projectile.velocity *= 1.35f;//TODO: This could be on on the item's side like the staff does, thats generally the better way
                     empowered = true;
                 }
             }
@@ -129,13 +129,13 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 //scale, default, default);
             }
 
-            spriteBatch.Draw(Main.projectileTexture[projectile.type],
-                projectile.Center - Main.screenPosition,
-                new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
-                lightColor,
-                projectile.rotation,
-                new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
-                1f, default, default);
+            //spriteBatch.Draw(Main.projectileTexture[projectile.type],
+            //    projectile.Center - Main.screenPosition,
+            //    new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
+            //    lightColor,
+            //    projectile.rotation,
+            //    new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
+            //    1f, default, default);
 
             return false;
         }

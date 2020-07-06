@@ -36,10 +36,15 @@ namespace StarlightRiver.Items.StarwoodWeapons
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int amount = Main.player[player.whoAmI].GetModPlayer<StarlightPlayer>().Empowered ? 4 : 3;
+            StarlightPlayer mp = Main.player[player.whoAmI].GetModPlayer<StarlightPlayer>();
+            int amount = mp.Empowered ? 4 : 3;
+            int projDamage = (int)(damage * (mp.Empowered ? 1.3f : 1f));//TODO: actually change the item itself's damage
+            float projSpeedX = speedX * (mp.Empowered ? 1.05f : 1f);
+            float projSpeedY = speedY * (mp.Empowered ? 1.05f : 1f);
+
             for (int k = 0; k < amount; k++)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY).RotatedBy(Main.rand.NextFloat(-0.05f, 0.05f) * ((k * 0.10f) + 1)) * Main.rand.NextFloat(0.9f, 1.1f) * ((k * 0.15f) + 1), type, damage, knockBack, player.whoAmI, Main.rand.NextFloat(-0.025f, 0.025f));
+                Projectile.NewProjectile(position, new Vector2(projSpeedX, projSpeedY).RotatedBy(Main.rand.NextFloat(-0.05f, 0.05f) * ((k * 0.10f) + 1)) * Main.rand.NextFloat(0.9f, 1.1f) * ((k * 0.15f) + 1), type, projDamage, knockBack, player.whoAmI, Main.rand.NextFloat(-0.025f, 0.025f));
             }
             return false;
         }
