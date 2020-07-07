@@ -69,7 +69,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 SpawnPlatform(-340, 240, true);
                 SpawnPlatform(340, 240, true);
 
-                NPC.NewNPC((int)(npc.Center.X), (int)(npc.Center.Y - 2000), NPCType<GoldPlatform>());
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 2000, NPCType<GoldPlatform>());
             }
 
             Vector2 pos = npc.Center + new Vector2(-800, 35 * 16) + new Vector2(0, -npc.ai[0]);
@@ -95,7 +95,14 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 Lighting.AddLight(npc.Center + new Vector2(400, -200 + k * 60), new Vector3(1, 1, 1) * 0.2f);
             }
 
-            foreach (Player player in Main.player.Where(n => n.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y, 100 * 16, (int)npc.ai[0])))) //water collision
+            for(int k = 0; k < 100; k++)
+            {
+                int x = (int)(npc.Center.X / 16) - 50 + k;
+                int y = (int)(npc.Center.Y / 16) + 29;
+                if(WorldGen.InWorld(x, y)) WorldGen.KillTile(x, y);
+            }
+
+            foreach (Player player in Main.player.Where(n => n.active && n.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y, 100 * 16, (int)npc.ai[0])))) //water collision
             {
                 player.wet = true;
                 player.AddBuff(BuffType<Buffs.PrismaticDrown>(), 4, false);

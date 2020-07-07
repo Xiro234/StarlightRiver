@@ -15,7 +15,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot) => npc.ai[1] == 0;
 
-        public override bool CheckActive() => NPC.AnyNPCs(NPCType<SquidBoss>());
+        public override bool CheckActive() => !NPC.AnyNPCs(NPCType<SquidBoss>());
 
         public override void SetDefaults()
         {
@@ -31,6 +31,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         public override void AI()
         {
             if(npc.ai[1] == 1 && npc.ai[0] > 0) { npc.ai[0] -= 4; }
+            npc.friendly = false;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -51,7 +52,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 }
 
                 float sin = (float)Math.Sin(StarlightWorld.rottime + 3.6f) * 10;
-                Color color = new Color(255, 50, 50);
+                Color color = new Color(255, 40, 40);
 
                 Vector2 pos = npc.position + new Vector2(npc.ai[0] - top.Height + 36, 32 - top.Width / 2 + sin);
                 spriteBatch.Draw(top, pos - Main.screenPosition, top.Frame(), Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16), 1.57f, top.Size() / 2, 1, 0, 0);
@@ -65,10 +66,14 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
+            target.immune = true;
+            target.immuneTime = 1;
+
             target.position.Y = npc.position.Y + npc.height;
-            target.velocity.Y += 3;
+            target.velocity.Y += 5;
+            target.noKnockback = true;
         }
     }
 }
