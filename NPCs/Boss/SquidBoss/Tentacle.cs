@@ -45,6 +45,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             {
                 Texture2D top = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleTop");
                 Texture2D glow = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow");
+                Texture2D glow2 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow2");
                 Texture2D body = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleBody");
                 Texture2D ring = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleRing");
 
@@ -74,8 +75,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                     switch (npc.ai[0])
                     {
-                        case 0: color = Color.LimeGreen; break;
-                        case 1: color = new Color(255, 100, 120); break;
+                        case 0: color = new Color(100, 255, 50); break;
+                        case 1: color = new Color(255, 120, 140); break;
 
                         case 2:
 
@@ -94,7 +95,9 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                     spriteBatch.Draw(top, npc.Center - Main.screenPosition, top.Frame(), Lighting.GetColor((int)npc.Center.X / 16, (int)npc.Center.Y / 16) * 2f, rot, top.Size() / 2, 1, 0, 0);
                     spriteBatch.Draw(glow, npc.Center - Main.screenPosition, glow.Frame(), color * 0.6f, rot, top.Size() / 2, 1, 0, 0);
-                    Lighting.AddLight(npc.Center, color.ToVector3() * 0.35f);
+                    spriteBatch.Draw(glow2, npc.Center - Main.screenPosition, glow.Frame(), color, rot, top.Size() / 2, 1, 0, 0);
+
+                    Lighting.AddLight(npc.Center, color.ToVector3() * 0.2f);
 
                     for (int k = 0; k < Vector2.Distance(npc.Center + new Vector2(0, npc.height / 2), SavedPoint) / 10f; k++)
                     {

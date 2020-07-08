@@ -62,27 +62,32 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public void DrawUnderWater(SpriteBatch spriteBatch)
         {
-            Texture2D tex2 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRing");
+            Texture2D ring = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRing");
+            Texture2D ringGlow = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyRingGlow");
+
+            Texture2D body = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder");
+
+            Texture2D headBlob = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyOver");
+            Texture2D headBlobGlow = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyOverGlow");
 
             for (int k = 3; k > 0; k--) //handles the drawing of the jelly rings under the boss.
             {
                 Vector2 pos = npc.Center + new Vector2(0, 70 + k * 35).RotatedBy(npc.rotation) - Main.screenPosition;
                 int squish = k * 10 + (int)(Math.Sin(GlobalTimer / 10f - k / 4f * 6.28f) * 20);
-                Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, tex2.Width + (3 - k) * 20 - squish, tex2.Height + (int)(squish * 0.4f) + (3 - k) * 5);
+                Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, ring.Width + (3 - k) * 20 - squish, ring.Height + (int)(squish * 0.4f) + (3 - k) * 5);
 
                 float sin = 1 + (float)Math.Sin(GlobalTimer / 10f - k);
                 float cos = 1 + (float)Math.Cos(GlobalTimer / 10f + k);
-                Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 0.7f;
+                Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f);
 
                 if (Phase == (int)AIStates.ThirdPhase) color = new Color(1.2f + sin * 0.1f, 0.7f + sin * -0.25f, 0.25f) * 0.7f;
 
-                spriteBatch.Draw(tex2, rect, tex2.Frame(), color, npc.rotation, tex2.Size() / 2, 0, 0);
+                spriteBatch.Draw(ring, rect, ring.Frame(), color * 0.7f, npc.rotation, ring.Size() / 2, 0, 0);
+                spriteBatch.Draw(ringGlow, rect, ring.Frame(), color, npc.rotation, ring.Size() / 2, 0, 0);
             }
 
-            Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyUnder"); //the drawing of the body
-            spriteBatch.Draw(tex, npc.Center - Main.screenPosition, tex.Frame(), Color.White, npc.rotation, tex.Size() / 2, 1, 0, 0);
+            spriteBatch.Draw(body, npc.Center - Main.screenPosition, body.Frame(), Color.White, npc.rotation, body.Size() / 2, 1, 0, 0);
 
-            Texture2D tex3 = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/BodyOver");
             for (int k = 0; k < 5; k++) //draws the head blobs
             {
                 Vector2 off = Vector2.Zero;
@@ -102,21 +107,24 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 float cos = 1 + (float)Math.Cos(GlobalTimer / 10f + (k * 0.5f));
                 float scale = 1 + sin * 0.04f;
 
-                Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 0.8f;
+                Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f);
 
                 if (Phase == (int)AIStates.ThirdPhase) color = new Color(1.2f + sin * 0.1f, 0.7f + sin * -0.25f, 0.25f) * 0.8f;
 
-                spriteBatch.Draw(tex3, npc.Center + off - Main.screenPosition, new Rectangle(k * tex3.Width / 5, 0, tex3.Width / 5, tex3.Height), color, npc.rotation, new Vector2(tex3.Width / 10, tex3.Height), scale, 0, 0);
+                spriteBatch.Draw(headBlob, npc.Center + off - Main.screenPosition, new Rectangle(k * headBlob.Width / 5, 0, headBlob.Width / 5, headBlob.Height), color * 0.8f, npc.rotation,
+                    new Vector2(headBlob.Width / 10, headBlob.Height), scale, 0, 0);
+
+                spriteBatch.Draw(headBlobGlow, npc.Center + off - Main.screenPosition, new Rectangle(k * headBlob.Width / 5, 0, headBlob.Width / 5, headBlob.Height), color, npc.rotation, 
+                    new Vector2(headBlob.Width / 10, headBlob.Height), scale, 0, 0);
             }
 
             if (Phase >= (int)AIStates.SecondPhase)
             {
-                Texture2D tex4 = GetTexture(Texture);
-                spriteBatch.Draw(tex4, npc.Center - Main.screenPosition, tex4.Frame(), Color.White, npc.rotation, tex4.Size() / 2, 1, 0, 0);
+                Texture2D sore = GetTexture(Texture);
+                spriteBatch.Draw(sore, npc.Center - Main.screenPosition, sore.Frame(), Color.White, npc.rotation, sore.Size() / 2, 1, 0, 0);
             }
         }
 
-        #region AI
         public override void AI()
         {
             GlobalTimer++;
@@ -372,7 +380,6 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 }
             }
         }
-        #endregion
 
         public override void SendExtraAI(BinaryWriter writer)
         {
