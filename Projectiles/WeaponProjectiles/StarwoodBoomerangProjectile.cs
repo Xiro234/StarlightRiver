@@ -1,9 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using StarlightRiver.Core;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Core;
+using StarlightRiver.Keys;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria.ModLoader.IO;
+using Terraria.World.Generation;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.WeaponProjectiles
@@ -27,7 +33,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
         private int dustType = ModContent.DustType<Dusts.Stamina>();
         private bool empowered = false;
-
+        private VerletChainInstance Chain;
 
 
         public override void SetDefaults()
@@ -42,11 +48,22 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
             projectile.aiStyle = -1;
+
+            Chain = new VerletChainInstance
+            {
+                segmentCount = 5,
+                customDistances = true,
+                segmentDistanceList = new List<float> { 50f, 40f, 30f, 20f, 10f }
+            };
         }
 
 
         public override void AI()
         {
+            //Chain.segmentDistance = 50f;
+
+            Chain.UpdateChain(projectile.position);
+
             Player projOwner = Main.player[projectile.owner];
 
             projectile.rotation += 0.3f;
@@ -221,8 +238,20 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private Texture2D GlowingTexture => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
         private Texture2D AuraTexture => GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
+        private void TestDraw(SpriteBatch spriteBatch, Vector2 position)
+        {
+            spriteBatch.Draw(GlowingTrail,
+                position - Main.screenPosition,
+                new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
+                Color.Green,
+                0f,
+                new Vector2(GlowingTrail.Width / 2, GlowingTrail.Height / 4),
+                1f, default, default);
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            Chain.DrawRope(spriteBatch, TestDraw);
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
 
             if (projectile.ai[0] != 1)
