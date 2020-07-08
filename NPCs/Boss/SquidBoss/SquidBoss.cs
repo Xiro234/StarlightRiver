@@ -284,7 +284,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                     AttackTimer++;
 
-                    if (AttackPhase != 2 && AttackPhase != 4 && !(AttackPhase == 3 && !variantAttack)) //when not lasering, passive movement
+                    if (AttackPhase != 2 && AttackPhase != 4 && !(AttackPhase == 3 && variantAttack)) //when not lasering, passive movement
                     {
                         npc.velocity += Vector2.Normalize(npc.Center - (Main.player[npc.target].Center + new Vector2(0, 250))) * -0.2f;
                         if (npc.velocity.Length() > 5) npc.velocity = Vector2.Normalize(npc.velocity) * 5;
@@ -319,7 +319,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                         case 1: Spew(); break;
                         case 2: Laser(); break;
                         case 3: if (variantAttack) Eggs(); else Spew(); break;
-                        case 4: if (variantAttack) Poke(); else Leap(); break;
+                        case 4: if (variantAttack) LeapHard(); else Leap(); break;
                     }
                 }
             }

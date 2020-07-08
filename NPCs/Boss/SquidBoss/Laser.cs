@@ -42,7 +42,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             projectile.Center = Main.npc.FirstOrDefault(n => n.modNPC is SquidBoss).Center;
 
             //collision
-            for (int k = 0; k < 100; k++)
+            for (int k = 0; k < 90; k++)
             {
                 Vector2 pos = projectile.position + new Vector2(0, -10 * k);
                 Rectangle rect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - k * 10, 60, 10);
@@ -56,14 +56,16 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         public void DrawUnderWater(SpriteBatch spriteBatch)
         {
             Texture2D tex = ModContent.GetTexture(Texture);
+            Texture2D tex2 = ModContent.GetTexture(Texture + "Glow");
 
-            for (int k = 0; k < 100; k++)
+            for (int k = 0; k < 140; k++)
             {
-                float sin = 1 + (float)Math.Sin(projectile.ai[1] / 10f + k);
-                float cos = 1 + (float)Math.Cos(projectile.ai[1] / 10f + k);
-                Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 1.2f;
+                float sin = 1 + (float)Math.Sin(projectile.ai[1] / 10f);
+                float cos = 1 + (float)Math.Cos(projectile.ai[1] / 10f);
+                Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 1.05f;
 
-                Vector2 pos = projectile.position + new Vector2(0, -10 * k);
+                Vector2 pos = projectile.position + new Vector2(0, -10 * k - projectile.ai[1] % tex.Height);
+
                 if (Main.tile[(int)pos.X / 16 + 2, (int)pos.Y / 16 + 2].active() || Main.tile[(int)pos.X / 16 - 2, (int)pos.Y / 16 + 2].active())
                 {
                     for (int n = 0; n < 20; n++)
@@ -76,7 +78,9 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 }
 
                 spriteBatch.Draw(tex, pos - Main.screenPosition, color);
-                if (k % 15 == 0) Lighting.AddLight(pos, color.ToVector3());
+                spriteBatch.Draw(tex2, pos - Main.screenPosition, Color.White);
+
+                if (k % 10 == 0) Lighting.AddLight(pos, color.ToVector3() * 0.5f);
             }
         }
     }

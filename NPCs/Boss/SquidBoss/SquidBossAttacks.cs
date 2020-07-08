@@ -266,7 +266,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                         default: off = 0; break;
                     }
 
-                    tentacles[k].Center = new Vector2(spawnPoint.X + off, tentacles[k].Center.Y);
+                    tentacles[k].Center = new Vector2(spawnPoint.X + off, spawnPoint.Y - 100);
                     tentacle.SavedPoint = tentacles[k].Center;
                     tentacle.MovePoint = tentacles[k].Center + new Vector2(off * 0.45f, -900);
 
@@ -323,27 +323,78 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         {
             if (AttackTimer == 1)
             {
-                npc.velocity *= 0;
                 savedPoint = npc.Center;
+                ShufflePlatforms();
             }
 
-            if (AttackTimer < 60) npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + Vector2.UnitY * -800, AttackTimer / 60);
+            if (AttackTimer < 60) npc.Center = Vector2.SmoothStep(savedPoint, platforms[0].Center + new Vector2(0, -150), AttackTimer / 60);
 
             if (AttackTimer == 60)
             {
                 Main.PlaySound(SoundID.Item9, npc.Center);
-                for (int k = 0; k < 5; k++)
-                    Projectile.NewProjectile(npc.Center + new Vector2(0, 100), new Vector2(-50 + k * 25, 0), ModContent.ProjectileType<SquidEgg>(), 10, 0.2f);
+                Projectile.NewProjectile(npc.Center + new Vector2(0, 120), Vector2.Zero, ModContent.ProjectileType<SquidEgg>(), 10, 0.2f);
             }
 
-            if (AttackTimer == 300) ResetAttack();
+            if (AttackTimer > 120 && AttackTimer < 180) npc.Center = Vector2.SmoothStep(platforms[0].Center + new Vector2(0, -150), savedPoint, (AttackTimer - 120) / 60);
+
+            if (AttackTimer == 180) ResetAttack();
         }
 
-        private void Poke()
+        private void LeapHard()
         {
-            //TODO: implement attack
-            Main.NewText("This is a debug message. There will be an attack here later.");
-            ResetAttack();
+            if (AttackTimer == 1)
+            {
+                savedPoint = npc.Center;
+                npc.velocity *= 0;
+                npc.rotation = 0;
+
+                for (int k = 0; k < 2; k++) //left
+                {
+                    Tentacle tentacle = tentacles[k].modNPC as Tentacle;
+                    tentacles[k].Center = spawnPoint + new Vector2(-600, -1100);
+                    tentacle.SavedPoint = tentacles[k].Center;
+                }
+                for(int k = 2; k < 4; k++) //right
+                {
+                    Tentacle tentacle = tentacles[k].modNPC as Tentacle;
+                    tentacles[k].Center = spawnPoint + new Vector2(600, -1100);
+                    tentacle.SavedPoint = tentacles[k].Center;
+                }
+            }
+
+            if (AttackTimer < 120) npc.Center = Vector2.SmoothStep(savedPoint, spawnPoint + new Vector2(0, -500), AttackTimer / 120f);
+
+            if (AttackTimer == 120) npc.velocity.Y = -15; //jump
+
+            if (AttackTimer == 150) //spawn projectiles
+            {
+                Main.PlaySound(SoundID.NPCDeath24, npc.Center);
+
+                for (float k = 0; k <= 3.14f; k += 3.14f / 6f)
+                    Projectile.NewProjectile(npc.Center + new Vector2(0, 100), new Vector2(-10, 0).RotatedBy(k), ModContent.ProjectileType<InkBlob>(), 10, 0.2f, 255, 0, Main.rand.NextFloat(6.28f));
+            }
+
+            if (AttackTimer > 120 && AttackTimer < 220) npc.velocity.Y += 0.16f; //un-jump
+
+            if (AttackTimer <= 480)
+            {
+                float radius = (AttackTimer > 240 ? 240 - (AttackTimer - 240) : AttackTimer) * 2.5f;
+
+                for (int k = 0; k < 2; k++) //left
+                {
+                    Tentacle tentacle = tentacles[k].modNPC as Tentacle;
+                    Vector2 off = (new Vector2(0, 1) * radius).RotatedBy(AttackTimer / 240f * 6.28f + (k == 0 ? 3.14f : 0));
+                    tentacles[k].Center = tentacle.SavedPoint + off;
+                }
+                for (int k = 2; k < 4; k++) //right
+                {
+                    Tentacle tentacle = tentacles[k].modNPC as Tentacle;
+                    Vector2 off = (new Vector2(0, -1) * radius).RotatedBy(1.57f + AttackTimer / 240f * 6.28f + (k == 2 ? 3.14f : 0));
+                    tentacles[k].Center = tentacle.SavedPoint + off;
+                }
+            }
+
+            if(AttackTimer == 480) ResetAttack();
         }
         #endregion
 

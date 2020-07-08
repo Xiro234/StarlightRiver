@@ -19,10 +19,11 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         {
             npc.width = 26;
             npc.height = 30;
-            npc.lifeMax = 100;
+            npc.lifeMax = 40;
             npc.damage = 10;
             npc.noGravity = true;
             npc.aiStyle = -1;
+            npc.knockBackResist = 2.5f;
         }
 
         public override void AI()

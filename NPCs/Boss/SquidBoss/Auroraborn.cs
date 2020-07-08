@@ -19,11 +19,12 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         {
             npc.width = 26;
             npc.height = 50;
-            npc.lifeMax = 150;
+            npc.lifeMax = 100;
             npc.damage = 15;
             npc.noGravity = true;
             npc.aiStyle = -1;
             npc.noTileCollide = true;
+            npc.knockBackResist = 1.5f;
         }
 
         public override void AI()
@@ -33,7 +34,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             if (npc.ai[0] % 60 == 0)
             {
-                npc.velocity = Vector2.Normalize(npc.Center - player.Center) * -8f;
+                npc.velocity = Vector2.Normalize(npc.Center - player.Center) * -6f;
                 for(int k = 0; k < 10; k++) Dust.NewDustPerfect(npc.Center + Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(10), DustType<Dusts.Starlight>(), npc.velocity * Main.rand.NextFloat(-5, 5));
             }
 

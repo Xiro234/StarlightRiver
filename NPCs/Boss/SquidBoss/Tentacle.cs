@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Tiles.Permafrost;
 using System;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
@@ -41,10 +43,10 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         {
             if (Parent != null)
             {
-                Texture2D top = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleTop");
-                Texture2D glow = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow");
-                Texture2D body = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleBody");
-                Texture2D ring = ModContent.GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleRing");
+                Texture2D top = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleTop");
+                Texture2D glow = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleGlow");
+                Texture2D body = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleBody");
+                Texture2D ring = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/TentacleRing");
 
                 float dist = npc.Center.X - Parent.npc.Center.X;
                 int underMax = 0;

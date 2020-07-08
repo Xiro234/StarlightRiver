@@ -72,7 +72,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 2000, NPCType<GoldPlatform>());
             }
 
-            Vector2 pos = npc.Center + new Vector2(-800, 35 * 16) + new Vector2(0, -npc.ai[0]);
+            Vector2 pos = npc.Center + new Vector2(-832, 35 * 16) + new Vector2(0, -npc.ai[0]);
 
             //Lighting
             for (int k = 0; k < 45; k++)
@@ -102,10 +102,11 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 if(WorldGen.InWorld(x, y)) WorldGen.KillTile(x, y);
             }
 
-            foreach (Player player in Main.player.Where(n => n.active && n.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y, 100 * 16, (int)npc.ai[0])))) //water collision
+            foreach (Player player in Main.player.Where(n => n.active && n.Hitbox.Intersects(new Rectangle((int)pos.X, (int)pos.Y, 104 * 16, (int)npc.ai[0])))) //water collision
             {
                 player.wet = true;
                 player.AddBuff(BuffType<Buffs.PrismaticDrown>(), 4, false);
+                if (player == Main.LocalPlayer && Main.netMode != Terraria.ID.NetmodeID.Server) Main.musicFade[Main.curMusic] = 0.05f;
             }
 
             for (int k = 0; k < Main.maxItems; k++)

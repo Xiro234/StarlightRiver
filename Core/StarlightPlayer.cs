@@ -60,17 +60,14 @@ namespace StarlightRiver.Core
 
             platformTimer--;
 
-            if (player.whoAmI == Main.myPlayer)
+            if (Main.netMode != NetmodeID.Server)
             {
                 AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
                 Stamina.visible = false;
                 Infusion.visible = false;
 
-                if (mp.Abilities.Any(a => !a.Locked))
-                {
-                    Stamina.visible = true;
-                }
+                if (mp.Abilities.Any(a => !a.Locked)) Stamina.visible = true;
 
                 if (Main.playerInventory)
                 {
@@ -111,7 +108,7 @@ namespace StarlightRiver.Core
 
         public override void PostUpdate()
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) { StarlightWorld.rottime += (float)Math.PI / 60; }
+            if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) StarlightWorld.rottime += (float)Math.PI / 60;
             Timer++;
         }
 
