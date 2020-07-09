@@ -54,7 +54,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             {
                 segmentCount = 8,
                 segmentDistance = 32,
-                //constraintRepetitions = 2,
+                constraintRepetitions = 10,//defaults to 2, but with drag this may cause the rope to get stretched
                 //customDistances = true,
                 //segmentDistanceList = new List<float>
                 //{
@@ -67,6 +67,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 //    86f,
                 //    176f
                 //},
+                drag = 1.05f,
                 forceGravity = new Vector2(0f, 1f),
                 gravityStrengthMult = 1f
             };

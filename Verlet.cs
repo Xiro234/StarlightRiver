@@ -14,24 +14,32 @@ namespace StarlightRiver
 {
     public class VerletChainInstance
     {
+        //base
         public bool ChainActive = true;
         public bool init = false;
 
         public List<RopeSegment> ropeSegments = new List<RopeSegment>();
 
-        public bool customDistances = false;
+
+        //distances
         public int segmentDistance = 5;
+
+        public bool customDistances = false;
         public List<float> segmentDistanceList = new List<float>();//length must match the segment count
 
+
+        //general
         public int segmentCount = 10;
         public int constraintRepetitions = 2;
+        public float drag = 1;
 
-        public bool customGravity = false;
+
+        //gravity
         public Vector2 forceGravity = new Vector2(0f, 1f);//x, y (positive = down)
-        public List<Vector2> forceGravityList = new List<Vector2>();//length must match the segment count
         public float gravityStrengthMult = 1f;
 
-        //public float lineWidth = 0.1f;
+        public bool customGravity = false;
+        public List<Vector2> forceGravityList = new List<Vector2>();//length must match the segment count
 
         private void Start(Vector2 targetPosition)
         {
@@ -77,11 +85,11 @@ namespace StarlightRiver
             for (int i = 1; i < segmentCount; i++)
             {
                 RopeSegment firstSegment = ropeSegments[i];
-                Vector2 velocity = firstSegment.posNow - firstSegment.posOld;
+                Vector2 velocity = (firstSegment.posNow - firstSegment.posOld) / drag;
                 firstSegment.posOld = firstSegment.posNow;
                 firstSegment.posNow += velocity;
                 firstSegment.posNow += (customGravity ? forceGravityList[i] : forceGravity) * gravityStrengthMult;
-                this.ropeSegments[i] = firstSegment;
+                ropeSegments[i] = firstSegment;
             }
 
             for (int i = 0; i < constraintRepetitions; i++)//the amount of times Constraints are applied per update
