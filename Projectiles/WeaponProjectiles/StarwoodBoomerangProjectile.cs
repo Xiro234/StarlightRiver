@@ -34,6 +34,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private int dustType = ModContent.DustType<Dusts.Stamina>();
         private bool empowered = false;
         private VerletChainInstance Chain;
+        private List<Vector2> defaultGravList;
 
 
         public override void SetDefaults()
@@ -51,18 +52,29 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             Chain = new VerletChainInstance
             {
-                segmentCount = 5,
-                customDistances = true,
-                segmentDistanceList = new List<float> { 50f, 40f, 30f, 20f, 10f }
+                segmentCount = 8,
+                segmentDistance = 32,
+                //constraintRepetitions = 2,
+                //customDistances = true,
+                //segmentDistanceList = new List<float>
+                //{
+                //    64f,
+                //    32f,
+                //    24f,
+                //    24f,
+                //    32f,
+                //    64f,
+                //    86f,
+                //    176f
+                //},
+                forceGravity = new Vector2(0f, 1f),
+                gravityStrengthMult = 1f
             };
         }
 
-
         public override void AI()
         {
-            //Chain.segmentDistance = 50f;
-
-            Chain.UpdateChain(projectile.position);
+            Chain.UpdateChain(projectile.Center);
 
             Player projOwner = Main.player[projectile.owner];
 
@@ -238,20 +250,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private Texture2D GlowingTexture => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
         private Texture2D AuraTexture => GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
-        private void TestDraw(SpriteBatch spriteBatch, Vector2 position)
-        {
-            spriteBatch.Draw(GlowingTrail,
-                position - Main.screenPosition,
-                new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
-                Color.Green,
-                0f,
-                new Vector2(GlowingTrail.Width / 2, GlowingTrail.Height / 4),
-                1f, default, default);
-        }
+        private Texture2D worm1 => GetTexture("StarlightRiver/worm1");
+        private Texture2D worm2 => GetTexture("StarlightRiver/worm2");
+        private Texture2D worm3 => GetTexture("StarlightRiver/worm3");
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Chain.DrawRope(spriteBatch, TestDraw);
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
 
             if (projectile.ai[0] != 1)
@@ -316,6 +320,36 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 1f, default, default);
 
             spriteBatch.Draw(AuraTexture, projectile.Center - Main.screenPosition, AuraTexture.Frame(), (Color.White * (projectile.ai[1] / maxChargeTime)), 0, AuraTexture.Size() / 2, (-chargeMult + 1) / 1.2f, 0, 0);
+
+            Chain.DrawRope(spriteBatch, ChainDrawMethod);
+        }
+
+        private void ChainDrawMethod(SpriteBatch spriteBatch, int i, Vector2 position, Vector2 prevPosition, Vector2 nextPosition)
+        {
+            if(nextPosition != Vector2.Zero)
+            {
+                switch (i)
+                {
+                    case 0:
+                        Helper.DrawLine(spriteBatch, position - Main.screenPosition, nextPosition - Main.screenPosition, worm1, Color.White, 32);
+                        break;
+                    case 6:
+                        Helper.DrawLine(spriteBatch, position - Main.screenPosition, nextPosition - Main.screenPosition, worm3, Color.White, 32);
+                        break;
+                    default:
+                        Helper.DrawLine(spriteBatch, position - Main.screenPosition, nextPosition - Main.screenPosition, worm2, Color.White, 32);
+                        break;
+                }
+                //Helper.DrawLine(spriteBatch, position - Main.screenPosition, nextPosition - Main.screenPosition, Main.blackTileTexture, Color.White, (int)((-((float)i / Chain.segmentCount) + 1) * 20));
+            }
+
+            //spriteBatch.Draw(GlowingTrail,
+            //    position - Main.screenPosition,
+            //    new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
+            //    Color.White,
+            //    0f,
+            //    new Vector2(GlowingTrail.Width / 2, GlowingTrail.Height / 4),
+            //    0.50f, default, default);
         }
 
         #region phase change void

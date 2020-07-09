@@ -26,6 +26,30 @@ namespace StarlightRiver
 
         public static bool OnScreen(Vector2 pos) => (pos.X > -16 && pos.X < Main.screenWidth + 16 && pos.Y > -16 && pos.Y < Main.screenHeight + 16);
 
+        public static void DrawLine(SpriteBatch spritebatch, Vector2 startPoint, Vector2 endPoint, Texture2D texture, Color color, int width = 1)
+        {
+            Vector2 edge = endPoint - startPoint;
+            // calculate angle to rotate line
+            float angle =
+                (float)Math.Atan2(edge.Y, edge.X);
+
+            Vector2 offsetStart = startPoint + new Vector2(0, -(width / 2)).RotatedBy(angle);
+
+            spritebatch.Draw(texture,
+                new Rectangle(// rectangle defines shape of line and position of start of line
+                    (int)offsetStart.X,
+                    (int)offsetStart.Y,
+                    (int)edge.Length(), //sb will strech the texture to fill this rectangle
+                    width), //width of line, change this to make thicker line (may have to offset?)
+                null,
+                color, //colour of line
+                angle, //angle of line (calulated above)
+                new Vector2(0, 0), // point in line about which to rotate
+                SpriteEffects.None,
+                default);
+
+        }
+
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC?.CheckDead() == false;

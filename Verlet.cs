@@ -24,9 +24,13 @@ namespace StarlightRiver
         public List<float> segmentDistanceList = new List<float>();//length must match the segment count
 
         public int segmentCount = 10;
-        public int constraintRepetitions = 50;
+        public int constraintRepetitions = 2;
 
-        //public float time = 1f;
+        public bool customGravity = false;
+        public Vector2 forceGravity = new Vector2(0f, 1f);//x, y (positive = down)
+        public List<Vector2> forceGravityList = new List<Vector2>();//length must match the segment count
+        public float gravityStrengthMult = 1f;
+
         //public float lineWidth = 0.1f;
 
         private void Start(Vector2 targetPosition)
@@ -36,7 +40,14 @@ namespace StarlightRiver
             for (int i = 0; i < segmentCount; i++)
             {
                 ropeSegments.Add(new RopeSegment(ropeStartPoint));
-                ropeStartPoint.Y += (customDistances ? segmentDistanceList[i] : segmentDistance);
+                if((customGravity ? forceGravityList[i] : forceGravity) != Vector2.Zero)
+                {
+                    ropeStartPoint += Vector2.Normalize((customGravity ? forceGravityList[i] : forceGravity)) * (customDistances ? segmentDistanceList[i] : segmentDistance);
+                }
+                else
+                {
+                    ropeStartPoint.Y += (customDistances ? segmentDistanceList[i] : segmentDistance);
+                }
             }
         }
 
@@ -55,29 +66,24 @@ namespace StarlightRiver
                 //DrawRope();
                 Simulate(targetPosition);
             }
-            else if (!ChainActive && init == true)//if in-active and initalized 
-            {
-                //Reset here
-            }
+            //else if (!ChainActive && init == true)//if in-active and initalized 
+            //{
+            //    //Reset here
+            //}
         }
 
         private void Simulate(Vector2 targetPosition)
         {
-            // SIMULATION
-            Vector2 forceGravity = new Vector2(0f, 1f); //GRAVITY
-
             for (int i = 1; i < segmentCount; i++)
             {
                 RopeSegment firstSegment = ropeSegments[i];
                 Vector2 velocity = firstSegment.posNow - firstSegment.posOld;
                 firstSegment.posOld = firstSegment.posNow;
                 firstSegment.posNow += velocity;
-                firstSegment.posNow += forceGravity; //firstSegment.posNow += forceGravity * time;
+                firstSegment.posNow += (customGravity ? forceGravityList[i] : forceGravity) * gravityStrengthMult;
                 this.ropeSegments[i] = firstSegment;
-
             }
 
-            //CONSTRAINTS
             for (int i = 0; i < constraintRepetitions; i++)//the amount of times Constraints are applied per update
             {
                 ApplyConstraint(targetPosition);
@@ -129,7 +135,15 @@ namespace StarlightRiver
             }
         }
 
-        public void DrawRope(SpriteBatch spritebatch, Action<SpriteBatch, Vector2> drawMethod)
+        public void IterateRope(Action<int> iterateMethod) //method for stuff other than drawing
+        {
+            for (int i = 0; i < segmentCount; i++)
+            {
+                iterateMethod(i);
+            }
+        }
+
+        public void DrawRope(SpriteBatch spritebatch, Action<SpriteBatch, int, Vector2> drawMethod_curPos) //current position
         {
             //Vector2[] ropePositions = new Vector2[segmentCount];
 
@@ -137,7 +151,23 @@ namespace StarlightRiver
             {
                 //ropePositions[i] = this.ropeSegments[i].posNow; //original did this for an unknown reason
 
-                drawMethod(spritebatch, ropeSegments[i].posNow);
+                drawMethod_curPos(spritebatch, i, ropeSegments[i].posNow);
+            }
+        }
+
+        public void DrawRope(SpriteBatch spritebatch, Action<SpriteBatch, int, RopeSegment> drawMethod_curSeg) //current segment (has position and previous position)
+        {
+            for (int i = 0; i < segmentCount; i++)
+            {
+                drawMethod_curSeg(spritebatch, i, ropeSegments[i]);
+            }
+        }
+
+        public void DrawRope(SpriteBatch spritebatch, Action<SpriteBatch, int, Vector2, Vector2, Vector2> drawMethod_curPos_prevPos_nextPos)//current position, previous point position, next point position
+        {
+            for (int i = 0; i < segmentCount; i++)
+            {
+                drawMethod_curPos_prevPos_nextPos(spritebatch, i, ropeSegments[i].posNow, (i > 0 ? ropeSegments[i - 1].posNow : Vector2.Zero), (i < segmentCount - 1 ? ropeSegments[i + 1].posNow : Vector2.Zero));
             }
         }
 
