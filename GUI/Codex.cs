@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Codex;
 using System;
@@ -8,6 +7,7 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.UI;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.GUI
 {
@@ -26,7 +26,7 @@ namespace StarlightRiver.GUI
         private readonly UIScrollbar EntryScroll = new UIScrollbar();
         public override void OnInitialize()
         {
-            AddElement(BookButton, 300, 100, 26, 32, this);
+            AddElement(BookButton, 570, 240, 26, 32, this);
             BookButton.OnClick += OpenCodex;
             BookButton.SetVisibility(1, 1);
 
@@ -35,7 +35,7 @@ namespace StarlightRiver.GUI
 
             AddElement(new CategoryButton(CodexEntry.Categories.Abilities, "Abilities"), 30, 10, 50, 28, Back);
             AddElement(new CategoryButton(CodexEntry.Categories.Biomes, "Biomes"), 90, 10, 50, 28, Back);
-            AddElement(new CategoryButton(CodexEntry.Categories.Bosses, "Bosses"), 150, 10, 50, 28, Back);
+            AddElement(new CategoryButton(CodexEntry.Categories.Removed, "[PH]REMOVED"), 150, 10, 50, 28, Back);
             AddElement(new CategoryButton(CodexEntry.Categories.Relics, "Relics"), 210, 10, 50, 28, Back);
             AddElement(new CategoryButton(CodexEntry.Categories.Misc, "Misc"), 270, 10, 50, 28, Back);
 
@@ -93,7 +93,6 @@ namespace StarlightRiver.GUI
         }
         public override void Update(GameTime gameTime)
         {
-            AddElement(BookButton, 570, 240, 26, 32, this);
             CodexHandler player = Main.LocalPlayer.GetModPlayer<CodexHandler>();
 
             switch (player.CodexState)

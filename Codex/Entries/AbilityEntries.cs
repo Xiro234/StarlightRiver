@@ -47,6 +47,7 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Corona of Purity";
             Body = "NO TEXT";
+            Hint = "Found in a temple at the brink of the world...";
             Image = GetTexture("StarlightRiver/MarioCumming");
             Icon = GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
         }
@@ -59,6 +60,7 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Gaia's Fist";
             Body = "NO TEXT";
+            Hint = "PENIS";
             Image = GetTexture("StarlightRiver/MarioCumming");
             Icon = GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
         }
@@ -84,6 +86,7 @@ namespace StarlightRiver.Codex.Entries
             Category = Categories.Abilities;
             Title = "Zzelera's Cloak";
             Body = "NO TEXT";
+            Hint = "PENIS";
             Image = GetTexture("StarlightRiver/MarioCumming");
             Icon = GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
             RequiresUpgradedBook = true;

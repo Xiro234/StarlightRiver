@@ -16,10 +16,5 @@ namespace StarlightRiver.Core
             npc.lifeRegen -= DoT * 2;
             DoT = 0;
         }
-
-        public override void ResetEffects(NPC npc)
-        {
-            
-        }
     }
 }

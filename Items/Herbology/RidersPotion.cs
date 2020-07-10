@@ -1,5 +1,5 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Buffs;
+﻿using StarlightRiver.Buffs;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Herbology
 {

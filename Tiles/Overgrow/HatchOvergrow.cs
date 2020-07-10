@@ -1,10 +1,10 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -43,6 +43,7 @@ namespace StarlightRiver.Tiles.Overgrow
     internal class BigHatchOvergrow : DummyTile
     {
         public override int DummyType => ProjectileType<Projectiles.Dummies.BigHatchDummy>();
+
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = false;

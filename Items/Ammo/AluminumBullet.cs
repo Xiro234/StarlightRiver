@@ -1,7 +1,6 @@
-using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Items.Crafting;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Ammo
 {
@@ -22,8 +21,8 @@ namespace StarlightRiver.Items.Ammo
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 0.5f;
-            item.value = 10;
-            item.rare = ItemRarityID.Green;
+            item.value = 1;
+            item.rare = ItemRarityID.Blue;
             item.shoot = ProjectileType<Projectiles.Ammo.AluminumBullet>();
             item.shootSpeed = 0.01f;
             item.ammo = AmmoID.Bullet;
@@ -32,9 +31,10 @@ namespace StarlightRiver.Items.Ammo
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<AluminumBar>(), 1);
-            recipe.AddTile(TileType<Tiles.Crafting.Oven>());
-            recipe.SetResult(this, 25);
+            recipe.AddIngredient(ItemID.MusketBall, 70);
+            recipe.AddIngredient(ItemType<Aluminum.AluminumBar>(), 1);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 70);
             recipe.AddRecipe();
         }
     }

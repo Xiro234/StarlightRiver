@@ -1,75 +1,34 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Abilities;
 using StarlightRiver.Items;
+using StarlightRiver.Projectiles.Dummies;
 using System;
-using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
+using Terraria.ID;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
-    internal class BulbFruit : ModTile
+    internal class BulbFruit : DummyTile
     {
-        public override void SetDefaults()
+        public override bool Autoload(ref string name, ref string texture)
         {
-            Main.tileLavaDeath[Type] = false;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLighted[Type] = true;
-
-            TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.Height = 2;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.addTile(Type);
-
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Orb Fruit");//Map name
-            AddMapEntry(new Color(255, 255, 200), name);
-            dustType = DustType<Dusts.Gold2>();
-            disableSmartCursor = true;
-        }
-
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
-        {
-            Tile tile = Main.tile[i, j];
-            if (tile.frameY == 0 && tile.frameX % 34 == 0)
-            {
-                if (tile.frameX == 0)
-                {
-                    Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/BulbFruitGlow");
-                    spriteBatch.Draw(tex, (new Vector2(i, j) + Helper.TileAdj) * 16 + new Vector2(3, 12) - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime));
-                }
-
-                for (int k = 1; k <= 30; k++)
-                {
-                    if (Main.tile[i, j - k].active()) break;
-                    Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow");
-                    float sway = (float)Math.Sin(StarlightWorld.rottime + (15 - k) / 4) * (15 - k) / 150;
-                    spriteBatch.Draw(tex, (new Vector2(i + 0.5f + sway, j - k) + Helper.TileAdj) * 16 - Main.screenPosition, new Rectangle(16 * k % 3, 0, 16, 16), Lighting.GetColor(i, j - k));
-
-                    if (tile.frameX == 0 && Main.rand.Next(5) == 0)
-                        Dust.NewDust(new Vector2(i + 0.5f, j - k) * 16, 16, 16, DustType<Dusts.Gold2>(), 0, -3, 0, default, 0.3f);
-                }
-            }
+            texture = "StarlightRiver/Invisible";
             return true;
         }
 
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            if (!Main.projectile.Any(p => p.active && p.type == ProjectileType<Projectiles.Dummies.BulbDummy>() && p.Hitbox.Contains((new Vector2(i, j) * 16).ToPoint())))
-            {
-                Projectile.NewProjectile(new Vector2(i, j) * 16, Vector2.Zero, ProjectileType<Projectiles.Dummies.BulbDummy>(), 0, 0);
-            }
+        public override int DummyType => ProjectileType<BulbFruitDummy>();
 
-            if (Main.tile[i, j].frameX < 34)
-                Dust.NewDust(new Vector2(i, j) * 16, 16, 16, DustType<Dusts.Gold2>(), 0, 0, 0, default, 0.5f);
+        public override bool SpawnConditions(int i, int j)
+        {
+            Tile tile = Main.tile[i, j];
+
+            if (tile.frameY == 0 && (tile.frameX == 0 || tile.frameX == 34)) return true;
+            else return false;
         }
+
+        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 2, 2, DustType<Dusts.Gold>(), SoundID.Grass, false, new Color(255, 255, 200));
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -92,14 +51,59 @@ namespace StarlightRiver.Tiles.Overgrow
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int frameX, int frameY) => Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ItemType<Items.Debug.DebugPotion>());
+    }
+
+    internal class BulbFruitDummy : Dummy
+    {
+        public BulbFruitDummy() : base(TileType<BulbFruit>(), 32, 32) { }
+
+        public override void Collision(Player player)
         {
-            Item.NewItem(new Vector2(i * 16, j * 16), 32, 48, ItemType<Items.Debug.DebugPotion>());
+            Tile tile = Main.tile[ParentX - 1, ParentY - 1];
+            if (tile.frameX == 0 && tile.frameY == 0 && AbilityHelper.CheckWisp(player, projectile.Hitbox))
+            {
+                for (int k = 0; k < 40; k++) Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Gold2>(), Vector2.One.RotatedByRandom(6.28f) * Main.rand.NextFloat(1.2f, 1.4f));
+                tile.frameX = 34;
+            }
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Tile tile = Main.tile[ParentX - 1, ParentY - 1];
+
+            Texture2D tex2 = GetTexture("StarlightRiver/Tiles/Overgrow/BulbFruit"); //Draws the bulb itself
+            Rectangle frame = new Rectangle((tile.frameX == 0 && tile.frameY == 0) ? 0 : 32, 0, 32, 32);
+            float offset = (float)Math.Sin(StarlightWorld.rottime) * 3;
+
+            spriteBatch.Draw(tex2, projectile.Center + new Vector2(offset, 0) - Main.screenPosition, frame, Lighting.GetColor(ParentX, ParentY), 0, Vector2.One * 16, 1, 0, 0);
+
+            if (tile.frameX == 0 && tile.frameY == 0) //Draws the glowing indicator
+            {
+                Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/BulbFruitGlow");
+
+                spriteBatch.Draw(tex, projectile.Center + new Vector2(offset, 6) - Main.screenPosition, tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), 0, tex.Size() / 2, 1, 0, 0);
+                Dust.NewDust(projectile.position, 32, 32, DustType<Dusts.Gold>(), 0, 0, 0, default, 0.3f);
+                Lighting.AddLight(projectile.Center, new Vector3(1, 0.8f, 0.4f));
+            }
+
+            for (int k = 2; k <= 30; k++) //Draws the vine
+            {
+                if (Main.tile[ParentX, ParentY - k].active()) break;
+                Texture2D tex = GetTexture("StarlightRiver/Tiles/Overgrow/VineOvergrowFlow");
+                float sway = (float)Math.Sin(StarlightWorld.rottime + k * 0.2f) * 3;
+
+                spriteBatch.Draw(tex, projectile.Center + new Vector2(sway - 8, k * -16) - Main.screenPosition, new Rectangle(16 * k % 3, 0, 16, 16), Lighting.GetColor(ParentX, ParentY - k));
+
+                if (Main.rand.Next(5) == 0 && tile.frameX == 0 && tile.frameY == 0) Dust.NewDust(projectile.Center - new Vector2(10, k * 16 - 8), 16, 16, DustType<Dusts.Gold2>(), 0, -3, 0, default, 0.3f);
+            }
         }
     }
+
     internal class BulbFruitItem : QuickTileItem
     {
         public override string Texture => "StarlightRiver/MarioCumming";
-        public BulbFruitItem() : base("Bulb Fruit", "", ModContent.TileType<BulbFruit>(), 1) { }
+        public BulbFruitItem() : base("Bulb Fruit", "", TileType<BulbFruit>(), 1) { }
     }
+
 }

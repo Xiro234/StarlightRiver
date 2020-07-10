@@ -1,6 +1,6 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Terraria;
+﻿using Terraria;
 using Terraria.DataStructures;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items
 {

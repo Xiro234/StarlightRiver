@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using System;
@@ -7,10 +6,11 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
-    public class OvergrowBossFlail : ModNPC
+    public class OvergrowBossFlail : ModNPC, IDrawAdditive
     {
         public OvergrowBoss parent;
         public Player holder;
@@ -18,7 +18,9 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("[PH]Boss Shaker");
+            DisplayName.SetDefault("The Shaker");
+            NPCID.Sets.TrailCacheLength[npc.type] = 10;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
         }
 
         public override void SetDefaults()
@@ -55,11 +57,10 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             npc.ai[1]++; //ticks our timer
 
-            if (npc.life <= 1) Dust.NewDustPerfect(npc.Center, DustType<Dusts.Gold2>(), Vector2.One.RotatedBy(StarlightWorld.rottime * 4)); //dust when "destroyed"
-
             if (npc.ai[2] == 1) //if zapped
             {
                 parent.npc.ai[1] = 0; //resets the boss' timer constatnly, effectively freezing it
+                parent.npc.velocity *= 0;
                 parent.ResetAttack(); //also reset's their attack just incase
 
                 if (npc.ai[1] % 5 == 0 && npc.ai[1] < 60) Helper.DrawElectricity(npc.Center, parent.npc.Center, DustType<Dusts.Gold>(), 0.5f); //draw zap effects
@@ -68,7 +69,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     npc.velocity.Y -= 10; //launches it out of the pit
                     npc.ai[3] = 0; //cut the chain
-                    parent.npc.ai[0] = 5; //phase the boss
+                    parent.npc.ai[0] = (int)OvergrowBoss.OvergrowBossPhase.FirstStun; //phase the boss
                 }
 
                 if (npc.ai[1] == 80) //some things need to be on a delay
@@ -80,6 +81,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (npc.ai[0] == 1) //pick-upable
             {
+                npc.life = 1;
                 npc.friendly = true;
                 npc.rotation += npc.velocity.X / 125f;
                 if (npc.velocity.Y == 0 && npc.velocity.X > 0.3f) npc.velocity.X -= 0.3f;
@@ -108,15 +110,38 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
         }
 
+        public override bool CheckDead()
+        {
+            npc.dontTakeDamage = true;
+            npc.life = 1;
+            return false;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
+            if (npc.life <= 1)
+            {
+                for (int k = 0; k < npc.oldPos.Length; k++)
+                {
+                    Color color = drawColor * ((float)(npc.oldPos.Length - k) / npc.oldPos.Length) * 0.4f;
+                    float scale = npc.scale * (float)(npc.oldPos.Length - k) / npc.oldPos.Length;
+                    Texture2D tex = GetTexture(Texture);
+
+                    spriteBatch.Draw(tex, npc.oldPos[k] + npc.Size / 2 - Main.screenPosition, null, color, npc.oldRot[k], tex.Size() / 2, scale, default, default);
+                }
+            }
+
             if (npc.ai[3] != 0)
             {
                 for (float k = 0; k <= 1; k += 1 / (Vector2.Distance(npc.Center, parent.npc.Center) / 16))
                 {
                     Vector2 pos = Vector2.Lerp(npc.Center, parent.npc.Center, k) - Main.screenPosition;
                     //shake the chain when tossed
-                    if ((parent.npc.ai[2] == 3 || parent.npc.ai[0] == 4) && npc.velocity.Length() > 0) pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float)Math.Sin(StarlightWorld.rottime + k * 20) * 10;
+                    if ((parent.npc.ai[0] == (int)OvergrowBoss.OvergrowBossPhase.FirstAttack && (parent.npc.ai[2] == 3 || parent.npc.ai[2] == 4 || parent.npc.ai[2] == 6) ||
+                        parent.npc.ai[0] == (int)OvergrowBoss.OvergrowBossPhase.FirstToss) && npc.velocity.Length() > 0)
+                    {
+                        pos += Vector2.Normalize(npc.Center - parent.npc.Center).RotatedBy(1.58f) * (float)Math.Sin(StarlightWorld.rottime + k * 20) * 10;
+                    }
 
                     spriteBatch.Draw(GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/ShakerChain"), pos,
                         new Rectangle(0, 0, 8, 16), drawColor, (npc.Center - parent.npc.Center).ToRotation() + 1.58f, new Vector2(4, 8), 1, 0, 0);
@@ -133,11 +158,19 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             }
         }
 
-        public override bool CheckDead()
+        public void DrawAdditive(SpriteBatch spriteBatch)
         {
-            npc.dontTakeDamage = true;
-            npc.life = 1;
-            return false;
+            if (npc.life <= 1)
+            {
+                for (int k = 0; k < npc.oldPos.Length; k++)
+                {
+                    Color color = new Color(255, 255, 200) * 0.3f;
+                    float scale = npc.scale * (float)(npc.oldPos.Length - k) / npc.oldPos.Length * 1.1f;
+                    Texture2D tex = GetTexture("StarlightRiver/Keys/Glow");
+
+                    spriteBatch.Draw(tex, npc.oldPos[k] + npc.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
+                }
+            }
         }
     }
 }

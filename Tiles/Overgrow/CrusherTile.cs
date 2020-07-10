@@ -1,9 +1,9 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Overgrow
 {
@@ -34,7 +34,7 @@ namespace StarlightRiver.Tiles.Overgrow
             if (!Main.npc.Any(npc => npc.type == NPCType<NPCs.Traps.Crusher>() && (npc.modNPC as NPCs.Traps.Crusher).Parent == Main.tile[i, j] && npc.active))
             {
                 int crusher = NPC.NewNPC((int)pos.X + 4, (int)pos.Y + 21, NPCType<NPCs.Traps.Crusher>());
-                (Main.npc[crusher].modNPC as NPCs.Traps.Crusher).Parent = Main.tile[i, j];
+                if (Main.npc[crusher].modNPC is NPCs.Traps.Crusher) (Main.npc[crusher].modNPC as NPCs.Traps.Crusher).Parent = Main.tile[i, j];
             }
         }
     }

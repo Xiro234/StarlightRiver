@@ -1,33 +1,32 @@
-﻿using static Terraria.ModLoader.ModContent;
-using StarlightRiver.Tiles.Vitric;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Debug
 {
     public class DebugPlacer1 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", TileType<VitricOre>(), 0) { }
+        public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", TileType<Tiles.Overgrow.BossPit>(), 0) { }
     }
 
     public class DebugPlacer2 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", TileType<VitricOreFloat>(), 0) { }
+        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", TileType<Tiles.Overgrow.AppearingBrick>(), 0) { }
     }
 
     public class DebugPlacer3 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", TileType<Tiles.Temple.TempleChestSimple>(), 0) { }
+        public DebugPlacer3() : base("Debug Placer 3", "Suck my huge dragon dong", TileType<Tiles.Overgrow.OvergrowDoorLocked>(), 0) { }
     }
 
     public class DebugPlacer4 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer4() : base("Debug Placer 4", "Suck my huge dragon dong", TileType<Tiles.Hell.HellChest>(), 0) { }
+        public DebugPlacer4() : base("Debug Placer 4", "Suck my huge dragon dong", TileType<Tiles.Overgrow.BossAltar>(), 0) { }
     }
 
     public class DebugPotion : ModItem
@@ -41,7 +40,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.rare = ItemRarityID.Green;
             item.autoReuse = true;
-            item.createTile = TileType<Tiles.Misc.SandscriptTile>();
+            item.createTile = TileID.ShadowOrbs;
         }
 
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -54,12 +53,13 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            player.GetModPlayer<Abilities.AbilityHandler>().StatStaminaMaxPerm = 1;
-            foreach (Abilities.Ability ab in player.GetModPlayer<Abilities.AbilityHandler>().Abilities) ab.Locked = true;
-
-            player.GetModPlayer<Codex.CodexHandler>().CodexState = 0;
-
+            StarlightRiver.Instance.textcard.Display("Debug", "King of Debugging", null, 180, Main.rand.NextFloat(1, 3));
             return true;
+        }
+
+        public override void HoldItem(Player player)
+        {
+
         }
     }
 
@@ -86,15 +86,15 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            //foreach (NPC wall in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBackdropLeft)) wall.ai[1] = 3; //make the walls scroll
-            //foreach (NPC plat in Main.npc.Where(n => n.modNPC is NPCs.Boss.VitricBoss.VitricBossPlatformUp)) plat.ai[0] = 1; //make the platforms scroll
-            //Helper.NewItemPerfect(player.Center + new Vector2(10, -30), Vector2.Normalize(player.Center - Main.MouseWorld).RotatedByRandom(0.3f) * -25, Main.rand.Next(ItemID.Count), 1);
+            for (int x = 0; x < Main.maxTilesX; x++)
+                for (int y = 0; y < Main.maxTilesY; y++) if (Main.tile[x, y].type == TileID.IceBlock) Main.tile[x, y].type = (ushort)TileType<Tiles.Permafrost.PermafrostIce>();
+
             return true;
         }
 
         public override void HoldItem(Player player)
         {
-            //StarlightRiver.Rotation = (player.Center - Main.MouseWorld).ToRotation() - 1.58f;
+
         }
     }
 }

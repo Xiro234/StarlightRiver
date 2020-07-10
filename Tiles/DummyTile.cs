@@ -9,12 +9,16 @@ namespace StarlightRiver.Tiles
     {
         public virtual int DummyType { get; }
 
+        public Projectile Dummy { get; set; }
+
+        public virtual void SafeNearbyEffects(int i, int j, bool closer) { }
+
         public virtual bool SpawnConditions(int i, int j)
         {
             Tile tile = Main.tile[i, j];
             return tile.frameX == 0 && tile.frameY == 0;
         }
-        public virtual void SafeNearbyEffects(int i, int j, bool closer) { }
+
         public sealed override void NearbyEffects(int i, int j, bool closer)
         {
             if (!Main.tileFrameImportant[Type] || SpawnConditions(i, j))
@@ -24,7 +28,8 @@ namespace StarlightRiver.Tiles
                     Projectile p = new Projectile();
                     p.SetDefaults(DummyType);
 
-                    Projectile.NewProjectile(new Vector2(i, j) * 16 + p.Size / 2, Vector2.Zero, DummyType, 1, 0);
+                    int n = Projectile.NewProjectile(new Vector2(i, j) * 16 + p.Size / 2, Vector2.Zero, DummyType, 1, 0);
+                    Dummy = Main.projectile[n];
                     p = null;
                 }
             }

@@ -1,10 +1,10 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.World.Generation;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Structures
 {

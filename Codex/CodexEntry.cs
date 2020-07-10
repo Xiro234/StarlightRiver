@@ -1,11 +1,11 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader.IO;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Codex
 {
@@ -29,7 +29,7 @@ namespace StarlightRiver.Codex
             Abilities = 0,
             Biomes = 1,
             Relics = 2,
-            Bosses = 3,
+            Removed = 3,
             Misc = 4,
             None = 5
         }
@@ -77,10 +77,14 @@ namespace StarlightRiver.Codex
 
         public static CodexEntry DeserializeData(TagCompound tag)
         {
-            Type t = Type.GetType(tag.GetString("Name"));
-            CodexEntry entry = (CodexEntry)Activator.CreateInstance(t);
-            entry.Locked = tag.GetBool("Locked");
-            return entry;
+            try
+            {
+                Type t = Type.GetType(tag.GetString("Name"));
+                CodexEntry entry = (CodexEntry)Activator.CreateInstance(t);
+                entry.Locked = tag.GetBool("Locked");
+                return entry;
+            }
+            catch { return null; }
         }
     }
 }

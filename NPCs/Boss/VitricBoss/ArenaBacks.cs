@@ -1,14 +1,15 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.VitricBoss
 {
-    public class VitricBackdropLeft : ModNPC
+    public class VitricBackdropLeft : ModNPC, IMoonlordLayerDrawable
     {
         public const int Scrolltime = 1000;
         public const int Risetime = 360;
@@ -38,12 +39,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             /* AI fields:
              * 0: timer
-             * 1: activation state, im too lazy to create an enum for this so: (0 = hidden, 1 = rising, 2 = still, 3 = scrolling)
+             * 1: activation state, im too lazy to create an enum for this so: (0 = hidden, 1 = rising, 2 = still, 3 = scrolling, 4 = resetting)
              * 2: scrolling timer
              * 3:
              */
 
             if (StarlightWorld.GlassBossOpen && npc.ai[1] == 0) npc.ai[1] = 1; //when the altar is hit, make the BG rise out of the ground
+
             if (npc.ai[1] == 1)
             {
                 SpawnPlatforms();
@@ -59,19 +61,30 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 for (int k = 0; k < 18; k++)
                     Dust.NewDust(npc.position, 560, 1, DustType<Dusts.Sand>(), 0, Main.rand.NextFloat(-5f, -1f), Main.rand.Next(255), default, Main.rand.NextFloat(1.5f)); //spawns dust
             }
+
             if (npc.ai[1] == 2) npc.ai[0] = Risetime;
             if (npc.ai[1] == 3) npc.ai[2]++;
             if (npc.ai[2] > Scrolltime) npc.ai[2] = 0;
+
+            if (npc.ai[1] == 4)
+            {
+                if (npc.ai[2] != 0) npc.ai[2]++; //stops once we're reset.
+                else
+                {
+                    npc.ai[1] = 2;
+                    foreach (NPC npc in Main.npc.Where(n => n.modNPC is VitricBossPlatformUp)) npc.ai[0] = 0;
+                }
+
+                if (npc.ai[2] > Scrolltime) npc.ai[2] = 0;
+            }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            return false;
-        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) => false;
 
-        public void SpecialDraw(SpriteBatch spriteBatch)
+        public void DrawMoonlordLayer(SpriteBatch spriteBatch)
         {
-            if (npc.ai[1] != 3) //animation for rising out of the sand
+            if (npc.ai[1] == 3 || npc.ai[1] == 4) ScrollDraw(spriteBatch);
+            else  //animation for rising out of the sand
             {
                 Texture2D tex = GetTexture(Texture);
                 int targetHeight = (int)(npc.ai[0] / Risetime * tex.Height);
@@ -81,7 +94,6 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 spriteBatch.Draw(tex, target, source, color, 0, Vector2.Zero, 0, 0);
             }
-            else ScrollDraw(spriteBatch);
         }
 
         public virtual void ScrollDraw(SpriteBatch sb) //im lazy

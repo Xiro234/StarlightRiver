@@ -11,32 +11,44 @@ namespace StarlightRiver.Projectiles.Dummies
         public Tile Parent { get => Main.tile[(int)projectile.Center.X / 16, (int)projectile.Center.Y / 16]; }
         public int ParentX { get => (int)projectile.Center.X / 16; }
         public int ParentY { get => (int)projectile.Center.Y / 16; }
+
         public Dummy(int validType, int width, int height)
         {
             ValidType = validType;
             Width = width;
             Height = height;
         }
+
         public override string Texture => "StarlightRiver/Invisible";
+
+        public virtual void Update() { }
+
+        public virtual void Collision(Player player) { }
+
+        public virtual void SafeSetDefaults() { }
+
         public sealed override void SetStaticDefaults()
         {
             DisplayName.SetDefault("");
         }
+
         public sealed override void SetDefaults()
         {
+            SafeSetDefaults();
+
             projectile.width = Width;
             projectile.height = Height;
             projectile.hostile = true;
             projectile.damage = 1;
             projectile.timeLeft = 2;
         }
-        public virtual void Update() { }
+
         public sealed override void AI()
         {
             if (Parent.type == ValidType) projectile.timeLeft = 2;
             Update();
         }
-        public virtual void Collision(Player player) { }
+
         public sealed override bool CanHitPlayer(Player target)
         {
             Collision(target);

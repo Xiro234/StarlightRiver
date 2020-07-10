@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
 using StarlightRiver.Core;
@@ -8,6 +7,7 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Pickups
 {
@@ -90,6 +90,7 @@ namespace StarlightRiver.NPCs.Pickups
 
                 StarlightRiver.Instance.textcard.Display("Forbidden Winds", message, Main.LocalPlayer.GetModPlayer<AbilityHandler>().dash);
                 Helper.UnlockEntry<WindsEntry>(Main.LocalPlayer);
+                Helper.UnlockEntry<StaminaEntry>(Main.LocalPlayer);
             }
             // audio fade shenanigans
 

@@ -1,8 +1,8 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Keys
 {

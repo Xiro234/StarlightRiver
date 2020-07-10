@@ -1,23 +1,31 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex;
 using StarlightRiver.Core;
 using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.Items.Prototypes;
 using StarlightRiver.Keys;
+using StarlightRiver.NPCs.Boss.SquidBoss;
 using StarlightRiver.Tiles.Overgrow.Blocks;
+using StarlightRiver.Tiles.Permafrost;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.UI.Elements;
+using Terraria.GameContent.UI.States;
 using Terraria.Graphics;
 using Terraria.ID;
+using Terraria.IO;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.UI;
+using Terraria.Utilities;
 using UICharacter = Terraria.GameContent.UI.Elements.UICharacter;
 
 namespace StarlightRiver
@@ -25,6 +33,8 @@ namespace StarlightRiver
 
     public partial class StarlightRiver : Mod
     {
+        Dictionary<UIWorldListItem, TagCompound> worldDataCache = new Dictionary<UIWorldListItem, TagCompound>();
+
         private void HookOn()
         {
             // Cursed Accessory Control Override
@@ -36,7 +46,9 @@ namespace StarlightRiver
             // Character Slot Addons
             On.Terraria.GameContent.UI.Elements.UICharacterListItem.DrawSelf += DrawSpecialCharacter;
             // Seal World Indicator
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.GetIcon += VoidIcon;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += VoidIcon;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += AddWorldData;
+            On.Terraria.GameContent.UI.States.UIWorldSelect.ctor += RefreshWorldData;
             // Vitric background
             On.Terraria.Main.DrawBackgroundBlackFill += DrawVitricBackground;
             //Rift fading
@@ -49,8 +61,6 @@ namespace StarlightRiver
             On.Terraria.Main.DrawPlayer += PostDrawPlayer;
             //Foreground elements
             On.Terraria.Main.DrawInterface += DrawForeground;
-            //Menu themes
-            //On.Terraria.Main.DrawMenu += TestMenu;
             //Tilt
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
@@ -66,18 +76,103 @@ namespace StarlightRiver
             On.Terraria.Main.DrawDust += DrawAdditive;
             //Particle System Batching for Inventory
             On.Terraria.Main.DrawInterface_27_Inventory += DrawInventoryParticles;
+            //Astral metoers
+            On.Terraria.WorldGen.meteor += AluminumMeteor;
+            //Nobuild
+            On.Terraria.Player.PlaceThing += PlacementRestriction;
 
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
-
-
         #region hooks
-        private void DrawInventoryParticles(On.Terraria.Main.orig_DrawInterface_27_Inventory orig, Terraria.Main self)
+        private void PlacementRestriction(On.Terraria.Player.orig_PlaceThing orig, Player self)
+        {
+            Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
+            if (tile.wall == ModContent.WallType<AuroraBrickWall>() &&
+                !Main.projectile.Any(n => n.active && n.timeLeft > 10 && n.modProjectile is InteractiveProjectile && (n.modProjectile as InteractiveProjectile).ValidPoints.Contains(new Point16(Player.tileTargetX, Player.tileTargetY))))
+            {
+                return;
+            }
+            else orig(self);
+        }
+
+        private bool AluminumMeteor(On.Terraria.WorldGen.orig_meteor orig, int i, int j)
+        {
+            Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 80;
+            Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode);
+
+            if (StarlightWorld.AluminumMeteors)
+            {
+                Point16 target = new Point16();
+
+                while (!CheckAroundMeteor(target))
+                {
+                    int x = Main.rand.Next(Main.maxTilesX);
+
+                    for (int y = 0; y < Main.maxTilesY; y++)
+                    {
+                        if (Framing.GetTileSafely(x, y).active())
+                        {
+                            target = new Point16(x, y);
+                            break;
+                        }
+                    }
+                }
+
+                for (int x = -35; x < 35; x++)
+                    for (int y = -35; y < 35; y++)
+                    {
+                        if (WorldGen.InWorld(target.X + x, target.Y + y) && Framing.GetTileSafely(target.X + x, target.Y + y).collisionType == 1)
+                        {
+                            float dist = new Vector2(x, y).Length();
+                            if (dist < 8) WorldGen.KillTile(target.X + x, target.Y + y);
+
+                            if (dist > 8 && dist < 15)
+                            {
+                                WorldGen.PlaceTile(target.X + x, target.Y + y, ModContent.TileType<Tiles.OreAluminum>(), true, true);
+                                WorldGen.SlopeTile(target.X + x, target.Y + y, 0);
+                            }
+
+                            if (dist > 15 && dist < 30 && Main.rand.Next((int)dist - 15) == 0)
+                            {
+                                WorldGen.PlaceTile(target.X + x, target.Y + y, ModContent.TileType<Tiles.OreAluminum>(), true, true);
+                                WorldGen.SlopeTile(target.X + x, target.Y + y, 0);
+                            }
+                        }
+                    }
+
+                if (Main.netMode == NetmodeID.SinglePlayer) Main.NewText("An asteroid has landed!", new Color(107, 233, 231));
+                else if (Main.netMode == NetmodeID.Server) NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("An asteroid has landed!"), new Color(107, 233, 231));
+
+                return true;
+            }
+            else return orig(i, j);
+        }
+
+        private bool CheckAroundMeteor(Point16 test)
+        {
+            if (test == Point16.Zero) return false;
+
+            for (int x = -35; x < 35; x++)
+                for (int y = -35; y < 35; y++)
+                {
+                    if (WorldGen.InWorld(test.X + x, test.Y + y))
+                    {
+                        Tile tile = Framing.GetTileSafely(test + new Point16(x, y));
+                        if (tile.type == TileID.Containers || tile.type == TileID.Containers2) return false;
+                    }
+                }
+
+            if (Main.npc.Any(n => n.active && n.friendly && Vector2.Distance(n.Center, test.ToVector2() * 16) <= 35 * 16)) return false;
+            else return true;
+        }
+
+        private void DrawInventoryParticles(On.Terraria.Main.orig_DrawInterface_27_Inventory orig, Main self)
         {
             orig(self);
             CursedAccessory.CursedSystem.DrawParticles(Main.spriteBatch);
         }
+
         private void DrawAdditive(On.Terraria.Main.orig_DrawDust orig, Main self)
         {
             orig(self);
@@ -91,14 +186,11 @@ namespace StarlightRiver
 
             Main.spriteBatch.End();
         }
-        private bool NoSoulboundFrame(On.Terraria.Player.orig_ItemFitsItemFrame orig, Player self, Item i)
-        {
-            return i.modItem is Items.SoulboundItem ? false : orig(self, i);
-        }
-        private bool NoSoulboundRack(On.Terraria.Player.orig_ItemFitsWeaponRack orig, Player self, Item i)
-        {
-            return i.modItem is Items.SoulboundItem ? false : orig(self, i);
-        }
+
+        private bool NoSoulboundFrame(On.Terraria.Player.orig_ItemFitsItemFrame orig, Player self, Item i) => i.modItem is Items.SoulboundItem ? false : orig(self, i);
+
+        private bool NoSoulboundRack(On.Terraria.Player.orig_ItemFitsWeaponRack orig, Player self, Item i) => i.modItem is Items.SoulboundItem ? false : orig(self, i);
+
         private void SoulboundPriority(On.Terraria.Player.orig_dropItemCheck orig, Player self)
         {
             if (Main.mouseItem.type > ItemID.None && !Main.playerInventory && Main.mouseItem.modItem != null && Main.mouseItem.modItem is Items.SoulboundItem)
@@ -118,16 +210,19 @@ namespace StarlightRiver
             }
             orig(self);
         }
+
         private void DontDropSoulbound(On.Terraria.Player.orig_DropSelectedItem orig, Player self)
         {
             if (self.inventory[self.selectedItem].modItem is Items.SoulboundItem || Main.mouseItem.modItem is Items.SoulboundItem) return;
             else orig(self);
         }
+
         private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
         {
             dragonMenuUI?.Update(gameTime);
             orig(self, gameTime);
         }
+
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
         {
             if (self.controlDown) self.GetModPlayer<StarlightPlayer>().platformTimer = 5;
@@ -147,13 +242,11 @@ namespace StarlightRiver
                     }
                 }
             }
-
             orig(self);
         }
-        private bool UpdateMatrixFirst(On.Terraria.Graphics.SpriteViewMatrix.orig_ShouldRebuild orig, SpriteViewMatrix self)
-        {
-            return Rotation != 0 ? false : orig(self);
-        }
+
+        private bool UpdateMatrixFirst(On.Terraria.Graphics.SpriteViewMatrix.orig_ShouldRebuild orig, SpriteViewMatrix self) => Rotation != 0 ? false : orig(self);
+
         private void PostDrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
             orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
@@ -166,6 +259,7 @@ namespace StarlightRiver
                     }
                 }
         }
+
         private void DrawKeys(On.Terraria.Main.orig_DrawItems orig, Main self)
         {
             foreach (Key key in StarlightWorld.Keys)
@@ -174,16 +268,11 @@ namespace StarlightRiver
             }
             orig(self);
         }
-        public static Vector2 FindOffset(Vector2 basepos, float factor)
-        {
-            Vector2 origin = Main.screenPosition + new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
-            float x = (origin.X - basepos.X) * factor;
-            float y = (origin.Y - basepos.Y) * factor * 0.4f;
-            return new Vector2(x, y);
-        }
 
         internal static ParticleSystem.Update UpdateOvergrowWells => UpdateOvergrowWellsBody;
+
         internal ParticleSystem ForegroundSystem;
+
         private static void UpdateOvergrowWellsBody(Particle particle)
         {
             particle.Position.Y = particle.Velocity.Y * (600 - particle.Timer) + particle.StoredPosition.Y - Main.screenPosition.Y + (particle.StoredPosition.Y - Main.screenPosition.Y) * particle.Velocity.X * 0.5f;
@@ -193,6 +282,7 @@ namespace StarlightRiver
 
             particle.Timer--;
         }
+
         private void DrawForeground(On.Terraria.Main.orig_DrawInterface orig, Main self, GameTime gameTime)
         {
             Main.spriteBatch.Begin();
@@ -219,113 +309,65 @@ namespace StarlightRiver
             orig(self, gameTime);
         }
 
-        /*private void TestMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
-        {
-            orig(self, gameTime);
-
-            Main.spriteBatch.Begin();
-            Main.spriteBatch.DrawString(Main.fontItemStack, PatchString, new Vector2(20, 20), Color.White);
-            Main.spriteBatch.DrawString(Main.fontItemStack, MessageString, new Vector2(20, 40), Color.White);
-            Main.spriteBatch.End();
-
-            try
-            {
-                bool canDraw = Main.menuMode == 0;
-
-                if (canDraw)
-                {
-                    Main.spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
-
-                    switch (GetInstance<Config>().Style)
-                    {
-                        case TitleScreenStyle.None:
-                            break;
-
-                        case TitleScreenStyle.Starlight:
-                            Main.time = 0;
-                            if (Main.rand.Next(3) >= 1 && canDraw)
-                            {
-                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Light"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), new Vector2(0, -Main.rand.NextFloat(1.4f))));
-                            }
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 160, 190) * 0.75f);
-                            break;
-
-                        case TitleScreenStyle.Vitric:
-                            if (Main.rand.Next(10) == 0 && canDraw)
-                                MenuDust.Add(new VitricDust(ModContent.GetTexture("StarlightRiver/Dusts/Mist"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight + 40), 0, 0.35f, 0.4f, 0));
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(100, 180, 180) * 0.75f);
-                            break;
-
-                        case TitleScreenStyle.Overgrow:
-                            if (Main.rand.Next(3) >= 1 && canDraw)
-                            {
-                                MenuDust.Add(new HolyDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Holy"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight - Main.rand.Next(Main.screenHeight / 3)), Vector2.Zero));
-                            }
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(180, 170, 100) * 0.75f);
-                            break;
-
-                        case TitleScreenStyle.CorruptJungle:
-                            Main.time = 51000;
-                            if (Main.rand.Next(2) == 0 && canDraw)
-                            {
-                                MenuDust.Add(new EvilDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Corrupt"), new Vector2(Main.rand.Next(Main.screenWidth), Main.screenHeight), new Vector2(0, -1.4f)));
-                            }
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, Main.screenHeight - 200, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(160, 110, 220) * 0.75f);
-                            break;
-
-                        case TitleScreenStyle.CrimsonJungle:
-                            Main.time = 51000;
-                            if (Main.rand.Next(2) == 0 && canDraw)
-                            {
-                                MenuDust.Add(new BloodDust(ModContent.GetTexture("StarlightRiver/GUI/Assets/Blood"), new Vector2(Main.rand.Next(Main.screenWidth), -40), new Vector2(0, -1.4f), Main.rand.NextFloat(1, 2), Main.rand.NextFloat(0.2f)));
-                            }
-                            if (canDraw) Main.spriteBatch.Draw(ModContent.GetTexture("Terraria/Extra_60"), new Rectangle(0, -220, Main.screenWidth, 500), new Rectangle(50, 0, 32, 152), new Color(200, 70, 70) * 0.75f, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
-                            break;
-
-                    }
-
-                    Main.spriteBatch.End();
-                    Main.spriteBatch.Begin();
-
-                    foreach (BootlegDust dus in MenuDust) dus.SafeDraw(Main.spriteBatch);
-                    foreach (BootlegDust dus in MenuDust) dus.Update();
-
-                    List<BootlegDust> Removals = new List<BootlegDust>();
-                    foreach (BootlegDust dus in MenuDust.Where(dus => dus.time <= 0)) Removals.Add(dus);
-                    foreach (BootlegDust dus in Removals) MenuDust.Remove(dus);
-                    Main.spriteBatch.End();
-                }
-            }
-            catch
-            {
-
-            }
-        }*/
         private void DrawProto(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_refItem_int_Vector2_Color orig, SpriteBatch spriteBatch, ref Item inv, int context, Vector2 position, Color lightColor)
         {
             orig(spriteBatch, ref inv, context, position, lightColor);
         }
-        private Texture2D VoidIcon(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_GetIcon orig, UIWorldListItem self)
+
+        private void VoidIcon(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_DrawSelf orig, UIWorldListItem self, SpriteBatch spriteBatch)
         {
-            /*FieldInfo datainfo = self.GetType().GetField("_data", BindingFlags.NonPublic | BindingFlags.Instance);
-            WorldFileData data = (WorldFileData)datainfo.GetValue(self);
+            orig(self, spriteBatch);
+            Vector2 pos = self.GetDimensions().ToRectangle().TopRight();
+
+            float chungosity = 0;
+            TagCompound tag3;
+
+            if (worldDataCache.TryGetValue(self, out tag3) && tag3 != null) chungosity = tag3.GetFloat("Chungus");
+
+            Texture2D tex = ModContent.GetTexture("StarlightRiver/GUI/Assets/ChungusMeter");
+            Texture2D tex2 = ModContent.GetTexture("StarlightRiver/GUI/Assets/ChungusMeterFill");
+            spriteBatch.Draw(tex, pos + new Vector2(-122, 6), Color.White);
+            spriteBatch.Draw(tex2, pos + new Vector2(-108, 10), new Rectangle(0, 0, (int)(tex2.Width * chungosity), tex2.Height), Color.White);
+            spriteBatch.Draw(Main.magicPixel, new Rectangle((int)pos.X - 108 + (int)(tex2.Width * chungosity), (int)pos.Y + 10, 2, 10), Color.White);
+
+            Rectangle rect = new Rectangle((int)pos.X - 122, (int)pos.Y + 6, tex.Width, tex.Height);
+
+            if (rect.Contains(Main.MouseScreen.ToPoint()))
+            {
+                Utils.DrawBorderString(spriteBatch, "Chungosity: " + (int)(chungosity * 100) + "%", self.GetDimensions().Position() + new Vector2(110, 70), Color.White);
+            }
+        }
+
+        private void AddWorldData(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int snapPointIndex)
+        {
+            orig(self, data, snapPointIndex);
+
             string path = data.Path.Replace(".wld", ".twld");
 
-            byte[] buf = FileUtilities.ReadAllBytes(path, data.IsCloudSave);
-            TagCompound tag = TagIO.FromStream(new MemoryStream(buf), true);
-            TagCompound tag2 = tag.GetList<TagCompound>("modData").FirstOrDefault(k => k.ContainsKey());
-            ModContent.GetInstance<LegendWorld>().Load(tag.GetCompound("data"));
+            TagCompound tag;
 
-            bool riftopen = false;
-            if (tag2 != null && tag2.HasTag(nameof(LegendWorld.SealOpen))) riftopen = tag2.GetBool(nameof(LegendWorld.SealOpen));
-
-            if (riftopen)
+            try
             {
-                return ModContent.GetTexture("StarlightRiver/GUI/Assets/Fire");
-            }*/
+                byte[] buf = FileUtilities.ReadAllBytes(path, data.IsCloudSave);
+                tag = TagIO.FromStream(new MemoryStream(buf), true);
+            }
+            catch
+            {
+                tag = null;
+            }
 
-            return orig(self);
+            TagCompound tag2 = tag?.GetList<TagCompound>("modData").FirstOrDefault(k => k.GetString("mod") == "StarlightRiver" && k.GetString("name") == "StarlightWorld");
+            TagCompound tag3 = tag2?.Get<TagCompound>("data");
+
+            worldDataCache.Add(self, tag3);
         }
+
+        private void RefreshWorldData(On.Terraria.GameContent.UI.States.UIWorldSelect.orig_ctor orig, UIWorldSelect self)
+        {
+            orig(self);
+            worldDataCache.Clear();
+        }
+
         private void DrawBlackFade(On.Terraria.Main.orig_DrawUnderworldBackground orig, Main self, bool flat)
         {
             orig(self, flat);
@@ -334,11 +376,12 @@ namespace StarlightRiver
 
             float distance = Vector2.Distance(Main.LocalPlayer.Center, StarlightWorld.RiftLocation);
             float val = ((1500 / distance - 1) / 3);
-            if (val > 0.8f) val = 0.8f;
+            //if (val > 0.7f) val = 0.7f;
             Color color = Color.Black * (distance <= 1500 ? val : 0);
 
             Main.spriteBatch.Draw(tex, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), tex.Frame(), color);
         }
+
         private void DrawUnderwaterNPCs(On.Terraria.Main.orig_drawWaters orig, Main self, bool bg, int styleOverride, bool allowUpdate)
         {
             orig(self, bg, styleOverride, allowUpdate);
@@ -356,6 +399,7 @@ namespace StarlightRiver
                 }
             }
         }
+
         private void DrawSpecialCharacter(On.Terraria.GameContent.UI.Elements.UICharacterListItem.orig_DrawSelf orig, UICharacterListItem self, SpriteBatch spriteBatch)
         {
             orig(self, spriteBatch);
@@ -430,7 +474,8 @@ namespace StarlightRiver
                 spriteBatch.Draw(Main.heart2Texture, origin + new Vector2(80, 37), Color.White);
             }
         }
-        private void HandleSpecialItemInteractions(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
+
+        private void HandleSpecialItemInteractions(On.Terraria.UI.ItemSlot.orig_LeftClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
         {
             if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is Blocker) && context == 10) return;
 
@@ -440,7 +485,8 @@ namespace StarlightRiver
 
             orig(inv, context, slot);
         }
-        private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Terraria.Item[] inv, int context, int slot)
+
+        private void NoSwapCurse(On.Terraria.UI.ItemSlot.orig_RightClick_ItemArray_int_int orig, Item[] inv, int context, int slot)
         {
             Player player = Main.player[Main.myPlayer];
             for (int i = 0; i < player.armor.Length; i++)
@@ -455,7 +501,8 @@ namespace StarlightRiver
             }
             orig(inv, context, slot);
         }
-        private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Terraria.Item[] inv, int context, int slot, Vector2 position, Color color)
+
+        private void DrawSpecial(On.Terraria.UI.ItemSlot.orig_Draw_SpriteBatch_ItemArray_int_int_Vector2_Color orig, SpriteBatch sb, Item[] inv, int context, int slot, Vector2 position, Color color)
         {
             if ((inv[slot].modItem is CursedAccessory || inv[slot].modItem is BlessedAccessory) && context == 10)
             {
@@ -483,6 +530,7 @@ namespace StarlightRiver
                 orig(sb, inv, context, slot, position, color);
             }
         }
+
         private static void RedrawItem(SpriteBatch sb, Item[] inv, Texture2D back, Vector2 position, int slot, Color color)
         {
             Item item = inv[slot];

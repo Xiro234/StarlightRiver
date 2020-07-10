@@ -1,5 +1,4 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using System;
@@ -9,18 +8,22 @@ using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
+    [AutoloadBossHead]
     public partial class OvergrowBoss : ModNPC
     {
         public OvergrowBossFlail flail; //the flail which the boss owns, allows direct manipulation in the boss' partial attack class, much nicer than trying to sync between two NPCs
 
-        private bool usedBolts = false; //tracks if the boss ahs used it's bolt attack, so it cant spam it. projectile spam bad kids!
-        private bool usedPendulum = false; //tracks use of the pendulum attack
-
         private Vector2 spawnPoint = Vector2.Zero; //the Boss' spawn point, used for returning during the guardian phase and some animations
         private Vector2 targetPoint = Vector2.Zero; //the Boss' stored targeting point, for things like bolt and flail toss. SHOULD be deterministic I hope?
+
+        internal ref float Phase => ref npc.ai[0]; //alias AI fields
+        internal ref float GlobalTimer => ref npc.ai[1];
+        internal ref float AttackPhase => ref npc.ai[2];
+        internal ref float AttackTimer => ref npc.ai[3];
 
         public enum OvergrowBossPhase : int //Enum for boss phases so I dont get lost later. wee!
         {
@@ -34,139 +37,128 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             FirstGuard = 7
         };
 
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Horny God");
+
         public override void SetDefaults()
         {
             npc.lifeMax = 6000;
             npc.width = 86;
             npc.height = 176;
-            npc.immortal = true;
-            npc.boss = true;
+            npc.dontTakeDamage = true;
             npc.aiStyle = -1;
             npc.knockBackResist = 0;
             npc.noGravity = true;
-            music = default;
         }
 
         public override void AI()
         {
             Lighting.AddLight(npc.Center, new Vector3(1, 1, 0.8f));
-            /* AI fields:
-             * 0: phase
-             * 1: timer
-             * 2: attack phase
-             * 3: attack timer
-             */
-            npc.ai[1]++; //tick our timer up constantly
-            npc.ai[3]++; //tick up our attack timer
 
-            if (npc.ai[0] == (int)OvergrowBossPhase.Struggle)
+            GlobalTimer++; //tick our timer up constantly
+            AttackTimer++; //tick up our attack timer
+
+            if (npc.ai[0] == (int)OvergrowBossPhase.Struggle) //when the boss is trapped before spawning the first time
             {
                 if (spawnPoint == Vector2.Zero) spawnPoint = npc.Center; //sets the boss' home
 
-                npc.velocity.Y = (float)Math.Sin((npc.ai[1] % 120) / 120f * 6.28f) * 0.6f;
+                npc.velocity.Y = (float)Math.Sin((GlobalTimer % 120) / 120f * 6.28f) * 0.6f;
 
                 if (!Main.npc.Any(n => n.active && n.type == NPCType<OvergrowBossAnchor>())) //once the chains are broken
                 {
                     npc.velocity *= 0;
                     npc.Center = spawnPoint;
-                    npc.ai[1] = 0;
+                    GlobalTimer = 0;
 
                     StarlightPlayer mp = Main.LocalPlayer.GetModPlayer<StarlightPlayer>();
                     mp.ScreenMoveTime = 320;
                     mp.ScreenMoveTarget = npc.Center;
 
-                    StarlightRiver.Instance.textcard.Display("[PH] Overgrow Boss", "[PH] Boss of the Overgrow", null, 200);
+                    string message = "Faerie Guardian";
+                    if (Main.rand.Next(10000) == 0) message = "Titty Elongator";
+                    StarlightRiver.Instance.textcard.Display("Horny God", message, null, 260);
 
                     StarlightWorld.OvergrowBossFree = true;
-                    npc.ai[0] = (int)OvergrowBossPhase.spawnAnimation;
+                    Phase = (int)OvergrowBossPhase.spawnAnimation;
                 }
             }
-            if (npc.ai[0] == (int)OvergrowBossPhase.spawnAnimation)
+
+            if (Phase == (int)OvergrowBossPhase.spawnAnimation) //the boss' spawn animation.
             {
-                if (npc.ai[1] >= 500) npc.ai[0] = (int)OvergrowBossPhase.Setup;
+                if (GlobalTimer >= 500) Phase = (int)OvergrowBossPhase.Setup;
             }
 
-            if (npc.ai[0] == (int)OvergrowBossPhase.Setup)
+            if (Phase == (int)OvergrowBossPhase.Setup)
             {
+                npc.boss = true;
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/OvergrowBoss");
 
                 int index = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<OvergrowBossFlail>()); //spawn the flail after intro
                 (Main.npc[index].modNPC as OvergrowBossFlail).parent = this; //set the flail's parent
                 flail = Main.npc[index].modNPC as OvergrowBossFlail; //tells the boss what flail it owns
 
-                npc.ai[0] = (int)OvergrowBossPhase.FirstAttack; //move on to the first attack phase
-                npc.ai[1] = 0; //reset our timer
+                Phase = (int)OvergrowBossPhase.FirstAttack; //move on to the first attack phase
+                GlobalTimer = 0; //reset our timer
                 npc.ai[3] = 0; //reset our attack timer
             }
 
             if (flail == null) return; //at this point, our boss should have her flail. if for some reason she dosent, this is a safety check
 
-            Main.NewText(npc.ai[0] + "/" + npc.ai[1] + "/" + npc.ai[2] + "/" + npc.ai[3] + "/" + usedBolts + "/" + usedPendulum + "/" + Vector2.Distance(spawnPoint, Main.player[npc.target].Center));
-            if (npc.ai[0] == (int)OvergrowBossPhase.FirstAttack)
+            if (Phase == (int)OvergrowBossPhase.FirstAttack) //the first attacking phase
             {
-                //attacks here
-                if (npc.ai[2] == 0)
+                //attack pattern advancement logic
+                if (AttackTimer == 1)
                 {
-                    RandomTarget(); //pendulum attack is based on a RANDOM target's position
-                    if ((Math.Abs(spawnPoint.X - Main.player[npc.target].Center.X) > 500 || Main.rand.Next(3) == 0) && !usedPendulum) npc.ai[2] = 5; //if the player is near the edge or randomly
+                    RandomTarget();
+                    if (AttackPhase == 1) AttackPhase++; //tick up an additional time so that we dont use 2 alternate attacks in a row. TODO: Should make a cleaner way to do this.
+                    AttackPhase++;
+                    if (AttackPhase == 1 && Main.rand.Next(2) == 0) AttackPhase++;
+                    if (AttackPhase > 6) AttackPhase = 0;
 
-                    if (npc.ai[2] == 0) //if the random checks fail to pick an attack
+                    if (flail.npc.life <= 1) //move to next phase once the flail is depleated
                     {
-                        npc.TargetClosest();
-                        if (usedBolts && Vector2.Distance(spawnPoint, Main.player[npc.target].Center) < 500) npc.ai[2] = 1; //if the player is near the center, use a swing if bolts has been used, else move on
-                        else if (!usedBolts && Main.rand.Next(2) == 0) npc.ai[2] = 2; //otherwise use another attack, even though bolts takes a random target, the logic dictating the chance of this attack does not
-                        else if (Main.rand.Next(2) == 0) npc.ai[2] = 3;
-                        else npc.ai[2] = 4;
+                        Phase = (int)OvergrowBossPhase.FirstToss;
+                        AttackPhase = 0;
+                        ResetAttack();
+                        foreach (Projectile proj in Main.projectile.Where(p => p.type == ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>())) proj.ai[1] = 1; //opens the pits
                     }
-
-                    if (npc.ai[2] != 2) usedBolts = false; //reset bolt restriction
-                    if (npc.ai[2] == 1) usedPendulum = false; //reset pendulum restriction after being spun
                 }
-                switch (npc.ai[2])
+                switch (AttackPhase) //attack pattern
                 {
-                    case 1: Phase1Spin(); break; //I should make an enum for this too
-                    case 2: Phase1Bolts(); usedBolts = true; break; //Bolts! make sure to set usedBolts to true!
+                    case 0: Phase1Spin(); break;
+                    case 1: Phase1Bolts(); break; //______randonly picks between these two
+                    case 2: Phase1Trap(); break;  //___|
                     case 3: Phase1Toss(); break;
-                    case 4: Phase1Trap(); break;
-                    case 5: Phase1Pendulum(); usedPendulum = true; break;
-                }
-
-                if (flail.npc.life <= 1)
-                {
-                    npc.ai[0] = (int)OvergrowBossPhase.FirstToss; //move to next phase once the flail is depleated
-                    ResetAttack();
-                    foreach (Projectile proj in Main.projectile.Where(p => p.type == ProjectileType<Projectiles.Dummies.OvergrowBossPitDummy>())) proj.ai[1] = 1; //opens the pits
+                    case 4: Phase1Toss(); break;
+                    case 5: Phase1Bolts(); break;
+                    case 6: Phase1Toss(); break;
                 }
             }
 
-            if (npc.ai[0] == (int)OvergrowBossPhase.FirstToss)
-            {
-                RapidToss();
-            }
+            if (Phase == (int)OvergrowBossPhase.FirstToss) RapidToss(); //toss rapidly till thrown into a pit
 
-            if (npc.ai[0] == (int)OvergrowBossPhase.FirstStun)
+            if (Phase == (int)OvergrowBossPhase.FirstStun)
             {
                 foreach (Player player in Main.player)
                     if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
                     {
-                        npc.ai[0] = (int)OvergrowBossPhase.FirstGuard;
-                        npc.ai[1] = 0;
+                        Phase = (int)OvergrowBossPhase.FirstGuard;
+                        GlobalTimer = 0;
 
                         flail.npc.ai[0] = 1; //turn the flail into a pick-upable thing
                         flail.npc.noGravity = false; //obey the laws of physics!
                     }
             }
 
-            if (npc.ai[0] == (int)OvergrowBossPhase.FirstBurn)
+            if (Phase == (int)OvergrowBossPhase.FirstBurn)
             {
             }
 
-            if (npc.ai[0] == (int)OvergrowBossPhase.FirstGuard)
+            if (Phase == (int)OvergrowBossPhase.FirstGuard)
             {
-                if (npc.ai[1] == 0) //at the start of the phase, spawn in our mechanics!
+                if (GlobalTimer == 0) //at the start of the phase, spawn in our mechanics!
                 {
                     npc.position = spawnPoint;
-                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassPassive");
+                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Overgrow");
                     //spawn moving platforms
                     NPC.NewNPC((int)npc.Center.X + 500, (int)npc.Center.Y + 200, NPCType<OvergrowBossVerticalPlatform>());
                     NPC.NewNPC((int)npc.Center.X - 500, (int)npc.Center.Y + 200, NPCType<OvergrowBossVerticalPlatform>());
@@ -193,7 +185,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 }
                 else if (!Main.npc.Any(n => n.active && n.type == NPCType<OvergrowBossGuardian>()))
                 {
-                    npc.ai[0] = 7;
+                    Phase = 7;
                     ResetIntermission();
                 }
             }
@@ -201,7 +193,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         private void ResetIntermission()
         {
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/GlassBoss");
+            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/OvergrBoss");
 
             foreach (NPC npc in Main.npc.Where(n => n.active && (n.type == NPCType<OvergrowBossCircularPlatform>() || n.type == NPCType<OvergrowBossVerticalPlatform>())))
             {
@@ -223,17 +215,19 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (npc.ai[3] > 60 && npc.ai[3] < 120 && (npc.ai[2] == 3 || npc.ai[0] == (int)OvergrowBossPhase.FirstToss)) //if the boss is using a flail toss
+            if (AttackTimer > 60 && AttackTimer < 120 && (AttackPhase == 3 || AttackPhase == 4 || AttackPhase == 6)) //if the boss is using a flail toss
                 DrawTossTell(spriteBatch);
 
-            if (npc.ai[2] == 4) DrawTrapTell(spriteBatch);
+            if (AttackPhase == 2) DrawTrapTell(spriteBatch);
 
-            return npc.ai[0] != (int)OvergrowBossPhase.FirstGuard;
+            if (Phase == (int)OvergrowBossPhase.FirstToss) DrawRapidTossTell(spriteBatch);
+
+            return Phase != (int)OvergrowBossPhase.FirstGuard;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (npc.ai[0] == (int)OvergrowBossPhase.Struggle)
+            if (Phase == (int)OvergrowBossPhase.Struggle)
             {
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);

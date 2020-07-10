@@ -2,6 +2,8 @@
 using StarlightRiver.Abilities;
 using StarlightRiver.GUI;
 using StarlightRiver.Items.Armor;
+using StarlightRiver.NPCs.Boss.SquidBoss;
+using StarlightRiver.Tiles.Permafrost;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,7 @@ namespace StarlightRiver.Core
         public Vector2 ScreenMoveTarget = new Vector2(0, 0);
         public Vector2 ScreenMovePan = new Vector2(0, 0);
         private int ScreenMoveTimer = 0;
+        private int panDown = 0;
 
         public int platformTimer = 0;
 
@@ -37,6 +40,8 @@ namespace StarlightRiver.Core
         public int GuardCrit;
         public float GuardBuff;
         public int GuardRad;
+
+        public float itemSpeed;
 
         public override void PreUpdate()
         {
@@ -55,17 +60,14 @@ namespace StarlightRiver.Core
 
             platformTimer--;
 
-            if (player.whoAmI == Main.myPlayer)
+            if (Main.netMode != NetmodeID.Server)
             {
                 AbilityHandler mp = player.GetModPlayer<AbilityHandler>();
 
                 Stamina.visible = false;
                 Infusion.visible = false;
 
-                if (mp.Abilities.Any(a => !a.Locked))
-                {
-                    Stamina.visible = true;
-                }
+                if (mp.Abilities.Any(a => !a.Locked)) Stamina.visible = true;
 
                 if (Main.playerInventory)
                 {
@@ -101,11 +103,12 @@ namespace StarlightRiver.Core
             GuardCrit = 0;
             GuardBuff = 1;
             GuardRad = 0;
+            itemSpeed = 1;
         }
 
         public override void PostUpdate()
         {
-            if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) { StarlightWorld.rottime += (float)Math.PI / 60; }
+            if (Main.netMode == NetmodeID.MultiplayerClient && player == Main.LocalPlayer) StarlightWorld.rottime += (float)Math.PI / 60;
             Timer++;
         }
 
@@ -116,6 +119,7 @@ namespace StarlightRiver.Core
         }
 
         public override void PostUpdateEquips() => JustHit = false;
+
         public override void ModifyScreenPosition()
         {
             if (ScreenMoveTime > 0 && ScreenMoveTarget != Vector2.Zero)
@@ -140,10 +144,18 @@ namespace StarlightRiver.Core
                 ScreenMoveTimer++;
             }
 
-            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
+            if (Main.tile[(int)player.Center.X / 16, (int)player.Center.Y / 16].wall == ModContent.WallType<AuroraBrickWall>() &&
+                Main.npc.Any(n => n.active && n.modNPC is SquidBoss && n.ai[0] == (int)SquidBoss.AIStates.SecondPhase && n.ai[1] > 300) && panDown < 150) //the worlds most ungodly check ever
+            {
+                panDown++;
+            }
+            else if (panDown > 0) panDown--;
+
+            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake) + panDown;
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
         }
+
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (player.HeldItem.modItem is Items.Vitric.VitricSword && (player.HeldItem.modItem as Items.Vitric.VitricSword).Broken) PlayerLayer.HeldItem.visible = false;
@@ -189,5 +201,7 @@ namespace StarlightRiver.Core
         {
             Collection.ShouldReset = true;
         }
+
+        public override float UseTimeMultiplier(Item item) => itemSpeed;
     }
 }

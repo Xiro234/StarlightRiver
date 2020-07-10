@@ -1,8 +1,8 @@
-﻿using static Terraria.ModLoader.ModContent;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Projectiles.Ammo
 {
@@ -16,10 +16,10 @@ namespace StarlightRiver.Projectiles.Ammo
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 450;
+            projectile.timeLeft = 1200;
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
-            projectile.extraUpdates = 3;
+            projectile.extraUpdates = 5;
             aiType = ProjectileID.Bullet;
         }
 
@@ -38,7 +38,7 @@ namespace StarlightRiver.Projectiles.Ammo
             {
                 for (int k = 0; k < Main.npc.Length; k++)
                 {
-                    if (Vector2.Distance(Main.npc[k].Center, projectile.Center) < Vector2.Distance(target.Center, projectile.Center) && Main.npc[k].active && !Main.npc[k].friendly)
+                    if (Vector2.Distance(Main.npc[k].Center, projectile.Center) < Vector2.Distance(target.Center, projectile.Center) && Helper.IsTargetValid(Main.npc[k]))
                     {
                         target = Main.npc[k];
                     }
@@ -46,12 +46,13 @@ namespace StarlightRiver.Projectiles.Ammo
                 picked = true;
                 anglediff = (projectile.velocity.ToRotation() - (target.Center - projectile.Center).ToRotation() + 9.42f) % 6.28f - 3.14f;
             }
-            Dust.NewDust(projectile.position, 1, 1, DustType<Dusts.Starlight>(), 0, 0, 0, default, 0.4f);
+
+            Dust.NewDust(projectile.position, 1, 1, DustType<Dusts.Electric>(), 0, 0, 0, default, 0.5f);
+
             if (Vector2.Distance(target.Center, projectile.Center) <= 800 && anglediff <= 0.55f && anglediff >= -0.55f)
-            {
-                projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.06f;
-            }
-            projectile.velocity = Vector2.Normalize(projectile.velocity) * 5;
+                projectile.velocity += Vector2.Normalize(target.Center - projectile.Center) * 0.04f;
+
+            projectile.velocity = Vector2.Normalize(projectile.velocity) * 1.5f;
         }
     }
 }

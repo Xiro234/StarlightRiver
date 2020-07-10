@@ -33,7 +33,7 @@ namespace StarlightRiver.Tiles.Hell
 
         public override bool CanOpen(Player player)
         {
-            for(int k = 0; k < player.inventory.Length; k++)
+            for (int k = 0; k < player.inventory.Length; k++)
             {
                 Item item = player.inventory[k];
                 if (item.type == ItemType<Items.Hell.HellKey>())
