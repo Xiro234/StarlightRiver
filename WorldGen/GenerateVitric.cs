@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using Terraria.World.Generation;
 using static Terraria.WorldGen;
 using StarlightRiver.Noise;
+using Terraria.ID;
 
 namespace StarlightRiver
 {
@@ -317,7 +318,7 @@ namespace StarlightRiver
                 CreateIsland(x, y); //Adds island pos to list and places island
             }
 
-            for (int i = 0; i < 6; ++i) //Mini islands
+            for (int i = 0; i < 6; ++i)
             {
                 int x = VitricBiome.X + (int)(VitricSlopeOffset * 0.8f) + genRand.Next((int)(VitricBiome.Width / 2.7f));
                 if (genRand.Next(2) == 0) x += (int)(VitricBiome.Width / 2f);
@@ -340,7 +341,7 @@ namespace StarlightRiver
                 }
 
                 MiniIsland(x, y + 6);
-            }
+            } //Mini islands
 
             progress.Message = "Populating the Vitric";
 
@@ -350,7 +351,7 @@ namespace StarlightRiver
                 {
                     if (i < VitricBiome.X + VitricBiome.Width / 2 - 71 || i > VitricBiome.X + VitricBiome.Width / 2 + 70)
                     {
-                        if (validGround.Any(x => x == Main.tile[i - 1, j + 1].type) && validGround.Any(x => x == Main.tile[i + 10, j + 1].type) && Helper.CheckAirRectangle(new Point16(i, j - 19), new Point16(10, 19)))
+                        if (genRand.Next(7) >= 3 && validGround.Any(x => x == Main.tile[i - 1, j + 1].type) && validGround.Any(x => x == Main.tile[i + 10, j + 1].type) && Helper.CheckAirRectangle(new Point16(i, j - 19), new Point16(10, 19)))
                         {
                             StructureHelper.StructureHelper.GenerateStructure("Structures/LargeVitricCrystal", new Point16(i + 5, (j + genRand.Next(2)) - 17), StarlightRiver.Instance);
                             i += 10;
@@ -360,6 +361,9 @@ namespace StarlightRiver
             }
 
             GenConsistentMiniIslands();
+            GenSandstonePillars(validGround);
+            GenRuins(validGround);
+            GenForge();
             GenDecoration(validGround);
             GenMoss();
         }
@@ -416,8 +420,13 @@ namespace StarlightRiver
                         if (xDif < (VitricBiome.Width / 2) - 81 && xDif > (VitricBiome.Width / 2) + 84 && layers["CEILING"] > VitricBiome.Y + 9) //Adjust for boss pillars
                             layers["CEILING"]--;
 
-                        if (xDif < VitricBiome.Width / 2 - 81)
-                            layers["TOP"] = VitricBiome.Y - WorldGen.genRand.Next(2);
+                        if (xDif < VitricBiome.Width / 2 - 81 || xDif > VitricBiome.Width / 2 + 81)
+                        {
+                            layers["TOP"] = VitricBiome.Y - genRand.Next(2);
+                            if (layers["TOP"] < VitricBiome.Y) layers["TOP"]++;
+                            if (layers["CEILING"] > maxCeilingDepth) layers["CEILING"]--;
+                            if (layers["CEILING"] < minCeilingDepth) layers["CEILING"]++;
+                        }
                         if (xDif < (VitricBiome.Width / 2) - 42)
                             layers["TOP"] -= genRand.Next(2);
                         else if (xDif < (VitricBiome.Width / 2) - 20)
@@ -477,6 +486,62 @@ namespace StarlightRiver
                     KillWall(x, y, false);
                 }
             }
+        }
+
+        /// <summary>Generates sandstone pillars (as walls) between some floating islands</summary>
+        private static void GenSandstonePillars(int[] validGround)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                Point p = VitricIslandLocations[i];
+                int dir = p.Y < VitricBiome.Center.Y ? -1 : 1;
+
+                bool hasLeftIsland = false;
+                while (true)
+                {
+                    if (p.Y < VitricBiome.Y - 10 || p.Y > VitricBiome.Bottom + 10) break; //Fallout case
+                    Tile t = Main.tile[p.X, p.Y];
+                    if (!hasLeftIsland)
+                    {
+                        if (!t.active() || !validGround.Any(v => v == t.type))
+                            hasLeftIsland = true;
+                    }
+                    else
+                    {
+                        if (t.active() && validGround.Any(v => v == t.type))
+                            break;
+                    }
+                    p.Y += 1 * dir;
+                    for (int j = -2; j < 2; ++j)
+                        PlaceWall(p.X + j, p.Y, WallType<VitricSandWall>(), true); //Type TBR
+                }
+            }
+        }
+
+        /// <summary>Generates ruins using premade structures, or using the GenPillar method.</summary>
+        /// <param name="validGround"></param>
+        private static void GenRuins(int[] validGround)
+        {
+            Point16[] ruinedHouseSizes = new Point16[6] { new Point16(9, 7), new Point16(14, 6), new Point16(12, 7), new Point16(10, 6), new Point16(12, 5), new Point16(14, 7) };
+            int failCount = 0;
+            for (int i = 0; i < 4; ++i)
+            {
+                if (failCount > 30) break;
+                int x = VitricBiome.X + VitricSlopeOffset + genRand.Next(VitricBiome.Width - (VitricSlopeOffset * 2));
+                while (x < VitricBiome.X + VitricBiome.Width / 2 - 71 || x > VitricBiome.X + VitricBiome.Width / 2 + 70)
+                    x = VitricBiome.X + genRand.Next(VitricBiome.Width);
+                int ty = genRand.Next(ruinedHouseSizes.Length);
+                Point16 size = ruinedHouseSizes[ty];
+                int y = FindType(x, (VitricBiome.Y + 38) + (genRand.Next((int)(VitricBiome.Height / 3.2f))), -1, validGround);
+                if ((x < VitricBiome.X + VitricBiome.Width / 2 - 71 || x > VitricBiome.X + VitricBiome.Width / 2 + 70) && validGround.Any(v => v == Main.tile[x + 1, y + 1].type) && validGround.Any(v => v == Main.tile[x + size.X - 1, y + 1].type) && Helper.CheckAirRectangle(new Point16(x, y - size.Y), new Point16(size.X - 2, size.Y - 1)))
+                    StructureHelper.StructureHelper.GenerateStructure("Structures/VitricRuins/VitricTempleRuins_" + ty, new Point16(x + (size.X / 2), y - size.Y), StarlightRiver.Instance);
+                else { i--; failCount++; continue; }
+            }
+        }
+
+        private static void GenForge()
+        {
+            StructureHelper.StructureHelper.GenerateStructure("Structures/VitricForge", new Point16(VitricBiome.X - 40, VitricBiome.Center.Y - 10), StarlightRiver.Instance);
         }
 
         /// <summary>Generates decor of every type throughout the biome</summary>
