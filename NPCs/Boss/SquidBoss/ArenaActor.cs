@@ -174,7 +174,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             Color color = new Color(230, 255, 255);
 
             Rectangle source = new Rectangle(0, 100, 512, 200);
-            spriteBatch.Draw(TextureManager.Load("Images/Misc/Perlin"), new Rectangle((int)npc.Center.X - 520 - (int)Main.screenPosition.X, (int)npc.Center.Y - 400 - (int)Main.screenPosition.Y, 1040, 850), source, color * 0.8f);
+            spriteBatch.Draw(GetTexture("StarlightRiver/MarioCumming"), new Rectangle((int)npc.Center.X - 520 - (int)Main.screenPosition.X, (int)npc.Center.Y - 400 - (int)Main.screenPosition.Y, 1040, 850), null, color * 0.8f);
 
             Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/SquidBoss/Window");
             for (int x = 0; x < tex.Width / 16; x++)
