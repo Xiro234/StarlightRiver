@@ -495,12 +495,13 @@ namespace StarlightRiver
             {
                 Point p = VitricIslandLocations[i];
                 int dir = p.Y < VitricBiome.Center.Y ? -1 : 1;
+                int offsetX = 0;
 
                 bool hasLeftIsland = false;
                 while (true)
                 {
                     if (p.Y < VitricBiome.Y - 10 || p.Y > VitricBiome.Bottom + 10) break; //Fallout case
-                    Tile t = Main.tile[p.X, p.Y];
+                    Tile t = Main.tile[p.X + offsetX, p.Y];
                     if (!hasLeftIsland)
                     {
                         if (!t.active() || !validGround.Any(v => v == t.type))
@@ -513,7 +514,9 @@ namespace StarlightRiver
                     }
                     p.Y += 1 * dir;
                     for (int j = -2; j < 2; ++j)
-                        PlaceWall(p.X + j, p.Y, WallType<VitricSandWall>(), true); //Type TBR
+                        PlaceWall(p.X + j + offsetX, p.Y, WallType<VitricSandWall>(), true); //Type TBR
+
+                    if (p.Y % 2 == 0) offsetX += genRand.Next(-1, 2);
                 }
             }
         }
