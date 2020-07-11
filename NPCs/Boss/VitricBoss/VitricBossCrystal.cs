@@ -96,7 +96,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         Parent.npc.ai[1] = (int)AIStates.Anger; //boss should go into it's angery phase
                         Parent.ResetAttack();
 
-                        foreach (NPC npc in (Parent.npc.modNPC as VitricBoss).Crystals) //reset all our crystals to idle mode
+                        foreach (NPC npc in (Parent.npc.modNPC as VitricBoss).crystals) //reset all our crystals to idle mode
                         {
                             npc.ai[2] = 0;
                             npc.friendly = false; //damaging again
@@ -180,7 +180,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     Dust.NewDustPerfect(npc.Center, DustType<Dusts.Starlight>());
 
                     if (npc.Center.Y > TargetPos.Y)
-                        foreach (Vector2 point in Parent.CrystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
+                        foreach (Vector2 point in Parent.crystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
                         {
                             Rectangle hitbox = new Rectangle((int)point.X - 110, (int)point.Y + 48, 220, 16); //grabs the platform hitbox
                             if (npc.Hitbox.Intersects(hitbox))

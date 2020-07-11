@@ -15,7 +15,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
-    public static class Helper
+    public static partial class Helper
     {
         private static int tiltTime;
         private static float tiltMax;
@@ -25,6 +25,8 @@ namespace StarlightRiver
         public static bool IsTargetValid(NPC npc) => npc.active && !npc.friendly && !npc.immortal && !npc.dontTakeDamage;
 
         public static bool OnScreen(Vector2 pos) => (pos.X > -16 && pos.X < Main.screenWidth + 16 && pos.Y > -16 && pos.Y < Main.screenHeight + 16);
+
+        public static bool OnScreen(Rectangle rect) => rect.Intersects(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight));
 
         public static void Kill(this NPC npc)
         {

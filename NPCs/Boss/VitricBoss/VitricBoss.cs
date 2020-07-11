@@ -18,9 +18,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public Vector2 startPos;
         public Vector2 endPos;
         public Vector2 homePos;
-        public List<NPC> Crystals = new List<NPC>();
-        public List<Vector2> CrystalLocations = new List<Vector2>();
+        public List<NPC> crystals = new List<NPC>();
+        public List<Vector2> crystalLocations = new List<Vector2>();
         public Rectangle arena;
+
+        private int favoriteCrystal = 0;
+        private bool altAttack = false;
 
         internal ref float GlobalTimer => ref npc.ai[0];
         internal ref float Phase => ref npc.ai[1];
@@ -206,8 +209,8 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             {
                 GlobalTimer = 0;
                 Phase = (int)AIStates.Leaving; //begone thot!
-                Crystals.ForEach(n => n.ai[2] = 4);
-                Crystals.ForEach(n => n.ai[1] = 0);
+                crystals.ForEach(n => n.ai[2] = 4);
+                crystals.ForEach(n => n.ai[1] = 0);
             }
 
             switch (Phase)
@@ -223,7 +226,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     for (int k = 0; k < Main.maxNPCs; k++) //finds all the large platforms to add them to the list of possible locations for the nuke attack
                     {
                         NPC npc = Main.npc[k];
-                        if (npc?.active == true && (npc.type == NPCType<VitricBossPlatformUp>() || npc.type == NPCType<VitricBossPlatformDown>())) CrystalLocations.Add(npc.Center + new Vector2(0, -48));
+                        if (npc?.active == true && (npc.type == NPCType<VitricBossPlatformUp>() || npc.type == NPCType<VitricBossPlatformDown>())) crystalLocations.Add(npc.Center + new Vector2(0, -48));
                     }
 
                     ChangePhase(AIStates.SpawnAnimation, true);
@@ -252,7 +255,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                                 (Main.npc[index].modNPC as VitricBossCrystal).Parent = this;
                                 (Main.npc[index].modNPC as VitricBossCrystal).StartPos = target;
                                 (Main.npc[index].modNPC as VitricBossCrystal).TargetPos = npc.Center + new Vector2(0, -120).RotatedBy(6.28f / 4 * k);
-                                Crystals.Add(Main.npc[index]); //add this crystal to the list of crystals the boss controls
+                                crystals.Add(Main.npc[index]); //add this crystal to the list of crystals the boss controls
                             }
                         }
                     }
@@ -275,10 +278,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 case (int)AIStates.FirstPhase:
 
                     int healthGateAmount = npc.lifeMax / 7;
-                    if (npc.life <= npc.lifeMax - (1 + Crystals.Count(n => n.ai[0] == 3 || n.ai[0] == 1)) * healthGateAmount && !npc.dontTakeDamage)
+                    if (npc.life <= npc.lifeMax - (1 + crystals.Count(n => n.ai[0] == 3 || n.ai[0] == 1)) * healthGateAmount && !npc.dontTakeDamage)
                     {
                         npc.dontTakeDamage = true; //boss is immune at phase gate
-                        npc.life = npc.lifeMax - ((1 + Crystals.Count(n => n.ai[0] == 3 || n.ai[0] == 1)) * healthGateAmount) - 1; //set health at phase gate
+                        npc.life = npc.lifeMax - ((1 + crystals.Count(n => n.ai[0] == 3 || n.ai[0] == 1)) * healthGateAmount) - 1; //set health at phase gate
                         Main.PlaySound(SoundID.ForceRoar, npc.Center);
                     }
 
@@ -310,7 +313,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                     if (GlobalTimer == 2)
                     {
-                        foreach (NPC crystal in Crystals)
+                        foreach (NPC crystal in crystals)
                         {
                             crystal.ai[0] = 0;
                             crystal.ai[2] = 5; //turn the crystals to transform mode
@@ -320,7 +323,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     if (GlobalTimer == 120)
                     {
                         SetFrameX(1);
-                        foreach (NPC crystal in Crystals) //kill all the crystals
+                        foreach (NPC crystal in crystals) //kill all the crystals
                         {
                             crystal.Kill();
                         }
@@ -386,7 +389,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         case 0: Volley(); break;
                         case 1: Mines(); break;
                         case 2: Whirl(); break;
-                        case 3: ReverseCage(); break;
+                        case 3: Lasers(); break;
                     }
                     break;
 
@@ -436,19 +439,17 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         #endregion AI
 
         #region Networking
-
-        private int FavoriteCrystal = 0;
-
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(FavoriteCrystal);
+            writer.Write(favoriteCrystal);
+            writer.Write(altAttack);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            FavoriteCrystal = reader.ReadInt32();
+            favoriteCrystal = reader.ReadInt32();
+            altAttack = reader.ReadBoolean();
         }
-
         #endregion Networking
 
         private int IconFrame = 0;

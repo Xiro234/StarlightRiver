@@ -173,7 +173,7 @@ namespace StarlightRiver
         {
             foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC is ArenaActor))
             {
-                (Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).modNPC as ArenaActor).DrawWindow(Main.spriteBatch);
+                (Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).modNPC as ArenaActor).DrawBigWindow(Main.spriteBatch);
 
                 foreach (NPC npc2 in Main.npc.Where(n => n.active && n.modNPC is IUnderwater && !(n.modNPC is SquidBoss)))
                     (npc2.modNPC as IUnderwater).DrawUnderWater(Main.spriteBatch);
