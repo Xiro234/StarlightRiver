@@ -21,14 +21,11 @@ namespace StarlightRiver.Tiles.Vitric
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.RandomStyleRange = 6;
-            TileObjectData.newTile.AnchorAlternateTiles = new int[]
-            {
-                TileType<VitricSand>()
-            };
+            TileObjectData.newTile.AnchorAlternateTiles = new int[] { TileType<VitricSand>(), TileType<VitricSoftSand>() };
             TileObjectData.addTile(Type);
             soundType = SoundID.Shatter;
             dustType = DustType<Dusts.Glass2>();
-            AddMapEntry(new Color(115, 182, 158));
+            AddMapEntry(new Color(114, 78, 80));
         }
     }
 }

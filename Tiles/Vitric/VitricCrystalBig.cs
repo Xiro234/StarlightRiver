@@ -23,6 +23,11 @@ namespace StarlightRiver.Tiles.Vitric
             TileID.Sets.DrawsWalls[Type] = true;
         }
 
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
+        }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile t = Main.tile[i, j];
