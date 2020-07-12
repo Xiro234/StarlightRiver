@@ -80,8 +80,16 @@ namespace StarlightRiver
             On.Terraria.WorldGen.meteor += AluminumMeteor;
             //Nobuild
             On.Terraria.Player.PlaceThing += PlacementRestriction;
+            //Testing Lighting
+            Main.OnPreDraw += TestLighting;
 
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
+        }
+
+        private void TestLighting(GameTime obj)
+        {
+            if (!Main.gameMenu) lightingTest.DebugDraw(obj);
+            //if (!Main.gameMenu) lightingTest.DebugDraw2();
         }
 
         #region hooks
@@ -258,6 +266,8 @@ namespace StarlightRiver
                         GrassOvergrow.CustomDraw(i, j, Main.spriteBatch);
                     }
                 }
+
+            lightingTest.DebugDraw2();
         }
 
         private void DrawKeys(On.Terraria.Main.orig_DrawItems orig, Main self)

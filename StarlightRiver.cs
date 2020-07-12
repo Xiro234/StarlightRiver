@@ -54,6 +54,8 @@ namespace StarlightRiver
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
         public static StarlightRiver Instance { get; set; }
 
+        public static RenderTest lightingTest = new RenderTest();
+
         public StarlightRiver() { Instance = this; }
 
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
@@ -157,6 +159,10 @@ namespace StarlightRiver
                 Ref<Effect> screenRef5 = new Ref<Effect>(GetEffect("Effects/Purity"));
                 Terraria.Graphics.Effects.Filters.Scene["PurityFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef5, "PurityPass"), Terraria.Graphics.Effects.EffectPriority.High);
                 Terraria.Graphics.Effects.Filters.Scene["PurityFilter"].Load();
+
+                Ref<Effect> screenRef6 = new Ref<Effect>(GetEffect("Effects/LightShader"));
+                Terraria.Graphics.Effects.Filters.Scene["Lighting"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef6, "LightingPass"), Terraria.Graphics.Effects.EffectPriority.High);
+                Terraria.Graphics.Effects.Filters.Scene["Lighting"].Load();
             }
 
             //Autoload Rift Recipes
