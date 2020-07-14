@@ -30,7 +30,7 @@ namespace StarlightRiver.Items.Vitric
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vitric Pickaxe");
-            Tooltip.SetDefault("Attracts dropped item to it's user");
+            Tooltip.SetDefault("Attracts dropped item to its user");
         }
 
         public override bool UseItem(Player player)

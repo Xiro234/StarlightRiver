@@ -37,5 +37,10 @@ namespace StarlightRiver.Tiles.Vitric
             if (Main.tile[i, j + 1].type == Type)
                 WorldGen.KillTile(i, j + 1, false, false, true);
         }
+
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (!Main.tile[i, j - 1].active()) WorldGen.KillTile(i, j);
+        }
     }
 }

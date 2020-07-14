@@ -273,7 +273,7 @@ namespace StarlightRiver
             {
                 for (int y = VitricBiome.Y - 6; y < VitricBiome.Y + 20; y++)
                 {
-                    KillTile(x, y);
+                    if (Main.tile[x, y].type == TileType<VitricSand>()) KillTile(x, y);
                     if (y > VitricBiome.Y + 5 && y < VitricBiome.Y + 9) PlaceTile(x, y, TileType<VitricBossBarrier>(), true, true);
                 }
             }
@@ -359,9 +359,9 @@ namespace StarlightRiver
                 {
                     if (i < VitricBiome.X + VitricBiome.Width / 2 - 71 || i > VitricBiome.X + VitricBiome.Width / 2 + 70)
                     {
-                        if (genRand.Next(7) >= 3 && validGround.Any(x => x == Main.tile[i - 1, j + 1].type) && validGround.Any(x => x == Main.tile[i + 10, j + 1].type) && Helper.CheckAirRectangle(new Point16(i, j - 19), new Point16(10, 19)))
+                        if (genRand.Next(7) >= 4 && validGround.Any(x => x == Main.tile[i - 1, j + 1].type) && validGround.Any(x => x == Main.tile[i + 10, j + 1].type) && Helper.CheckAirRectangle(new Point16(i, j - 19), new Point16(10, 19)))
                         {
-                            StructureHelper.StructureHelper.GenerateStructure("Structures/LargeVitricCrystal", new Point16(i + 5, (j + genRand.Next(2)) - 17), StarlightRiver.Instance);
+                            StructureHelper.StructureHelper.GenerateStructure("Structures/LargeVitricCrystal", new Point16(i, (j + genRand.Next(2)) - 17), StarlightRiver.Instance);
                             i += 10;
                         }
                     }
@@ -430,8 +430,8 @@ namespace StarlightRiver
 
                         if (xDif < VitricBiome.Width / 2 - 88 || xDif > VitricBiome.Width / 2 + 88)
                         {
-                            if (layers["CEILING"] > minCeilingDepth + 4) layers["CEILING"]--;
-                            if (layers["CEILING"] < minCeilingDepth) layers["CEILING"]++;
+                            if (layers["CEILING"] > minCeilingDepth - 8) layers["CEILING"]--;
+                            if (layers["CEILING"] < minCeilingDepth - 12) layers["CEILING"]++;
                         }
 
                         //VitricBiome.Center.X - 51
@@ -551,14 +551,23 @@ namespace StarlightRiver
             {
                 if (failCount > 30) break;
                 int x = VitricBiome.X + VitricSlopeOffset + genRand.Next(VitricBiome.Width - (VitricSlopeOffset * 2));
-                while (x < VitricBiome.X + VitricBiome.Width / 2 - 71 || x > VitricBiome.X + VitricBiome.Width / 2 + 70)
+                while (x > VitricBiome.X + VitricBiome.Width / 2 - 71 && x < VitricBiome.X + VitricBiome.Width / 2 + 70)
                     x = VitricBiome.X + genRand.Next(VitricBiome.Width);
                 int ty = genRand.Next(ruinedHouseSizes.Length);
                 Point16 size = ruinedHouseSizes[ty];
-                int y = FindType(x, (VitricBiome.Y + 38) + (genRand.Next((int)(VitricBiome.Height / 3.2f))), -1, validGround);
-                if ((x < VitricBiome.X + VitricBiome.Width / 2 - 71 || x > VitricBiome.X + VitricBiome.Width / 2 + 70) && validGround.Any(v => v == Main.tile[x + 1, y + 1].type) && validGround.Any(v => v == Main.tile[x + size.X - 1, y + 1].type) && Helper.CheckAirRectangle(new Point16(x, y - size.Y), new Point16(size.X - 2, size.Y - 1)))
-                    StructureHelper.StructureHelper.GenerateStructure("Structures/VitricRuins/VitricTempleRuins_" + ty, new Point16(x + (size.X / 2), y - size.Y), StarlightRiver.Instance);
+                int y = FindType(x, (VitricBiome.Y + 38) + (genRand.Next((int)(VitricBiome.Height / 3.2f))), -1, validGround) + 1;
+                if ((x < VitricBiome.X + VitricBiome.Width / 2 - 71 || x > VitricBiome.X + VitricBiome.Width / 2 + 70) && Helper.CheckAirRectangle(new Point16(x, y - size.Y), new Point16(size.X, size.Y - 3)) &&
+                    validGround.Any(v => v == Main.tile[x + 1, y].type) && validGround.Any(v => v == Main.tile[x + size.X - 1, y].type))
+                    StructureHelper.StructureHelper.GenerateStructure("Structures/VitricRuins/VitricTempleRuins_" + ty, new Point16(x, y - size.Y), StarlightRiver.Instance);
                 else { i--; failCount++; continue; }
+            }
+
+            failCount = 0;
+            for (int i = 0; i < 3; ++i)
+            {
+                int x = VitricBiome.X + VitricSlopeOffset + genRand.Next(VitricBiome.Width - (VitricSlopeOffset * 2));
+                while (x > VitricBiome.X + VitricBiome.Width / 2 - 71 && x < VitricBiome.X + VitricBiome.Width / 2 + 70)
+                    x = VitricBiome.X + genRand.Next(VitricBiome.Width);
             }
         }
 
@@ -756,7 +765,7 @@ namespace StarlightRiver
         }
 
         /// <summary>
-        /// Generates a broken temple pillar. Only places between vitric sand.
+        /// Generates a broken temple pillar. Only places between vitric sand. Automatically scans for crystals, and returns false if a crystal is in the way.
         /// </summary>
         /// <param name="x">Center X position.</param>
         /// <param name="y">Y position. Can be anywhere between a ceiling and floor; will generate appropriately.</param>
