@@ -53,8 +53,12 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StarlightRiver.Instance.textcard.Display("Debug", "King of Debugging", null, 180, Main.rand.NextFloat(1, 3));
-            return true;
+            for(int x = 0; x < Main.maxTilesX; x++)
+                for (int y = 0; y < Main.maxTilesY; y++)
+                {
+                    TileLoader.RandomUpdate(x, y, Main.tile[x, y].type);
+                }
+                    return true;
         }
 
         public override void HoldItem(Player player)
