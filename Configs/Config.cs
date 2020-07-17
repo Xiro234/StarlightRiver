@@ -25,9 +25,8 @@ namespace StarlightRiver.Configs
         [Tooltip("Enables/Disables special particles. Disable this if you have performance issues.")]
         public bool Active = true;
 
-        [Label("Smooth Lighting Coarseness")]
-        [Tooltip("Sample spacing between verticies for certain objects drawn with lighting. Higher = better performance but lower quality.")]
-        [Range(1, 8)]
-        public int Coarseness = 4;
+        [Label("Buffered Tile Lighting")]
+        [Tooltip("Experimental Shader-based lighting mode")]
+        public bool BufferedLight = false;
     }
 }

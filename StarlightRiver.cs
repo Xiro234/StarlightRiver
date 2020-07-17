@@ -163,6 +163,10 @@ namespace StarlightRiver
                 Ref<Effect> screenRef6 = new Ref<Effect>(GetEffect("Effects/LightShader"));
                 Terraria.Graphics.Effects.Filters.Scene["Lighting"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef6, "LightingPass"), Terraria.Graphics.Effects.EffectPriority.High);
                 Terraria.Graphics.Effects.Filters.Scene["Lighting"].Load();
+
+                Ref<Effect> screenRef7 = new Ref<Effect>(GetEffect("Effects/LightApplicator"));
+                Terraria.Graphics.Effects.Filters.Scene["LightingApply"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef7, "LightingApplyPass"), Terraria.Graphics.Effects.EffectPriority.High);
+                Terraria.Graphics.Effects.Filters.Scene["LightingApply"].Load();
             }
 
             //Autoload Rift Recipes

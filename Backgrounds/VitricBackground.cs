@@ -104,6 +104,7 @@ namespace StarlightRiver
 
         private void DrawTilingBackground()
         {
+            return;
             Texture2D tex = GetTexture("Backgrounds/VitricSand");
             Rectangle blacklist = new Rectangle(StarlightWorld.VitricBiome.X, StarlightWorld.VitricBiome.Y + 6, StarlightWorld.VitricBiome.Width, StarlightWorld.VitricBiome.Height - 12);
             List<VertexPositionColorTexture> verticies = new List<VertexPositionColorTexture>();
@@ -113,7 +114,7 @@ namespace StarlightRiver
                 {
                     Vector2 pos = new Vector2(x - Main.screenPosition.X % tex.Width, y - Main.screenPosition.Y % tex.Height);
 
-                    int coarseness = GetInstance<Config>().Coarseness;
+                    int coarseness = 1;
                     int coarse16 = coarseness * 16;
 
                     for (int xIn = 0; xIn < tex.Width; xIn += coarse16)

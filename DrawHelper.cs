@@ -19,6 +19,8 @@ namespace StarlightRiver
         static int XMax => Main.screenWidth / 16 + padding * 2;
         static int YMax => (int)(Main.screenHeight / 16 + (padding * 2 * factor));
 
+        public static bool gettingColors = false;
+
         public RenderTarget2D screenLightingTexture = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
         public RenderTarget2D tileLightingTexture = new RenderTarget2D(Main.instance.GraphicsDevice, XMax, YMax, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
         public Vector2 tileLightingCenter;
@@ -34,6 +36,7 @@ namespace StarlightRiver
         {
             try
             {
+                gettingColors = true;
                 GraphicsDevice graphics = Main.instance.GraphicsDevice;
                 Color[] tileLightingBuffer = new Color[(XMax) * (YMax)];
 
@@ -44,11 +47,9 @@ namespace StarlightRiver
                         if (tileLightingBuffer.Length > index) tileLightingBuffer[index] = Lighting.GetColor((int)start.X / 16 + x, (int)start.Y / 16 + y);
                     }
 
-                graphics.Textures[1] = null;
                 tileLightingTexture.SetData(tileLightingBuffer);
-                graphics.Textures[1] = tileLightingTexture;
-
                 tileLightingCenter = start + new Vector2(Main.screenWidth, Main.screenHeight) / 2;
+                gettingColors = false;
             }
             catch
             {
@@ -90,7 +91,7 @@ namespace StarlightRiver
             graphics.RasterizerState = new RasterizerState() { CullMode = CullMode.None };
 
             Vector2 offset = (Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight) / 2f - tileLightingCenter) / new Vector2(Main.screenWidth, Main.screenHeight);
-            float scale = 0.655f;
+            float scale = 0.668f; //TODO: Figure out how to calculate this
 
             Effect someEffect = Filters.Scene["Lighting"].GetShader().Shader;
             someEffect.Parameters["uScreenResolution"].SetValue(new Vector2(scale, scale));
@@ -108,7 +109,7 @@ namespace StarlightRiver
         public void DebugDraw(GameTime timer)
         {
             thetimer++;
-            if(thetimer % 10 == 0) PopulateTileTexture((Main.screenPosition / 16).ToPoint16().ToVector2() * 16 - Vector2.One * padding * 16);
+            if(thetimer % 5 == 0) PopulateTileTexture((Main.screenPosition / 16).ToPoint16().ToVector2() * 16 - Vector2.One * padding * 16);
             PopulateScreenTexture();
         }
 
@@ -125,9 +126,10 @@ namespace StarlightRiver
     {
         public static void DrawWithLighting(Vector2 pos, Texture2D tex)
         {
+            return;
             if (!OnScreen(new Rectangle((int)pos.X, (int)pos.Y, tex.Width, tex.Height))) return;
 
-            int coarseness = GetInstance<Config>().Coarseness;
+            int coarseness = 1;
             int coarse16 = coarseness * 16;
 
             VertexPositionColorTexture[] verticies = new VertexPositionColorTexture[(tex.Width / coarse16 + 1) * (tex.Height / coarse16 * 6 + 1)];

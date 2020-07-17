@@ -19,6 +19,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
 using Terraria.Graphics;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.IO;
 using Terraria.Localization;
@@ -86,21 +87,27 @@ namespace StarlightRiver
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
-        private void TestLighting(GameTime obj)
-        {
-            if (!Main.gameMenu) lightingTest.DebugDraw(obj);
-            //if (!Main.gameMenu) lightingTest.DebugDraw2();
-        }
+        private void TestLighting(GameTime obj) { if (!Main.gameMenu) lightingTest.DebugDraw(obj); }
 
         #region hooks
         private void PlacementRestriction(On.Terraria.Player.orig_PlaceThing orig, Player self)
         {
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
-            if (tile.wall == ModContent.WallType<AuroraBrickWall>() &&
-                !Main.projectile.Any(n => n.active && n.timeLeft > 10 && n.modProjectile is InteractiveProjectile && (n.modProjectile as InteractiveProjectile).ValidPoints.Contains(new Point16(Player.tileTargetX, Player.tileTargetY))))
+
+            if (tile.wall == ModContent.WallType<AuroraBrickWall>()) 
             {
+                for(int k = 0; k < Main.maxProjectiles; k++)
+                {
+                    Projectile proj = Main.projectile[k];
+                    if (proj.active && proj.timeLeft > 10 && proj.modProjectile is InteractiveProjectile && (proj.modProjectile as InteractiveProjectile).CheckPoint(Player.tileTargetX, Player.tileTargetY))
+                    {
+                        orig(self);
+                        return;
+                    }
+                }
                 return;
             }
+
             else orig(self);
         }
 
@@ -266,8 +273,6 @@ namespace StarlightRiver
                         GrassOvergrow.CustomDraw(i, j, Main.spriteBatch);
                     }
                 }
-
-            lightingTest.DebugDraw2();
         }
 
         private void DrawKeys(On.Terraria.Main.orig_DrawItems orig, Main self)
