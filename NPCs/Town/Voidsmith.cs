@@ -97,10 +97,6 @@ namespace StarlightRiver.NPCs.Town
             {
                 shop = true;
             }
-            else
-            {
-                StarlightWorld.NPCUpgrades[0]++;
-            }
         }
 
         public override void SetupShop(Chest shop, ref int nextSlot)

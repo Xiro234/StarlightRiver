@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Tiles;
+using StarlightRiver.Tiles.Interactive;
 using StarlightRiver.Tiles.Purified;
 using System;
 using Terraria;
@@ -95,15 +97,17 @@ namespace StarlightRiver.Projectiles.Ability
             }
         }
 
-        private void TransformTile(int x, int y)
+        public static void TransformTile(int x, int y)
         {
-            Tile target = Main.tile[x, y];
+            if (!WorldGen.InWorld(x, y)) return;
+
+            Tile target = Framing.GetTileSafely(x, y);
             {
                 if (target.type == TileID.Stone || target.type == TileID.Ebonstone || target.type == TileID.Crimstone || target.type == TileID.Pearlstone) { target.type = (ushort)TileType<StonePure>(); SpawnDust(x, y); }
                 if (target.type == TileID.Grass || target.type == TileID.CorruptGrass || target.type == TileID.FleshGrass || target.type == TileID.HallowedGrass) { target.type = (ushort)TileType<GrassPure>(); SpawnDust(x, y); }
                 if (target.type == TileID.Sand || target.type == TileID.Ebonsand || target.type == TileID.Crimsand || target.type == TileID.Pearlsand) { target.type = (ushort)TileType<SandPure>(); SpawnDust(x, y); }
-                if (target.type == (ushort)mod.TileType("OreEbony")) { target.type = (ushort)mod.TileType("OreIvory"); SpawnDust(x, y); }
-                if (target.type == (ushort)mod.TileType("VoidDoorOn")) { target.type = (ushort)mod.TileType("VoidDoorOff"); }//No Dust.
+                if (target.type == (ushort)TileType<OreEbony>()) { target.type = (ushort)TileType<OreIvory>(); SpawnDust(x, y); }
+                if (target.type == (ushort)TileType<VoidDoorOn>()) { target.type = (ushort)TileType<VoidDoorOff>(); } //No Dust.
 
                 //walls
                 if (target.wall == WallID.Stone || target.wall == WallID.EbonstoneUnsafe || target.wall == WallID.CrimstoneUnsafe || target.wall == WallID.PearlstoneBrickUnsafe) { target.wall = (ushort)WallType<WallStonePure>(); SpawnDust(x, y); }
@@ -111,15 +115,17 @@ namespace StarlightRiver.Projectiles.Ability
             }
         }
 
-        private void RevertTile(int x, int y)
+        public static void RevertTile(int x, int y)
         {
-            Tile target = Main.tile[x, y];
+            if (!WorldGen.InWorld(x, y)) return;
+
+            Tile target = Framing.GetTileSafely(x, y);
             {
                 if (target.type == (ushort)TileType<StonePure>()) { target.type = TileID.Stone; SpawnDust(x, y); }
                 if (target.type == (ushort)TileType<GrassPure>()) { target.type = TileID.Grass; SpawnDust(x, y); }
                 if (target.type == (ushort)TileType<SandPure>()) { target.type = TileID.Sand; SpawnDust(x, y); }
-                if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); SpawnDust(x, y); }
-                if (target.type == (ushort)mod.TileType("VoidDoorOff")) { target.type = (ushort)mod.TileType("VoidDoorOn"); SpawnDust(x, y); }
+                if (target.type == (ushort)TileType<OreIvory>()) { target.type = (ushort)TileType<OreEbony>(); SpawnDust(x, y); }
+                if (target.type == (ushort)TileType<VoidDoorOff>()) { target.type = (ushort)TileType<VoidDoorOn>(); SpawnDust(x, y); }
 
                 //walls
                 if (target.wall == WallType<WallStonePure>()) { target.wall = WallID.Stone; SpawnDust(x, y); }

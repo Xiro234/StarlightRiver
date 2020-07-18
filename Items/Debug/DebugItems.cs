@@ -53,11 +53,8 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            for(int x = 0; x < Main.maxTilesX; x++)
-                for (int y = 0; y < Main.maxTilesY; y++)
-                {
-                    TileLoader.RandomUpdate(x, y, Main.tile[x, y].type);
-                }
+            StarlightWorld.TownUpgrades["Guide"] = true;
+            StarlightWorld.TownUpgrades["Merchant"] = true;
                     return true;
         }
 
