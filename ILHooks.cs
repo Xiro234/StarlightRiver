@@ -43,6 +43,31 @@ namespace StarlightRiver
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
         }
 
+        private void UnhookIL()
+        {
+            // Vitric lighting
+            IL.Terraria.Lighting.PreRenderPhase -= VitricLighting;
+
+            //moonlord draw layer
+            IL.Terraria.Main.DoDraw -= DrawMoonlordLayer;
+
+            //Auroracle layer
+            IL.Terraria.Main.DoDraw -= DrawWater;
+
+            //soulbound items
+            IL.Terraria.UI.ChestUI.DepositAll -= PreventSoulboundStack;
+
+            //dynamic map icons
+            IL.Terraria.Main.DrawMap -= DynamicBossIcon;
+
+            //jungle grass
+            IL.Terraria.WorldGen.Convert -= JungleGrassConvert;
+            IL.Terraria.WorldGen.hardUpdateWorld -= JungleGrassSpread;
+
+            //grappling hooks on moving platforms
+            IL.Terraria.Projectile.VanillaAI -= GrapplePlatforms;
+        }
+
         #region IL edits
         //IL edits to allow grappling hooks to interact with moving platforms
         private void GrapplePlatforms(ILContext il)

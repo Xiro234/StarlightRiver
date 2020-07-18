@@ -310,7 +310,8 @@ namespace StarlightRiver
                 Smash = null;
                 Purify = null;
             }
-            IL.Terraria.Lighting.PreRenderPhase -= VitricLighting;
+
+            UnhookIL();
         }
 
         #region NetEasy
