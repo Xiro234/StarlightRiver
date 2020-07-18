@@ -63,8 +63,15 @@ namespace StarlightRiver.Tiles.Permafrost.Decoration
             if (tile.frameX == 0 && tile.frameY == 0)
             {
                 Texture2D tex = GetTexture("StarlightRiver/Tiles/Permafrost/Decoration/SnowGrassGlow");
-                spriteBatch.Draw(tex, (Helper.TileAdj + new Vector2(i, j)) * 16 - Main.screenPosition, Main.DiscoColor);
-                Lighting.AddLight(new Vector2(i, j) * 16, Main.DiscoColor.ToVector3() * 0.2f);
+
+                float off = (float)Math.Sin((i + j) * 0.2f) * 300 + (float)Math.Cos(j * 0.15f) * 200;
+
+                float sin = (float)Math.Sin(StarlightWorld.rottime + off * 0.008f * 0.2f);
+                float cos = (float)Math.Cos(StarlightWorld.rottime + off * 0.008f);
+                Color color = new Color(100 * (1 + sin) / 255f, 140 * (1 + cos) / 255f, 180 / 255f);
+
+                spriteBatch.Draw(tex, (Helper.TileAdj + new Vector2(i, j)) * 16 - Main.screenPosition, color);
+                Lighting.AddLight(new Vector2(i, j) * 16, color.ToVector3() * 0.08f);
             }
         }
     }

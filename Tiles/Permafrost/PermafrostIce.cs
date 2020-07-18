@@ -16,6 +16,9 @@ namespace StarlightRiver.Tiles.Permafrost
             QuickBlock.QuickSet(this, 0, DustID.Ice, SoundID.Tink, new Color(200, 230, 255), ItemType<PermafrostIceItem>());
             Main.tileMerge[Type][TileID.SnowBlock] = true;
             Main.tileMerge[TileID.SnowBlock][Type] = true;
+
+            Main.tileMerge[Type][TileType<PermafrostSnow>()] = true;
+            Main.tileMerge[TileType<PermafrostSnow>()][Type] = true;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
