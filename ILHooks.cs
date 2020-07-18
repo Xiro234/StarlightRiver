@@ -29,9 +29,6 @@ namespace StarlightRiver
             //Auroracle layer
             IL.Terraria.Main.DoDraw += DrawWater;
 
-            //dragons
-            IL.Terraria.Main.DrawMenu += DragonMenuAttach;
-
             //soulbound items
             IL.Terraria.UI.ChestUI.DepositAll += PreventSoulboundStack;
 
@@ -312,51 +309,6 @@ namespace StarlightRiver
         private bool EmitSoulboundDel(int index)
         {
             return Main.LocalPlayer.inventory[index].modItem is Items.SoulboundItem;
-        }
-
-        //IL edit for dragon customization
-        private void DragonMenuAttach(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(n => n.MatchLdsfld<Main>("menuMode") && n.Next.MatchLdcI4(2));
-            c.Index++;
-
-            c.EmitDelegate<DragonMenuDelegate>(EmitDragonDel);
-        }
-
-        private delegate void DragonMenuDelegate();
-
-        private DragonMenu dragonMenu = new DragonMenu();
-        private UserInterface dragonMenuUI = new UserInterface();
-        private void EmitDragonDel()
-        {
-            if (Main.menuMode == 2 || DragonMenu.visible)
-            {
-                if (!DragonMenu.created)
-                {
-                    dragonMenu = new DragonMenu();
-                    dragonMenu.OnInitialize();
-                    Main.PendingPlayer.GetModPlayer<DragonHandler>().data.SetDefault();
-                    dragonMenu.dragon = Main.PendingPlayer.GetModPlayer<DragonHandler>();
-                    DragonMenu.created = true;
-
-                    dragonMenuUI = new UserInterface();
-                    dragonMenuUI.SetState(dragonMenu);
-                }
-                SpriteBatch spriteBatch = Main.spriteBatch;
-
-                if (dragonMenu != null && dragonMenuUI != null)
-                {
-                    dragonMenu.Draw(spriteBatch);
-                }
-
-            }
-            else
-            {
-                DragonMenu.created = false;
-                dragonMenu = null;
-                dragonMenuUI = null;
-            }
         }
 
         // IL edit to get the overgrow boss window drawing correctly   

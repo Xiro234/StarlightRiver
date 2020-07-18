@@ -66,8 +66,6 @@ namespace StarlightRiver
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
             On.Terraria.Player.Update_NPCCollision += PlatformCollision;
-            //Dergon menu
-            On.Terraria.Main.DoUpdate += UpdateDragonMenu;
             //Soulbound Items, ech these are a pain
             On.Terraria.Player.DropSelectedItem += DontDropSoulbound;
             On.Terraria.Player.dropItemCheck += SoulboundPriority;
@@ -230,12 +228,6 @@ namespace StarlightRiver
         {
             if (self.inventory[self.selectedItem].modItem is Items.SoulboundItem || Main.mouseItem.modItem is Items.SoulboundItem) return;
             else orig(self);
-        }
-
-        private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
-        {
-            dragonMenuUI?.Update(gameTime);
-            orig(self, gameTime);
         }
 
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)
