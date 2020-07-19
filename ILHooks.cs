@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Terraria.Localization;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -7,12 +8,15 @@ using StarlightRiver.Dragons;
 using StarlightRiver.GUI;
 using StarlightRiver.NPCs;
 using StarlightRiver.NPCs.Boss.SquidBoss;
+using StarlightRiver.NPCs.TownUpgrade;
+using System;
 using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.GameInput;
 
 namespace StarlightRiver
 {
@@ -41,6 +45,11 @@ namespace StarlightRiver
 
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
+
+            //Town NPC name swaps
+            IL.Terraria.WorldGen.SpawnTownNPC += SwapTitle;
+            IL.Terraria.NPC.checkDead += SwapTitleDeath;
+            IL.Terraria.Main.DrawInventory += SwapTitleMenu;
         }
 
         private void UnhookIL()
@@ -66,9 +75,81 @@ namespace StarlightRiver
 
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI -= GrapplePlatforms;
+
+            //Town NPC name swaps
+            IL.Terraria.WorldGen.SpawnTownNPC -= SwapTitle;
+            IL.Terraria.NPC.checkDead -= SwapTitleDeath;
+            IL.Terraria.Main.DrawInventory -= SwapTitleMenu;
         }
 
+
         #region IL edits
+        //custom name for upgraded NPCs in housing menu TODO: no effect?
+        private void SwapTitleMenu(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(i => i.MatchLdloc(66), i => i.MatchLdcI4(-1));
+            c.Index++;
+
+            c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc", BindingFlags.Static | BindingFlags.Public));
+            c.Emit(OpCodes.Ldloc, 71);
+            c.Emit(OpCodes.Ldelem_Ref);
+
+            c.EmitDelegate<SwapTitleMenuDelegate>(EmitSwapTitleMenuDelegate);
+        }
+
+        private delegate string SwapTitleMenuDelegate(string input, NPC npc);
+
+        private string EmitSwapTitleMenuDelegate(string input, NPC npc)
+        {
+            if (StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked)
+                return npc.GivenName + " the " + TownUpgrade.FromString(npc.TypeName)._title;
+            return input;
+        }
+
+        //custom "departure" message for upgraded NPCs
+        private void SwapTitleDeath(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(i => i.MatchStloc(3));
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<SwapTitleDeathDelegate>(EmitSwapTitleDeathDelegate);
+        }
+
+        private delegate NetworkText SwapTitleDeathDelegate(NetworkText input, NPC npc);
+
+        private NetworkText EmitSwapTitleDeathDelegate(NetworkText input, NPC npc)
+        {
+            if (StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked)
+                return NetworkText.FromLiteral(npc.GivenName + " the " + TownUpgrade.FromString(npc.TypeName)._title + " was slain...");
+            return input;
+        }
+
+        //Custom arrival message for upgraded NPCs
+        private void SwapTitle(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(i => i.MatchStloc(8));
+            c.Index++;
+
+            c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc", BindingFlags.Static | BindingFlags.Public));
+            c.Emit(OpCodes.Ldloc, 7);
+            c.Emit(OpCodes.Ldelem_Ref);
+
+            c.Emit(OpCodes.Ldloc, 8);
+
+            c.EmitDelegate<SwapTitleDelegate>(EmitSwapTitleDelegate);
+            c.Emit(OpCodes.Stloc, 8);
+        }
+
+        private delegate string SwapTitleDelegate(NPC npc, string input);
+
+        private string EmitSwapTitleDelegate(NPC npc, string input)
+        {
+            if (StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked) return npc.GivenName + " the " + TownUpgrade.FromString(npc.TypeName)._title;
+            return input;
+        }
+
         //IL edits to allow grappling hooks to interact with moving platforms
         private void GrapplePlatforms(ILContext il)
         {

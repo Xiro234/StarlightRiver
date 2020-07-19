@@ -1,3 +1,4 @@
+using StarlightRiver.GUI;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -8,11 +9,9 @@ namespace StarlightRiver.NPCs.Town
     [AutoloadHead]
     public class Voidsmith : ModNPC
     {
-        public override bool Autoload(ref string name)
-        {
-            name = "Voidsmith";
-            return mod.Properties.Autoload;
-        }
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => true;
+
+        public override bool CheckConditions(int left, int right, int top, int bottom) => top >= (Main.maxTilesY - 200);
 
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,7 @@ namespace StarlightRiver.NPCs.Town
             NPCID.Sets.AttackType[npc.type] = 0;
             NPCID.Sets.AttackTime[npc.type] = 90;
             NPCID.Sets.AttackAverageChance[npc.type] = 30;
-            NPCID.Sets.HatOffsetY[npc.type] = 4;
+            NPCID.Sets.HatOffsetY[npc.type] = 4;          
         }
 
         public override void SetDefaults()
@@ -42,46 +41,26 @@ namespace StarlightRiver.NPCs.Town
             animationType = NPCID.Guide;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
-        {
-            return true;
-        }
-
-        public override bool CheckConditions(int left, int right, int top, int bottom)
-        {
-            return top >= (Main.maxTilesY - 200);
-        }
-
         public override string TownNPCName()
         {
-            switch (WorldGen.genRand.Next(4))
+            switch (WorldGen.genRand.Next(3))
             {
-                case 0:
-                    return "111Nick";
+                case 0: return "Cumlord";
+                case 1: return "Cumsucker";
+                case 2: return "123Nick";
 
-                case 1:
-                    return "121Nick";
-
-                case 2:
-                    return "122Nick";
-
-                default:
-                    return "123Nick";
+                default: return "Error";
             }
         }
 
         public override string GetChat()
         {
-            switch (Main.rand.Next(3))
+            switch (Main.rand.Next(2))
             {
-                case 0:
-                    return "Vortex is Gay";
+                case 0: return "Vortex is Gay";
+                case 1: return "Vortex is Gayer";
 
-                case 1:
-                    return "Vortex is Gayer";
-
-                default:
-                    return "Vortex is Gayest";
+                default: return "Error";
             }
         }
 
@@ -93,38 +72,16 @@ namespace StarlightRiver.NPCs.Town
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
-            if (firstButton)
+            if (firstButton) shop = true;
+            else
             {
-                shop = true;
+                Helper.SetExtraNPCState(new TownQuestList());
+                (StarlightRiver.Instance.ExtraNPCState as TownQuestList).PopulateList();
             }
         }
 
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
-        }
-
-        public override void TownNPCAttackStrength(ref int damage, ref float knockback)
-        {
-            damage = 20;
-            knockback = 4f;
-        }
-
-        public override void TownNPCAttackCooldown(ref int cooldown, ref int randExtraCooldown)
-        {
-            cooldown = 30;
-            randExtraCooldown = 30;
-        }
-
-        public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
-        {
-            projType = mod.ProjectileType("SparklingBall");
-            attackDelay = 1;
-        }
-
-        public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
-        {
-            multiplier = 12f;
-            randomOffset = 2f;
         }
     }
 }

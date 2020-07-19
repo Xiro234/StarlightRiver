@@ -55,6 +55,10 @@ namespace StarlightRiver.Items.Debug
         {
             StarlightWorld.TownUpgrades["Guide"] = true;
             StarlightWorld.TownUpgrades["Merchant"] = true;
+
+            for(int x = 0; x < Main.maxTilesX; x++)
+                for (int y = 0; y < Main.maxTilesY; y++)
+                    WorldGen.SpawnTownNPC(x, y);
                     return true;
         }
 
@@ -87,9 +91,8 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            for (int x = 0; x < Main.maxTilesX; x++)
-                for (int y = 0; y < Main.maxTilesY; y++) if (Main.tile[x, y].type == TileID.IceBlock) Main.tile[x, y].type = (ushort)TileType<Tiles.Permafrost.PermafrostIce>();
-
+            StarlightWorld.TownUpgrades["Guide"] = false;
+            StarlightWorld.TownUpgrades["Merchant"] = false;
             return true;
         }
 

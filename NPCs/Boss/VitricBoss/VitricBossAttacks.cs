@@ -324,7 +324,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 for (int k = 0; k < 12; k++)
                 {
-                    Projectile.NewProjectile(homePos + new Vector2(-700 + k * 120, -550), new Vector2(0, 8), ProjectileType<Projectiles.GlassSpike>(), 15, 0);
+                    Projectile.NewProjectile(homePos + new Vector2(-700 + k * 120, -460), new Vector2(0, 8), ProjectileType<Projectiles.GlassSpike>(), 15, 0);
                 }
                 ResetAttack();
             }

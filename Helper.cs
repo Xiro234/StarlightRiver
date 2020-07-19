@@ -28,6 +28,55 @@ namespace StarlightRiver
 
         public static bool OnScreen(Rectangle rect) => rect.Intersects(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight));
 
+        public static bool HasItem(Player player, int type, int count)
+        {
+            int items = 0;
+
+            for(int k = 0; k < player.inventory.Length; k++)
+            {
+                Item item = player.inventory[k];
+                if (item.type == type) items += item.stack;
+            }
+
+            return items >= count;
+        }
+
+        public static bool TryTakeItem(Player player, int type, int count)
+        {
+            if (HasItem(player, type, count))
+            {
+                int toTake = count;
+
+                for (int k = 0; k < player.inventory.Length; k++)
+                {
+                    Item item = player.inventory[k];
+
+                    if (item.type == type)
+                    {
+                        int stack = item.stack;
+                        for (int i = 0; i < stack; i++)
+                        {
+                            item.stack--;
+                            if (item.stack == 0) item.TurnToAir();
+
+                            toTake--;
+                            if (toTake <= 0) break;
+                        }
+                    }
+                    if (toTake == 0) break;
+                }
+
+                return true;
+            }
+            else return false;
+        }
+
+        public static void SetExtraNPCState(UIState state)
+        {
+            StarlightRiver.Instance.ExtraNPCState = state;
+            StarlightRiver.Instance.ExtraNPCInterface.SetState(state);
+        }
+
         public static void Kill(this NPC npc)
         {
             bool modNPCDontDie = npc.modNPC?.CheckDead() == false;

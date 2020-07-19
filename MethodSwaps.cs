@@ -7,6 +7,7 @@ using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.Items.Prototypes;
 using StarlightRiver.Keys;
 using StarlightRiver.NPCs.Boss.SquidBoss;
+using StarlightRiver.NPCs.TownUpgrade;
 using StarlightRiver.Tiles.Overgrow.Blocks;
 using StarlightRiver.Tiles.Permafrost;
 using System;
@@ -79,15 +80,30 @@ namespace StarlightRiver
             On.Terraria.WorldGen.meteor += AluminumMeteor;
             //Nobuild
             On.Terraria.Player.PlaceThing += PlacementRestriction;
+            //NPC Upgrade 
+            On.Terraria.NPC.GetChat += SetUpgradeUI;
             //Testing Lighting
             Main.OnPreDraw += TestLighting;
 
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
+
+
         private void TestLighting(GameTime obj) { if (!Main.gameMenu) lightingTest.DebugDraw(obj); }
 
         #region hooks
+        private string SetUpgradeUI(On.Terraria.NPC.orig_GetChat orig, NPC self)
+        {
+            if (StarlightWorld.TownUpgrades.TryGetValue(self.TypeName, out bool unlocked) && unlocked)
+            {
+                Instance.Chatbox.SetState(TownUpgrade.FromString(self.TypeName));
+            }
+            else Instance.Chatbox.SetState(new LockedUpgrade());
+
+            return orig(self);
+        }
+
         private void PlacementRestriction(On.Terraria.Player.orig_PlaceThing orig, Player self)
         {
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];

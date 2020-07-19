@@ -77,10 +77,7 @@ namespace StarlightRiver
         public override void PreUpdate()
         {
             rottime += (float)Math.PI / 60;
-            if (rottime >= Math.PI * 2)
-            {
-                rottime = 0;
-            }
+            if (rottime >= Math.PI * 2) rottime = 0;
         }
 
         public override void PostUpdate()

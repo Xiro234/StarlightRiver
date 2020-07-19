@@ -10,6 +10,7 @@ using Terraria.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using static Terraria.ModLoader.ModContent;
+using System.Reflection;
 
 namespace StarlightRiver.NPCs.TownUpgrade
 {
