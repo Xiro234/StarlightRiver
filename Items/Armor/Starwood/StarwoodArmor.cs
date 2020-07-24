@@ -4,6 +4,11 @@ using StarlightRiver.Items.Armor.Starwood;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using StarlightRiver.Items.Armor.Starwood;
+using StarlightRiver.Items.StarwoodWeapons;
+using StarlightRiver.Core;
+using Terraria.DataStructures;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Armor.Starwood
