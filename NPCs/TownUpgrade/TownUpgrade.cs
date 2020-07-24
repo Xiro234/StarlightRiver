@@ -1,10 +1,12 @@
-﻿using StarlightRiver.Tiles;
+﻿using Microsoft.Xna.Framework.Graphics;
+using StarlightRiver.Tiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.ID;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.TownUpgrade
 {
@@ -15,6 +17,7 @@ namespace StarlightRiver.NPCs.TownUpgrade
         public readonly string _questName;
         public readonly string _questTip;
         public readonly string _title;
+        public readonly Texture2D icon;
 
         public TownUpgrade(string npcName, string questName, string questTip, string buttonName, string title)
         {
@@ -23,6 +26,10 @@ namespace StarlightRiver.NPCs.TownUpgrade
             _questName = questName;
             _questTip = questTip;
             _title = title;
+
+            icon = TextureExists("StarlightRiver/NPCs/TownUpgrade/" + npcName + "Icon") ?
+                GetTexture("StarlightRiver/NPCs/TownUpgrade/" + npcName + "Icon") :
+                Terraria.Main.sunTexture;         
         }
 
         public bool Unlocked => StarlightWorld.TownUpgrades.TryGetValue(_npcName, out bool unlocked) && unlocked;
@@ -44,6 +51,5 @@ namespace StarlightRiver.NPCs.TownUpgrade
 
             return town;
         }
-
     }
 }

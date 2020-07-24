@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Keys;
 using StarlightRiver.NPCs.Boss.SquidBoss;
+using StarlightRiver.NPCs.TownUpgrade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,11 +136,17 @@ namespace StarlightRiver
 
             AluminumMeteors = false;
 
-            TownUpgrades = new Dictionary<string, bool>()
+            TownUpgrades = new Dictionary<string, bool>();
+
+            //Autoload NPC upgrades
+            Mod mod = StarlightRiver.Instance;
+            if (mod.Code != null)
             {
-                { "Guide", false },
-                { "Merchant", false }
-            };
+                foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(TownUpgrade))))
+                {
+                    TownUpgrades.Add(type.Name.Replace("Upgrade", ""), false);
+                }
+            }
 
             PureTiles = new List<Vector2>();
 

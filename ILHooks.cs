@@ -84,26 +84,50 @@ namespace StarlightRiver
 
 
         #region IL edits
-        //custom name for upgraded NPCs in housing menu TODO: no effect?
+        //custom name and icon for upgraded town NPCs
         private void SwapTitleMenu(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            c.TryGotoNext(i => i.MatchLdloc(66), i => i.MatchLdcI4(-1));
-            c.Index++;
+            c.TryGotoNext(i => i.MatchLdsfld<Main>("spriteBatch"), i => i.MatchLdsfld<Main>("npcHeadTexture"), i => i.MatchLdloc(78));
+            c.Index += 4; //not the safest thing ever ech
 
             c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc", BindingFlags.Static | BindingFlags.Public));
             c.Emit(OpCodes.Ldloc, 71);
             c.Emit(OpCodes.Ldelem_Ref);
 
             c.EmitDelegate<SwapTitleMenuDelegate>(EmitSwapTitleMenuDelegate);
+
+            c.Emit(OpCodes.Ldloc, 66);
+            c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc", BindingFlags.Static | BindingFlags.Public));
+            c.Emit(OpCodes.Ldloc, 71);
+            c.Emit(OpCodes.Ldelem_Ref);
+
+            c.Emit(OpCodes.Ldloc, 73); //X and Y coords to check mouse collision. Fuck you vanilla.
+            c.Emit(OpCodes.Ldloc, 74);
+
+            c.EmitDelegate<SwapTextMenuDelegate>(EmitSwapTextMenuDelegate);
+
+            c.Emit(OpCodes.Stloc, 66);
+
         }
 
-        private delegate string SwapTitleMenuDelegate(string input, NPC npc);
+        private delegate string SwapTextMenuDelegate(string input, NPC npc, int x, int y);
 
-        private string EmitSwapTitleMenuDelegate(string input, NPC npc)
+        private string EmitSwapTextMenuDelegate(string input, NPC npc, int x, int y)
+        {
+            bool hovering = Main.mouseX >= x && Main.mouseX <= x + Main.inventoryBackTexture.Width * Main.inventoryScale && Main.mouseY >= y && Main.mouseY <= y + Main.inventoryBackTexture.Height * Main.inventoryScale;
+
+            if (hovering && input != "" && Main.mouseItem.type == ItemID.None && StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked)
+                return npc.GivenName + " the " + TownUpgrade.FromString(npc.TypeName)._title;
+            return input;
+        }
+
+        private delegate Texture2D SwapTitleMenuDelegate(Texture2D input, NPC npc);
+
+        private Texture2D EmitSwapTitleMenuDelegate(Texture2D input, NPC npc)
         {
             if (StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked)
-                return npc.GivenName + " the " + TownUpgrade.FromString(npc.TypeName)._title;
+                return TownUpgrade.FromString(npc.TypeName).icon;
             return input;
         }
 

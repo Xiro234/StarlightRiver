@@ -127,10 +127,9 @@ namespace StarlightRiver
 
         public static void AutoloadRiftRecipes(List<RiftRecipe> target)
         {
-            Mod mod = GetInstance<StarlightRiver>();
-            if (mod.Code != null)
+            if (Instance.Code != null)
             {
-                foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))
+                foreach (Type type in Instance.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))
                 {
                     target.Add((RiftRecipe)Activator.CreateInstance(type));
                 }

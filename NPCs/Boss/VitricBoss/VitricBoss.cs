@@ -33,15 +33,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         #region tml hooks
 
-        public override bool CheckActive()
-        {
-            return Phase == (int)AIStates.Leaving;
-        }
+        public override bool CheckActive() => Phase == (int)AIStates.Leaving;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Ceiros");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Ceiros");
 
         public override void SetDefaults()
         {
@@ -97,7 +91,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
 
             if (Phase == (int)AIStates.Dying && GlobalTimer >= 659) return true;
-            return false;
+            else return false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
