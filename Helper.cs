@@ -76,6 +76,7 @@ namespace StarlightRiver
         {
             StarlightRiver.Instance.ExtraNPCState = state;
             StarlightRiver.Instance.ExtraNPCInterface.SetState(state);
+        }
 
         public static void DrawLine(SpriteBatch spritebatch, Vector2 startPoint, Vector2 endPoint, Texture2D texture, Color color, int width = 1)
         {
