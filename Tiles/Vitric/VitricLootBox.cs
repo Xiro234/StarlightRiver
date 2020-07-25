@@ -12,10 +12,7 @@ namespace StarlightRiver.Tiles.Vitric
         {
             get => new List<Loot>
             {
-                new Loot(ItemType<Items.Temple.TemplePick>(), 1),
-                new Loot(ItemType<Items.Temple.TempleSpear>(), 1),
-                new Loot(ItemType<Items.Temple.TempleRune>(), 1),
-                new Loot(ItemType<Items.Temple.TempleLens>(), 1)
+                new Loot(ItemType<Items.Vitric.VitricKnockbackAccessory>(), 1),
             };
         }
 

@@ -34,7 +34,7 @@ namespace StarlightRiver.Tiles.Vitric
             if (t.frameX > 0)
             {
                 Texture2D tex = GetTexture("StarlightRiver/Tiles/Vitric/LargeCrystal");
-                spriteBatch.Draw(tex, ((new Vector2(i, j) + Helper.TileAdj) * 16) - Main.screenPosition, tex.Frame(2, 1), Color.White, 0, new Vector2(80, 176), 1, 0, 0);
+                spriteBatch.Draw(tex, ((new Vector2(i, j) + Helper.TileAdj) * 16) - Main.screenPosition, tex.Frame(2, 1, t.frameX - 1), Color.White, 0, new Vector2(80, 176), 1, 0, 0);
             }
         }
     }
