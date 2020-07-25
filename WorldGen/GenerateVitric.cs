@@ -310,12 +310,10 @@ namespace StarlightRiver
 
                 do
                 {
-                    x = VitricBiome.X + (int)(VitricSlopeOffset * 0.8f) + genRand.Next((int)(VitricBiome.Width / 2.7f));
-                    if (genRand.Next(2) == 0) x += (int)(VitricBiome.Width / 2f);
-
+                    x = genRand.Next(2) == 0 ? genRand.Next(VitricBiome.X + VitricSlopeOffset + 10, VitricBiome.Center.X - 61) : genRand.Next(VitricBiome.Center.X + 62, VitricBiome.Right - VitricSlopeOffset - 10);
                     y = (maxCeilingDepth + 18) + (genRand.Next((int)(VitricBiome.Height / 2.8f)));
 
-                    if (VitricIslandLocations.Any(v => Vector2.Distance(new Vector2(x, y), v.ToVector2()) < 28) || (x > VitricBiome.X + VitricBiome.Width / 2 - 71 && x < VitricBiome.X + VitricBiome.Width / 2 + 70))
+                    if (VitricIslandLocations.Any(v => Vector2.Distance(new Vector2(x, y), v.ToVector2()) < 32) || (x > VitricBiome.X + VitricBiome.Width / 2 - 71 && x < VitricBiome.X + VitricBiome.Width / 2 + 70))
                     {
                         repeat = true;
                         if (fail++ >= 50) break;
@@ -325,7 +323,7 @@ namespace StarlightRiver
                 }
                 while (repeat); //Gets a valid island position
 
-                if (fail >= 50) break;
+                if (fail >= 50) break; //Could not get a valid position, stop trying
 
                 VitricIslandLocations.Add(new Point(x, y));
                 CreateIsland(x, y); //Adds island pos to list and places island
@@ -746,7 +744,7 @@ namespace StarlightRiver
                 int tries = 0;
                 while (true)
                 {
-                    int cX = x + genRand.Next((int)(wid * -0.90f), (int)(wid * 0.90f));
+                    int cX = x + genRand.Next((int)(wid * -0.60f), (int)(wid * 0.60f)) - 3;
                     int cY = y - 5;
                     while (Main.tile[cX, cY].active())
                         cY--;
