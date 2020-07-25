@@ -42,15 +42,18 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             projectile.Center = Main.npc.FirstOrDefault(n => n.modNPC is SquidBoss).Center;
 
             //collision
+            int height = 0;
+
             for (int k = 0; k < 45; k++)
             {
                 Vector2 pos = projectile.position + new Vector2(0, -20 * k);
-                Rectangle rect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - k * 10, 60, 20);
+                height += 20;
 
                 if (Main.tile[(int)pos.X / 16 + 2, (int)pos.Y / 16].active() || Main.tile[(int)pos.X / 16 - 2, (int)pos.Y / 16].active()) break;
-
-                foreach (Player player in Main.player.Where(n => n.active && n.Hitbox.Intersects(rect))) player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " got lasered to death by a squid..."), 50, 0);
             }
+
+            Rectangle rect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - height, projectile.width, height);
+            foreach (Player player in Main.player.Where(n => n.active && n.Hitbox.Intersects(rect))) player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " got lasered to death by a squid..."), 50, 0);
         }
 
         public void DrawUnderWater(SpriteBatch spriteBatch)

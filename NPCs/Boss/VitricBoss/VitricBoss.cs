@@ -389,7 +389,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 case (int)AIStates.Leaving:
 
-                    npc.position.Y += 3;
+                    npc.position.Y += 7;
 
                     if (GlobalTimer >= 180)
                     {

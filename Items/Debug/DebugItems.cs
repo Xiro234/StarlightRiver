@@ -56,10 +56,8 @@ namespace StarlightRiver.Items.Debug
             StarlightWorld.TownUpgrades["Guide"] = true;
             StarlightWorld.TownUpgrades["Merchant"] = true;
 
-            for(int x = 0; x < Main.maxTilesX; x++)
-                for (int y = 0; y < Main.maxTilesY; y++)
-                    WorldGen.SpawnTownNPC(x, y);
-                    return true;
+            player.GetModPlayer<Abilities.AbilityHandler>().dash.Locked = true;
+            return true;
         }
 
         public override void HoldItem(Player player)

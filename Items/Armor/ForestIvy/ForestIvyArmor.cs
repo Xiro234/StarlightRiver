@@ -1,5 +1,5 @@
 ﻿using StarlightRiver.Core;
-using StarlightRiver.Items.Herbology;
+using StarlightRiver.Items.Herbology.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

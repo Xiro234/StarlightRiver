@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria.ID;
+using StarlightRiver.Items.Herbology.Materials;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Temple
@@ -28,7 +29,7 @@ namespace StarlightRiver.Tiles.Temple
                 new Loot(ItemID.SilverBullet, 20, 30),
                 new Loot(ItemID.Dynamite, 2, 4),
                 new Loot(ItemID.SpelunkerGlowstick, 15),
-                new Loot(ItemType<Items.Herbology.IvySeeds>(), 4, 8)
+                new Loot(ItemType<IvySeeds>(), 4, 8)
             };
         }
 

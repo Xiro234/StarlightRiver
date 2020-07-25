@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace StarlightRiver.Items.Herbology
+namespace StarlightRiver.Items.Herbology.Potions
 {
     public class Bottle : ModItem
     {
@@ -21,7 +21,7 @@ namespace StarlightRiver.Items.Herbology
         }
     }
 
-    public class QuickPotion : ModItem
+    public abstract class QuickPotion : ModItem
     {
         private readonly string ItemName;
         private readonly string ItemTooltip;
@@ -36,11 +36,6 @@ namespace StarlightRiver.Items.Herbology
             Time = time;
             BuffID = buffID;
             Rare = rare;
-        }
-
-        public override bool Autoload(ref string name)
-        {
-            return GetType().IsSubclassOf(typeof(QuickPotion));
         }
 
         public override void SetStaticDefaults()

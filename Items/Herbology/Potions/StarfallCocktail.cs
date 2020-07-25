@@ -1,7 +1,7 @@
 ﻿using StarlightRiver.Buffs;
 using static Terraria.ModLoader.ModContent;
 
-namespace StarlightRiver.Items.Herbology
+namespace StarlightRiver.Items.Herbology.Potions
 {
     internal class StarfallCocktail : QuickPotion
     {

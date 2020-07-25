@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
+using StarlightRiver.Items.Herbology.Materials;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Hell
@@ -25,7 +26,7 @@ namespace StarlightRiver.Tiles.Hell
                 new Loot(ItemID.SilverBullet, 20, 30),
                 new Loot(ItemID.Dynamite, 2, 4),
                 new Loot(ItemID.SpelunkerGlowstick, 15),
-                new Loot(ItemType<Items.Herbology.IvySeeds>(), 5, 8)
+                new Loot(ItemType<IvySeeds>(), 5, 8)
             };
         }
 

@@ -21,6 +21,7 @@ namespace StarlightRiver
 
         public static void OvergrowGen(GenerationProgress progress)
         {
+            attempts = 0;
             Rooms = new List<Rectangle>();
 
             progress.Message = "Generating The Overgrowth...";

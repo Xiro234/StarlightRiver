@@ -6,25 +6,13 @@ namespace StarlightRiver.Tiles.JungleBloody
 {
     internal class TreeJungleBloody : ModTree
     {
-        public override int CreateDust()
-        {
-            return StarlightRiver.Instance.DustType("Corrupt");
-        }
+        public override int CreateDust() => DustID.t_LivingWood;
 
-        public override int GrowthFXGore()
-        {
-            return StarlightRiver.Instance.GetGoreSlot("Gores/Ward0");
-        }
+        public override int DropWood() => ItemID.Wood;
 
-        public override int DropWood()
-        {
-            return ItemID.Wood;
-        }
+        public override Texture2D GetTexture() => ModContent.GetTexture("StarlightRiver/Tiles/JungleBloody/TreeJungleBloody");
 
-        public override Texture2D GetTexture()
-        {
-            return StarlightRiver.Instance.GetTexture("Tiles/JungleBloody/TreeJungleBloody");
-        }
+        public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame) => ModContent.GetTexture("StarlightRiver/Tiles/JungleBloody/TreeJungleBloody_Branches");
 
         public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
         {
@@ -32,12 +20,7 @@ namespace StarlightRiver.Tiles.JungleBloody
             frameHeight = 98;
             xOffsetLeft = 48;
             yOffset = 2;
-            return StarlightRiver.Instance.GetTexture("Tiles/JungleBloody/TreeJungleBloody_Tops");
-        }
-
-        public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
-        {
-            return StarlightRiver.Instance.GetTexture("Tiles/JungleBloody/TreeJungleBloody_Branches");
+            return ModContent.GetTexture("StarlightRiver/Tiles/JungleBloody/TreeJungleBloody_Tops");
         }
     }
 }
