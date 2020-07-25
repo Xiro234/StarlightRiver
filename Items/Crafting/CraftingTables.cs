@@ -1,5 +1,6 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
+using StarlightRiver.Items.Herbology.Materials;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Items.Crafting
@@ -32,7 +33,7 @@ namespace StarlightRiver.Items.Crafting
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Wood, 20);
-            recipe.AddIngredient(ItemType<Herbology.Ivy>());
+            recipe.AddIngredient(ItemType<Ivy>());
             recipe.AddIngredient(ItemID.Bottle, 1);
             recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);

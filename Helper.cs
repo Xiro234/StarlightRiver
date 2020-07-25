@@ -15,7 +15,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
-    public static class Helper
+    public static partial class Helper
     {
         private static int tiltTime;
         private static float tiltMax;
@@ -25,6 +25,83 @@ namespace StarlightRiver
         public static bool IsTargetValid(NPC npc) => npc.active && !npc.friendly && !npc.immortal && !npc.dontTakeDamage;
 
         public static bool OnScreen(Vector2 pos) => (pos.X > -16 && pos.X < Main.screenWidth + 16 && pos.Y > -16 && pos.Y < Main.screenHeight + 16);
+
+
+        public static bool OnScreen(Rectangle rect) => rect.Intersects(new Rectangle(0, 0, Main.screenWidth, Main.screenHeight));
+
+        public static bool HasItem(Player player, int type, int count)
+        {
+            int items = 0;
+
+            for(int k = 0; k < player.inventory.Length; k++)
+            {
+                Item item = player.inventory[k];
+                if (item.type == type) items += item.stack;
+            }
+
+            return items >= count;
+        }
+
+        public static bool TryTakeItem(Player player, int type, int count)
+        {
+            if (HasItem(player, type, count))
+            {
+                int toTake = count;
+
+                for (int k = 0; k < player.inventory.Length; k++)
+                {
+                    Item item = player.inventory[k];
+
+                    if (item.type == type)
+                    {
+                        int stack = item.stack;
+                        for (int i = 0; i < stack; i++)
+                        {
+                            item.stack--;
+                            if (item.stack == 0) item.TurnToAir();
+
+                            toTake--;
+                            if (toTake <= 0) break;
+                        }
+                    }
+                    if (toTake == 0) break;
+                }
+
+                return true;
+            }
+            else return false;
+        }
+
+        public static void SetExtraNPCState(UIState state)
+        {
+            StarlightRiver.Instance.ExtraNPCState = state;
+            StarlightRiver.Instance.ExtraNPCInterface.SetState(state);
+        }
+
+        public static void DrawLine(SpriteBatch spritebatch, Vector2 startPoint, Vector2 endPoint, Texture2D texture, Color color, int width = 1)
+        {
+            Vector2 edge = endPoint - startPoint;
+            // calculate angle to rotate line
+            float angle =
+                (float)Math.Atan2(edge.Y, edge.X);
+
+            Vector2 offsetStart = startPoint + new Vector2(0, -(width / 2)).RotatedBy(angle);
+
+            spritebatch.Draw(texture,
+                new Rectangle(// rectangle defines shape of line and position of start of line
+                    (int)offsetStart.X,
+                    (int)offsetStart.Y,
+                    (int)edge.Length(), //sb will strech the texture to fill this rectangle
+                    width), //width of line, change this to make thicker line (may have to offset?)
+                null,
+                color, //colour of line
+                angle, //angle of line (calulated above)
+                new Vector2(0, 0), // point in line about which to rotate
+                SpriteEffects.None,
+                default);
+
+
+        }
 
         public static void Kill(this NPC npc)
         {

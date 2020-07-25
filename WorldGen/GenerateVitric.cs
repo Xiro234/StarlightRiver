@@ -365,6 +365,7 @@ namespace StarlightRiver
             GenForge();
             GenDecoration();
             GenMoss();
+            GenTemple();
         }
 
         /// <summary>Generates basic biome shape, such as curved walls, noise on floor and ceiling, and spikes on the bottom.</summary>
@@ -581,6 +582,12 @@ namespace StarlightRiver
             int side = 0;
             int x = side == 0 ? VitricBiome.X - 40 : VitricBiome.Right - 40;
             StructureHelper.StructureHelper.GenerateStructure("Structures/VitricForge", new Point16(x, VitricBiome.Center.Y - 10), StarlightRiver.Instance);
+        }
+
+        private static void GenTemple()
+        {
+            StructureHelper.StructureHelper.GenerateStructure("Structures/VitricTemple", new Point16(VitricBiome.Center.X - 43, VitricBiome.Center.Y - 6), StarlightRiver.Instance);
+            DashSP = new Vector2(VitricBiome.Center.X * 16, VitricBiome.Center.Y * 16 + 200);
         }
 
         /// <summary>Generates decor of every type throughout the biome</summary>

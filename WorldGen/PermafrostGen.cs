@@ -55,6 +55,7 @@ namespace StarlightRiver
                 for (int y = iceBottom - 150; y < iceBottom + 50; y++)
                 {
                     if (Main.tile[x, y].type == TileID.IceBlock) Main.tile[x, y].type = (ushort)TileType<PermafrostIce>();
+                    if (!Main.tile[x, y - 1].active()) Main.tile[x, y].type = (ushort)TileType<PermafrostSnow>();
                 }
 
             int center = iceLeft + (iceRight - iceLeft) / 2;

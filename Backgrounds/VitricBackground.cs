@@ -2,8 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using StarlightRiver.Core;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.Graphics;
+using StarlightRiver.Configs;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver
 {
@@ -87,7 +91,12 @@ namespace StarlightRiver
                         ForegroundParticles.AddParticle(new Particle(new Vector2(0, basepoint.Y + 1550), new Vector2(0, Main.rand.NextFloat(-1.6f, -0.6f)), 0, 0, Color.White, 1800, spawnPos));
                 }
 
+                Main.spriteBatch.End();
+
                 DrawTilingBackground();
+
+                Main.spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.ZoomMatrix);
+
                 DrawBlack();
 
             }
@@ -95,30 +104,79 @@ namespace StarlightRiver
 
         private void DrawTilingBackground()
         {
+            return;
             Texture2D tex = GetTexture("Backgrounds/VitricSand");
+            Rectangle blacklist = new Rectangle(StarlightWorld.VitricBiome.X, StarlightWorld.VitricBiome.Y + 6, StarlightWorld.VitricBiome.Width, StarlightWorld.VitricBiome.Height - 12);
+            List<VertexPositionColorTexture> verticies = new List<VertexPositionColorTexture>();
 
             for (int x = 0; x <= Main.screenWidth; x += tex.Width)
                 for (int y = 0; y <= Main.screenHeight + tex.Height; y += tex.Height)
                 {
                     Vector2 pos = new Vector2(x - Main.screenPosition.X % tex.Width, y - Main.screenPosition.Y % tex.Height);
 
-                    for (int k = 0; k < tex.Width; k += 16)
-                    {
-                        for (int m = 0; m < tex.Height; m += 16)
-                        {
-                            Vector2 target = pos + new Vector2(k, m);
-                            Color color = Lighting.GetColor((int)(pos.X + k + Main.screenPosition.X) / 16, (int)(pos.Y + m + Main.screenPosition.Y) / 16);
-                            Rectangle blacklist = new Rectangle(StarlightWorld.VitricBiome.X, StarlightWorld.VitricBiome.Y + 6, StarlightWorld.VitricBiome.Width, StarlightWorld.VitricBiome.Height - 12);
-                            if (CheckBackground(target, Vector2.One * 16, blacklist)) Main.spriteBatch.Draw(tex, target, new Rectangle(k, m, 16, 16), color, 0, Vector2.Zero, 1, 0, 0);
-                        }
-                    }
+                    int coarseness = 1;
+                    int coarse16 = coarseness * 16;
 
+                    for (int xIn = 0; xIn < tex.Width; xIn += coarse16)
+                        for (int yIn = 0; yIn < tex.Height; yIn += coarse16)
+                        {
+                            Vector2 target = pos + new Vector2(xIn, yIn);
+                            if (CheckBackground(target, Vector2.One * coarse16, blacklist))
+                            {
+
+                                Color topLeft = Lighting.GetColor((int)(target.X + Main.screenPosition.X) / 16, (int)(target.Y + Main.screenPosition.Y) / 16);
+                                Color topRight = Lighting.GetColor((int)(target.X + Main.screenPosition.X) / 16 + coarseness, (int)(target.Y + Main.screenPosition.Y) / 16);
+                                Color bottomLeft = Lighting.GetColor((int)(target.X + Main.screenPosition.X) / 16, (int)(target.Y + Main.screenPosition.Y) / 16 + coarseness);
+                                Color bottomRight = Lighting.GetColor((int)(target.X + Main.screenPosition.X) / 16 + coarseness, (int)(target.Y + Main.screenPosition.Y) / 16 + coarseness);
+
+                                verticies.Add(new VertexPositionColorTexture(new Vector3(ConvertX(target.X), ConvertY(target.Y), 0), topLeft, ConvertTex(new Vector2(xIn, yIn), tex)));
+                                verticies.Add(new VertexPositionColorTexture(new Vector3(ConvertX(target.X + coarse16), ConvertY(target.Y), 0), topRight, ConvertTex(new Vector2(xIn + coarse16, yIn), tex)));
+                                verticies.Add(new VertexPositionColorTexture(new Vector3(ConvertX(target.X + coarse16), ConvertY(target.Y + coarse16), 0), bottomRight, ConvertTex(new Vector2(xIn + coarse16, yIn + coarse16), tex)));
+
+                                verticies.Add(new VertexPositionColorTexture(new Vector3(ConvertX(target.X), ConvertY(target.Y + coarse16), 0), bottomLeft, ConvertTex(new Vector2(xIn, yIn + coarse16), tex)));
+                                verticies.Add(new VertexPositionColorTexture(new Vector3(ConvertX(target.X), ConvertY(target.Y), 0), topLeft, ConvertTex(new Vector2(xIn, yIn), tex)));
+                                verticies.Add(new VertexPositionColorTexture(new Vector3(ConvertX(target.X + coarse16), ConvertY(target.Y + coarse16), 0), bottomRight, ConvertTex(new Vector2(xIn + coarse16, yIn + coarse16), tex)));
+                            }
+                        }
                 }
+
+            if (verticies.Count >= 3)
+            {
+                VertexBuffer buffer = new VertexBuffer(Main.instance.GraphicsDevice, typeof(VertexPositionColorTexture), verticies.Count, BufferUsage.WriteOnly);
+                buffer.SetData(verticies.ToArray());
+
+                Main.instance.GraphicsDevice.SetVertexBuffer(buffer);
+
+                BasicEffect basicEffect = new BasicEffect(Main.instance.GraphicsDevice)
+                {
+                    VertexColorEnabled = true,
+                    TextureEnabled = true,
+                    Texture = tex
+                    //Projection = Main.GameViewMatrix.ZoomMatrix
+                };
+              
+                foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    Main.instance.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, verticies.Count / 3);
+                }
+            }
+        }
+
+        private float ConvertX (float input) => input / (Main.screenWidth / 2) - 1;
+
+        private float ConvertY (float input) => -1 * (input / (Main.screenHeight / 2) - 1);
+
+        private Vector2 ConvertTex(Vector2 input, Texture2D tex)
+        {
+            float x = input.X / tex.Width;
+            float y = input.Y / tex.Height;
+            return new Vector2(x, y);
         }
 
         private bool CheckBackground(Vector2 pos, Vector2 size, Rectangle biome)
         {
-            if (Helper.OnScreen(pos) || Helper.OnScreen(pos + size))
+            if (Helper.OnScreen(new Rectangle((int)pos.X, (int)pos.Y, (int)size.X, (int)size.Y)))
             {
                 if (!Main.BackgroundEnabled) return true;
                 else if (!biome.Contains(((pos + Main.screenPosition) / 16).ToPoint()) || !biome.Contains(((pos + size + Main.screenPosition) / 16).ToPoint())) return true;

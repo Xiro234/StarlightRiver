@@ -24,6 +24,7 @@ namespace StarlightRiver.GUI
         private readonly UIElement EntryBack = new UIElement();
         internal UIList ClickableEntries = new UIList();
         private readonly UIScrollbar EntryScroll = new UIScrollbar();
+
         public override void OnInitialize()
         {
             AddElement(BookButton, 570, 240, 26, 32, this);
@@ -123,6 +124,7 @@ namespace StarlightRiver.GUI
             Recalculate();
             base.Update(gameTime);
         }
+
         internal void AddElement(UIElement element, int x, int y, int width, int height, UIElement appendTo)
         {
             element.Left.Set(x, 0);
@@ -131,6 +133,7 @@ namespace StarlightRiver.GUI
             element.Height.Set(height, 0);
             appendTo.Append(element);
         }
+
         internal void AddEntryButton(UIElement element, float offY)
         {
             element.Left.Set(0, 0);
@@ -139,11 +142,13 @@ namespace StarlightRiver.GUI
             element.Height.Set(28, 0);
             ClickableEntries.Add(element);
         }
+
         internal static void SetPos(UIElement element, float x, float y)
         {
             element.Left.Set(x, 0);
             element.Top.Set(y, 0);
         }
+
         internal static void SetPos(UIElement element, Vector2 pos)
         {
             element.Left.Set(pos.X, 0);
@@ -155,6 +160,7 @@ namespace StarlightRiver.GUI
     {
         internal CodexEntry ActiveEntry;
         internal CodexEntry.Categories ActiveCategory = CodexEntry.Categories.None;
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Main.magicPixel, GetDimensions().ToRectangle(), Main.magicPixel.Frame(), Color.White * 0.1f);
@@ -171,6 +177,7 @@ namespace StarlightRiver.GUI
                     Utils.DrawBorderString(spriteBatch, Helper.WrapString(button.Entry.Hint, 300, Main.fontDeathText, 0.8f), Main.MouseScreen + Vector2.One * 16, Main.mouseTextColorReal, 0.8f);
                 }
         }
+
         internal void ChangeCategory(CodexEntry.Categories category) //swaps out all of the entry buttons based on the category
         {
             if (!(Parent is Codex)) return;
@@ -195,6 +202,7 @@ namespace StarlightRiver.GUI
         private readonly CodexEntry.Categories Category;
         private readonly string Text = "";
         public CategoryButton(CodexEntry.Categories category, string text) { Category = category; Text = text; }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!(Parent is CodexBack)) return;
@@ -208,10 +216,7 @@ namespace StarlightRiver.GUI
             Vector2 textSize = Main.fontDeathText.MeasureString(Text) * 0.6f;
             Utils.DrawBorderString(spriteBatch, Text, GetDimensions().ToRectangle().Center(), (parent.ActiveCategory == Category) ? Color.Yellow : Color.White, 0.6f, 0.5f, 0.5f);
         }
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
+
         public override void MouseDown(UIMouseEvent evt)
         {
             Main.PlaySound(SoundID.MenuTick);
@@ -226,6 +231,7 @@ namespace StarlightRiver.GUI
     {
         public CodexEntry Entry;
         public EntryButton(CodexEntry entry) { Entry = entry; }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (!(Parent.Parent.Parent.Parent is CodexBack)) return; //way too many parents >.<
@@ -249,6 +255,7 @@ namespace StarlightRiver.GUI
                 Utils.DrawBorderString(spriteBatch, "???", iconPos + new Vector2(10, -6), Color.White, 0.6f);
             }
         }
+
         public override void MouseDown(UIMouseEvent evt)
         {
             Main.PlaySound(SoundID.MenuTick);

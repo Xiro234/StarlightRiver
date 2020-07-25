@@ -40,7 +40,7 @@ namespace StarlightRiver.Items.Debug
             item.useTime = 10;
             item.rare = ItemRarityID.Green;
             item.autoReuse = true;
-            item.createTile = TileID.ShadowOrbs;
+            item.createTile = TileType<Tiles.Vitric.ForgeActor>();
         }
 
         public override string Texture => "StarlightRiver/MarioCumming";
@@ -53,7 +53,10 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StarlightRiver.Instance.textcard.Display("Debug", "King of Debugging", null, 180, Main.rand.NextFloat(1, 3));
+            StarlightWorld.TownUpgrades["Guide"] = true;
+            StarlightWorld.TownUpgrades["Merchant"] = true;
+
+            player.GetModPlayer<Abilities.AbilityHandler>().dash.Locked = true;
             return true;
         }
 
@@ -86,9 +89,8 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            for (int x = 0; x < Main.maxTilesX; x++)
-                for (int y = 0; y < Main.maxTilesY; y++) if (Main.tile[x, y].type == TileID.IceBlock) Main.tile[x, y].type = (ushort)TileType<Tiles.Permafrost.PermafrostIce>();
-
+            StarlightWorld.TownUpgrades["Guide"] = false;
+            StarlightWorld.TownUpgrades["Merchant"] = false;
             return true;
         }
 

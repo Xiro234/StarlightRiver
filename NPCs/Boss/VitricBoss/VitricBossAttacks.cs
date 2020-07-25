@@ -31,11 +31,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             if (AttackTimer == 1)
             {
-                List<Vector2> possibleLocations = new List<Vector2>(CrystalLocations);
+                List<Vector2> possibleLocations = new List<Vector2>(crystalLocations);
                 possibleLocations.ForEach(n => n += new Vector2(0, -32));
-                for (int k = 0; k < Crystals.Count; k++)
+                for (int k = 0; k < crystals.Count; k++)
                 {
-                    NPC crystalNpc = Crystals[k];
+                    NPC crystalNpc = crystals[k];
                     VitricBossCrystal crystal = crystalNpc.modNPC as VitricBossCrystal;
 
                     crystal.StartPos = crystalNpc.Center;
@@ -48,7 +48,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
             if (AttackTimer == 180)
             {
-                Crystals.FirstOrDefault(n => n.ai[0] == 2).ai[0] = 0;
+                crystals.FirstOrDefault(n => n.ai[0] == 2).ai[0] = 0;
             }
 
             if (AttackTimer >= 720)
@@ -68,12 +68,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             for (int k = 0; k < 4; k++) //each crystal
             {
-                NPC crystal = Crystals[k];
+                NPC crystal = crystals[k];
                 VitricBossCrystal crystalModNPC = crystal.modNPC as VitricBossCrystal;
                 if (AttackTimer == 1) //set the crystal's home position to where they are
                 {
                     crystalModNPC.StartPos = crystal.Center;
-                    FavoriteCrystal = Main.rand.Next(4); //randomize which crystal will have the opening
+                    favoriteCrystal = Main.rand.Next(4); //randomize which crystal will have the opening
                 }
 
                 if (AttackTimer > 1 && AttackTimer <= 60) //suck the crystals in
@@ -98,7 +98,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                     crystal.Center = npc.Center + (Vector2.SmoothStep(crystalModNPC.TargetPos, crystalModNPC.StartPos, (AttackTimer - 360) / 480) - npc.Center).RotatedBy(-(AttackTimer - 360) / 480 * 4.72f);
 
                     //the chosen "favorite" or master crystal is the one where our opening should be
-                    if (k != FavoriteCrystal)
+                    if (k != favoriteCrystal)
                     {
                         for (int i = 0; i < 8; i++)
                         {
@@ -124,7 +124,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                 {
                     float dist = Vector2.Distance(player.Center, npc.Center); //distance the player is from the boss
                     float angleOff = (player.Center - npc.Center).ToRotation() % 6.28f; //where the player is versus the boss angularly. used to check if the player is in the opening
-                    NPC crystal = Crystals[FavoriteCrystal];
+                    NPC crystal = crystals[favoriteCrystal];
                     float crystalDist = Vector2.Distance(crystal.Center, npc.Center); //distance from the boss to the ring
                     float crystalOff = (crystal.Center - npc.Center).ToRotation() % 6.28f; //crystal's rotation
                     float angleDiff = Helper.CompareAngle(angleOff, crystalOff);
@@ -167,7 +167,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             //Crystals during the attack
             for (int k = 0; k < 4; k++)
             {
-                NPC crystal = Crystals[k];
+                NPC crystal = crystals[k];
                 VitricBossCrystal crystalModNPC = crystal.modNPC as VitricBossCrystal;
                 if (AttackTimer == 60 + k * 60) //set motion points correctly
                 {
@@ -200,9 +200,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         private void RandomSpikes()
         {
             List<Vector2> points = new List<Vector2>();
-            CrystalLocations.ForEach(n => points.Add(n + new Vector2(0, -20)));
+            crystalLocations.ForEach(n => points.Add(n + new Vector2(0, -20)));
             Helper.RandomizeList<Vector2>(points);
-            for (int k = 0; k < 1 + Crystals.Count(n => n.ai[0] == 3) + (Main.expertMode ? 1 : 0); k++)
+            for (int k = 0; k < 1 + crystals.Count(n => n.ai[0] == 3) + (Main.expertMode ? 1 : 0); k++)
             {
                 Projectile.NewProjectile(points[k], Vector2.Zero, ProjectileType<BossSpike>(), 25, 0);
             }
@@ -213,15 +213,15 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         {
             if (AttackTimer == 1)
             {
-                CrystalLocations.OrderBy(n => n.Y); //orders the points the boss should go to by height off the ground
+                crystalLocations.OrderBy(n => n.Y); //orders the points the boss should go to by height off the ground
             }
 
-            for (int k = 0; k < CrystalLocations.Count; k++)
+            for (int k = 0; k < crystalLocations.Count; k++)
             {
                 if (AttackTimer >= 120 + k * 120 && AttackTimer < 120 + (k + 1) * 120) //move between each platform
                 {
                     int timer = (int)AttackTimer - (120 + k * 120); //0 to 240, grabs the relative timer for ease of writing code
-                    if (timer == 0) { startPos = npc.Center; endPos = CrystalLocations[k] + new Vector2(0, -30); RandomizeTarget(); } //set positions and randomize the target
+                    if (timer == 0) { startPos = npc.Center; endPos = crystalLocations[k] + new Vector2(0, -30); RandomizeTarget(); } //set positions and randomize the target
                     if (timer < 60)
                     {
                         npc.Center = Vector2.SmoothStep(startPos, endPos, timer / 60f); //move our big sandy boi into the position of a platform
@@ -287,21 +287,21 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             }
         }
 
-        private void ReverseCage()
+        private void Lasers()
         {
-            Main.NewText("Poop Fard and Shidd");
-            ResetAttack();
+
+            if (AttackTimer == 660) ResetAttack();
         }
 
         private void Whirl()
         {
-            if (AttackTimer == 1) FavoriteCrystal = Main.rand.Next(2); //bootleg but I dont feel like syncing another var
+            if (AttackTimer == 1) favoriteCrystal = Main.rand.Next(2); //bootleg but I dont feel like syncing another var
 
             if (AttackTimer < 300)
             {
                 float rad = AttackTimer * 2.5f;
                 float rot = AttackTimer / 300f * 6.28f;
-                npc.Center = homePos + new Vector2(0, -rad).RotatedBy(FavoriteCrystal == 0 ? rot : -rot);
+                npc.Center = homePos + new Vector2(0, -rad).RotatedBy(favoriteCrystal == 0 ? rot : -rot);
                 if (Main.expertMode && AttackTimer % 45 == 0)
                 {
                     RandomizeTarget();
@@ -324,7 +324,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 for (int k = 0; k < 12; k++)
                 {
-                    Projectile.NewProjectile(homePos + new Vector2(-700 + k * 120, -550), new Vector2(0, 8), ProjectileType<Projectiles.GlassSpike>(), 15, 0);
+                    Projectile.NewProjectile(homePos + new Vector2(-700 + k * 120, -460), new Vector2(0, 8), ProjectileType<Projectiles.GlassSpike>(), 15, 0);
                 }
                 ResetAttack();
             }
@@ -347,13 +347,13 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
         private void AngerAttack()
         {
-            if (Crystals.Count(n => n.ai[0] == 2) == 0)
+            if (crystals.Count(n => n.ai[0] == 2) == 0)
             {
                 Phase = (int)AIStates.FirstToSecond; //this is where we phase the boss
                 GlobalTimer = 0;
             }
 
-            for (int i = 0; i < Crystals.Count(n => n.ai[0] == 1 || n.ai[0] == 3) + (Main.expertMode ? 1 : 0); i++)
+            for (int i = 0; i < crystals.Count(n => n.ai[0] == 1 || n.ai[0] == 3) + (Main.expertMode ? 1 : 0); i++)
             {
                 if (AttackTimer == 30 + i * 45)
                 {
@@ -366,9 +366,9 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
             if (AttackTimer >= 240)
             {
-                Crystals.FirstOrDefault(n => n.ai[0] == 1).ai[0] = 3;
+                crystals.FirstOrDefault(n => n.ai[0] == 1).ai[0] = 3;
                 Phase = (int)AIStates.FirstPhase; //go back to normal attacks after this is all over
-                AttackPhase = Crystals.Count(n => n.ai[0] != 2); //unique first attack each to, so at the very least players see all of phase 1's attacks
+                AttackPhase = crystals.Count(n => n.ai[0] != 2); //unique first attack each to, so at the very least players see all of phase 1's attacks
                 npc.dontTakeDamage = false;
                 ResetAttack();
             }

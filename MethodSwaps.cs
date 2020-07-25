@@ -7,6 +7,7 @@ using StarlightRiver.Items.CursedAccessories;
 using StarlightRiver.Items.Prototypes;
 using StarlightRiver.Keys;
 using StarlightRiver.NPCs.Boss.SquidBoss;
+using StarlightRiver.NPCs.TownUpgrade;
 using StarlightRiver.Tiles.Overgrow.Blocks;
 using StarlightRiver.Tiles.Permafrost;
 using System;
@@ -19,6 +20,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
 using Terraria.Graphics;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.IO;
 using Terraria.Localization;
@@ -65,8 +67,6 @@ namespace StarlightRiver
             On.Terraria.Graphics.SpriteViewMatrix.ShouldRebuild += UpdateMatrixFirst;
             //Moving Platforms
             On.Terraria.Player.Update_NPCCollision += PlatformCollision;
-            //Dergon menu
-            On.Terraria.Main.DoUpdate += UpdateDragonMenu;
             //Soulbound Items, ech these are a pain
             On.Terraria.Player.DropSelectedItem += DontDropSoulbound;
             On.Terraria.Player.dropItemCheck += SoulboundPriority;
@@ -80,19 +80,48 @@ namespace StarlightRiver
             On.Terraria.WorldGen.meteor += AluminumMeteor;
             //Nobuild
             On.Terraria.Player.PlaceThing += PlacementRestriction;
+            //NPC Upgrade 
+            On.Terraria.NPC.GetChat += SetUpgradeUI;
+            //Testing Lighting
+            Main.OnPreDraw += TestLighting;
 
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
+
+
+        private void TestLighting(GameTime obj) { if (!Main.gameMenu) lightingTest.DebugDraw(obj); }
+
         #region hooks
+        private string SetUpgradeUI(On.Terraria.NPC.orig_GetChat orig, NPC self)
+        {
+            if (StarlightWorld.TownUpgrades.TryGetValue(self.TypeName, out bool unlocked) && unlocked)
+            {
+                Instance.Chatbox.SetState(TownUpgrade.FromString(self.TypeName));
+            }
+            else Instance.Chatbox.SetState(new LockedUpgrade());
+
+            return orig(self);
+        }
+
         private void PlacementRestriction(On.Terraria.Player.orig_PlaceThing orig, Player self)
         {
             Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
-            if (tile.wall == ModContent.WallType<AuroraBrickWall>() &&
-                !Main.projectile.Any(n => n.active && n.timeLeft > 10 && n.modProjectile is InteractiveProjectile && (n.modProjectile as InteractiveProjectile).ValidPoints.Contains(new Point16(Player.tileTargetX, Player.tileTargetY))))
+
+            if (tile.wall == ModContent.WallType<AuroraBrickWall>()) 
             {
+                for(int k = 0; k < Main.maxProjectiles; k++)
+                {
+                    Projectile proj = Main.projectile[k];
+                    if (proj.active && proj.timeLeft > 10 && proj.modProjectile is InteractiveProjectile && (proj.modProjectile as InteractiveProjectile).CheckPoint(Player.tileTargetX, Player.tileTargetY))
+                    {
+                        orig(self);
+                        return;
+                    }
+                }
                 return;
             }
+
             else orig(self);
         }
 
@@ -215,12 +244,6 @@ namespace StarlightRiver
         {
             if (self.inventory[self.selectedItem].modItem is Items.SoulboundItem || Main.mouseItem.modItem is Items.SoulboundItem) return;
             else orig(self);
-        }
-
-        private void UpdateDragonMenu(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
-        {
-            dragonMenuUI?.Update(gameTime);
-            orig(self, gameTime);
         }
 
         private void PlatformCollision(On.Terraria.Player.orig_Update_NPCCollision orig, Player self)

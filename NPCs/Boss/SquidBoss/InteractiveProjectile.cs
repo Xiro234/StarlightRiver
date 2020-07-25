@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -11,6 +12,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
     public abstract class InteractiveProjectile : ModProjectile
     {
         public List<Point16> ValidPoints { get; set; } = new List<Point16>(); //the points this projectile allows tile placement at
+
+        public bool CheckPoint(int x, int y) => ValidPoints.Contains(new Point16(x, y));
 
         public virtual void SafeKill(int timeLeft) { }
 
@@ -57,5 +60,6 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         /// what happens if the projectile dies and tiles are not placed
         /// </summary>
         public virtual void GoodEffects() { }
+
     }
 }

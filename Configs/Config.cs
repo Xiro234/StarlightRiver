@@ -24,5 +24,9 @@ namespace StarlightRiver.Configs
         [Label("Extra Particles")]
         [Tooltip("Enables/Disables special particles. Disable this if you have performance issues.")]
         public bool Active = true;
+
+        [Label("Buffered Tile Lighting")]
+        [Tooltip("Experimental Shader-based lighting mode")]
+        public bool BufferedLight = false;
     }
 }

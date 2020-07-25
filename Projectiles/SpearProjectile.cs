@@ -32,6 +32,7 @@ namespace StarlightRiver.Projectiles
             projectile.tileCollide = false;
             SafeSetDefaults();
         }
+
         public sealed override void AI()
         {
             SafeAI();
@@ -42,7 +43,7 @@ namespace StarlightRiver.Projectiles
 
             projectile.rotation = 3.14f + projectile.velocity.ToRotation() - 1.57f / 2;
             float progress = projectile.timeLeft > (realDuration / 2f) ? (realDuration - projectile.timeLeft) / (realDuration / 2f) : projectile.timeLeft / (realDuration / 2f);
-            projectile.Center = Main.player[projectile.owner].Center + Vector2.SmoothStep(projectile.velocity * Min, projectile.velocity * Max, progress);
+            projectile.Center = Main.player[projectile.owner].MountedCenter + Vector2.SmoothStep(projectile.velocity * Min, projectile.velocity * Max, progress);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Terraria.Localization;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -7,12 +8,15 @@ using StarlightRiver.Dragons;
 using StarlightRiver.GUI;
 using StarlightRiver.NPCs;
 using StarlightRiver.NPCs.Boss.SquidBoss;
+using StarlightRiver.NPCs.TownUpgrade;
+using System;
 using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.GameInput;
 
 namespace StarlightRiver
 {
@@ -29,9 +33,6 @@ namespace StarlightRiver
             //Auroracle layer
             IL.Terraria.Main.DoDraw += DrawWater;
 
-            //dragons
-            IL.Terraria.Main.DrawMenu += DragonMenuAttach;
-
             //soulbound items
             IL.Terraria.UI.ChestUI.DepositAll += PreventSoulboundStack;
 
@@ -44,9 +45,135 @@ namespace StarlightRiver
 
             //grappling hooks on moving platforms
             IL.Terraria.Projectile.VanillaAI += GrapplePlatforms;
+
+            //Town NPC name swaps
+            IL.Terraria.WorldGen.SpawnTownNPC += SwapTitle;
+            IL.Terraria.NPC.checkDead += SwapTitleDeath;
+            IL.Terraria.Main.DrawInventory += SwapTitleMenu;
         }
 
+        private void UnhookIL()
+        {
+            // Vitric lighting
+            IL.Terraria.Lighting.PreRenderPhase -= VitricLighting;
+
+            //moonlord draw layer
+            IL.Terraria.Main.DoDraw -= DrawMoonlordLayer;
+
+            //Auroracle layer
+            IL.Terraria.Main.DoDraw -= DrawWater;
+
+            //soulbound items
+            IL.Terraria.UI.ChestUI.DepositAll -= PreventSoulboundStack;
+
+            //dynamic map icons
+            IL.Terraria.Main.DrawMap -= DynamicBossIcon;
+
+            //jungle grass
+            IL.Terraria.WorldGen.Convert -= JungleGrassConvert;
+            IL.Terraria.WorldGen.hardUpdateWorld -= JungleGrassSpread;
+
+            //grappling hooks on moving platforms
+            IL.Terraria.Projectile.VanillaAI -= GrapplePlatforms;
+
+            //Town NPC name swaps
+            IL.Terraria.WorldGen.SpawnTownNPC -= SwapTitle;
+            IL.Terraria.NPC.checkDead -= SwapTitleDeath;
+            IL.Terraria.Main.DrawInventory -= SwapTitleMenu;
+        }
+
+
         #region IL edits
+        //custom name and icon for upgraded town NPCs
+        private void SwapTitleMenu(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(i => i.MatchLdsfld<Main>("spriteBatch"), i => i.MatchLdsfld<Main>("npcHeadTexture"), i => i.MatchLdloc(78));
+            c.Index += 4; //not the safest thing ever ech
+
+            c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc", BindingFlags.Static | BindingFlags.Public));
+            c.Emit(OpCodes.Ldloc, 71);
+            c.Emit(OpCodes.Ldelem_Ref);
+
+            c.EmitDelegate<SwapTitleMenuDelegate>(EmitSwapTitleMenuDelegate);
+
+            c.Emit(OpCodes.Ldloc, 66);
+            c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc", BindingFlags.Static | BindingFlags.Public));
+            c.Emit(OpCodes.Ldloc, 71);
+            c.Emit(OpCodes.Ldelem_Ref);
+
+            c.Emit(OpCodes.Ldloc, 73); //X and Y coords to check mouse collision. Fuck you vanilla.
+            c.Emit(OpCodes.Ldloc, 74);
+
+            c.EmitDelegate<SwapTextMenuDelegate>(EmitSwapTextMenuDelegate);
+
+            c.Emit(OpCodes.Stloc, 66);
+
+        }
+
+        private delegate string SwapTextMenuDelegate(string input, NPC npc, int x, int y);
+
+        private string EmitSwapTextMenuDelegate(string input, NPC npc, int x, int y)
+        {
+            bool hovering = Main.mouseX >= x && Main.mouseX <= x + Main.inventoryBackTexture.Width * Main.inventoryScale && Main.mouseY >= y && Main.mouseY <= y + Main.inventoryBackTexture.Height * Main.inventoryScale;
+
+            if (hovering && input != "" && Main.mouseItem.type == ItemID.None && StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked)
+                return npc.GivenName + " the " + TownUpgrade.FromString(npc.TypeName)._title;
+            return input;
+        }
+
+        private delegate Texture2D SwapTitleMenuDelegate(Texture2D input, NPC npc);
+
+        private Texture2D EmitSwapTitleMenuDelegate(Texture2D input, NPC npc)
+        {
+            if (StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked)
+                return TownUpgrade.FromString(npc.TypeName).icon;
+            return input;
+        }
+
+        //custom "departure" message for upgraded NPCs
+        private void SwapTitleDeath(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(i => i.MatchStloc(3));
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<SwapTitleDeathDelegate>(EmitSwapTitleDeathDelegate);
+        }
+
+        private delegate NetworkText SwapTitleDeathDelegate(NetworkText input, NPC npc);
+
+        private NetworkText EmitSwapTitleDeathDelegate(NetworkText input, NPC npc)
+        {
+            if (StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked)
+                return NetworkText.FromLiteral(npc.GivenName + " the " + TownUpgrade.FromString(npc.TypeName)._title + " was slain...");
+            return input;
+        }
+
+        //Custom arrival message for upgraded NPCs
+        private void SwapTitle(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(i => i.MatchStloc(8));
+            c.Index++;
+
+            c.Emit(OpCodes.Ldsfld, typeof(Main).GetField("npc", BindingFlags.Static | BindingFlags.Public));
+            c.Emit(OpCodes.Ldloc, 7);
+            c.Emit(OpCodes.Ldelem_Ref);
+
+            c.Emit(OpCodes.Ldloc, 8);
+
+            c.EmitDelegate<SwapTitleDelegate>(EmitSwapTitleDelegate);
+            c.Emit(OpCodes.Stloc, 8);
+        }
+
+        private delegate string SwapTitleDelegate(NPC npc, string input);
+
+        private string EmitSwapTitleDelegate(NPC npc, string input)
+        {
+            if (StarlightWorld.TownUpgrades.TryGetValue(npc.TypeName, out bool unlocked) && unlocked) return npc.GivenName + " the " + TownUpgrade.FromString(npc.TypeName)._title;
+            return input;
+        }
+
         //IL edits to allow grappling hooks to interact with moving platforms
         private void GrapplePlatforms(ILContext il)
         {
@@ -173,7 +300,7 @@ namespace StarlightRiver
         {
             foreach (NPC npc in Main.npc.Where(n => n.active && n.modNPC is ArenaActor))
             {
-                (Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).modNPC as ArenaActor).DrawWindow(Main.spriteBatch);
+                (Main.npc.FirstOrDefault(n => n.active && n.modNPC is ArenaActor).modNPC as ArenaActor).DrawBigWindow(Main.spriteBatch);
 
                 foreach (NPC npc2 in Main.npc.Where(n => n.active && n.modNPC is IUnderwater && !(n.modNPC is SquidBoss)))
                     (npc2.modNPC as IUnderwater).DrawUnderWater(Main.spriteBatch);
@@ -312,51 +439,6 @@ namespace StarlightRiver
         private bool EmitSoulboundDel(int index)
         {
             return Main.LocalPlayer.inventory[index].modItem is Items.SoulboundItem;
-        }
-
-        //IL edit for dragon customization
-        private void DragonMenuAttach(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            c.GotoNext(n => n.MatchLdsfld<Main>("menuMode") && n.Next.MatchLdcI4(2));
-            c.Index++;
-
-            c.EmitDelegate<DragonMenuDelegate>(EmitDragonDel);
-        }
-
-        private delegate void DragonMenuDelegate();
-
-        private DragonMenu dragonMenu = new DragonMenu();
-        private UserInterface dragonMenuUI = new UserInterface();
-        private void EmitDragonDel()
-        {
-            if (Main.menuMode == 2 || DragonMenu.visible)
-            {
-                if (!DragonMenu.created)
-                {
-                    dragonMenu = new DragonMenu();
-                    dragonMenu.OnInitialize();
-                    Main.PendingPlayer.GetModPlayer<DragonHandler>().data.SetDefault();
-                    dragonMenu.dragon = Main.PendingPlayer.GetModPlayer<DragonHandler>();
-                    DragonMenu.created = true;
-
-                    dragonMenuUI = new UserInterface();
-                    dragonMenuUI.SetState(dragonMenu);
-                }
-                SpriteBatch spriteBatch = Main.spriteBatch;
-
-                if (dragonMenu != null && dragonMenuUI != null)
-                {
-                    dragonMenu.Draw(spriteBatch);
-                }
-
-            }
-            else
-            {
-                DragonMenu.created = false;
-                dragonMenu = null;
-                dragonMenuUI = null;
-            }
         }
 
         // IL edit to get the overgrow boss window drawing correctly   

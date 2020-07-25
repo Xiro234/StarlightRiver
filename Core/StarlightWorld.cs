@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Keys;
 using StarlightRiver.NPCs.Boss.SquidBoss;
+using StarlightRiver.NPCs.TownUpgrade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace StarlightRiver
         public static float rottime = 0;
 
         //Voidsmith
-        public static int[] NPCUpgrades = new int[] { 0, 0 };
+        public static Dictionary<string, bool> TownUpgrades = new Dictionary<string, bool>();
 
         public static List<Vector2> PureTiles = new List<Vector2> { };
 
@@ -77,10 +78,7 @@ namespace StarlightRiver
         public override void PreUpdate()
         {
             rottime += (float)Math.PI / 60;
-            if (rottime >= Math.PI * 2)
-            {
-                rottime = 0;
-            }
+            if (rottime >= Math.PI * 2) rottime = 0;
         }
 
         public override void PostUpdate()
@@ -138,7 +136,18 @@ namespace StarlightRiver
 
             AluminumMeteors = false;
 
-            NPCUpgrades = new int[] { 0, 0 };
+            TownUpgrades = new Dictionary<string, bool>();
+
+            //Autoload NPC upgrades
+            Mod mod = StarlightRiver.Instance;
+            if (mod.Code != null)
+            {
+                foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(TownUpgrade))))
+                {
+                    TownUpgrades.Add(type.Name.Replace("Upgrade", ""), false);
+                }
+            }
+
             PureTiles = new List<Vector2>();
 
             BookSP = Vector2.Zero;
@@ -147,6 +156,9 @@ namespace StarlightRiver
 
         public override TagCompound Save()
         {
+            TagCompound tag = new TagCompound();
+            foreach (KeyValuePair<string, bool> pair in TownUpgrades) tag.Add(pair.Key, pair.Value);
+
             return new TagCompound
             {
                 ["VitricBiomePos"] = VitricBiome.TopLeft(),
@@ -170,7 +182,7 @@ namespace StarlightRiver
 
                 [nameof(AluminumMeteors)] = AluminumMeteors,
 
-                [nameof(NPCUpgrades)] = NPCUpgrades,
+                [nameof(TownUpgrades)] = tag,
 
                 [nameof(PureTiles)] = PureTiles,
 
@@ -210,7 +222,13 @@ namespace StarlightRiver
 
             AluminumMeteors = tag.GetBool(nameof(AluminumMeteors));
 
-            NPCUpgrades = tag.GetIntArray(nameof(NPCUpgrades));
+            TagCompound tag1 = tag.GetCompound(nameof(TownUpgrades));
+            Dictionary<string, bool> targetDict = new Dictionary<string, bool>();
+
+            foreach (KeyValuePair<string, object> pair in tag1)
+                targetDict.Add(pair.Key, tag1.GetBool(pair.Key));
+
+            TownUpgrades = targetDict;
 
             PureTiles = (List<Vector2>)tag.GetList<Vector2>(nameof(PureTiles));
 
@@ -222,29 +240,12 @@ namespace StarlightRiver
             Chungus = Main.rand.NextFloat();
 
             for (int k = 0; k <= PureTiles.Count - 1; k++)
-            {
                 for (int i = (int)PureTiles[k].X - 16; i <= (int)PureTiles[k].X + 16; i++)
-                {
                     for (int j = (int)PureTiles[k].Y - 16; j <= (int)PureTiles[k].Y + 16; j++)
                     {
-                        Tile target = Main.tile[i, j];
-                        if (target != null)
-                        {
-                            if (target.type == (ushort)mod.TileType("StonePure")) { target.type = TileID.Stone; }
-                            if (target.type == (ushort)mod.TileType("OreIvory")) { target.type = (ushort)mod.TileType("OreEbony"); }
-                            if (target.type == (ushort)mod.TileType("VoidDoorOff")) { target.type = (ushort)mod.TileType("VoidDoorOn"); }
-                        }
-                    }
-                }
-            }
+                        Projectiles.Ability.Purifier.RevertTile(i, j);
+                    }              
 
-            foreach (NPC npc in Main.npc)
-            {
-                if (npc.townNPC)
-                {
-                    npc.life = 250 + NPCUpgrades[0] * 50;
-                }
-            }
             PureTiles.Clear();
             PureTiles = new List<Vector2> { };
 

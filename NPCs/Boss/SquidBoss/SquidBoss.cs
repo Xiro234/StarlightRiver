@@ -12,6 +12,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Boss.SquidBoss
 {
+    [AutoloadBossHead]
     public partial class SquidBoss : ModNPC, IUnderwater
     {
         public List<NPC> tentacles = new List<NPC>(); //the tentacle NPCs which this boss controls

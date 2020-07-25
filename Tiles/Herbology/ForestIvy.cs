@@ -7,6 +7,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using StarlightRiver.Items.Herbology.Materials;
 using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Tiles.Herbology
@@ -35,7 +36,7 @@ namespace StarlightRiver.Tiles.Herbology
             TileObjectData.addTile(Type);
             soundType = SoundID.Grass;
             dustType = DustID.Grass;
-            drop = ItemType<Items.Herbology.Ivy>();
+            drop = ItemType<Ivy>();
             AddMapEntry(new Color(0, 150, 40));
         }
 
@@ -53,7 +54,7 @@ namespace StarlightRiver.Tiles.Herbology
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            if (Main.rand.Next(8) == 0) Item.NewItem(new Vector2(i, j) * 16, ItemType<Items.Herbology.IvySeeds>());
+            if (Main.rand.Next(8) == 0) Item.NewItem(new Vector2(i, j) * 16, ItemType<IvySeeds>());
         }
     }
 }

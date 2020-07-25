@@ -11,26 +11,47 @@ namespace StarlightRiver
     {
         private void ForestHerbGen(GenerationProgress progress)
         {
-            progress.Message = "Planting ivy...";
+            progress.Message = "Planting the forest...";
             for (int k = 60; k < Main.maxTilesX - 60; k++)
             {
                 if (k > Main.maxTilesX / 3 && k < Main.maxTilesX / 3 * 2) //inner part of the world
                 {
-                    if (WorldGen.genRand.Next(8) == 0) //Berry Bushes
+                    if ( k % 50 == 0 && WorldGen.genRand.Next(3) == 0) //Starlight groves
+                    {
+                        int max = WorldGen.genRand.Next(30, 50);
+
+                        for (int x = 0; x < max; x++)
+                        {
+                            bool shouldPlace = (x < 5 || x > max - 5) ? WorldGen.genRand.NextBool() : true;
+
+                            if (shouldPlace)
+                                for (int y = 10; y < Main.worldSurface; y++)
+                                {
+                                    if (Main.tile[k + x, y].type == TileID.Grass) WorldGen.PlaceTile(k + x, y, TileType<Tiles.Forest.Sod>(), true, true);    
+                                }
+                        }
+
+                        k += max + 5;
+                    }
+
+                    if (WorldGen.genRand.Next(16) == 0) //Berry Bushes
                     {
                         for (int y = 10; y < Main.worldSurface; y++)
                         {
                             if (Main.tile[k, y].type == TileID.Grass && Main.tile[k + 1, y].type == TileID.Grass && Helper.CheckAirRectangle(new Point16(k, y - 2), new Point16(2, 2)))
                             {
                                 Helper.PlaceMultitile(new Point16(k, y - 2), TileType<Tiles.Herbology.ForestBerryBush>());
+                                k += 3;
                             }
                         }
                     }
+
                     else if (WorldGen.genRand.Next(50) == 0) //Palestone
                     {
                         for (int y = 10; y < Main.worldSurface; y++)
                         {
                             bool canPlace = true;
+
                             for (int w = -2; w < 2; ++w) //Scans are for valid placement (fixed some really bizzare placement issues)
                             {
                                 if (Main.tile[k, y].type != TileID.Grass || !Main.tile[k, y].active())
@@ -39,6 +60,7 @@ namespace StarlightRiver
                                     break;
                                 }
                             }
+
                             if (canPlace)
                             {
                                 PalestoneChunk(k, y); //Place chunk
@@ -56,7 +78,6 @@ namespace StarlightRiver
                         int size = WorldGen.genRand.Next(6, 15);
 
                         for (int x = k - size / 2; x < k + size / 2; x++)
-                        {
                             for (int y = j - size / 2; y < j + size / 2; y++)
                             {
                                 if (Main.tile[x, y].active() && Main.tile[x, y].type == TileID.Grass && Main.tile[x, y - 1].collisionType != 1 && Main.tile[x, y].slope() == 0) //!Main.tileSolid[Main.tile[x, y - 1].type] may be redundant
@@ -65,28 +86,26 @@ namespace StarlightRiver
                                     break;
                                 }
                             }
-                        }
                     }
                 }
 
                 if (WorldGen.genRand.Next(30) == 0 && AnyGrass(k))
                 {
                     int size = WorldGen.genRand.Next(10, 15);
+
                     for (int x = 0; x < size; x++)
                     {
                         int surface = 0;
+
                         for (int j = 50; j < Main.worldSurface; j++) //Wall Bushes
-                        {
                             if (Main.tile[k + x, j].wall != 0 && Main.tile[k, j].wall != WallType<Tiles.Forest.LeafWall>()) { surface = j; break; }
-                        }
+
                         int xOff = x > size / 2 ? size - x : x;
+
                         for (int y = surface - (xOff / 2 + WorldGen.genRand.Next(2)) - 3; true; y++)
                         {
                             WorldGen.PlaceWall(k + x, y, WallType<Tiles.Forest.LeafWall>());
-                            if (y - surface > 20 || !WorldGen.InWorld(k + x, y + 1) || Main.tile[k + x, y + 1].wall != 0)
-                            {
-                                break;
-                            }
+                            if (y - surface > 20 || !WorldGen.InWorld(k + x, y + 1) || Main.tile[k + x, y + 1].wall != 0) break;
                         }
                     }
                 }
@@ -106,6 +125,7 @@ namespace StarlightRiver
                     WorldGen.KillTile(x, y2);
                     WorldGen.PlaceTile(x, y2, TileType<Tiles.Forest.Palestone>(), true, true); //Kills and places palestone
                     WorldGen.SlopeTile(x, y2);
+
                     if (y2 == y - xSqr && xRel < width / 2 && WorldGen.genRand.Next(2) == 0 && !Main.tile[x, y2 - 1].active()) //Slopes only if exposed to air
                         WorldGen.SlopeTile(x, y2, 2);
                     if (y2 == y - xSqr && xRel > width / 2 && WorldGen.genRand.Next(2) == 0 && !Main.tile[x, y2 - 1].active()) //Slopes only if exposed to air
@@ -118,12 +138,8 @@ namespace StarlightRiver
         private static bool AnyGrass(int x)
         {
             for (int y = 10; y < Main.maxTilesY; y++)
-            {
-                if (Main.tile[x, y].type == TileID.Grass)
-                {
-                    return true;
-                }
-            }
+                if (Main.tile[x, y].type == TileID.Grass) return true;
+
             return false;
         }
     }

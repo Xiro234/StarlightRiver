@@ -29,6 +29,8 @@ namespace StarlightRiver
         public GUI.Codex codex;
         public CodexPopup codexpopup;
         public LootUI lootUI;
+        public ChatboxOverUI Chatbox;
+        public UIState ExtraNPCState;
 
         public UserInterface StaminaUserInterface;
         public UserInterface CollectionUserInterface;
@@ -40,6 +42,8 @@ namespace StarlightRiver
         public UserInterface CodexUserInterface;
         public UserInterface CodexPopupUserInterface;
         public UserInterface LootUserInterface;
+        public UserInterface ChatboxUserInterface;
+        public UserInterface ExtraNPCInterface;
 
         public static ModHotKey Dash;
         public static ModHotKey Wisp;
@@ -53,6 +57,8 @@ namespace StarlightRiver
 
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
         public static StarlightRiver Instance { get; set; }
+
+        public static RenderTest lightingTest = new RenderTest();
 
         public StarlightRiver() { Instance = this; }
 
@@ -121,10 +127,9 @@ namespace StarlightRiver
 
         public static void AutoloadRiftRecipes(List<RiftRecipe> target)
         {
-            Mod mod = GetInstance<StarlightRiver>();
-            if (mod.Code != null)
+            if (Instance.Code != null)
             {
-                foreach (Type type in mod.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))
+                foreach (Type type in Instance.Code.GetTypes().Where(t => t.IsSubclassOf(typeof(RiftRecipe))))
                 {
                     target.Add((RiftRecipe)Activator.CreateInstance(type));
                 }
@@ -157,6 +162,14 @@ namespace StarlightRiver
                 Ref<Effect> screenRef5 = new Ref<Effect>(GetEffect("Effects/Purity"));
                 Terraria.Graphics.Effects.Filters.Scene["PurityFilter"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef5, "PurityPass"), Terraria.Graphics.Effects.EffectPriority.High);
                 Terraria.Graphics.Effects.Filters.Scene["PurityFilter"].Load();
+
+                Ref<Effect> screenRef6 = new Ref<Effect>(GetEffect("Effects/LightShader"));
+                Terraria.Graphics.Effects.Filters.Scene["Lighting"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef6, "LightingPass"), Terraria.Graphics.Effects.EffectPriority.High);
+                Terraria.Graphics.Effects.Filters.Scene["Lighting"].Load();
+
+                Ref<Effect> screenRef7 = new Ref<Effect>(GetEffect("Effects/LightApplicator"));
+                Terraria.Graphics.Effects.Filters.Scene["LightingApply"] = new Terraria.Graphics.Effects.Filter(new ScreenShaderData(screenRef7, "LightingApplyPass"), Terraria.Graphics.Effects.EffectPriority.High);
+                Terraria.Graphics.Effects.Filters.Scene["LightingApply"].Load();
             }
 
             //Autoload Rift Recipes
@@ -183,6 +196,8 @@ namespace StarlightRiver
                 CodexUserInterface = new UserInterface();
                 CodexPopupUserInterface = new UserInterface();
                 LootUserInterface = new UserInterface();
+                ChatboxUserInterface = new UserInterface();
+                ExtraNPCInterface = new UserInterface();
 
                 stamina = new Stamina();
                 collection = new Collection();
@@ -194,6 +209,7 @@ namespace StarlightRiver
                 codex = new GUI.Codex();
                 codexpopup = new CodexPopup();
                 lootUI = new LootUI();
+                Chatbox = new ChatboxOverUI();
 
                 StaminaUserInterface.SetState(stamina);
                 CollectionUserInterface.SetState(collection);
@@ -205,6 +221,7 @@ namespace StarlightRiver
                 CodexUserInterface.SetState(codex);
                 CodexPopupUserInterface.SetState(codexpopup);
                 LootUserInterface.SetState(lootUI);
+                ChatboxUserInterface.SetState(Chatbox);
             }
 
             //particle systems
@@ -238,6 +255,7 @@ namespace StarlightRiver
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int MouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            int NPCChatIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: NPC / Sign Dialog"));
             if (MouseTextIndex != -1)
             {
                 AddLayer(layers, StaminaUserInterface, stamina, MouseTextIndex, Stamina.visible);
@@ -250,12 +268,15 @@ namespace StarlightRiver
                 AddLayer(layers, CodexUserInterface, codex, MouseTextIndex, GUI.Codex.ButtonVisible);
                 AddLayer(layers, CodexPopupUserInterface, codexpopup, MouseTextIndex, codexpopup.Timer > 0);
                 AddLayer(layers, LootUserInterface, lootUI, MouseTextIndex, LootUI.Visible);
+                AddLayer(layers, ChatboxUserInterface, Chatbox, NPCChatIndex, Main.player[Main.myPlayer].talkNPC > 0 && Main.npcShop <= 0 && !Main.InGuideCraftMenu);
+                AddLayer(layers, ExtraNPCInterface, ExtraNPCState, MouseTextIndex, ExtraNPCState != null);
             }
         }
 
         private void AddLayer(List<GameInterfaceLayer> layers, UserInterface userInterface, UIState state, int index, bool visible)
         {
-            layers.Insert(index, new LegacyGameInterfaceLayer("StarlightRiver: " + state.ToString(),
+            string name = state == null ? "Unknown" : state.ToString();
+            layers.Insert(index, new LegacyGameInterfaceLayer("StarlightRiver: " + name,
                 delegate
                 {
                     if (visible)
@@ -282,6 +303,8 @@ namespace StarlightRiver
                 CodexUserInterface = null;
                 CodexPopupUserInterface = null;
                 LootUserInterface = null;
+                ChatboxUserInterface = null;
+                ExtraNPCInterface = null;
 
                 stamina = null;
                 collection = null;
@@ -292,6 +315,8 @@ namespace StarlightRiver
                 codex = null;
                 codexpopup = null;
                 lootUI = null;
+                Chatbox = null;
+                ExtraNPCState = null;
 
                 Instance = null;
                 Dash = null;
@@ -300,7 +325,9 @@ namespace StarlightRiver
                 Smash = null;
                 Purify = null;
             }
-            IL.Terraria.Lighting.PreRenderPhase -= VitricLighting;
+
+            UnhookIL();
+            Main.OnPreDraw -= TestLighting;
         }
 
         #region NetEasy

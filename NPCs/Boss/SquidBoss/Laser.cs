@@ -42,15 +42,18 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             projectile.Center = Main.npc.FirstOrDefault(n => n.modNPC is SquidBoss).Center;
 
             //collision
-            for (int k = 0; k < 90; k++)
+            int height = 0;
+
+            for (int k = 0; k < 45; k++)
             {
-                Vector2 pos = projectile.position + new Vector2(0, -10 * k);
-                Rectangle rect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - k * 10, 60, 10);
+                Vector2 pos = projectile.position + new Vector2(0, -20 * k);
+                height += 20;
 
                 if (Main.tile[(int)pos.X / 16 + 2, (int)pos.Y / 16].active() || Main.tile[(int)pos.X / 16 - 2, (int)pos.Y / 16].active()) break;
-
-                foreach (Player player in Main.player.Where(n => n.active && n.Hitbox.Intersects(rect))) player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " got lasered to death by a squid..."), 50, 0);
             }
+
+            Rectangle rect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - height, projectile.width, height);
+            foreach (Player player in Main.player.Where(n => n.active && n.Hitbox.Intersects(rect))) player.Hurt(PlayerDeathReason.ByCustomReason(player.name + " got lasered to death by a squid..."), 50, 0);
         }
 
         public void DrawUnderWater(SpriteBatch spriteBatch)
@@ -58,13 +61,13 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             Texture2D tex = ModContent.GetTexture(Texture);
             Texture2D tex2 = ModContent.GetTexture(Texture + "Glow");
 
-            for (int k = 0; k < 140; k++)
+            for (int k = 0; k < 70; k++)
             {
                 float sin = 1 + (float)Math.Sin(projectile.ai[1] / 10f);
                 float cos = 1 + (float)Math.Cos(projectile.ai[1] / 10f);
                 Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 1.05f;
 
-                Vector2 pos = projectile.position + new Vector2(0, -10 * k - projectile.ai[1] % tex.Height);
+                Vector2 pos = projectile.position + new Vector2(0, -20 * k);
 
                 if (Main.tile[(int)pos.X / 16 + 2, (int)pos.Y / 16 + 2].active() || Main.tile[(int)pos.X / 16 - 2, (int)pos.Y / 16 + 2].active())
                 {
@@ -77,6 +80,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                     break;
                 }
 
+                pos.Y -= projectile.ai[1] % tex.Height;
                 spriteBatch.Draw(tex, pos - Main.screenPosition, color);
                 spriteBatch.Draw(tex2, pos - Main.screenPosition, Color.White);
 
