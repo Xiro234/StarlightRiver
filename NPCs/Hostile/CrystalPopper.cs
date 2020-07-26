@@ -53,60 +53,44 @@ namespace StarlightRiver.NPCs.Hostile
                 case 1://shoot out of ground and attack
                     npc.ai[1]++;
 
-                    if (npc.ai[1] == 1)
-                    {
-                        npc.velocity.Y = -20;
-                    }
-                    npc.velocity.Y += (.6f);
+                    if (npc.ai[1] == 1) npc.velocity.Y = -20;
+
+                    npc.velocity.Y += 0.6f;
+
                     for (int k = 0; k <= 10; k++)
                     {
                         Dust.NewDust(npc.position, 32, 32, DustID.Sandstorm);
                     }
-                    /*if(npc.ai[1] >= 5) //disabled to make this in-line with the overgrowth nightmare
-                    {
-                        npc.noTileCollide = false;
-                    }*/
+
                     if (npc.ai[1] >= 30)
                     {
                         npc.velocity.Y = 0;
                         npc.ai[1] = 0;
                         npc.ai[0] = 2;
+
                         for (int k = -1; k <= 1; k++)
                         {
                             Projectile.NewProjectile(npc.Center, Vector2.Normalize(Main.player[npc.target].Center - npc.Center).RotatedBy(k * 0.5f) * 6, ProjectileType<Projectiles.GlassSpike>(), 10, 0);
                         }
+
                         npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * -5.5f;
                     }
                     break;
 
                 case 2://seek and destroy
                     npc.velocity += Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 0.08f;
-                    if (npc.velocity.Length() > 5.5f && ((npc.velocity - npc.oldVelocity).ToRotation() == (Main.player[npc.target].Center - npc.Center).ToRotation()))
-                    { npc.velocity = Vector2.Normalize(npc.velocity) * 5.5f; }
 
-                    Main.NewText(Vector2.Normalize(npc.velocity) + " Normalize");
-                    Main.NewText(npc.velocity.Length() + " Length");
+                    if (npc.velocity.LengthSquared() > 25) npc.velocity = Vector2.Normalize(npc.velocity) * 5f;
 
-                    if (npc.collideX && Math.Abs(npc.velocity.X) > 1f)
-                    { npc.velocity.X = Vector2.Normalize(-npc.velocity).X * 1.5f; }
-                    if (npc.collideY && Math.Abs(npc.velocity.Y) > 1f)
-                    { npc.velocity.Y = Vector2.Normalize(-npc.velocity).Y * 1.5f; }
+                    if (npc.collideX && Math.Abs(npc.velocity.X) > 1f) npc.velocity.X = Vector2.Normalize(-npc.velocity).X * 1.5f;
+                    if (npc.collideY && Math.Abs(npc.velocity.Y) > 1f) npc.velocity.Y = Vector2.Normalize(-npc.velocity).Y * 1.5f;
 
                     npc.spriteDirection = (Main.player[npc.target].Center.X - npc.Center.X < 0) ? -1 : 1;
                     break;
             }
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            return (spawnInfo.player.ZoneRockLayerHeight && Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 0.75f : 0f;
-        }
-
-        /*public override int SpawnNPC(int tileX, int tileY)
-        {
-            return
-            (tileX, tileY + 1, ModContent.NPCType<CrystalPopper>());
-        }*/
+        public override float SpawnChance(NPCSpawnInfo spawnInfo) => (Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY].active() && spawnInfo.player.GetModPlayer<BiomeHandler>().ZoneGlass) ? 0.75f : 0f;
 
         public override void NPCLoot()
         {

@@ -24,7 +24,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         {
             projectile.ai[0]++;
 
-            if (projectile.ai[0] % 60 == 0)
+            if (projectile.ai[0] % 100 == 0)
             {
                 NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y, NPCType<Auroraling>());
                 Main.PlaySound(SoundID.Item86, projectile.Center);

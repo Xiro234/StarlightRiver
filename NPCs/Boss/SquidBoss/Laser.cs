@@ -28,7 +28,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         {
             if (projectile.timeLeft == 599 || (Main.expertMode && projectile.timeLeft == 449))
             {
-                int y = (int)projectile.Center.Y / 16 - 34;
+                int y = (int)projectile.Center.Y / 16 - 31;
 
                 for (int k = 0; k < 58; k++)
                 {

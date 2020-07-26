@@ -14,17 +14,12 @@ namespace StarlightRiver.NPCs.Pickups
     internal class Wind : AbilityPickup
     {
         public override string Texture => "StarlightRiver/NPCs/Pickups/Wind1";
+
         public override Color GlowColor => new Color(160, 230, 255);
 
-        public override bool CanPickup(Player player)
-        {
-            return player.GetModPlayer<AbilityHandler>().dash.Locked;
-        }
+        public override bool CanPickup(Player player) => player.GetModPlayer<AbilityHandler>().dash.Locked;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Forbidden Winds");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Forbidden Winds");
 
         public override void Visuals()
         {
@@ -85,22 +80,16 @@ namespace StarlightRiver.NPCs.Pickups
             if (timer == 569) //popup + codex entry
             {
                 string message = StarlightRiver.Dash.GetAssignedKeys().Count > 0 ?
-                    "Press " + StarlightRiver.Dash.GetAssignedKeys()[0] + " + A/W/S/D to dash." :
-                    "Press " + "[Please bind a key]" + " + A/W/S/D to dash.";
+                    "Press A/W/S/D + " + StarlightRiver.Dash.GetAssignedKeys()[0] + " to dash." :
+                    "Press A/W/S/D + [Please Bind a Key] to dash.";
 
                 StarlightRiver.Instance.textcard.Display("Forbidden Winds", message, Main.LocalPlayer.GetModPlayer<AbilityHandler>().dash);
                 Helper.UnlockEntry<WindsEntry>(Main.LocalPlayer);
                 Helper.UnlockEntry<StaminaEntry>(Main.LocalPlayer);
             }
-            // audio fade shenanigans
 
-            for (int k = 0; k < Main.musicFade.Length; k++)
-            {
-                if (k == Main.curMusic)
-                {
-                    Main.musicFade[k] = timer < 500 ? 0 : (timer - 500) / 70f;
-                }
-            }
+            // audio fade shenanigans
+            Main.musicFade[Main.curMusic] = timer < 500 ? 0 : (timer - 500) / 70f;
         }
 
         public override void PickupEffects(Player player)

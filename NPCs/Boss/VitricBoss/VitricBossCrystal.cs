@@ -14,20 +14,11 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
         public Vector2 TargetPos;
         public VitricBoss Parent;
 
-        public override bool CheckActive()
-        {
-            return npc.ai[2] == 4;
-        }
+        public override bool CheckActive() => npc.ai[2] == 4;
 
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            return false;
-        }
+        public override bool? CanBeHitByProjectile(Projectile projectile) => false;
 
-        public override bool? CanBeHitByItem(Player player, Item item)
-        {
-            return false;
-        }
+        public override bool? CanBeHitByItem(Player player, Item item) => false;
 
         public override void SetStaticDefaults()
         {
@@ -161,14 +152,23 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
 
                 case 2: //circle attack
                     npc.rotation = (npc.Center - Parent.npc.Center).ToRotation() + 1.57f; //sets the rotation appropriately for the circle attack
+
                     if (Vector2.Distance(npc.Center, Parent.npc.Center) <= 100) //shrink the crystals for the rotation attack if they're near the boss so they properly hide in him
                     {
                         npc.scale = Vector2.Distance(npc.Center, Parent.npc.Center) / 100f;
                     }
                     else npc.scale = 1;
+
                     break;
 
                 case 3: //falling for smash attack
+
+                    if (npc.ai[1] < 30)
+                    {
+                        npc.position.Y -= (30 - npc.ai[1]) / 3f;
+                        break;
+                    }                
+
                     npc.velocity.Y += 0.9f;
 
                     if (npc.rotation != 0) //normalize rotation
@@ -177,7 +177,10 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                         if (npc.rotation >= 5f) npc.rotation = 0;
                     }
 
-                    Dust.NewDustPerfect(npc.Center, DustType<Dusts.Starlight>());
+                    for (int k = 0; k < 3; k++)
+                    {
+                        Dust.NewDustPerfect(npc.Center + new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), DustType<Dusts.Starlight>(), new Vector2(0, -15));
+                    }
 
                     if (npc.Center.Y > TargetPos.Y)
                         foreach (Vector2 point in Parent.crystalLocations) //Better than cycling througn Main.npc, still probably a better way to do this
@@ -191,12 +194,14 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
                                 Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
                             }
                         }
+
                     if (Framing.GetTileSafely((int)npc.Center.X / 16, (int)(npc.Center.Y + 24) / 16).collisionType == 1 && npc.Center.Y > StarlightWorld.VitricBiome.Y * 16) //tile collision
                     {
                         npc.velocity *= 0;
                         npc.ai[2] = 0; //turn it idle
                         Main.PlaySound(Terraria.ID.SoundID.NPCHit42); //boom
                     }
+
                     break;
 
                 case 4: //fleeing
@@ -224,6 +229,12 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             Texture2D tex = GetTexture("StarlightRiver/NPCs/Boss/VitricBoss/CrystalGlow"); //glowy outline
             if (npc.ai[0] == 0)
                 spriteBatch.Draw(tex, npc.Center - Main.screenPosition + new Vector2(0, 4), tex.Frame(), Color.White * (float)Math.Sin(StarlightWorld.rottime), npc.rotation, tex.Frame().Size() / 2, npc.scale, 0, 0);
+
+            if (npc.ai[2] == 3 && npc.ai[1] < 30)
+            {
+                float factor = npc.ai[1] / 30f;
+                spriteBatch.Draw(GetTexture(Texture), npc.Center - Main.screenPosition + new Vector2(4, 0), npc.frame, Color.White * (1 - factor), npc.rotation, npc.frame.Size() / 2, factor * 2, 0, 0);
+            }
         }
 
         public void DrawAdditive(SpriteBatch spriteBatch) //helper method to draw a tell line between two points.

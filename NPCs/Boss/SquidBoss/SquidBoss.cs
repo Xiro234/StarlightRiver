@@ -39,7 +39,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Auroracle");
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(6500 * bossLifeScale);
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale) => npc.lifeMax = (int)(6000 * bossLifeScale);
 
         public override bool CheckActive() => false;
 
@@ -47,14 +47,14 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
         public override void SetDefaults()
         {
-            npc.lifeMax = 3500;
+            npc.lifeMax = 3250;
             npc.width = 80;
             npc.height = 80;
             npc.boss = true;
             npc.damage = 1;
             npc.noGravity = true;
             npc.aiStyle = -1;
-            npc.npcSlots = 15f;
+            npc.npcSlots = 99f;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SquidBoss");
             npc.noTileCollide = true;
             npc.knockBackResist = 0;
@@ -295,8 +295,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
                     if (AttackPhase != 2 && AttackPhase != 4 && !(AttackPhase == 3 && variantAttack)) //when not lasering, passive movement
                     {
-                        npc.velocity += Vector2.Normalize(npc.Center - (Main.player[npc.target].Center + new Vector2(0, 250))) * -0.2f;
-                        if (npc.velocity.Length() > 5) npc.velocity = Vector2.Normalize(npc.velocity) * 5;
+                        npc.velocity += Vector2.Normalize(npc.Center - (Main.player[npc.target].Center + new Vector2(0, 200))) * -0.2f;
+                        if (npc.velocity.LengthSquared() > 20.25f) npc.velocity = Vector2.Normalize(npc.velocity) * 4.5f;
                         npc.rotation = npc.velocity.X * 0.05f;
                     }
 
@@ -355,8 +355,8 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 {
                     if (AttackPhase != 3)
                     {
-                        npc.velocity += Vector2.Normalize(npc.Center - (Main.player[npc.target].Center + new Vector2(0, -350))) * -0.3f;
-                        if (npc.velocity.Length() > 7) npc.velocity = Vector2.Normalize(npc.velocity) * 7;
+                        npc.velocity += Vector2.Normalize(npc.Center - (Main.player[npc.target].Center + new Vector2(0, -300))) * -0.3f;
+                        if (npc.velocity.LengthSquared() > 36) npc.velocity = Vector2.Normalize(npc.velocity) * 6;
                         npc.rotation = npc.velocity.X * 0.05f;
                     }
 

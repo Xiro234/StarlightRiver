@@ -23,7 +23,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
             npc.damage = 10;
             npc.noGravity = true;
             npc.aiStyle = -1;
-            npc.knockBackResist = 2.5f;
+            npc.knockBackResist = 3f;
         }
 
         public override void AI()

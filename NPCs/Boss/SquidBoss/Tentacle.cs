@@ -31,7 +31,7 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
         {
             npc.width = 60;
             npc.height = 80;
-            npc.lifeMax = 250;
+            npc.lifeMax = 225;
             npc.damage = 20;
             npc.noGravity = true;
             npc.noTileCollide = true;
