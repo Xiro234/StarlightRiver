@@ -11,6 +11,7 @@ namespace StarlightRiver.Buffs
         {
             DisplayName.SetDefault("Pancaked");
             Description.SetDefault("Flat ass lookin' headass");
+            Main.debuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)

@@ -9,6 +9,7 @@ namespace StarlightRiver.Buffs
         {
             DisplayName.SetDefault("Prismatic Drown");
             Description.SetDefault("You are drowning in prismatic waters!");
+            Main.debuff[Type] = true;
         }
 
         public override void Update(Player player, ref int buffIndex)
