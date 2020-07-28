@@ -53,10 +53,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StarlightWorld.TownUpgrades["Guide"] = true;
-            StarlightWorld.TownUpgrades["Merchant"] = true;
-
-            player.GetModPlayer<Abilities.AbilityHandler>().dash.Locked = true;
+            NPC.NewNPC((StarlightWorld.VitricBiome.X - 10) * 16, (StarlightWorld.VitricBiome.Center.Y + 12) * 16, NPCType<NPCs.Miniboss.Glassweaver.GlassweaverTown>());
             return true;
         }
 

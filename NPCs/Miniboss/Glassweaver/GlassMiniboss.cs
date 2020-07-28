@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
+using Terraria;
 
 namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 {
@@ -10,7 +11,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
         internal ref float AttackPhase => ref npc.ai[2];
         internal ref float AttackTimer => ref npc.ai[3];
 
-        Vector2 spawnPos;
+        Vector2 spawnPos => StarlightWorld.VitricBiome.TopLeft() * 16 + new Vector2( -9.5f * 16, 76 * 16);
 
         public enum PhaseEnum
         {
@@ -42,7 +43,6 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             npc.knockBackResist = 0;
             npc.boss = true;
             npc.defense = 14;
-            npc.noTileCollide = true;
         }
 
         public override void AI()
@@ -54,31 +54,39 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             {
                 case (int)PhaseEnum.SpawnEffects:
 
-                    spawnPos = npc.Center;
+                    ResetAttack();
                     SetPhase(PhaseEnum.SpawnAnimation);
 
                     break;
 
                 case (int)PhaseEnum.SpawnAnimation:
 
-                    SetPhase(PhaseEnum.FirstPhase);
+                    if (GlobalTimer < 300) SpawnAnimation();
+                    else
+                    {
+                        SetPhase(PhaseEnum.FirstPhase);
+                        ResetAttack();
+                        npc.noGravity = false;
+                    }
 
                     break;
 
                 case (int)PhaseEnum.FirstPhase:
 
+                    npc.spriteDirection = npc.Center.X > spawnPos.X ? 1 : -1;
+
                     if (AttackTimer == 1)
                     {
                         AttackPhase++;
-                        if (AttackPhase > 2) AttackPhase = 0;
+                        if (AttackPhase > 3) AttackPhase = 0;
                     }
 
                     switch (AttackPhase)
                     {
-                        case (int)AttackState.CastSwords: CastSwords(); break;
-                        case (int)AttackState.SwordSlash: SwingSword(); break;
-                        case (int)AttackState.CastOrb: CastOrb(); break;
-                        case (int)AttackState.Recoil: Recoil(); break;
+                        case 0: HammerSlam(); break;
+                        case 1: SummonKnives(); break;
+                        case 2: SlashCombo(); break;
+                        case 3: SummonKnives(); break;
                     }
 
                     break;

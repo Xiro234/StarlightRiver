@@ -61,6 +61,11 @@ namespace StarlightRiver.NPCs.Traps
             }
         }
 
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffType<Buffs.Squash>(), 450);
+        }
+
         public override bool? CanHitNPC(NPC target) => true;
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit)

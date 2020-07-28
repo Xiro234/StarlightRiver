@@ -88,8 +88,6 @@ namespace StarlightRiver
             ForegroundSystem = new ParticleSystem("StarlightRiver/GUI/Assets/HolyBig", UpdateOvergrowWells); //TODO: Move this later
         }
 
-
-
         private void TestLighting(GameTime obj) { if (!Main.gameMenu) lightingTest.DebugDraw(obj); }
 
         #region hooks

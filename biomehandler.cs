@@ -23,6 +23,7 @@ namespace StarlightRiver
         public bool ZoneOvergrow = false;
         public bool zoneAluminum = false;
         public bool zonePermafrost = false;
+        public bool zoneAshhell = false;
 
         public bool FountainJungleCorrupt = false;
         public bool FountainJungleBloody = false;
@@ -55,6 +56,7 @@ namespace StarlightRiver
             allMatch &= ZoneOvergrow == modOther.ZoneOvergrow;
             allMatch &= zoneAluminum == modOther.zoneAluminum;
             allMatch &= zonePermafrost == modOther.zonePermafrost;
+            allMatch &= zoneAshhell == modOther.zoneAshhell;
             return allMatch;
         }
 
@@ -69,6 +71,7 @@ namespace StarlightRiver
             modOther.ZoneOvergrow = ZoneOvergrow;
             modOther.zoneAluminum = zoneAluminum;
             modOther.zonePermafrost = zonePermafrost;
+            modOther.zoneAshhell = zoneAshhell;
         }
 
         public override void SendCustomBiomes(BinaryWriter writer)
@@ -82,7 +85,7 @@ namespace StarlightRiver
             flags[5] = ZoneOvergrow;
             flags[6] = zoneAluminum;
             flags[7] = zonePermafrost;
-            writer.Write(flags);
+            writer.Write(flags); //TODO add another BitsByte for moar biomes
         }
 
         public override void ReceiveCustomBiomes(BinaryReader reader)

@@ -26,8 +26,8 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
         {
             npc.townNPC = true;
             npc.friendly = true;
-            npc.width = 18;
-            npc.height = 40;
+            npc.width = 64;
+            npc.height = 64;
             npc.aiStyle = -1;
             npc.damage = 10;
             npc.defense = 15;

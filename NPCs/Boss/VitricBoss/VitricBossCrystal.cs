@@ -233,7 +233,7 @@ namespace StarlightRiver.NPCs.Boss.VitricBoss
             if (npc.ai[2] == 3 && npc.ai[1] < 30)
             {
                 float factor = npc.ai[1] / 30f;
-                spriteBatch.Draw(GetTexture(Texture), npc.Center - Main.screenPosition + new Vector2(4, 0), npc.frame, Color.White * (1 - factor), npc.rotation, npc.frame.Size() / 2, factor * 2, 0, 0);
+                spriteBatch.Draw(GetTexture(Texture), npc.Center - Main.screenPosition + new Vector2(2, 0), npc.frame, Color.White * (1 - factor), npc.rotation, npc.frame.Size() / 2, factor * 2, 0, 0);
             }
         }
 

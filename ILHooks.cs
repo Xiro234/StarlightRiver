@@ -17,6 +17,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.GameInput;
+using Terraria.DataStructures;
 
 namespace StarlightRiver
 {
@@ -50,6 +51,9 @@ namespace StarlightRiver
             IL.Terraria.WorldGen.SpawnTownNPC += SwapTitle;
             IL.Terraria.NPC.checkDead += SwapTitleDeath;
             IL.Terraria.Main.DrawInventory += SwapTitleMenu;
+
+            //Pancake debuff
+            IL.Terraria.Main.DrawPlayer_DrawAllLayers += DrawPancake;
         }
 
         private void UnhookIL()
@@ -80,10 +84,32 @@ namespace StarlightRiver
             IL.Terraria.WorldGen.SpawnTownNPC -= SwapTitle;
             IL.Terraria.NPC.checkDead -= SwapTitleDeath;
             IL.Terraria.Main.DrawInventory -= SwapTitleMenu;
+
+            //Pancake debuff
+            IL.Terraria.Main.DrawPlayer_DrawAllLayers -= DrawPancake;
         }
 
 
         #region IL edits
+        //Squash haha funni
+        private void DrawPancake(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            c.TryGotoNext(i => i.MatchStloc(2));
+
+            c.Emit(OpCodes.Ldarg_1);
+            c.EmitDelegate<DrawPancakeDelegate>(EmitDrawPancakeDelegate);
+        }
+
+        private delegate DrawData DrawPancakeDelegate(DrawData input, Player player);
+
+        private DrawData EmitDrawPancakeDelegate(DrawData input, Player player)
+        {
+            if (player.HasBuff(ModContent.BuffType<Buffs.Squash>()))
+                return new DrawData(input.texture, new Rectangle((int)player.position.X - 20 - (int)Main.screenPosition.X, (int)player.position.Y + 20 - (int)Main.screenPosition.Y + 1, player.width + 40, player.height - 20), input.sourceRect, input.color, input.rotation, default, input.effect, 0);
+            else return input;
+        }
+
         //custom name and icon for upgraded town NPCs
         private void SwapTitleMenu(ILContext il)
         {
