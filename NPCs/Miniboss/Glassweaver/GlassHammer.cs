@@ -51,6 +51,12 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
                 {
                     Main.PlaySound(SoundID.Shatter, projectile.Center);
                     Main.LocalPlayer.GetModPlayer<Core.StarlightPlayer>().Shake += 15;
+
+                    for (int k = 0; k < 30; k++)
+                    {
+                        Vector2 vector = Vector2.UnitY.RotatedByRandom((float)Math.PI / 2);
+                        Dust.NewDustPerfect(projectile.Center + vector * Main.rand.NextFloat(25), DustType<Dusts.Sand>(), vector * Main.rand.NextFloat(3, 5), 150, Color.White, 0.5f);
+                    }
                 }
             }
             else if (projectile.timeLeft % 2 == 0)

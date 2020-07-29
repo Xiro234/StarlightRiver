@@ -575,7 +575,7 @@ namespace StarlightRiver
         private static void GenForge()
         {
             StructureHelper.StructureHelper.GenerateStructure("Structures/VitricForge", new Point16(VitricBiome.X - 40, VitricBiome.Center.Y - 10), StarlightRiver.Instance);
-            NPC.NewNPC((VitricBiome.X - 10) * 16, (VitricBiome.Center.Y + 12) * 16, NPCType<NPCs.Miniboss.Glassweaver.GlassweaverTown>());
+            NPC.NewNPC((VitricBiome.X - 10) * 16, (VitricBiome.Center.Y + 12) * 16, NPCType<NPCs.Miniboss.Glassweaver.GlassweaverWaiting>());
         }
 
         private static void GenTemple()
