@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Terraria;
+using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 {
     internal partial class GlassMiniboss : ModNPC
     {
-        internal ref float GlobalTimer => ref npc.ai[0];
+        internal ref float PathingTimer => ref npc.ai[0];
         internal ref float Phase => ref npc.ai[1];
         internal ref float AttackPhase => ref npc.ai[2];
         internal ref float AttackTimer => ref npc.ai[3];
@@ -32,10 +33,12 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Glassweaver");
 
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot) => false; //no contact damage! this is strictly a GOOD GAME DESIGN ONLY ZONE!!!
+
         public override void SetDefaults()
         {
             npc.width = 64;
-            npc.height = 128;
+            npc.height = 64;
             npc.lifeMax = 2500;
             npc.damage = 20;
             npc.aiStyle = -1;
@@ -45,9 +48,16 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             npc.defense = 14;
         }
 
+        public override bool CheckDead()
+        {
+            NPC.NewNPC((StarlightWorld.VitricBiome.X - 10) * 16, (StarlightWorld.VitricBiome.Center.Y + 12) * 16, NPCType<GlassweaverTown>());
+            return true;
+        }
+
+        private void SetPhase(PhaseEnum phase) => Phase = (float)phase;
+
         public override void AI()
         {
-            GlobalTimer++;
             AttackTimer++;
 
             switch (Phase)
@@ -55,13 +65,14 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
                 case (int)PhaseEnum.SpawnEffects:
 
                     ResetAttack();
+                    targetRectangle = regionCenter;
                     SetPhase(PhaseEnum.SpawnAnimation);
 
                     break;
 
                 case (int)PhaseEnum.SpawnAnimation:
 
-                    if (GlobalTimer < 300) SpawnAnimation();
+                    if (AttackTimer < 300) SpawnAnimation();
                     else
                     {
                         SetPhase(PhaseEnum.FirstPhase);
@@ -73,26 +84,36 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 
                 case (int)PhaseEnum.FirstPhase:
 
-                    npc.spriteDirection = npc.Center.X > spawnPos.X ? 1 : -1;
+                    npc.spriteDirection = npc.velocity.X < 0 ? 1 : -1;
 
                     if (AttackTimer == 1)
                     {
                         AttackPhase++;
-                        if (AttackPhase > 3) AttackPhase = 0;
+                        if (AttackPhase > 7) AttackPhase = 0;
                     }
 
                     switch (AttackPhase)
                     {
-                        case 0: HammerSlam(); break;
-                        case 1: SummonKnives(); break;
-                        case 2: SlashCombo(); break;
-                        case 3: SummonKnives(); break;
+                        case 0: if (GetRegion(npc) == regionCenter) HammerSlam(); else SummonKnives(); break;
+                        case 1: PathToTarget(); break;
+
+                        case 2: SummonKnives(); break;
+                        case 3: PathToTarget(); break;
+
+                        case 4: SummonKnives(); break;
+                        case 5: PathToTarget(); break;
+
+                        case 6: SummonKnives(); break;
+                        case 7: PathToTarget(); break;
                     }
+
+                    //pathing updates
+                    for (int k = 0; k < pads.Length; k++) pads[k].Update();
+
+                    Main.NewText(npc.noTileCollide);
 
                     break;
             }
         }
-
-        private void SetPhase(PhaseEnum phase) => Phase = (float)phase;
     }
 }

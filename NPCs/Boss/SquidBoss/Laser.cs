@@ -46,10 +46,10 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
 
             for (int k = 0; k < 45; k++)
             {
-                Vector2 pos = projectile.position + new Vector2(0, -20 * k);
-                height += 20;
+                Vector2 pos = projectile.position + new Vector2(0, -16 * k);
+                height += 16;
 
-                if (Main.tile[(int)pos.X / 16 + 2, (int)pos.Y / 16].active() || Main.tile[(int)pos.X / 16 - 2, (int)pos.Y / 16].active()) break;
+                if (Main.tile[(int)pos.X / 16 + 2, (int)pos.Y / 16 - 4].active() || Main.tile[(int)pos.X / 16 - 2, (int)pos.Y / 16 - 4].active()) break;
             }
 
             Rectangle rect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - height, projectile.width, height);
@@ -67,9 +67,9 @@ namespace StarlightRiver.NPCs.Boss.SquidBoss
                 float cos = 1 + (float)Math.Cos(projectile.ai[1] / 10f);
                 Color color = new Color(0.5f + cos * 0.2f, 0.8f, 0.5f + sin * 0.2f) * 1.05f;
 
-                Vector2 pos = projectile.position + new Vector2(0, -20 * k);
+                Vector2 pos = projectile.position + new Vector2(0, -16 * k);
 
-                if (Main.tile[(int)pos.X / 16 + 2, (int)pos.Y / 16 + 2].active() || Main.tile[(int)pos.X / 16 - 2, (int)pos.Y / 16 + 2].active())
+                if (Main.tile[(int)pos.X / 16 + 2, (int)pos.Y / 16 + 1].active() || Main.tile[(int)pos.X / 16 - 2, (int)pos.Y / 16 + 1].active())
                 {
                     for (int n = 0; n < 20; n++)
                     {

@@ -11,13 +11,8 @@ using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 {
-    [AutoloadHead]
-    class GlassweaverTown : ModNPC
+    class GlassweaverWaiting : ModNPC
     {
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => true;
-
-        public override bool CheckConditions(int left, int right, int top, int bottom) => true;
-
         public override string TownNPCName() => "";
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Glassweaver");
@@ -35,23 +30,25 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0;
-            npc.dontTakeDamage = true;
         }
 
         public override string GetChat()
         {
-            return "Cum.";
+            return NPC.downedBoss2 ? "I will fight you now." : "If you cant even best that rotting beast in the " + (Main.ActiveWorldFileData.HasCorruption ? "corruption" : "crimson") + ", what chance do you think you have against me?";
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
-            button = "Upgrade Weapon";
-            button2 = "Quest";
+            button = "Challenge";
         }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
-
+            if (firstButton)
+            {
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCType<GlassMiniboss>());
+                npc.active = false;
+            }
         }
     }
 }
