@@ -23,7 +23,7 @@ namespace StarlightRiver.Codex.Entries
             Body = "A collection of strange energies found deeep within a tomb buried in the vitric desert. These 'winds' hold the power to shatter certain objects on touch and propel you forward at great speeds.";
             Hint = "Sealed away in an ancient glass temple";
             Image = GetTexture("StarlightRiver/MarioCumming");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
+            Icon = GetTexture("StarlightRiver/Pickups/ForbiddenWinds");
         }
     }
 
@@ -36,7 +36,7 @@ namespace StarlightRiver.Codex.Entries
             Body = "NO TEXT";
             Hint = "Found upon an altar in an overgrown dungeon";
             Image = GetTexture("StarlightRiver/Codex/Entries/AbilityImageWisp");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
+            Icon = GetTexture("StarlightRiver/Pickups/Faeflame");
         }
     }
 
@@ -49,7 +49,7 @@ namespace StarlightRiver.Codex.Entries
             Body = "NO TEXT";
             Hint = "Found in a temple at the brink of the world...";
             Image = GetTexture("StarlightRiver/MarioCumming");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
+            Icon = GetTexture("StarlightRiver/Pickups/PureCrown");
         }
     }
 
@@ -62,7 +62,7 @@ namespace StarlightRiver.Codex.Entries
             Body = "NO TEXT";
             Hint = "PENIS";
             Image = GetTexture("StarlightRiver/MarioCumming");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
+            Icon = GetTexture("StarlightRiver/Pickups/GaiaFist");
         }
     }
 
@@ -88,7 +88,7 @@ namespace StarlightRiver.Codex.Entries
             Body = "NO TEXT";
             Hint = "PENIS";
             Image = GetTexture("StarlightRiver/MarioCumming");
-            Icon = GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+            Icon = GetTexture("StarlightRiver/Pickups/Cloak1");
             RequiresUpgradedBook = true;
         }
     }

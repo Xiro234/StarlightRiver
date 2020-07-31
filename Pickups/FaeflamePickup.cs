@@ -8,11 +8,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace StarlightRiver.NPCs.Pickups
+namespace StarlightRiver.Pickups
 {
-    internal class Wisp : AbilityPickup
+    internal class FaeflamePickup : AbilityPickup
     {
-        public override string Texture => "StarlightRiver/NPCs/Pickups/Wisp1";
+        public override string Texture => "StarlightRiver/Pickups/Faeflame";
         public override Color GlowColor => new Color(255, 255, 130);
 
         public override bool CanPickup(Player player)

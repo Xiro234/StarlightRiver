@@ -12,6 +12,8 @@ namespace StarlightRiver.NPCs.Pickups
 {
     internal class Purity : ModNPC
     {
+        public override string Texture => "StarlightRiver/Invisible";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corona of Purity");
@@ -89,7 +91,7 @@ namespace StarlightRiver.NPCs.Pickups
             }
         }
 
-        public static Texture2D wind = GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
+        public static Texture2D wind = GetTexture("StarlightRiver/Pickups/PureCrown");
         private float timer = 0;
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

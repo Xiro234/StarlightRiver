@@ -7,10 +7,12 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace StarlightRiver.NPCs.Pickups
+namespace StarlightRiver.Pickups
 {
     internal class Cloak : ModNPC
     {
+        public override bool Autoload(ref string name) => false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Zzelera's Cloak");
@@ -79,7 +81,7 @@ namespace StarlightRiver.NPCs.Pickups
             }
         }
 
-        public static Texture2D wind = GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+        public static Texture2D wind = GetTexture("StarlightRiver/Pickups/Cloak1");
         private float timer = 0;
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

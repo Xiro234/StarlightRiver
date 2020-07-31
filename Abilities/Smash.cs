@@ -18,7 +18,7 @@ namespace StarlightRiver.Abilities
         }
 
         public override bool CanUse => player.velocity.Y != 0;
-        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Smash1");
+        public override Texture2D Texture => GetTexture("StarlightRiver/Pickups/GaiaFist");
         public const int ChargeTime = 30;
 
         public override void OnCast()

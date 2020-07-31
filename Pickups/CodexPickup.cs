@@ -1,28 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Codex;
 using StarlightRiver.Core;
+using StarlightRiver.Items;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace StarlightRiver.NPCs.Pickups
+namespace StarlightRiver.Pickups
 {
-    internal class Lore : AbilityPickup
+    internal class CodexPickup : AbilityPickup
     {
         public override string Texture => "StarlightRiver/GUI/Assets/Book1Closed";
+
         public override Color GlowColor => new Color(200, 130, 40);
 
-        public override bool CanPickup(Player player)
-        {
-            return player.GetModPlayer<CodexHandler>().CodexState == 0;
-        }
+        public override bool CanPickup(Player player) => player.GetModPlayer<CodexHandler>().CodexState == 0;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Starlight Codex");
-        }
+        public override void SetStaticDefaults() => DisplayName.SetDefault("Starlight Codex");
 
         public override void Visuals()
         {
@@ -49,7 +45,7 @@ namespace StarlightRiver.NPCs.Pickups
                 string message = "Open the codex from your inventory to learn about the world.";
 
                 StarlightRiver.Instance.textcard.Display("Starlight Codex", message, null, 240);
-                Helper.UnlockEntry<Codex.CodexEntry>(Main.LocalPlayer);
+                Helper.UnlockEntry<CodexEntry>(Main.LocalPlayer);
             }
         }
 
@@ -61,5 +57,17 @@ namespace StarlightRiver.NPCs.Pickups
             player.GetModPlayer<StarlightPlayer>().MaxPickupTimer = 120;
             player.AddBuff(BuffID.Featherfall, 130);
         }
+    }
+
+    public class CodexPickupTile : AbilityPickupTile
+    {
+        public override int PickupType => NPCType<CodexPickup>();
+    }
+
+    public class CodexTileItem : QuickTileItem
+    {
+        public CodexTileItem() : base("Starlight Codex", "Debug placer for ability pickup", TileType<CodexPickupTile>(), -1) { }
+
+        public override string Texture => "StarlightRiver/GUI/Assets/Book1Closed";
     }
 }

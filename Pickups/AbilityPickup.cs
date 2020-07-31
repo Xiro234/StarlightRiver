@@ -7,9 +7,9 @@ using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace StarlightRiver.NPCs.Pickups
+namespace StarlightRiver.Pickups
 {
-    internal abstract class AbilityPickup : ModNPC
+    internal abstract class AbilityPickup : ModNPC, IDrawAdditive
     {
         /// <summary>
         /// Indicates if the pickup should be visible in-world. Should be controlled using clientside vars.
@@ -30,20 +30,11 @@ namespace StarlightRiver.NPCs.Pickups
             npc.friendly = false;
         }
 
-        public override bool CheckActive()
-        {
-            return false;
-        }
+        public override bool CheckActive() => false;
 
-        public sealed override bool? CanBeHitByItem(Player player, Item item)
-        {
-            return false;
-        }
+        public sealed override bool? CanBeHitByItem(Player player, Item item) => false;
 
-        public sealed override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            return false;
-        }
+        public sealed override bool? CanBeHitByProjectile(Projectile projectile) => false;
 
         /// <summary>
         /// The clientside visual dust that this pickup makes when in-world
@@ -86,28 +77,24 @@ namespace StarlightRiver.NPCs.Pickups
                 {
                     for (int k = 0; k < Main.musicFade.Length; k++)
                     {
-                        if (k == Main.curMusic)
-                        {
-                            Main.musicFade[k] = Vector2.Distance(Main.LocalPlayer.Center, npc.Center) / 200f;
-                        }
+                        if (k == Main.curMusic) Main.musicFade[k] = Vector2.Distance(Main.LocalPlayer.Center, npc.Center) / 200f;
                     }
                 }
             }
 
-            if (mp.PickupTarget == npc) //if the player is picking this up, clientside only also
-            {
-                PickupVisuals(mp.PickupTimer);
-            }
+            if (mp.PickupTarget == npc) PickupVisuals(mp.PickupTimer); //if the player is picking this up, clientside only also
         }
 
         public sealed override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             StarlightPlayer mp = target.GetModPlayer<StarlightPlayer>();
+
             if (CanPickup(target) && target.Hitbox.Intersects(npc.Hitbox))
             {
                 PickupEffects(target);
                 mp.PickupTarget = npc;
             }
+
             return false;
         }
 
@@ -119,24 +106,19 @@ namespace StarlightRiver.NPCs.Pickups
                 Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5);
                 spriteBatch.Draw(tex, pos, tex.Frame(), Color.White, 0, tex.Size() / 2, 1, 0, 0);
             }
+
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public void DrawAdditive(SpriteBatch spriteBatch)
         {
             if (Visible)
             {
                 Texture2D tex = GetTexture("StarlightRiver/RiftCrafting/Glow0");
                 Vector2 pos = npc.Center - Main.screenPosition + new Vector2(0, (float)Math.Sin(StarlightWorld.rottime) * 5);
 
-                spriteBatch.End();
-                spriteBatch.Begin(default, BlendState.Additive);
-
                 spriteBatch.Draw(tex, pos, tex.Frame(), GlowColor * 0.3f, 0, tex.Size() / 2, 1, 0, 0);
                 spriteBatch.Draw(tex, pos, tex.Frame(), GlowColor * 0.5f, 0, tex.Size() / 2, 0.6f, 0, 0);
-
-                spriteBatch.End();
-                spriteBatch.Begin();
             }
         }
     }

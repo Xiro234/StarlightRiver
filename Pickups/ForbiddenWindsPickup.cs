@@ -2,6 +2,7 @@
 using StarlightRiver.Abilities;
 using StarlightRiver.Codex.Entries;
 using StarlightRiver.Core;
+using StarlightRiver.Items;
 using System;
 using Terraria;
 using Terraria.Graphics.Effects;
@@ -9,11 +10,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace StarlightRiver.NPCs.Pickups
+namespace StarlightRiver.Pickups
 {
-    internal class Wind : AbilityPickup
+    internal class ForbiddenWindsPickup : AbilityPickup
     {
-        public override string Texture => "StarlightRiver/NPCs/Pickups/Wind1";
+        public override string Texture => "StarlightRiver/Pickups/ForbiddenWinds";
 
         public override Color GlowColor => new Color(160, 230, 255);
 
@@ -101,5 +102,17 @@ namespace StarlightRiver.NPCs.Pickups
             player.GetModPlayer<StarlightPlayer>().MaxPickupTimer = 570;
             player.AddBuff(BuffID.Featherfall, 580);
         }
+    }
+
+    public class ForbiddenWindsPickupTile : AbilityPickupTile
+    {
+        public override int PickupType => NPCType<ForbiddenWindsPickup>();
+    }
+
+    public class WindsTileItem : QuickTileItem
+    {
+        public WindsTileItem() : base("Forbidden Winds", "Debug placer for ability pickup", TileType<ForbiddenWindsPickupTile>(), -1) { }
+
+        public override string Texture => "STarlightRiver/Pickups/ForbiddenWinds";
     }
 }

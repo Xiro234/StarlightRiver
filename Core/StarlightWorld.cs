@@ -84,36 +84,14 @@ namespace StarlightRiver
         public override void PostUpdate()
         {
             if (!Main.projectile.Any(proj => proj.type == ProjectileType<Projectiles.Ability.Purifier>()) && PureTiles != null)
-            {
                 PureTiles.Clear();
-            }
-
-            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Wind>() && n.active == true))
-            {
-                NPC.NewNPC((int)DashSP.X, (int)DashSP.Y, NPCType<NPCs.Pickups.Wind>());
-            }
-
-            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Lore>() && n.active == true))
-            {
-                NPC.NewNPC((int)BookSP.X, (int)BookSP.Y, NPCType<NPCs.Pickups.Lore>());
-            }
-
-            if (!Main.npc.Any(n => n.type == NPCType<NPCs.Pickups.Wisp>() && n.active == true))
-            {
-                NPC.NewNPC((int)WispSP.X, (int)WispSP.Y, NPCType<NPCs.Pickups.Wisp>());
-            }
 
             //SquidBoss arena
             if (!Main.npc.Any(n => n.active && n.type == NPCType<ArenaActor>()))
-            {
                 NPC.NewNPC(SquidBossArena.Center.X * 16 + 232, SquidBossArena.Center.Y * 16 - 64, NPCType<ArenaActor>());
-            }
 
             //Keys
-            foreach (Key key in Keys)
-            {
-                key.Update();
-            }
+            foreach (Key key in Keys) key.Update();
         }
 
         public override void Initialize()

@@ -51,6 +51,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
         public override bool CheckDead()
         {
             NPC.NewNPC((StarlightWorld.VitricBiome.X - 10) * 16, (StarlightWorld.VitricBiome.Center.Y + 12) * 16, NPCType<GlassweaverTown>());
+            StarlightWorld.DesertOpen = true;
             return true;
         }
 

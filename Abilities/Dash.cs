@@ -19,7 +19,7 @@ namespace StarlightRiver.Abilities
         {
         }
 
-        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Wind1");
+        public override Texture2D Texture => GetTexture("StarlightRiver/Pickups/ForbiddenWinds");
         public override bool CanUse => (player.controlLeft || player.controlRight || player.controlUp || player.controlDown) && !player.mount.Active;
 
         public override void OnCast()

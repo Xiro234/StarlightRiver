@@ -20,7 +20,7 @@ namespace StarlightRiver.Abilities
         {
         }
 
-        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Cloak1");
+        public override Texture2D Texture => GetTexture("StarlightRiver/Pickups/Cloak1");
         public override bool CanUse => !player.mount.Active;
 
         public override void OnCast()

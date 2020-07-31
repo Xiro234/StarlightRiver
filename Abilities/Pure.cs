@@ -14,7 +14,7 @@ namespace StarlightRiver.Abilities
         {
         }
 
-        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Purity1");
+        public override Texture2D Texture => GetTexture("StarlightRiver/Pickups/PureCrown");
         public override bool CanUse => !Main.projectile.Any(proj => proj.owner == player.whoAmI && proj.active && (proj.type == ProjectileType<Purifier>() || proj.type == ProjectileType<PurifierReturn>()));
 
         public override void OnCast()

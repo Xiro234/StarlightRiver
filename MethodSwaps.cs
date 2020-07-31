@@ -444,11 +444,11 @@ namespace StarlightRiver
 
             List<Texture2D> textures = new List<Texture2D>()
                 {
-                    !mp.dash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wind0"),
-                    !mp.wisp.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Wisp0"),
-                    !mp.pure.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Purity0"),
-                    !mp.smash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Smash0"),
-                    //!mp.sdash.Locked ? ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/NPCs/Pickups/Cloak0"),
+                    !mp.dash.Locked ? ModContent.GetTexture("StarlightRiver/Pickups/ForbiddenWinds") : ModContent.GetTexture("StarlightRiver/Pickups/ForbiddenWindsLocked"),
+                    !mp.wisp.Locked ? ModContent.GetTexture("StarlightRiver/Pickups/Faeflame") : ModContent.GetTexture("StarlightRiver/Pickups/FaeflameLocked"),
+                    !mp.pure.Locked ? ModContent.GetTexture("StarlightRiver/Pickups/PureCrown") : ModContent.GetTexture("StarlightRiver/Pickups/PureCrownLocked"),
+                    !mp.smash.Locked ? ModContent.GetTexture("StarlightRiver/Pickups/GaiaFist") : ModContent.GetTexture("StarlightRiver/Pickups/GaiaFistLocked"),
+                    //!mp.sdash.Locked ? ModContent.GetTexture("StarlightRiver/Pickups/Cloak1") : ModContent.GetTexture("StarlightRiver/Pickups/Cloak0"),
                 };
 
             Rectangle box = new Rectangle((int)(origin + new Vector2(86, 66)).X, (int)(origin + new Vector2(86, 66)).Y, 80, 25);

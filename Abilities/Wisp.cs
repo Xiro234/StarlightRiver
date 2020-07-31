@@ -17,7 +17,7 @@ namespace StarlightRiver.Abilities
         {
         }
 
-        public override Texture2D Texture => GetTexture("StarlightRiver/NPCs/Pickups/Wisp1");
+        public override Texture2D Texture => GetTexture("StarlightRiver/Pickups/Faeflame");
 
         public override void OnCast()
         {

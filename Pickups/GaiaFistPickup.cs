@@ -8,11 +8,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace StarlightRiver.NPCs.Pickups
+namespace StarlightRiver.Pickups
 {
-    internal class Fist : AbilityPickup
+    internal class GaiaFistPickup : AbilityPickup
     {
-        public override string Texture => "StarlightRiver/NPCs/Pickups/Smash1";
+        public override string Texture => "StarlightRiver/Pickups/GaiaFist";
         public override Color GlowColor => new Color(180, 220, 140);
 
         public override bool CanPickup(Player player)
@@ -22,7 +22,7 @@ namespace StarlightRiver.NPCs.Pickups
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gaia's Fish");
+            DisplayName.SetDefault("Gaia's Fist");
         }
 
         public override void Visuals()
