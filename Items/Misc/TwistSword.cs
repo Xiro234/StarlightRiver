@@ -19,7 +19,7 @@ namespace StarlightRiver.Items.Misc
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 18;
             item.melee = true;
             item.width = 40;
             item.height = 20;
@@ -32,7 +32,7 @@ namespace StarlightRiver.Items.Misc
             item.channel = true;
         }
 
-        public override bool CanUseItem(Player player) => charge > 20;
+        public override bool CanUseItem(Player player) => charge > 40;
 
         public override bool UseItem(Player player)
         {
@@ -49,9 +49,13 @@ namespace StarlightRiver.Items.Misc
                 if (player.velocity.X > -5 && player.controlLeft) player.velocity.X -= 0.2f;
                 charge--;
             }
-            else if (charge < 240 && player.velocity.Y == 0) charge++;
 
             if (charge <= 0) player.channel = false;
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            if (charge < 240 && player.velocity.Y == 0) charge++;
         }
 
         public void DrawGlowmask(PlayerDrawInfo info)

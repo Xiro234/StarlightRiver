@@ -20,7 +20,11 @@ namespace StarlightRiver.Pickups
             return true;
         }
 
-        public override void SetDefaults() => QuickBlock.QuickSetFurniture(this, 1, 1, 0, 0, false, Color.White);
+        public override void SetDefaults()
+        {
+            QuickBlock.QuickSetFurniture(this, 1, 1, 0, 0, false, Color.White);
+            //minPick = int.MaxValue;
+        }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
@@ -30,7 +34,7 @@ namespace StarlightRiver.Pickups
                 if (npc.active && npc.type == PickupType) return;
             }
 
-            NPC.NewNPC(i * 16, j * 16, PickupType);
+            NPC.NewNPC(i * 16 + 8, j * 16 + 24, PickupType);
         }
     }
 }

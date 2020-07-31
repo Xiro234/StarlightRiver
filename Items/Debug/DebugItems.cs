@@ -86,8 +86,8 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            StarlightWorld.TownUpgrades["Guide"] = false;
-            StarlightWorld.TownUpgrades["Merchant"] = false;
+            Abilities.AbilityHandler ah = player.GetModPlayer<Abilities.AbilityHandler>();
+            ah.dash.Locked = true;
             return true;
         }
 
