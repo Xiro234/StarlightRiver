@@ -33,7 +33,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             if (projectile.timeLeft < 2) projectile.timeLeft = 2;
             projectile.scale = projectile.ai[0] < 10 ? (projectile.ai[0] / 10f) : 1;
-            projectile.damage = (int)((projectile.ai[0] * 1.5f) * player.meleeDamage);
+            projectile.damage = (int)(projectile.ai[0] * 1.2f * player.meleeDamage);
 
             if (projectile.ai[0] == 100)
             {
@@ -61,7 +61,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 Dust.NewDustPerfect(projectile.Center + Vector2.One.RotatedBy(rot) * 35, DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 1.5f, 0, default, projectile.ai[0] / 100f);
             }
 
-            if (!player.channel && projectile.ai[1] == 0)
+            if (!player.channel && projectile.ai[0] > 10 && projectile.ai[1] == 0)
             {
                 projectile.velocity = Vector2.Normalize(Main.MouseWorld - player.Center) * projectile.ai[0] * 0.1f;
                 projectile.tileCollide = true;
