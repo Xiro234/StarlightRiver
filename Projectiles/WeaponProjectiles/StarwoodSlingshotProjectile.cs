@@ -52,7 +52,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     lightColor = new Vector3(0.05f, 0.1f, 0.2f);
                     ScaleMult = 1.5f;
                     dustType = ModContent.DustType<Dusts.BlueStamina>();
-                    projectile.velocity *= 1.35f;//TODO: This could be on on the item's side like the staff does, thats generally the better way
+                    projectile.velocity *= 1.25f;//TODO: This could be on on the item's side like the staff does, thats generally the better way
                     empowered = true;
                 }
             }
@@ -148,7 +148,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.8f;
                 Texture2D tex = GetTexture("StarlightRiver/Keys/Glow");
 
-                spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
+                spriteBatch.Draw(tex, (((projectile.oldPos[k] + projectile.Size / 2) + projectile.Center) * 0.50f) - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
             }
         }
     }

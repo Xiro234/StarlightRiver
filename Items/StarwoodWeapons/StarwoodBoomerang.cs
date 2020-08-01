@@ -32,5 +32,17 @@ namespace StarlightRiver.Items.StarwoodWeapons
             item.useAnimation = 10;
             item.noMelee = true;
         }
+
+        public override bool CanUseItem(Player player)
+        {
+            for (int k = 0; k <= Main.maxProjectiles; k++)
+            {
+                if(Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<Projectiles.WeaponProjectiles.StarwoodBoomerangProjectile>())
+                {
+                    return false;
+                }
+            }
+            return base.CanUseItem(player);
+        }
     }
 }
