@@ -148,7 +148,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             Main.NewText("Dir: " + (Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation());
             Main.NewText("vel: " + projectile.velocity.ToRotation());
 
-            projectile.velocity = projectile.velocity.RotatedBy(((Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation() - projectile.velocity.ToRotation()) * 0.001f);
+            projectile.velocity = projectile.velocity.RotatedBy(((Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation() - projectile.velocity.ToRotation()) * 0.05f);
 
             projectile.rotation += 0.3f;
 
