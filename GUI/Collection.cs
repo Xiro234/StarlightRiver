@@ -14,10 +14,6 @@ namespace StarlightRiver.GUI
         public static Ability ActiveAbility;
         public static bool ShouldReset = false;
 
-        public override void OnInitialize()
-        {
-        }
-
         private void AddAbility(Ability ability, Vector2 off)
         {
             AbilityDisplay element = new AbilityDisplay(ability);
@@ -43,6 +39,7 @@ namespace StarlightRiver.GUI
         {
             if ((!Main.gameMenu && Elements.Count == 0 && Main.LocalPlayer.GetModPlayer<AbilityHandler>() != null) || ShouldReset)
             {
+                RemoveAllChildren();
                 AbilityHandler mp = Main.LocalPlayer.GetModPlayer<AbilityHandler>();
 
                 for (int k = 0; k < mp.Abilities.Count; k++)
@@ -60,10 +57,7 @@ namespace StarlightRiver.GUI
     {
         private readonly Ability Ability;
 
-        public AbilityDisplay(Ability ability)
-        {
-            Ability = ability;
-        }
+        public AbilityDisplay(Ability ability) => Ability = ability;
 
         public override void Click(UIMouseEvent evt)
         {
@@ -90,6 +84,7 @@ namespace StarlightRiver.GUI
                         Collection.dust.Add(new ExpertDust(dustex, duspos, Vector2.Zero, new Color(200, 240, 255), 1.8f, 30));
                     }
                 }
+
                 if (Ability is Wisp)
                 {
                     Texture2D dustex = ModContent.GetTexture("StarlightRiver/GUI/Assets/Fire");

@@ -66,7 +66,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
                 case (int)PhaseEnum.SpawnEffects:
 
                     ResetAttack();
-                    targetRectangle = regionCenter;
+                    targetRectangle = RegionCenter;
                     SetPhase(PhaseEnum.SpawnAnimation);
 
                     break;
@@ -95,7 +95,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 
                     switch (AttackPhase)
                     {
-                        case 0: if (GetRegion(npc) == regionCenter) HammerSlam(); else SummonKnives(); break;
+                        case 0: if (GetRegion(npc) == RegionCenter) HammerSlam(); else SummonKnives(); break;
                         case 1: PathToTarget(); break;
 
                         case 2: SummonKnives(); break;

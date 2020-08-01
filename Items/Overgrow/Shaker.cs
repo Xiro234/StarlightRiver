@@ -28,6 +28,8 @@ namespace StarlightRiver.Items.Overgrow
             item.noMelee = true;
             item.knockBack = 4;
             item.rare = ItemRarityID.Orange;
+            item.channel = true;
+            item.noUseGraphic = true;
         }
 
         public override bool CanUseItem(Player player) => !Main.projectile.Any(n => n.active && Main.player[n.owner] == player && n.type == ProjectileType<ShakerBall>());
@@ -35,7 +37,6 @@ namespace StarlightRiver.Items.Overgrow
         public override bool UseItem(Player player)
         {
             int proj = Projectile.NewProjectile(player.position + new Vector2(0, -32), Vector2.Zero, ProjectileType<ShakerBall>(), item.damage, item.knockBack);
-            player.channel = true;
             Main.projectile[proj].owner = player.whoAmI;
             return true;
         }
@@ -44,7 +45,7 @@ namespace StarlightRiver.Items.Overgrow
         {
             if (player.channel)
             {
-                player.velocity.X *= 0.9f;
+                player.velocity.X *= 0.95f;
                 player.jump = -1;
                 player.GetModPlayer<AnimationHandler>().Lifting = true;
             }
