@@ -46,7 +46,7 @@ namespace StarlightRiver.Items.StarwoodWeapons
 
             for (int k = 0; k < amount; k++)
             {
-                Projectile.NewProjectile(staffEndPosition, new Vector2(projSpeedX, projSpeedY).RotatedBy(Main.rand.NextFloat(-0.05f, 0.05f) * ((k * 0.10f) + 1)) * Main.rand.NextFloat(0.9f, 1.1f) * ((k * 0.15f) + 1), type, projDamage, knockBack, player.whoAmI, Main.rand.NextFloat(-0.025f, 0.025f));
+                Projectile.NewProjectile(staffEndPosition, new Vector2(projSpeedX, projSpeedY).RotatedBy(Main.rand.NextFloat(-0.05f, 0.05f) * ((k * 0.10f) + 1)) * Main.rand.NextFloat(0.9f, 1.1f) * ((k * 0.15f) + 1), type, projDamage, knockBack, player.whoAmI, Main.rand.NextFloat(-0.025f, 0.025f), Main.rand.Next(50));
             }
 
             for (int k = 0; k < 10; k++)

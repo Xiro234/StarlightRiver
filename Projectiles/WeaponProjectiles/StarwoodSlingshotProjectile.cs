@@ -57,6 +57,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 }
             }
 
+            if (projectile.timeLeft % 25 == 0)//delay between star sounds
+            {
+                Main.PlaySound(SoundID.Item9, projectile.Center);
+            }
+
             projectile.rotation += 0.2f;
 
             Lighting.AddLight(projectile.Center, lightColor);

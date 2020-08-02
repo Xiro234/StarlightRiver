@@ -23,7 +23,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private int dustType = ModContent.DustType<Dusts.Stamina>();
         private bool empowered;
 
-
         public override void SetDefaults()
         {
             projectile.timeLeft = 60;
@@ -35,7 +34,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.aiStyle = -1;
             projectile.rotation = Main.rand.NextFloat(4f);
         }
-
+        
 
         public override void AI()
         {
@@ -50,6 +49,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     dustType = ModContent.DustType<Dusts.BlueStamina>();
                     empowered = true;
                 }
+            }
+
+            if (projectile.timeLeft % 50 == projectile.ai[1])//delay between star sounds
+            {
+                Main.PlaySound(SoundID.Item9, projectile.Center);
             }
 
             projectile.rotation += 0.3f;
@@ -145,10 +149,16 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 }
             }
 
-            Main.NewText("Dir: " + (Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation());
-            Main.NewText("vel: " + projectile.velocity.ToRotation());
+            float ToTarget = (Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation();
+            float VelDirection = projectile.velocity.ToRotation();
 
-            projectile.velocity = projectile.velocity.RotatedBy(((Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation() - projectile.velocity.ToRotation()) * 0.05f);
+            //Main.NewText("Dir: " + (Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation());
+            //Main.NewText("Vel: " + projectile.velocity.ToRotation());
+
+            if (ToTarget > 0.785f && ToTarget < 2.355f && VelDirection > 0.785f && VelDirection < 2.355f)
+            {
+                projectile.velocity = projectile.velocity.RotatedBy((ToTarget - VelDirection) * 0.05f);
+            }
 
             projectile.rotation += 0.3f;
 
