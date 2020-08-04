@@ -69,7 +69,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item4, projectile.Center);
+            Main.PlaySound(SoundID.Item10, projectile.Center);
             for (int k = 0; k < 15; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, dustType, ((projectile.velocity * 0.1f) * Main.rand.NextFloat(0.8f, 0.12f)).RotatedBy(Main.rand.NextFloat(-0.15f, 0.15f)), 0, default, 1.5f);
@@ -157,7 +157,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             if (ToTarget > 0.785f && ToTarget < 2.355f && VelDirection > 0.785f && VelDirection < 2.355f)
             {
-                projectile.velocity = projectile.velocity.RotatedBy((ToTarget - VelDirection) * 0.05f);
+                projectile.velocity = projectile.velocity.RotatedBy((ToTarget - VelDirection) * 0.3f);
             }
 
             projectile.rotation += 0.3f;
@@ -168,7 +168,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void Kill(int timeLeft)
         {
             DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 2f * ScaleMult, dustDensity: 1f, pointDepthMult: 0.3f);
-            Main.PlaySound(SoundID.Item4, projectile.Center);
+            Main.PlaySound(SoundID.Item10, projectile.Center);
             for (int k = 0; k < 50; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, dustType, Vector2.One.RotatedByRandom(6.28f) * (Main.rand.NextFloat(0.25f, 1.7f) * ScaleMult), 0, default, 1.5f);
