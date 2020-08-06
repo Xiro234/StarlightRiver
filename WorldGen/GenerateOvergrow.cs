@@ -339,7 +339,8 @@ namespace StarlightRiver
                     WorldGen.PlaceTile(x, y, TileType<BrickOvergrow>(), true, true);
                 }
             }
-            StructureHelper.StructureHelper.GenerateMultistructureRandom("Structures/OvergrowRooms", room.TopLeft().ToPoint16() + new Point16(3, 3), StarlightRiver.Instance);
+            string path = fancy ? "Structures/OvergrowFancyRooms" : "Structures/OvergrowRooms";
+            StructureHelper.StructureHelper.GenerateMultistructureRandom(path, room.TopLeft().ToPoint16() + new Point16(3, 3), StarlightRiver.Instance);
         }
     }
 }

@@ -3,6 +3,20 @@ using static Terraria.ModLoader.ModContent;
 
 namespace StarlightRiver.Codex.Entries
 {
+    internal class PermafrostEntry : CodexEntry
+    {
+        public PermafrostEntry()
+        {
+            Category = Categories.Biomes;
+            Title = "The Permafrost";
+            Body = Helper.WrapString("It's pretty fucking cold here, and there are also giant squids that will try to rip your head off.",
+                500, Main.fontDeathText, 0.8f);
+            Hint = "Found beneath the icy depths...";
+            Image = GetTexture("StarlightRiver/Codex/Entries/BiomeImageAurora");
+            Icon = GetTexture("StarlightRiver/Codex/Entries/BiomeIconAurora");
+        }
+    }
+
     internal class VitricEntry : CodexEntry
     {
         public VitricEntry()

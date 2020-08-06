@@ -153,6 +153,9 @@ namespace StarlightRiver
 
             if (ZoneOvergrow && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is OvergrowEntry && entry.Locked))
                 Helper.UnlockEntry<OvergrowEntry>(player);
+
+            if (zonePermafrost && player.GetModPlayer<CodexHandler>().Entries.Any(entry => entry is PermafrostEntry && entry.Locked))
+                Helper.UnlockEntry<PermafrostEntry>(player);
         }
     }
 
