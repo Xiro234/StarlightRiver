@@ -16,6 +16,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
         {
             projectile.width = 24;
             projectile.height = 24;
+            projectile.extraUpdates = 4;
         }
 
         public override void AI()
