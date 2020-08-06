@@ -19,16 +19,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             SpawnEffects = 0,
             SpawnAnimation = 1,
             FirstPhase = 2,
-            SuckGlass = 3,
-            SecondPhase = 4
-        }
-
-        public enum AttackState
-        {
-            CastSwords = 0,
-            SwordSlash = 1,
-            CastOrb = 2,
-            Recoil = 3
+            DeathAnimation = 3
         }
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Glassweaver");
@@ -85,12 +76,12 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 
                 case (int)PhaseEnum.FirstPhase:
 
-                    npc.spriteDirection = npc.velocity.X < 0 ? 1 : -1;
+                    if(npc.velocity.X != 0) npc.spriteDirection = npc.velocity.X < 0 ? 1 : -1;
 
                     if (AttackTimer == 1)
                     {
                         AttackPhase++;
-                        if (AttackPhase > 7) AttackPhase = 0;
+                        if (AttackPhase > 1) AttackPhase = 0;
                     }
 
                     switch (AttackPhase)
@@ -101,7 +92,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
                         case 2: SummonKnives(); break;
                         case 3: PathToTarget(); break;
 
-                        case 4: SummonKnives(); break;
+                        case 4: SlashCombo(); break;
                         case 5: PathToTarget(); break;
 
                         case 6: SummonKnives(); break;

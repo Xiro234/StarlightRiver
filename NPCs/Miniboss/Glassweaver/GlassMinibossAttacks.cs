@@ -13,9 +13,9 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 
         private void ResetAttack() => AttackTimer = 0;
 
-        private Vector2 PickSide() => Main.player[npc.target].Center.X > spawnPos.X ? spawnPos + new Vector2(-160, 0) : spawnPos + new Vector2(144, 0); //picks the opposite side of the player.
+        private Vector2 PickSide() => Main.player[npc.target].Center.X > spawnPos.X ? spawnPos + new Vector2(-160, 60) : spawnPos + new Vector2(144, 60); //picks the opposite side of the player.
 
-        private Vector2 PickSideClose() => Main.player[npc.target].Center.X > spawnPos.X ? spawnPos + new Vector2(-160, 0) : spawnPos + new Vector2(144, 0); //picks the same side of the player.
+        private Vector2 PickSideClose() => Main.player[npc.target].Center.X > spawnPos.X ? spawnPos + new Vector2(-160, 60) : spawnPos + new Vector2(144, 60); //picks the same side of the player.
 
         private void SpawnAnimation()
         {
@@ -39,7 +39,16 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             if (AttackTimer >= 180) ResetAttack();
         }
 
+        #region Slash Combo Attack
         private void SlashCombo()
+        {
+            if (GetRegion(npc) == RegionCenter) SlashComboCenter();
+            else if (GetRegion(npc) == RegionLeft) SlashComboLeft();
+            else if (GetRegion(npc) == RegionRight) SlashComboRight();
+            else if (GetRegion(npc) == RegionPit) SlashComboPit();
+        }
+
+        private void SlashComboCenter()
         {
             if (AttackTimer == 1)
             {
@@ -62,11 +71,31 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
             }
         }
 
+        private void SlashComboLeft()
+        {
+            ResetAttack();
+        }
+
+        private void SlashComboRight()
+        {
+            ResetAttack();
+        }
+
+        private void SlashComboPit()
+        {
+            ResetAttack();
+        }
+        #endregion
+
         private void SummonKnives()
         {
+            if (AttackTimer == 1) npc.TargetClosest();
+
             if (AttackTimer >= 60 && AttackTimer % 30 == 0)
             {
-                Projectile.NewProjectile(npc.Center, Vector2.Normalize(npc.Center - Main.player[npc.target].Center).RotatedByRandom(0.3f) * -5, ProjectileType<GlassKnife>(), 15, 0.2f, Main.myPlayer);
+                for(int k = 0; k < 3; k++)
+                    Projectile.NewProjectile(npc.Center, Vector2.Normalize(npc.Center - Main.player[npc.target].Center).RotatedBy((k - 1) * 0.3f) * -1, ProjectileType<GlassKnife>(), 15, 0.2f, Main.myPlayer);
+
                 Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, npc.Center);
             }
 

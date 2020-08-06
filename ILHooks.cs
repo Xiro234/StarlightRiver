@@ -134,7 +134,6 @@ namespace StarlightRiver
             c.EmitDelegate<SwapTextMenuDelegate>(EmitSwapTextMenuDelegate);
 
             c.Emit(OpCodes.Stloc, 66);
-
         }
 
         private delegate string SwapTextMenuDelegate(string input, NPC npc, int x, int y);
@@ -334,7 +333,6 @@ namespace StarlightRiver
                 foreach (Projectile proj in Main.projectile.Where(n => n.active && n.modProjectile is IUnderwater))
                     (proj.modProjectile as IUnderwater).DrawUnderWater(Main.spriteBatch);
 
-
                 foreach (NPC npc3 in Main.npc.Where(n => n.active && n.modNPC is SquidBoss))
                     (npc3.modNPC as IUnderwater).DrawUnderWater(Main.spriteBatch);
 
@@ -379,7 +377,6 @@ namespace StarlightRiver
             c.TryGotoNext(i => i.MatchCallvirt<NPC>("GetBossHeadTextureIndex"));
 
             c.EmitDelegate<DynamicIconDelegate>(EmitDynamicIconDelegateFullmap);
-
         }
 
         private delegate NPC DynamicIconDelegate(NPC npc);

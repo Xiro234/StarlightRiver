@@ -83,7 +83,7 @@ namespace StarlightRiver.NPCs.Miniboss.Glassweaver
 
             npc.noTileCollide = npc.velocity.Y < 0 || (npc.velocity.Y != 0 && GetRegion(npc) == RegionCenter && targetRectangle == RegionPit); //allow us to clip on the way up, also a special case here for jumping down from center => pit
 
-            if (npc.Hitbox.Intersects(targetRectangle) && npc.velocity.Y == 0)
+            if ((npc.Hitbox.Intersects(targetRectangle) && npc.velocity.Y == 0) || AttackTimer >= 240) //extra failsafe if pathing takes longer than 4s
             {
                 ResetAttack();
                 npc.velocity.X = 0;

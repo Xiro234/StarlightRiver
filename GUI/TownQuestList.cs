@@ -93,7 +93,7 @@ namespace StarlightRiver.GUI
             int offY = 0;
             foreach(KeyValuePair<string, bool> pair in StarlightWorld.TownUpgrades)
             {
-                AddQuestButton(new TownQuestItem(TownUpgrade.FromString(pair.Key)), offY);
+                if (TownUpgrade.FromString(pair.Key) != null) AddQuestButton(new TownQuestItem(TownUpgrade.FromString(pair.Key)), offY);
                 offY += 28 + 6;
             }
         }
@@ -110,7 +110,7 @@ namespace StarlightRiver.GUI
 
     class TownQuestItem : UIElement
     {
-        TownUpgrade quest;
+        readonly TownUpgrade quest;
 
         public TownQuestItem(TownUpgrade itemQuest) => quest = itemQuest; 
 

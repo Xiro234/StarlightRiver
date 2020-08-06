@@ -25,7 +25,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.localAI[1] == 2) { Main.player[projectile.owner].velocity *= 0.3f; }
+            if (projectile.localAI[1] == 2) Main.player[projectile.owner].velocity *= 0.3f; 
         }
 
         public override void AI()
@@ -33,17 +33,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.position += Main.player[projectile.owner].velocity;
             projectile.rotation = projectile.velocity.ToRotation();
 
-            if (projectile.localAI[0] == 1)
-            {
-                projectile.damage = 0;
-            }
+            if (projectile.localAI[0] == 1) projectile.damage = 0;
 
-            if (projectile.timeLeft <= 8)
-            {
-                projectile.localAI[0] = 1;
-            }
+            if (projectile.timeLeft <= 8) projectile.localAI[0] = 1;
 
-            if (projectile.timeLeft == 14) { projectile.frame = 7 * (int)projectile.localAI[1]; }
+            if (projectile.timeLeft == 14) projectile.frame = 7 * (int)projectile.localAI[1]; 
 
             if (++projectile.frameCounter >= 2)
             {
