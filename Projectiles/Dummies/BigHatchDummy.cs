@@ -16,7 +16,7 @@ namespace StarlightRiver.Projectiles.Dummies
             if (Main.rand.Next(5) == 0)
             {
                 float rot = Main.rand.NextFloat(-0.7f, 0.7f);
-                Dust.NewDustPerfect(projectile.Center, DustType<Dusts.Gold4>(),
+                Dust.NewDustPerfect(projectile.Center + new Vector2(24, -24), DustType<Dusts.Gold4>(),
                     new Vector2(0, 0.4f).RotatedBy(rot + 0.7f), 0, default, 0.4f - Math.Abs(rot) / 0.7f * 0.2f);
             }
         }

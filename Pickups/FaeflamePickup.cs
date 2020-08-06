@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using StarlightRiver.Abilities;
 using StarlightRiver.Core;
+using StarlightRiver.Items;
 using System;
 using Terraria;
 using Terraria.Graphics.Effects;
@@ -27,9 +28,11 @@ namespace StarlightRiver.Pickups
 
         public override void Visuals()
         {
-            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime), (float)Math.Sin(StarlightWorld.rottime)) * 32, DustType<Dusts.Gold>(), null, 0, default, 0.4f);
-            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime + 3) / 2, (float)Math.Sin(StarlightWorld.rottime + 3)) * 32, DustType<Dusts.Gold>(), null, 0, default, 0.4f);
-            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime + 2), (float)Math.Sin(StarlightWorld.rottime + 2) / 2) * 32, DustType<Dusts.Gold>(), null, 0, default, 0.4f);
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime), (float)Math.Sin(StarlightWorld.rottime)) * (float)Math.Sin(StarlightWorld.rottime * 2 + 1) * 32, DustType<Dusts.Gold2>(), Vector2.Zero, 0, default, 0.65f);
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime + 2) / 2, (float)Math.Sin(StarlightWorld.rottime + 2)) * (float)Math.Sin(StarlightWorld.rottime * 2 + 4) * 32, DustType<Dusts.Gold2>(), Vector2.Zero, 0, default, 0.65f);
+            Dust.NewDustPerfect(npc.Center + new Vector2((float)Math.Cos(StarlightWorld.rottime + 4), (float)Math.Sin(StarlightWorld.rottime + 4) / 2) * (float)Math.Sin(StarlightWorld.rottime * 2 + 2) * 32, DustType<Dusts.Gold2>(), Vector2.Zero, 0, default, 0.65f);
+
+            Dust.NewDustPerfect(npc.Center + Vector2.One.RotateRandom(Math.PI) * (float)Math.Sin(StarlightWorld.rottime * 2 + 2) * 32, DustType<Dusts.Gold2>(), Vector2.UnitY * -2, 0, default, 0.25f);
         }
 
         public override void PickupVisuals(int timer)
@@ -50,5 +53,17 @@ namespace StarlightRiver.Pickups
             player.GetModPlayer<StarlightPlayer>().MaxPickupTimer = 570;
             player.AddBuff(BuffID.Featherfall, 580);
         }
+    }
+
+    public class FaeflamePickupTile : AbilityPickupTile
+    {
+        public override int PickupType => NPCType<FaeflamePickup>();
+    }
+
+    public class FaeflameTileItem : QuickTileItem
+    {
+        public FaeflameTileItem() : base("Faeflame", "Debug placer for ability pickup", TileType<FaeflamePickupTile>(), -1) { }
+
+        public override string Texture => "STarlightRiver/Pickups/Faeflame";
     }
 }

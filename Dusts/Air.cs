@@ -224,7 +224,7 @@ namespace StarlightRiver.Dusts
 
         public override Color? GetAlpha(Dust dust, Color lightColor)
         {
-            return dust.color;
+            return dust.color * ((255 - dust.alpha) / 255f);
         }
 
         public override bool Update(Dust dust)
@@ -327,14 +327,13 @@ namespace StarlightRiver.Dusts
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;
-            dust.rotation += 0.1f;
+            dust.fadeIn++;
 
-            dust.scale *= 0.9972f;
-            dust.color *= 0.99999999999f;
-            if (dust.scale < 0.3f)
-            {
-                dust.active = false;
-            }
+            dust.scale *= 0.999f;
+            dust.alpha = 155 + (int)(dust.fadeIn > 300 ? (dust.fadeIn - 300) / 300 * 100 : (300 - dust.fadeIn) / 300 * 100); 
+
+            if (dust.fadeIn > 600) dust.active = false;
+
             return false;
         }
     }
