@@ -26,7 +26,11 @@ namespace StarlightRiver
         public static void OvergrowGen(GenerationProgress progress)
         {
             attempts = 0;
-            Rooms = new List<Rectangle>();
+
+            bossRoom = Rectangle.Empty;
+            wispRoom = Rectangle.Empty;
+            Rooms.Clear();
+            Halls.Clear();
 
             progress.Message = "Generating The Overgrowth...";
 
@@ -42,18 +46,15 @@ namespace StarlightRiver
                 }
 
                 Rooms.Add(firstRoom);
-                WormFromRoom(firstRoom, 5, false, 5);
+                WormFromRoom(firstRoom, 5, false, 7);
 
-                while (Rooms.Count < 8 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)], 5, false, 8);
+                while (Rooms.Count < 8 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(1, Rooms.Count)], 5, false, 8);
 
-                for (int k = Rooms.Count - 1; k >= 1; k--)
-                {
-                    if (WormWispRoom(Rooms[k])) break;
-                }
+                WormWispRoom(Rooms[Rooms.Count - 1]);
 
-                WormFromRoom(wispRoom, 5, true, 12);
+                WormFromRoom(wispRoom, 5, true, 15);
 
-                while (Rooms.Count < 15 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(6, Rooms.Count)], 5, false, 20);
+                while (Rooms.Count < 25 && roomAttempts < 500) WormFromRoom(Rooms[WorldGen.genRand.Next(6, Rooms.Count)], 5, false, 25);
 
                 for (int k = Rooms.Count - 1; k > 5; k--)
                 {
@@ -70,11 +71,13 @@ namespace StarlightRiver
                 attempts++;
             }
 
-            if (attempts >= 100) throw new Exception("Your vanilla dungeon was so fucked up 100 attempts at generating the overgrowth didnt work. Sorry about that :/");
-            attempts = 0;
+            if (attempts >= 100)
+            {
+                throw new Exception("Your vanilla dungeon was so fucked up 100 attempts at generating the overgrowth didnt work. Sorry about that :/");
+            }
 
             //actually fill the rooms once we find a satisfactory layout
-            for(int k = 0; k < Rooms.Count; k++)
+            for (int k = 0; k < Rooms.Count; k++)
             {
                 PopulateRoom(Rooms[k], k > 7);
             }
