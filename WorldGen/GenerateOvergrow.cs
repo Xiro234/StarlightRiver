@@ -42,18 +42,18 @@ namespace StarlightRiver
                 }
 
                 Rooms.Add(firstRoom);
-                WormFromRoom(firstRoom, 5, 5, 5);
+                WormFromRoom(firstRoom, 5, false, 5);
 
-                while (Rooms.Count < 8 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)], 5, 5, 8);
+                while (Rooms.Count < 8 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)], 5, false, 8);
 
                 for (int k = Rooms.Count - 1; k >= 1; k--)
                 {
                     if (WormWispRoom(Rooms[k])) break;
                 }
 
-                WormFromRoom(wispRoom, 5, 2, 12);
+                WormFromRoom(wispRoom, 5, true, 12);
 
-                while (Rooms.Count < 15 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(6, Rooms.Count)], 5, 5, 20);
+                while (Rooms.Count < 15 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(6, Rooms.Count)], 5, false, 20);
 
                 for (int k = Rooms.Count - 1; k > 5; k--)
                 {
@@ -192,7 +192,7 @@ namespace StarlightRiver
                         break;
                 }
 
-                if (CheckDungeon(hall, true) && CheckDungeon(room, true) && direction != 0) //check lenient so we can generate farther in the world if needed
+                if (CheckDungeon(hall, true) && CheckDungeon(room, true) && direction % 2 == 1) //check lenient so we can generate farther in the world if needed
                 {
                     wispRoom = room;
                     Halls.Add(hall);
@@ -210,7 +210,7 @@ namespace StarlightRiver
             return false;
         }
 
-        private static void WormFromRoom(Rectangle parent, byte initialDirection = 5, byte ignoreDirection = 5, byte maxRooms = 30)
+        private static void WormFromRoom(Rectangle parent, byte initialDirection = 5, bool verticalOnly = false, byte maxRooms = 30)
         {
             if (Rooms.Count >= maxRooms) return;
 
@@ -253,13 +253,13 @@ namespace StarlightRiver
                         break;
                 }
 
-                if (CheckDungeon(hall) && CheckDungeon(room) && direction != ignoreDirection) //all clear!
+                if (CheckDungeon(hall) && CheckDungeon(room) && (!verticalOnly || direction % 2 == 1)) //all clear!
                 {
                     Rooms.Add(room);
                     Halls.Add(hall);
 
-                    WormFromRoom(room, (byte)(direction + WorldGen.genRand.Next(2) == 0 ? 1 : -1), 5, maxRooms); //try to wiggle if possible
-                    if(WorldGen.genRand.Next(3) == 0)WormFromRoom(room, (byte)(direction + 1 + WorldGen.genRand.Next(2) == 0 ? 1 : -1), 5, maxRooms); //try to wiggle if possible
+                    WormFromRoom(room, (byte)(direction + WorldGen.genRand.Next(2) == 0 ? 1 : -1), false, maxRooms); //try to wiggle if possible
+                    if(WorldGen.genRand.Next(3) == 0)WormFromRoom(room, (byte)(direction + 1 + WorldGen.genRand.Next(2) == 0 ? 1 : -1), false, maxRooms); //try to wiggle if possible
                     break;
                 }
                 else //area is not clear, change direction and try again
