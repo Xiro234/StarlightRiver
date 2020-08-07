@@ -41,16 +41,17 @@ namespace StarlightRiver
                     else firstRoom.X += 5 * ((Main.dungeonX > Main.spawnTileX) ? -1 : 1);
                 }
 
+                Rooms.Add(firstRoom);
                 WormFromRoom(firstRoom, 5, 5, 5);
 
-                while (Rooms.Count < 7 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)], 5, 5, 7);
+                while (Rooms.Count < 8 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(Rooms.Count)], 5, 5, 8);
 
                 for (int k = Rooms.Count - 1; k >= 1; k--)
                 {
                     if (WormWispRoom(Rooms[k])) break;
                 }
 
-                WormFromRoom(wispRoom, 5, 2);
+                WormFromRoom(wispRoom, 5, 2, 12);
 
                 while (Rooms.Count < 15 && roomAttempts < 100) WormFromRoom(Rooms[WorldGen.genRand.Next(6, Rooms.Count)], 5, 5, 20);
 
@@ -85,6 +86,7 @@ namespace StarlightRiver
 
             StructureHelper.StructureHelper.GenerateStructure("Structures/OvergrowBossRoom", bossRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
             StructureHelper.StructureHelper.GenerateStructure("Structures/OvergrowWispRoom", wispRoom.TopLeft().ToPoint16(), StarlightRiver.Instance);
+            StructureHelper.StructureHelper.GenerateStructure("Structures/OvergrowGateRoom", Rooms[0].TopLeft().ToPoint16(), StarlightRiver.Instance);
 
             //TODO:
             //      hallway prefabs
