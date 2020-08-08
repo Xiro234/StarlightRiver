@@ -22,14 +22,13 @@ namespace StarlightRiver.Items.StarwoodWeapons
         {
             item.damage = 20;
             item.magic = true;
-            item.mana = 10;
             item.width = 18;
             item.height = 34;
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 25;
+            item.useAnimation = 25;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item43;
             item.knockBack = 0f;
+            item.UseSound = SoundID.Item19;
             item.shoot = ModContent.ProjectileType<Projectiles.WeaponProjectiles.StarwoodStaffProjectile>();
             item.shootSpeed = 15f;
             item.noMelee = true;

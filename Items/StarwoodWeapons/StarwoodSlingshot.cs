@@ -19,7 +19,7 @@ namespace StarlightRiver.Items.StarwoodWeapons
         public override void SetDefaults()
         {
             item.damage = 20;
-            item.ranged = true;
+            item.magic = true;
             item.width = 18;
             item.height = 34;
             item.useTime = 25;
