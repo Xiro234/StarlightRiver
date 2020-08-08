@@ -157,7 +157,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             if (ToTarget > 0.785f && ToTarget < 2.355f && VelDirection > 0.785f && VelDirection < 2.355f)
             {
-                projectile.velocity = projectile.velocity.RotatedBy((ToTarget - VelDirection) * 0.05f);
+                projectile.velocity = projectile.velocity.RotatedBy((ToTarget - VelDirection) * 1.0f);
             }
 
             projectile.rotation += 0.3f;
