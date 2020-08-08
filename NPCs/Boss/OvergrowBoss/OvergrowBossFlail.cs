@@ -69,7 +69,8 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 {
                     npc.velocity.Y -= 10; //launches it out of the pit
                     npc.ai[3] = 0; //cut the chain
-                    parent.npc.ai[0] = (int)OvergrowBoss.OvergrowBossPhase.FirstStun; //phase the boss
+                    parent.npc.ai[0] = (int)OvergrowBoss.OvergrowBossPhase.Stun; //phase the boss
+                    parent.npc.ai[1] = 0; //reset timer on boss
                 }
 
                 if (npc.ai[1] == 80) //some things need to be on a delay

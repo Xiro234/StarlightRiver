@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
@@ -32,16 +33,15 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             Setup = 2,
             FirstAttack = 3,
             FirstToss = 4,
-            FirstStun = 5,
-            FirstBurn = 6,
-            FirstGuard = 7
+            Stun = 5,
+            SecondAttack = 6
         };
 
         public override void SetStaticDefaults() => DisplayName.SetDefault("Horny God");
 
         public override void SetDefaults()
         {
-            npc.lifeMax = 6000;
+            npc.lifeMax = 60000;
             npc.width = 86;
             npc.height = 176;
             npc.dontTakeDamage = true;
@@ -75,7 +75,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
                     string message = "Faerie Guardian";
                     if (Main.rand.Next(10000) == 0) message = "Titty Elongator";
-                    StarlightRiver.Instance.textcard.Display("Horny God", message, null, 260);
+                    StarlightRiver.Instance.textcard.Display("Eggshells", message, null, 260);
 
                     StarlightWorld.OvergrowBossFree = true;
                     Phase = (int)OvergrowBossPhase.spawnAnimation;
@@ -108,7 +108,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 //attack pattern advancement logic
                 if (AttackTimer == 1)
                 {
-                    RandomTarget();
+                    RandomizeTarget();
                     if (AttackPhase == 1) AttackPhase++; //tick up an additional time so that we dont use 2 alternate attacks in a row. TODO: Should make a cleaner way to do this.
                     AttackPhase++;
                     if (AttackPhase == 1 && Main.rand.Next(2) == 0) AttackPhase++;
@@ -136,78 +136,46 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (Phase == (int)OvergrowBossPhase.FirstToss) RapidToss(); //toss rapidly till thrown into a pit
 
-            if (Phase == (int)OvergrowBossPhase.FirstStun)
+            if (Phase == (int)OvergrowBossPhase.Stun)
             {
-                foreach (Player player in Main.player)
-                    if (Abilities.AbilityHelper.CheckDash(player, npc.Hitbox))
-                    {
-                        Phase = (int)OvergrowBossPhase.FirstGuard;
-                        GlobalTimer = 0;
-
-                        flail.npc.ai[0] = 1; //turn the flail into a pick-upable thing
-                        flail.npc.noGravity = false; //obey the laws of physics!
-                    }
-            }
-
-            if (Phase == (int)OvergrowBossPhase.FirstBurn)
-            {
-            }
-
-            if (Phase == (int)OvergrowBossPhase.FirstGuard)
-            {
-                if (GlobalTimer == 0) //at the start of the phase, spawn in our mechanics!
+                if(GlobalTimer == 1)
                 {
-                    npc.position = spawnPoint;
-                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Overgrow");
-                    //spawn moving platforms
-                    NPC.NewNPC((int)npc.Center.X + 500, (int)npc.Center.Y + 200, NPCType<OvergrowBossVerticalPlatform>());
-                    NPC.NewNPC((int)npc.Center.X - 500, (int)npc.Center.Y + 200, NPCType<OvergrowBossVerticalPlatform>());
+                    npc.alpha = 255;
 
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 100, NPCType<OvergrowBossCircularPlatform>());
-
-                    //spawn guardians
-                    NPC.NewNPC((int)npc.Center.X + 600, (int)npc.Center.Y - 300, NPCType<OvergrowBossGuardian>());
-                    NPC.NewNPC((int)npc.Center.X - 600, (int)npc.Center.Y - 300, NPCType<OvergrowBossGuardian>());
-                    NPC.NewNPC((int)npc.Center.X + 600, (int)npc.Center.Y + 300, NPCType<OvergrowBossGuardian>());
-                    NPC.NewNPC((int)npc.Center.X - 600, (int)npc.Center.Y + 300, NPCType<OvergrowBossGuardian>());
-
-                    //make platforms appear
-                    for (int x = (int)npc.Center.X / 16 - 100; x <= (int)npc.Center.X / 16 + 100; x++)
+                    for(int k = 0; k < 100; k++)
                     {
-                        for (int y = (int)npc.Center.Y / 16 - 100; y <= (int)npc.Center.Y / 16 + 100; y++)
+                        Dust d = Dust.NewDustPerfect(npc.Center, 1/*DustType<>()*/, Vector2.One.RotatedByRandom(Math.PI) * Main.rand.NextFloat(5));
+                        d.customData = npc.Center;
+                    }
+
+                    npc.Center = spawnPoint + new Vector2(0, 320);
+                    flail.npc.ai[0] = 1;
+                }
+
+                if (GlobalTimer >= 120)
+                {
+                    npc.alpha = 0;
+                    if (npc.Hitbox.Intersects(flail.npc.Hitbox))
+                    {
+                        flail.npc.ai[0] = 0;
+                        flail.npc.ai[3] = 1;
+                        flail.npc.velocity *= 0;
+                        flail.npc.life = flail.npc.lifeMax;
+                        flail.npc.dontTakeDamage = false;
+                        flail.npc.friendly = false;
+
+                        npc.life -= 20000;
+                        Phase = (int)OvergrowBossPhase.SecondAttack;
+                        ResetAttack();
+
+                        CombatText.NewText(npc.Hitbox, Color.Red, 20000, true);
+                        Main.PlaySound(SoundID.DD2_BetsyScream, npc.Center);
+                        Main.LocalPlayer.GetModPlayer<StarlightPlayer>().Shake += 30;
+
+                        for (int k = 0; k < 100; k++)
                         {
-                            if (Main.tile[x, y].type == TileType<Tiles.Overgrow.AppearingBrick>() && Main.tile[x, y].frameX == 0)
-                            {
-                                Main.tile[x, y].frameX = 20;
-                            }
+                            Dust d = Dust.NewDustPerfect(flail.npc.Center, DustType<Dusts.Stone>(), Vector2.One.RotatedByRandom(Math.PI) * Main.rand.NextFloat(5));
                         }
-                    }
-                }
-                else if (!Main.npc.Any(n => n.active && n.type == NPCType<OvergrowBossGuardian>()))
-                {
-                    Phase = 7;
-                    ResetIntermission();
-                }
-            }
-        }
-
-        private void ResetIntermission()
-        {
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/OvergrBoss");
-
-            foreach (NPC npc in Main.npc.Where(n => n.active && (n.type == NPCType<OvergrowBossCircularPlatform>() || n.type == NPCType<OvergrowBossVerticalPlatform>())))
-            {
-                npc.active = false;
-            }
-
-            //make platforms disappear
-            for (int x = (int)npc.Center.X / 16 - 100; x <= (int)npc.Center.X / 16 + 100; x++)
-            {
-                for (int y = (int)npc.Center.Y / 16 - 100; y <= (int)npc.Center.Y / 16 + 100; y++)
-                {
-                    if (Main.tile[x, y].type == TileType<Tiles.Overgrow.AppearingBrick>() && Main.tile[x, y].frameX == 20)
-                    {
-                        Main.tile[x, y].frameX = 0;
                     }
                 }
             }
@@ -222,7 +190,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 
             if (Phase == (int)OvergrowBossPhase.FirstToss) DrawRapidTossTell(spriteBatch);
 
-            return Phase != (int)OvergrowBossPhase.FirstGuard;
+            return true;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

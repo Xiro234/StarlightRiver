@@ -78,7 +78,7 @@ namespace StarlightRiver.Tiles.Overgrow
                     Lighting.AddLight(projectile.Center + new Vector2(-40, 550 + k * 10), new Vector3(1, 1, 0.7f) * bright);
                 }
             }
-            if (Main.player.Any(p => Vector2.Distance(p.Center, projectile.Center) < 2000) && !Main.npc.Any(n => n.active && n.type == NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>()) && !StarlightWorld.OvergrowBossFree)
+            if (Main.player.Any(p => Vector2.Distance(p.Center, projectile.Center) < 2000) && !Main.npc.Any(n => n.active && n.type == NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>()) /*&& !StarlightWorld.OvergrowBossFree*/)
             {
                 NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 250, NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>());
 
@@ -182,12 +182,6 @@ namespace StarlightRiver.Tiles.Overgrow
                 Texture2D watertex = GetTexture("StarlightRiver/Tiles/Overgrow/Waterfall");
                 int frame = (int)Main.time % 16 / 2;
                 spriteBatch.Draw(watertex, dpos + new Vector2(300, k * 96) + FindOffset(pos, 0.1f), new Rectangle(0, frame * 32, watertex.Width, 32), Color.White * 0.3f, 0, Vector2.Zero, 3, 0, 0);
-            }
-
-            foreach (NPC boss in Main.npc.Where(n => n.active && n.type == NPCType<NPCs.Boss.OvergrowBoss.OvergrowBoss>() && n.ai[0] == (int)NPCs.Boss.OvergrowBoss.OvergrowBoss.OvergrowBossPhase.FirstGuard)) //boss behind
-            {
-                Texture2D bosstex = GetTexture(boss.modNPC.Texture);
-                spriteBatch.Draw(bosstex, boss.Center - Main.screenPosition, bosstex.Frame(), Color.White, boss.rotation, bosstex.Frame().Size() / 2, boss.scale, 0, 0);
             }
 
             if (projectile.ai[0] <= 360) //wall

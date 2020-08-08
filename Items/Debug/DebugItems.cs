@@ -11,12 +11,6 @@ namespace StarlightRiver.Items.Debug
         public DebugPlacer1() : base("Debug Placer 1", "Suck my huge dragon dong", TileType<Tiles.Overgrow.BossPit>(), 0) { }
     }
 
-    public class DebugPlacer2 : QuickTileItem
-    {
-        public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
-        public DebugPlacer2() : base("Debug Placer 2", "Suck my huge dragon dong", TileType<Tiles.Overgrow.AppearingBrick>(), 0) { }
-    }
-
     public class DebugPlacer3 : QuickTileItem
     {
         public override string Texture => "StarlightRiver/Items/Debug/DebugPotion";
@@ -86,8 +80,7 @@ namespace StarlightRiver.Items.Debug
 
         public override bool UseItem(Player player)
         {
-            Abilities.AbilityHandler ah = player.GetModPlayer<Abilities.AbilityHandler>();
-            ah.dash.Locked = true;
+            Keys.Key.Spawn<Keys.OvergrowKey>(Main.MouseWorld);
             return true;
         }
 

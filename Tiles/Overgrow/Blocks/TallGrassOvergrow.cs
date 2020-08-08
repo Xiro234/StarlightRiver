@@ -37,7 +37,7 @@ namespace StarlightRiver.Tiles.Overgrow.Blocks
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             spriteBatch.Draw(GetTexture("StarlightRiver/Tiles/Overgrow/TallgrassOvergrowFlow"), new Rectangle((i + (int)Helper.TileAdj.X) * 16 - (int)Main.screenPosition.X + 8,
-                (j + (int)Helper.TileAdj.Y + 1) * 16 - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle(i % 2 * 16, 0, 16, 16), drawColor, (float)Math.Sin(StarlightWorld.rottime + i % 6.28f) * 0.25f,
+                (j + (int)Helper.TileAdj.Y + 1) * 16 - (int)Main.screenPosition.Y + 2, 16, 16), new Rectangle(i % 13 * 16, 0, 16, 16), drawColor, (float)Math.Sin(StarlightWorld.rottime + i % 6.28f) * 0.25f,
                 new Vector2(8, 16), 0, 0);
         }
     }

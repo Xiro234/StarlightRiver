@@ -14,7 +14,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
 {
     public partial class OvergrowBoss : ModNPC
     {
-        private void RandomTarget()
+        private void RandomizeTarget()
         {
             List<int> players = new List<int>();
             foreach (Player player in Main.player.Where(p => Vector2.Distance(npc.Center, p.Center) < 2000)) players.Add(player.whoAmI);
@@ -28,15 +28,19 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             AttackTimer = 0;
         }
 
+        #region phase 1
         private void Phase1Spin()
         {
-            if (AttackTimer <= 60) flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, AttackTimer / 60f);
+            if (AttackTimer <= 60)
+            {
+                npc.Center = new Vector2(npc.Center.X, Vector2.Lerp(npc.Center, spawnPoint, AttackTimer / 60f).Y);
+                flail.npc.Center = Vector2.SmoothStep(flail.npc.Center, npc.Center, AttackTimer / 60f);
+            }
 
             if (AttackTimer == 61)
             {
                 npc.TargetClosest();
                 targetPoint = Main.player[npc.target].Center;
-                Main.NewText(targetPoint);
             }
 
             float size = Vector2.Distance(targetPoint, npc.Center);
@@ -85,16 +89,19 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                 float rot = Main.rand.NextFloat(6.28f); //random rotation for the dust
                 Dust.NewDustPerfect(handpos + Vector2.One.RotatedBy(rot) * 50, DustType<Dusts.Gold2>(), -Vector2.One.RotatedBy(rot) * 2); //"suck in" charging effect
             }
+
             if (AttackTimer == 30)
             {
-                RandomTarget(); //pick a random target
+                RandomizeTarget(); //pick a random target
                 if (Main.player[npc.target] == null) //safety check
                 {
                     ResetAttack();
                     return;
                 }
             }
+
             if (AttackTimer == 60) targetPoint = Main.player[npc.target].Center;
+
             if (AttackTimer >= 60 && AttackTimer <= 120 && AttackTimer % 30 == 0) //3 rounds of projectiles
             {
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/ProjectileLaunch1"), npc.Center);
@@ -104,16 +111,30 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     Projectile.NewProjectile(handpos, trajectory, ProjectileType<OvergrowBossProjectile.Phase1Bolt>(), 20, 0.2f);
                 }
             }
+
             if (AttackTimer == 200) ResetAttack();
         }
 
         private void Phase1Toss()
         {
-            if (AttackTimer <= 60) flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, AttackTimer / 60);
+            if (AttackTimer == 1)
+            {
+                npc.TargetClosest();
+                npc.velocity.X = Main.player[npc.target].Center.X > npc.Center.X ? 16 : -16;
+            }
+
+            if (AttackTimer <= 60)
+            {
+                if (npc.velocity.X > 0 && npc.Center.X > Main.player[npc.target].Center.X) npc.velocity.X *= 0.9f;
+                if (npc.velocity.X < 0 && npc.Center.X < Main.player[npc.target].Center.X) npc.velocity.X *= 0.9f;
+
+                flail.npc.Center = Vector2.Lerp(flail.npc.Center, npc.Center, AttackTimer / 60);
+            }
 
             if (AttackTimer == 60)
             {
-                npc.TargetClosest();
+                npc.velocity *= 0;
+
                 if (Main.player[npc.target] == null) { ResetAttack(); return; } //safety check
 
                 targetPoint = Main.player[npc.target].Center + Main.player[npc.target].velocity * 30; //sets the target to the closest player
@@ -190,9 +211,10 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
         {
             if (AttackTimer == 1)
             {
-                RandomTarget();
+                RandomizeTarget();
                 targetPoint = Main.player[npc.target].Center + new Vector2(0, -50);
             }
+
             if (AttackTimer == 90)
             {
                 foreach (Player player in Main.player.Where(p => p.active && Helper.CheckCircularCollision(targetPoint, 100, p.Hitbox))) //circular collision
@@ -209,6 +231,7 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
                     if (Main.rand.Next(4) == 0) Dust.NewDustPerfect(targetPoint + Vector2.One.RotatedBy(k) * Main.rand.Next(100), DustType<Dusts.Leaf>());
                 }
             }
+
             if (AttackTimer >= 180) ResetAttack();
         }
 
@@ -221,7 +244,26 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             if (AttackTimer <= 90) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), color, 0, tex.Frame().Size() / 2, 2, 0, 0);
             else if (AttackTimer <= 100) sb.Draw(tex, targetPoint - Main.screenPosition, tex.Frame(), new Color(255, 200, 30) * (1 - (AttackTimer - 90) / 10f), 0, tex.Frame().Size() / 2, 2, 0, 0);
         }
+        #endregion
 
+        #region phase 2
+        private void Phase2Crush()
+        {
+
+        }
+
+        private void Phase2WispWall()
+        {
+
+        }
+
+        private void Phase2Flail()
+        {
+
+        }
+        #endregion
+
+        #region phaseless
         private void RapidToss()
         {
             //following in X direction only
@@ -301,5 +343,6 @@ namespace StarlightRiver.NPCs.Boss.OvergrowBoss
             sb.End();
             sb.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
         }
+        #endregion
     }
 }
