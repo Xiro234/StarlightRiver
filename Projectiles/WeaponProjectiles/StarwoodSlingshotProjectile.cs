@@ -14,7 +14,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             DisplayName.SetDefault("Shooting Star");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;   
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
         //These stats get scaled when empowered
@@ -91,8 +91,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void Kill(int timeLeft)
         {
-            DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 1f * ScaleMult, dustDensity: 0.5f, pointDepthMult: 0.3f);
-            Main.PlaySound(SoundID.Item4, projectile.Center);
+            DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 1.2f * ScaleMult, dustDensity: 0.5f, pointDepthMult: 0.3f);
+            Main.PlaySound(SoundID.Item10, projectile.Center);
             for (int k = 0; k < 35; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, dustType, Vector2.One.RotatedByRandom(6.28f) * (Main.rand.NextFloat(0.25f, 1.2f) * ScaleMult), 0, default, 1.5f);
@@ -121,7 +121,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.oldPos[k] + drawOrigin - Main.screenPosition,
                 new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
                 color,
-                projectile.rotation,
+                projectile.oldRot[k],
                 new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
                 scale, default, default);
 
