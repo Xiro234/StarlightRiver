@@ -2,7 +2,6 @@
 
 namespace StarlightRiver.Items.Overgrow
 {
-    public class TorchOvergrowItem : QuickTileItem { public TorchOvergrowItem() : base("Faerie Torch", "Sparkly!", TileType<Tiles.Overgrow.TorchOvergrow>(), 0) { } }
     public class HatchOvergrowItem : QuickTileItem { public HatchOvergrowItem() : base("Skyview Vent", "", TileType<Tiles.Overgrow.HatchOvergrow>(), 0) { } }
     public class DartOvergrowItem : QuickTileItem { public DartOvergrowItem() : base("Overgrow Dart Trap", "", TileType<Tiles.Overgrow.DartTile>(), 0) { } }
     public class CrusherOvergrowItem : QuickTileItem { public CrusherOvergrowItem() : base("Crusher Trap", "", TileType<Tiles.Overgrow.CrusherTile>(), 0) { } }
