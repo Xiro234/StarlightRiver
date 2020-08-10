@@ -14,7 +14,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         {
             DisplayName.SetDefault("Shooting Star");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;   
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 2;
         }
 
         //These stats get scaled when empowered
@@ -52,9 +52,14 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     lightColor = new Vector3(0.05f, 0.1f, 0.2f);
                     ScaleMult = 1.5f;
                     dustType = ModContent.DustType<Dusts.BlueStamina>();
-                    projectile.velocity *= 1.35f;//TODO: This could be on on the item's side like the staff does, thats generally the better way
+                    projectile.velocity *= 1.25f;//TODO: This could be on on the item's side like the staff does, thats generally the better way
                     empowered = true;
                 }
+            }
+
+            if (projectile.timeLeft % 25 == 0)//delay between star sounds
+            {
+                Main.PlaySound(SoundID.Item9, projectile.Center);
             }
 
             projectile.rotation += 0.2f;
@@ -86,8 +91,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void Kill(int timeLeft)
         {
-            DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 1f * ScaleMult, dustDensity: 0.5f, pointDepthMult: 0.3f);
-            Main.PlaySound(SoundID.Item4, projectile.Center);
+            DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 1.2f * ScaleMult, dustDensity: 0.5f, pointDepthMult: 0.3f);
+            Main.PlaySound(SoundID.Item10, projectile.Center);
             for (int k = 0; k < 35; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, dustType, Vector2.One.RotatedByRandom(6.28f) * (Main.rand.NextFloat(0.25f, 1.2f) * ScaleMult), 0, default, 1.5f);
@@ -116,7 +121,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 projectile.oldPos[k] + drawOrigin - Main.screenPosition,
                 new Rectangle(0, (Main.projectileTexture[projectile.type].Height / 2) * projectile.frame, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / 2),
                 color,
-                projectile.rotation,
+                projectile.oldRot[k],
                 new Vector2(Main.projectileTexture[projectile.type].Width / 2, Main.projectileTexture[projectile.type].Height / 4),
                 scale, default, default);
 
@@ -148,7 +153,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 float scale = projectile.scale * (float)(projectile.oldPos.Length - k) / (float)projectile.oldPos.Length * 0.8f;
                 Texture2D tex = GetTexture("StarlightRiver/Keys/Glow");
 
-                spriteBatch.Draw(tex, projectile.oldPos[k] + projectile.Size / 2 - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
+                spriteBatch.Draw(tex, (((projectile.oldPos[k] + projectile.Size / 2) + projectile.Center) * 0.50f) - Main.screenPosition, null, color, 0, tex.Size() / 2, scale, default, default);
             }
         }
     }

@@ -23,7 +23,6 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private int dustType = ModContent.DustType<Dusts.Stamina>();
         private bool empowered;
 
-
         public override void SetDefaults()
         {
             projectile.timeLeft = 60;
@@ -35,7 +34,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.aiStyle = -1;
             projectile.rotation = Main.rand.NextFloat(4f);
         }
-
+        
 
         public override void AI()
         {
@@ -52,6 +51,11 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 }
             }
 
+            if (projectile.timeLeft % 50 == projectile.ai[1])//delay between star sounds
+            {
+                Main.PlaySound(SoundID.Item9, projectile.Center);
+            }
+
             projectile.rotation += 0.3f;
             Lighting.AddLight(projectile.Center, lightColor);
             projectile.velocity = projectile.velocity.RotatedBy(Math.Sin(projectile.timeLeft * 0.2f) * projectile.ai[0]);
@@ -65,7 +69,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item4, projectile.Center);
+            Main.PlaySound(SoundID.Item10, projectile.Center);
             for (int k = 0; k < 15; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, dustType, ((projectile.velocity * 0.1f) * Main.rand.NextFloat(0.8f, 0.12f)).RotatedBy(Main.rand.NextFloat(-0.15f, 0.15f)), 0, default, 1.5f);
@@ -145,6 +149,17 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 }
             }
 
+            float ToTarget = (Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation();
+            float VelDirection = projectile.velocity.ToRotation();
+
+            //Main.NewText("Dir: " + (Main.npc[(int)projectile.ai[0]].Center - projectile.Center).ToRotation());
+            //Main.NewText("Vel: " + projectile.velocity.ToRotation());
+
+            if (ToTarget > 0.785f && ToTarget < 2.355f && VelDirection > 0.785f && VelDirection < 2.355f)
+            {
+                projectile.velocity = projectile.velocity.RotatedBy((ToTarget - VelDirection) * 0.3f);
+            }
+
             projectile.rotation += 0.3f;
 
             Lighting.AddLight(projectile.Center, lightColor);
@@ -153,7 +168,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         public override void Kill(int timeLeft)
         {
             DustHelper.DrawStar(projectile.Center, dustType, pointAmount: 5, mainSize: 2f * ScaleMult, dustDensity: 1f, pointDepthMult: 0.3f);
-            Main.PlaySound(SoundID.Item4, projectile.Center);
+            Main.PlaySound(SoundID.Item10, projectile.Center);
             for (int k = 0; k < 50; k++)
             {
                 Dust.NewDustPerfect(projectile.Center, dustType, Vector2.One.RotatedByRandom(6.28f) * (Main.rand.NextFloat(0.25f, 1.7f) * ScaleMult), 0, default, 1.5f);
@@ -212,7 +227,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                     Vector2 position = new Vector2(npc.Center.X, npc.Center.Y - 700).RotatedBy(rotationAmount, npc.Center);
                     Vector2 velocity = ((Vector2.Normalize((npc.Center + new Vector2(0, -20)) - position) * speed) + ((npc.velocity / (speed / 1.5f)) * 10f)) * (Math.Abs(rotationAmount) + 1f);
                     
-                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<StarwoodStaffFallingStar>(), lasthitDamage * 3, 1, lasthitPlayer);
+                    Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<StarwoodStaffFallingStar>(), lasthitDamage * 3, 1, lasthitPlayer, npc.whoAmI);
                     
                     score = 0;
                     resetCounter = 0;

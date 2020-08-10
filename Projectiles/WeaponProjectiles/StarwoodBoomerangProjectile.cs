@@ -33,8 +33,8 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private Vector3 lightColor = new Vector3(0.4f, 0.2f, 0.1f);
         private int dustType = ModContent.DustType<Dusts.Stamina>();
         private bool empowered = false;
-        private VerletChainInstance Chain;
-        private List<Vector2> defaultGravList;
+        //private VerletChainInstance Chain; //chain example
+        //private List<Vector2> defaultGravList; //chain example
 
 
         public override void SetDefaults()
@@ -50,7 +50,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             projectile.ignoreWater = false;
             projectile.aiStyle = -1;
 
-            Chain = new VerletChainInstance
+            /*Chain = new VerletChainInstance //chain example
             {
                 segmentCount = 8,
                 segmentDistance = 32,
@@ -70,12 +70,12 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
                 drag = 1.05f,
                 forceGravity = new Vector2(0f, 1f),
                 gravityStrengthMult = 1f
-            };
+            };*/
         }
 
         public override void AI()
         {
-            Chain.UpdateChain(projectile.Center);
+            //Chain.UpdateChain(projectile.Center); //chain example
 
             Player projOwner = Main.player[projectile.owner];
 
@@ -251,9 +251,9 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
         private Texture2D GlowingTexture => GetTexture("StarlightRiver/Projectiles/WeaponProjectiles/StarwoodBoomerangGlow");
         private Texture2D AuraTexture => GetTexture("StarlightRiver/Tiles/Interactive/WispSwitchGlow2");
 
-        private Texture2D worm1 => GetTexture("StarlightRiver/worm1");
-        private Texture2D worm2 => GetTexture("StarlightRiver/worm2");
-        private Texture2D worm3 => GetTexture("StarlightRiver/worm3");
+        //private Texture2D worm1 => GetTexture("StarlightRiver/worm1");
+        //private Texture2D worm2 => GetTexture("StarlightRiver/worm2");
+        //private Texture2D worm3 => GetTexture("StarlightRiver/worm3");
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -322,10 +322,10 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
 
             spriteBatch.Draw(AuraTexture, projectile.Center - Main.screenPosition, AuraTexture.Frame(), (Color.White * (projectile.ai[1] / maxChargeTime)), 0, AuraTexture.Size() / 2, (-chargeMult + 1) / 1.2f, 0, 0);
 
-            Chain.DrawRope(spriteBatch, ChainDrawMethod);
+            //Chain.DrawRope(spriteBatch, ChainDrawMethod); //chain example
         }
 
-        private void ChainDrawMethod(SpriteBatch spriteBatch, int i, Vector2 position, Vector2 prevPosition, Vector2 nextPosition)
+        /*private void ChainDrawMethod(SpriteBatch spriteBatch, int i, Vector2 position, Vector2 prevPosition, Vector2 nextPosition) //chain example
         {
             if(nextPosition != Vector2.Zero)
             {
@@ -351,7 +351,7 @@ namespace StarlightRiver.Projectiles.WeaponProjectiles
             //    0f,
             //    new Vector2(GlowingTrail.Width / 2, GlowingTrail.Height / 4),
             //    0.50f, default, default);
-        }
+        }*/
 
         #region phase change void
         private void NextPhase(int phase, bool bounce = false)
