@@ -41,7 +41,7 @@ namespace StarlightRiver.Tiles.Vitric.Blocks
             }
 
             if (!Main.tile[i, j + 1].active() && Main.rand.Next(10) == 0)
-                WorldGen.PlaceTile(i, j + 1, Type);
+                WorldGen.PlaceTile(i, j + 1, TileType<VitricVine>());
         }
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
