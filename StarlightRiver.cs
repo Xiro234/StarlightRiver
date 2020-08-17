@@ -58,7 +58,7 @@ namespace StarlightRiver
         public enum AbilityEnum : int { dash, wisp, purify, smash, superdash };
         public static StarlightRiver Instance { get; set; }
 
-        public static RenderTest lightingTest = new RenderTest();
+        public static RenderTest lightingTest;
 
         public StarlightRiver() { Instance = this; }
 
@@ -141,6 +141,8 @@ namespace StarlightRiver
             //Shaders
             if (!Main.dedServ)
             {
+                lightingTest = new RenderTest();
+
                 GameShaders.Misc["StarlightRiver:Distort"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/Distort")), "Distort");
 
                 Ref<Effect> screenRef4 = new Ref<Effect>(GetEffect("Effects/Shockwave"));
